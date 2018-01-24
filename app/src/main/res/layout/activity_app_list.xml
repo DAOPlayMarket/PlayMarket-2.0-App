@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.blockchain.store.playmarket.ui.AppListActivity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="25dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:background="@drawable/header"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/transparent"
+                android:theme="@style/ActionBarStyle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+            <ImageButton
+                android:id="@+id/toggleDrawerButton"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_alignBottom="@+id/editText"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="25dp"
+                android:background="@mipmap/ic_menu_bars"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                app:layout_constraintLeft_toLeftOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@color/Clear" />
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_above="@+id/tabHost2"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="31dp"
+                android:background="@drawable/round_corner_search_box"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:text="SEARCH"
+                android:textAlignment="textStart"
+                android:textColor="?android:attr/colorControlNormal"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                app:layout_constraintLeft_toRightOf="@+id/toolbar"
+                app:layout_constraintRight_toRightOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="@+id/imageView2"
+                app:layout_constraintVertical_bias="0.0" />
+        </android.support.constraint.ConstraintLayout>
+
+        <TabHost
+            android:id="@+id/tabHost2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/imageView2"
+            android:layout_toStartOf="@+id/imageView3">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TabWidget
+                    android:background="@color/buyButtonColor"
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:orientation="horizontal"
+                    android:visibility="visible" />
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/Games"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <ScrollView
+                            android:id="@+id/scrollView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentEnd="true"
+                            android:layout_below="@+id/imageView2">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:isScrollContainer="false"
+                                android:orientation="vertical"
+                                android:weightSum="1">
+
+                                <RadioGroup
+                                    android:id="@+id/categoriesRadioGroup"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:layout_marginTop="8dp"
+                                    android:layout_weight="0.37"
+                                    android:checkedButton="@+id/popularButton"
+                                    android:orientation="horizontal"
+                                    android:visibility="visible">
+
+                                    <RadioButton
+                                        android:id="@+id/popularButton"
+                                        style="@style/categoryRadioButton"
+                                        android:layout_width="75dp"
+                                        android:layout_height="30dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_weight="1"
+                                        android:button="@color/Clear"
+                                        android:checked="false"
+                                        android:text="Popular"
+                                        android:textAlignment="center"
+                                        android:textColor="@color/white"
+                                        app:buttonTint="@color/white" />
+
+                                    <RadioButton
+                                        android:id="@+id/appsButton"
+                                        style="@style/categoryRadioButton"
+                                        android:layout_width="75dp"
+                                        android:layout_height="30dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_weight="1"
+                                        android:button="@color/Clear"
+                                        android:text="Apps"
+                                        android:textAlignment="center" />
+
+                                    <RadioButton
+                                        android:id="@+id/gamesButton"
+                                        style="@style/categoryRadioButton"
+                                        android:layout_width="75dp"
+                                        android:layout_height="30dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_weight="1"
+                                        android:button="@color/Clear"
+                                        android:text="Games"
+                                        android:textAlignment="center" />
+
+                                    <RadioButton
+                                        android:id="@+id/icoButton"
+                                        style="@style/categoryRadioButton"
+                                        android:layout_width="75dp"
+                                        android:layout_height="30dp"
+                                        android:layout_marginLeft="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_weight="1"
+                                        android:button="@color/Clear"
+                                        android:text="ICO"
+                                        android:textAlignment="center" />
+
+                                </RadioGroup>
+
+                                <ImageView
+                                    android:id="@+id/imageView4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="55dp"
+                                    android:layout_weight="0.37"
+                                    android:background="@drawable/categorybar"
+                                    android:visibility="gone" />
+
+                                <ProgressBar
+                                    android:id="@+id/loadingSpinner"
+                                    style="?android:attr/progressBarStyle"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignBottom="@+id/editText"
+                                    android:layout_centerHorizontal="true"
+                                    android:gravity="center_vertical|center_horizontal"
+                                    android:indeterminate="true" />
+
+                                <TextView
+                                    android:id="@+id/textView3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignStart="@+id/textView2"
+                                    android:layout_below="@+id/app_list"
+                                    android:layout_marginTop="10dp"
+                                    android:text="  Trending"
+                                    android:textAlignment="textStart"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/colorAccent"
+                                    android:textSize="18sp" />
+
+                                <include
+                                    android:id="@+id/app_list2"
+                                    layout="@layout/app_list"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="240dp"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_below="@+id/textView3" />
+
+                                <TextView
+                                    android:id="@+id/textView2"
+                                    android:layout_width="388dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_below="@+id/imageView2"
+                                    android:layout_marginStart="13dp"
+                                    android:text="Essentials"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/colorAccent"
+                                    android:textSize="18sp" />
+
+                                <include
+                                    android:id="@+id/app_list"
+                                    layout="@layout/app_list"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="240dp"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_below="@+id/textView2" />
+                            </LinearLayout>
+                        </ScrollView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/Apps"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
+
+    </LinearLayout>
+
+</RelativeLayout>
