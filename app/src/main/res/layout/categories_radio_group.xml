@@ -1,0 +1,63 @@
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/categoriesRadioGroup"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:layout_marginTop="8dp"
+    android:layout_weight="0.37"
+    android:checkedButton="@+id/popularButton"
+    android:orientation="horizontal"
+    android:visibility="visible">
+
+    <RadioButton
+        android:id="@+id/popularButton"
+        style="@style/categoryRadioButton"
+        android:layout_width="75dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:button="@color/Clear"
+        android:checked="false"
+        android:text="Popular"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:buttonTint="@color/white" />
+
+    <RadioButton
+        android:id="@+id/appsButton"
+        style="@style/categoryRadioButton"
+        android:layout_width="75dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:button="@color/Clear"
+        android:text="Apps"
+        android:textAlignment="center" />
+
+    <RadioButton
+        android:id="@+id/gamesButton"
+        style="@style/categoryRadioButton"
+        android:layout_width="75dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:button="@color/Clear"
+        android:text="Games"
+        android:textAlignment="center" />
+
+    <RadioButton
+        android:id="@+id/icoButton"
+        style="@style/categoryRadioButton"
+        android:layout_width="75dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:button="@color/Clear"
+        android:text="ICO"
+        android:textAlignment="center" />
+
+</RadioGroup>
