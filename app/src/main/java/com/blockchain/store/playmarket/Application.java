@@ -5,15 +5,20 @@ import android.support.multidex.MultiDexApplication;
 
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 
+import io.ethmobile.ethdroid.KeyManager;
+
 /**
  * Created by Crypton04 on 24.01.2018.
  */
 
 public class Application extends MultiDexApplication {
+    public static KeyManager keyManager;
     @Override
     public void onCreate() {
         super.onCreate();
         MultiDex.install(this);
         ToastUtil.setContext(this);
+        keyManager = KeyManager.newKeyManager(getFilesDir().getAbsolutePath());
+
     }
 }

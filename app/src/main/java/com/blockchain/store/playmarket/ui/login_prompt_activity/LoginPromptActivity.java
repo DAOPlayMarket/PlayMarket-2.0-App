@@ -10,31 +10,30 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
-import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
+
+import org.ethereum.geth.Account;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.ethmobile.ethdroid.KeyManager;
 
 public class LoginPromptActivity extends AppCompatActivity {
     private static final String TAG = "LoginPromptActivity";
 
-    private KeyManager keyManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_prompt);
         ButterKnife.bind(this);
-        setupKeyManager();
 
         try {
-            if (keyManager.getAccounts().size() > 0)
+            if (!Application.keyManager.getAccounts().isEmpty())
                 LoadNewUserWelcomeActivity(null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,10 +45,6 @@ public class LoginPromptActivity extends AppCompatActivity {
     }
 
 
-    protected void setupKeyManager() {
-        keyManager = CryptoUtils.setupKeyManager(getFilesDir().getAbsolutePath());
-    }
-
     @OnClick(R.id.ImportUserButton)
     void onUserBtnClicked() {
         final Dialog dialog = new Dialog(this);
@@ -60,7 +55,7 @@ public class LoginPromptActivity extends AppCompatActivity {
         Button addFundsBtn = dialog.findViewById(R.id.continueButton);
         addFundsBtn.setOnClickListener(v -> {
             try {
-                ClipboardUtils.importKeyFromClipboard(getApplicationContext(), keyManager.getKeystore(), passwordText.getText().toString());
+                ClipboardUtils.importKeyFromClipboard(getApplicationContext(), Application.keyManager.getKeystore(), passwordText.getText().toString());
                 showImportSuccessfulAlert();
                 dialog.dismiss();
                 goToMainActivity(null);
@@ -85,7 +80,6 @@ public class LoginPromptActivity extends AppCompatActivity {
 
     public void LoadNewUserWelcomeActivity(View view) {
         promptForPasswordForNewAccount();
-
     }
 
     public void goToMainActivity(View view) {
@@ -117,8 +111,8 @@ public class LoginPromptActivity extends AppCompatActivity {
 
     protected String makeNewAccount(String password) {
         try {
-            keyManager.newAccount(password);
-            String address = keyManager.getAccounts().get(0).getAddress().getHex();
+            Account account = Application.keyManager.newAccount(password);
+            String address = account.getAddress().getHex();
             Log.d(TAG, address);
             return address;
         } catch (Exception e) {

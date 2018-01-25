@@ -26,6 +26,8 @@ public class CryptoUtils {
     public static String CONTRACT_ADDRESS = "0xf18418d6dc1a2278c69968b8b8a2d84b553fba51";
     public static final String TEST_ADDRESS = "0x5e5c1c8e03472666e0b9e218153869dcbc9c1e65";
     public static final String ICO_CONTRACT_ADDRESS = "0xEDC64A365e12054928dAC9bF32F1C1552EE9679F";
+    
+
 
     public static KeyManager setupKeyManager(String dataDir) {
         return KeyManager.newKeyManager(dataDir);
