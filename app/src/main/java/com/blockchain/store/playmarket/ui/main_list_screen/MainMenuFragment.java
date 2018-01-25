@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.adapters.AppListAdapter;
 import com.blockchain.store.playmarket.interfaces.MainFragmentCallbacks;
 
 import butterknife.BindView;
@@ -22,7 +23,8 @@ public class MainMenuFragment extends Fragment {
     @BindView(R.id.recycler_view_main) RecyclerView recyclerView;
     @BindView(R.id.progress_bar_main) ProgressBar progressBar;
 
-    private MainFragmentCallbacks mCallbacks;
+    private MainFragmentCallbacks mainCallback;
+    private AppListAdapter adapter;
 
     public MainMenuFragment() {
         // Required empty public constructor
@@ -34,15 +36,21 @@ public class MainMenuFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_menu, container, false);
         ButterKnife.bind(this, view);
-
+        setRetainInstance(true);
+        setRecyclerView();
         return view;
+    }
+
+    private void setRecyclerView() {
+        adapter = new AppListAdapter();
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof MainFragmentCallbacks) {
-            mCallbacks = (MainFragmentCallbacks) context;
+            mainCallback = (MainFragmentCallbacks) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement MainFragmentCallbacks");
@@ -52,7 +60,7 @@ public class MainMenuFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mCallbacks = null;
+        mainCallback = null;
     }
 
 }

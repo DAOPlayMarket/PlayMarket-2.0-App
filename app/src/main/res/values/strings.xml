@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">PlayMarket 2.0</string>
+    <string name="title_app_list">Apps</string>
+    <string name="title_app_detail">App Detail</string>
+    <string name="title_activity_menu">MenuActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main_menu">MainMenuActivity</string>
+    <string name="playmarket">PLAYMARKET 2.0</string>
+    <string name="activity_permission_msg">For PlayMarket 2.0 to work on your version of Android, we need permission to save files on your phone.\n\nThis is only used for saving your wallet info and installers for purchased apps.</string>
+    <string name="got_it_btn">Got it!</string>
+    <string name="import_successful">Import Successful!</string>
+    <string name="import_failed">Import Failed!</string>
+    <string name="new_user_welcome_msg">This is the account management section.\n\n\n\nHere you can view your address and make an encrypted copy of your wallet.</string>
+    <string name="address_copied">Address Copied!</string>
+    <string name="wallet_backup_copied">Wallet Backup Copied!</string>
+    <string name="continue_btn">Continue</string>
+    <string name="backup_wallet_btn">Backup Wallet</string>
+    <string name="new_user_congratulation_msg">Congratulations! You\'ve made a new user.\n\n\nIt is important to make a copy of your account\'s keys. Click Backup Wallet to copy your wallet to the clipboard. Save it somewhere safe and then click continue.\n\nYour address:</string>
+    <string name="account_management_msg">"This is the account management section.\n\nIt is important to make a copy of your account's keys. Click Backup Wallet to copy your wallet to the clipbaord. Save it somewhere safe!\n\nYour address:"</string>
+    <string name="search">SEARCH</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
