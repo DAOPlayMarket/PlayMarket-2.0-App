@@ -13,6 +13,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:layout_marginLeft="@dimen/main_list_title_margin_left"
             android:id="@+id/id_category_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

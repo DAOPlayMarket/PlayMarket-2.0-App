@@ -26,8 +26,8 @@
 
         <FrameLayout
             android:id="@+id/navigation_view_holder"
-            android:layout_width="0dp"
-            android:layout_height="0dp" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </android.support.design.widget.NavigationView>
 
 </com.blockchain.store.playmarket.views.FullDrawerLayout>

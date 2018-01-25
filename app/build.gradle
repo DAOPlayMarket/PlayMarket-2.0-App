@@ -63,6 +63,7 @@ dependencies {
     compile "org.ethereum:geth:1.7.3"
     compile 'com.android.support:support-v4:27.0.2'
     compile 'com.android.support:recyclerview-v7:27.0.2'
+    compile 'com.android.support:cardview-v7:27.0.2'
     compile 'com.android.support:design:27.0.2'
     compile 'de.measite.minidns:minidns-hla:0.2.2'
     compile 'com.github.pwittchen:infinitescroll:0.0.1'

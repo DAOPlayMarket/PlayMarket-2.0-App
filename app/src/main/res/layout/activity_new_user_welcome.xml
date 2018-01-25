@@ -91,7 +91,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/AddressTextView"
+        android:id="@+id/address_text_view"
         android:layout_width="0dp"
         android:layout_height="34dp"
         android:layout_marginBottom="17dp"

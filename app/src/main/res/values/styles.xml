@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -33,6 +33,14 @@
         <item name="android:layout_width">75dp</item>
         <item name="android:button">@null</item>
         <item name="android:background">@drawable/radio_button_categories</item>
+    </style>
+
+    <style name="whiteStatusBarStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimaryDark" tools:targetApi="23">@color/colorPrimary</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:statusBarColor">@android:color/white</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
 </resources>

@@ -49,8 +49,6 @@ public class IntroLogoPresenter implements IntroLogoContracts.Presenter {
                 } catch (IOException ee) {
                     ee.printStackTrace();
                 }
-                ;
-
             }
         });
 

@@ -21,10 +21,8 @@ public class IntroLogoActivity extends AppCompatActivity implements IntroLogoCon
     private static final String TAG = "IntroLogoActivity";
     private static final int SplashDisplayLength = 5000;
 
-    @BindView(R.id.LogoTextView)
-    TextView logoTextView;
-    @BindView(R.id.LogoVideoView)
-    VideoView logoVideoView;
+    @BindView(R.id.LogoTextView) TextView logoTextView;
+    @BindView(R.id.LogoVideoView) VideoView logoVideoView;
 
     private IntroLogoPresenter presenter;
 

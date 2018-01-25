@@ -7,9 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
@@ -26,7 +24,7 @@ import io.ethmobile.ethdroid.KeyManager;
 public class AccountManagementActivity extends AppCompatActivity {
     private static final String TAG = "AccountManagementActivi";
 
-    @BindView(R.id.AddressTextView)
+    @BindView(R.id.address_text_view)
     TextView AddressTextView;
     @BindView(R.id.NewUserWelcomeTextView)
     TextView MainTextView;
@@ -48,7 +46,7 @@ public class AccountManagementActivity extends AppCompatActivity {
         setupKeyManager();
     }
 
-    @OnClick(R.id.AddressTextView)
+    @OnClick(R.id.address_text_view)
     void copyAddressToClipBoard() {
         ClipboardUtils.copyToClipboard(getApplicationContext(), etherAddress);
         showCopiedAlert();

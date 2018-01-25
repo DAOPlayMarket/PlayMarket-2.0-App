@@ -4,9 +4,11 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
@@ -82,10 +84,46 @@ public class LoginPromptActivity extends AppCompatActivity {
     }
 
     public void LoadNewUserWelcomeActivity(View view) {
-        startActivity(new Intent(getApplicationContext(), NewUserWelcomeActivity.class));
+        promptForPasswordForNewAccount();
+
     }
 
     public void goToMainActivity(View view) {
         startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
+    }
+
+    public void openWelcomeActivity() {
+        startActivity(new Intent(getApplicationContext(), NewUserWelcomeActivity.class));
+    }
+
+    public void promptForPasswordForNewAccount() {
+        final Dialog d = new Dialog(this);
+        d.setContentView(R.layout.password_prompt_dialog);
+
+        final EditText passwordText = d.findViewById(R.id.passwordText);
+
+        d.show();
+
+        TextView addFundsBtn = d.findViewById(R.id.continueButton);
+        addFundsBtn.setOnClickListener(v -> {
+            makeNewAccount(passwordText.getText().toString());
+            d.dismiss();
+            openWelcomeActivity();
+        });
+
+        Button close_btn = d.findViewById(R.id.close_button);
+        close_btn.setOnClickListener(v -> d.dismiss());
+    }
+
+    protected String makeNewAccount(String password) {
+        try {
+            keyManager.newAccount(password);
+            String address = keyManager.getAccounts().get(0).getAddress().getHex();
+            Log.d(TAG, address);
+            return address;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }

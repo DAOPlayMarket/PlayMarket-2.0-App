@@ -29,13 +29,10 @@ public class NewUserWelcomeActivity extends AppCompatActivity {
     public CryptoUtils crypto;
 
     private KeyManager keyManager;
-    private String datadir;
+    private String dataDir;
     private String etherAddress;
 
-    @BindView(R.id.AddressTextView)
-    TextView AddressTextView;
-    @BindView(R.id.NewUserWelcomeTextView)
-    TextView MainTextView;
+    @BindView(R.id.address_text_view) TextView addressTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +49,10 @@ public class NewUserWelcomeActivity extends AppCompatActivity {
     public void onBackPressed() {
     }
 
-    @OnClick(R.id.AddressTextView)
+    @OnClick(R.id.address_text_view)
     void copyAddressToClipBoardClicked() {
         ClipboardUtils.copyToClipboard(getApplicationContext(), etherAddress);
         showCopiedAlert();
-    }
-
-    protected void setupViewForAccountManagement() {
-        MainTextView.setText(R.string.new_user_welcome_msg);
     }
 
     public void copyKeyJsonToClipboard(String password) {
@@ -127,7 +120,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity {
             keyManager.newAccount(password);
             etherAddress = keyManager.getAccounts().get(0).getAddress().getHex();
             Log.d(TAG, etherAddress);
-            AddressTextView.setText(etherAddress);
+            addressTextView.setText(etherAddress);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -135,7 +128,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity {
 
     protected void setupKeyManager() {
         try {
-            keyManager = CryptoUtils.setupKeyManager(datadir);
+            keyManager = CryptoUtils.setupKeyManager(dataDir);
 
             if (keyManager.getAccounts().isEmpty()) {
                 promptForPasswordForNewAccount();
@@ -150,7 +143,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity {
     }
 
     protected void setDatadir() {
-        datadir = getFilesDir().getAbsolutePath();
+        dataDir = getFilesDir().getAbsolutePath();
     }
 
     protected void setupCryptoUtils() {

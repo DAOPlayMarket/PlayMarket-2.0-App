@@ -27,6 +27,7 @@
 
         <activity
             android:name=".ui.intro_logo_activity.IntroLogoActivity"
+            android:theme="@style/whiteStatusBarStyle"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,13 +37,15 @@
         </activity>
         <activity
             android:name=".ui.login_prompt_activity.LoginPromptActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/whiteStatusBarStyle" />
         <activity
             android:name=".ui.account_management_activity.AccountManagementActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.new_user_welcome_activity.NewUserWelcomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/whiteStatusBarStyle" />
         <activity
             android:name=".ui.AppListActivity"
             android:label="@string/title_app_list"
@@ -56,20 +59,19 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.blockchain.store.playmarket.ui.AppListActivity" />
         </activity>
         <activity
             android:name=".ui.main_list_screen.MainMenuActivity"
             android:label="@string/title_activity_main_menu"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".ui.permissions_prompt_activity.PermissionsPromptActivity"></activity>
+        <activity
+            android:name=".ui.permissions_prompt_activity.PermissionsPromptActivity"
+            android:theme="@style/whiteStatusBarStyle" />
 
         <service
             android:name="com.blockchain.store.playmarket.services.PurchaseVerifierService"
-            android:exported="true"/>
+            android:exported="true" />
 
     </application>
 

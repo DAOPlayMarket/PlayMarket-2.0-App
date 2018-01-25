@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -41,9 +42,7 @@ public class MainMenuActivity extends AppCompatActivity implements MainFragmentC
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
     private static final String TAG = "MainMenuActivity";
 
-    private ProgressBar loadingSpinner;
     private KeyManager keyManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +55,8 @@ public class MainMenuActivity extends AppCompatActivity implements MainFragmentC
     }
 
     private void attachFragment() {
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_holder, new MainMenuFragment()).commitAllowingStateLoss();
-        getSupportFragmentManager().beginTransaction().add(R.id.navigation_view_holder, new NavigationViewFragment()).commitAllowingStateLoss();
+//            getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view_holder, new NavigationViewFragment()).commitAllowingStateLoss();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_holder, new MainMenuFragment()).commitAllowingStateLoss();
     }
 
     private void initViews() {
