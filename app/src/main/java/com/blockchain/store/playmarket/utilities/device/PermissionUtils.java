@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 /**
  * Created by samsheff on 08/09/2017.
@@ -22,7 +23,8 @@ public class PermissionUtils {
     };
 
     public static boolean storagePermissionGranted(Activity activity) {
-        return (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+        boolean isPermissionGranted = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        return isPermissionGranted;
     }
 
     public static void verifyStoragePermissions(Activity activity) {

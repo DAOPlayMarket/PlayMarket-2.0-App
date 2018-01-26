@@ -13,12 +13,13 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.login_prompt_activity.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
 import com.blockchain.store.playmarket.utilities.device.BuildUtils;
+import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class IntroLogoActivity extends AppCompatActivity implements IntroLogoContracts.View {
-    private static final String TAG = "IntroLogoActivity";
+public class SplashActivity extends AppCompatActivity implements IntroLogoContracts.View {
+    private static final String TAG = "SplashActivity";
     private static final int SplashDisplayLength = 5000;
 
     @BindView(R.id.LogoTextView) TextView logoTextView;
@@ -56,12 +57,13 @@ public class IntroLogoActivity extends AppCompatActivity implements IntroLogoCon
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
             Intent myIntent;
-            if (BuildUtils.needsStoragePermission()) {
-                myIntent = new Intent(getApplicationContext(), PermissionsPromptActivity.class);
-            } else {
+            if (PermissionUtils.storagePermissionGranted(this)) {
                 myIntent = new Intent(getApplicationContext(), LoginPromptActivity.class);
+            } else {
+                myIntent = new Intent(getApplicationContext(), PermissionsPromptActivity.class);
             }
             startActivity(myIntent);
+            this.finish();
         }, SplashDisplayLength);
     }
 

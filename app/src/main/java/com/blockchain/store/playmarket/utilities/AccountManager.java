@@ -10,7 +10,7 @@ import io.ethmobile.ethdroid.KeyManager;
  */
 
 public class AccountManager {
-    private KeyManager keyManager;
+    private static KeyManager keyManager;
     private static AccountManager instance;
 
     private AccountManager() {
@@ -24,10 +24,16 @@ public class AccountManager {
         return instance;
     }
 
-            /* try {
-            if (keyManager.getAccounts().size() > 0)
-                LoadNewUserWelcomeActivity(null);
+    public static boolean isHasUsers() {
+        try {
+            return !keyManager.getAccounts().isEmpty();
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
+        return false;
+    }
+
+    public static void setKeyManager(KeyManager keyManager) {
+        AccountManager.keyManager = keyManager;
+    }
 }

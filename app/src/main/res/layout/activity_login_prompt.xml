@@ -67,7 +67,6 @@
         android:layout_marginLeft="46dp"
         android:layout_marginRight="46dp"
         android:layout_marginStart="46dp"
-        android:onClick="LoadNewUserWelcomeActivity"
         android:text="New User"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

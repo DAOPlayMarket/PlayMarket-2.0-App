@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 
+import org.ethereum.geth.Account;
 import org.ethereum.geth.KeyStore;
 
 /**
@@ -18,8 +19,8 @@ public class ClipboardUtils {
         clipboard.setPrimaryClip(clip);
     }
 
-    public static void importKeyFromClipboard(Context context, KeyStore keystore, String password) throws Exception {
-
+    public static void importKeyFromClipboard(Context context, KeyStore keystore, String password) throws Exception{
+        Account account;
         if (keystore.getAccounts().size() > 0) {
             keystore.deleteAccount(keystore.getAccounts().get(0), password);
         }

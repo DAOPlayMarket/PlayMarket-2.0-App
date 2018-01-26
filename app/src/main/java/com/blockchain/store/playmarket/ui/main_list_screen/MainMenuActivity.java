@@ -3,60 +3,72 @@ package com.blockchain.store.playmarket.ui.main_list_screen;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.adapters.AppListAdapter;
+import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.MainFragmentCallbacks;
 import com.blockchain.store.playmarket.ui.account_management_activity.AccountManagementActivity;
-import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
+import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 import com.blockchain.store.playmarket.utilities.drawable.HamburgerDrawable;
 import com.blockchain.store.playmarket.utilities.net.APIUtils;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.ethmobile.ethdroid.KeyManager;
 
-public class MainMenuActivity extends AppCompatActivity implements MainFragmentCallbacks {
+import static com.blockchain.store.playmarket.ui.main_list_screen.MainMenuContract.*;
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
+public class MainMenuActivity extends AppCompatActivity implements MainFragmentCallbacks, MainMenuContract.View {
     private static final String TAG = "MainMenuActivity";
 
+    @BindView(R.id.tab_layout) TabLayout tabLayout;
+    @BindView(R.id.app_bar_layout) AppBarLayout appBarLayout;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @BindView(R.id.view_pager) ViewPager viewPager;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
+
     private KeyManager keyManager;
+    private Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         ButterKnife.bind(this);
+        attachPresenter();
         initViews();
         setupKeyManager();
         attachFragment();
     }
 
+    private void attachPresenter() {
+        presenter = new MainMenuPresenter();
+        presenter.init(this);
+        presenter.loadCategories();
+    }
+
     private void attachFragment() {
 //            getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view_holder, new NavigationViewFragment()).commitAllowingStateLoss();
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_holder, new MainMenuFragment()).commitAllowingStateLoss();
     }
 
     private void initViews() {
@@ -66,19 +78,46 @@ public class MainMenuActivity extends AppCompatActivity implements MainFragmentC
         toggle.setDrawerArrowDrawable(new HamburgerDrawable(this));
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
+
     }
 
     protected void setupKeyManager() {
         keyManager = CryptoUtils.setupKeyManager(getFilesDir().getAbsolutePath());
     }
 
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else {
+            //todo back twice to quit
         }
+    }
+
+    @Override
+    public void setProgress(boolean isShow) {
+        progressBar.setVisibility(isShow ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void onCategoryLoaded(ArrayList<Category> categories) {
+        initViewPager(categories);
+
+    }
+
+    private void initViewPager(ArrayList<Category> categories) {
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        for (Category category : categories) {
+            viewPagerAdapter.addFragment(MainMenuFragment.newInstance(category.subCategories), category.name);
+        }
+        viewPager.setAdapter(viewPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public void onCategoryLoadFailed(Throwable throwable) {
+        ToastUtil.showToast("Category load failed! " + throwable.getMessage());
     }
 
     public void goToAccountsPage() {
@@ -128,5 +167,6 @@ public class MainMenuActivity extends AppCompatActivity implements MainFragmentC
     public void onAppClicked() {
         Log.d(TAG, "onAppClicked: ");
     }
+
 
 }

@@ -26,7 +26,7 @@
         </provider>
 
         <activity
-            android:name=".ui.intro_logo_activity.IntroLogoActivity"
+            android:name=".ui.intro_logo_activity.SplashActivity"
             android:theme="@style/whiteStatusBarStyle"
             android:screenOrientation="portrait">
             <intent-filter>

@@ -50,6 +50,7 @@ public class PermissionsPromptActivity extends AppCompatActivity {
 
     public void goToLoginPromptActivity() {
         Intent myIntent = new Intent(getApplicationContext(), LoginPromptActivity.class);
-        startActivityForResult(myIntent, 0);
+        startActivity(myIntent);
+        finish();
     }
 }
