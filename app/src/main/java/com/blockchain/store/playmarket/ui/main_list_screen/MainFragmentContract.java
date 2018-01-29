@@ -22,5 +22,7 @@ public class MainFragmentContract {
         void setProvider(Category category);
 
         void onDestroy();
+
+        void loadNewData(AppDispatcherType dispatcherType);
     }
 }

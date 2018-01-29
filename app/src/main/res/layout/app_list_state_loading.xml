@@ -1,0 +1,18 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    android:layout_width="100dp"
+    android:layout_height="150dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginLeft="@dimen/main_list_title_margin_left"
+    android:layout_marginRight="@dimen/nested_list_between_item_margin"
+    android:layout_marginTop="4dp"
+    app:cardElevation="4dp">
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+</android.support.v7.widget.CardView>

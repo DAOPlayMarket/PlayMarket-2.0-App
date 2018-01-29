@@ -1,28 +1,25 @@
 package com.blockchain.store.playmarket.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppDispatcherType;
 import com.blockchain.store.playmarket.data.entities.SubCategory;
+import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
+import com.blockchain.store.playmarket.utilities.EndlessRecyclerOnScrollListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.support.v7.widget.RecyclerView.ViewHolder;
-import static com.blockchain.store.playmarket.data.content.AppContent.AppItem;
 
 /**
  * Created by Crypton04 on 24.01.2018.
@@ -31,18 +28,34 @@ import static com.blockchain.store.playmarket.data.content.AppContent.AppItem;
 public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "AppListAdapter";
     private ArrayList<SubCategory> subCategories;
-    private ArrayList<AppDispatcherType> appDispatcherTypes;
+    private ArrayList<AppDispatcherType> appDispatcherTypes = new ArrayList<>();
+    private RecyclerView.RecycledViewPool recycledViewPool;
+    private EndlessRecyclerOnScrollListener.EndlessCallback endlessCallback;
+    private AppListCallbacks mainCallback;
 
-    public AppListAdapter(ArrayList<SubCategory> subCategories, ArrayList<AppDispatcherType> appDispatcherTypes) {
+    public AppListAdapter(ArrayList<SubCategory> subCategories, ArrayList<AppDispatcherType> appDispatcherTypes, EndlessRecyclerOnScrollListener.EndlessCallback endlessCallback, AppListCallbacks mainCallback) {
         this.subCategories = subCategories;
-        this.appDispatcherTypes = appDispatcherTypes;
+        this.appDispatcherTypes.addAll(appDispatcherTypes);
+        this.recycledViewPool = new RecyclerView.RecycledViewPool();
+        this.endlessCallback = endlessCallback;
+        this.mainCallback = mainCallback;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.main_list_item, parent, false);
-        return new AppListViewHolder(view);
+        AppListViewHolder appListViewHolder = new AppListViewHolder(view, endlessCallback);
+        appListViewHolder.recyclerViewNested.setRecycledViewPool(recycledViewPool);
+        appListViewHolder.adapter = new NestedAppListAdapter(mainCallback);
+        appListViewHolder.recyclerViewNested.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        appListViewHolder.recyclerViewNested.setAdapter(appListViewHolder.adapter);
+        return appListViewHolder;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return appDispatcherTypes.get(position).hashCode();
     }
 
     @Override
@@ -57,36 +70,44 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return appDispatcherTypes.size();
     }
 
-    public void addNewItems(AppDispatcherType updatedDispatherType) {
-        for (AppDispatcherType type : appDispatcherTypes) {
-            if (updatedDispatherType.subCategoryId == type.subCategoryId && updatedDispatherType.categoryId.equalsIgnoreCase(type.categoryId)) {
-                type.apps = updatedDispatherType.apps;
+    public void addNewItems(AppDispatcherType updatedDispatcherType) {
+        for (int i = 0; i < appDispatcherTypes.size(); i++) {
+            AppDispatcherType type = appDispatcherTypes.get(i);
+            if (updatedDispatcherType.subCategoryId == type.subCategoryId && updatedDispatcherType.categoryId.equalsIgnoreCase(type.categoryId)) {
+                type = updatedDispatcherType;
+                notifyDataSetChanged();
+                Log.d(TAG, "addNewItems: total count " + type.apps.size());
             }
         }
-        notifyDataSetChanged();
-
     }
+
 
     public class AppListViewHolder extends ViewHolder {
         @BindView(R.id.id_category_title) TextView categoryTitle;
         @BindView(R.id.id_category_arrow) TextView categoryArrow;
         @BindView(R.id.recycler_view_nested) RecyclerView recyclerViewNested;
         private NestedAppListAdapter adapter;
-        private Context context;
+        private EndlessRecyclerOnScrollListener.EndlessCallback endlessCallback;
 
-        public AppListViewHolder(View itemView) {
+        public AppListViewHolder(View itemView, EndlessRecyclerOnScrollListener.EndlessCallback endlessCallback) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            context = itemView.getContext();
+            this.endlessCallback = endlessCallback;
         }
 
         public void bind(SubCategory subCategory, AppDispatcherType dispatcherType, int position) {
-            categoryTitle.setText(subCategory.name);
-            adapter = new NestedAppListAdapter(subCategory, dispatcherType);
-            recyclerViewNested.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            recyclerViewNested.setAdapter(adapter);
+            if (!categoryTitle.getText().equals(subCategory.name))
+                categoryTitle.setText(subCategory.name);
+
+            adapter.setItemsDispatcher(dispatcherType);
+
+            if (!dispatcherType.apps.isEmpty()) {
+                recyclerViewNested.setOnScrollListener(new EndlessRecyclerOnScrollListener((LinearLayoutManager) recyclerViewNested.getLayoutManager(), dispatcherType, this.endlessCallback));
+            }
+
 
         }
+
     }
 
 }

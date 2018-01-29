@@ -15,12 +15,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
-import com.blockchain.store.playmarket.interfaces.MainFragmentCallbacks;
+import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.ui.account_management_activity.AccountManagementActivity;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
@@ -33,11 +33,12 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.ethmobile.ethdroid.KeyManager;
 
 import static com.blockchain.store.playmarket.ui.main_list_screen.MainMenuContract.*;
 
-public class MainMenuActivity extends AppCompatActivity implements MainFragmentCallbacks, MainMenuContract.View {
+public class MainMenuActivity extends AppCompatActivity implements AppListCallbacks, MainMenuContract.View {
     private static final String TAG = "MainMenuActivity";
 
     @BindView(R.id.tab_layout) TabLayout tabLayout;
@@ -46,6 +47,7 @@ public class MainMenuActivity extends AppCompatActivity implements MainFragmentC
     @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
     @BindView(R.id.view_pager) ViewPager viewPager;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.error_holder) View errorHolder;
 
     private KeyManager keyManager;
     private Presenter presenter;
@@ -102,6 +104,7 @@ public class MainMenuActivity extends AppCompatActivity implements MainFragmentC
 
     @Override
     public void onCategoryLoaded(ArrayList<Category> categories) {
+        errorHolder.setVisibility(View.GONE);
         initViewPager(categories);
 
     }
@@ -117,7 +120,14 @@ public class MainMenuActivity extends AppCompatActivity implements MainFragmentC
 
     @Override
     public void onCategoryLoadFailed(Throwable throwable) {
+        errorHolder.setVisibility(View.VISIBLE);
         ToastUtil.showToast("Category load failed! " + throwable.getMessage());
+    }
+
+    @OnClick(R.id.error_view_repeat_btn)
+    void onRepeatBtnClicked() {
+        errorHolder.setVisibility(View.GONE);
+        presenter.loadCategories();
     }
 
     public void goToAccountsPage() {
@@ -164,9 +174,7 @@ public class MainMenuActivity extends AppCompatActivity implements MainFragmentC
 
 
     @Override
-    public void onAppClicked() {
-        Log.d(TAG, "onAppClicked: ");
+    public void onAppClicked(App app) {
+        ToastUtil.showToast(app.nameApp);
     }
-
-
 }

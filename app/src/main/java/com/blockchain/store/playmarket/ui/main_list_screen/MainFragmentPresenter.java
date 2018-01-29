@@ -32,8 +32,8 @@ public class MainFragmentPresenter implements Presenter, AppDispatcherListeners 
     public void setProvider(Category category) {
 //        Application.getAppsDispatcher().addListener(this);
         appDispatcherTypes = Application.getAppsDispatcher().addProviders(category);
-        Application.getAppsDispatcher().getFirstApps(appDispatcherTypes,this);
         view.onDispatchersReady(appDispatcherTypes);
+        Application.getAppsDispatcher().loadNewData(appDispatcherTypes, this);
     }
 
 
@@ -55,7 +55,11 @@ public class MainFragmentPresenter implements Presenter, AppDispatcherListeners 
 
     @Override
     public void onDestroy() {
-        Application.getAppsDispatcher().removeProvider(category);
-//        Application.getAppsDispatcher().removeListener(this);
+        Application.getAppsDispatcher().removeListener(this);
+    }
+
+    @Override
+    public void loadNewData(AppDispatcherType dispatcherType) {
+        Application.getAppsDispatcher().loadNewData(dispatcherType,this);
     }
 }

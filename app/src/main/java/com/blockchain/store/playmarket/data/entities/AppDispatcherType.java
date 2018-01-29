@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 
 public class AppDispatcherType {
+    public int previousItemCount = 0;
     public String categoryId;
     public int subCategoryId;
     public int totalCount;

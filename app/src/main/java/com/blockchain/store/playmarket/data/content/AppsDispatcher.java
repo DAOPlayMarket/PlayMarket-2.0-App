@@ -20,9 +20,16 @@ public class AppsDispatcher {
     private static ArrayList<AppDispatcherType> providers = new ArrayList<>();
     private static ArrayList<AppDispatcherListeners> listeners = new ArrayList<>();
 
-    public void getFirstApps(ArrayList<AppDispatcherType> dispatcherTypes, AppDispatcherListeners listeners) {
+    public void loadNewData(ArrayList<AppDispatcherType> dispatcherTypes, AppDispatcherListeners listeners) {
         Application.getAppsManager().loadNextList(dispatcherTypes, listeners);
     }
+
+    public void loadNewData(AppDispatcherType dispatcherType, AppDispatcherListeners listeners) {
+        ArrayList<AppDispatcherType> appDispatcherTypes = new ArrayList<>();
+        appDispatcherTypes.add(dispatcherType);
+        Application.getAppsManager().loadNextList(appDispatcherTypes, listeners);
+    }
+
 
     public void addListener(AppDispatcherListeners listener) {
         listeners.add(listener);

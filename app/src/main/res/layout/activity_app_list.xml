@@ -85,6 +85,14 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/app_bar_layout" />
 
+    <include
+        android:visibility="gone"
+        android:id="@+id/error_holder"
+        layout="@layout/error_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"

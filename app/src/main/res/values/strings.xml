@@ -22,7 +22,6 @@
     <string name="new_user_congratulation_msg">Congratulations! You\'ve made a new user.\n\n\nIt is important to make a copy of your account\'s keys. Click Backup Wallet to copy your wallet to the clipboard. Save it somewhere safe and then click continue.\n\nYour address:</string>
     <string name="account_management_msg">"This is the account management section.\n\nIt is important to make a copy of your account's keys. Click Backup Wallet to copy your wallet to the clipbaord. Save it somewhere safe!\n\nYour address:"</string>
     <string name="search">SEARCH</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="error_view_msg">There was a problem connecting to the server. Please try again.</string>
+    <string name="error_btn_msg">Try again</string>
 </resources>

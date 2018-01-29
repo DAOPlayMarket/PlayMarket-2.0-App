@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,20 +15,21 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.AppListAdapter;
 import com.blockchain.store.playmarket.data.entities.AppDispatcherType;
 import com.blockchain.store.playmarket.data.entities.Category;
-import com.blockchain.store.playmarket.interfaces.MainFragmentCallbacks;
+import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
+import com.blockchain.store.playmarket.utilities.EndlessRecyclerOnScrollListener;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainMenuFragment extends Fragment implements MainFragmentContract.View {
+public class MainMenuFragment extends Fragment implements MainFragmentContract.View, EndlessRecyclerOnScrollListener.EndlessCallback {
     private static final String TAG = "MainMenuFragment";
     private static final String CATEGORY_EXTRA_ARGS = "category_extra_args";
     @BindView(R.id.recycler_view_main) RecyclerView recyclerView;
     @BindView(R.id.progress_bar_main) ProgressBar progressBar;
 
-    private MainFragmentCallbacks mainCallback;
+    private AppListCallbacks mainCallback;
     private AppListAdapter adapter;
     private Category category;
     private MainFragmentContract.Presenter presenter;
@@ -70,16 +72,14 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
         presenter.setProvider(category);
     }
 
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof MainFragmentCallbacks) {
-            mainCallback = (MainFragmentCallbacks) context;
+        if (context instanceof AppListCallbacks) {
+            mainCallback = (AppListCallbacks) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement MainFragmentCallbacks");
+                    + " must implement AppListCallbacks");
         }
     }
 
@@ -94,8 +94,9 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
     }
 
     private void setRecyclerView(ArrayList<AppDispatcherType> appDispatcherTypes) {
-        adapter = new AppListAdapter(category.subCategories,appDispatcherTypes);
+        adapter = new AppListAdapter(category.subCategories, appDispatcherTypes, this, mainCallback);
         recyclerView.setAdapter(adapter);
+
     }
 
     @Override
@@ -103,5 +104,12 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
         super.onDetach();
         presenter.onDestroy();
         mainCallback = null;
+    }
+
+    @Override
+    public void onLoadMore(int currentPage, AppDispatcherType dispatcherType) {
+        Log.d(TAG, "onLoadMore() called with: currentPage = [" + currentPage + "], dispatcherType = [" + dispatcherType + "]");
+        presenter.loadNewData(dispatcherType);
+
     }
 }
