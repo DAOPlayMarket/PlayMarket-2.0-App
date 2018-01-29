@@ -12,27 +12,26 @@ import android.widget.VideoView;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.login_prompt_activity.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
-import com.blockchain.store.playmarket.utilities.device.BuildUtils;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SplashActivity extends AppCompatActivity implements IntroLogoContracts.View {
+public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
     private static final String TAG = "SplashActivity";
     private static final int SplashDisplayLength = 5000;
 
     @BindView(R.id.LogoTextView) TextView logoTextView;
     @BindView(R.id.LogoVideoView) VideoView logoVideoView;
 
-    private IntroLogoPresenter presenter;
+    private SplashPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro_logo);
         ButterKnife.bind(this);
-        presenter = new IntroLogoPresenter();
+        presenter = new SplashPresenter();
         presenter.init(this);
         presenter.getNearestNodes();
         setLogoTextFont();
@@ -62,6 +61,8 @@ public class SplashActivity extends AppCompatActivity implements IntroLogoContra
             } else {
                 myIntent = new Intent(getApplicationContext(), PermissionsPromptActivity.class);
             }
+            logoVideoView.stopPlayback();
+
             startActivity(myIntent);
             this.finish();
         }, SplashDisplayLength);

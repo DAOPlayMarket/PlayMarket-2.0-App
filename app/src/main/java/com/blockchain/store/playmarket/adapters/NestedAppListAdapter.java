@@ -16,7 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.data.entities.App;
+import com.blockchain.store.playmarket.data.entities.AppDispatcherType;
 import com.blockchain.store.playmarket.data.entities.SubCategory;
+import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,11 +28,13 @@ import butterknife.ButterKnife;
  * Created by Crypton04 on 25.01.2018.
  */
 
-public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private SubCategory subCategory;
+    private AppDispatcherType dispatcherType;
 
-    public NestedAppListAdapter(SubCategory subCategory) {
+    public NestedAppListAdapter(SubCategory subCategory, AppDispatcherType dispatcherType) {
         this.subCategory = subCategory;
+        this.dispatcherType = dispatcherType;
     }
 
     @Override
@@ -43,13 +48,13 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof NestedAppListViewHolder) {
-            ((NestedAppListViewHolder) holder).bind(subCategory,position);
+            ((NestedAppListViewHolder) holder).bind(dispatcherType.apps.get(position), position);
         }
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return dispatcherType.apps.size();
     }
 
     class NestedAppListViewHolder extends RecyclerView.ViewHolder {
@@ -69,7 +74,11 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(SubCategory subCategory, int position) {
+        public void bind(App app, int position) {
+            content.setText(app.nameApp);
+            Glide.with(context)
+                    .load(app.getIconUrl())
+                    .into(imageView);
             dots.setOnClickListener(v -> {
                 PopupMenu popup = new PopupMenu(context, dots);
                 MenuInflater inflater = popup.getMenuInflater();

@@ -109,7 +109,7 @@ public class MainMenuActivity extends AppCompatActivity implements MainFragmentC
     private void initViewPager(ArrayList<Category> categories) {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         for (Category category : categories) {
-            viewPagerAdapter.addFragment(MainMenuFragment.newInstance(category.subCategories), category.name);
+            viewPagerAdapter.addFragment(MainMenuFragment.newInstance(category), category.name);
         }
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);

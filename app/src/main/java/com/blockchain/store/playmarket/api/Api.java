@@ -27,7 +27,7 @@ public interface Api {
     Observable<AppInfo> getAppInfo(@Field("idCTG") String categoryId, @Field("idApp") String appId);
 
     @FormUrlEncoded
-    @GET("get-categories")
+    @POST("get-apps")
     Observable<ArrayList<App>> getApps(@Field("idCTG") String categoryId,
                                        @Field("skip") int skip,
                                        @Field("count") int count,

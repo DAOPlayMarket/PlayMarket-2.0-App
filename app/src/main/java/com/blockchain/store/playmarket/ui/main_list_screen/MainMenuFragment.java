@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,8 @@ import android.widget.ProgressBar;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.AppListAdapter;
-import com.blockchain.store.playmarket.data.entities.SubCategory;
+import com.blockchain.store.playmarket.data.entities.AppDispatcherType;
+import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.MainFragmentCallbacks;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
 
     private MainFragmentCallbacks mainCallback;
     private AppListAdapter adapter;
-    private ArrayList<SubCategory> subCategories;
+    private Category category;
     private MainFragmentContract.Presenter presenter;
 
 
@@ -37,9 +37,9 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
         // Required empty public constructor
     }
 
-    public static MainMenuFragment newInstance(ArrayList<SubCategory> subCategories) {
+    public static MainMenuFragment newInstance(Category category) {
         Bundle args = new Bundle();
-        args.putParcelableArrayList(CATEGORY_EXTRA_ARGS, subCategories);
+        args.putParcelable(CATEGORY_EXTRA_ARGS, category);
         MainMenuFragment fragment = new MainMenuFragment();
         fragment.setArguments(args);
         return fragment;
@@ -49,7 +49,7 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.subCategories = getArguments().getParcelableArrayList(CATEGORY_EXTRA_ARGS);
+            this.category = getArguments().getParcelable(CATEGORY_EXTRA_ARGS);
         }
     }
 
@@ -59,7 +59,7 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
         View view = inflater.inflate(R.layout.fragment_main_menu, container, false);
         ButterKnife.bind(this, view);
         attachPresenter();
-        setRecyclerView();
+
         setRetainInstance(true);
         return view;
     }
@@ -67,12 +67,10 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
     private void attachPresenter() {
         presenter = new MainFragmentPresenter();
         presenter.init(this);
+        presenter.setProvider(category);
     }
 
-    private void setRecyclerView() {
-        adapter = new AppListAdapter(subCategories);
-        recyclerView.setAdapter(adapter);
-    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -86,9 +84,24 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mainCallback = null;
+    public void firstItemsReady(AppDispatcherType appDispatcherType) {
+        adapter.addNewItems(appDispatcherType);
     }
 
+    @Override
+    public void onDispatchersReady(ArrayList<AppDispatcherType> appDispatcherTypes) {
+        setRecyclerView(appDispatcherTypes);
+    }
+
+    private void setRecyclerView(ArrayList<AppDispatcherType> appDispatcherTypes) {
+        adapter = new AppListAdapter(category.subCategories,appDispatcherTypes);
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        presenter.onDestroy();
+        mainCallback = null;
+    }
 }

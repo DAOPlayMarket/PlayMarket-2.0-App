@@ -11,9 +11,13 @@ public class AppInfo {
     public String description;
     public PicturesResponse pictures;
 
-    public String getThumbnailUrl(){
-        String thumbnail = pictures.thumbnail;
-        return RestApi.ICON_URL + app.hashTag + "/" + app.hash + "/pictures/" + thumbnail;
+    public String getThumbnailUrl() {
+        try {
+            String thumbnail = pictures.thumbnail;
+            return RestApi.ICON_URL + app.hashTag + "/" + app.hash + "/pictures/" + thumbnail;
+        } catch (Exception e) {
+            return "";
+        }
 
     }
 }

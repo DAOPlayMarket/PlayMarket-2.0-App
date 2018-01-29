@@ -13,11 +13,11 @@ import java.util.ArrayList;
  * Created by Crypton04 on 24.01.2018.
  */
 
-public class IntroLogoPresenter implements IntroLogoContracts.Presenter {
-    private IntroLogoContracts.View view;
+public class SplashPresenter implements SplashContracts.Presenter {
+    private SplashContracts.View view;
 
     @Override
-    public void init(IntroLogoContracts.View view) {
+    public void init(SplashContracts.View view) {
         this.view = view;
 
     }
