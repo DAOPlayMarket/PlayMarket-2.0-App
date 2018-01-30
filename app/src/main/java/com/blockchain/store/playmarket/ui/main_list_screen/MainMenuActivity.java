@@ -3,7 +3,10 @@ package com.blockchain.store.playmarket.ui.main_list_screen;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -12,16 +15,22 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
+import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
+import com.blockchain.store.playmarket.ui.AppDetailActivityOld;
 import com.blockchain.store.playmarket.ui.account_management_activity.AccountManagementActivity;
+import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
@@ -48,6 +57,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @BindView(R.id.view_pager) ViewPager viewPager;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.error_holder) View errorHolder;
+    @BindView(R.id.nav_view) NavigationView navigationView;
 
     private KeyManager keyManager;
     private Presenter presenter;
@@ -80,6 +90,13 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         toggle.setDrawerArrowDrawable(new HamburgerDrawable(this));
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.nav_account:
+                    goToAccountsPage();
+            }
+            return false;
+        });
 
     }
 
@@ -130,9 +147,22 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         presenter.loadCategories();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main_menu_drawer, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        ToastUtil.showToast(item.getTitle().toString());
+        return super.onOptionsItemSelected(item);
+    }
+
     public void goToAccountsPage() {
         Intent myIntent = new Intent(getApplicationContext(), AccountManagementActivity.class);
         startActivityForResult(myIntent, 0);
+
     }
 
     public void showAddFundsDialog() {
@@ -176,5 +206,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @Override
     public void onAppClicked(App app) {
         ToastUtil.showToast(app.nameApp);
+        AppDetailActivity.start(this, app);
+
     }
 }

@@ -39,6 +39,8 @@ android {
 }
 
 dependencies {
+    compile 'com.koushikdutta.ion:ion:2.+'
+
     compile 'com.orhanobut:hawk:2.0.1'
 
     compile 'com.android.support:appcompat-v7:27.0.2'

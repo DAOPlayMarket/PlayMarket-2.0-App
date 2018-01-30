@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/top_layout_holder"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_gravity="center"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/top_layout_back_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/detail_app_arrow_margins"
+        android:layout_marginRight="@dimen/detail_app_arrow_margins"
+        android:rotation="-90"
+        android:src="@android:drawable/arrow_up_float" />
+
+    <TextView
+        android:id="@+id/top_layout_app_name"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="left|center"
+        android:textSize="16sp"
+        tools:text="Daily Deals: Prime Day Edition" />
+
+</LinearLayout>

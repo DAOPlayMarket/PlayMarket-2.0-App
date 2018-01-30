@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 public class MainMenuFragment extends Fragment implements MainFragmentContract.View, EndlessRecyclerOnScrollListener.EndlessCallback {
     private static final String TAG = "MainMenuFragment";
     private static final String CATEGORY_EXTRA_ARGS = "category_extra_args";
+
     @BindView(R.id.recycler_view_main) RecyclerView recyclerView;
     @BindView(R.id.progress_bar_main) ProgressBar progressBar;
 
@@ -94,9 +95,9 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
     }
 
     private void setRecyclerView(ArrayList<AppDispatcherType> appDispatcherTypes) {
-        adapter = new AppListAdapter(category.subCategories, appDispatcherTypes, this, mainCallback);
+        adapter = new AppListAdapter(category.subCategories, appDispatcherTypes,this, mainCallback);
+//        adapter.setData(appDispatcherTypes);
         recyclerView.setAdapter(adapter);
-
     }
 
     @Override

@@ -36,7 +36,7 @@ import io.ethmobile.ethdroid.KeyManager;
  * An activity representing a list of Apps. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link AppDetailActivity} representing
+ * lead to a {@link AppDetailActivityOld} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
@@ -193,7 +193,7 @@ public class AppListActivity extends AppCompatActivity {
                                 .commit();
                     } else {
                         Context context = v.getContext();
-                        Intent intent = new Intent(context, AppDetailActivity.class);
+                        Intent intent = new Intent(context, AppDetailActivityOld.class);
                         intent.putExtra("item", holder.mItem);
 
                         context.startActivity(intent);

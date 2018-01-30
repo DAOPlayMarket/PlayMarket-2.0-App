@@ -19,10 +19,12 @@ public class Application extends MultiDexApplication {
     public static KeyManager keyManager;
     private static AppsDispatcher appsDispatcher;
     private static AppsManager appsManager;
+    private static Application instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         MultiDex.install(this);
         ToastUtil.setContext(this);
         keyManager = KeyManager.newKeyManager(getFilesDir().getAbsolutePath());
@@ -37,10 +39,15 @@ public class Application extends MultiDexApplication {
         }
         return appsDispatcher;
     }
+
     public static AppsManager getAppsManager() {
         if (appsManager == null) {
             appsManager = new AppsManager();
         }
         return appsManager;
+    }
+
+    public static Application getInstance() {
+        return instance;
     }
 }

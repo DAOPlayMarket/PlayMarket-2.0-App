@@ -12,6 +12,7 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.AppDispatcherType;
 import com.blockchain.store.playmarket.data.entities.SubCategory;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
+import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuFragment;
 import com.blockchain.store.playmarket.utilities.EndlessRecyclerOnScrollListener;
 
 import java.util.ArrayList;
@@ -36,6 +37,13 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public AppListAdapter(ArrayList<SubCategory> subCategories, ArrayList<AppDispatcherType> appDispatcherTypes, EndlessRecyclerOnScrollListener.EndlessCallback endlessCallback, AppListCallbacks mainCallback) {
         this.subCategories = subCategories;
         this.appDispatcherTypes.addAll(appDispatcherTypes);
+        this.recycledViewPool = new RecyclerView.RecycledViewPool();
+        this.endlessCallback = endlessCallback;
+        this.mainCallback = mainCallback;
+    }
+
+    public AppListAdapter(ArrayList<SubCategory> subCategories, EndlessRecyclerOnScrollListener.EndlessCallback endlessCallback, AppListCallbacks mainCallback) {
+        this.subCategories = subCategories;
         this.recycledViewPool = new RecyclerView.RecycledViewPool();
         this.endlessCallback = endlessCallback;
         this.mainCallback = mainCallback;
@@ -79,6 +87,11 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 Log.d(TAG, "addNewItems: total count " + type.apps.size());
             }
         }
+    }
+
+    public void setData(ArrayList<AppDispatcherType> appDispatcherTypes) {
+        this.appDispatcherTypes = appDispatcherTypes;
+        notifyItemRangeInserted(0, appDispatcherTypes.size());
     }
 
 

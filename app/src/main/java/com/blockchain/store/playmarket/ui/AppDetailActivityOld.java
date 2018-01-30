@@ -16,8 +16,8 @@ import android.widget.Toast;
 import com.blockchain.store.playmarket.data.content.AppContent;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
+import com.blockchain.store.playmarket.ui.AppListActivity;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
-import com.blockchain.store.playmarket.utilities.device.BuildUtils;
 import com.blockchain.store.playmarket.utilities.installer.ApkInstaller;
 import com.blockchain.store.playmarket.utilities.net.APIUtils;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
@@ -29,7 +29,6 @@ import org.ethereum.geth.BigInt;
 import org.ethereum.geth.Transaction;
 
 import io.ethmobile.ethdroid.KeyManager;
-import us.feras.mdv.MarkdownView;
 
 /**
  * An activity representing a single App detail screen. This
@@ -37,7 +36,7 @@ import us.feras.mdv.MarkdownView;
  * item details are presented side-by-side with a list of items
  * in a {@link AppListActivity}.
  */
-public class AppDetailActivity extends AppCompatActivity {
+public class AppDetailActivityOld extends AppCompatActivity {
 
     ImageView iconView;
     TextView appTitleHeader;
@@ -59,7 +58,7 @@ public class AppDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_app_detail);
+        setContentView(R.layout.activity_app_detail_old);
 
         setupKeyManager();
 
@@ -107,12 +106,12 @@ public class AppDetailActivity extends AppCompatActivity {
 
         }
 
-        MarkdownView markdownView = (MarkdownView) findViewById(R.id.markdownView);
-        markdownView.loadMarkdown(APIUtils.api.generateMarkdownForThumbnail(hashIPFS) + descriptionText + APIUtils.api.generateMarkdownForImages(hashIPFS, imageCount));
+//        MarkdownView markdownView = (MarkdownView) findViewById(R.id.markdownView);
+//        markdownView.loadMarkdown(APIUtils.api.generateMarkdownForThumbnail(hashIPFS) + descriptionText + APIUtils.api.generateMarkdownForImages(hashIPFS, imageCount));
+//        if (BuildUtils.shouldSetMarkdownBackground()) {
+//            markdownView.setBackgroundColor(getColor(R.color.markdownViewBackground));
+//        }
 
-        if (BuildUtils.shouldSetMarkdownBackground()) {
-            markdownView.setBackgroundColor(getColor(R.color.markdownViewBackground));
-        }
 
         Thread thread = new Thread(new Runnable() {
             @Override

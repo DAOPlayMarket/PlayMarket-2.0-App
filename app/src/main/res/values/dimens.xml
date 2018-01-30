@@ -12,4 +12,5 @@
     <dimen name="nested_list_between_item_margin">12dp</dimen>
     <dimen name="main_list_left_padding">16dp</dimen>
     <dimen name="main_list_title_margin_left">4dp</dimen>
+    <dimen name="detail_app_arrow_margins">18dp</dimen>
 </resources>

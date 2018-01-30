@@ -13,7 +13,7 @@ import com.blockchain.store.playmarket.R;
 /**
  * A fragment representing a single App detail screen.
  * This fragment is either contained in a {@link AppListActivity}
- * in two-pane mode (on tablets) or a {@link AppDetailActivity}
+ * in two-pane mode (on tablets) or a {@link AppDetailActivityOld}
  * on handsets.
  */
 public class AppDetailFragment extends Fragment {

@@ -27,8 +27,8 @@
 
         <activity
             android:name=".ui.intro_logo_activity.SplashActivity"
-            android:theme="@style/whiteStatusBarStyle"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/whiteStatusBarStyle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,13 +53,12 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".ui.AppDetailActivity"
+            android:name=".ui.AppDetailActivityOld"
             android:label="@string/title_app_detail"
             android:parentActivityName=".ui.AppListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".ui.main_list_screen.MainMenuActivity"
             android:label="@string/title_activity_main_menu"
@@ -70,9 +69,10 @@
             android:theme="@style/whiteStatusBarStyle" />
 
         <service
-            android:name="com.blockchain.store.playmarket.services.PurchaseVerifierService"
+            android:name=".services.PurchaseVerifierService"
             android:exported="true" />
 
+        <activity android:name=".ui.app_detail_screen.AppDetailActivity"></activity>
     </application>
 
 </manifest>
