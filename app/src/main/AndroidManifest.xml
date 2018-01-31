@@ -71,8 +71,20 @@
         <service
             android:name=".services.PurchaseVerifierService"
             android:exported="true" />
+        <service
+            android:name=".services.DownloadService"
+            android:exported="true" />
 
-        <activity android:name=".ui.app_detail_screen.AppDetailActivity"></activity>
+        <activity android:name=".ui.app_detail_screen.AppDetailActivity" />
+
+        <receiver android:name=".broadcasts.InstallPackageReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_INSTALL" />
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

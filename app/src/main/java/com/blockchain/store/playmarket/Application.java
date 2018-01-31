@@ -50,4 +50,8 @@ public class Application extends MultiDexApplication {
     public static Application getInstance() {
         return instance;
     }
+
+    public static boolean isForeground() {
+        return instance == null;
+    }
 }
