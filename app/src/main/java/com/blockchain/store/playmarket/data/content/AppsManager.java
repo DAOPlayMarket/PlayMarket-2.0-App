@@ -10,7 +10,6 @@ import com.blockchain.store.playmarket.data.listeners.AppDispatcherListeners;
 import com.blockchain.store.playmarket.utilities.Constants;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -24,7 +23,7 @@ public class AppsManager implements AppDataListeners {
     public void loadNextList(ArrayList<AppDispatcherType> dispatcherTypes, AppDispatcherListeners listeners) {
         for (AppDispatcherType dispatcherType : dispatcherTypes) {
             Log.d(TAG, "loadNextList: skip count  " + dispatcherType.apps.size());
-            RestApi.instance().getApps(String.valueOf(dispatcherType.categoryId), dispatcherType.apps.size(), Constants.DOWNLOAD_APPS_PER_REQUEST, dispatcherType.subCategoryId, true)
+            RestApi.getServerApi().getApps(String.valueOf(dispatcherType.categoryId), dispatcherType.apps.size(), Constants.DOWNLOAD_APPS_PER_REQUEST, dispatcherType.subCategoryId, true)
                     .map(apps -> {
 //                        AppDispatcherType appDispatcherType = new AppDispatcherType(dispatcherType.categoryId, dispatcherType.subCategoryId, 0);
 //                        appDispatcherType.apps.addAll(apps);

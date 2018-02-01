@@ -5,8 +5,8 @@ package com.blockchain.store.playmarket.utilities;
  */
 
 public class Constants {
-    public enum DOWNLOAD_STATE {
-        STATE_DOWNLOAD, STATE_DOWNLOAD_SUCCESSFUL, STATE_DOWNLOAD_ERROR, STATE_INSTALLING, STATE_INSTALLED, STATE_INSTALL_FAIL
+    public enum APP_STATE {
+        STATE_DOWNLOADING, STATE_DOWNLOAD_NOT_INSTALLED, STATE_DOWNLOAD_ERROR, STATE_INSTALLING, STATE_INSTALLED, STATE_INSTALL_FAIL, NOT_DOWNLOAD
     }
 
     public static final String WELCOME_ACTIVITY_ADDRESS_EXTRA = "welcome_activity_address_extra";

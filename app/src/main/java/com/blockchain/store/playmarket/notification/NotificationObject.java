@@ -11,7 +11,7 @@ import com.blockchain.store.playmarket.utilities.Constants;
  */
 
 public class NotificationObject {
-    private Constants.DOWNLOAD_STATE currentState;
+    private Constants.APP_STATE currentState;
     private App app;
     private NotificationCompat.Builder notificationBuilder;
     private NotificationManagerCallbacks callback;
@@ -20,7 +20,7 @@ public class NotificationObject {
     public NotificationObject() {
     }
 
-    public NotificationObject(App app, Constants.DOWNLOAD_STATE currentState, NotificationCompat.Builder notificationBuilder) {
+    public NotificationObject(App app, Constants.APP_STATE currentState, NotificationCompat.Builder notificationBuilder) {
         this.currentState = currentState;
         this.app = app;
         this.notificationBuilder = notificationBuilder;
@@ -50,11 +50,11 @@ public class NotificationObject {
         this.progress = progress;
     }
 
-    public Constants.DOWNLOAD_STATE getCurrentState() {
+    public Constants.APP_STATE getCurrentState() {
         return currentState;
     }
 
-    public void setCurrentState(Constants.DOWNLOAD_STATE currentState) {
+    public void setCurrentState(Constants.APP_STATE currentState) {
         this.currentState = currentState;
     }
 

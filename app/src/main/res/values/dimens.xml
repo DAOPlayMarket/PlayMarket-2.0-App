@@ -13,4 +13,8 @@
     <dimen name="main_list_left_padding">16dp</dimen>
     <dimen name="main_list_title_margin_left">4dp</dimen>
     <dimen name="detail_app_arrow_margins">18dp</dimen>
+    <dimen name="application_icon_width">100dp</dimen>
+    <dimen name="application_icon_height">100dp</dimen>
+    <dimen name="app_detaild_top_layout_padding">12dp</dimen>
+    <dimen name="title_text_size">16sp</dimen>
 </resources>

@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.v4.content.FileProvider;
 
 import com.blockchain.store.playmarket.Application;
+import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.utilities.device.BuildUtils;
 
 import java.io.File;
@@ -26,6 +28,22 @@ public class MyPackageManager {
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
+    }
+
+    public File getFileFromApp(App app) {
+        Context context = Application.getInstance();
+        File file;
+        if (BuildUtils.shouldUseContentUri()) {
+            File path = context.getApplicationContext().getFilesDir();
+            file = new File(path, app.getFileName());
+        } else {
+            file = new File(context.getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), app.getFileName());
+        }
+        return file;
+    }
+
+    public boolean isAppFileExists(App app) {
+        return getFileFromApp(app).exists();
     }
 
     public void installApkByFile(File file) {

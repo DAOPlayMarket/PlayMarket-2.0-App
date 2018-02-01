@@ -20,8 +20,8 @@
 
         <com.blockchain.store.playmarket.views.RoundedImageView
             android:id="@+id/imageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/application_icon_width"
+            android:layout_height="@dimen/application_icon_height"
             tools:srcCompat="@mipmap/ic_launcher" />
 
         <LinearLayout

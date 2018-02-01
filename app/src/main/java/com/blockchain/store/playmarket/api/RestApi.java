@@ -16,8 +16,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RestApi {
-    public static final String BASE_URL = "http://192.168.11.186:3000/api/";
-    public static final String ICON_URL = "http://192.168.11.186:3000/data/";
+    private static final String SERVER_ENDPOINT = "http://192.168.11.186:3000";
+    private static final String SERVER_ENDPOINT_FROM_HOME = "http://31.211.80.204:3000";
+    public static final String BASE_URL = SERVER_ENDPOINT + "/api/";
+    public static final String ICON_URL = SERVER_ENDPOINT + "/data/";
     public static final String BASE_URL_INFURA = "https://rinkeby.infura.io/iYGysj5Sns7HV42MdiXi/";
 
     private static final String TAG = "RestApi";
@@ -25,7 +27,7 @@ public class RestApi {
     private static Api restApi;
     private static InfuraApi infuraApi;
 
-    public static Api instance() {
+    public static Api getServerApi() {
         if (restApi == null) {
             setupWithRest();
         }

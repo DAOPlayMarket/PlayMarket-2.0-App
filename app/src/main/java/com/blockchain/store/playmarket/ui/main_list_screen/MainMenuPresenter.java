@@ -5,12 +5,9 @@ import android.util.Log;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.BaseInfuraResponse;
 import com.blockchain.store.playmarket.data.entities.Category;
-import com.blockchain.store.playmarket.data.entities.InfuraUserBalanceBody;
 
 import java.util.ArrayList;
 
-import okhttp3.RequestBody;
-import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -32,7 +29,7 @@ public class MainMenuPresenter implements Presenter {
 
     @Override
     public void loadCategories() {
-        RestApi.instance().getCagories().subscribeOn(Schedulers.newThread())
+        RestApi.getServerApi().getCagories().subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> view.setProgress(true))
                 .doOnTerminate(() -> view.setProgress(false))

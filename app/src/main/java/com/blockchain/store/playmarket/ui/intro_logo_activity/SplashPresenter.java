@@ -23,7 +23,7 @@ public class SplashPresenter implements SplashContracts.Presenter {
     }
 
     @Override
-    public void getNearestNodes() {
+    public void getNearestNodes() { // todo deprecated 1.2.18. Delete later
         Thread thread = new Thread(() -> {
             try {
                 ArrayList coords = NodeUtils.getCoordinates();

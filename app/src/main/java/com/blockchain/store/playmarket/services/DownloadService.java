@@ -2,19 +2,13 @@ package com.blockchain.store.playmarket.services;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Environment;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
-import com.blockchain.store.playmarket.utilities.device.BuildUtils;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.io.File;
@@ -28,9 +22,7 @@ public class DownloadService extends IntentService {
 
     public DownloadService() {
         super("DownloadService");
-
     }
-
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
@@ -38,13 +30,7 @@ public class DownloadService extends IntentService {
         App app = intent.getParcelableExtra(Constants.DOWNLOAD_SERVICE_APP_EXTRA);
         String url = intent.getStringExtra(Constants.DOWNLOAD_SERVICE_URL_EXTRA);
 
-        File file;
-        if (BuildUtils.shouldUseContentUri()) {
-            File path = getApplicationContext().getFilesDir();
-            file = new File(path, "app.apk");
-        } else {
-            file = new File(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "app.apk");
-        }
+        File file = new MyPackageManager().getFileFromApp(app);
         if (file.exists()) {
             file.delete();
         }
@@ -71,7 +57,7 @@ public class DownloadService extends IntentService {
         new MyPackageManager().installApkByFile(file);
     }
 
-    private void sendBroadCast(App app, int progress, Constants.DOWNLOAD_STATE state) { // implemented by callbacks on NotificationManager.class
+    private void sendBroadCast(App app, int progress, Constants.APP_STATE state) { // implemented by callbacks on NotificationManager.class
         Intent intent = new Intent();
         intent.setAction(Constants.DOWNLOAD_SERVICE_ACTION_KEY);
         intent.putExtra(Constants.DOWNLOAD_SERVICE_APP_ID_EXTRA, app.appId);

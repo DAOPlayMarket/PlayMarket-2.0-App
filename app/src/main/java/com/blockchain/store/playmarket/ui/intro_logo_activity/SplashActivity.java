@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 
 public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
     private static final String TAG = "SplashActivity";
-    private static final int SplashDisplayLength = 5000;
+    private static final int SplashDisplayLength = 1000; //todo set to 5s when
 
     @BindView(R.id.LogoTextView) TextView logoTextView;
     @BindView(R.id.LogoVideoView) VideoView logoVideoView;
@@ -33,7 +33,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         ButterKnife.bind(this);
         presenter = new SplashPresenter();
         presenter.init(this);
-        presenter.getNearestNodes();
         setLogoTextFont();
         setupAndPlayVideo();
         loadLoginPromptActivity();

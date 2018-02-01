@@ -40,6 +40,11 @@ public class App implements Parcelable {
         }
     }
 
+    public String getFileName() {
+        return hash + ".apk";
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
