@@ -25,4 +25,9 @@
     <string name="error_view_msg">There was a problem connecting to the server. Please try again.</string>
     <string name="error_btn_msg">Try again</string>
     <string name="download_msg">Downloading...</string>
+    <string name="btn_install">install</string>
+    <string name="btn_download">download</string>
+    <string name="btn_open">open</string>
+    <string name="btn_invest">Invest</string>
+    <string name="btn_delete">Delete</string>
 </resources>

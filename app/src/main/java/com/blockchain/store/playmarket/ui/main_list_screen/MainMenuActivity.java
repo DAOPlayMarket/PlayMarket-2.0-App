@@ -205,7 +205,6 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onAppClicked(App app) {
-        ToastUtil.showToast(app.nameApp);
         AppDetailActivity.start(this, app);
 
     }

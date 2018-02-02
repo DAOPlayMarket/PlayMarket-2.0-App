@@ -57,12 +57,4 @@ public class DownloadService extends IntentService {
         new MyPackageManager().installApkByFile(file);
     }
 
-    private void sendBroadCast(App app, int progress, Constants.APP_STATE state) { // implemented by callbacks on NotificationManager.class
-        Intent intent = new Intent();
-        intent.setAction(Constants.DOWNLOAD_SERVICE_ACTION_KEY);
-        intent.putExtra(Constants.DOWNLOAD_SERVICE_APP_ID_EXTRA, app.appId);
-        intent.putExtra(Constants.DOWNLOAD_SERVICE_PROGRESS_EXTRA, progress);
-        intent.putExtra(Constants.DOWNLOAD_SERVICE_STATE_EXTRA, state);
-        sendBroadcast(intent);
-    }
 }

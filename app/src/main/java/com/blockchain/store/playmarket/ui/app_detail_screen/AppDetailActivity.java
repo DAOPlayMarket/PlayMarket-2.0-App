@@ -14,9 +14,6 @@ import android.widget.TextView;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
-import com.blockchain.store.playmarket.services.DownloadService;
-import com.blockchain.store.playmarket.utilities.Constants;
-import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
@@ -29,13 +26,15 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @BindView(R.id.top_layout_app_name) TextView toolbarAppName;
     @BindView(R.id.top_layout_holder) LinearLayout top_layout_holder;
-    @BindView(R.id.download_btn) Button downloadBtn;
+    @BindView(R.id.action_btn) Button actionBtn;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.main_layout_holder) View mainLayoutHolder;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
     @BindView(R.id.image_icon) ImageView imageIcon;
     @BindView(R.id.app_name) TextView appName;
     @BindView(R.id.app_description) TextView appDescription;
+    @BindView(R.id.invest_btn) Button investBtn;
+    @BindView(R.id.delete_btn) Button deleteBtn;
 
     private AppDetailPresenter presenter;
     private App app;
@@ -67,7 +66,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.checkAppLoadState(app);
+        presenter.loadButtonsState(app);
     }
 
     private void setViews() {
@@ -82,30 +81,25 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         appDescription.setText(appInfo.description);
     }
 
-    @Override
-    public void setButtonText(String string) {
-        runOnUiThread(() -> downloadBtn.setText(string));
-
+    @OnClick(R.id.action_btn)
+    public void onActionBtnClicked() {
+        presenter.onActionButtonClicked(app);
     }
 
-    @OnClick(R.id.download_btn)
-    public void download_btn() {
-        if (downloadBtn.getText().toString().equalsIgnoreCase("OPEN")) {
-            new MyPackageManager().openAppByPackage(app.hash);
-            return;
-        }
-        Intent intent = new Intent(this, DownloadService.class);
-        intent.putExtra(Constants.DOWNLOAD_SERVICE_APP_EXTRA, app);
-        intent.putExtra(Constants.DOWNLOAD_SERVICE_URL_EXTRA, app.getDownloadLink());
-        startService(intent);
-        presenter.appDownloadClicked(app);
+    @Override
+    public void setActionButtonText(String string) {
+        runOnUiThread(() -> actionBtn.setText(string));
+    }
+
+    @Override
+    public void setInvestDeleteButtonText(String string) {
+        runOnUiThread(() -> investBtn.setText(string));
     }
 
     @OnClick(R.id.top_layout_back_arrow)
     void onBackArrowClicked() {
         this.finish();
     }
-
 
     @Override
     public void onDetailedInfoFailed(Throwable throwable) {
@@ -125,9 +119,19 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     @Override
+    public void setDeleteButtonVisibility(boolean isShow) {
+        deleteBtn.setVisibility(isShow ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
+    }
+
+    @OnClick(R.id.delete_btn)
+    void onDeleteButtonClicked() {
+        presenter.onDeleteButtonClicked(app);
     }
 
     @OnClick(R.id.error_view_repeat_btn)

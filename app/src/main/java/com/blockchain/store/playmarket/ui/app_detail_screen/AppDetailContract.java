@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.ui.app_detail_screen;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 
+
 /**
  * Created by Crypton04 on 30.01.2018.
  */
@@ -13,13 +14,17 @@ public class AppDetailContract {
 
         void onDetailedInfoReady(AppInfo appInfo);
 
-        void setButtonText(String string);
+        void setActionButtonText(String string);
+
+        void setInvestDeleteButtonText(String string);
 
         void onDetailedInfoFailed(Throwable throwable);
 
         void setProgress(boolean isShow);
 
         void showErrorView(boolean isShow);
+
+        void setDeleteButtonVisibility(boolean isShow);
     }
 
     public interface Presenter {
@@ -27,10 +32,12 @@ public class AppDetailContract {
 
         void getDetailedInfo(App app);
 
-        void appDownloadClicked(App app);
+        void onActionButtonClicked(App app);
 
-        void checkAppLoadState(App app);
+        void loadButtonsState(App app);
 
         void onDestroy();
+
+        void onDeleteButtonClicked(App app);
     }
 }
