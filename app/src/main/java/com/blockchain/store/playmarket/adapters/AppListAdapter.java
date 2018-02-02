@@ -94,7 +94,6 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyItemRangeInserted(0, appDispatcherTypes.size());
     }
 
-
     public class AppListViewHolder extends ViewHolder {
         @BindView(R.id.id_category_title) TextView categoryTitle;
         @BindView(R.id.id_category_arrow) TextView categoryArrow;

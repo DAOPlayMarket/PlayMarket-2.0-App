@@ -70,6 +70,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     private void setViews() {
+
         Glide.with(this).load(app.getIconUrl()).into(imageIcon);
         toolbarAppName.setText(app.nameApp);
         appName.setText(app.nameApp);

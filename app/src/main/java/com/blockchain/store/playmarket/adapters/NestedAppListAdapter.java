@@ -41,6 +41,11 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
         notifyItemRangeChanged(0, dispatcherType.apps.size(), null);
     }
 
+    public void setLoading(boolean isLoading){
+        this.isLoading = isLoading;
+        notifyItemChanged(getItemCount());
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (position < dispatcherType.apps.size()) {
@@ -65,10 +70,6 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.app_list_content, parent, false);
             NestedAppListViewHolder nestedAppListViewHolder = new NestedAppListViewHolder(view);
-//            nestedAppListViewHolder.cardView.setOnClickListener(v -> {
-//                int position = nestedAppListViewHolder.getAdapterPosition();
-//                mainCallback.onAppClicked(dispatcherType.apps.get(position));
-//            });
             return nestedAppListViewHolder;
         }
         if (viewType == TYPE_LOADING) {
@@ -129,6 +130,7 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     class LoadViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.progress_bar) ProgressBar progressBar;
+        @BindView(R.id.cardView) View cardView;
 
         public LoadViewHolder(View itemView) {
             super(itemView);
@@ -136,7 +138,7 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         public void bind(boolean isLoading) {
-            progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            cardView.setVisibility(isLoading ? View.VISIBLE : View.GONE);
         }
     }
 
