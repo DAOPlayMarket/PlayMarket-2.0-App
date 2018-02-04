@@ -12,7 +12,6 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.AppDispatcherType;
 import com.blockchain.store.playmarket.data.entities.SubCategory;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
-import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuFragment;
 import com.blockchain.store.playmarket.utilities.EndlessRecyclerOnScrollListener;
 
 import java.util.ArrayList;
@@ -56,7 +55,11 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         AppListViewHolder appListViewHolder = new AppListViewHolder(view, endlessCallback);
         appListViewHolder.recyclerViewNested.setRecycledViewPool(recycledViewPool);
         appListViewHolder.adapter = new NestedAppListAdapter(mainCallback);
-        appListViewHolder.recyclerViewNested.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        appListViewHolder.adapter.setHasStableIds(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        layoutManager.setItemPrefetchEnabled(false);
+        layoutManager.setInitialPrefetchItemCount(0);
+        appListViewHolder.recyclerViewNested.setLayoutManager(layoutManager);
         appListViewHolder.recyclerViewNested.setAdapter(appListViewHolder.adapter);
         return appListViewHolder;
     }

@@ -17,7 +17,6 @@
             android:id="@+id/id_category_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Лучшее"
             android:textAllCaps="true"
             android:textColor="@color/colorAccent" />
 

@@ -7,7 +7,7 @@
         android:id="@+id/recycler_view_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+        />
 
     <ProgressBar
         android:id="@+id/progress_bar_main"

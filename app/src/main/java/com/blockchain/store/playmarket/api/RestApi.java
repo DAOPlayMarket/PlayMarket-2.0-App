@@ -3,9 +3,7 @@ package com.blockchain.store.playmarket.api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -16,8 +14,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RestApi {
-    private static final String SERVER_ENDPOINT = "http://192.168.11.186:3000";
-    private static final String SERVER_ENDPOINT_FROM_HOME = "http://31.211.80.204:3000";
+    private static final String SERVER_ENDPOINT2 = "http://192.168.11.186:3000";
+    private static final String SERVER_ENDPOINT = "http://31.211.80.204:3000";
     public static final String BASE_URL = SERVER_ENDPOINT + "/api/";
     public static final String ICON_URL = SERVER_ENDPOINT + "/data/";
     public static final String BASE_URL_INFURA = "https://rinkeby.infura.io/iYGysj5Sns7HV42MdiXi/";
@@ -43,7 +41,7 @@ public class RestApi {
 
     private static void setupWithRest() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(new ResultAdapterFactory()).create();

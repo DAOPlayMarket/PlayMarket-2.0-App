@@ -18,4 +18,7 @@ public class AppDispatcherType {
         this.subCategoryId = subCategoryId;
         this.totalCount = totalCount;
     }
+
+    public AppDispatcherType() {
+    }
 }

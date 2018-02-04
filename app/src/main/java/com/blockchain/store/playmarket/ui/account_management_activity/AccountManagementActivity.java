@@ -22,7 +22,7 @@ import butterknife.OnClick;
 import io.ethmobile.ethdroid.KeyManager;
 
 public class AccountManagementActivity extends AppCompatActivity {
-    private static final String TAG = "AccountManagementActivi";
+    private static final String TAG = "AccountManagementActivity";
 
     @BindView(R.id.address_text_view)
     TextView AddressTextView;

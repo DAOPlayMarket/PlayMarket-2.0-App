@@ -33,7 +33,6 @@ public class AppsDispatcher {
 
     public void addListener(AppDispatcherListeners listener) {
         listeners.add(listener);
-
     }
 
     public void removeListener(AppDispatcherListeners listener) {
@@ -49,7 +48,6 @@ public class AppsDispatcher {
             }
             returnList.add(appDispatcherType);
         }
-        Log.d(TAG, "addProviders. Total providers: " + providers.toString());
         return returnList;
     }
 

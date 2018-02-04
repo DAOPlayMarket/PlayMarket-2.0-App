@@ -41,7 +41,7 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
         notifyItemRangeChanged(0, dispatcherType.apps.size(), null);
     }
 
-    public void setLoading(boolean isLoading){
+    public void setLoading(boolean isLoading) {
         this.isLoading = isLoading;
         notifyItemChanged(getItemCount());
     }
@@ -87,6 +87,15 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
         if (holder instanceof LoadViewHolder) {
             ((LoadViewHolder) holder).bind(isLoading);
+        }
+    }
+
+    @Override public void onViewRecycled(RecyclerView.ViewHolder holder) {
+        super.onViewRecycled(holder);
+        if (holder instanceof NestedAppListViewHolder) {
+            NestedAppListViewHolder viewHolder = (NestedAppListViewHolder) holder;
+            Glide.with(viewHolder.context).clear(viewHolder.imageView);
+            viewHolder.imageView.setImageDrawable(null);
         }
     }
 

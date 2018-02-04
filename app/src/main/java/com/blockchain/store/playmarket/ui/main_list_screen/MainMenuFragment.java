@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -95,8 +96,12 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
     }
 
     private void setRecyclerView(ArrayList<AppDispatcherType> appDispatcherTypes) {
-        adapter = new AppListAdapter(category.subCategories, appDispatcherTypes,this, mainCallback);
-//        adapter.setData(appDispatcherTypes);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        layoutManager.setItemPrefetchEnabled(false);
+        layoutManager.setInitialPrefetchItemCount(0);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new AppListAdapter(category.subCategories, appDispatcherTypes, this, mainCallback);
+        adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
     }
 

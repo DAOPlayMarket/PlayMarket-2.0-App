@@ -7,7 +7,6 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="4dp"
     android:layout_marginLeft="@dimen/main_list_title_margin_left"
-    android:layout_marginRight="@dimen/nested_list_between_item_margin"
     android:layout_marginTop="4dp"
     app:cardElevation="4dp">
 
