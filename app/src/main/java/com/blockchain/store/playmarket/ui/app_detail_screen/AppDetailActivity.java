@@ -4,6 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.adapters.ImageListAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.bumptech.glide.Glide;
@@ -34,9 +40,11 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.app_name) TextView appName;
     @BindView(R.id.app_description) TextView appDescription;
     @BindView(R.id.invest_btn) Button investBtn;
-    @BindView(R.id.delete_btn) Button deleteBtn;
+    @BindView(R.id.delete_view) TextView deleteBtn;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     private AppDetailPresenter presenter;
+    private ImageListAdapter imageAdapter;
     private App app;
 
     public static void start(Context context, App app) {
@@ -70,7 +78,6 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     private void setViews() {
-
         Glide.with(this).load(app.getIconUrl()).into(imageIcon);
         toolbarAppName.setText(app.nameApp);
         appName.setText(app.nameApp);
@@ -79,7 +86,19 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @Override
     public void onDetailedInfoReady(AppInfo appInfo) {
         mainLayoutHolder.setVisibility(View.VISIBLE);
-        appDescription.setText(appInfo.description);
+        appDescription.setText(Html.fromHtml(appInfo.description));
+        setupRecyclerView(appInfo);
+    }
+
+    private void setupRecyclerView(AppInfo appInfo) {
+        if (appInfo.pictures != null && appInfo.pictures.imageNameList != null) {
+            imageAdapter = new ImageListAdapter(appInfo.getImagePathList());
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            SnapHelper snapHelper = new LinearSnapHelper();
+            snapHelper.attachToRecyclerView(recyclerView);
+            recyclerView.setLayoutManager(linearLayoutManager);
+            recyclerView.setAdapter(imageAdapter);
+        }
     }
 
     @OnClick(R.id.action_btn)
@@ -127,10 +146,10 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.onDestroy();
+        presenter.onDestroy(app);
     }
 
-    @OnClick(R.id.delete_btn)
+    @OnClick(R.id.delete_view)
     void onDeleteButtonClicked() {
         presenter.onDeleteButtonClicked(app);
     }

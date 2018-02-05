@@ -30,7 +30,6 @@ public class MainFragmentPresenter implements Presenter, AppDispatcherListeners 
 
     @Override
     public void setProvider(Category category) {
-//        Application.getAppsDispatcher().addListener(this);
         appDispatcherTypes = Application.getAppsDispatcher().addProviders(category);
         view.onDispatchersReady(appDispatcherTypes);
         Application.getAppsDispatcher().loadNewData(appDispatcherTypes, this);

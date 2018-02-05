@@ -133,6 +133,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         }
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
     }
 
     @Override

@@ -30,4 +30,5 @@
     <string name="btn_open">open</string>
     <string name="btn_invest">Invest</string>
     <string name="btn_delete">Delete</string>
+    <string name="delete_with_underscore"><u>Удалить</u></string>
 </resources>

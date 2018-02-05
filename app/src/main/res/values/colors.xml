@@ -12,4 +12,10 @@
     <color name="lightGreenBackground">#509fe5b7</color>
     <color name="white">#FFFFFFFF</color>
     <color name="markdownViewBackground">#FBFBFBFF</color>
+    <color name="ratingBarStarColor">#ffc785</color>
+    <color name="mainRedColor">#f7467d</color>
+    <color name="detailed_btn_holder_background">#e9fbf2</color>
+    <color name="action_btn_background">#00a5a7</color>
+    <color name="invest_btn_background">#00e6a7</color>
+
 </resources>

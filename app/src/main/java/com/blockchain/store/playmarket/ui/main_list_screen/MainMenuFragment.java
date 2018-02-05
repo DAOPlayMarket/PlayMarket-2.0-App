@@ -35,7 +35,7 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
     private AppListAdapter adapter;
     private Category category;
     private MainFragmentContract.Presenter presenter;
-
+    private boolean isFragmentVisible = false;
 
     public MainMenuFragment() {
         // Required empty public constructor
@@ -62,9 +62,8 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_menu, container, false);
         ButterKnife.bind(this, view);
-        attachPresenter();
-
         setRetainInstance(true);
+        attachPresenter();
         return view;
     }
 
@@ -96,6 +95,7 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
     }
 
     private void setRecyclerView(ArrayList<AppDispatcherType> appDispatcherTypes) {
+        recyclerView.setNestedScrollingEnabled(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         layoutManager.setItemPrefetchEnabled(false);
         layoutManager.setInitialPrefetchItemCount(0);
@@ -117,5 +117,12 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
         Log.d(TAG, "onLoadMore() called with: currentPage = [" + currentPage + "], dispatcherType = [" + dispatcherType + "]");
         presenter.loadNewData(dispatcherType);
 
+    }
+
+    /* check for fragment visibility*/
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        Log.d(TAG, "setUserVisibleHint() called with: isVisibleToUser = [" + isVisibleToUser + "]");
     }
 }

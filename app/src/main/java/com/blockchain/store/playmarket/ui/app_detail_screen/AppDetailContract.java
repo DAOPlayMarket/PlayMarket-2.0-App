@@ -36,7 +36,7 @@ public class AppDetailContract {
 
         void loadButtonsState(App app);
 
-        void onDestroy();
+        void onDestroy(App app);
 
         void onDeleteButtonClicked(App app);
     }

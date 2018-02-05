@@ -41,13 +41,6 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.mainCallback = mainCallback;
     }
 
-    public AppListAdapter(ArrayList<SubCategory> subCategories, EndlessRecyclerOnScrollListener.EndlessCallback endlessCallback, AppListCallbacks mainCallback) {
-        this.subCategories = subCategories;
-        this.recycledViewPool = new RecyclerView.RecycledViewPool();
-        this.endlessCallback = endlessCallback;
-        this.mainCallback = mainCallback;
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())

@@ -88,11 +88,11 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
         Log.d(TAG, "loadButtonsState: isApplicationInstalled " + applicationInstalled);
         if (applicationInstalled) {
             changeState(Constants.APP_STATE.STATE_INSTALLED);
-        } else if (new MyPackageManager().isAppFileExists(app)) {
-            changeState(Constants.APP_STATE.STATE_DOWNLOADED_NOT_INSTALLED);
-        } else if (NotificationManager.getManager().isCallbackAlreadyRegistred(this)) {
+        } else if (NotificationManager.getManager().isCallbackAlreadyRegistered(app,this)) {
             NotificationManager.getManager().registerCallback(app, this);
             changeState(Constants.APP_STATE.STATE_DOWNLOADING);
+        } else if (new MyPackageManager().isAppFileExists(app)) {
+            changeState(Constants.APP_STATE.STATE_DOWNLOADED_NOT_INSTALLED);
         } else {
             changeState(Constants.APP_STATE.STATE_NOT_DOWNLOAD);
 
@@ -155,8 +155,8 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
     @Override
-    public void onDestroy() {
-        NotificationManager.getManager().removeCallback(this);
+    public void onDestroy(App app) {
+        NotificationManager.getManager().removeCallback(app,this);
     }
 
     @Override

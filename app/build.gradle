@@ -39,6 +39,7 @@ android {
 }
 
 dependencies {
+    compile 'me.zhanghai.android.materialratingbar:library:1.2.0'
     compile 'com.koushikdutta.ion:ion:2.+'
 
     compile 'com.orhanobut:hawk:2.0.1'

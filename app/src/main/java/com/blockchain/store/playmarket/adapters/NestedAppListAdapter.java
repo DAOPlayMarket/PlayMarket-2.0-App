@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -26,11 +27,13 @@ import butterknife.ButterKnife;
  */
 
 public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String TAG = "NestedAppListAdapter";
     private static final int TYPE_MAIN_ITEM = 0;
     private static final int TYPE_LOADING = 1;
+
     private AppDispatcherType dispatcherType;
-    private boolean isLoading = true;
     private AppListCallbacks mainCallback;
+    private boolean isLoading = true;
 
     public NestedAppListAdapter(AppListCallbacks mainCallback) {
         this.mainCallback = mainCallback;
@@ -38,11 +41,15 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public void setItemsDispatcher(AppDispatcherType dispatcherType) {
         this.dispatcherType = dispatcherType;
-        notifyItemRangeChanged(0, dispatcherType.apps.size(), null);
+        if (dispatcherType.previousItemCount == dispatcherType.apps.size() && dispatcherType.previousItemCount != 0) {
+            this.isLoading = false;
+        }
+        notifyDataSetChanged();
+//        notifyItemRangeChanged(0, dispatcherType.apps.size(), null);
     }
 
     public void setLoading(boolean isLoading) {
-        this.isLoading = isLoading;
+
         notifyItemChanged(getItemCount());
     }
 
@@ -82,6 +89,7 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        Log.d(TAG, "onBindViewHolder() called with: holder = [" + holder + "], position = [" + position + "]");
         if (holder instanceof NestedAppListViewHolder) {
             ((NestedAppListViewHolder) holder).bind(dispatcherType.apps.get(position), position);
         }
@@ -90,7 +98,8 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    @Override public void onViewRecycled(RecyclerView.ViewHolder holder) {
+    @Override
+    public void onViewRecycled(RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
         if (holder instanceof NestedAppListViewHolder) {
             NestedAppListViewHolder viewHolder = (NestedAppListViewHolder) holder;

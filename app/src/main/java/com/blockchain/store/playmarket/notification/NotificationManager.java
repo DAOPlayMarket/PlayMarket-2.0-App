@@ -54,7 +54,13 @@ public class NotificationManager {
         }
     }
 
-    public boolean isCallbackAlreadyRegistred(NotificationManagerCallbacks callbacks) {
+    public boolean isCallbackAlreadyRegistered(App app, NotificationManagerCallbacks callbacks) {
+        Log.d(TAG, "isCallbackAlreadyRegistered: " + notificationObjects);
+        for (NotificationObject notificationObject : notificationObjects) {
+            if (notificationObject.getApp().appId.equals(app.appId)) {
+                return true;
+            }
+        }
         for (Pair<String, NotificationManagerCallbacks> callback : this.callbacks) {
             if (callback.second == callbacks) {
                 return true;
@@ -64,6 +70,7 @@ public class NotificationManager {
     }
 
     public void downloadCompleteWithError(App app) {
+
         NotificationObject notificationObject = getNotificationObjectByApp(app);
         if (notificationObject != null) {
             notificationObject.setCurrentState(Constants.APP_STATE.STATE_DOWNLOAD_ERROR);
@@ -174,7 +181,7 @@ public class NotificationManager {
     }
 
 
-    public void removeCallback(NotificationManagerCallbacks callback) {
+    public void removeCallback(App app, NotificationManagerCallbacks callback) {
         if (this.callbacks.isEmpty()) return;
         Log.d(TAG, "removeCallback: was callbacks " + this.callbacks.size());
         for (Pair<String, NotificationManagerCallbacks> object : this.callbacks) {

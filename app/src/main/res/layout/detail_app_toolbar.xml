@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:layout_gravity="center"
+    android:background="@color/mainRedColor"
     android:orientation="horizontal">
 
     <ImageView
@@ -21,6 +22,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="left|center"
+        android:textColor="@android:color/white"
         android:textSize="16sp"
         tools:text="Daily Deals: Prime Day Edition" />
 
