@@ -20,9 +20,7 @@
         android:layout_gravity="start"
         android:layout_margin="0dp"
         android:fitsSystemWindows="true"
-        android:padding="0dp"
-        app:headerLayout="@layout/nav_header_main_menu"
-        app:menu="@menu/activity_main_menu_drawer">
+        android:padding="0dp">
 
         <FrameLayout
             android:id="@+id/navigation_view_holder"

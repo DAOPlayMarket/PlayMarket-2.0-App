@@ -71,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_gravity="center"
-        android:background="@drawable/button"
+        android:background="@drawable/top_up_button"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="@string/account_top_up"
@@ -80,7 +80,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:orientation="vertical"
@@ -231,7 +231,6 @@
             android:id="@+id/about_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/navigation_view_indents"
             android:orientation="horizontal">
 
             <ImageView
