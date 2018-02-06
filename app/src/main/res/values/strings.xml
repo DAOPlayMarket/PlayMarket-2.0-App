@@ -17,7 +17,6 @@
     <string name="new_user_welcome_msg">This is the account management section.\n\n\n\nHere you can view your address and make an encrypted copy of your wallet.</string>
     <string name="address_copied">Address Copied!</string>
     <string name="wallet_backup_copied">Wallet Backup Copied!</string>
-    <string name="continue_btn">Continue</string>
     <string name="backup_wallet_btn">Backup Wallet</string>
     <string name="new_user_congratulation_msg">Congratulations! You\'ve made a new user.\n\n\nIt is important to make a copy of your account\'s keys. Click Backup Wallet to copy your wallet to the clipboard. Save it somewhere safe and then click continue.\n\nYour address:</string>
     <string name="account_management_msg">"This is the account management section.\n\nIt is important to make a copy of your account's keys. Click Backup Wallet to copy your wallet to the clipbaord. Save it somewhere safe!\n\nYour address:"</string>
@@ -25,4 +24,31 @@
     <string name="error_view_msg">There was a problem connecting to the server. Please try again.</string>
     <string name="error_btn_msg">Try again</string>
     <string name="download_msg">Downloading...</string>
+
+    <!--fragment_navigation_view-->
+    <string name="user_id">USER ID</string>
+    <string name="account_top_up">Пополнить</string>
+    <string name="wishlist">Wishlist</string>
+    <string name="library">Library</string>
+    <string name="news">News</string>
+    <string name="history">History</string>
+    <string name="settings">Settings</string>
+    <string name="ether_exchange">Ether exchange</string>
+    <string name="my_ico">My ICO</string>
+    <string name="about">About</string>
+
+    <!--activity_login_prompt-->
+    <string name="welcome">Welcome!\nAre you used our application before?</string>
+    <string name="new_user_button">New user</string>
+    <string name="import_user_button"><u>Import user</u></string>
+
+    <!--activity_new_user_welcome-->
+    <string name="congratulations_title">Congratulations, new user is created!</string>
+    <string name="save_key_title">Do not forget to save account key for user data transfer to other devices.</string>
+    <string name="save">Save</string>
+    <string name="continue_btn">Continue</string>
+
+    <!--send_mail_dialog-->
+    <string name="send_mail">Send mail</string>
+    <string name="enter_email_address">Enter email address</string>
 </resources>

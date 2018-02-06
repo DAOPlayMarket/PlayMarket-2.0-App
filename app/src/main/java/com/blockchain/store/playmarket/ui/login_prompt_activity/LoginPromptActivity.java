@@ -48,7 +48,7 @@ public class LoginPromptActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.ImportUserButton)
+    @OnClick(R.id.import_user_button)
     void onUserBtnClicked() {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_GET_CONTENT);
