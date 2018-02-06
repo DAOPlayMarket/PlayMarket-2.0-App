@@ -100,6 +100,7 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
         layoutManager.setItemPrefetchEnabled(false);
         layoutManager.setInitialPrefetchItemCount(0);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
         adapter = new AppListAdapter(category.subCategories, appDispatcherTypes, this, mainCallback);
         adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);

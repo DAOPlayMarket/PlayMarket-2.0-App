@@ -18,7 +18,7 @@ import rx.Observable;
  * Created by Crypton04 on 25.01.2018.
  */
 
-public interface Api {
+public interface ServerApi {
     @GET("get-categories")
     Observable<ArrayList<Category>> getCagories();
 
@@ -33,5 +33,9 @@ public interface Api {
                                        @Field("count") int count,
                                        @Field("subCategory") int subCategoryId,
                                        @Field("newFirst") boolean isNewFirst);
+
+    @FormUrlEncoded
+    @POST("invest")
+    Observable<AppInfo> invest();
 
 }

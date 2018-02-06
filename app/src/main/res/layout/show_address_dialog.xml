@@ -144,7 +144,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:background="@drawable/rounded_bg"
+        style="@style/ColorButton"
+        android:background="@color/colorPrimaryDark"
         android:text="Copy Address"
         android:textColor="@android:color/background_light"
         android:textStyle="bold" />
@@ -159,7 +160,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:background="@drawable/rounded_bg"
+        style="@style/ColorButton"
+        android:background="@color/colorPrimaryDark"
         android:text="Close"
         android:textColor="@android:color/background_light"
         android:textStyle="bold" />

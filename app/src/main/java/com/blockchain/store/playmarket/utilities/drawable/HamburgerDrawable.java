@@ -14,16 +14,16 @@ public class HamburgerDrawable extends DrawerArrowDrawable {
 
     public HamburgerDrawable(Context context){
         super(context);
-        setColor(context.getResources().getColor(R.color.white));
+        setColor(context.getResources().getColor(android.R.color.black));
     }
 
     @Override
     public void draw(Canvas canvas){
         super.draw(canvas);
 
-        setBarLength(85.0f);
-        setBarThickness(12.0f);
-        setGapSize(15.0f);
+//        setBarLength(85.0f);
+//        setBarThickness(12.0f);
+//        setGapSize(15.0f);
 
     }
 }

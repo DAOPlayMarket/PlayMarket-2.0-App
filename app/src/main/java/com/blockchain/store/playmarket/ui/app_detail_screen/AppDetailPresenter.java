@@ -85,7 +85,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     @Override
     public void loadButtonsState(App app) {
         boolean applicationInstalled = new MyPackageManager().isApplicationInstalled(app.hash);
-        Log.d(TAG, "loadButtonsState: isApplicationInstalled " + applicationInstalled);
         if (applicationInstalled) {
             changeState(Constants.APP_STATE.STATE_INSTALLED);
         } else if (NotificationManager.getManager().isCallbackAlreadyRegistered(app,this)) {

@@ -7,6 +7,7 @@ import com.blockchain.store.playmarket.data.content.AppsDispatcher;
 import com.blockchain.store.playmarket.data.content.AppsManager;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.hawk.Hawk;
 
 import io.ethmobile.ethdroid.KeyManager;
@@ -30,6 +31,8 @@ public class Application extends MultiDexApplication {
         keyManager = KeyManager.newKeyManager(getFilesDir().getAbsolutePath());
         AccountManager.setKeyManager(keyManager);
         Hawk.init(this);
+        Fresco.initialize(this);
+//        Glide.get(this).setMemoryCategory(MemoryCategory.LOW);
 
     }
 

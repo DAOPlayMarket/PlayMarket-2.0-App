@@ -11,10 +11,10 @@
         android:id="@+id/top_layout_back_arrow"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/detail_app_arrow_margins"
-        android:layout_marginRight="@dimen/detail_app_arrow_margins"
-        android:rotation="-90"
-        android:src="@android:drawable/arrow_up_float" />
+        android:paddingLeft="@dimen/detail_app_arrow_margins"
+        android:paddingRight="@dimen/detail_app_arrow_margins"
+        android:src="@drawable/back"
+        android:tint="@android:color/white" />
 
     <TextView
         android:id="@+id/top_layout_app_name"

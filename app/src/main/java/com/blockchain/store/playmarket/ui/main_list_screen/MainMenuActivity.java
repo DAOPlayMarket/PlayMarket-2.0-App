@@ -3,8 +3,6 @@ package com.blockchain.store.playmarket.ui.main_list_screen;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -14,21 +12,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
-import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
-import com.blockchain.store.playmarket.ui.AppDetailActivityOld;
 import com.blockchain.store.playmarket.ui.account_management_activity.AccountManagementActivity;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
@@ -45,7 +39,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.ethmobile.ethdroid.KeyManager;
 
-import static com.blockchain.store.playmarket.ui.main_list_screen.MainMenuContract.*;
+import static com.blockchain.store.playmarket.ui.main_list_screen.MainMenuContract.Presenter;
 
 public class MainMenuActivity extends AppCompatActivity implements AppListCallbacks, MainMenuContract.View {
     private static final String TAG = "MainMenuActivity";
@@ -77,6 +71,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         presenter = new MainMenuPresenter();
         presenter.init(this);
         presenter.loadCategories();
+
     }
 
     private void attachFragment() {
@@ -88,6 +83,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.setDrawerArrowDrawable(new HamburgerDrawable(this));
+
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(item -> {

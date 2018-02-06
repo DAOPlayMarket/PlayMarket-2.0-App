@@ -1,9 +1,16 @@
 package com.blockchain.store.playmarket.api;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
+
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -22,10 +29,10 @@ public class RestApi {
 
     private static final String TAG = "RestApi";
 
-    private static Api restApi;
+    private static ServerApi restApi;
     private static InfuraApi infuraApi;
 
-    public static Api getServerApi() {
+    public static ServerApi getServerApi() {
         if (restApi == null) {
             setupWithRest();
         }
@@ -51,12 +58,26 @@ public class RestApi {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(client)
                 .build();
-        restApi = retrofit.create(Api.class);
+        restApi = retrofit.create(ServerApi.class);
     }
 
     private static void setupWithInfura() {
         OkHttpClient client = new OkHttpClient.Builder()
                 .build();
+//        client.interceptors().add(new Interceptor() {
+//            @Override
+//            public Response intercept(Chain chain) throws IOException {
+//                Request request = chain.request();
+//
+//                // try the request
+//                Response response = chain.proceed(request);
+//                if (!response.isSuccessful()) {
+//                    Log.d(TAG, "intercept: request not successfull " + response.message());
+//
+//                }
+//                return response;
+//            }
+//        });
         Gson gson = new GsonBuilder()
                 .setLenient().create();
         Retrofit retrofit = new Retrofit.Builder()

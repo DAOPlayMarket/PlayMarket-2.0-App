@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +18,7 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppDispatcherType;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
-import com.bumptech.glide.Glide;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,11 +46,9 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
             this.isLoading = false;
         }
         notifyDataSetChanged();
-//        notifyItemRangeChanged(0, dispatcherType.apps.size(), null);
     }
 
     public void setLoading(boolean isLoading) {
-
         notifyItemChanged(getItemCount());
     }
 
@@ -99,22 +98,12 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public void onViewRecycled(RecyclerView.ViewHolder holder) {
-        super.onViewRecycled(holder);
-        if (holder instanceof NestedAppListViewHolder) {
-            NestedAppListViewHolder viewHolder = (NestedAppListViewHolder) holder;
-            Glide.with(viewHolder.context).clear(viewHolder.imageView);
-            viewHolder.imageView.setImageDrawable(null);
-        }
-    }
-
-    @Override
     public int getItemCount() {
         return dispatcherType.apps.size() + 1;
     }
 
     class NestedAppListViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.imageView) ImageView imageView;
+        @BindView(R.id.imageView) SimpleDraweeView imageView;
         @BindView(R.id.cardView) CardView cardView;
         @BindView(R.id.content) TextView content;
         @BindView(R.id.dots) ImageView dots;
@@ -132,9 +121,11 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public void bind(App app, int position) {
             content.setText(app.nameApp);
-            Glide.with(context)
-                    .load(app.getIconUrl())
-                    .into(imageView);
+            imageView.setImageURI(Uri.parse(app.getIconUrl()));
+
+//            Glide.with(context)
+//                    .load(app.getIconUrl())
+//                    .into(imageView);
             cardView.setOnClickListener(v -> mainCallback.onAppClicked(app));
             dots.setOnClickListener(v -> {
                 PopupMenu popup = new PopupMenu(context, dots);

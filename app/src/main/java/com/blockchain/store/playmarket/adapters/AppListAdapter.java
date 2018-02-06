@@ -53,6 +53,7 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         layoutManager.setItemPrefetchEnabled(false);
         layoutManager.setInitialPrefetchItemCount(0);
         appListViewHolder.recyclerViewNested.setLayoutManager(layoutManager);
+        appListViewHolder.recyclerViewNested.setHasFixedSize(true);
         appListViewHolder.recyclerViewNested.setAdapter(appListViewHolder.adapter);
         return appListViewHolder;
     }

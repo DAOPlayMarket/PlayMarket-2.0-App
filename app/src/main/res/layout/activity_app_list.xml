@@ -9,67 +9,52 @@
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="25dp">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraint"
+    <LinearLayout
+        android:id="@+id/actionbar_holder"
         android:layout_width="match_parent"
-        android:layout_height="100dp">
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:background="@drawable/header"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:layout_editor_absoluteY="0dp" />
+        android:layout_height="?android:actionBarSize"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="13dp"
             android:background="@android:color/transparent"
             android:theme="@style/ActionBarStyle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@+id/imageView2"
-            app:layout_constraintTop_toTopOf="parent"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            tools:background="@drawable/accordeon" />
+
 
         <EditText
             android:id="@+id/editText"
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="31dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/round_corner_search_box"
             android:ems="10"
+            android:hint="@string/search"
             android:inputType="textPersonName"
-            android:paddingLeft="10dp"
             android:singleLine="true"
-            android:text="@string/search"
-            android:textAlignment="textStart"
-            android:textColor="?android:attr/colorControlNormal"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-            app:layout_constraintLeft_toRightOf="@+id/toolbar"
-            app:layout_constraintRight_toRightOf="@+id/imageView2"
-            app:layout_constraintTop_toTopOf="@+id/imageView2"
-            app:layout_constraintVertical_bias="0.0" />
-    </android.support.constraint.ConstraintLayout>
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/search" />
+
+    </LinearLayout>
+
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/constraint"
+        android:layout_below="@+id/actionbar_holder"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.TabLayout
@@ -86,12 +71,12 @@
         android:layout_below="@+id/app_bar_layout" />
 
     <include
-        android:visibility="gone"
         android:id="@+id/error_holder"
         layout="@layout/error_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
