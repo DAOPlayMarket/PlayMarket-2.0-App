@@ -23,14 +23,17 @@ import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.ethmobile.ethdroid.KeyManager;
 
-public class NewUserWelcomeActivity extends AppCompatActivity {
+public class NewUserWelcomeActivity extends AppCompatActivity implements NewUserWelcomeContract.View {
     private static final String TAG = "NewUserWelcomeActivity";
+    private NewUserWelcomePresenter presenter;
 
     @BindView(R.id.address_text_view)
     TextView addressTextView;
@@ -39,6 +42,8 @@ public class NewUserWelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user_welcome);
+        presenter = new NewUserWelcomePresenter();
+        presenter.init(this, getApplicationContext());
         ButterKnife.bind(this);
         if (getIntent() != null) {
             addressTextView.setText(getIntent().getStringExtra(Constants.WELCOME_ACTIVITY_ADDRESS_EXTRA));
@@ -63,7 +68,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity {
 
     @OnClick(R.id.local_save_imageButton)
     void localSaveKey(){
-
+        presenter.saveKeyOnDevice(addressTextView.getText().toString());
     }
 
     /*
