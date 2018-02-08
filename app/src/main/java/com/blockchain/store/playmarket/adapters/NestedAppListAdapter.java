@@ -17,8 +17,11 @@ import android.widget.TextView;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppDispatcherType;
+import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -109,7 +112,7 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
         @BindView(R.id.dots) ImageView dots;
         @BindView(R.id.ratingText) TextView ratingText;
         @BindView(R.id.ratingStar) ImageView ratingStar;
-        @BindView(R.id.Price) TextView Price;
+        @BindView(R.id.Price) TextView price;
         @BindView(R.id.etherIcon) ImageView etherIcon;
         private Context context;
 
@@ -122,17 +125,20 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
         public void bind(App app, int position) {
             content.setText(app.nameApp);
             imageView.setImageURI(Uri.parse(app.getIconUrl()));
+            if(app.isFree){
+                price.setText(R.string.app_free);
+            } else {
+                String priceInEther = new EthereumPrice(app.price).inEther().toString();
+                price.setText(priceInEther);
 
-//            Glide.with(context)
-//                    .load(app.getIconUrl())
-//                    .into(imageView);
+            }
             cardView.setOnClickListener(v -> mainCallback.onAppClicked(app));
-            dots.setOnClickListener(v -> {
-                PopupMenu popup = new PopupMenu(context, dots);
-                MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.main_menu, popup.getMenu());
-                popup.show();
-            });
+//            dots.setOnClickListener(v -> {
+//                PopupMenu popup = new PopupMenu(context, dots);
+//                MenuInflater inflater = popup.getMenuInflater();
+//                inflater.inflate(R.menu.main_menu, popup.getMenu());
+//                popup.show();
+//            });
 
         }
     }

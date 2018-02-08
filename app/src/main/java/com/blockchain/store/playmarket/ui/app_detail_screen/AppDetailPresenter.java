@@ -6,13 +6,24 @@ import android.util.Log;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
 import com.blockchain.store.playmarket.notification.NotificationManager;
+import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
+import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
+import org.ethereum.geth.Account;
+import org.ethereum.geth.Address;
+import org.ethereum.geth.BigInt;
+import org.ethereum.geth.Transaction;
+
+import io.ethmobile.ethdroid.KeyManager;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -26,6 +37,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     private static final String TAG = "AppDetailPresenter";
     private Constants.APP_STATE appState = Constants.APP_STATE.STATE_UNKOWN;
     private View view;
+    private App app;
 
     @Override
     public void init(View view) {
@@ -79,22 +91,29 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
             case STATE_UNKOWN:
                 // todo do nothing
                 break;
+            case STATE_NOT_PURCHASED:
+                view.showPurchaseDialog();
+
         }
     }
 
     @Override
     public void loadButtonsState(App app) {
-        boolean applicationInstalled = new MyPackageManager().isApplicationInstalled(app.hash);
-        if (applicationInstalled) {
-            changeState(Constants.APP_STATE.STATE_INSTALLED);
-        } else if (NotificationManager.getManager().isCallbackAlreadyRegistered(app,this)) {
-            NotificationManager.getManager().registerCallback(app, this);
-            changeState(Constants.APP_STATE.STATE_DOWNLOADING);
-        } else if (new MyPackageManager().isAppFileExists(app)) {
-            changeState(Constants.APP_STATE.STATE_DOWNLOADED_NOT_INSTALLED);
+        this.app = app;
+        if (app.isFree) {
+            boolean applicationInstalled = new MyPackageManager().isApplicationInstalled(app.hash);
+            if (applicationInstalled) {
+                changeState(Constants.APP_STATE.STATE_INSTALLED);
+            } else if (NotificationManager.getManager().isCallbackAlreadyRegistered(app, this)) {
+                NotificationManager.getManager().registerCallback(app, this);
+                changeState(Constants.APP_STATE.STATE_DOWNLOADING);
+            } else if (new MyPackageManager().isAppFileExists(app)) {
+                changeState(Constants.APP_STATE.STATE_DOWNLOADED_NOT_INSTALLED);
+            } else {
+                changeState(Constants.APP_STATE.STATE_NOT_DOWNLOAD);
+            }
         } else {
-            changeState(Constants.APP_STATE.STATE_NOT_DOWNLOAD);
-
+            changeState(Constants.APP_STATE.STATE_NOT_PURCHASED);
         }
     }
 
@@ -118,6 +137,9 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 view.setActionButtonText(context.getString(R.string.btn_open));
                 break;
             case STATE_INSTALL_FAIL:
+                break;
+            case STATE_NOT_PURCHASED:
+                view.setActionButtonText(new EthereumPrice(app.price).inEther().toString());
                 break;
 
         }
@@ -155,11 +177,49 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     @Override
     public void onDestroy(App app) {
-        NotificationManager.getManager().removeCallback(app,this);
+        NotificationManager.getManager().removeCallback(app, this);
     }
 
     @Override
     public void onDeleteButtonClicked(App app) {
         new MyPackageManager().uninstallApkByApp(app);
+    }
+
+    @Override
+    public void onInvestClicked(AppInfo appInfo) {
+
+    }
+
+    public void onPurchasedClicked(AppInfo appInfo) {
+        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
+                .flatMap(this::handleAccountInfoResult)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onAccountInfoReady, this::onAccountInfoError);
+    }
+
+    private Observable<AppInfo> handleAccountInfoResult(AccountInfoResponse accountInfo) {
+        String rawTransaction = "";
+        try {
+            rawTransaction = CryptoUtils.generateAppBuyTransaction(
+                    accountInfo.count,
+                    new BigInt(Long.parseLong(accountInfo.gasPrice)),
+                    app);
+            Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return RestApi.getServerApi().purchaseApp(rawTransaction);
+
+    }
+
+    private void onAccountInfoReady(AppInfo appInfo) {
+        Log.d(TAG, "onAccountInfoReady() called with: appInfo = [" + appInfo + "]");
+    }
+
+
+    private void onAccountInfoError(Throwable throwable) {
+        Log.d(TAG, "onAccountInfoError() called with: throwable = [" + throwable + "]");
     }
 }

@@ -29,6 +29,7 @@
 
 
         <EditText
+            android:enabled="false"
             android:id="@+id/editText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -43,6 +44,7 @@
             android:textStyle="bold" />
 
         <ImageView
+            android:tint="@color/greyBackground"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:src="@drawable/search" />

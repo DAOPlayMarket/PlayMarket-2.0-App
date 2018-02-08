@@ -38,7 +38,6 @@
         android:layout_height="20dp" />
 
     <TextView
-        android:id="@+id/textView9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="To invest in this App, please specify the amount of Ethereum you would like to spend."
@@ -49,57 +48,63 @@
         android:layout_width="match_parent"
         android:layout_height="10dp" />
 
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/passwordText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:singleLine="true" />
+
     <EditText
         android:id="@+id/investmentAmountText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="Amount (Ethereum)"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal"
+        android:singleLine="true" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
     </LinearLayout>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-    <Button
-        android:id="@+id/continueButton"
+    <LinearLayout
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/rounded_bg"
-        android:text="Continue"
-        android:textColor="@android:color/background_light"
-        android:textStyle="bold" />
+        android:orientation="horizontal">
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="15dp" />
+        <Button
+            android:id="@+id/cancelButton"
+            style="@style/ColorButton"
+            android:layout_width="0dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_dialog_button"
+            android:text="@string/cancel_btn"
+            android:textColor="@android:color/background_light"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/close_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/rounded_bg"
-        android:text="Cancel"
-        android:textColor="@android:color/background_light"
-        android:textStyle="bold" />
+        <Button
+            android:id="@+id/continueButton"
+            style="@style/ColorButton"
+            android:layout_width="0dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_dialog_button"
+            android:text="@string/continue_btn"
+            android:textColor="@android:color/background_light"
+            android:textStyle="bold" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="15dp" />
+
+    </LinearLayout>
 
 </LinearLayout>

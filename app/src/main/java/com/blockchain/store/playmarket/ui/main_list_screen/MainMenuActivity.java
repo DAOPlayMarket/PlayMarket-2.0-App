@@ -53,7 +53,6 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @BindView(R.id.error_holder) View errorHolder;
     @BindView(R.id.nav_view) NavigationView navigationView;
 
-    private KeyManager keyManager;
     private Presenter presenter;
 
     @Override
@@ -63,7 +62,6 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         ButterKnife.bind(this);
         attachPresenter();
         initViews();
-        setupKeyManager();
         attachFragment();
     }
 
@@ -94,10 +92,6 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
             return false;
         });
 
-    }
-
-    protected void setupKeyManager() {
-        keyManager = CryptoUtils.setupKeyManager(getFilesDir().getAbsolutePath());
     }
 
     @Override
@@ -167,16 +161,16 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         d.setContentView(R.layout.show_address_dialog);
 
         final TextView addressTextView = (TextView) d.findViewById(R.id.addressTextView);
-        try {
-            addressTextView.setText(keyManager.getAccounts().get(0).getAddress().getHex());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            addressTextView.setText(keyManager.getAccounts().get(0).getAddress().getHex());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         TextView balanceTextView = (TextView) d.findViewById(R.id.balanceText);
         balanceTextView.setText(APIUtils.api.balance.getDisplayPrice(true));
 
-        Button close_btn = (Button) d.findViewById(R.id.close_button);
+        Button close_btn = (Button) d.findViewById(R.id.continueButton);
         close_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 d.dismiss();

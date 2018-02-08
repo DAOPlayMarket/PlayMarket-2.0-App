@@ -31,4 +31,11 @@
     <string name="btn_invest">Invest</string>
     <string name="btn_delete">Delete</string>
     <string name="delete_with_underscore"><u>Удалить</u></string>
+    <string name="app_free">FREE</string>
+    <string name="app_buy_text">Buy: </string>
+    <string name="dialog_app_purchase_body">To confirm your purchase, press continue below.</string>
+    <string name="not_enought_balance">Not enough balance</string>
+    <string name="cancel_btn">Cancel</string>
+    <string name="password">Password</string>
+    <string name="wrong_password">Wrong password!</string>
 </resources>

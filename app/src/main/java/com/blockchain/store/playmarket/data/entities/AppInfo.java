@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.data.entities;
 
 import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -21,6 +22,10 @@ public class AppInfo {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    public String getFormattedPrice(){
+        return new EthereumPrice(app.price).inEther().toString();
     }
 
     public ArrayList<String> getImagePathList() {

@@ -2,9 +2,7 @@ package com.blockchain.store.playmarket.ui.login_prompt_activity;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -19,14 +17,12 @@ import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelco
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
-import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 
 import org.ethereum.geth.Account;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 
 import butterknife.ButterKnife;
@@ -97,7 +93,7 @@ public class LoginPromptActivity extends AppCompatActivity {
             openWelcomeActivity(address);
         });
 
-        Button close_btn = d.findViewById(R.id.close_button);
+        Button close_btn = d.findViewById(R.id.cancelButton);
         close_btn.setOnClickListener(v -> d.dismiss());
     }
 
@@ -115,7 +111,7 @@ public class LoginPromptActivity extends AppCompatActivity {
             confirmImport(fileData, passwordText.getText().toString());
         });
 
-        Button close_btn = d.findViewById(R.id.close_button);
+        Button close_btn = d.findViewById(R.id.cancelButton);
         close_btn.setOnClickListener(v -> d.dismiss());
     }
 

@@ -19,7 +19,8 @@ public class App implements Parcelable {
     @SerializedName("idApp")
     public String appId;
     public String subCategory;
-    public String value;
+    @SerializedName("value")
+    public String price;
     @SerializedName("publish")
     public boolean isPublish;
     @SerializedName("free")
@@ -27,6 +28,7 @@ public class App implements Parcelable {
     @SerializedName("ico")
     public boolean isIco;
     public String icoUrl;
+    public String adrDev;
 
     public String getIconUrl() {
         return RestApi.ICON_URL + hashTag + "/" + hash + "/icon/icon.jpg";
@@ -45,6 +47,9 @@ public class App implements Parcelable {
     }
 
 
+    public App() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -58,14 +63,12 @@ public class App implements Parcelable {
         dest.writeString(this.catalogId);
         dest.writeString(this.appId);
         dest.writeString(this.subCategory);
-        dest.writeString(this.value);
+        dest.writeString(this.price);
         dest.writeByte(this.isPublish ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isFree ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isIco ? (byte) 1 : (byte) 0);
         dest.writeString(this.icoUrl);
-    }
-
-    public App() {
+        dest.writeString(this.adrDev);
     }
 
     protected App(Parcel in) {
@@ -75,14 +78,15 @@ public class App implements Parcelable {
         this.catalogId = in.readString();
         this.appId = in.readString();
         this.subCategory = in.readString();
-        this.value = in.readString();
+        this.price = in.readString();
         this.isPublish = in.readByte() != 0;
         this.isFree = in.readByte() != 0;
         this.isIco = in.readByte() != 0;
         this.icoUrl = in.readString();
+        this.adrDev = in.readString();
     }
 
-    public static final Parcelable.Creator<App> CREATOR = new Parcelable.Creator<App>() {
+    public static final Creator<App> CREATOR = new Creator<App>() {
         @Override
         public App createFromParcel(Parcel source) {
             return new App(source);

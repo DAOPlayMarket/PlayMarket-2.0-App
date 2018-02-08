@@ -25,6 +25,8 @@ public class AppDetailContract {
         void showErrorView(boolean isShow);
 
         void setDeleteButtonVisibility(boolean isShow);
+
+        void showPurchaseDialog();
     }
 
     public interface Presenter {
@@ -39,5 +41,7 @@ public class AppDetailContract {
         void onDestroy(App app);
 
         void onDeleteButtonClicked(App app);
+
+        void onInvestClicked(AppInfo appInfo);
     }
 }

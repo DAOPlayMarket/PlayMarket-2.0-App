@@ -50,7 +50,7 @@ public class EthereumPrice {
 
     public String getDisplayPrice(boolean onlyNumber) {
         if (isZero() && onlyNumber == false) {
-            return "Free";
+            return "FREE";
         }
 
         String priceUnit = getUnits();

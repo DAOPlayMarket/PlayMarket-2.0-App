@@ -89,7 +89,7 @@ public class AccountManagementActivity extends AppCompatActivity {
         });
 
 
-        Button close_btn = (Button) d.findViewById(R.id.close_button);
+        Button close_btn = (Button) d.findViewById(R.id.continueButton);
         close_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 d.dismiss();
@@ -114,7 +114,7 @@ public class AccountManagementActivity extends AppCompatActivity {
         });
 
 
-        Button close_btn = (Button) d.findViewById(R.id.close_button);
+        Button close_btn = (Button) d.findViewById(R.id.continueButton);
         close_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 d.dismiss();

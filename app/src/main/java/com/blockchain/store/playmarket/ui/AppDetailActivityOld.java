@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.blockchain.store.playmarket.data.content.AppContent;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
-import com.blockchain.store.playmarket.ui.AppListActivity;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 import com.blockchain.store.playmarket.utilities.installer.ApkInstaller;
 import com.blockchain.store.playmarket.utilities.net.APIUtils;
@@ -160,15 +159,9 @@ public class AppDetailActivityOld extends AppCompatActivity {
 
         d.show();
 
-        TextView addFundsBtn = (TextView) d.findViewById(R.id.addMoneyButton);
-        addFundsBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                showAddFundsDialog();
-            }
-        });
 
 
-        Button close_btn = (Button) d.findViewById(R.id.close_button);
+        Button close_btn = (Button) d.findViewById(R.id.continueButton);
         close_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 promptForPassword();
@@ -194,7 +187,7 @@ public class AppDetailActivityOld extends AppCompatActivity {
         });
 
 
-        Button close_btn = (Button) d.findViewById(R.id.close_button);
+        Button close_btn = (Button) d.findViewById(R.id.continueButton);
         close_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 d.dismiss();
@@ -218,7 +211,7 @@ public class AppDetailActivityOld extends AppCompatActivity {
             }
         });
 
-        Button close_btn = (Button) d.findViewById(R.id.close_button);
+        Button close_btn = (Button) d.findViewById(R.id.continueButton);
         close_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 d.dismiss();
@@ -243,7 +236,7 @@ public class AppDetailActivityOld extends AppCompatActivity {
         });
 
 
-        Button close_btn = (Button) d.findViewById(R.id.close_button);
+        Button close_btn = (Button) d.findViewById(R.id.continueButton);
         close_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 d.dismiss();
@@ -266,7 +259,7 @@ public class AppDetailActivityOld extends AppCompatActivity {
         TextView balanceTextView = (TextView) d.findViewById(R.id.balanceText);
         balanceTextView.setText(APIUtils.api.balance.getDisplayPrice(true));
 
-        Button close_btn = (Button) d.findViewById(R.id.close_button);
+        Button close_btn = (Button) d.findViewById(R.id.continueButton);
         close_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 d.dismiss();
@@ -423,15 +416,8 @@ public class AppDetailActivityOld extends AppCompatActivity {
 
         d.show();
 
-        TextView addFundsBtn = (TextView) d.findViewById(R.id.addMoneyButton);
-        addFundsBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                showAddFundsDialog();
-            }
-        });
 
-
-        Button close_btn = (Button) d.findViewById(R.id.close_button);
+        Button close_btn = (Button) d.findViewById(R.id.continueButton);
         close_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 promptForAmountToInvest();

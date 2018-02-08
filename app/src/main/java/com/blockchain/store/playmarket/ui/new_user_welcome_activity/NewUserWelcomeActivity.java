@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +14,6 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
-import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -23,7 +21,6 @@ import java.io.ByteArrayOutputStream;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.ethmobile.ethdroid.KeyManager;
 
 public class NewUserWelcomeActivity extends AppCompatActivity {
     private static final String TAG = "NewUserWelcomeActivity";
@@ -79,7 +76,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity {
         });
 
 
-        Button close_btn = d.findViewById(R.id.close_button);
+        Button close_btn = d.findViewById(R.id.cancelButton);
         close_btn.setOnClickListener(v -> d.dismiss());
     }
 

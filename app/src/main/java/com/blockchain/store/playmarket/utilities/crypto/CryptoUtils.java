@@ -2,6 +2,11 @@ package com.blockchain.store.playmarket.utilities.crypto;
 
 import android.util.Log;
 
+import com.blockchain.store.playmarket.Application;
+import com.blockchain.store.playmarket.data.entities.App;
+import com.blockchain.store.playmarket.utilities.Constants;
+
+import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
 import org.ethereum.geth.BigInt;
 import org.ethereum.geth.Transaction;
@@ -12,6 +17,9 @@ import java.util.regex.Pattern;
 import io.ethmobile.ethdroid.EthDroid;
 import io.ethmobile.ethdroid.KeyManager;
 
+import static com.blockchain.store.playmarket.utilities.Constants.GAS_LIMIT;
+import static com.blockchain.store.playmarket.utilities.Constants.NODE_ADDRESS;
+import static com.blockchain.store.playmarket.utilities.Constants.RINKEBY_ID;
 import static org.web3j.crypto.Hash.sha3;
 
 /**
@@ -26,7 +34,6 @@ public class CryptoUtils {
     public static String CONTRACT_ADDRESS = "0xf18418d6dc1a2278c69968b8b8a2d84b553fba51";
     public static final String TEST_ADDRESS = "0x5e5c1c8e03472666e0b9e218153869dcbc9c1e65";
     public static final String ICO_CONTRACT_ADDRESS = "0xEDC64A365e12054928dAC9bF32F1C1552EE9679F";
-    
 
 
     public static KeyManager setupKeyManager(String dataDir) {
@@ -53,25 +60,24 @@ public class CryptoUtils {
         String transactionInfo = transaction.toString();
         Pattern pattern = Pattern.compile("Hex:.*");
         Matcher matcher = pattern.matcher(transactionInfo);
-        if (matcher.find())
-        {
+        if (matcher.find()) {
             return matcher.group(0).replaceAll("Hex:\\s*", "");
         } else {
             return "";
         }
     }
 
-    public static byte[] getDataForBuyApp(String appId, String idCat) {
-        byte[] hash = sha3("buyApp(uint256,uint256)".getBytes());
+    public static byte[] getDataForBuyApp(String appId, String address) {
+        byte[] hash = sha3("buyApp(uint256,address)".getBytes());
+        appId = Integer.toHexString(Integer.valueOf(appId));
         String hashString = bytesToHexString(hash);
-
         String functionHash = hashString.substring(0, 8);
 
         Log.d("Ether", functionHash);
         Log.d("Ether", hashString);
 
         String appIdEnc = String.format("%64s", appId).replace(' ', '0');
-        String catIdEnc = String.format("%64s", idCat).replace(' ', '0');
+        String catIdEnc = String.format("%64s", address).replace(' ', '0');
 
         Log.d("Ether", appIdEnc);
         Log.d("Ether", catIdEnc);
@@ -85,7 +91,7 @@ public class CryptoUtils {
     public static String bytesToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
         for (byte b : bytes) {
-            sb.append(String.format("%02x", b&0xff));
+            sb.append(String.format("%02x", b & 0xff));
         }
 
         return sb.toString();
@@ -98,23 +104,19 @@ public class CryptoUtils {
             int v = Integer.parseInt(s.substring(index, index + 2), 16);
             b[i] = (byte) v;
         }
+        Log.d("Ether", "hexStringToByteArray: " + b);
         return b;
     }
 
-    public static void generateTestTransaction() {
-        BigInt value = new BigInt(0);
-        value.setInt64((long) 1100000000000000.0);
+    public static String generateAppBuyTransaction(int nonce, BigInt gasPrice, App app) throws Exception {
+        KeyManager keyManager = Application.keyManager;
+        Account account = keyManager.getAccounts().get(0);
+        Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
+                new BigInt(Long.parseLong(app.price)), new BigInt(GAS_LIMIT), gasPrice,
+                getDataForBuyApp(app.appId, NODE_ADDRESS));
+        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
+        return getRawTransaction(signedTransaction);
 
-        Transaction tx = new Transaction(
-                3, new Address(TEST_ADDRESS),
-                value, new BigInt(200000), new BigInt((long) 30000000000.0), null);
-        try {
-            Transaction transaction = keyManager.getKeystore().signTxPassphrase(keyManager.getAccounts().get(0), "Test", tx, new BigInt(3));
-
-            Log.d("Ether", CryptoUtils.getRawTransaction(transaction));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
 

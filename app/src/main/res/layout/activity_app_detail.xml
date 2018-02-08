@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
     <include
@@ -30,7 +31,7 @@
                 android:orientation="horizontal"
                 android:padding="@dimen/app_detaild_top_layout_padding">
 
-                <ImageView
+                <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/image_icon"
                     android:layout_width="@dimen/application_icon_height"
                     android:layout_height="@dimen/application_icon_width"
@@ -93,10 +94,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
+                    android:text="4.5"
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
-                    android:textStyle="bold"
-                    android:text="4.5" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/delete_view"
@@ -115,7 +116,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/detailed_btn_holder_background"
                 android:orientation="horizontal"
                 android:paddingBottom="8dp"
                 android:paddingLeft="15dp"
@@ -127,16 +127,16 @@
                     style="@style/ColorButton"
                     android:layout_marginRight="8dp"
                     android:layout_weight="1"
-                    android:background="@color/invest_btn_background"
+                    android:background="@drawable/rounded_invest_btn"
                     android:text="@string/btn_invest" />
 
-                <Button
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/action_btn"
                     style="@style/ColorButton"
                     android:layout_marginLeft="8dp"
                     android:layout_weight="1"
-                    android:background="@color/action_btn_background"
-                    android:text="Download" />
+                    android:background="@drawable/rounded_action_bg"
+                    tools:text="Download" />
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView

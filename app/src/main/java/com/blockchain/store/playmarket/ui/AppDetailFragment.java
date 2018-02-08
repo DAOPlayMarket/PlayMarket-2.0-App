@@ -44,7 +44,6 @@ public class AppDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.app_detail, container, false);
-
         // Show the dummy name as text in a TextView.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.app_detail)).setText(mItem.details);
