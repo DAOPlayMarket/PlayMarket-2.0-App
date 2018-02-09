@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:layout_gravity="center"
-    android:background="@color/mainRedColor"
     android:minHeight="48dp"
     android:orientation="horizontal">
 
@@ -15,8 +14,7 @@
         android:paddingLeft="@dimen/detail_app_arrow_margins"
         android:paddingRight="@dimen/detail_app_arrow_margins"
         android:scaleType="center"
-        android:src="@drawable/back"
-        android:tint="@android:color/white" />
+        android:src="@drawable/back" />
 
     <TextView
         android:id="@+id/top_layout_app_name"
@@ -26,7 +24,6 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:singleLine="true"
-        android:textColor="@android:color/white"
         android:textSize="18sp"
         tools:text="Daily Deals: Prime Day Edition" />
 
