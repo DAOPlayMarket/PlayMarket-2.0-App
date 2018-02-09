@@ -25,6 +25,7 @@ import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.ui.account_management_activity.AccountManagementActivity;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
+import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
@@ -73,7 +74,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     }
 
     private void attachFragment() {
-//            getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view_holder, new NavigationViewFragment()).commitAllowingStateLoss();
+            getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view_holder, new NavigationViewFragment()).commitAllowingStateLoss();
     }
 
     private void initViews() {

@@ -4,42 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity">
-
-    <Button
-        android:id="@+id/button"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="0dp"
-        android:layout_height="57dp"
-        android:layout_marginEnd="57dp"
-        android:layout_marginLeft="57dp"
-        android:layout_marginRight="57dp"
-        android:layout_marginStart="57dp"
-        android:onClick="goToMainActivity"
-        android:text="@string/continue_btn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.964" />
-
-    <Button
-        android:id="@+id/button2"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="0dp"
-        android:layout_height="57dp"
-        android:layout_marginEnd="57dp"
-        android:layout_marginLeft="57dp"
-        android:layout_marginRight="57dp"
-        android:layout_marginStart="57dp"
-        android:onClick="promptForPassword"
-        android:text="@string/backup_wallet_btn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.842" />
 
     <TextView
         android:id="@+id/LogoTextView"
@@ -50,9 +16,9 @@
         android:layout_marginRight="18dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="25dp"
-        android:text="PLAYMARKET 2.0"
+        android:text="@string/playmarket"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:typeface="normal"
         app:layout_constraintLeft_toRightOf="@+id/LogoImageView"
@@ -75,39 +41,127 @@
     <TextView
         android:id="@+id/NewUserWelcomeTextView"
         android:layout_width="0dp"
-        android:layout_height="153dp"
-        android:layout_marginBottom="105dp"
-        android:layout_marginEnd="42dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="103dp"
-        android:text="@string/new_user_congratulation_msg"
-        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="38dp"
+        android:layout_marginRight="38dp"
+        android:layout_marginTop="100dp"
+        android:text="@string/congratulations_title"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/LogoTextView" />
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="281dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="38dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="38dp"
+        android:gravity="center"
+        android:text="@string/save_key_title"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NewUserWelcomeTextView" />
 
     <TextView
         android:id="@+id/address_text_view"
-        android:layout_width="0dp"
-        android:layout_height="34dp"
-        android:layout_marginBottom="17dp"
-        android:layout_marginEnd="43dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="21dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="38dp"
+        android:layout_marginRight="38dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/yellow_light"
         android:textAlignment="center"
         android:textSize="11sp"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:text="0x5197744f9769D3dD2e60D7f6fDE3B61737726D51" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="38dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/save"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address_text_view" />
+
+    <Button
+        android:id="@+id/continue_button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="0dp"
+        android:layout_height="57dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="57dp"
+        android:layout_marginRight="57dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/continue_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NewUserWelcomeTextView"
+        app:layout_constraintTop_toBottomOf="@+id/save_cloud_imageButton"
+        app:layout_constraintVertical_bias="0.301" />
+
+    <ImageButton
+        android:id="@+id/save_mail_imageButton"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/new_user_welcome_button"
+        android:elevation="2dp"
+        android:scaleType="center"
+        android:translationZ="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/continue_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.0"
-        tools:text="0x5197744f9769D3dD2e60D7f6fDE3B61737726D51" />
+        app:srcCompat="@mipmap/ic_email" />
+
+    <ImageButton
+        android:id="@+id/save_cloud_imageButton"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/new_user_welcome_button"
+        android:elevation="2dp"
+        android:scaleType="center"
+        android:translationZ="1dp"
+        app:layout_constraintEnd_toStartOf="@+id/local_save_imageButton"
+        app:layout_constraintStart_toEndOf="@+id/save_mail_imageButton"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:srcCompat="@mipmap/ic_save_to_cloud" />
+
+    <ImageButton
+        android:id="@+id/local_save_imageButton"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/new_user_welcome_button"
+        android:elevation="2dp"
+        android:scaleType="center"
+        android:translationZ="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/continue_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@mipmap/ic_save_to_disk" />
 
 
 </android.support.constraint.ConstraintLayout>

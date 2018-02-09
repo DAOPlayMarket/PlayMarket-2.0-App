@@ -12,6 +12,9 @@
     <color name="lightGreenBackground">#509fe5b7</color>
     <color name="white">#FFFFFFFF</color>
     <color name="markdownViewBackground">#FBFBFBFF</color>
+    <color name="black">#000000</color>
+    <color name="yellow_light">#fcf7bf</color>
+    <color name="yellow">#f2c30b</color>
     <color name="ratingBarStarColor">#ffc785</color>
     <color name="mainRedColor">#f7467d</color>
     <color name="detailed_btn_holder_background">#e9fbf2</color>
