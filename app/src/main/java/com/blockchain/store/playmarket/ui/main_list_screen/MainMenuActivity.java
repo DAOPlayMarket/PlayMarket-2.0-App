@@ -28,22 +28,24 @@ import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
-import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 import com.blockchain.store.playmarket.utilities.drawable.HamburgerDrawable;
 import com.blockchain.store.playmarket.utilities.net.APIUtils;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.ethmobile.ethdroid.KeyManager;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.subjects.BehaviorSubject;
 
 import static com.blockchain.store.playmarket.ui.main_list_screen.MainMenuContract.Presenter;
 
 public class MainMenuActivity extends AppCompatActivity implements AppListCallbacks, MainMenuContract.View {
     private static final String TAG = "MainMenuActivity";
+    private static final int DEBOUNCE_INTERVAL_MILLIS = 500;
 
     @BindView(R.id.tab_layout) TabLayout tabLayout;
     @BindView(R.id.app_bar_layout) AppBarLayout appBarLayout;
@@ -54,6 +56,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @BindView(R.id.error_holder) View errorHolder;
     @BindView(R.id.nav_view) NavigationView navigationView;
 
+    private BehaviorSubject<String> userInputSubject = BehaviorSubject.create();
     private Presenter presenter;
 
     @Override
@@ -64,6 +67,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         attachPresenter();
         initViews();
         attachFragment();
+        setSearchViewDebounce();
     }
 
     private void attachPresenter() {
@@ -94,6 +98,28 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         });
 
     }
+
+    private void setSearchViewDebounce() {
+        userInputSubject.debounce(DEBOUNCE_INTERVAL_MILLIS, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
+                .filter(text -> !text.isEmpty())
+                .subscribe(text -> {
+//                    presenter.getFirstSearchResult(text);
+//                    errorViewHolder.setVisibility(View.GONE);
+                });
+    }
+
+//    SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+//        @Override public boolean onQueryTextSubmit(String query) {
+//            return false;
+//        }
+//
+//        @Override public boolean onQueryTextChange(String newText) {
+//            if (newText.isEmpty() || searchText.equals(newText)) return false;
+//            searchText = newText;
+//            userInputSubject.onNext(newText);
+//            return false;
+//        }
+//    };
 
     @Override
     public void onBackPressed() {
