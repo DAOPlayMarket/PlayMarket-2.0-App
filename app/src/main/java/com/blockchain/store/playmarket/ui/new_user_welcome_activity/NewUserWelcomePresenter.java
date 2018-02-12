@@ -3,6 +3,8 @@ package com.blockchain.store.playmarket.ui.new_user_welcome_activity;
 import android.content.Context;
 import android.os.Environment;
 
+import org.ethereum.geth.Account;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

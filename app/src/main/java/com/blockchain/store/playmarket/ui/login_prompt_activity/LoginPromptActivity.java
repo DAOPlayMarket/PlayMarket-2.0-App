@@ -1,9 +1,12 @@
 package com.blockchain.store.playmarket.ui.login_prompt_activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
@@ -27,12 +31,20 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginPromptActivity extends AppCompatActivity {
+public class LoginPromptActivity extends AppCompatActivity implements LoginPromptContract.View {
+
+    private LoginPromptPresenter presenter;
+
     private static final int CHOSE_FILE_CODE = 99;
     private static final String TAG = "LoginPromptActivity";
 
@@ -42,6 +54,9 @@ public class LoginPromptActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_prompt);
         ButterKnife.bind(this);
+        presenter = new LoginPromptPresenter();
+        presenter.init(this);
+        if (presenter.checkAccountJson()) showImportDialog();
         if (AccountManager.isHasUsers()) {
             goToMainActivity(null);
         }
@@ -132,8 +147,8 @@ public class LoginPromptActivity extends AppCompatActivity {
         try {
             Account account = Application.keyManager.newAccount(password);
             Log.d(TAG, "makeNewAccount: " + account.getURL().toString());
-
             String address = account.getAddress().getHex();
+            presenter.saveAccountJson(account.getURL());
             Log.d(TAG, address);
             return address;
         } catch (Exception e) {
@@ -142,7 +157,7 @@ public class LoginPromptActivity extends AppCompatActivity {
         }
     }
 
-    @Override
+        @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == CHOSE_FILE_CODE) {
@@ -169,5 +184,10 @@ public class LoginPromptActivity extends AppCompatActivity {
 
         }
         Log.d(TAG, "onActivityResult: ");
+    }
+
+    @Override
+    public void showImportDialog() {
+
     }
 }
