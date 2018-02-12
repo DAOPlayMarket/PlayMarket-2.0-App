@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.ui.navigation_view;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,9 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.data.types.EthereumPrice;
+import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 import com.blockchain.store.playmarket.utilities.net.APIUtils;
+
+import javax.net.ssl.KeyManager;
 
 import butterknife.BindView;
 import butterknife.BindViews;
@@ -29,51 +34,22 @@ import static com.blockchain.store.playmarket.utilities.crypto.CryptoUtils.keyMa
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NavigationViewFragment extends Fragment {
+public class NavigationViewFragment extends Fragment implements NavigationViewContract.View {
+    private static final String TAG = "NavigationViewFragment";
 
-    // Объявление кнопок на панели навигации.
-    // Закрыь панель навигации.
-    @BindView(R.id.close_image_button)
-    ImageButton closeImageButton;
+    @BindView(R.id.account_top_up_button) Button accountTopUpButton;
+    @BindView(R.id.wishlist_layout) LinearLayout wishlistLayout;
+    @BindView(R.id.library_layout) LinearLayout libraryLayout;
+    @BindView(R.id.news_layout) LinearLayout newsLayout;
+    @BindView(R.id.history_layout) LinearLayout historyLayout;
+    @BindView(R.id.settings_layout) LinearLayout settingsLayout;
+    @BindView(R.id.ether_exchange_layout) LinearLayout etherExchangeLayout;
+    @BindView(R.id.my_ico_layout) LinearLayout myIcoLayout;
+    @BindView(R.id.about_layout) LinearLayout aboutLayout;
+    @BindView(R.id.user_id_title) TextView userAddress;
+    @BindView(R.id.ether_count) TextView balanceView;
 
-    // Пополнить счёт.
-    @BindView(R.id.account_top_up_button)
-    Button accountTopUpButton;
-
-
-    // Объявление слоёв на панели навигации.
-    // Список желаний.
-    @BindView(R.id.wishlist_layout)
-    LinearLayout wishlistLayout;
-
-    // Библиотека.
-    @BindView(R.id.library_layout)
-    LinearLayout libraryLayout;
-
-    // Библиотека.
-    @BindView(R.id.news_layout)
-    LinearLayout newsLayout;
-
-    // История покупок.
-    @BindView(R.id.history_layout)
-    LinearLayout historyLayout;
-
-    // Настройки.
-    @BindView(R.id.settings_layout)
-    LinearLayout settingsLayout;
-
-    // Библиотека.
-    @BindView(R.id.ether_exchange_layout)
-    LinearLayout etherExchangeLayout;
-
-    // Мои ICO.
-    @BindView(R.id.my_ico_layout)
-    LinearLayout myIcoLayout;
-
-    // О приложении.
-    @BindView(R.id.about_layout)
-    LinearLayout aboutLayout;
-
+    NavigationViewPresenter presenter;
 
     public NavigationViewFragment() {
         // Required empty public constructor
@@ -85,21 +61,44 @@ public class NavigationViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_navigation_view, container, false);
         ButterKnife.bind(this, view);
-
+        attachPresenter();
+        setViews();
         return view;
+    }
+
+    private void setViews() {
+        userAddress.setText(AccountManager.getAddress().getHex());
+    }
+
+    private void attachPresenter() {
+        presenter = new NavigationViewPresenter();
+        presenter.init(this);
+        presenter.loadUserBalance();
     }
 
 
     // Метод закрытия панели навигации.
-    @OnClick(R.id.close_image_button) void onCloseImageClicked(){
+    @OnClick(R.id.close_image_button)
+    void onCloseImageClicked() {
         DrawerLayout drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         drawerLayout.closeDrawer(GravityCompat.START);
     }
 
     // Метод открытия диалога для пополнения счёта.
-    @OnClick(R.id.account_top_up_button) void showAddFundsDialog(){
+    @OnClick(R.id.account_top_up_button)
+    void showAddFundsDialog() {
         final Dialog d = new Dialog(getContext());
         d.setContentView(R.layout.add_funds_dialog);
         d.show();
+    }
+
+    @Override
+    public void onBalanceReady(String balance) {
+        balanceView.setText(new EthereumPrice(balance).inEther().toString());
+    }
+
+    @Override
+    public void onBalanceFail(Throwable throwable) {
+
     }
 }

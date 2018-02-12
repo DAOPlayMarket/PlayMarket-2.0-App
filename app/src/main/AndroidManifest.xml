@@ -58,7 +58,7 @@
             android:parentActivityName=".ui.AppListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".ui.main_list_screen.MainMenuActivity"
             android:label="@string/title_activity_main_menu"
@@ -85,6 +85,8 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".ui.search_screen.SearchActivity"></activity>
     </application>
 
 </manifest>

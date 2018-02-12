@@ -5,4 +5,16 @@ package com.blockchain.store.playmarket.ui.navigation_view;
  */
 
 public class NavigationViewContract {
+    interface View {
+
+        void onBalanceReady(String balance);
+
+        void onBalanceFail(Throwable throwable);
+    }
+
+    interface Presenter {
+        void init(View view);
+
+        void loadUserBalance();
+    }
 }

@@ -14,7 +14,7 @@
         android:paddingLeft="@dimen/detail_app_arrow_margins"
         android:paddingRight="@dimen/detail_app_arrow_margins"
         android:scaleType="center"
-         />
+        android:src="@drawable/back" />
 
     <TextView
         android:id="@+id/top_layout_app_name"

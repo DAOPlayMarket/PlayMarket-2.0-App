@@ -14,7 +14,7 @@ public class HamburgerDrawable extends DrawerArrowDrawable {
 
     public HamburgerDrawable(Context context){
         super(context);
-        setColor(context.getResources().getColor(android.R.color.black));
+        setColor(context.getResources().getColor(R.color.nav_text_color));
     }
 
     @Override

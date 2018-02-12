@@ -3,7 +3,7 @@
     <ripple android:color="?attr/colorControlHighlight">
         <item>
             <shape android:shape="rectangle"
-                android:tint="@color/yellow">
+                android:tint="@color/nav_yellow">
                 <corners android:radius="15dp"/>
             </shape>
         </item>

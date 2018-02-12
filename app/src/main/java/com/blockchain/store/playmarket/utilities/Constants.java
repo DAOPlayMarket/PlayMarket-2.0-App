@@ -18,6 +18,8 @@ public class Constants {
     public static final String DOWNLOAD_SERVICE_APP_EXTRA = "download_service_app_extra";
     public static final String DOWNLOAD_SERVICE_URL_EXTRA = "download_service_url_extra";
 
+    public static final String SEARCH_ACTIVITY_QUERY_EXTRA = "search_activity_query_extra";
+
     public static final String DOWNLOAD_SERVICE_PROGRESS_EXTRA = "download_service_progress_extra";
     public static final String DOWNLOAD_SERVICE_STATE_EXTRA = "download_service_state_extra";
     public static final String DOWNLOAD_SERVICE_APP_ID_EXTRA = "download_service_id_extra";

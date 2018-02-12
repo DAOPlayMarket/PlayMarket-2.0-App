@@ -5,6 +5,7 @@ import android.util.Log;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.BaseInfuraResponse;
 import com.blockchain.store.playmarket.data.entities.Category;
+import com.blockchain.store.playmarket.data.entities.SearchResponse;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,29 @@ public class MainMenuPresenter implements Presenter {
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribe(this::onBalanceOk, this::onBalanceFail);
 
+    }
+
+    @Override
+    public void searchQuery(String text) {
+        RestApi.getServerApi().getSearchResult(text)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onSearchResultReady, this::onSearchResultFail);
+    }
+
+    private void onSearchResultReady(SearchResponse searchResponse) {
+        if (searchResponse.apps != null) {
+            view.onSearchResultReady(searchResponse.apps);
+            String[] strings = new String[searchResponse.apps.size()];
+            for (int i = 0; i < strings.length; i++) {
+                strings[i] = searchResponse.apps.get(i).nameApp;
+            }
+            view.onSearchSuggestionReady(strings);
+        }
+    }
+
+    private void onSearchResultFail(Throwable throwable) {
+        view.onSearchResultFail(throwable);
     }
 
     private void onBalanceOk(BaseInfuraResponse baseInfuraResponse) {

@@ -97,7 +97,6 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
     private void setRecyclerView(ArrayList<AppDispatcherType> appDispatcherTypes) {
         recyclerView.setNestedScrollingEnabled(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        layoutManager.setItemPrefetchEnabled(false);
         layoutManager.setInitialPrefetchItemCount(0);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);

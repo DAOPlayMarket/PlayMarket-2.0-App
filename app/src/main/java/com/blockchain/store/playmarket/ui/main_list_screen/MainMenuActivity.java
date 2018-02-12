@@ -12,9 +12,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -26,11 +28,13 @@ import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.ui.account_management_activity.AccountManagementActivity;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
+import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 import com.blockchain.store.playmarket.utilities.drawable.HamburgerDrawable;
 import com.blockchain.store.playmarket.utilities.net.APIUtils;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -43,9 +47,9 @@ import rx.subjects.BehaviorSubject;
 
 import static com.blockchain.store.playmarket.ui.main_list_screen.MainMenuContract.Presenter;
 
-public class MainMenuActivity extends AppCompatActivity implements AppListCallbacks, MainMenuContract.View {
+public class MainMenuActivity extends AppCompatActivity implements AppListCallbacks, MainMenuContract.View, MaterialSearchView.OnQueryTextListener {
     private static final String TAG = "MainMenuActivity";
-    private static final int DEBOUNCE_INTERVAL_MILLIS = 500;
+    private static final int DEBOUNCE_INTERVAL_MILLIS = 1000;
 
     @BindView(R.id.tab_layout) TabLayout tabLayout;
     @BindView(R.id.app_bar_layout) AppBarLayout appBarLayout;
@@ -55,8 +59,10 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.error_holder) View errorHolder;
     @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.search_view) MaterialSearchView searchView;
 
     private BehaviorSubject<String> userInputSubject = BehaviorSubject.create();
+    private ArrayList<App> searchListResult = new ArrayList<>();
     private Presenter presenter;
 
     @Override
@@ -78,7 +84,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     }
 
     private void attachFragment() {
-            getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view_holder, new NavigationViewFragment()).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view_holder, new NavigationViewFragment()).commitAllowingStateLoss();
     }
 
     private void initViews() {
@@ -86,46 +92,33 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.setDrawerArrowDrawable(new HamburgerDrawable(this));
-
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.nav_account:
-                    goToAccountsPage();
-            }
-            return false;
+        searchView.setOnItemClickListener((parent, view, position, id) -> {
+            String query = (String) parent.getItemAtPosition(position);
+            onSuggestionClicked(query);
+            searchView.closeSearch();
         });
+        searchView.setOnQueryTextListener(this);
 
     }
+
 
     private void setSearchViewDebounce() {
         userInputSubject.debounce(DEBOUNCE_INTERVAL_MILLIS, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
                 .filter(text -> !text.isEmpty())
                 .subscribe(text -> {
-//                    presenter.getFirstSearchResult(text);
-//                    errorViewHolder.setVisibility(View.GONE);
+                    presenter.searchQuery(text);
                 });
     }
-
-//    SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-//        @Override public boolean onQueryTextSubmit(String query) {
-//            return false;
-//        }
-//
-//        @Override public boolean onQueryTextChange(String newText) {
-//            if (newText.isEmpty() || searchText.equals(newText)) return false;
-//            searchText = newText;
-//            userInputSubject.onNext(newText);
-//            return false;
-//        }
-//    };
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
         } else {
             //todo back twice to quit
         }
@@ -159,6 +152,22 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         ToastUtil.showToast("Category load failed! " + throwable.getMessage());
     }
 
+    @Override
+    public void onSearchResultReady(ArrayList<App> apps) {
+        searchListResult = apps;
+    }
+
+    @Override
+    public void onSearchResultFail(Throwable throwable) {
+        ToastUtil.showToast(throwable.getMessage());
+    }
+
+    @Override
+    public void onSearchSuggestionReady(String[] strings) {
+//        searchView.setSuggestions(strings);
+
+    }
+
     @OnClick(R.id.error_view_repeat_btn)
     void onRepeatBtnClicked() {
         errorHolder.setVisibility(View.GONE);
@@ -168,6 +177,8 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main_menu_drawer, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
         return true;
     }
 
@@ -177,11 +188,6 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         return super.onOptionsItemSelected(item);
     }
 
-    public void goToAccountsPage() {
-        Intent myIntent = new Intent(getApplicationContext(), AccountManagementActivity.class);
-        startActivityForResult(myIntent, 0);
-
-    }
 
     public void showAddFundsDialog() {
         final Dialog d = new Dialog(this);
@@ -225,5 +231,30 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     public void onAppClicked(App app) {
         AppDetailActivity.start(this, app);
 
+    }
+
+    private void onSuggestionClicked(String query) {
+        for (App app : searchListResult) {
+            if (app.nameApp.equals(query)) {
+                AppDetailActivity.start(this, app);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        if (query.trim().length() > 0) {
+            SearchActivity.start(this, query);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (newText.isEmpty() /*|| searchText.equals(newText)*/) return false;
+//        searchText = newText;
+        userInputSubject.onNext(newText);
+        return false;
     }
 }

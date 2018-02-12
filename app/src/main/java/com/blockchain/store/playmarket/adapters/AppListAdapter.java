@@ -50,8 +50,8 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         appListViewHolder.adapter = new NestedAppListAdapter(mainCallback);
         appListViewHolder.adapter.setHasStableIds(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        layoutManager.setItemPrefetchEnabled(false);
-        layoutManager.setInitialPrefetchItemCount(0);
+//        layoutManager.setItemPrefetchEnabled(false);
+//        layoutManager.setInitialPrefetchItemCount(0);
         appListViewHolder.recyclerViewNested.setLayoutManager(layoutManager);
         appListViewHolder.recyclerViewNested.setHasFixedSize(true);
         appListViewHolder.recyclerViewNested.setAdapter(appListViewHolder.adapter);

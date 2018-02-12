@@ -44,15 +44,11 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void setItemsDispatcher(AppDispatcherType dispatcherType) {
-        this.dispatcherType = dispatcherType;
-        if (dispatcherType.previousItemCount == dispatcherType.apps.size() && dispatcherType.previousItemCount != 0) {
+        if (dispatcherType != null && dispatcherType.previousItemCount == dispatcherType.apps.size()) {
             this.isLoading = false;
         }
+        this.dispatcherType = dispatcherType;
         notifyDataSetChanged();
-    }
-
-    public void setLoading(boolean isLoading) {
-        notifyItemChanged(getItemCount());
     }
 
     @Override
@@ -96,7 +92,7 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((NestedAppListViewHolder) holder).bind(dispatcherType.apps.get(position), position);
         }
         if (holder instanceof LoadViewHolder) {
-            ((LoadViewHolder) holder).bind(isLoading);
+            ((LoadViewHolder) holder).bind(isLoading, dispatcherType.apps.size());
         }
     }
 
@@ -125,7 +121,7 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
         public void bind(App app, int position) {
             content.setText(app.nameApp);
             imageView.setImageURI(Uri.parse(app.getIconUrl()));
-            if(app.isFree){
+            if (app.isFree) {
                 price.setText(R.string.app_free);
             } else {
                 String priceInEther = new EthereumPrice(app.price).inEther().toString();
@@ -146,14 +142,21 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
     class LoadViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.progress_bar) ProgressBar progressBar;
         @BindView(R.id.cardView) View cardView;
+        @BindView(R.id.no_item_view) TextView textView;
 
         public LoadViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(boolean isLoading) {
-            cardView.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        public void bind(boolean isLoading, int size) {
+            if (!isLoading && size == 0) {
+                textView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            } else {
+                cardView.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            }
+
         }
     }
 

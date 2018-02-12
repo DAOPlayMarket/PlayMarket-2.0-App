@@ -20,5 +20,8 @@
     <color name="detailed_btn_holder_background">#e9fbf2</color>
     <color name="action_btn_background">#00a5a7</color>
     <color name="invest_btn_background">#00e6a7</color>
+    <color name="nav_image_tint">#e7e7e7</color>
+    <color name="nav_text_color">#5c757b</color>
+    <color name="nav_yellow">#ffc77d</color>
 
 </resources>

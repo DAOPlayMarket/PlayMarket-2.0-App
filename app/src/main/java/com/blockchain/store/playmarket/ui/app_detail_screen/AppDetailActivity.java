@@ -189,7 +189,6 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         runOnUiThread(() -> investBtn.setText(string));
     }
 
-
     @Override
     public void onDetailedInfoFailed(Throwable throwable) {
         mainLayoutHolder.setVisibility(View.GONE);

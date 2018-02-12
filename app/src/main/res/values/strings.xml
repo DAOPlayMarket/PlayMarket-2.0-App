@@ -34,7 +34,7 @@
     <string name="news">News</string>
     <string name="history">History</string>
     <string name="settings">Settings</string>
-    <string name="ether_exchange">Ether exchange</string>
+    <string name="ether_exchange">Exchange</string>
     <string name="my_ico">My ICO</string>
     <string name="about">About</string>
 
@@ -64,4 +64,14 @@
     <string name="cancel_btn">Cancel</string>
     <string name="password">Password</string>
     <string name="wrong_password">Wrong password!</string>
+    <string name="no_items">No items</string>
+    <string name="recycler_empty_view">No item found!</string>
+
+    <string-array name="query_suggestions">
+        <item>Android</item>
+        <item>iOS</item>
+        <item>SCALA</item>
+        <item>Ruby</item>
+        <item>JavaScript</item>
+    </string-array>
 </resources>
