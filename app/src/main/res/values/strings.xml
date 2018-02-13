@@ -66,6 +66,7 @@
     <string name="wrong_password">Wrong password!</string>
     <string name="no_items">No items</string>
     <string name="recycler_empty_view">No item found!</string>
+    <string name="successfully_paid">Successfully paid</string>
 
     <string-array name="query_suggestions">
         <item>Android</item>

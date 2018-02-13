@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.ui.app_detail_screen;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.Pair;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
@@ -9,6 +10,8 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.CheckPurchaseResponse;
+import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
 import com.blockchain.store.playmarket.notification.NotificationManager;
@@ -17,14 +20,11 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
-import org.ethereum.geth.Account;
-import org.ethereum.geth.Address;
 import org.ethereum.geth.BigInt;
-import org.ethereum.geth.Transaction;
 
-import io.ethmobile.ethdroid.KeyManager;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 import static com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailContract.*;
@@ -46,7 +46,10 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     @Override
     public void getDetailedInfo(App app) {
+        String accountAddress = AccountManager.getAddress().getHex();
+
         RestApi.getServerApi().getAppInfo(app.catalogId, app.appId)
+                .zipWith(RestApi.getServerApi().checkPurchase(app.appId, accountAddress), (Func2<AppInfo, CheckPurchaseResponse, Pair>) Pair::new)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> {
@@ -56,6 +59,11 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 .doOnTerminate(() -> view.setProgress(false))
                 .subscribe(this::onDetailedInfoReady, this::onDetailedInfoFailed);
 
+    }
+
+    private void onDetailedInfoReady(Pair<AppInfo, CheckPurchaseResponse> pair) {
+        view.onCheckPurchaseReady(pair.second);
+        view.onDetailedInfoReady(pair.first);
     }
 
     private void onDetailedInfoReady(AppInfo appInfo) {
@@ -98,9 +106,9 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
     @Override
-    public void loadButtonsState(App app) {
+    public void loadButtonsState(App app, boolean isUserPurchasedApp) {
         this.app = app;
-        if (app.isFree) {
+        if (app.isFree || isUserPurchasedApp) {
             boolean applicationInstalled = new MyPackageManager().isApplicationInstalled(app.hash);
             if (applicationInstalled) {
                 changeState(Constants.APP_STATE.STATE_INSTALLED);
@@ -119,7 +127,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     private void changeState(Constants.APP_STATE newState) {
         appState = newState;
-        Log.d(TAG, "setActionButtonText() called with: appState = [" + newState + "]");
         Context context = Application.getInstance().getApplicationContext();
         switch (newState) {
             case STATE_DOWNLOADING:
@@ -186,19 +193,42 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
     @Override
-    public void onInvestClicked(AppInfo appInfo) {
-
-    }
-
-    public void onPurchasedClicked(AppInfo appInfo) {
+    public void onInvestClicked(AppInfo appInfo, String investCount) {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-                .flatMap(this::handleAccountInfoResult)
+                .flatMap(accountInfo -> mapInvestTransaction(accountInfo, investCount))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onAccountInfoReady, this::onAccountInfoError);
+                .subscribe(this::onPurchaseSuccessful, this::onPurchaseError);
+
     }
 
-    private Observable<AppInfo> handleAccountInfoResult(AccountInfoResponse accountInfo) {
+    private Observable<PurchaseAppResponse> mapInvestTransaction(AccountInfoResponse accountInfo, String investCount) {
+        String rawTransaction = "";
+        try {
+            rawTransaction = CryptoUtils.generateInvestTransaction(
+                    accountInfo.count,
+                    new BigInt(Long.parseLong(accountInfo.gasPrice)),
+                    investCount);
+            Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return RestApi.getServerApi().purchaseApp(rawTransaction);
+
+    }
+
+    @Override
+    public void onPurchasedClicked(AppInfo appInfo) {
+        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
+                .flatMap(this::mapAppBuyTransaction)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onPurchaseSuccessful, this::onPurchaseError);
+    }
+
+
+    private Observable<PurchaseAppResponse> mapAppBuyTransaction(AccountInfoResponse accountInfo) {
         String rawTransaction = "";
         try {
             rawTransaction = CryptoUtils.generateAppBuyTransaction(
@@ -214,12 +244,14 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     }
 
-    private void onAccountInfoReady(AppInfo appInfo) {
-        Log.d(TAG, "onAccountInfoReady() called with: appInfo = [" + appInfo + "]");
+    private void onPurchaseSuccessful(PurchaseAppResponse purchaseAppResponse) {
+        view.onPurchaseSuccessful(purchaseAppResponse);
+        Log.d(TAG, "onPurchaseSuccessful() called with: appInfo = [" + purchaseAppResponse + "]");
     }
 
 
-    private void onAccountInfoError(Throwable throwable) {
+    private void onPurchaseError(Throwable throwable) {
+        view.onPurchaseError(throwable);
         Log.d(TAG, "onAccountInfoError() called with: throwable = [" + throwable + "]");
     }
 }

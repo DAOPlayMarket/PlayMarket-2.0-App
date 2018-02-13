@@ -8,6 +8,7 @@ import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.data.entities.CheckPurchaseResponse;
 import com.blockchain.store.playmarket.data.entities.GasPriceResponse;
 import com.blockchain.store.playmarket.data.entities.NonceResponce;
+import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.SearchResponse;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public interface ServerApi {
 
     @FormUrlEncoded
     @POST("buy-app")
-    Observable<AppInfo> purchaseApp(@Field("signedTransactionData") String transactionData);
+    Observable<PurchaseAppResponse> purchaseApp(@Field("signedTransactionData") String transactionData);
 
     @FormUrlEncoded
     @POST("check-buy")

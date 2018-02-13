@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:gravity="center_vertical"
-                android:text="14.9"
+                tools:text="14.9"
                 android:textColor="@color/nav_text_color"
                 android:textSize="30sp" />
 

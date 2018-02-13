@@ -92,8 +92,23 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
         d.show();
     }
 
+    @OnClick(R.id.settings_layout)
+    void onSettingsClicked() {
+        final Dialog d = new Dialog(getContext());
+        d.setContentView(R.layout.add_funds_dialog);
+        d.show();
+    }
+
+    @OnClick(R.id.about_layout)
+    void onAboutClicked() {
+        final Dialog d = new Dialog(getContext());
+        d.setContentView(R.layout.add_funds_dialog);
+        d.show();
+    }
+
     @Override
     public void onBalanceReady(String balance) {
+        AccountManager.setUserBalance(balance);
         balanceView.setText(new EthereumPrice(balance).inEther().toString());
     }
 
@@ -101,4 +116,6 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     public void onBalanceFail(Throwable throwable) {
 
     }
+
+
 }

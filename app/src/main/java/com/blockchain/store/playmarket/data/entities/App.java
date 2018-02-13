@@ -35,11 +35,7 @@ public class App implements Parcelable {
     }
 
     public String getDownloadLink() {
-        if (isFree) {
-            return RestApi.ICON_URL + hashTag + "/" + hash + "/app/app.apk";
-        } else {
-            return "";
-        }
+        return RestApi.ICON_URL + hashTag + "/" + hash + "/app/app.apk";
     }
 
     public String getFileName() {

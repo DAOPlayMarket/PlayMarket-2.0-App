@@ -14,6 +14,7 @@ import io.ethmobile.ethdroid.KeyManager;
 public class AccountManager {
     private static KeyManager keyManager;
     private static AccountManager instance;
+    private static String userBalance;
 
     private AccountManager() {
         keyManager = Application.keyManager;
@@ -48,6 +49,14 @@ public class AccountManager {
         return null;
     }
 
+    public static String getUserBalance() {
+        if (userBalance == null) return "0";
+        return userBalance;
+    }
+
+    public static void setUserBalance(String userBalance) {
+        AccountManager.userBalance = userBalance;
+    }
     /*
     * Generate Signed Transaction
     *  Transaction tx = new Transaction(0,AccountManager.getAddress(),new BigInt(0),new BigInt(21000),new BigInt(1000002359L),null);

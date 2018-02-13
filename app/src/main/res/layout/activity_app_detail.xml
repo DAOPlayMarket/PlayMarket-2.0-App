@@ -130,13 +130,27 @@
                     android:background="@drawable/rounded_invest_btn"
                     android:text="@string/btn_invest" />
 
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/action_btn"
-                    style="@style/ColorButton"
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_action_bg"
-                    tools:text="Download" />
+                    android:layout_weight="1">
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/action_btn"
+                        style="@style/ColorButton"
+                        android:layout_width="match_parent"
+                        android:background="@drawable/rounded_action_bg"
+                        android:visibility="visible"
+                        tools:text="Download"
+                        tools:visibility="visible" />
+
+                    <ProgressBar
+                        android:visibility="gone"
+                        android:id="@+id/price_progress_bar"
+                        style="@style/ColorButton"
+                        android:layout_width="match_parent" />
+                </FrameLayout>
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView

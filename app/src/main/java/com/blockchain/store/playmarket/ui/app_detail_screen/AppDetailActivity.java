@@ -30,9 +30,12 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.ImageListAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.CheckPurchaseResponse;
+import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
+import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.facebook.common.executors.CallerThreadExecutor;
 import com.facebook.common.references.CloseableReference;
@@ -78,12 +81,14 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.invest_btn) Button investBtn;
     @BindView(R.id.delete_view) TextView deleteBtn;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
+    @BindView(R.id.price_progress_bar) ProgressBar priceProgressBar;
 
     private ImageViewer.Builder imageViewerBuilder;
     private AppDetailPresenter presenter;
     private ImageListAdapter imageAdapter;
     private AppInfo appInfo;
     private App app;
+    private boolean isUserPurchasedApp;
 
     public static void start(Context context, App app) {
         Intent starter = new Intent(context, AppDetailActivity.class);
@@ -113,7 +118,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.loadButtonsState(app);
+        presenter.loadButtonsState(app, isUserPurchasedApp);
     }
 
     private void setViews() {
@@ -155,7 +160,6 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         }, CallerThreadExecutor.getInstance());
 
 
-
     }
 
     @Override
@@ -164,6 +168,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         mainLayoutHolder.setVisibility(View.VISIBLE);
         appDescription.setText(Html.fromHtml(appInfo.description));
         setupRecyclerView(appInfo);
+        presenter.loadButtonsState(app, isUserPurchasedApp);
     }
 
     private void setupRecyclerView(AppInfo appInfo) {
@@ -212,9 +217,27 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @Override
     public void showPurchaseDialog() {
-        new DialogManager().showPurchaseDialog(appInfo, "5000000000000000000", this, () -> {
+        new DialogManager().showPurchaseDialog(appInfo, this, () -> {
             presenter.onPurchasedClicked(appInfo);
         });
+    }
+
+    @Override
+    public void onCheckPurchaseReady(CheckPurchaseResponse checkPurchaseResponse) {
+        isUserPurchasedApp = checkPurchaseResponse.isPurchased;
+    }
+
+    @Override
+    public void onPurchaseSuccessful(PurchaseAppResponse purchaseAppResponse) {
+        ToastUtil.showToast(R.string.successfully_paid);
+
+        Log.d(TAG, "onPurchaseSuccessful() called with: purchaseAppResponse = [" + purchaseAppResponse + "]");
+    }
+
+    @Override
+    public void onPurchaseError(Throwable throwable) {
+        ToastUtil.showToast(throwable.getMessage());
+        Log.d(TAG, "onPurchaseError() called with: throwable = [" + throwable + "]");
     }
 
     @Override
@@ -225,7 +248,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @OnClick(R.id.invest_btn)
     void onInvestBtnClicked() {
-        new DialogManager().showInvestDialog(appInfo, this, "", investAmount -> {
+        new DialogManager().showInvestDialog(appInfo, this, investAmount -> {
 //            presenter.onPurchaseClicked();
 
         });

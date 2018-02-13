@@ -42,9 +42,15 @@ public class EthereumPrice {
     }
 
     public BigDecimal inGwei() {
+        if(wei.compareTo(new BigDecimal("0")) == 0){
+            return new BigDecimal("0");
+        }
         return wei.divide(new BigDecimal("1000000000.0"));
     }
     public BigDecimal inEther() {
+        if(wei.compareTo(new BigDecimal("0")) == 0){
+            return new BigDecimal("0");
+        }
         return inGwei().divide(new BigDecimal("1000000000.0"));
     }
 

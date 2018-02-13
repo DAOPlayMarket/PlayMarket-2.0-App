@@ -30,7 +30,9 @@ import io.ethmobile.ethdroid.KeyManager;
 public class DialogManager {
     private static final String TAG = "DialogManager";
 
-    public void showPurchaseDialog(AppInfo appinfo, String accountBalanceinWei, Context context, PurchaseDialogCallback callback) {
+    public void showPurchaseDialog(AppInfo appinfo, Context context, PurchaseDialogCallback callback) {
+        String accountBalanceInWei = AccountManager.getUserBalance();
+
         Dialog dialog = new Dialog(context);
         dialog.setCancelable(true);
         dialog.setContentView(R.layout.purchase_confirm_dialog);
@@ -45,11 +47,11 @@ public class DialogManager {
 
         appIcon.setImageURI(appinfo.app.getIconUrl());
         appTitleText.setText(appinfo.app.nameApp);
-        balanceText.setText(new EthereumPrice(accountBalanceinWei).inEther().toString());
+        balanceText.setText(new EthereumPrice(accountBalanceInWei).inEther().toString());
         priceText.setText(appinfo.getFormattedPrice());
 
         continueButton.setOnClickListener(v -> {
-            if (new BigDecimal(accountBalanceinWei).compareTo(new BigDecimal(appinfo.app.price)) == 1) {
+            if (new BigDecimal(accountBalanceInWei).compareTo(new BigDecimal(appinfo.app.price)) == 1) {
                 try {
                     Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordText.getText().toString());
                     dialog.dismiss();
@@ -57,6 +59,7 @@ public class DialogManager {
                 } catch (Exception e) {
                     passwordText.setError(context.getString(R.string.wrong_password));
                 }
+
 
             } else {
                 balanceText.setError(context.getString(R.string.not_enought_balance));
@@ -68,7 +71,9 @@ public class DialogManager {
         dialog.show();
     }
 
-    public void showInvestDialog(AppInfo appinfo, Context context, String accountBalance, InvestDialogCallback callback) {
+    public void showInvestDialog(AppInfo appinfo, Context context, InvestDialogCallback callback) {
+        String accountBalanceInWei = AccountManager.getUserBalance();
+
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.invest_amount_dialog);
 
@@ -78,7 +83,7 @@ public class DialogManager {
         Button closeButton = dialog.findViewById(R.id.cancelButton);
         closeButton.setOnClickListener(v -> dialog.dismiss());
         continueButton.setOnClickListener(v -> {
-            if (new BigDecimal(accountBalance).compareTo(new EthereumPrice(investmentAmountText.getText().toString()).inWei()) == 1) {
+            if (new BigDecimal(accountBalanceInWei).compareTo(new EthereumPrice(investmentAmountText.getText().toString()).inWei()) == 1) {
                 try {
                     Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordText.getText().toString());
                     dialog.dismiss();

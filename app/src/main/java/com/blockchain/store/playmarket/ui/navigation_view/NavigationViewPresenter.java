@@ -1,5 +1,7 @@
 package com.blockchain.store.playmarket.ui.navigation_view;
 
+import android.util.Log;
+
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.BalanceResponse;
 import com.blockchain.store.playmarket.utilities.AccountManager;
@@ -12,6 +14,8 @@ import rx.schedulers.Schedulers;
  */
 
 public class NavigationViewPresenter implements NavigationViewContract.Presenter {
+    private static final String TAG = "NavigationViewPresenter";
+
     NavigationViewContract.View view;
 
     @Override
@@ -21,11 +25,12 @@ public class NavigationViewPresenter implements NavigationViewContract.Presenter
 
     @Override
     public void loadUserBalance() {
-        String accountAddress = AccountManager.getAddress().toString();
+        String accountAddress = AccountManager.getAddress().getHex();
+        Log.d(TAG, "loadUserBalance: account address " + accountAddress);
         RestApi.getServerApi().getBalance(accountAddress)
-                .observeOn(Schedulers.newThread())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onBalanceReady,this::onBalanceFail);
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onBalanceReady, this::onBalanceFail);
     }
 
     private void onBalanceReady(BalanceResponse balanceResponse) {

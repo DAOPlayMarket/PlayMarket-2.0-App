@@ -3,4 +3,8 @@
     <files-path
         name="apks"
         path="." />
+    <external-path
+        name="Download"
+        path="Download/" />
+
 </paths>
