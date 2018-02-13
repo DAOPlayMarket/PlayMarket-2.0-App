@@ -9,7 +9,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.adapters.UserListAdapter;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
@@ -44,6 +48,7 @@ import butterknife.OnClick;
 public class LoginPromptActivity extends AppCompatActivity implements LoginPromptContract.View {
 
     private LoginPromptPresenter presenter;
+    private UserListAdapter adapter;
 
     private static final int CHOSE_FILE_CODE = 99;
     private static final String TAG = "LoginPromptActivity";
@@ -56,7 +61,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         ButterKnife.bind(this);
         presenter = new LoginPromptPresenter();
         presenter.init(this);
-        if (presenter.checkAccountJson()) showImportDialog();
+        if (presenter.checkUserJsonFile()) showImportUserDialog();
         if (AccountManager.isHasUsers()) {
             goToMainActivity(null);
         }
@@ -148,7 +153,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
             Account account = Application.keyManager.newAccount(password);
             Log.d(TAG, "makeNewAccount: " + account.getURL().toString());
             String address = account.getAddress().getHex();
-            presenter.saveAccountJson(account.getURL());
+            presenter.saveUserJsonFile(account.getURL());
             Log.d(TAG, address);
             return address;
         } catch (Exception e) {
@@ -187,7 +192,24 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
     }
 
     @Override
-    public void showImportDialog() {
+    public void showImportUserDialog() {
+        View view = getLayoutInflater().inflate(R.layout.import_user_dialog, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
+        RecyclerView userListRecyclerView = (RecyclerView) view.findViewById(R.id.user_files_recycler_view);
+
+        ArrayList<File> usertList = presenter.getUserJsonList();
+
+        // use a linear layout manager
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        userListRecyclerView.setLayoutManager(layoutManager);
+
+        adapter = new UserListAdapter(usertList);
+        userListRecyclerView.setAdapter(adapter);
+
+        builder
+                .setView(view)
+                .create()
+                .show();
     }
 }
