@@ -86,7 +86,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ui.search_screen.SearchActivity"></activity>
+        <activity android:name=".ui.search_screen.SearchActivity" />
+        <activity android:name=".ui.settings_screen.SettingsActivity"></activity>
     </application>
 
 </manifest>

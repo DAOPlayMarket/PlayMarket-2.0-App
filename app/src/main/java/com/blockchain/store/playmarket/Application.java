@@ -30,7 +30,7 @@ public class Application extends MultiDexApplication {
         ToastUtil.setContext(this);
         keyManager = KeyManager.newKeyManager(getFilesDir().getAbsolutePath());
         AccountManager.setKeyManager(keyManager);
-        Hawk.init(this);
+        Hawk.init(this).build();
         Fresco.initialize(this);
 //        Glide.get(this).setMemoryCategory(MemoryCategory.LOW);
 

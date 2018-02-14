@@ -31,4 +31,6 @@ public class Constants {
     public static final String NODE_ADDRESS = "65D8706C1Ff1f9323272A818C22C1381de6D7556";
     public static final String PLAY_MARKET_ADDRESS = "0x3f2512Aee154F1D7d5EF3670ec0234AEe2FB60A9";
     public static final String INVEST_ADDRESS = "0x3f2512Aee154F1D7d5EF3670ec0234AEe2FB60A9";
+
+    public static final String SETTINGS_AUTOINSTALL_FLAG = "settings_autoinstall_flag";
 }

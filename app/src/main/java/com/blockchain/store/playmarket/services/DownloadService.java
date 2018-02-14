@@ -10,6 +10,7 @@ import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.koushikdutta.ion.Ion;
+import com.orhanobut.hawk.Hawk;
 
 import java.io.File;
 
@@ -45,7 +46,10 @@ public class DownloadService extends IntentService {
             Log.d(TAG, "onCompleted() called with: e = [" + exception + "], result = [" + result + "]");
             if (exception == null) {
                 NotificationManager.getManager().downloadCompleteWithoutError(app);
-                installApk(result);
+                if (Hawk.contains(Constants.SETTINGS_AUTOINSTALL_FLAG) && (boolean) Hawk.get(Constants.SETTINGS_AUTOINSTALL_FLAG)) {
+                    installApk(result);
+                }
+
             } else {
                 NotificationManager.getManager().downloadCompleteWithError(app);
             }

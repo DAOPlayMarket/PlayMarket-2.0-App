@@ -20,4 +20,5 @@
     <dimen name="navigation_view_buttons">40dp</dimen>
     <dimen name="navigation_view_indents">5dp</dimen>
     <dimen name="nav_drawer_menu_height">40dp</dimen>
+    <dimen name="setting_item_height">80dp</dimen>
 </resources>

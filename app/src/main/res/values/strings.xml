@@ -67,6 +67,8 @@
     <string name="no_items">No items</string>
     <string name="recycler_empty_view">No item found!</string>
     <string name="successfully_paid">Successfully paid</string>
+    <string name="setting_autoinstall">Automatically install applications after downloading.</string>
+    <string name="settings_title">Settings</string>
 
     <string-array name="query_suggestions">
         <item>Android</item>

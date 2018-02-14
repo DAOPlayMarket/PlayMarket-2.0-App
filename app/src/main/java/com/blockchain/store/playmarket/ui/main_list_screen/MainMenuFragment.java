@@ -2,6 +2,8 @@ package com.blockchain.store.playmarket.ui.main_list_screen;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +29,7 @@ import butterknife.ButterKnife;
 public class MainMenuFragment extends Fragment implements MainFragmentContract.View, EndlessRecyclerOnScrollListener.EndlessCallback {
     private static final String TAG = "MainMenuFragment";
     private static final String CATEGORY_EXTRA_ARGS = "category_extra_args";
+    private static final String LIST_STATE_KEY = "list_state_key";
 
     @BindView(R.id.recycler_view_main) RecyclerView recyclerView;
     @BindView(R.id.progress_bar_main) ProgressBar progressBar;
@@ -65,6 +68,12 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
         setRetainInstance(true);
         attachPresenter();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     private void attachPresenter() {
@@ -124,5 +133,22 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         Log.d(TAG, "setUserVisibleHint() called with: isVisibleToUser = [" + isVisibleToUser + "]");
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState: ");
+        Parcelable parcelable = recyclerView.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(LIST_STATE_KEY, parcelable);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        Log.d(TAG, "onViewStateRestored: ");
+        if (savedInstanceState != null) {
+            recyclerView.getLayoutManager().onRestoreInstanceState(savedInstanceState.getParcelable(LIST_STATE_KEY));
+        }
     }
 }

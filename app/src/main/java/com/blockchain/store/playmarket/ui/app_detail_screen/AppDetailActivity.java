@@ -1,11 +1,8 @@
 package com.blockchain.store.playmarket.ui.app_detail_screen;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,13 +16,11 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.ImageListAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -33,18 +28,12 @@ import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.CheckPurchaseResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
-import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
-import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.facebook.common.executors.CallerThreadExecutor;
 import com.facebook.common.references.CloseableReference;
-import com.facebook.datasource.BaseDataSubscriber;
 import com.facebook.datasource.DataSource;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.controller.BaseControllerListener;
-import com.facebook.drawee.controller.ControllerListener;
-import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.Priority;
 import com.facebook.imagepipeline.core.ImagePipeline;
@@ -54,15 +43,9 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
-import org.ethereum.geth.Account;
-import org.ethereum.geth.Address;
-import org.ethereum.geth.BigInt;
-import org.ethereum.geth.Transaction;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.ethmobile.ethdroid.KeyManager;
 
 public class AppDetailActivity extends AppCompatActivity implements AppDetailContract.View, ImageListAdapterCallback {
     private static final String TAG = "AppDetailActivity";
@@ -230,14 +213,11 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @Override
     public void onPurchaseSuccessful(PurchaseAppResponse purchaseAppResponse) {
         ToastUtil.showToast(R.string.successfully_paid);
-
-        Log.d(TAG, "onPurchaseSuccessful() called with: purchaseAppResponse = [" + purchaseAppResponse + "]");
     }
 
     @Override
     public void onPurchaseError(Throwable throwable) {
         ToastUtil.showToast(throwable.getMessage());
-        Log.d(TAG, "onPurchaseError() called with: throwable = [" + throwable + "]");
     }
 
     @Override
@@ -248,44 +228,9 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @OnClick(R.id.invest_btn)
     void onInvestBtnClicked() {
-        new DialogManager().showInvestDialog(appInfo, this, investAmount -> {
-//            presenter.onPurchaseClicked();
-
-        });
-        showInvestDialog();
-//        presenter.onInvestClicked(appInfo);
+        new DialogManager().showInvestDialog(appInfo, this, investAmount -> presenter.onInvestClicked(appInfo, investAmount));
     }
 
-    private void showInvestDialog() { // todo need a refactor. Probably create class with all dialogs
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.invest_amount_dialog);
-
-        EditText passwordText = dialog.findViewById(R.id.passwordText);
-        EditText investmentAmountText = dialog.findViewById(R.id.investmentAmountText);
-        Button continueButton = dialog.findViewById(R.id.continueButton);
-        Button closeButton = dialog.findViewById(R.id.continueButton);
-        closeButton.setOnClickListener(v -> dialog.dismiss());
-        continueButton.setOnClickListener(v -> {
-            try {
-                KeyManager keyManager = Application.keyManager;
-                Account account = keyManager.getAccounts().get(0);
-                keyManager.unlockAccountDuring(account, passwordText.getText().toString(), 60);
-                Transaction tx = new Transaction(3, new Address(Constants.PLAY_MARKET_ADDRESS), new BigInt(500000000000000000L), new BigInt(250000), new BigInt(60000002359L)/*gas price*/, CryptoUtils.getDataForBuyApp(app.appId, "65D8706C1Ff1f9323272A818C22C1381de6D7556"));
-                Transaction signedTransaction = keyManager.getKeystore().signTxPassphrase(account, "", tx, new BigInt(4));
-
-                String rawTransaction = CryptoUtils.getRawTransaction(signedTransaction);
-
-                Log.d(TAG, "showPurchaseDialog: encodeRLP: " + rawTransaction);
-                Log.d(TAG, "showPurchaseDialog: encodeJSON: " + signedTransaction.encodeJSON());
-                Log.d(TAG, "showPurchaseDialog: String: " + signedTransaction.string());
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
-            }
-        });
-        dialog.show();
-    }
 
     @OnClick(R.id.action_btn)
     public void onActionBtnClicked() {

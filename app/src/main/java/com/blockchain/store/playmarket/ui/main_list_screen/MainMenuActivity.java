@@ -257,4 +257,6 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         userInputSubject.onNext(newText);
         return false;
     }
+
+
 }

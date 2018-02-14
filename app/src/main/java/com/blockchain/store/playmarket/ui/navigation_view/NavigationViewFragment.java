@@ -2,6 +2,8 @@ package com.blockchain.store.playmarket.ui.navigation_view;
 
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
+import com.blockchain.store.playmarket.ui.settings_screen.SettingsActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
@@ -89,21 +92,29 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     void showAddFundsDialog() {
         final Dialog d = new Dialog(getContext());
         d.setContentView(R.layout.add_funds_dialog);
+        TextView textView = d.findViewById(R.id.balanceText);
+
+        textView.setText(new EthereumPrice(AccountManager.getUserBalance()).inEther().toString());
         d.show();
     }
 
     @OnClick(R.id.settings_layout)
     void onSettingsClicked() {
-        final Dialog d = new Dialog(getContext());
-        d.setContentView(R.layout.add_funds_dialog);
-        d.show();
+        closeDrawers();
+        startActivity(new Intent(getActivity(), SettingsActivity.class));
+    }
+
+    public void closeDrawers() {
+        DrawerLayout drawerLayout = getActivity().findViewById(R.id.drawer_layout);
+        drawerLayout.closeDrawers();
     }
 
     @OnClick(R.id.about_layout)
     void onAboutClicked() {
-        final Dialog d = new Dialog(getContext());
-        d.setContentView(R.layout.add_funds_dialog);
-        d.show();
+        closeDrawers();
+        Intent webIntent = new Intent(Intent.ACTION_VIEW);
+        webIntent.setData(Uri.parse("https://ico.playmarket.io"));
+        startActivity(webIntent);
     }
 
     @Override

@@ -87,7 +87,7 @@ public class DialogManager {
                 try {
                     Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordText.getText().toString());
                     dialog.dismiss();
-                    callback.onInvestClicked(new EthereumPrice(investmentAmountText.getText().toString()).inWei());
+                    callback.onInvestClicked(investmentAmountText.getText().toString());
                 } catch (Exception e) {
                     passwordText.setError(context.getString(R.string.wrong_password));
                 }
@@ -106,7 +106,7 @@ public class DialogManager {
     }
 
     public interface InvestDialogCallback {
-        public void onInvestClicked(BigDecimal investAmount);
+        public void onInvestClicked(String investAmount);
     }
 
 }
