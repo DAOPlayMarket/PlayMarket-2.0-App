@@ -126,5 +126,14 @@ public class CryptoUtils {
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
         return getRawTransaction(signedTransaction);
     }
+    // temp
+    public static String generateInvestTransactionWithAddress(int nonce, BigInt gasPrice, String investPrice, String address) throws Exception {
+        KeyManager keyManager = Application.keyManager;
+        Account account = keyManager.getAccounts().get(0);
+        Transaction transaction = new Transaction(nonce, new Address(Constants.INVEST_ADDRESS),
+                new BigInt(Long.parseLong(investPrice)), new BigInt(GAS_LIMIT), gasPrice, null);
+        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
+        return getRawTransaction(signedTransaction);
+    }
 }
 

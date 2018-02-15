@@ -5,11 +5,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -25,6 +27,7 @@ import java.util.List;
  */
 
 public class MyPackageManager {
+    private static final String TAG = "MyPackageManager";
 
     public void startDownloadApkService(App app) {
         Context applicationContext = Application.getInstance().getApplicationContext();
@@ -36,6 +39,13 @@ public class MyPackageManager {
 
     public boolean isApplicationInstalled(String applicationPackage) {
         PackageManager packageManager = Application.getInstance().getPackageManager();
+        List<ApplicationInfo> packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+
+        for (ApplicationInfo packageInfo : packages) {
+            Log.d(TAG, "Installed package :" + packageInfo.packageName);
+            Log.d(TAG, "Source dir : " + packageInfo.sourceDir);
+            Log.d(TAG, "Launch Activity :" + packageManager.getLaunchIntentForPackage(packageInfo.packageName));
+        }
         try {
             packageManager.getPackageInfo(applicationPackage, 0);
             return true;

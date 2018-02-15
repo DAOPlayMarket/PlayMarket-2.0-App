@@ -7,6 +7,7 @@ import com.blockchain.store.playmarket.data.entities.BalanceResponse;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.data.entities.CheckPurchaseResponse;
 import com.blockchain.store.playmarket.data.entities.GasPriceResponse;
+import com.blockchain.store.playmarket.data.entities.InvestAddressResponse;
 import com.blockchain.store.playmarket.data.entities.NonceResponce;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.SearchResponse;
@@ -46,12 +47,16 @@ public interface ServerApi {
     Observable<PurchaseAppResponse> purchaseApp(@Field("signedTransactionData") String transactionData);
 
     @FormUrlEncoded
+    @POST("invest")
+    Observable<PurchaseAppResponse> investApp(@Field("signedTransactionData") String transactionData);
+
+    @FormUrlEncoded
     @POST("check-buy")
     Observable<CheckPurchaseResponse> checkPurchase(@Field("idApp") String appId, @Field("address") String address);
 
     @FormUrlEncoded
-    @GET("get-gas-price")
-    Observable<GasPriceResponse> getGasPrice();
+    @GET("get-invest-address")
+    Observable<InvestAddressResponse> getInvestAddress();
 
     @FormUrlEncoded
     @POST("get-address-balance")

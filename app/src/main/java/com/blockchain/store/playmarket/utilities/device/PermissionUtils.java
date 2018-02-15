@@ -21,6 +21,9 @@ public class PermissionUtils {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+    private static String[] PERMISSIONS_LOCATION = {
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
 
     public static boolean storagePermissionGranted(Activity activity) {
         boolean isPermissionGranted = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
@@ -46,6 +49,26 @@ public class PermissionUtils {
         Uri uri = Uri.fromParts("package", context.getPackageName(), null);
         intent.setData(uri);
         activity.startActivityForResult(intent, 0);
+    }
+
+
+    public static boolean isLocationPermissionGranted(Activity activity) {
+        boolean isPermissionGranted = ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        return isPermissionGranted;
+    }
+
+    public static void verifyLocationPermissions(Activity activity,int requestCode) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_LOCATION,
+                    requestCode
+            );
+        }
     }
 
 }

@@ -1,7 +1,11 @@
 package com.blockchain.store.playmarket.ui.intro_logo_activity;
 
+import android.content.Context;
+import android.location.Location;
 import android.util.Log;
 
+import com.blockchain.store.playmarket.Application;
+import com.blockchain.store.playmarket.data.content.LocationManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.net.APIUtils;
 import com.blockchain.store.playmarket.utilities.net.NodeUtils;
@@ -13,7 +17,8 @@ import java.util.ArrayList;
  * Created by Crypton04 on 24.01.2018.
  */
 
-public class SplashPresenter implements SplashContracts.Presenter {
+public class SplashPresenter implements SplashContracts.Presenter, LocationManager.LocationManagerCallback {
+    private static final String TAG = "SplashPresenter";
     private SplashContracts.View view;
 
     @Override
@@ -23,23 +28,27 @@ public class SplashPresenter implements SplashContracts.Presenter {
     }
 
     @Override
-    public void getNearestNodes() { // todo deprecated 1.2.18. Delete later
+    public void findUserLocationAndGetNearestNodes(Context context) { // todo deprecated 1.2.18. Delete later
+        new LocationManager().getLocation(context, this);
+    }
+
+    private void connectToNearestNode(Location location) {
         Thread thread = new Thread(() -> {
             try {
-                ArrayList coords = NodeUtils.getCoordinates();
-                Log.d("Location", coords.get(0).toString() + "," + coords.get(1).toString());
-
+                Log.d("Location", location.getLatitude() + "," + location.getLongitude());
                 String[] nodes = NodeUtils.getNodesList(NodeUtils.NODES_DNS_SERVER);
                 for (String node : nodes) {
                     Log.d("Node", node);
                 }
 
-                String nearestNodeIP = NodeUtils.getNearestNode(nodes, (double) coords.get(0), (double) coords.get(1));
+                String nearestNodeIP = NodeUtils.getNearestNode(nodes, location.getLatitude(), location.getLatitude());
                 Log.d("Node", nearestNodeIP);
 
                 initApiUtils(nearestNodeIP);
 
                 setContractAddress();
+                String gasPrice = APIUtils.api.getGasPrice();
+                Log.d(TAG, "findUserLocationAndGetNearestNodes: " + gasPrice);
             } catch (IOException e) {
                 e.printStackTrace();
 
@@ -53,7 +62,6 @@ public class SplashPresenter implements SplashContracts.Presenter {
         });
 
         thread.start();
-
     }
 
     protected void initApiUtils(String node) {
@@ -62,5 +70,11 @@ public class SplashPresenter implements SplashContracts.Presenter {
 
     protected void setContractAddress() throws IOException {
         CryptoUtils.CONTRACT_ADDRESS = APIUtils.api.getContractAddress();
+    }
+
+    @Override
+    public void onLocationReady(Location location) {
+        connectToNearestNode(location);
+        Log.d(TAG, "onLocationReady() called with: location = [" + location + "]");
     }
 }

@@ -11,6 +11,7 @@ import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.CheckPurchaseResponse;
+import com.blockchain.store.playmarket.data.entities.InvestAddressResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
@@ -195,26 +196,31 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     @Override
     public void onInvestClicked(AppInfo appInfo, String investCount) {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-                .flatMap(accountInfo -> mapInvestTransaction(accountInfo, investCount))
+                .zipWith(RestApi.getServerApi().getInvestAddress(), Pair::new)
+                .flatMap(accountInfo -> {
+                    Log.d(TAG, "onInvestClicked() called with: appInfo = [" + appInfo + "], investCount = [" + investCount + "]");
+                    return mapInvestTransaction(accountInfo, investCount);
+                })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onPurchaseSuccessful, this::onPurchaseError);
 
     }
 
-    private Observable<PurchaseAppResponse> mapInvestTransaction(AccountInfoResponse accountInfo, String investCount) {
+    private Observable<PurchaseAppResponse> mapInvestTransaction(Pair<AccountInfoResponse, InvestAddressResponse> accountInfo, String investCount) {
+        Log.d(TAG, "mapInvestTransaction() called with: accountInfo = [" + accountInfo + "], investCount = [" + investCount + "]");
         String rawTransaction = "";
         try {
-            rawTransaction = CryptoUtils.generateInvestTransaction(
-                    accountInfo.count,
-                    new BigInt(Long.parseLong(accountInfo.gasPrice)),
-                    investCount);
+            rawTransaction = CryptoUtils.generateInvestTransactionWithAddress(
+                    accountInfo.first.count,
+                    new BigInt(Long.parseLong(accountInfo.first.gasPrice)),
+                    investCount, accountInfo.second.address);
             Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
         } catch (Exception e) {
             e.printStackTrace();
 
         }
-        return RestApi.getServerApi().purchaseApp(rawTransaction);
+        return RestApi.getServerApi().investApp(rawTransaction);
 
     }
 

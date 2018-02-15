@@ -1,11 +1,8 @@
 package com.blockchain.store.playmarket.api;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
@@ -13,7 +10,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 
 /**
  * Created by Crypton04 on 26.01.2018.
@@ -37,8 +33,10 @@ public class ResultAdapterFactory implements TypeAdapterFactory {
                 JsonElement jsonElement = elementAdapter.read(in);
                 if (jsonElement.isJsonObject()) {
                     JsonObject jsonObject = jsonElement.getAsJsonObject();
-                    if (jsonObject.has("result")) {
+                    if (jsonObject.has("result") && jsonObject.get("status").getAsInt() == 200) {
                         jsonElement = jsonObject.get("result");
+                    } else if (jsonObject.has("status") && jsonObject.get("status").getAsInt() != 200) {
+                        throw new IOException(jsonObject.get("message").getAsString());
                     }
                 }
 
