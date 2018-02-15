@@ -42,6 +42,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -60,8 +61,8 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         setContentView(R.layout.activity_login_prompt);
         ButterKnife.bind(this);
         presenter = new LoginPromptPresenter();
-        presenter.init(this);
-        if (presenter.checkUserJsonFile()) showImportUserDialog();
+        presenter.init(this, getApplicationContext());
+        if (presenter.checkJsonKeystoreFile()) showImportUserDialog();
         if (AccountManager.isHasUsers()) {
             goToMainActivity(null);
         }
@@ -153,7 +154,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
             Account account = Application.keyManager.newAccount(password);
             Log.d(TAG, "makeNewAccount: " + account.getURL().toString());
             String address = account.getAddress().getHex();
-            presenter.saveUserJsonFile(account.getURL());
+            presenter.saveJsonKeystoreFile(account.getURL());
             Log.d(TAG, address);
             return address;
         } catch (Exception e) {
@@ -191,21 +192,43 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         Log.d(TAG, "onActivityResult: ");
     }
 
+
+
+    // Реализация метода открытия диалога для импорта и логики его работы.
     @Override
     public void showImportUserDialog() {
         View view = getLayoutInflater().inflate(R.layout.import_user_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        RecyclerView userListRecyclerView = (RecyclerView) view.findViewById(R.id.user_files_recycler_view);
+        RecyclerView userListRecyclerView = (RecyclerView) view.findViewById(R.id.json_keysore_files_recycler_view);
+        Button okButton = (Button) view.findViewById(R.id.ok_button);
+        Button cancelButton = (Button) view.findViewById(R.id.cancel_button);
 
-        ArrayList<File> usertList = presenter.getUserJsonList();
+        // Получаем список файлов "JsonKeystoreFileList" из каталога "/PlayMarket2.0/Accounts/".
+        ArrayList<File> usertList = presenter.getJsonKeystoreFileList();
 
-        // use a linear layout manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         userListRecyclerView.setLayoutManager(layoutManager);
 
+        // Объявляем и устанавливаем адаптер для "userListRecyclerView".
+
         adapter = new UserListAdapter(usertList);
         userListRecyclerView.setAdapter(adapter);
+
+
+        okButton.setOnClickListener(v -> {
+            if (adapter.getSelectedItem() == -1){
+                Toast.makeText(this, "You need chose one of accounts", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                File selectedUserJsonfile = usertList.get(adapter.getSelectedItem());
+                presenter.importJsonKeystoreFile(selectedUserJsonfile);
+            }
+        });
+
+        cancelButton.setOnClickListener(v -> {
+
+        });
 
         builder
                 .setView(view)

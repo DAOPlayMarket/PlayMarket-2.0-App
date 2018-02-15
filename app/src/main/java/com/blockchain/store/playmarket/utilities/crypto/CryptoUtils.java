@@ -5,7 +5,14 @@ import android.util.Log;
 import org.ethereum.geth.Address;
 import org.ethereum.geth.BigInt;
 import org.ethereum.geth.Transaction;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -115,6 +122,21 @@ public class CryptoUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // Метод чтения из "JsonKeystoreFile".
+    public static String readJsonKeystoreFile(File file){
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            String data = bufferedReader.readLine();
+
+            JSONObject jsonObject = new JSONObject(data);
+            return jsonObject.getString("address");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
 
