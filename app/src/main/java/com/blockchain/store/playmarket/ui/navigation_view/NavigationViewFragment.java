@@ -19,6 +19,9 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
+import com.blockchain.store.playmarket.ui.about_screen.AboutAppActivity;
+import com.blockchain.store.playmarket.ui.library_screen.LibraryActivity;
+import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
 import com.blockchain.store.playmarket.ui.settings_screen.SettingsActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
@@ -83,8 +86,14 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     // Метод закрытия панели навигации.
     @OnClick(R.id.close_image_button)
     void onCloseImageClicked() {
-        DrawerLayout drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-        drawerLayout.closeDrawer(GravityCompat.START);
+        closeDrawers();
+
+    }
+
+    @OnClick(R.id.library_layout)
+    void onLibraryItemClicked() {
+        closeDrawers();
+        startActivity(new Intent(getActivity(), LibraryActivity.class));
     }
 
     // Метод открытия диалога для пополнения счёта.
@@ -112,9 +121,13 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     @OnClick(R.id.about_layout)
     void onAboutClicked() {
         closeDrawers();
-        Intent webIntent = new Intent(Intent.ACTION_VIEW);
-        webIntent.setData(Uri.parse("https://ico.playmarket.io"));
-        startActivity(webIntent);
+        startActivity(new Intent(getActivity(), AboutAppActivity.class));
+    }
+
+    @OnClick(R.id.account_layout)
+    void onAccountClicked() {
+        closeDrawers();
+        startActivity(new Intent(getActivity(), NewUserWelcomeActivity.class));
     }
 
     @Override

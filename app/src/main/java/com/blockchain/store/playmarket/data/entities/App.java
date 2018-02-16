@@ -53,8 +53,8 @@ public class App implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.nameApp);
         dest.writeString(this.hashTag);
+        dest.writeString(this.nameApp);
         dest.writeString(this.hash);
         dest.writeString(this.catalogId);
         dest.writeString(this.appId);
@@ -68,8 +68,8 @@ public class App implements Parcelable {
     }
 
     protected App(Parcel in) {
-        this.nameApp = in.readString();
         this.hashTag = in.readString();
+        this.nameApp = in.readString();
         this.hash = in.readString();
         this.catalogId = in.readString();
         this.appId = in.readString();

@@ -117,6 +117,23 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/account_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/nav_drawer_menu_height"
+                android:layout_marginBottom="@dimen/navigation_view_indents"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    style="@style/navViewImageItem"
+                    app:srcCompat="@drawable/ic_person_black_24dp" />
+
+                <TextView
+                    style="@style/navViewTextItem"
+                    android:text="@string/account" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/settings_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/nav_drawer_menu_height"

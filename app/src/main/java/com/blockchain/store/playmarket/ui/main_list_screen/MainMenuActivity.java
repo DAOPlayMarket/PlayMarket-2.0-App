@@ -50,6 +50,7 @@ import static com.blockchain.store.playmarket.ui.main_list_screen.MainMenuContra
 public class MainMenuActivity extends AppCompatActivity implements AppListCallbacks, MainMenuContract.View, MaterialSearchView.OnQueryTextListener {
     private static final String TAG = "MainMenuActivity";
     private static final int DEBOUNCE_INTERVAL_MILLIS = 1000;
+    private static final int DOUBLE_TAP_INTERVAL_MILLIS = 2000;
 
     @BindView(R.id.tab_layout) TabLayout tabLayout;
     @BindView(R.id.app_bar_layout) AppBarLayout appBarLayout;
@@ -64,6 +65,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     private BehaviorSubject<String> userInputSubject = BehaviorSubject.create();
     private ArrayList<App> searchListResult = new ArrayList<>();
     private Presenter presenter;
+    private long backPressedLastTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +122,12 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         } else if (searchView.isSearchOpen()) {
             searchView.closeSearch();
         } else {
-            //todo back twice to quit
+            if (backPressedLastTime + DOUBLE_TAP_INTERVAL_MILLIS > System.currentTimeMillis()) {
+                this.finish();
+            } else {
+                backPressedLastTime = System.currentTimeMillis();
+                ToastUtil.showToast(R.string.double_tap_msg);
+            }
         }
     }
 

@@ -23,15 +23,14 @@ public class Constants {
 
     public static final String SEARCH_ACTIVITY_QUERY_EXTRA = "search_activity_query_extra";
 
-    public static final String DOWNLOAD_SERVICE_PROGRESS_EXTRA = "download_service_progress_extra";
-    public static final String DOWNLOAD_SERVICE_STATE_EXTRA = "download_service_state_extra";
-    public static final String DOWNLOAD_SERVICE_APP_ID_EXTRA = "download_service_id_extra";
-    public static final String DOWNLOAD_SERVICE_ACTION_KEY = "download_service_action_key";
-
-    public static final String NODE_ADDRESS = "65D8706C1Ff1f9323272A818C22C1381de6D7556";
-
+    /* Transaction prefs */
     public static final String PLAY_MARKET_ADDRESS = "0x3f2512Aee154F1D7d5EF3670ec0234AEe2FB60A9";
     public static final String INVEST_ADDRESS = "0xB268d40843224B539068606Fb9F0dbAFb430D765";
+    public static final String NODE_ADDRESS = "65D8706C1Ff1f9323272A818C22C1381de6D7556";
 
+    /*Settings prefs*/
     public static final String SETTINGS_AUTOINSTALL_FLAG = "settings_autoinstall_flag";
+
+    /* Library prefs*/
+    public static final String DOWNLOADED_APPS_LIST = "downloaded_apps_list";
 }

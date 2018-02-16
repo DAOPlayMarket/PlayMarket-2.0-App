@@ -69,6 +69,10 @@
     <string name="successfully_paid">Successfully paid</string>
     <string name="setting_autoinstall">Automatically install applications after downloading.</string>
     <string name="settings_title">Settings</string>
+    <string name="library_screen_title">Library</string>
+    <string name="double_tap_msg">Press back again to quit.</string>
+    <string name="continue_without_location">Continue without location</string>
+    <string name="account">Account</string>
 
     <string-array name="query_suggestions">
         <item>Android</item>

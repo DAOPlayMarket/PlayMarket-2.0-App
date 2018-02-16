@@ -20,16 +20,17 @@ import java.util.ArrayList;
 public class SplashPresenter implements SplashContracts.Presenter, LocationManager.LocationManagerCallback {
     private static final String TAG = "SplashPresenter";
     private SplashContracts.View view;
+    private LocationManager locationManager;
 
     @Override
     public void init(SplashContracts.View view) {
         this.view = view;
-
+        locationManager = new LocationManager();
     }
 
     @Override
-    public void findUserLocationAndGetNearestNodes(Context context) { // todo deprecated 1.2.18. Delete later
-        new LocationManager().getLocation(context, this);
+    public void requestUserLocation(Context context) { // todo deprecated 1.2.18. Delete later
+        locationManager.getLocation(context, this);
     }
 
     private void connectToNearestNode(Location location) {
@@ -48,7 +49,7 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
 
                 setContractAddress();
                 String gasPrice = APIUtils.api.getGasPrice();
-                Log.d(TAG, "findUserLocationAndGetNearestNodes: " + gasPrice);
+                Log.d(TAG, "requestUserLocation: " + gasPrice);
             } catch (IOException e) {
                 e.printStackTrace();
 
@@ -74,7 +75,8 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
 
     @Override
     public void onLocationReady(Location location) {
-        connectToNearestNode(location);
-        Log.d(TAG, "onLocationReady() called with: location = [" + location + "]");
+        locationManager.stopLocationServices();
+        view.onLocationReady(location);
+//        connectToNearestNode(location);
     }
 }

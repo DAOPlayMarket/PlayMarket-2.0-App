@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.blockchain.store.playmarket.ui.search_screen.SearchActivity">
+
+    <include
+        android:id="@+id/top_layout_holder"
+        layout="@layout/detail_app_toolbar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top_layout_holder"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_centerInParent="true"
+        android:textSize="22sp"
+        android:visibility="gone"
+        android:text="@string/recycler_empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>

@@ -20,8 +20,11 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
+import com.orhanobut.hawk.Hawk;
 
 import org.ethereum.geth.BigInt;
+
+import java.util.ArrayList;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -81,6 +84,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
         switch (appState) {
             case STATE_DOWNLOAD_ERROR:
             case STATE_NOT_DOWNLOAD:
+                addItemToLibrary(app);
                 NotificationManager.getManager().registerCallback(app, this);
                 new MyPackageManager().startDownloadApkService(app);
                 changeState(Constants.APP_STATE.STATE_DOWNLOADING);
@@ -98,12 +102,22 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
             case STATE_DOWNLOAD_STARTED:
             case STATE_DOWNLOADING:
             case STATE_UNKOWN:
-                // todo do nothing
+                // do nothing
                 break;
             case STATE_NOT_PURCHASED:
                 view.showPurchaseDialog();
 
         }
+    }
+
+    private void addItemToLibrary(App app) {
+        ArrayList<App> appList = new ArrayList<>();
+        if (Hawk.contains(Constants.DOWNLOADED_APPS_LIST)) {
+            appList = Hawk.get(Constants.DOWNLOADED_APPS_LIST);
+            if (appList.contains(app)) return;
+        }
+        appList.add(app);
+        Hawk.put(Constants.DOWNLOADED_APPS_LIST, appList);
     }
 
     @Override

@@ -39,13 +39,6 @@ public class MyPackageManager {
 
     public boolean isApplicationInstalled(String applicationPackage) {
         PackageManager packageManager = Application.getInstance().getPackageManager();
-        List<ApplicationInfo> packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
-
-        for (ApplicationInfo packageInfo : packages) {
-            Log.d(TAG, "Installed package :" + packageInfo.packageName);
-            Log.d(TAG, "Source dir : " + packageInfo.sourceDir);
-            Log.d(TAG, "Launch Activity :" + packageManager.getLaunchIntentForPackage(packageInfo.packageName));
-        }
         try {
             packageManager.getPackageInfo(applicationPackage, 0);
             return true;

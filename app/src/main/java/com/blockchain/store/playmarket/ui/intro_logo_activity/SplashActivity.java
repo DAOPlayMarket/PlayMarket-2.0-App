@@ -3,11 +3,15 @@ package com.blockchain.store.playmarket.ui.intro_logo_activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -18,14 +22,19 @@ import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
     private static final String TAG = "SplashActivity";
     private static final int SplashDisplayLength = 500; //todo set to 5s when
+    private static final int LOCATION_FOUND_TIMEOUT_MILLIS = 10000; //
     private static final int PERMISSION_REQUEST_CODE = 101;
+
+    public static final int LOCATION_DIALOG_REQUEST = 102;
 
     @BindView(R.id.LogoTextView) TextView logoTextView;
     @BindView(R.id.LogoVideoView) VideoView logoVideoView;
+    @BindView(R.id.continue_without_location) Button continueWithoutLocation;
 
     private SplashPresenter presenter;
 
@@ -38,13 +47,20 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         presenter.init(this);
         setLogoTextFont();
         setupAndPlayVideo();
-//        loadLoginPromptActivity();
         checkLocationPermission();
+        startLocationTimeout();
+    }
+
+    private void startLocationTimeout() {
+        final Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            continueWithoutLocation.setVisibility(View.VISIBLE);
+        }, LOCATION_FOUND_TIMEOUT_MILLIS);
     }
 
     private void checkLocationPermission() {
         if (PermissionUtils.isLocationPermissionGranted(this)) {
-            presenter.findUserLocationAndGetNearestNodes(this);
+            presenter.requestUserLocation(this);
         } else {
             PermissionUtils.verifyLocationPermissions(this, PERMISSION_REQUEST_CODE);
         }
@@ -55,9 +71,23 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults.length > 0
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            presenter.findUserLocationAndGetNearestNodes(this);
+            presenter.requestUserLocation(this);
         } else {
+            //todo SHOW DIALOG WTF?
             this.finish();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult() called with: requestCode = [" + requestCode + "], resultCode = [" + resultCode + "], data = [" + data + "]");
+        if (requestCode == LOCATION_DIALOG_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                presenter.requestUserLocation(this);
+            } else if (resultCode == RESULT_CANCELED) {
+                presenter.requestUserLocation(this);
+            }
         }
     }
 
@@ -91,5 +121,15 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     }
 
 
+    @Override
+    public void onLocationReady(Location location) {
+        loadLoginPromptActivity();
+        Log.d(TAG, "onLocationReady() called with: location = [" + location + "]");
+    }
+
+    @OnClick(R.id.continue_without_location)
+    void onLocationTimeoutClicked() {
+        loadLoginPromptActivity();
+    }
 }
 

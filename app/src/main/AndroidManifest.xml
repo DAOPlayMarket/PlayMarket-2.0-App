@@ -89,7 +89,9 @@
         </receiver>
 
         <activity android:name=".ui.search_screen.SearchActivity" />
-        <activity android:name=".ui.settings_screen.SettingsActivity"></activity>
+        <activity android:name=".ui.settings_screen.SettingsActivity" />
+        <activity android:name=".ui.library_screen.LibraryActivity" />
+        <activity android:name=".ui.about_screen.AboutAppActivity"></activity>
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ import android.location.Location;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.blockchain.store.playmarket.ui.intro_logo_activity.SplashActivity;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationAvailability;
@@ -25,7 +26,7 @@ import com.google.android.gms.tasks.Task;
  * Created by Crypton04 on 15.02.2018.
  */
 @SuppressLint("MissingPermission")
-public class LocationManager {
+public class LocationManager extends LocationCallback implements OnFailureListener {
     private static final String TAG = "LocationManager";
 
     LocationManagerCallback callback;
@@ -37,13 +38,12 @@ public class LocationManager {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
         fusedLocationProviderClient.getLastLocation()
                 .addOnSuccessListener(location -> {
+                    Log.d(TAG, "last known location:[" + location + "]");
                     if (location != null) {
                         callback.onLocationReady(location);
                     } else {
                         startLocationUpdated(context);
-                        //start location service
                     }
-
                 });
     }
 
@@ -51,37 +51,48 @@ public class LocationManager {
         builder = new LocationSettingsRequest.Builder().addLocationRequest(createLocationRequest());
         SettingsClient client = LocationServices.getSettingsClient(context);
         Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
-        task.addOnSuccessListener(new OnSuccessListener<LocationSettingsResponse>() {
-            @Override
-            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-                fusedLocationProviderClient.requestLocationUpdates(createLocationRequest(), new LocationCallback() {
-                    @Override
-                    public void onLocationResult(LocationResult locationResult) {
-                        super.onLocationResult(locationResult);
-                        Log.d(TAG, "onLocationResult() called with: locationResult = [" + locationResult.getLastLocation().toString() + "]");
-                        callback.onLocationReady(locationResult.getLastLocation());
-                    }
-                }, null);
-            }
-        }).addOnFailureListener(e -> {
+        task.addOnSuccessListener(locationSettingsResponse ->
+                fusedLocationProviderClient.requestLocationUpdates(createLocationRequest(),
+                        LocationManager.this, null)).addOnFailureListener(e -> {
             if (e instanceof ResolvableApiException) {
-                try{
+                try {
                     ResolvableApiException resolvableApiException = (ResolvableApiException) e;
-                    resolvableApiException.startResolutionForResult((Activity) context,102);
-
-                }catch (Exception exception){
+                    resolvableApiException.startResolutionForResult((Activity) context, SplashActivity.LOCATION_DIALOG_REQUEST);
+                } catch (Exception exception) {
                     exception.printStackTrace();
                 }
             }
         });
+    }
 
+    @Override
+    public void onLocationResult(LocationResult locationResult) {
+        super.onLocationResult(locationResult);
+        Log.d(TAG, "onLocationResult() called with: locationResult = [" + locationResult + "]");
+        callback.onLocationReady(locationResult.getLastLocation());
+    }
+
+    @Override
+    public void onLocationAvailability(LocationAvailability locationAvailability) {
+        super.onLocationAvailability(locationAvailability);
+        Log.d(TAG, "onLocationAvailability() called with: locationAvailability = [" + locationAvailability + "]");
     }
 
     private LocationRequest createLocationRequest() {
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1000);
+        mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         return mLocationRequest;
+    }
+
+    public void stopLocationServices() {
+        fusedLocationProviderClient.removeLocationUpdates(this);
+    }
+
+    @Override
+    public void onFailure(@NonNull Exception e) {
+        Log.d(TAG, "onFailure() called with: e = [" + e + "]");
     }
 
     public interface LocationManagerCallback {
