@@ -123,20 +123,5 @@ public class CryptoUtils {
             e.printStackTrace();
         }
     }
-
-    // Метод чтения из "JsonKeystoreFile".
-    public static String readJsonKeystoreFile(File file){
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-            String data = bufferedReader.readLine();
-
-            JSONObject jsonObject = new JSONObject(data);
-            return jsonObject.getString("address");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }
 

@@ -2,17 +2,12 @@ package com.blockchain.store.playmarket.ui.login_prompt_activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,7 +22,6 @@ import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelco
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
-import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 
 import org.ethereum.geth.Account;
 
@@ -35,14 +29,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -184,10 +173,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
-
-
         }
         Log.d(TAG, "onActivityResult: ");
     }
@@ -205,34 +191,38 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         Button cancelButton = (Button) view.findViewById(R.id.cancel_button);
 
         // Получаем список файлов "JsonKeystoreFileList" из каталога "/PlayMarket2.0/Accounts/".
-        ArrayList<File> usertList = presenter.getJsonKeystoreFileList();
-
+        ArrayList<File> userList = presenter.getJsonKeystoreFileList();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         userListRecyclerView.setLayoutManager(layoutManager);
-
         // Объявляем и устанавливаем адаптер для "userListRecyclerView".
-
-        adapter = new UserListAdapter(usertList);
+        adapter = new UserListAdapter(userList);
         userListRecyclerView.setAdapter(adapter);
+
+        builder.setView(view);
+        builder.setCancelable(false);
+
+        final AlertDialog importDialog = builder.create();
 
 
         okButton.setOnClickListener(v -> {
             if (adapter.getSelectedItem() == -1){
-                Toast.makeText(this, "You need chose one of accounts", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "You need chose one of the accounts", Toast.LENGTH_SHORT).show();
             }
             else{
-                File selectedUserJsonfile = usertList.get(adapter.getSelectedItem());
-                presenter.importJsonKeystoreFile(selectedUserJsonfile);
+                File selectedUserJsonFile = userList.get(adapter.getSelectedItem());
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(selectedUserJsonFile)));
+                    String data = bufferedReader.readLine();
+                    showDialogConfirmImport(data);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
-        cancelButton.setOnClickListener(v -> {
+        cancelButton.setOnClickListener(v -> importDialog.dismiss());
 
-        });
-
-        builder
-                .setView(view)
-                .create()
-                .show();
+        importDialog.show();
     }
+
 }

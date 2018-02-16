@@ -38,17 +38,22 @@
     <string name="about">About</string>
 
     <!--activity_login_prompt-->
-    <string name="welcome">Welcome!\nAre you used our application before?</string>
+    <string name="welcome">Welcome!\nDid you use our application before?</string>
     <string name="new_user_button">New user</string>
     <string name="import_user_button"><u>Import user</u></string>
 
     <!--activity_new_user_welcome-->
-    <string name="congratulations_title">Congratulations, new user is created!</string>
-    <string name="save_key_title">Do not forget to save your personal account key for user data transfer to other devices.</string>
+    <string name="congratulations_title">Congratulations, a new user is created!</string>
+    <string name="save_key_title">Please, don\'t forget to save your personal account key for user data transfer to other devices.</string>
     <string name="save">Save</string>
     <string name="continue_btn">Continue</string>
+    <string name="cancel_btn">Cancel</string>
 
     <!--send_mail_dialog-->
     <string name="send_mail">Send mail</string>
     <string name="enter_email_address">Enter email address</string>
+
+    <string name="found_json_keystore">A JSON Keystore File is found</string>
+    <string name="import_message">We found a JSON Keystore File on your device. If you want, you can select one of them and import it.</string>
+    <string name="import_button">Import</string>
 </resources>
