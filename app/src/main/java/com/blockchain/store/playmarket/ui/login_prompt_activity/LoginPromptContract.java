@@ -12,21 +12,23 @@ class LoginPromptContract {
 
         void showImportUserDialog();
 
+        void showDialogConfirmImport(String fileData);
+
     }
 
     interface Presenter{
 
         void init(LoginPromptContract.View view, Context context);
 
-        // Объявление метода проверки существования Json аккаунта на устройстве.
-        boolean checkJsonKeystoreFile();
+        void confirmImportButtonPressed(String fileString, String password);
 
-        void importJsonKeystoreFile(File file, String password);
+        boolean checkJsonFileExists();
 
-        ArrayList<File> getJsonKeystoreFileList();
+        void autoSaveJsonKeystoreFile(String URL);
 
-        // Объявление метода сохранения Json аккаунта на устройстве.
-        void saveJsonKeystoreFile(String URL);
+        String getDataFromJsonKeystoreFile(File file, String type);
+
+        ArrayList<File> getJsonKeystoreCollection();
 
     }
 }

@@ -51,7 +51,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         ButterKnife.bind(this);
         presenter = new LoginPromptPresenter();
         presenter.init(this, getApplicationContext());
-        if (presenter.checkJsonKeystoreFile()) showImportUserDialog();
+        if (presenter.checkJsonFileExists()) showImportUserDialog();
         if (AccountManager.isHasUsers()) {
             goToMainActivity(null);
         }
@@ -111,7 +111,8 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         close_btn.setOnClickListener(v -> d.dismiss());
     }
 
-    private void showDialogConfirmImport(String fileData) {
+    @Override
+    public void showDialogConfirmImport(String fileData) {
         final Dialog d = new Dialog(this);
         d.setContentView(R.layout.password_prompt_dialog);
 
@@ -122,20 +123,11 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         TextView addFundsBtn = d.findViewById(R.id.continueButton);
         addFundsBtn.setOnClickListener(v -> {
             d.dismiss();
-            confirmImport(fileData, passwordText.getText().toString());
+            presenter.confirmImportButtonPressed(fileData, passwordText.getText().toString());
         });
 
         Button close_btn = d.findViewById(R.id.close_button);
         close_btn.setOnClickListener(v -> d.dismiss());
-    }
-
-    private void confirmImport(String fileString, String password) {
-        try {
-            Account account = Application.keyManager.getKeystore().importKey(fileString.getBytes(), password, password);
-            Log.d(TAG, "confirmImport: ");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     protected String makeNewAccount(String password) {
@@ -143,7 +135,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
             Account account = Application.keyManager.newAccount(password);
             Log.d(TAG, "makeNewAccount: " + account.getURL().toString());
             String address = account.getAddress().getHex();
-            presenter.saveJsonKeystoreFile(account.getURL());
+            presenter.autoSaveJsonKeystoreFile(account.getURL());
             Log.d(TAG, address);
             return address;
         } catch (Exception e) {
@@ -191,7 +183,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         Button cancelButton = (Button) view.findViewById(R.id.cancel_button);
 
         // Получаем список файлов "JsonKeystoreFileList" из каталога "/PlayMarket2.0/Accounts/".
-        ArrayList<File> userList = presenter.getJsonKeystoreFileList();
+        ArrayList<File> userList = presenter.getJsonKeystoreCollection();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         userListRecyclerView.setLayoutManager(layoutManager);
         // Объявляем и устанавливаем адаптер для "userListRecyclerView".
@@ -210,13 +202,9 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
             }
             else{
                 File selectedUserJsonFile = userList.get(adapter.getSelectedItem());
-                try {
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(selectedUserJsonFile)));
-                    String data = bufferedReader.readLine();
-                    showDialogConfirmImport(data);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                String jsonData = presenter.getDataFromJsonKeystoreFile(selectedUserJsonFile, "all_data");
+                showDialogConfirmImport(jsonData);
+
             }
         });
 

@@ -12,6 +12,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.utilities.FileUtils;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
 import java.io.File;
@@ -40,8 +41,9 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        FileUtils fileUtils = new FileUtils();
         File file = usersArrayList.get(position);
-        holder.accountName.setText("0x" + CryptoUtils.readJsonKeystoreFile(file));
+        holder.accountName.setText("0x" + fileUtils.readJsonKeystoreFile(file, "address"));
 
         holder.jsonKeystoreLayout.setOnClickListener(v -> {
             selectedItemIndex = position;
