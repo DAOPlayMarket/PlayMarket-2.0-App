@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginTop="15dp"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="10dp"
+              android:layout_marginRight="10dp"
+              android:layout_marginTop="15dp"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_marginRight="10dp"
-            app:srcCompat="@mipmap/ic_logo" />
+            app:srcCompat="@mipmap/ic_logo"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,24 +33,26 @@
                 android:text="TextView"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/black"
-                android:textSize="24sp" />
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/priceText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/eth"
                 android:text="Buy: 0.999 ETH"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorAccent"
-                android:textSize="18sp" />
+                android:textSize="18sp"/>
         </LinearLayout>
 
     </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="20dp"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -58,11 +60,11 @@
         android:text="@string/dialog_app_purchase_body"
         android:textColor="@color/greyBackground"
         android:textSize="18sp"
-        android:textStyle="italic" />
+        android:textStyle="italic"/>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="15dp" />
+        android:layout_height="15dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -72,7 +74,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="10dp" />
+            android:layout_height="10dp"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -82,11 +84,11 @@
             android:textAlignment="textStart"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="12dp" />
+            android:layout_height="12dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,7 +103,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/ether"
-                android:backgroundTint="@android:color/black" />
+                android:backgroundTint="@android:color/black"/>
 
             <EditText
                 android:id="@+id/balanceText"
@@ -114,7 +116,7 @@
                 android:text="0.000"
                 android:textColor="@android:color/black"
                 android:textSize="30sp"
-                android:typeface="sans" />
+                android:typeface="sans"/>
 
         </LinearLayout>
 
@@ -122,14 +124,14 @@
 
     <EditText
         android:id="@+id/passwordText"
-        android:hint="@string/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
-        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/password"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
         <Button
@@ -141,7 +143,7 @@
             android:background="@drawable/rounded_dialog_button"
             android:text="@string/cancel_btn"
             android:textColor="@android:color/background_light"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <Button
             android:id="@+id/continueButton"
@@ -152,7 +154,7 @@
             android:background="@drawable/rounded_dialog_button"
             android:text="@string/continue_btn"
             android:textColor="@android:color/background_light"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
 
     </LinearLayout>

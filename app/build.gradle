@@ -39,6 +39,7 @@ android {
 }
 
 dependencies {
+    compile 'com.ms-square:expandableTextView:0.1.4'
     compile 'com.github.mancj:MaterialSearchBar:0.7.5'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
 

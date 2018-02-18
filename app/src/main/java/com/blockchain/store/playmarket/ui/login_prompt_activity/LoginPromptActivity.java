@@ -50,9 +50,11 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         ButterKnife.bind(this);
         presenter = new LoginPromptPresenter();
         presenter.init(this, getApplicationContext());
-        if (presenter.checkJsonFileExists()) showImportUserDialog();
+
         if (AccountManager.isHasUsers()) {
             goToMainActivity(null);
+        } else {
+            if (presenter.checkJsonFileExists()) showImportUserDialog();
         }
 
     }
@@ -143,7 +145,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         }
     }
 
-        @Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == CHOSE_FILE_CODE) {
@@ -168,7 +170,6 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         }
         Log.d(TAG, "onActivityResult: ");
     }
-
 
 
     // Реализация метода открытия диалога для импорта и логики его работы.
@@ -196,10 +197,9 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
 
 
         okButton.setOnClickListener(v -> {
-            if (adapter.getSelectedItem() == -1){
+            if (adapter.getSelectedItem() == -1) {
                 Toast.makeText(this, "You need chose one of the accounts", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 File selectedUserJsonFile = userList.get(adapter.getSelectedItem());
                 String jsonData = presenter.getDataFromJsonKeystoreFile(selectedUserJsonFile, "all_data");
                 showDialogConfirmImport(jsonData);

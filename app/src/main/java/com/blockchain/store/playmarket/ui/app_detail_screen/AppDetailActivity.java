@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.ui.app_detail_screen;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -50,6 +51,9 @@ import butterknife.OnClick;
 public class AppDetailActivity extends AppCompatActivity implements AppDetailContract.View, ImageListAdapterCallback {
     private static final String TAG = "AppDetailActivity";
     private static final String APP_EXTRA = "app_extra";
+    private static final int DEFAULT_MAX_LINES = 4;
+    private static final int LIMIT_MAX_LINES = 150;
+    public static final int ANIMATOR_DURATION = 400;
 
     @BindView(R.id.top_layout_app_name) TextView toolbarAppName;
     @BindView(R.id.top_layout_holder) LinearLayout topLayoutHolder;
@@ -72,6 +76,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     private AppInfo appInfo;
     private App app;
     private boolean isUserPurchasedApp;
+    private ObjectAnimator textDescriptionAnimator;
 
     public static void start(Context context, App app) {
         Intent starter = new Intent(context, AppDetailActivity.class);
@@ -256,5 +261,22 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @Override
     public void onImageGalleryItemClicked(int position) {
         imageViewerBuilder.setStartPosition(position).show();
+    }
+
+    @OnClick(R.id.app_description) void onDescriptionClicked() {
+        if (appDescription.getMaxLines() == DEFAULT_MAX_LINES) {
+            textDescriptionAnimator = ObjectAnimator.ofInt(appDescription, "maxLines", LIMIT_MAX_LINES);
+        } else if (appDescription.getMaxLines() == LIMIT_MAX_LINES) {
+            textDescriptionAnimator = ObjectAnimator.ofInt(appDescription, "maxLines", DEFAULT_MAX_LINES);
+        }
+
+        Log.d(TAG, "onDescriptionClicked: " + textDescriptionAnimator.isStarted());
+        Log.d(TAG, "onDescriptionClicked: " + textDescriptionAnimator.isRunning());
+
+        if (textDescriptionAnimator != null && !textDescriptionAnimator.isStarted()) {
+            textDescriptionAnimator.setDuration(ANIMATOR_DURATION).start();
+        }
+
+
     }
 }
