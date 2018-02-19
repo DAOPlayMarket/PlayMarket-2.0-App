@@ -56,4 +56,9 @@
     <string name="found_json_keystore">A JSON Keystore File is found</string>
     <string name="import_message">We found a JSON Keystore File on your device. If you want, you can select one of them and import it.</string>
     <string name="import_button">Import</string>
+    <string name="textview">TextView</string>
+    <string name="button">Button</string>
+
+    <string name="add_folder_button">+ Add Folder</string>
+    <string name="back_button">Back</string>
 </resources>

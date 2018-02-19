@@ -37,8 +37,8 @@ public class LoginPromptPresenter implements LoginPromptContract.Presenter {
     }
 
     @Override
-    public void confirmImportButtonPressed(String fileString, String password) {
-        fileUtils.confirmImport(fileString, password);
+    public boolean confirmImportButtonPressed(String fileString, String password) {
+        return fileUtils.confirmImport(fileString, password);
     }
 
     @Override
@@ -60,4 +60,6 @@ public class LoginPromptPresenter implements LoginPromptContract.Presenter {
     public ArrayList<File> getJsonKeystoreCollection() {
         return fileUtils.getJsonKeystoreFileList();
     }
+
+
 }

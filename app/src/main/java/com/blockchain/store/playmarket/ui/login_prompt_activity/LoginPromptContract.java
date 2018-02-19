@@ -20,7 +20,7 @@ class LoginPromptContract {
 
         void init(LoginPromptContract.View view, Context context);
 
-        void confirmImportButtonPressed(String fileString, String password);
+        boolean confirmImportButtonPressed(String fileString, String password);
 
         boolean checkJsonFileExists();
 

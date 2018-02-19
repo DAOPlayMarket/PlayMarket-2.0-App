@@ -43,6 +43,9 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
     private static final int CHOSE_FILE_CODE = 99;
     private static final String TAG = "LoginPromptActivity";
 
+    private AlertDialog importDialog;
+    private Dialog dialogConfirmImport;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,21 +116,23 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
 
     @Override
     public void showDialogConfirmImport(String fileData) {
-        final Dialog d = new Dialog(this);
-        d.setContentView(R.layout.password_prompt_dialog);
+        dialogConfirmImport = new Dialog(this);
+        dialogConfirmImport.setContentView(R.layout.password_prompt_dialog);
 
-        final EditText passwordText = d.findViewById(R.id.passwordText);
+        final EditText passwordText = dialogConfirmImport.findViewById(R.id.passwordText);
 
-        d.show();
+        dialogConfirmImport.show();
 
-        TextView addFundsBtn = d.findViewById(R.id.continueButton);
+        TextView addFundsBtn = dialogConfirmImport.findViewById(R.id.continueButton);
         addFundsBtn.setOnClickListener(v -> {
-            d.dismiss();
-            presenter.confirmImportButtonPressed(fileData, passwordText.getText().toString());
+            dialogConfirmImport.dismiss();
+            if (presenter.confirmImportButtonPressed(fileData, passwordText.getText().toString())) {
+                goToMainActivity();
+            }
         });
 
-        Button close_btn = d.findViewById(R.id.close_button);
-        close_btn.setOnClickListener(v -> d.dismiss());
+        Button close_btn = dialogConfirmImport.findViewById(R.id.close_button);
+        close_btn.setOnClickListener(v -> dialogConfirmImport.dismiss());
     }
 
     protected String makeNewAccount(String password) {
@@ -193,7 +198,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         builder.setView(view);
         builder.setCancelable(false);
 
-        final AlertDialog importDialog = builder.create();
+        importDialog = builder.create();
 
 
         okButton.setOnClickListener(v -> {
@@ -211,6 +216,14 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         cancelButton.setOnClickListener(v -> importDialog.dismiss());
 
         importDialog.show();
+    }
+
+    public void goToMainActivity(){
+        Intent myIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
+        startActivity(myIntent);
+        importDialog.dismiss();
+        dialogConfirmImport.dismiss();
+        finish();
     }
 
 }

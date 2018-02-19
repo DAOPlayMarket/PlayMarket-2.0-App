@@ -3,37 +3,42 @@ package com.blockchain.store.playmarket.ui.new_user_welcome_activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.adapters.FileAdapter;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
-import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.ethmobile.ethdroid.KeyManager;
 
 public class NewUserWelcomeActivity extends AppCompatActivity implements NewUserWelcomeContract.View {
     private static final String TAG = "NewUserWelcomeActivity";
     private NewUserWelcomePresenter presenter;
+    private static final int CHOSE_FILE_CODE = 99;
+
+    private ArrayList<File> fileList = new ArrayList<File>();
+    private final String basePath = Environment.getExternalStorageDirectory().getPath();
+    private String currentPath = "";
 
     @BindView(R.id.address_text_view)
     TextView addressTextView;
@@ -69,6 +74,64 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     @OnClick(R.id.local_save_imageButton)
     void localSaveKey(){
         presenter.saveKeyOnDevice(addressTextView.getText().toString());
+    }
+
+
+    //@OnClick(R.id.save_cloud_imageButton)
+    //void localSaveJsonKeystoreFile(){
+//
+    //    fileList = getFiles(basePath);
+//
+    //    View dialogView = getLayoutInflater().inflate(R.layout.local_save_dialog, null);
+    //    AlertDialog.Builder builder = new AlertDialog.Builder(NewUserWelcomeActivity.this);
+//
+    //    ListView folderListView = (ListView) dialogView.findViewById(R.id.folders_listView);
+    //    Button backButton = (Button) dialogView.findViewById(R.id.back_button) ;
+    //    folderListView.setAdapter(new FileAdapter(this, fileList));
+    //    folderListView.setOnItemClickListener((adapterView, view, position, id) -> {
+    //        final ArrayAdapter<File> adapter = (FileAdapter) folderListView.getAdapter();
+    //        File file = adapter.getItem(position);
+    //        if (file.isDirectory()) {
+    //            currentPath = file.getPath();
+    //            RebuildFiles(adapter);
+    //        }
+    //    });
+//
+    //    backButton.setOnClickListener(v -> {
+    //        File file = new File(currentPath);
+    //        File parentDirectory = file.getParentFile();
+    //        if (parentDirectory != null) {
+    //            currentPath = parentDirectory.getPath();
+    //            RebuildFiles((FileAdapter) folderListView.getAdapter());
+    //        }
+    //    });
+//
+    //    builder.setView(dialogView);
+    //    AlertDialog saveFileDialog = builder.create();
+    //    saveFileDialog.show();
+    //}
+
+    private void RebuildFiles(ArrayAdapter<File> adapter) {
+        try {
+            fileList.clear();
+            fileList.addAll(getFiles(currentPath));
+            adapter.notifyDataSetChanged();
+        }
+        catch (NullPointerException e){
+        Toast.makeText(getApplicationContext(), android.R.string.unknownName, Toast.LENGTH_SHORT).show();
+    }
+
+    }
+
+    private ArrayList<File> getFiles(String directoryPath){
+        File directory = new File(directoryPath);
+        ArrayList<File> folderList = new ArrayList<>();
+
+        for (int i =0; i< directory.listFiles().length; i++){
+            if (directory.listFiles()[i].isDirectory()) folderList.add(directory.listFiles()[i]);
+        }
+
+        return folderList;
     }
 
     /*
