@@ -91,13 +91,15 @@ public class FileUtils {
     }
 
     // Метод импортирования данных из JSON Keystore File.
-    public void confirmImport(String fileString, String password) {
+    public boolean confirmImport(String fileString, String password) {
         try {
             Account account = Application.keyManager.getKeystore().importKey(fileString.getBytes(), password, password);
             Log.d(TAG, "confirmImport: ");
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     // Реализация метода проверки Json файла аккаунта в папке "Accounts"

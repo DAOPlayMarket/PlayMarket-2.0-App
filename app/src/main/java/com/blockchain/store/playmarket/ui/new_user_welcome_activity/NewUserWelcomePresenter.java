@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.ui.new_user_welcome_activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 
 import org.ethereum.geth.Account;
@@ -46,7 +47,6 @@ public class NewUserWelcomePresenter implements NewUserWelcomeContract.Presenter
 
     @Override
     public void saveKeyOnEmail() {
-
     }
 
     @Override

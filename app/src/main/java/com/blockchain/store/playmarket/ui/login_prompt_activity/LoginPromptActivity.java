@@ -28,6 +28,7 @@ import org.ethereum.geth.Account;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -42,6 +43,9 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
     private static final int CHOSE_FILE_CODE = 99;
     private static final String TAG = "LoginPromptActivity";
 
+    private AlertDialog importDialog;
+    private Dialog dialogConfirmImport;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         ButterKnife.bind(this);
         presenter = new LoginPromptPresenter();
         presenter.init(this, getApplicationContext());
-
+        if (presenter.checkJsonFileExists()) showImportUserDialog();
         if (AccountManager.isHasUsers()) {
             goToMainActivity(null);
         } else {
@@ -114,21 +118,23 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
 
     @Override
     public void showDialogConfirmImport(String fileData) {
-        final Dialog d = new Dialog(this);
-        d.setContentView(R.layout.password_prompt_dialog);
+        dialogConfirmImport = new Dialog(this);
+        dialogConfirmImport.setContentView(R.layout.password_prompt_dialog);
 
-        final EditText passwordText = d.findViewById(R.id.passwordText);
+        final EditText passwordText = dialogConfirmImport.findViewById(R.id.passwordText);
 
-        d.show();
+        dialogConfirmImport.show();
 
-        TextView addFundsBtn = d.findViewById(R.id.continueButton);
+        TextView addFundsBtn = dialogConfirmImport.findViewById(R.id.continueButton);
         addFundsBtn.setOnClickListener(v -> {
-            d.dismiss();
-            presenter.confirmImportButtonPressed(fileData, passwordText.getText().toString());
+            dialogConfirmImport.dismiss();
+            if (presenter.confirmImportButtonPressed(fileData, passwordText.getText().toString())) {
+                goToMainActivity();
+            }
         });
 
-        Button close_btn = d.findViewById(R.id.cancelButton);
-        close_btn.setOnClickListener(v -> d.dismiss());
+        Button close_btn = dialogConfirmImport.findViewById(R.id.cancelButton);
+        close_btn.setOnClickListener(v -> dialogConfirmImport.dismiss());
     }
 
     protected String makeNewAccount(String password) {
@@ -145,7 +151,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         }
     }
 
-    @Override
+        @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == CHOSE_FILE_CODE) {
@@ -172,6 +178,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
     }
 
 
+
     // Реализация метода открытия диалога для импорта и логики его работы.
     @Override
     public void showImportUserDialog() {
@@ -193,13 +200,14 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         builder.setView(view);
         builder.setCancelable(false);
 
-        final AlertDialog importDialog = builder.create();
+        importDialog = builder.create();
 
 
         okButton.setOnClickListener(v -> {
-            if (adapter.getSelectedItem() == -1) {
+            if (adapter.getSelectedItem() == -1){
                 Toast.makeText(this, "You need chose one of the accounts", Toast.LENGTH_SHORT).show();
-            } else {
+            }
+            else{
                 File selectedUserJsonFile = userList.get(adapter.getSelectedItem());
                 String jsonData = presenter.getDataFromJsonKeystoreFile(selectedUserJsonFile, "all_data");
                 showDialogConfirmImport(jsonData);
@@ -210,6 +218,14 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         cancelButton.setOnClickListener(v -> importDialog.dismiss());
 
         importDialog.show();
+    }
+
+    public void goToMainActivity(){
+        Intent myIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
+        startActivity(myIntent);
+        importDialog.dismiss();
+        dialogConfirmImport.dismiss();
+        finish();
     }
 
 }
