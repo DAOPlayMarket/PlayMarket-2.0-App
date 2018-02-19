@@ -24,6 +24,7 @@ import com.blockchain.store.playmarket.ui.library_screen.LibraryActivity;
 import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
 import com.blockchain.store.playmarket.ui.settings_screen.SettingsActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 import com.blockchain.store.playmarket.utilities.net.APIUtils;
@@ -127,7 +128,9 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     @OnClick(R.id.account_layout)
     void onAccountClicked() {
         closeDrawers();
-        startActivity(new Intent(getActivity(), NewUserWelcomeActivity.class));
+        Intent intent = new Intent(getActivity(), NewUserWelcomeActivity.class);
+        intent.putExtra(Constants.WELCOME_ACTIVITY_IS_LUANCHED_FROM_SETTINGS_EXTRA, true);
+        startActivity(intent);
     }
 
     @Override

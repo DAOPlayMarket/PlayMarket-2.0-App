@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.ui.new_user_welcome_activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,10 +29,20 @@ import butterknife.OnClick;
 
 public class NewUserWelcomeActivity extends AppCompatActivity implements NewUserWelcomeContract.View {
     private static final String TAG = "NewUserWelcomeActivity";
+    private static final String LAUNCHED_FROM_SETTINGS_PARAM = "launched_from_settings";
     private NewUserWelcomePresenter presenter;
 
-    @BindView(R.id.address_text_view)
-    TextView addressTextView;
+    @BindView(R.id.address_text_view) TextView addressTextView;
+    @BindView(R.id.NewUserWelcomeTextView) TextView newUserWelcomeNext;
+    @BindView(R.id.continue_button) Button continueButton;
+
+    private boolean isLaunchedFromSettings;
+
+    public static void start(Context context, boolean isLaucnhedFromSettings) {
+        Intent starter = new Intent(context, NewUserWelcomeActivity.class);
+        starter.putExtra(LAUNCHED_FROM_SETTINGS_PARAM, isLaucnhedFromSettings);
+        context.startActivity(starter);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +53,24 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
         ButterKnife.bind(this);
         if (getIntent() != null) {
             addressTextView.setText(getIntent().getStringExtra(Constants.WELCOME_ACTIVITY_ADDRESS_EXTRA));
+            isLaunchedFromSettings = getIntent().getBooleanExtra(Constants.WELCOME_ACTIVITY_IS_LUANCHED_FROM_SETTINGS_EXTRA, false);
+        }
+        if (isLaunchedFromSettings) {
+            setViewFromSettings();
         }
     }
 
+    private void setViewFromSettings() {
+        continueButton.setText(R.string.back);
+        newUserWelcomeNext.setVisibility(View.GONE);
+    }
 
     /*
     Метод перехода на экран отправки почты "send_mail_dialog".
     Вызывается после нажатия на кнопку "save_mail_imageButton" пользователем.
     */
     @OnClick(R.id.save_mail_imageButton)
-    void sendMail(){
+    void sendMail() {
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
         emailIntent.setType("text/plain");
         //emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, "step.93.07@gmail.com");
@@ -62,7 +81,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     }
 
     @OnClick(R.id.local_save_imageButton)
-    void localSaveKey(){
+    void localSaveKey() {
         presenter.saveKeyOnDevice(addressTextView.getText().toString());
     }
 
@@ -71,7 +90,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     Вызывается после нажатия на кнопку "continue_button" пользователем.
     */
     @OnClick(R.id.continue_button)
-    void goToMainActivity(){
+    void goToMainActivity() {
         Intent myIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
         startActivity(myIntent);
         finish();
@@ -79,6 +98,9 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
 
     @Override
     public void onBackPressed() {
+        if (isLaunchedFromSettings) {
+            super.onBackPressed();
+        }
     }
 
     @OnClick(R.id.address_text_view)

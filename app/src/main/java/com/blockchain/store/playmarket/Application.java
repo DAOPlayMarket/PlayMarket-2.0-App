@@ -7,10 +7,12 @@ import com.blockchain.store.playmarket.data.content.AppsDispatcher;
 import com.blockchain.store.playmarket.data.content.AppsManager;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
+import com.crashlytics.android.Crashlytics;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.hawk.Hawk;
 
 import io.ethmobile.ethdroid.KeyManager;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by Crypton04 on 24.01.2018.
@@ -25,6 +27,7 @@ public class Application extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         instance = this;
         MultiDex.install(this);
         ToastUtil.setContext(this);

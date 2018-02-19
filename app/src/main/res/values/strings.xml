@@ -78,6 +78,7 @@
     <string name="double_tap_msg">Press back again to quit.</string>
     <string name="continue_without_location">Continue without location</string>
     <string name="account">Account</string>
+    <string name="back">Back</string>
 
     <string-array name="query_suggestions">
         <item>Android</item>

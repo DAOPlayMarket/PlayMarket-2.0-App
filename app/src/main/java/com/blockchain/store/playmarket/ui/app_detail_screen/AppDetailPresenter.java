@@ -161,7 +161,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
             case STATE_INSTALL_FAIL:
                 break;
             case STATE_NOT_PURCHASED:
-                view.setActionButtonText(new EthereumPrice(app.price).inEther().toString());
+                view.setActionButtonText(new EthereumPrice(app.price).inEther().toString() + " ETH");
                 break;
 
         }
@@ -181,7 +181,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     @Override
     public void onAppDownloadProgressChanged(int progress) {
         changeState(Constants.APP_STATE.STATE_DOWNLOADING);
-        view.setActionButtonText(String.valueOf(progress));
+        view.setActionButtonText(String.valueOf(progress) + " %");
         Log.d(TAG, "onAppDownloadProgressChanged() called with: progress = [" + progress + "]");
     }
 

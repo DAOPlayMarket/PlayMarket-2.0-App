@@ -10,14 +10,7 @@ import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
 import org.ethereum.geth.BigInt;
 import org.ethereum.geth.Transaction;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -133,6 +126,7 @@ public class CryptoUtils {
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
         return getRawTransaction(signedTransaction);
     }
+
     // temp
     public static String generateInvestTransactionWithAddress(int nonce, BigInt gasPrice, String investPrice, String address) throws Exception {
         KeyManager keyManager = Application.keyManager;
