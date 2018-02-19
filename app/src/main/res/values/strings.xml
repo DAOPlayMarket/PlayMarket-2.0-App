@@ -61,4 +61,10 @@
 
     <string name="add_folder_button">+ Add Folder</string>
     <string name="back_button">Back</string>
+
+    <!--dialog strings-->
+    <string name="enter_your_password"> Enter your password</string>
+    <string name="empty_password">Password field can not be empty</string>
+    <string name="short_password">Password cannot be less than 7 characters</string>
+    <string name="wrong_password">Wrong password</string>
 </resources>

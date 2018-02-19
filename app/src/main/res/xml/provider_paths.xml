@@ -3,4 +3,5 @@
     <files-path
         name="apks"
         path="." />
+    <cache-path name="cache" path="/" />
 </paths>

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,7 +45,8 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
     private static final String TAG = "LoginPromptActivity";
 
     private AlertDialog importDialog;
-    private Dialog dialogConfirmImport;
+    private Dialog confirmImportDialog;
+    private AlertDialog newUserDialog;
 
 
     @Override
@@ -96,53 +98,80 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
     }
 
     public void promptForPasswordForNewAccount() {
-        final Dialog d = new Dialog(this);
-        d.setContentView(R.layout.password_prompt_dialog);
+        View view = getLayoutInflater().inflate(R.layout.password_prompt_dialog, null);
 
-        final EditText passwordText = d.findViewById(R.id.passwordText);
+        newUserDialog = new AlertDialog.Builder(this)
+                .setView(view)
+                //.setCancelable(false)
+                .create();
 
-        d.show();
 
-        TextView addFundsBtn = d.findViewById(R.id.continueButton);
-        addFundsBtn.setOnClickListener(v -> {
-            String address = makeNewAccount(passwordText.getText().toString());
-            d.dismiss();
-            openWelcomeActivity(address);
+        final EditText passwordText = (EditText) view.findViewById(R.id.passwordText);
+        Button continueButton = (Button) view.findViewById(R.id.continueButton);
+        Button closeButton = (Button) view.findViewById(R.id.close_button);
+        TextInputLayout passwordLayout = (TextInputLayout) view.findViewById(R.id.password_inputLayout);
+
+
+        continueButton.setOnClickListener(v -> {
+            if (passwordText.getText().toString().equals("")){
+                passwordLayout.setErrorEnabled(true);
+                passwordLayout.setError(getResources().getString(R.string.empty_password));
+            }
+
+            else if (passwordText.getText().length() < 7){
+                passwordLayout.setErrorEnabled(true);
+                passwordLayout.setError(getResources().getString(R.string.short_password));
+            }
+
+            else {
+                String address = makeNewAccount(passwordText.getText().toString());
+                newUserDialog.dismiss();
+                openWelcomeActivity(address);
+            }
         });
 
-        Button close_btn = d.findViewById(R.id.close_button);
-        close_btn.setOnClickListener(v -> d.dismiss());
+        closeButton.setOnClickListener(v -> newUserDialog.dismiss());
+
+        newUserDialog.show();
     }
 
     @Override
     public void showDialogConfirmImport(String fileData) {
-        dialogConfirmImport = new Dialog(this);
-        dialogConfirmImport.setContentView(R.layout.password_prompt_dialog);
+        View view = getLayoutInflater().inflate(R.layout.password_prompt_dialog, null);
 
-        final EditText passwordText = dialogConfirmImport.findViewById(R.id.passwordText);
+        confirmImportDialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .setCancelable(false)
+                .create();
 
-        dialogConfirmImport.show();
+        final EditText passwordText = (EditText) view.findViewById(R.id.passwordText);
+        Button importButton = (Button) view.findViewById(R.id.continueButton);
+        Button closeButton = (Button) view.findViewById(R.id.close_button);
+        TextInputLayout passwordLayout = (TextInputLayout) view.findViewById(R.id.password_inputLayout);
 
-        TextView addFundsBtn = dialogConfirmImport.findViewById(R.id.continueButton);
-        addFundsBtn.setOnClickListener(v -> {
-            dialogConfirmImport.dismiss();
+
+        importButton.setOnClickListener(v -> {
             if (presenter.confirmImportButtonPressed(fileData, passwordText.getText().toString())) {
                 goToMainActivity();
             }
+            else{
+                passwordLayout.setErrorEnabled(true);
+                passwordLayout.setError(getResources().getString(R.string.wrong_password));
+            }
         });
 
-        Button close_btn = dialogConfirmImport.findViewById(R.id.close_button);
-        close_btn.setOnClickListener(v -> dialogConfirmImport.dismiss());
+        closeButton.setOnClickListener(v -> confirmImportDialog.dismiss());
+        confirmImportDialog.show();
     }
 
     protected String makeNewAccount(String password) {
         try {
-            Account account = Application.keyManager.newAccount(password);
-            Log.d(TAG, "makeNewAccount: " + account.getURL().toString());
-            String address = account.getAddress().getHex();
-            presenter.autoSaveJsonKeystoreFile(account.getURL());
-            Log.d(TAG, address);
-            return address;
+             Account account = Application.keyManager.newAccount(password);
+             Log.d(TAG, "makeNewAccount: " + account.getURL().toString());
+             String address = account.getAddress().getHex();
+             presenter.autoSaveJsonKeystoreFile(account.getURL());
+             Log.d(TAG, address);
+             return address;
         } catch (Exception e) {
             e.printStackTrace();
             return "";
@@ -181,7 +210,11 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
     @Override
     public void showImportUserDialog() {
         View view = getLayoutInflater().inflate(R.layout.import_user_dialog, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        importDialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .setCancelable(false)
+                .create();
 
         RecyclerView userListRecyclerView = (RecyclerView) view.findViewById(R.id.json_keysore_files_recycler_view);
         Button okButton = (Button) view.findViewById(R.id.ok_button);
@@ -194,11 +227,6 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         // Объявляем и устанавливаем адаптер для "userListRecyclerView".
         adapter = new UserListAdapter(userList);
         userListRecyclerView.setAdapter(adapter);
-
-        builder.setView(view);
-        builder.setCancelable(false);
-
-        importDialog = builder.create();
 
 
         okButton.setOnClickListener(v -> {
@@ -222,7 +250,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         Intent myIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
         startActivity(myIntent);
         importDialog.dismiss();
-        dialogConfirmImport.dismiss();
+        confirmImportDialog.dismiss();
         finish();
     }
 

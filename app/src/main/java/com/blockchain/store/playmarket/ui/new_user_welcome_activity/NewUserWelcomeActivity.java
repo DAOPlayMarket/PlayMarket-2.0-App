@@ -3,7 +3,9 @@ package com.blockchain.store.playmarket.ui.new_user_welcome_activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blockchain.store.playmarket.Application;
+import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.FileAdapter;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
@@ -22,8 +25,12 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 
+import org.ethereum.geth.Account;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -62,13 +69,40 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     */
     @OnClick(R.id.save_mail_imageButton)
     void sendMail(){
-        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-        emailIntent.setType("text/plain");
-        //emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, "step.93.07@gmail.com");
-        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Your key");
-        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, addressTextView.getText());
+        try {
+            String jsonKeystoreFileURL = Application.keyManager.getAccounts().get(0).getURL();
+            final String pathToJsonFile = jsonKeystoreFileURL.replace("keystore:///", "");
+            // Создадим новый файл, используя созданное выше поле.
+            File jsonKeystoreFile = new File(pathToJsonFile);
 
-        this.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            FileInputStream inputStream = new FileInputStream(jsonKeystoreFile);
+            byte[] bytes = new byte[inputStream.available()];
+            inputStream.read(bytes);
+            // Создадим поле для хранения содержимого файла.
+            String jsonText = new String(bytes);
+
+            File copyJsonFile = File.createTempFile(jsonKeystoreFile.getName(), "", getApplicationContext().getCacheDir());
+            FileOutputStream outputStream = new FileOutputStream(copyJsonFile);
+
+            // Запишем в созданный файл данные из поля "jsonText".
+            outputStream.write(jsonText.getBytes());
+            outputStream.close();
+
+            Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+            emailIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            Uri uri = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() + ".fileprovider", copyJsonFile.getAbsoluteFile());
+
+            emailIntent.setType("text/plain");
+            emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "JSON Keystore File");
+            emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            copyJsonFile.deleteOnExit();
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @OnClick(R.id.local_save_imageButton)
