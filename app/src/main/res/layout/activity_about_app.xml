@@ -7,7 +7,7 @@
     tools:context="com.blockchain.store.playmarket.ui.about_screen.AboutAppActivity">
 
     <WebView
-        android:id="@+id/webView"
+        android:id="@+id/web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="8dp"

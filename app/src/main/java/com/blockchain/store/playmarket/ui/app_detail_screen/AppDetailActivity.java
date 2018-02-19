@@ -29,6 +29,7 @@ import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.CheckPurchaseResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
+import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.facebook.common.executors.CallerThreadExecutor;
@@ -110,6 +111,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     private void setViews() {
+        investBtn.setVisibility(app.isIco ? View.VISIBLE : View.INVISIBLE);
         imageIcon.setImageURI(Uri.parse(app.getIconUrl()));
         toolbarAppName.setText(app.nameApp);
         appName.setText(app.nameApp);
@@ -233,7 +235,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @OnClick(R.id.invest_btn)
     void onInvestBtnClicked() {
-        new DialogManager().showInvestDialog(appInfo, this, investAmount -> presenter.onInvestClicked(appInfo, investAmount));
+        InvestActivity.start(this, appInfo);
+//        new DialogManager().showInvestDialog(appInfo, this, investAmount -> presenter.onInvestClicked(appInfo, investAmount));
     }
 
 
@@ -263,7 +266,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         imageViewerBuilder.setStartPosition(position).show();
     }
 
-    @OnClick(R.id.app_description) void onDescriptionClicked() {
+    @OnClick(R.id.app_description)
+    void onDescriptionClicked() {
         if (appDescription.getMaxLines() == DEFAULT_MAX_LINES) {
             textDescriptionAnimator = ObjectAnimator.ofInt(appDescription, "maxLines", LIMIT_MAX_LINES);
         } else if (appDescription.getMaxLines() == LIMIT_MAX_LINES) {

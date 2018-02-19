@@ -34,4 +34,6 @@ public class Constants {
 
     /* Library prefs*/
     public static final String DOWNLOADED_APPS_LIST = "downloaded_apps_list";
+
+    public static final String YOUTUBE_KEY = "AIzaSyC7xC32ijRVgfRQmHPQGlhOHinLe1kNpJc";
 }

@@ -35,7 +35,6 @@ public class Application extends MultiDexApplication {
         AccountManager.setKeyManager(keyManager);
         Hawk.init(this).build();
         Fresco.initialize(this);
-//        Glide.get(this).setMemoryCategory(MemoryCategory.LOW);
 
     }
 

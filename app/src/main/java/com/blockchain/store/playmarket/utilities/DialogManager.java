@@ -81,8 +81,15 @@ public class DialogManager {
         EditText investmentAmountText = dialog.findViewById(R.id.investmentAmountText);
         Button continueButton = dialog.findViewById(R.id.continueButton);
         Button closeButton = dialog.findViewById(R.id.cancelButton);
+        TextView balanceText = dialog.findViewById(R.id.balanceText);
         closeButton.setOnClickListener(v -> dialog.dismiss());
+        balanceText.setText(new EthereumPrice(accountBalanceInWei).inEther().toString());
         continueButton.setOnClickListener(v -> {
+            if (investmentAmountText.getText().toString().trim().isEmpty()) {
+                investmentAmountText.setError(context.getString(R.string.wrong_invest_amout));
+                investmentAmountText.requestFocus();
+                return;
+            }
             if (new BigDecimal(accountBalanceInWei).compareTo(new EthereumPrice(investmentAmountText.getText().toString()).inWei()) == 1) {
                 try {
                     Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordText.getText().toString());
@@ -93,8 +100,8 @@ public class DialogManager {
                 }
 
             } else {
-//                balanceText.setError(context.getString(R.string.not_enought_balance));
-//                balanceText.requestFocus();
+                balanceText.setError(context.getString(R.string.not_enought_balance));
+                balanceText.requestFocus();
             }
 
         });

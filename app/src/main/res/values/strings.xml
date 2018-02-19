@@ -84,6 +84,8 @@
     <string name="continue_without_location">Continue without location</string>
     <string name="account">Account</string>
     <string name="back">Back</string>
+    <string name="invest_btn_text">Поддержать</string>
+    <string name="wrong_invest_amout">Wrong amount!</string>
 
     <string-array name="query_suggestions">
         <item>Android</item>

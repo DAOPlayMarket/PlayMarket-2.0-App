@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RestApi {
-    private static final String SERVER_ENDPOINT = "http://192.168.11.186:3000";
+    public static final String SERVER_ENDPOINT = "http://192.168.11.186:3000";
     private static final String SERVER_ENDPOINT_old = "http://31.211.80.204:3000";
     public static final String BASE_URL = SERVER_ENDPOINT + "/api/";
     public static final String ICON_URL = SERVER_ENDPOINT + "/data/";
@@ -41,7 +41,7 @@ public class RestApi {
 
     private static void setupWithRest() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(new ResultAdapterFactory()).create();

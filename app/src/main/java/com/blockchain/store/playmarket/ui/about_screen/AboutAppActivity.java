@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 public class AboutAppActivity extends AppCompatActivity {
     private static final String TAG = "AboutAppActivity";
 
-    @BindView(R.id.webView) WebView webView;
+    @BindView(R.id.web_view) WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
