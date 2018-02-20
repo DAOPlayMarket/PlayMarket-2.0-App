@@ -32,6 +32,7 @@ public class LocationManager extends LocationCallback implements OnFailureListen
     LocationManagerCallback callback;
     LocationSettingsRequest.Builder builder;
     FusedLocationProviderClient fusedLocationProviderClient;
+    LocationRequest locationRequest;
 
     public void getLocation(Context context, LocationManagerCallback callback) {
         this.callback = callback;
@@ -79,11 +80,14 @@ public class LocationManager extends LocationCallback implements OnFailureListen
     }
 
     private LocationRequest createLocationRequest() {
-        LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(1000);
-        mLocationRequest.setFastestInterval(1000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        return mLocationRequest;
+        if (locationRequest == null) {
+            locationRequest = new LocationRequest();
+            locationRequest.setInterval(1000);
+            locationRequest.setFastestInterval(1000);
+            locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        }
+
+        return locationRequest;
     }
 
     public void stopLocationServices() {

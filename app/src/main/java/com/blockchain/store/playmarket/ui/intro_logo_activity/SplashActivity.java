@@ -3,7 +3,6 @@ package com.blockchain.store.playmarket.ui.intro_logo_activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -52,10 +51,10 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     }
 
     private void startLocationTimeout() {
-        final Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            continueWithoutLocation.setVisibility(View.VISIBLE);
-        }, LOCATION_FOUND_TIMEOUT_MILLIS);
+//        final Handler handler = new Handler();
+//        handler.postDelayed(() -> {
+//            continueWithoutLocation.setVisibility(View.VISIBLE);
+//        }, LOCATION_FOUND_TIMEOUT_MILLIS);
     }
 
     private void checkLocationPermission() {
@@ -122,9 +121,8 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
 
 
     @Override
-    public void onLocationReady(Location location) {
+    public void onLocationReady() {
         loadLoginPromptActivity();
-        Log.d(TAG, "onLocationReady() called with: location = [" + location + "]");
     }
 
     @OnClick(R.id.continue_without_location)

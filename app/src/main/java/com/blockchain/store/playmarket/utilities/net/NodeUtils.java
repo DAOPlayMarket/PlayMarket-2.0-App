@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.utilities.net;
 
+import android.location.Location;
 import android.util.Log;
 
 import org.apache.http.HttpResponse;
@@ -15,6 +16,9 @@ import java.util.Set;
 import de.measite.minidns.hla.ResolverApi;
 import de.measite.minidns.hla.ResolverResult;
 import de.measite.minidns.record.TXT;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by samsheff on 04/09/2017.
@@ -24,6 +28,7 @@ public class NodeUtils {
 
     public static final String NODES_DNS_SERVER = "nodes.playmarket.io";
     public static final String IP_LOOKUP_URL = "http://ip-api.com/line";
+
 
     public static String[] getNodesList(String domain) throws IOException {
         ResolverResult<TXT> result = ResolverApi.INSTANCE.resolve(domain, TXT.class);
@@ -49,9 +54,9 @@ public class NodeUtils {
         HttpResponse response;
         response = client.execute(request);
         String responseBody = EntityUtils.toString(response.getEntity());
-        Log.d("NET",  responseBody);
+        Log.d("NET", responseBody);
 
-        String[] geoInfo =  responseBody.split("\n");
+        String[] geoInfo = responseBody.split("\n");
 
         ArrayList coords = new ArrayList();
         coords.add(Double.valueOf(geoInfo[7]));
@@ -67,10 +72,10 @@ public class NodeUtils {
         double minNodeLat = 300;
         double minNodeLon = 300;
 
-        for (int i=0; i < nodes.length; i++) {
+        for (int i = 0; i < nodes.length; i++) {
             String[] splitNode = nodes[i].split(":");
 
-            if (i==0 || (Math.abs(lat - Double.valueOf(splitNode[1])) < minNodeLat && Math.abs(lon - Double.valueOf(splitNode[2])) < minNodeLon)) {
+            if (i == 0 || (Math.abs(lat - Double.valueOf(splitNode[1])) < minNodeLat && Math.abs(lon - Double.valueOf(splitNode[2])) < minNodeLon)) {
                 minNodeLat = Math.abs(lon - Double.valueOf(splitNode[1]));
                 minNodeLon = Math.abs(lon - Double.valueOf(splitNode[2]));
 
@@ -79,5 +84,18 @@ public class NodeUtils {
         }
 
         return nodes[nearestNodeIndex].split(":")[0];
+    }
+
+    public Observable<String> getNearestNode(Location location) {
+        return Observable.create(subscriber -> {
+            try {
+                String[] nodes = NodeUtils.getNodesList(NodeUtils.NODES_DNS_SERVER);
+                String nearestNodeIP = NodeUtils.getNearestNode(nodes, location.getLatitude(), location.getLongitude());
+                subscriber.onNext(nearestNodeIP);
+                subscriber.onCompleted();
+            } catch (Exception e) {
+                subscriber.onError(e);
+            }
+        });
     }
 }

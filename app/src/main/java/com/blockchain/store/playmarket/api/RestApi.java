@@ -1,5 +1,7 @@
 package com.blockchain.store.playmarket.api;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -14,15 +16,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RestApi {
-    public static final String SERVER_ENDPOINT = "http://192.168.11.186:3000";
-    public static final String BASE_URL = SERVER_ENDPOINT + "/api/";
-    public static final String ICON_URL = SERVER_ENDPOINT + "/data/";
     public static final String BASE_URL_INFURA = "https://rinkeby.infura.io/iYGysj5Sns7HV42MdiXi/";
 
-    private static final String SERVER_ENDPOINT_old = "http://31.211.80.204:3000";
+    public static String SERVER_ENDPOINT = "http://192.168.11.186:3000";
+    public static String BASE_URL= SERVER_ENDPOINT + "/api/";
+    public static String ICON_URL= SERVER_ENDPOINT + "/data/";
 
+    private static final String PLAYMARKET_BASE_URL = ".playmarket.io";
     private static final String TAG = "RestApi";
 
+    private static String PORT_SUFFIX = ":3000";
+    private static String nodeUrl = "http://n";
     private static ServerApi restApi;
     private static InfuraApi infuraApi;
 
@@ -41,6 +45,7 @@ public class RestApi {
     }
 
     private static void setupWithRest() {
+        Log.d(TAG, "setupWithRest: " + BASE_URL);
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
@@ -58,20 +63,6 @@ public class RestApi {
     private static void setupWithInfura() {
         OkHttpClient client = new OkHttpClient.Builder()
                 .build();
-//        client.interceptors().add(new Interceptor() {
-//            @Override
-//            public Response intercept(Chain chain) throws IOException {
-//                Request request = chain.request();
-//
-//                // try the request
-//                Response response = chain.proceed(request);
-//                if (!response.isSuccessful()) {
-//                    Log.d(TAG, "intercept: request not successfull " + response.message());
-//
-//                }
-//                return response;
-//            }
-//        });
         Gson gson = new GsonBuilder()
                 .setLenient().create();
         Retrofit retrofit = new Retrofit.Builder()
@@ -83,4 +74,10 @@ public class RestApi {
         infuraApi = retrofit.create(InfuraApi.class);
     }
 
+    public static void setServerEndpoint(String serverEndpoint) {
+        SERVER_ENDPOINT = nodeUrl + serverEndpoint + PLAYMARKET_BASE_URL + PORT_SUFFIX;
+        BASE_URL = SERVER_ENDPOINT + "/api/";
+        ICON_URL = SERVER_ENDPOINT + "/data/";
+        Log.d(TAG, "setServerEndpoint: " + SERVER_ENDPOINT);
+    }
 }

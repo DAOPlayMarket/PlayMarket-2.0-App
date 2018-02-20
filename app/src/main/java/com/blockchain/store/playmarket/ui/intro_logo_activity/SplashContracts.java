@@ -1,7 +1,6 @@
 package com.blockchain.store.playmarket.ui.intro_logo_activity;
 
 import android.content.Context;
-import android.location.Location;
 
 /**
  * Created by Crypton04 on 24.01.2018.
@@ -10,7 +9,7 @@ import android.location.Location;
 public class SplashContracts {
     public interface View {
 
-        void onLocationReady(Location location);
+        void onLocationReady();
     }
 
     public interface Presenter {

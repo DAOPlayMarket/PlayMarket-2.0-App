@@ -56,7 +56,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         ButterKnife.bind(this);
         presenter = new LoginPromptPresenter();
         presenter.init(this, getApplicationContext());
-        if (presenter.checkJsonFileExists()) showImportUserDialog();
+//        if (presenter.checkJsonFileExists()) showImportUserDialog();
         if (AccountManager.isHasUsers()) {
             goToMainActivity(null);
         } else {

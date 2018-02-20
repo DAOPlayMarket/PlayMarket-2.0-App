@@ -4,14 +4,16 @@ import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
-import com.blockchain.store.playmarket.Application;
+import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.content.LocationManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.net.APIUtils;
 import com.blockchain.store.playmarket.utilities.net.NodeUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Crypton04 on 24.01.2018.
@@ -33,52 +35,27 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
         locationManager.getLocation(context, this);
     }
 
-    private void connectToNearestNode(Location location) {
-        Thread thread = new Thread(() -> {
-            try {
-                Log.d("Location", location.getLatitude() + "," + location.getLongitude());
-                String[] nodes = NodeUtils.getNodesList(NodeUtils.NODES_DNS_SERVER);
-                for (String node : nodes) {
-                    Log.d("Node", node);
-                }
-
-                String nearestNodeIP = NodeUtils.getNearestNode(nodes, location.getLatitude(), location.getLatitude());
-                Log.d("Node", nearestNodeIP);
-
-                initApiUtils(nearestNodeIP);
-
-                setContractAddress();
-                String gasPrice = APIUtils.api.getGasPrice();
-                Log.d(TAG, "requestUserLocation: " + gasPrice);
-            } catch (IOException e) {
-                e.printStackTrace();
-
-                initApiUtils("000001");
-                try {
-                    setContractAddress();
-                } catch (IOException ee) {
-                    ee.printStackTrace();
-                }
-            }
-        });
-
-        thread.start();
+    private void getNearestNode(Location location) {
+        new NodeUtils().getNearestNode(location)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onNearestNodeFound, this::onNearestNodeFail);
     }
 
-    protected void initApiUtils(String node) {
-        new APIUtils(node);
+    private void onNearestNodeFound(String nearestNodeIp) {
+        Log.d(TAG, "onNearestNodeFound() called with: nearestNodeIp = [" + nearestNodeIp + "]");
+        RestApi.setServerEndpoint(nearestNodeIp);
+        view.onLocationReady();
     }
 
-    protected void setContractAddress() throws IOException {
-        CryptoUtils.CONTRACT_ADDRESS = APIUtils.api.getContractAddress();
+    private void onNearestNodeFail(Throwable throwable) {
+        Log.d(TAG, "onNearestNodeFail() called with: throwable = [" + throwable + "]");
     }
 
     @Override
     public void onLocationReady(Location location) {
-        connectToNearestNode(location);
-
         locationManager.stopLocationServices();
-//        view.onLocationReady(location);
-//        connectToNearestNode(location);
+        getNearestNode(location);
+
     }
 }
