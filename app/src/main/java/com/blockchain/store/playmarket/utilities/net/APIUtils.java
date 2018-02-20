@@ -57,7 +57,7 @@ public class APIUtils {
     public static final String SERIALIZED_TRANSACTION_PARAM = "serializedTx";
     public static final String GAS_PRICE_PARAM = "gasPrice";
 
-    public static String nodeUrl = "https://n";
+    public static String nodeUrl = "http://n";
 
     private static final int BUFFER_SIZE = 4096;
 

@@ -15,10 +15,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestApi {
     public static final String SERVER_ENDPOINT = "http://192.168.11.186:3000";
-    private static final String SERVER_ENDPOINT_old = "http://31.211.80.204:3000";
     public static final String BASE_URL = SERVER_ENDPOINT + "/api/";
     public static final String ICON_URL = SERVER_ENDPOINT + "/data/";
     public static final String BASE_URL_INFURA = "https://rinkeby.infura.io/iYGysj5Sns7HV42MdiXi/";
+
+    private static final String SERVER_ENDPOINT_old = "http://31.211.80.204:3000";
 
     private static final String TAG = "RestApi";
 
