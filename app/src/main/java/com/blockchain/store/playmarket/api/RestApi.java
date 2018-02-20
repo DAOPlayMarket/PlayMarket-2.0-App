@@ -5,6 +5,13 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.security.cert.CertificateException;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -19,14 +26,14 @@ public class RestApi {
     public static final String BASE_URL_INFURA = "https://rinkeby.infura.io/iYGysj5Sns7HV42MdiXi/";
 
     public static String SERVER_ENDPOINT = "http://192.168.11.186:3000";
-    public static String BASE_URL= SERVER_ENDPOINT + "/api/";
-    public static String ICON_URL= SERVER_ENDPOINT + "/data/";
+    public static String BASE_URL = SERVER_ENDPOINT + "/api/";
+    public static String ICON_URL = SERVER_ENDPOINT + "/data/";
 
     private static final String PLAYMARKET_BASE_URL = ".playmarket.io";
     private static final String TAG = "RestApi";
 
     private static String PORT_SUFFIX = ":3000";
-    private static String nodeUrl = "http://n";
+    private static String nodeUrl = "https://n";
     private static ServerApi restApi;
     private static InfuraApi infuraApi;
 
@@ -48,7 +55,9 @@ public class RestApi {
         Log.d(TAG, "setupWithRest: " + BASE_URL);
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .sslSocketFactory(getSllSocketFactory()).build();
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(new ResultAdapterFactory()).create();
         Retrofit retrofit = new Retrofit.Builder()
@@ -62,6 +71,7 @@ public class RestApi {
 
     private static void setupWithInfura() {
         OkHttpClient client = new OkHttpClient.Builder()
+                .sslSocketFactory(getSllSocketFactory())
                 .build();
         Gson gson = new GsonBuilder()
                 .setLenient().create();
@@ -79,5 +89,34 @@ public class RestApi {
         BASE_URL = SERVER_ENDPOINT + "/api/";
         ICON_URL = SERVER_ENDPOINT + "/data/";
         Log.d(TAG, "setServerEndpoint: " + SERVER_ENDPOINT);
+    }
+
+    public static SSLSocketFactory getSllSocketFactory() {
+        // Install the all-trusting trust manager
+        final SSLContext sslContext;
+
+        final TrustManager[] trustAllCerts = new TrustManager[]{
+                new X509TrustManager() {
+                    @Override
+                    public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                    }
+
+                    @Override
+                    public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                    }
+
+                    @Override
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                        return new java.security.cert.X509Certificate[]{};
+                    }
+                }
+        };
+        try {
+            sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+            return sslContext.getSocketFactory();
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

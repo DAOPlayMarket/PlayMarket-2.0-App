@@ -9,10 +9,15 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.orhanobut.hawk.Hawk;
 
 import io.ethmobile.ethdroid.KeyManager;
 import io.fabric.sdk.android.Fabric;
+import okhttp3.OkHttpClient;
+
+import static com.blockchain.store.playmarket.api.RestApi.getSllSocketFactory;
 
 /**
  * Created by Crypton04 on 24.01.2018.
@@ -34,8 +39,14 @@ public class Application extends MultiDexApplication {
         keyManager = KeyManager.newKeyManager(getFilesDir().getAbsolutePath());
         AccountManager.setKeyManager(keyManager);
         Hawk.init(this).build();
-        Fresco.initialize(this);
+        setUpFresco();
+    }
 
+    private void setUpFresco() {
+
+        ImagePipelineConfig config = OkHttpImagePipelineConfigFactory
+                .newBuilder(this, new OkHttpClient.Builder().sslSocketFactory(getSllSocketFactory()).build()).build();
+        Fresco.initialize(this, config);
     }
 
     public static AppsDispatcher getAppsDispatcher() {
