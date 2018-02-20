@@ -7,4 +7,5 @@
         name="Download"
         path="Download/" />
 
+    <cache-path name="cache" path="/" />
 </paths>

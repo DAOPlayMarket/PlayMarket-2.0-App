@@ -79,18 +79,45 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     Вызывается после нажатия на кнопку "save_mail_imageButton" пользователем.
     */
     @OnClick(R.id.save_mail_imageButton)
-    void sendMail() {
-        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-        emailIntent.setType("text/plain");
-        //emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, "step.93.07@gmail.com");
-        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Your key");
-        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, addressTextView.getText());
+    void sendMail(){
+        try {
+            String jsonKeystoreFileURL = Application.keyManager.getAccounts().get(0).getURL();
+            final String pathToJsonFile = jsonKeystoreFileURL.replace("keystore:///", "");
+            // Создадим новый файл, используя созданное выше поле.
+            File jsonKeystoreFile = new File(pathToJsonFile);
 
-        this.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            FileInputStream inputStream = new FileInputStream(jsonKeystoreFile);
+            byte[] bytes = new byte[inputStream.available()];
+            inputStream.read(bytes);
+            // Создадим поле для хранения содержимого файла.
+            String jsonText = new String(bytes);
+
+            File copyJsonFile = File.createTempFile(jsonKeystoreFile.getName(), "", getApplicationContext().getCacheDir());
+            FileOutputStream outputStream = new FileOutputStream(copyJsonFile);
+
+            // Запишем в созданный файл данные из поля "jsonText".
+            outputStream.write(jsonText.getBytes());
+            outputStream.close();
+
+            Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+            emailIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            Uri uri = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() + ".fileprovider", copyJsonFile.getAbsoluteFile());
+
+            emailIntent.setType("text/plain");
+            emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "JSON Keystore File");
+            emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            copyJsonFile.deleteOnExit();
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @OnClick(R.id.local_save_imageButton)
-    void localSaveKey() {
+    void localSaveKey(){
         presenter.saveKeyOnDevice(addressTextView.getText().toString());
     }
 
@@ -157,7 +184,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     Вызывается после нажатия на кнопку "continue_button" пользователем.
     */
     @OnClick(R.id.continue_button)
-    void goToMainActivity() {
+    void goToMainActivity(){
         Intent myIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
         startActivity(myIntent);
         finish();
@@ -205,7 +232,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
         });
 
 
-        Button close_btn = d.findViewById(R.id.cancelButton);
+        Button close_btn = d.findViewById(R.id.close_button);
         close_btn.setOnClickListener(v -> d.dismiss());
     }
 

@@ -33,7 +33,7 @@
     <string name="news">News</string>
     <string name="history">History</string>
     <string name="settings">Settings</string>
-    <string name="ether_exchange">Exchange</string>
+    <string name="ether_exchange">Ether exchange</string>
     <string name="my_ico">My ICO</string>
     <string name="about">About</string>
 
@@ -60,6 +60,12 @@
 
     <string name="add_folder_button">+ Add Folder</string>
     <string name="back_button">Back</string>
+
+    <!--dialog strings-->
+    <string name="enter_your_password"> Enter your password</string>
+    <string name="empty_password">Password field can not be empty</string>
+    <string name="short_password">Password cannot be less than 7 characters</string>
+
 
     <string name="btn_install">install</string>
     <string name="btn_download">download</string>
