@@ -4,8 +4,10 @@ import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
+import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.content.LocationManager;
+import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.net.APIUtils;
 import com.blockchain.store.playmarket.utilities.net.NodeUtils;
@@ -31,11 +33,13 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
     }
 
     @Override
-    public void requestUserLocation(Context context) { // todo deprecated 1.2.18. Delete later
+    public void requestUserLocation(Context context) {
+        view.setStatusText(R.string.network_status_location_search);
         locationManager.getLocation(context, this);
     }
 
     private void getNearestNode(Location location) {
+        view.setStatusText(R.string.network_status_node_search);
         new NodeUtils().getNearestNode(location)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -49,13 +53,14 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
     }
 
     private void onNearestNodeFail(Throwable throwable) {
-        Log.d(TAG, "onNearestNodeFail() called with: throwable = [" + throwable + "]");
+        view.setStatusText("Search for the nearest node fail: " + throwable.getMessage());
     }
 
     @Override
     public void onLocationReady(Location location) {
         locationManager.stopLocationServices();
-        getNearestNode(location);
+//        getNearestNode(location);
+        view.onLocationReady();
 
     }
 }

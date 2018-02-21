@@ -13,6 +13,9 @@ import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFact
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.orhanobut.hawk.Hawk;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
+
 import io.ethmobile.ethdroid.KeyManager;
 import io.fabric.sdk.android.Fabric;
 import okhttp3.OkHttpClient;
@@ -45,7 +48,11 @@ public class Application extends MultiDexApplication {
     private void setUpFresco() {
 
         ImagePipelineConfig config = OkHttpImagePipelineConfigFactory
-                .newBuilder(this, new OkHttpClient.Builder().sslSocketFactory(getSllSocketFactory()).build()).build();
+                .newBuilder(this,
+                        new OkHttpClient.Builder()
+                                .sslSocketFactory(getSllSocketFactory())
+                                .hostnameVerifier((hostname, session) -> true)
+                                .build()).build();
         Fresco.initialize(this, config);
     }
 

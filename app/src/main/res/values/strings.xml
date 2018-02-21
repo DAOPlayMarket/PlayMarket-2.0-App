@@ -92,6 +92,8 @@
     <string name="back">Back</string>
     <string name="invest_btn_text">Поддержать</string>
     <string name="wrong_invest_amout">Wrong amount!</string>
+    <string name="network_status_location_search">Search user location...</string>
+    <string name="network_status_node_search">Search for the nearest node</string>
 
     <string-array name="query_suggestions">
         <item>Android</item>

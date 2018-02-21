@@ -26,6 +26,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class InvestActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, InvestContract.View {
+    private static final String TAG = "InvestActivity";
+    private static final String INVEST_APP_PARAM = "invest_app_param";
 
     @BindView(R.id.top_layout_back_arrow) ImageView top_layout_back_arrow;
     @BindView(R.id.top_layout_app_name) TextView top_layout_app_name;
@@ -33,8 +35,6 @@ public class InvestActivity extends YouTubeBaseActivity implements YouTubePlayer
     @BindView(R.id.app_logo) ImageView app_logo;
     @BindView(R.id.invest_btn) Button invest_btn;
     @BindView(R.id.youtube) YouTubePlayerView youtube;
-    private static final String TAG = "InvestActivity";
-    private static final String INVEST_APP_PARAM = "invest_app_param";
 
     private AppInfo appInfo;
     private InvestPresenter presenter;

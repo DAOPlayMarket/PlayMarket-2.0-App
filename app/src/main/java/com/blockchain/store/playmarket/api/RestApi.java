@@ -7,7 +7,9 @@ import com.google.gson.GsonBuilder;
 
 import java.security.cert.CertificateException;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -25,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RestApi {
     public static final String BASE_URL_INFURA = "https://rinkeby.infura.io/iYGysj5Sns7HV42MdiXi/";
 
-    public static String SERVER_ENDPOINT = "http://192.168.11.186:3000";
+    public static String SERVER_ENDPOINT = "https://192.168.11.186:3000";
     public static String BASE_URL = SERVER_ENDPOINT + "/api/";
     public static String ICON_URL = SERVER_ENDPOINT + "/data/";
 
@@ -57,6 +59,12 @@ public class RestApi {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
+                .hostnameVerifier(new HostnameVerifier() {
+                    @Override
+                    public boolean verify(String hostname, SSLSession session) {
+                        return true;
+                    }
+                })
                 .sslSocketFactory(getSllSocketFactory()).build();
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(new ResultAdapterFactory()).create();

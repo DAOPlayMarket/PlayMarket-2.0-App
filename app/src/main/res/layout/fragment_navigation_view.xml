@@ -14,7 +14,6 @@
         android:paddingRight="25dp"
         android:paddingTop="50dp">
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

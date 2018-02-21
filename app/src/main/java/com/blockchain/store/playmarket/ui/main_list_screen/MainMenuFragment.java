@@ -21,6 +21,11 @@ import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.utilities.EndlessRecyclerOnScrollListener;
 
+import org.spongycastle.crypto.Digest;
+import org.spongycastle.crypto.macs.HMac;
+import org.spongycastle.jcajce.provider.digest.MD2;
+
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -49,6 +54,11 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
         args.putParcelable(CATEGORY_EXTRA_ARGS, category);
         MainMenuFragment fragment = new MainMenuFragment();
         fragment.setArguments(args);
+        try {
+            HMac sha521 = new HMac((Digest) MD2.Digest.getInstance("sha521"));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         return fragment;
     }
 

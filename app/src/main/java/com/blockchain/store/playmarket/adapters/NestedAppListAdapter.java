@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.adapters;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -120,13 +121,13 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public void bind(App app, int position) {
             content.setText(app.nameApp);
+            Log.d(TAG, "bind: app icon: " + app.getIconUrl());
             imageView.setImageURI(Uri.parse(app.getIconUrl()));
             if (app.isFree) {
                 price.setText(R.string.app_free);
             } else {
                 String priceInEther = new EthereumPrice(app.price).inEther().toString();
                 price.setText(priceInEther);
-
             }
             cardView.setOnClickListener(v -> mainCallback.onAppClicked(app));
 //            dots.setOnClickListener(v -> {
