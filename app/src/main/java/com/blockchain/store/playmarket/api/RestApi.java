@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
 import java.security.cert.CertificateException;
 
 import javax.net.ssl.HostnameVerifier;
@@ -14,7 +15,11 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -26,6 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestApi {
     public static final String BASE_URL_INFURA = "https://rinkeby.infura.io/iYGysj5Sns7HV42MdiXi/";
+    public static final String CHANGELLY_ENDPOINT = "https://api.changelly.com";
 
     public static String SERVER_ENDPOINT = "https://192.168.11.186:3000";
     public static String BASE_URL = SERVER_ENDPOINT + "/api/";
@@ -37,7 +43,7 @@ public class RestApi {
     private static String PORT_SUFFIX = ":3000";
     private static String nodeUrl = "https://n";
     private static ServerApi restApi;
-    private static InfuraApi infuraApi;
+    private static ChangellyApi changellyApi;
 
     public static ServerApi getServerApi() {
         if (restApi == null) {
@@ -46,11 +52,11 @@ public class RestApi {
         return restApi;
     }
 
-    public static InfuraApi getInfuraApi() {
-        if (infuraApi == null) {
-            setupWithInfura();
+    public static ChangellyApi getChangellyApi() {
+        if (changellyApi == null) {
+            setupWithChangelly();
         }
-        return infuraApi;
+        return changellyApi;
     }
 
     private static void setupWithRest() {
@@ -59,13 +65,9 @@ public class RestApi {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
-                .hostnameVerifier(new HostnameVerifier() {
-                    @Override
-                    public boolean verify(String hostname, SSLSession session) {
-                        return true;
-                    }
-                })
+                .hostnameVerifier((hostname, session) -> true)
                 .sslSocketFactory(getSllSocketFactory()).build();
+
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(new ResultAdapterFactory()).create();
         Retrofit retrofit = new Retrofit.Builder()
@@ -77,19 +79,20 @@ public class RestApi {
         restApi = retrofit.create(ServerApi.class);
     }
 
-    private static void setupWithInfura() {
+    private static void setupWithChangelly() {
         OkHttpClient client = new OkHttpClient.Builder()
                 .sslSocketFactory(getSllSocketFactory())
+                .addInterceptor(new ChangellyInterceptor())
                 .build();
         Gson gson = new GsonBuilder()
                 .setLenient().create();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL_INFURA)
+                .baseUrl(CHANGELLY_ENDPOINT)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(client)
                 .build();
-        infuraApi = retrofit.create(InfuraApi.class);
+        changellyApi = retrofit.create(ChangellyApi.class);
     }
 
     public static void setServerEndpoint(String serverEndpoint) {

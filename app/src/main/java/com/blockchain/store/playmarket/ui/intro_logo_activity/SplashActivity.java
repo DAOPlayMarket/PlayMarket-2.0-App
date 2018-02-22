@@ -65,55 +65,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         setupAndPlayVideo();
         checkLocationPermission();
         startLocationTimeout();
-//        test();
-    }
-
-    private void test() {
-        String message = "{" +
-                "\"id\":\"1\"," +
-                "\"jsonrpc\":\"2.0\"," +
-                "\"method\":\"getCurrencies\"," +
-                "\"params\":[" +
-                "]" +
-                "}";
-
-        try {
-            JSONObject main = new JSONObject();
-            main.put("id", 1);
-            main.put("jsonrpc", "2.0");
-            main.put("method", "getCurrencies");
-            main.put("params", new JSONArray());
-            Log.d(TAG, "test: " + main.toString()) ;
-            String hmac = buildHmacSignature(main.toString(), "7846abd752eb0779076f95354ce3a034cd4cef7616f936481c30f1c618b86068");
-            Log.d(TAG, "test: " + hmac);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-
-    }
-
-    private static final String HMAC_SHA512 = "HmacSHA512";
-
-    private String buildHmacSignature(String value, String secret) {
-        String result;
-        try {
-            Mac hmacSHA512 = Mac.getInstance("HmacSHA512");
-            SecretKeySpec secretKeySpec = new SecretKeySpec(secret.getBytes(),
-                    "HmacSHA512");
-            hmacSHA512.init(secretKeySpec);
-
-            byte[] digest = hmacSHA512.doFinal(value.getBytes());
-            BigInteger hash = new BigInteger(1, digest);
-            result = hash.toString(16);
-            if ((result.length() % 2) != 0) {
-                result = "0" + result;
-            }
-        } catch (IllegalStateException | InvalidKeyException | NoSuchAlgorithmException ex) {
-            throw new RuntimeException("Problemas calculando HMAC", ex);
-        }
-        return result;
     }
 
     private void startLocationTimeout() {
@@ -146,7 +97,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "onActivityResult() called with: requestCode = [" + requestCode + "], resultCode = [" + resultCode + "], data = [" + data + "]");
         if (requestCode == LOCATION_DIALOG_REQUEST) {
             if (resultCode == RESULT_OK) {
                 presenter.requestUserLocation(this);

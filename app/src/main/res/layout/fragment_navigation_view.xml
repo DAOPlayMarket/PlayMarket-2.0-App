@@ -76,17 +76,36 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/account_top_up_button"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
-            android:layout_gravity="center"
-            android:background="@drawable/top_up_button"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/account_top_up"
-            android:textColor="@color/white"
-            android:textSize="12dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/account_top_up_button"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:background="@drawable/top_up_button"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/account_top_up"
+                android:textColor="@color/white"
+                android:textSize="12dp" />
+
+            <Button
+                android:id="@+id/nav_view_send"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:background="@drawable/top_up_button"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/nav_view_transfer"
+                android:textColor="@color/white"
+                android:textSize="12dp" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"

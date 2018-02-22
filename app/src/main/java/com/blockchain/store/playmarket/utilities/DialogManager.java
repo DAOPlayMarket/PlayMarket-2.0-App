@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.utilities;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;

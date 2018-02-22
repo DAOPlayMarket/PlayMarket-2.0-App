@@ -7,12 +7,10 @@ import android.util.Log;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.content.LocationManager;
-import com.blockchain.store.playmarket.utilities.ToastUtil;
-import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
-import com.blockchain.store.playmarket.utilities.net.APIUtils;
+import com.blockchain.store.playmarket.data.entities.ChangellyCurrenciesResponse;
+import com.blockchain.store.playmarket.data.entities.ChangellyBaseBody;
+import com.blockchain.store.playmarket.data.entities.ChangellyMinimumAmountResponse;
 import com.blockchain.store.playmarket.utilities.net.NodeUtils;
-
-import java.io.IOException;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -58,9 +56,23 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
 
     @Override
     public void onLocationReady(Location location) {
-        locationManager.stopLocationServices();
-//        getNearestNode(location);
-        view.onLocationReady();
+        testChangelly();
+//        locationManager.stopLocationServices();
+////        getNearestNode(location);
+//        view.onLocationReady();
 
+    }
+
+    private void testChangelly() {
+        RestApi.getChangellyApi().getMinimumAmount(ChangellyBaseBody.getMinAmount("eth","btc")).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onOK, this::onFail);
+    }
+
+    private void onOK(ChangellyMinimumAmountResponse changellyMinimumAmountResponse) {
+        Log.d(TAG, "onOK() called with: changellyMinimumAmountResponse = [" + changellyMinimumAmountResponse + "]");
+    }
+
+    private void onFail(Throwable throwable) {
+        Log.d(TAG, "onFail() called with: throwable = [" + throwable + "]");
     }
 }

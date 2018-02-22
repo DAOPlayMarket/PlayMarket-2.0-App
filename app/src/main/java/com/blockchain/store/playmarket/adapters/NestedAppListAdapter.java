@@ -88,7 +88,7 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder() called with: holder = [" + holder + "], position = [" + position + "]");
+
         if (holder instanceof NestedAppListViewHolder) {
             ((NestedAppListViewHolder) holder).bind(dispatcherType.apps.get(position), position);
         }
@@ -121,7 +121,6 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public void bind(App app, int position) {
             content.setText(app.nameApp);
-            Log.d(TAG, "bind: app icon: " + app.getIconUrl());
             imageView.setImageURI(Uri.parse(app.getIconUrl()));
             if (app.isFree) {
                 price.setText(R.string.app_free);
