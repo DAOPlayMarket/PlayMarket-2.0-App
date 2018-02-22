@@ -29,7 +29,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
             android:text="PlayMarket 2.0"
-            android:textColor="@color/nav_text_color"
+            android:textColor="@color/invest_main_color"
             android:textSize="32sp" />
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
             android:text="A Decentralized App Store for Android \nmade with the Ethereum Blockchain"
-            android:textColor="@color/nav_text_color"
+            android:textColor="@color/invest_main_color"
             android:textSize="12sp" />
 
         <LinearLayout
@@ -51,14 +51,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Этап #2"
-                android:textColor="@color/nav_text_color"
+                android:textColor="@color/invest_main_color"
                 android:textSize="24sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="/5"
-                android:textColor="@color/nav_text_color" />
+                android:textColor="@color/invest_main_color" />
 
             <android.support.v4.widget.Space
                 android:layout_width="0dp"
@@ -71,13 +71,13 @@
                 android:layout_gravity="center"
                 android:paddingRight="10dp"
                 android:src="@drawable/clock"
-                android:tint="@color/nav_text_color" />
+                android:tint="@color/invest_main_color" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="28:15:22:54"
-                android:textColor="@color/nav_text_color"
+                android:textColor="@color/invest_main_color"
                 android:textSize="24sp" />
 
         </LinearLayout>
@@ -100,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="12750"
-                android:textColor="@color/nav_text_color"
+                android:textColor="@color/invest_main_color"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -110,7 +110,7 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:text="25500"
-                android:textColor="@color/nav_text_color"
+                android:textColor="@color/invest_main_color"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -125,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Собрано, ETH"
-                android:textColor="@color/nav_text_color"
+                android:textColor="@color/invest_main_color"
                 android:textSize="14sp" />
 
             <TextView
@@ -134,7 +134,7 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:text="HardCap"
-                android:textColor="@color/nav_text_color"
+                android:textColor="@color/invest_main_color"
                 android:textSize="14sp" />
 
         </LinearLayout>

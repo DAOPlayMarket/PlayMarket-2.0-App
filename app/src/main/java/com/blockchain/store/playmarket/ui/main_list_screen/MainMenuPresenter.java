@@ -45,10 +45,10 @@ public class MainMenuPresenter implements Presenter {
 
     @Override
     public void searchQuery(String text) {
-        RestApi.getServerApi().getSearchResult(text)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onSearchResultReady, this::onSearchResultFail);
+//        RestApi.getServerApi().getSearchResult(text)
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(this::onSearchResultReady, this::onSearchResultFail);
     }
 
     private void onSearchResultReady(SearchResponse searchResponse) {

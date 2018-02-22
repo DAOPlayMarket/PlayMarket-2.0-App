@@ -1,33 +1,34 @@
 package com.blockchain.store.playmarket.utilities;
 
 import android.app.Dialog;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.content.Context;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.adapters.UserListAdapter;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
-import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import org.ethereum.geth.Account;
-import org.ethereum.geth.Address;
-import org.ethereum.geth.BigInt;
-import org.ethereum.geth.Transaction;
-
+import java.io.File;
 import java.math.BigDecimal;
-
-import io.ethmobile.ethdroid.KeyManager;
+import java.util.ArrayList;
 
 /**
  * Created by Crypton04 on 08.02.2018.
  */
 
 public class DialogManager {
+
     private static final String TAG = "DialogManager";
 
     public void showPurchaseDialog(AppInfo appinfo, Context context, PurchaseDialogCallback callback) {
@@ -108,12 +109,43 @@ public class DialogManager {
         dialog.show();
     }
 
+    public void confirmImportDialog(Context context, String fileData) {
+
+        AlertDialog confirmImportDialog = new android.app.AlertDialog.Builder()
+                .setView(R.layout.password_prompt_dialog)
+                .setCancelable(false)
+                .create();
+
+        final EditText passwordText = (EditText) confirmImportDialog.findViewById(R.id.passwordText);
+        Button importButton = (Button) confirmImportDialog.findViewById(R.id.continueButton);
+        Button closeButton = (Button) confirmImportDialog.findViewById(R.id.close_button);
+        TextInputLayout passwordLayout = (TextInputLayout) confirmImportDialog.findViewById(R.id.password_inputLayout);
+
+
+        importButton.setOnClickListener(v -> {
+            if (presenter.confirmImportButtonPressed(fileData, passwordText.getText().toString())) {
+                goToMainActivity();
+                ToastUtil.showToast(R.string.import_successful);
+            } else {
+                passwordLayout.setErrorEnabled(true);
+                passwordLayout.setError(context.getResources().getString(R.string.wrong_password));
+            }
+        });
+
+        closeButton.setOnClickListener(v -> confirmImportDialog.dismiss());
+        confirmImportDialog.show();
+    }
+
     public interface PurchaseDialogCallback {
         void onPurchaseClicked();
     }
 
     public interface InvestDialogCallback {
         public void onInvestClicked(String investAmount);
+    }
+
+    public interface ConfirmImportDialogCallback {
+        void onPurchaseClicked();
     }
 
 }

@@ -13,6 +13,7 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import com.bumptech.glide.request.target.NotificationTarget;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Crypton04 on 30.01.2018.
@@ -186,11 +187,17 @@ public class NotificationManager {
     public void removeCallback(App app, NotificationManagerCallbacks callback) {
         if (this.callbacks.isEmpty()) return;
         Log.d(TAG, "removeCallback: was callbacks " + this.callbacks.size());
-        for (Pair<String, NotificationManagerCallbacks> object : this.callbacks) {
+        for (Iterator<Pair<String, NotificationManagerCallbacks>> iterator = this.callbacks.iterator(); iterator.hasNext(); ) {
+            Pair<String, NotificationManagerCallbacks> object = iterator.next();
             if (object.second != null && object.second.equals(callback)) {
-                this.callbacks.remove(object);
+                iterator.remove();
             }
         }
+//        for (Pair<String, NotificationManagerCallbacks> object : this.callbacks) {
+//            if (object.second != null && object.second.equals(callback)) {
+//                this.callbacks.remove(object);
+//            }
+//        }
         Log.d(TAG, "removeCallback: now callbacks " + this.callbacks.size());
     }
 }

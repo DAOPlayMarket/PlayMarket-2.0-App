@@ -97,6 +97,10 @@
             android:name="io.fabric.ApiKey"
             android:value="c9546f35cbfcc932887cc4166668464f6715b155" />
 
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
+
         <activity android:name=".ui.invest_screen.InvestActivity" />
         <activity android:name=".ui.file_manager_screen.FileManagerActivity"></activity>
     </application>

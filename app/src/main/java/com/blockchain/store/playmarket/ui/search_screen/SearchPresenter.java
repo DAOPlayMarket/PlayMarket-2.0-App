@@ -1,7 +1,9 @@
 package com.blockchain.store.playmarket.ui.search_screen;
 
 import com.blockchain.store.playmarket.api.RestApi;
-import com.blockchain.store.playmarket.data.entities.SearchResponse;
+import com.blockchain.store.playmarket.data.entities.App;
+
+import java.util.ArrayList;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -28,10 +30,8 @@ public class SearchPresenter implements SearchContract.Presenter {
                 .subscribe(this::onSearchResultReady, this::onSearchResultFail);
     }
 
-
-    private void onSearchResultReady(SearchResponse searchResponse) {
-        view.onSearchResultReady(searchResponse.apps);
-
+    private void onSearchResultReady(ArrayList<App> apps) {
+        view.onSearchResultReady(apps);
     }
 
     private void onSearchResultFail(Throwable throwable) {

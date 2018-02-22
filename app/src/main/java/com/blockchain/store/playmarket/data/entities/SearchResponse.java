@@ -9,5 +9,6 @@ import java.util.ArrayList;
  */
 
 public class SearchResponse {
+    @SerializedName("data")
     public ArrayList<App> apps;
 }

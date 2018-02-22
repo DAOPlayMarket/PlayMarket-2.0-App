@@ -72,5 +72,5 @@ public interface ServerApi {
 
     @FormUrlEncoded
     @POST("search")
-    Observable<SearchResponse> getSearchResult(@Field("query") String query);
+    Observable<ArrayList<App>> getSearchResult(@Field("query") String query);
 }

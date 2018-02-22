@@ -23,8 +23,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         multiDexEnabled true
-        versionCode 2
-        versionName '1.1'
+        versionCode 4
+        versionName '1.1.2'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -62,6 +62,7 @@ dependencies {
 
     implementation 'com.android.support:palette-v7:27.0.2'
     implementation 'com.github.stfalcon:frescoimageviewer:0.5.0'
+    implementation "com.facebook.fresco:imagepipeline-okhttp3:1.8.1"
 
     implementation 'me.zhanghai.android.materialratingbar:library:1.2.0'
     implementation 'com.koushikdutta.ion:ion:2.+'

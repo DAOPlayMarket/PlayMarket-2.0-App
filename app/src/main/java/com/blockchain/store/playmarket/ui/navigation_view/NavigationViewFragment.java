@@ -38,9 +38,6 @@ import butterknife.OnClick;
 
 import static com.blockchain.store.playmarket.utilities.crypto.CryptoUtils.keyManager;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class NavigationViewFragment extends Fragment implements NavigationViewContract.View {
     private static final String TAG = "NavigationViewFragment";
 
