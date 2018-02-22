@@ -60,11 +60,21 @@
 
     <string name="add_folder_button">+ Add Folder</string>
     <string name="back_button">Back</string>
+    <string name="chose_folder">Select a folder to save the JSON File</string>
 
     <!--dialog strings-->
-    <string name="enter_your_password"> Enter your password</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="enter_folder_name">Enter folder name</string>
     <string name="empty_password">Password field can not be empty</string>
+    <string name="empty_field">This field can not be empty</string>
     <string name="short_password">Password cannot be less than 7 characters</string>
+    <string name="create_folder">Create new folder</string>
+
+    <!--Toast messages-->
+    <string name="success_autosave_message">Copy of the JSON Keystore File is successfully saved in the directory /PlayMarket2.0/Accounts/"</string>
+    <string name="failed_autosave_message">"JSON Keystore File" auto save failed"</string>
+    <string name="success_save_message">Copy of the JSON Keystore File is successfully saved</string>
+    <string name="failed_save_message">"JSON Keystore File" save failed"</string>
 
 
     <string name="btn_install">install</string>
@@ -92,6 +102,8 @@
     <string name="back">Back</string>
     <string name="invest_btn_text">Поддержать</string>
     <string name="wrong_invest_amout">Wrong amount!</string>
+    <string name="todo">TODO</string>
+    <string name="confirm_button">Confirm</string>
 
     <string-array name="query_suggestions">
         <item>Android</item>

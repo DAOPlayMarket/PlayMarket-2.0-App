@@ -12,13 +12,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.adapters.FileAdapter;
+import com.blockchain.store.playmarket.ui.file_manager_screen.FileManagerActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
@@ -29,7 +28,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,7 +40,6 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     private static final int CHOSE_FILE_CODE = 99;
 
     private ArrayList<File> fileList = new ArrayList<File>();
-    private final String basePath = Environment.getExternalStorageDirectory().getPath();
     private String currentPath = "";
 
     @BindView(R.id.address_text_view) TextView addressTextView;
@@ -122,43 +119,10 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
 
     @OnClick(R.id.local_save_imageButton)
     void localSaveKey(){
-        presenter.saveKeyOnDevice(addressTextView.getText().toString());
+        Intent intent = new Intent(getApplicationContext(), FileManagerActivity.class);
+        intent.putExtra(FileManagerActivity.START_FILE_MANAGER_TAG, "folders");
+        startActivityForResult(intent, 1);
     }
-
-
-    //@OnClick(R.id.save_cloud_imageButton)
-    //void localSaveJsonKeystoreFile(){
-//
-    //    fileList = getFiles(basePath);
-//
-    //    View dialogView = getLayoutInflater().inflate(R.layout.local_save_dialog, null);
-    //    AlertDialog.Builder builder = new AlertDialog.Builder(NewUserWelcomeActivity.this);
-//
-    //    ListView folderListView = (ListView) dialogView.findViewById(R.id.folders_listView);
-    //    Button backButton = (Button) dialogView.findViewById(R.id.back_button) ;
-    //    folderListView.setAdapter(new FileAdapter(this, fileList));
-    //    folderListView.setOnItemClickListener((adapterView, view, position, id) -> {
-    //        final ArrayAdapter<File> adapter = (FileAdapter) folderListView.getAdapter();
-    //        File file = adapter.getItem(position);
-    //        if (file.isDirectory()) {
-    //            currentPath = file.getPath();
-    //            RebuildFiles(adapter);
-    //        }
-    //    });
-//
-    //    backButton.setOnClickListener(v -> {
-    //        File file = new File(currentPath);
-    //        File parentDirectory = file.getParentFile();
-    //        if (parentDirectory != null) {
-    //            currentPath = parentDirectory.getPath();
-    //            RebuildFiles((FileAdapter) folderListView.getAdapter());
-    //        }
-    //    });
-//
-    //    builder.setView(dialogView);
-    //    AlertDialog saveFileDialog = builder.create();
-    //    saveFileDialog.show();
-    //}
 
     private void RebuildFiles(ArrayAdapter<File> adapter) {
         try {

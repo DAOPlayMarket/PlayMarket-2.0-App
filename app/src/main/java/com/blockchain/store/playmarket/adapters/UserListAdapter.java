@@ -27,7 +27,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     private ArrayList<File> usersArrayList;
 
 
-    private int selectedItemIndex = -1;
+    private int selectedItemIndex = 0;
 
     public UserListAdapter(ArrayList<File> usersArrayList){
         this.usersArrayList = usersArrayList;

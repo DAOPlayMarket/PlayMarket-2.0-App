@@ -13,54 +13,57 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Objects;
 
-// Класс для работы с файлами "JSON Keystore File".
 public class FileUtils {
 
     private static final String TAG = "LoginPromptActivity";
-    private final String DIRECTORY = "/PlayMarket2.0/Accounts/";
+    private static final String DEFAULT_PATH = Environment.getExternalStorageDirectory().getPath();
+    private static final String DEFAULT_DIRECTORY_NAME = "/PlayMarket2.0/Accounts/";
 
-    // Метода сохранения копии Json ключа на устройстве.
-    public void saveJsonKeystoreFile(String URL) {
-        // Создаём новый файл-каталог "/PlayMarket2.0/keys/" для хранения ключа.
-        File folder = new File(Environment.getExternalStorageDirectory() + DIRECTORY);
-        boolean success = true;
-        // Проверяем существование каталога и если его не существует, то создаём.
-        if (!folder.exists()) {
-            success = folder.mkdirs();
+    /**
+     * Метод создания новой директории.
+     */
+    public String createNewFolder(String currentDirectory, String directoryName) {
+        File newFolder = new File(currentDirectory + "/" + directoryName);
+        if (!newFolder.exists()) {
+            newFolder.mkdirs();
         }
-        // В случае успешного создания каталога или его существования, осуществляем сохранение ключа на устройство.
-        if (success) {
-            try {
-                // Создадим поле для хранения пути к файлу в памяти приложения.
-                final String pathToJsonFile = URL.replace("keystore:///", "");
-                // Создадим новый файл, используя созданное выше поле.
-                File jsonFile = new File(pathToJsonFile);
-                // Читаем содержимое файла.
-                FileInputStream inputStream = new FileInputStream(jsonFile);
-                byte[] bytes = new byte[inputStream.available()];
-                inputStream.read(bytes);
-                // Создадим поле для хранения содержимого файла.
-                String jsonText = new String(bytes);
+        return newFolder.getPath();
+    }
 
-                // В каталоге "/PlayMarket2.0/keys/" создадим новый файл.
-                File copyJsonFile = new File(Environment.getExternalStorageDirectory() + DIRECTORY, jsonFile.getName());
-                FileOutputStream outputStream = new FileOutputStream(copyJsonFile);
-                // Запишем в созданный файл данные из поля "jsonText".
-                outputStream.write(jsonText.getBytes());
-                outputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public String createNewFolder() {
+        return createNewFolder(DEFAULT_PATH, DEFAULT_DIRECTORY_NAME);
+    }
+
+    public boolean saveJsonKeystoreFile(String currentDirectory) {
+        try {
+            String jsonKeystoreFileURL = Application.keyManager.getAccounts().get(0).getURL();
+            final String pathToJsonFile = jsonKeystoreFileURL.replace("keystore:///", "");
+            File jsonFile = new File(pathToJsonFile);
+            FileInputStream inputStream = new FileInputStream(jsonFile);
+            byte[] bytes = new byte[inputStream.available()];
+            inputStream.read(bytes);
+            String jsonText = new String(bytes);
+            File copyJsonFile = new File(currentDirectory, jsonFile.getName());
+            FileOutputStream outputStream = new FileOutputStream(copyJsonFile);
+            outputStream.write(jsonText.getBytes());
+            outputStream.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return false;
     }
 
     // Метод чтения данных из "JsonKeystoreFile".
-    public String readJsonKeystoreFile(File file, String type){
+    public String readJsonKeystoreFile(File file, String type) {
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
             String jsonKeystoreFileData = bufferedReader.readLine();
@@ -82,12 +85,39 @@ public class FileUtils {
     public ArrayList<File> getJsonKeystoreFileList() {
         ArrayList<File> jsonAccounts = new ArrayList<>();
         // В поле типа File указываем путь к локальному хранилищу (каталогу) ключей.
-        File folder = new File(Environment.getExternalStorageDirectory() + DIRECTORY);
-        for(File file : folder.listFiles()){
-            if (file.isFile() && readJsonKeystoreFile(file, "address") != null) jsonAccounts.add(file);
+        File folder = new File(DEFAULT_PATH + DEFAULT_DIRECTORY_NAME);
+        for (File file : folder.listFiles()) {
+            if (file.isFile() && readJsonKeystoreFile(file, "address") != null)
+                jsonAccounts.add(file);
         }
         // Запрашиваем количество файлов хранящихся в каталоге.
         return jsonAccounts;
+    }
+
+    // Метод получения папок.
+    public ArrayList<File> getFileList(String directoryPath, String type) {
+        File directory = new File(directoryPath);
+        ArrayList<File> allFilesList = new ArrayList<>();
+        ArrayList<File> fileList = new ArrayList<>();
+
+        allFilesList.addAll(Arrays.asList(directory.listFiles()));
+        if (type.equals("all_files")) fileList = allFilesList;
+
+        if (type.equals("folders")) {
+            for (int i = 0; i < allFilesList.size(); i++) {
+                if (allFilesList.get(i).isDirectory()) fileList.add(allFilesList.get(i));
+            }
+        }
+
+        Collections.sort(fileList, (file, file2) -> {
+            if (file.isDirectory() && file2.isFile())
+                return -1;
+            else if (file.isFile() && file2.isDirectory())
+                return 1;
+            else
+                return file.getPath().toLowerCase().compareTo(file2.getPath().toLowerCase());
+        });
+        return fileList;
     }
 
     // Метод импортирования данных из JSON Keystore File.
@@ -107,7 +137,7 @@ public class FileUtils {
         // Устанавливаем начальный счётчик файлов на 0.
         int fileCount = 0;
         // В поле типа File указываем путь к локальному хранилищу (каталогу) ключей.
-        File folder = new File(Environment.getExternalStorageDirectory() + DIRECTORY);
+        File folder = new File(DEFAULT_PATH + DEFAULT_DIRECTORY_NAME);
         // Запрашиваем количество файлов хранящихся в каталоге.
         File[] files = folder.listFiles();
         if (files != null) {

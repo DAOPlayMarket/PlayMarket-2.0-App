@@ -1,7 +1,6 @@
 package com.blockchain.store.playmarket.ui.login_prompt_activity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -12,12 +11,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.UserListAdapter;
+import com.blockchain.store.playmarket.ui.file_manager_screen.FileManagerActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
@@ -29,7 +28,6 @@ import org.ethereum.geth.Account;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -45,7 +43,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
     private static final String TAG = "LoginPromptActivity";
 
     private AlertDialog importDialog;
-    private Dialog confirmImportDialog;
+    private AlertDialog confirmImportDialog;
     private AlertDialog newUserDialog;
 
 
@@ -55,8 +53,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         setContentView(R.layout.activity_login_prompt);
         ButterKnife.bind(this);
         presenter = new LoginPromptPresenter();
-        presenter.init(this, getApplicationContext());
-        if (presenter.checkJsonFileExists()) showImportUserDialog();
+        presenter.init(this);
         if (AccountManager.isHasUsers()) {
             goToMainActivity(null);
         } else {
@@ -67,11 +64,13 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
 
     @OnClick(R.id.import_user_button)
     void onUserBtnClicked() {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        intent.setType("file/*");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(Intent.createChooser(intent, "Select Application"), CHOSE_FILE_CODE);
+        Intent intent = new Intent(getApplicationContext(), FileManagerActivity.class);
+        intent.putExtra(FileManagerActivity.START_FILE_MANAGER_TAG, "all_files");
+        startActivityForResult(intent, 1);
+            //intent.setAction(Intent.ACTION_GET_CONTENT);
+            //intent.setType("file/*");
+            //intent.addCategory(Intent.CATEGORY_OPENABLE);
+            //startActivityForResult(Intent.createChooser(intent, "Select Application"), CHOSE_FILE_CODE);
     }
 
 
@@ -104,7 +103,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
 
         newUserDialog = new AlertDialog.Builder(this)
                 .setView(view)
-                //.setCancelable(false)
+                .setCancelable(false)
                 .create();
 
 
@@ -115,17 +114,13 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
 
 
         continueButton.setOnClickListener(v -> {
-            if (passwordText.getText().toString().equals("")){
+            if (passwordText.getText().toString().equals("")) {
                 passwordLayout.setErrorEnabled(true);
                 passwordLayout.setError(getResources().getString(R.string.empty_password));
-            }
-
-            else if (passwordText.getText().length() < 7){
+            } else if (passwordText.getText().length() < 7) {
                 passwordLayout.setErrorEnabled(true);
                 passwordLayout.setError(getResources().getString(R.string.short_password));
-            }
-
-            else {
+            } else {
                 String address = makeNewAccount(passwordText.getText().toString());
                 newUserDialog.dismiss();
                 openWelcomeActivity(address);
@@ -155,8 +150,8 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         importButton.setOnClickListener(v -> {
             if (presenter.confirmImportButtonPressed(fileData, passwordText.getText().toString())) {
                 goToMainActivity();
-            }
-            else{
+                ToastUtil.showToast(R.string.import_successful);
+            } else {
                 passwordLayout.setErrorEnabled(true);
                 passwordLayout.setError(getResources().getString(R.string.wrong_password));
             }
@@ -168,19 +163,19 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
 
     protected String makeNewAccount(String password) {
         try {
-             Account account = Application.keyManager.newAccount(password);
-             Log.d(TAG, "makeNewAccount: " + account.getURL().toString());
-             String address = account.getAddress().getHex();
-             presenter.autoSaveJsonKeystoreFile(account.getURL());
-             Log.d(TAG, address);
-             return address;
+            Account account = Application.keyManager.newAccount(password);
+            Log.d(TAG, "makeNewAccount: " + account.getURL().toString());
+            String address = account.getAddress().getHex();
+            presenter.autoSaveJsonKeystoreFile();
+            Log.d(TAG, address);
+            return address;
         } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
     }
 
-        @Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == CHOSE_FILE_CODE) {
@@ -207,7 +202,6 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
     }
 
 
-
     // Реализация метода открытия диалога для импорта и логики его работы.
     @Override
     public void showImportUserDialog() {
@@ -219,8 +213,8 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
                 .create();
 
         RecyclerView userListRecyclerView = (RecyclerView) view.findViewById(R.id.json_keysore_files_recycler_view);
-        Button okButton = (Button) view.findViewById(R.id.ok_button);
-        Button cancelButton = (Button) view.findViewById(R.id.cancel_button);
+        Button importButton = (Button) view.findViewById(R.id.import_button);
+        Button cancelButton = (Button) view.findViewById(R.id.close_manager_button);
 
         // Получаем список файлов "JsonKeystoreFileList" из каталога "/PlayMarket2.0/Accounts/".
         ArrayList<File> userList = presenter.getJsonKeystoreCollection();
@@ -230,12 +224,10 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         adapter = new UserListAdapter(userList);
         userListRecyclerView.setAdapter(adapter);
 
-
-        okButton.setOnClickListener(v -> {
-            if (adapter.getSelectedItem() == -1){
+        importButton.setOnClickListener(v -> {
+            if (adapter.getSelectedItem() == -1) {
                 Toast.makeText(this, "You need chose one of the accounts", Toast.LENGTH_SHORT).show();
-            }
-            else{
+            } else {
                 File selectedUserJsonFile = userList.get(adapter.getSelectedItem());
                 String jsonData = presenter.getDataFromJsonKeystoreFile(selectedUserJsonFile, "all_data");
                 showDialogConfirmImport(jsonData);
@@ -248,7 +240,13 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         importDialog.show();
     }
 
-    public void goToMainActivity(){
+    @Override
+    public void showToast(Boolean success) {
+        if (success) ToastUtil.showToast(R.string.success_autosave_message);
+        else ToastUtil.showToast(R.string.failed_autosave_message);
+    }
+
+    public void goToMainActivity() {
         Intent myIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
         startActivity(myIntent);
         importDialog.dismiss();

@@ -8,27 +8,29 @@ import java.util.ArrayList;
 
 class LoginPromptContract {
 
-    interface View{
+    interface View {
 
         void showImportUserDialog();
+
+        void showToast(Boolean success);
 
         void showDialogConfirmImport(String fileData);
 
     }
 
-    interface Presenter{
+    interface Presenter {
 
-        void init(LoginPromptContract.View view, Context context);
+        void init(LoginPromptContract.View view);
 
         boolean confirmImportButtonPressed(String fileString, String password);
 
-        boolean checkJsonFileExists();
-
-        void autoSaveJsonKeystoreFile(String URL);
+        void autoSaveJsonKeystoreFile();
 
         String getDataFromJsonKeystoreFile(File file, String type);
 
         ArrayList<File> getJsonKeystoreCollection();
+
+        boolean checkJsonFileExists();
 
     }
 }

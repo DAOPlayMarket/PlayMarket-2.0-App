@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#3fb584</color>
     <color name="colorPrimaryDark">#309f90</color>
+    <color name="colorSelectItem">#e0f1ee</color>
     <color name="colorAccent">#138f92</color>
     <color name="Clear">#00ffffff</color>
     <color name="buyButtonColor">#56a3a6</color>
