@@ -27,7 +27,7 @@
 
     <!--fragment_navigation_view-->
     <string name="user_id">USER ID</string>
-    <string name="account_top_up">Пополнить</string>
+    <string name="exchange">Exchange</string>
     <string name="wishlist">Wishlist</string>
     <string name="library">Library</string>
     <string name="news">News</string>
@@ -106,6 +106,7 @@
     <string name="network_status_node_search">Search for the nearest node</string>
     <string name="todo">TODO</string>
     <string name="confirm_button">Confirm</string>
+    <string name="nav_view_transfer">Передать</string>
 
     <string-array name="query_suggestions">
         <item>Android</item>

@@ -54,11 +54,6 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
         args.putParcelable(CATEGORY_EXTRA_ARGS, category);
         MainMenuFragment fragment = new MainMenuFragment();
         fragment.setArguments(args);
-        try {
-            HMac sha521 = new HMac((Digest) MD2.Digest.getInstance("sha521"));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
         return fragment;
     }
 

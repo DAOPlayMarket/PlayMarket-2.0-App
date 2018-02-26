@@ -3,18 +3,17 @@ package com.blockchain.store.playmarket.ui.navigation_view;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
@@ -24,24 +23,16 @@ import com.blockchain.store.playmarket.ui.library_screen.LibraryActivity;
 import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
 import com.blockchain.store.playmarket.ui.settings_screen.SettingsActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.Blockies;
 import com.blockchain.store.playmarket.utilities.Constants;
-import com.blockchain.store.playmarket.utilities.ToastUtil;
-import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
-import com.blockchain.store.playmarket.utilities.net.APIUtils;
-
-import javax.net.ssl.KeyManager;
 
 import butterknife.BindView;
-import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.blockchain.store.playmarket.utilities.crypto.CryptoUtils.keyManager;
 
 public class NavigationViewFragment extends Fragment implements NavigationViewContract.View {
     private static final String TAG = "NavigationViewFragment";
 
-    @BindView(R.id.account_top_up_button) Button accountTopUpButton;
     @BindView(R.id.wishlist_layout) LinearLayout wishlistLayout;
     @BindView(R.id.library_layout) LinearLayout libraryLayout;
     @BindView(R.id.news_layout) LinearLayout newsLayout;
@@ -52,6 +43,10 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     @BindView(R.id.about_layout) LinearLayout aboutLayout;
     @BindView(R.id.user_id_title) TextView userAddress;
     @BindView(R.id.ether_count) TextView balanceView;
+    @BindView(R.id.avatar_image) ImageView avatarImage;
+    @BindView(R.id.user_balance_holder) LinearLayout userBalanceHolder;
+    @BindView(R.id.balance_error_holder) LinearLayout userBalanceErrorHolder;
+    @BindView(R.id.user_balance_progress_bar) ProgressBar progressBar;
 
     NavigationViewPresenter presenter;
 
@@ -65,6 +60,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_navigation_view, container, false);
         ButterKnife.bind(this, view);
+        setRetainInstance(true);
         attachPresenter();
         setViews();
         return view;
@@ -72,6 +68,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
     private void setViews() {
         userAddress.setText(AccountManager.getAddress().getHex());
+        avatarImage.setImageBitmap(Blockies.createIcon(AccountManager.getAddress().getHex().toLowerCase()));
     }
 
     private void attachPresenter() {
@@ -80,8 +77,6 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
         presenter.loadUserBalance();
     }
 
-
-    // Метод закрытия панели навигации.
     @OnClick(R.id.close_image_button)
     void onCloseImageClicked() {
         closeDrawers();
@@ -94,8 +89,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
         startActivity(new Intent(getActivity(), LibraryActivity.class));
     }
 
-    // Метод открытия диалога для пополнения счёта.
-    @OnClick(R.id.account_top_up_button)
+    @OnClick(R.id.nav_view_exchange)
     void showAddFundsDialog() {
         final Dialog d = new Dialog(getContext());
         d.setContentView(R.layout.add_funds_dialog);
@@ -132,13 +126,31 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
     @Override
     public void onBalanceReady(String balance) {
+        userBalanceErrorHolder.setVisibility(View.GONE);
+        userBalanceHolder.setVisibility(View.VISIBLE);
         AccountManager.setUserBalance(balance);
         balanceView.setText(new EthereumPrice(balance).inEther().toString());
     }
 
     @Override
     public void onBalanceFail(Throwable throwable) {
+        userBalanceErrorHolder.setVisibility(View.VISIBLE);
+        userBalanceHolder.setVisibility(View.GONE);
+    }
 
+    @Override
+    public void showUserBalanceProgress(boolean isShow) {
+        progressBar.setVisibility(isShow ? View.VISIBLE : View.GONE);
+    }
+
+    @OnClick(R.id.nav_view_exchange)
+    void onExchangeClicked() {
+//        presenter.loadUserBalance();
+    }
+
+    @OnClick(R.id.error_view_repeat_btn)
+    void onRepeatButtonClicked() {
+        presenter.loadUserBalance();
     }
 
 

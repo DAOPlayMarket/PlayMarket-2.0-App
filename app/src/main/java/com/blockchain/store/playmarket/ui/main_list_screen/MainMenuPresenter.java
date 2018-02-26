@@ -3,7 +3,7 @@ package com.blockchain.store.playmarket.ui.main_list_screen;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.api.RestApi;
-import com.blockchain.store.playmarket.data.entities.BaseInfuraResponse;
+import com.blockchain.store.playmarket.data.entities.ChangellyCurrenciesResponse;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.data.entities.SearchResponse;
 
@@ -36,7 +36,7 @@ public class MainMenuPresenter implements Presenter {
                 .doOnTerminate(() -> view.setProgress(false))
                 .subscribe(this::onCategoriesLoaded, this::onCategoriesLoadFail);
 
-//        RestApi.getInfuraApi().getUserBalance(new InfuraBaseBody("0x542F5F14cff76c619eE91fada241e053079D3CA3"))
+//        RestApi.getInfuraApi().getUserBalance(new ChangellyBaseBody("0x542F5F14cff76c619eE91fada241e053079D3CA3"))
 //                .subscribeOn(Schedulers.newThread())
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribe(this::onBalanceOk, this::onBalanceFail);
@@ -66,7 +66,7 @@ public class MainMenuPresenter implements Presenter {
         view.onSearchResultFail(throwable);
     }
 
-    private void onBalanceOk(BaseInfuraResponse baseInfuraResponse) {
+    private void onBalanceOk(ChangellyCurrenciesResponse baseInfuraResponse) {
         Log.d(TAG, "onBalanceOk() called with: baseInfuraResponse = [" + baseInfuraResponse + "]");
     }
 
