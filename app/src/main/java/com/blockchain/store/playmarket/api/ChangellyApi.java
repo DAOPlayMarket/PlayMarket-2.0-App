@@ -14,11 +14,11 @@ import rx.Observable;
 
 public interface ChangellyApi {
     @POST("./")
-    Observable<ChangellyCurrenciesResponse> getCurrencies(@Body ChangellyBaseBody body);
+    Observable<ChangellyCurrenciesResponse> getCurrenciesFull(@Body ChangellyBaseBody body);
 
     @POST("./")
     Observable<ChangellyMinimumAmountResponse> getMinimumAmount(@Body ChangellyBaseBody body);
 
     @POST("./")
-    Observable<ChangellyCurrenciesResponse> getGasPrice(@Body ChangellyBaseBody body);
+    Observable<ChangellyCurrenciesResponse> getExchangeAmount(@Body ChangellyBaseBody body);
 }

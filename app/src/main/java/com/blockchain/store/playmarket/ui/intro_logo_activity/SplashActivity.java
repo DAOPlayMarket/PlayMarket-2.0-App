@@ -9,8 +9,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -19,21 +17,6 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.login_prompt_activity.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.math.BigInteger;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SignatureException;
-
-import java.util.Base64;
-import java.util.Formatter;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

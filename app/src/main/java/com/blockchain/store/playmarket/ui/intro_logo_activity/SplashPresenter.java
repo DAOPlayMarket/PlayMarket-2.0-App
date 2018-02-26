@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.ui.intro_logo_activity;
 
 import android.content.Context;
 import android.location.Location;
+import android.os.Build;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.R;
@@ -33,7 +34,24 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
     @Override
     public void requestUserLocation(Context context) {
         view.setStatusText(R.string.network_status_location_search);
-        locationManager.getLocation(context, this);
+        if (isEmulator()) {
+            view.onLocationReady();
+        } else {
+            locationManager.getLocation(context, this);
+        }
+
+    }
+
+
+    private static boolean isEmulator() {
+        return Build.FINGERPRINT.startsWith("generic")
+                || Build.FINGERPRINT.startsWith("unknown")
+                || Build.MODEL.contains("google_sdk")
+                || Build.MODEL.contains("Emulator")
+                || Build.MODEL.contains("Android SDK built for x86")
+                || Build.MANUFACTURER.contains("Genymotion")
+                || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+                || "google_sdk".equals(Build.PRODUCT);
     }
 
     private void getNearestNode(Location location) {
@@ -56,23 +74,12 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
 
     @Override
     public void onLocationReady(Location location) {
-        testChangelly();
-//        locationManager.stopLocationServices();
+//        testChangelly();
+        locationManager.stopLocationServices();
 ////        getNearestNode(location);
-//        view.onLocationReady();
+        view.onLocationReady();
 
     }
 
-    private void testChangelly() {
-        RestApi.getChangellyApi().getMinimumAmount(ChangellyBaseBody.getMinAmount("eth","btc")).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onOK, this::onFail);
-    }
 
-    private void onOK(ChangellyMinimumAmountResponse changellyMinimumAmountResponse) {
-        Log.d(TAG, "onOK() called with: changellyMinimumAmountResponse = [" + changellyMinimumAmountResponse + "]");
-    }
-
-    private void onFail(Throwable throwable) {
-        Log.d(TAG, "onFail() called with: throwable = [" + throwable + "]");
-    }
 }

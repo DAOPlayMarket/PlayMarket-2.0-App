@@ -27,7 +27,7 @@
 
     <!--fragment_navigation_view-->
     <string name="user_id">USER ID</string>
-    <string name="account_top_up">Пополнить</string>
+    <string name="exchange">Exchange</string>
     <string name="wishlist">Wishlist</string>
     <string name="library">Library</string>
     <string name="news">News</string>

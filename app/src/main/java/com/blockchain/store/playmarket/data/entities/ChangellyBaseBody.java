@@ -24,23 +24,23 @@ public class ChangellyBaseBody {
     public static ChangellyBaseBody getCurrencies() {
         return new ChangellyBaseBody("getCurrencies", new HashMap<>());
     }
+    public static ChangellyBaseBody getCurrenciesFull() {
+        return new ChangellyBaseBody("getCurrenciesFull", new HashMap<>());
+    }
 
     public static ChangellyBaseBody getMinAmount(String from) {
-        JSONObject paramObject = new JSONObject();
-        try {
-            paramObject.put("from", from);
-            paramObject.put("to", "eth");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         HashMap<String, String> map = new HashMap<>();
         map.put("from", from);
         map.put("to", "eth");
         return new ChangellyBaseBody("getMinAmount", map);
     }
 
-//    public static ChangellyBaseBody getTransactionBody(String adress) {
-//        return new ChangellyBaseBody("eth_getTransactionCount");
-//    }
+    public static ChangellyBaseBody getExchangeAmount(String from, String amount) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("from", from);
+        map.put("to", "eth");
+        map.put("amount", amount);
+        return new ChangellyBaseBody("getMinAmount", map);
+    }
 
 }

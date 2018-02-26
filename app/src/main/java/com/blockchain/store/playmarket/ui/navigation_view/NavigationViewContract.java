@@ -10,6 +10,8 @@ public class NavigationViewContract {
         void onBalanceReady(String balance);
 
         void onBalanceFail(Throwable throwable);
+
+        void showUserBalanceProgress(boolean isShow);
     }
 
     interface Presenter {
