@@ -3,20 +3,16 @@ package com.blockchain.store.playmarket.ui.file_manager_screen;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.FileManagerRecyclerViewAdapter;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
+import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 
 import java.io.File;
@@ -26,10 +22,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class FileManagerActivity extends AppCompatActivity implements FileManagerContract.View, FileManagerRecyclerViewAdapter.FileManagerCallback {
+public class FileManagerActivity extends AppCompatActivity implements FileManagerContract.View, FileManagerRecyclerViewAdapter.FileManagerCallback, DialogManager.ConfirmImportDialogCallback, DialogManager.CreateFolderDialogCallback {
 
     public static final String START_FILE_MANAGER_TAG = "file_manager_parameter";
-    private static final String CREATE_FOLDER_DIALOG_STATE = "create_folder_dialog_is_open";
+    private static final String IS_FOLDER_DIALOG_SHOWING = "create_folder_dialog_is_open";
     private static final String FOLDER_NAME = "folder_name";
 
     private final String basePath = Environment.getExternalStorageDirectory().getPath();
@@ -39,9 +35,6 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
     private ArrayList<File> fileList = new ArrayList<>();
     private FileManagerRecyclerViewAdapter adapter;
     private FileManagerPresenter presenter;
-
-    private AlertDialog createFolderDialog;
-    private android.app.AlertDialog confirmImportDialog;
 
     @BindView(R.id.folders_recyclerView)
     RecyclerView foldersRecyclerView;
@@ -61,7 +54,7 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
 
         if (savedInstanceState != null) {
             currentDirectory = savedInstanceState.getString(CURRENT_PATH_KEY, basePath);
-            if (savedInstanceState.getBoolean(CREATE_FOLDER_DIALOG_STATE)) {
+            if (savedInstanceState.getBoolean(IS_FOLDER_DIALOG_SHOWING)) {
                 showCreateFolderDialog(savedInstanceState.getString(FOLDER_NAME));
             }
         } else {
@@ -75,7 +68,21 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
         setFoldersRecyclerView(fileList);
     }
 
-    // Метод возврата в предыдущую директорию.
+    private void goToMainActivity() {
+        Intent myIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
+        startActivity(myIntent);
+        finish();
+    }
+
+    private void setFoldersRecyclerView(ArrayList<File> foldersList) {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        foldersRecyclerView.setLayoutManager(layoutManager);
+        foldersRecyclerView.setHasFixedSize(true);
+        adapter = new FileManagerRecyclerViewAdapter(foldersList, this);
+        adapter.setHasStableIds(true);
+        foldersRecyclerView.setAdapter(adapter);
+    }
+
     @OnClick(R.id.back_imageButton)
     void stepBack() {
         if (currentDirectory != null && !currentDirectory.equals(basePath)) {
@@ -101,7 +108,7 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
     @OnClick(R.id.confirm_button)
     void confirmButtonPressed() {
 
-        if (fileManagerType.equals("folders")){
+        if (fileManagerType.equals("folders")) {
             presenter.confirmSaveButtonPressed(currentDirectory);
             finish();
         }
@@ -114,21 +121,10 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
                 if (presenter.jsonKeystoreFileCheck(fileList.get(fileIndex), "address") != null) {
                     File selectedUserJsonFile = fileList.get(fileIndex);
                     String jsonData = presenter.getDataFromJsonKeystoreFile(selectedUserJsonFile, "all_data");
-                    showDialogConfirmImport(jsonData);
-                }
-                else ToastUtil.showToast("This file is not JSON");
+                    showConfirmImportDialog(jsonData);
+                } else ToastUtil.showToast("This file is not JSON");
             }
         }
-    }
-
-
-    private void setFoldersRecyclerView(ArrayList<File> foldersList) {
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        foldersRecyclerView.setLayoutManager(layoutManager);
-        foldersRecyclerView.setHasFixedSize(true);
-        adapter = new FileManagerRecyclerViewAdapter(foldersList, this);
-        adapter.setHasStableIds(true);
-        foldersRecyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -144,16 +140,13 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (currentDirectory != null) outState.putString(CURRENT_PATH_KEY, currentDirectory);
-        if (createFolderDialog != null && createFolderDialog.isShowing()) {
-            outState.putBoolean(CREATE_FOLDER_DIALOG_STATE, true);
-            String folderName = ((EditText) createFolderDialog.findViewById(R.id.folder_editText)).getText().toString();
-            outState.putString(FOLDER_NAME, folderName);
+        if (DialogManager.createFolderDialog != null && DialogManager.createFolderDialog.isShowing()){
+            outState.putBoolean(IS_FOLDER_DIALOG_SHOWING, true);
         }
     }
 
     @Override
     public void onBackPressed() {
-
         if (currentDirectory != null && !currentDirectory.equals(basePath)) {
             File file = new File(currentDirectory);
             currentDirectory = file.getParentFile().getPath();
@@ -169,71 +162,27 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
         else ToastUtil.showToast(R.string.failed_save_message);
     }
 
+
     @Override
     public void showCreateFolderDialog(String folderName) {
-        View view = getLayoutInflater().inflate(R.layout.create_folder_dialog, null);
+        new DialogManager().showCreateFolderDialog(this, folderName, this);
+    }
 
-        createFolderDialog = new AlertDialog.Builder(this)
-                .setView(view)
-                .setCancelable(false)
-                .create();
-
-        EditText folderNamedText = (EditText) view.findViewById(R.id.folder_editText);
-        Button confirmButton = (Button) view.findViewById(R.id.confirm_create_button);
-        Button cancelButton = (Button) view.findViewById(R.id.cancel_create_button);
-        TextInputLayout passwordLayout = (TextInputLayout) view.findViewById(R.id.folder_inputLayout);
-
-        folderNamedText.setText(folderName);
-
-        confirmButton.setOnClickListener(v -> {
-            if (folderNamedText.getText().toString().equals("")) {
-                passwordLayout.setErrorEnabled(true);
-                passwordLayout.setError(getResources().getString(R.string.empty_field));
-            } else {
-                presenter.createFolderButtonPressed(currentDirectory, folderNamedText.getText().toString());
-                fileList = presenter.getFolderList(currentDirectory, fileManagerType);
-                setFoldersRecyclerView(fileList);
-                createFolderDialog.dismiss();
-            }
-        });
-
-        cancelButton.setOnClickListener(v -> createFolderDialog.dismiss());
-        createFolderDialog.show();
+    @Override
+    public void showConfirmImportDialog(String jsonData) {
+        new DialogManager().showConfirmImportDialog(this, jsonData, this);
     }
 
 
-    public void showDialogConfirmImport(String fileData) {
-        View view = getLayoutInflater().inflate(R.layout.password_prompt_dialog, null);
-
-        confirmImportDialog = new android.app.AlertDialog.Builder(this)
-                .setView(view)
-                .setCancelable(false)
-                .create();
-
-        final EditText passwordText = (EditText) view.findViewById(R.id.passwordText);
-        Button importButton = (Button) view.findViewById(R.id.continueButton);
-        Button closeButton = (Button) view.findViewById(R.id.close_button);
-        TextInputLayout passwordLayout = (TextInputLayout) view.findViewById(R.id.password_inputLayout);
-
-
-        importButton.setOnClickListener(v -> {
-            if (presenter.confirmImportButtonPressed(fileData, passwordText.getText().toString())) {
-                goToMainActivity();
-                ToastUtil.showToast(R.string.import_successful);
-            } else {
-                passwordLayout.setErrorEnabled(true);
-                passwordLayout.setError(getResources().getString(R.string.wrong_password));
-            }
-        });
-
-        closeButton.setOnClickListener(v -> confirmImportDialog.dismiss());
-        confirmImportDialog.show();
+    @Override
+    public void onImportSuccessful() {
+        goToMainActivity();
     }
 
-    public void goToMainActivity() {
-        Intent myIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
-        startActivity(myIntent);
-        confirmImportDialog.dismiss();
-        finish();
+    @Override
+    public void createFolderClicked(String folderName) {
+        presenter.createFolderButtonPressed(currentDirectory, folderName);
+        fileList = presenter.getFolderList(currentDirectory, fileManagerType);
+        setFoldersRecyclerView(fileList);
     }
 }

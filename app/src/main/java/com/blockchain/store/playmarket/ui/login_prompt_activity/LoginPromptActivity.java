@@ -67,10 +67,6 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         Intent intent = new Intent(getApplicationContext(), FileManagerActivity.class);
         intent.putExtra(FileManagerActivity.START_FILE_MANAGER_TAG, "all_files");
         startActivityForResult(intent, 1);
-            //intent.setAction(Intent.ACTION_GET_CONTENT);
-            //intent.setType("file/*");
-            //intent.addCategory(Intent.CATEGORY_OPENABLE);
-            //startActivityForResult(Intent.createChooser(intent, "Select Application"), CHOSE_FILE_CODE);
     }
 
 
@@ -202,7 +198,6 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
     }
 
 
-    // Реализация метода открытия диалога для импорта и логики его работы.
     @Override
     public void showImportUserDialog() {
         View view = getLayoutInflater().inflate(R.layout.import_user_dialog, null);

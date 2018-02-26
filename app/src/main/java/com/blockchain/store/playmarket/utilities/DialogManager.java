@@ -1,27 +1,20 @@
 package com.blockchain.store.playmarket.utilities;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
-import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.adapters.UserListAdapter;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.io.File;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 /**
  * Created by Crypton04 on 08.02.2018.
@@ -30,6 +23,8 @@ import java.util.ArrayList;
 public class DialogManager {
 
     private static final String TAG = "DialogManager";
+
+    public static AlertDialog createFolderDialog;
 
     public void showPurchaseDialog(AppInfo appinfo, Context context, PurchaseDialogCallback callback) {
         String accountBalanceInWei = AccountManager.getUserBalance();
@@ -109,31 +104,56 @@ public class DialogManager {
         dialog.show();
     }
 
-    public void confirmImportDialog(Context context, String fileData) {
+    public void showCreateFolderDialog(Context context, String folderName, CreateFolderDialogCallback callback) {
 
-        AlertDialog confirmImportDialog = new android.app.AlertDialog.Builder()
+        createFolderDialog = new AlertDialog.Builder(context)
+                .setView(R.layout.create_folder_dialog)
+                .setCancelable(false)
+                .create();
+        createFolderDialog.show();
+
+        EditText folderNamedText = (EditText) createFolderDialog.findViewById(R.id.folder_editText);
+        Button confirmButton = (Button) createFolderDialog.findViewById(R.id.confirm_create_button);
+        Button cancelButton = (Button) createFolderDialog.findViewById(R.id.cancel_create_button);
+        TextInputLayout passwordLayout = (TextInputLayout) createFolderDialog.findViewById(R.id.folder_inputLayout);
+
+        folderNamedText.setText(folderName);
+
+        confirmButton.setOnClickListener(v -> {
+            if (folderNamedText.getText().toString().equals("")) {
+                passwordLayout.setErrorEnabled(true);
+                passwordLayout.setError(context.getResources().getString(R.string.empty_field));
+            } else {
+                callback.createFolderClicked(folderNamedText.getText().toString());
+                createFolderDialog.dismiss();
+            }
+        });
+
+        cancelButton.setOnClickListener(v -> createFolderDialog.dismiss());
+        createFolderDialog.show();
+    }
+
+    public void showConfirmImportDialog(Context context, String fileData, ConfirmImportDialogCallback callback) {
+        AlertDialog confirmImportDialog = new AlertDialog.Builder(context)
                 .setView(R.layout.password_prompt_dialog)
                 .setCancelable(false)
                 .create();
-
+        confirmImportDialog.show();
         final EditText passwordText = (EditText) confirmImportDialog.findViewById(R.id.passwordText);
         Button importButton = (Button) confirmImportDialog.findViewById(R.id.continueButton);
         Button closeButton = (Button) confirmImportDialog.findViewById(R.id.close_button);
         TextInputLayout passwordLayout = (TextInputLayout) confirmImportDialog.findViewById(R.id.password_inputLayout);
 
-
         importButton.setOnClickListener(v -> {
-            if (presenter.confirmImportButtonPressed(fileData, passwordText.getText().toString())) {
-                goToMainActivity();
-                ToastUtil.showToast(R.string.import_successful);
-            } else {
-                passwordLayout.setErrorEnabled(true);
-                passwordLayout.setError(context.getResources().getString(R.string.wrong_password));
-            }
+            if (new FileUtils().confirmImport(fileData, passwordText.getText().toString())) {
+                callback.onImportSuccessful();
+                confirmImportDialog.dismiss();
+           } else {
+               passwordLayout.setErrorEnabled(true);
+               passwordLayout.setError(context.getResources().getString(R.string.wrong_password));
+           }
         });
-
         closeButton.setOnClickListener(v -> confirmImportDialog.dismiss());
-        confirmImportDialog.show();
     }
 
     public interface PurchaseDialogCallback {
@@ -144,8 +164,11 @@ public class DialogManager {
         public void onInvestClicked(String investAmount);
     }
 
-    public interface ConfirmImportDialogCallback {
-        void onPurchaseClicked();
+    public interface CreateFolderDialogCallback {
+        void createFolderClicked(String folderName);
     }
 
+    public interface ConfirmImportDialogCallback {
+        void onImportSuccessful();
+    }
 }

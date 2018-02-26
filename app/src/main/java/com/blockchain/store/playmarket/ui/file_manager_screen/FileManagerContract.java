@@ -7,9 +7,12 @@ import java.util.ArrayList;
 public class FileManagerContract {
 
     interface View{
+
         void showToast(Boolean success);
 
         void showCreateFolderDialog(String folderName);
+
+        void showConfirmImportDialog(String jsonData);
     }
 
     interface Presenter{
