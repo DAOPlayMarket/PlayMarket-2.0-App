@@ -20,15 +20,12 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.math.BigDecimal;
 import java.util.zip.Inflater;
 
-/**
- * Created by Crypton04 on 08.02.2018.
- */
-
 public class DialogManager {
 
-    private static final String TAG = "DialogManager";
+    private EditText folderNamedText;
+    private EditText passwordText;
 
-    public static AlertDialog createFolderDialog;
+    private static final String TAG = "DialogManager";
 
     public void showPurchaseDialog(AppInfo appinfo, Context context, PurchaseDialogCallback callback) {
         String accountBalanceInWei = AccountManager.getUserBalance();
@@ -108,15 +105,15 @@ public class DialogManager {
         dialog.show();
     }
 
-    public void showCreateFolderDialog(Context context, String folderName, CreateFolderDialogCallback callback) {
+    public AlertDialog showCreateFolderDialog(Context context, String folderName, CreateFolderDialogCallback callback) {
 
-        createFolderDialog = new AlertDialog.Builder(context)
+        AlertDialog createFolderDialog = new AlertDialog.Builder(context)
                 .setView(R.layout.create_folder_dialog)
                 .setCancelable(false)
                 .create();
         createFolderDialog.show();
 
-        EditText folderNamedText = (EditText) createFolderDialog.findViewById(R.id.folder_editText);
+        folderNamedText = (EditText) createFolderDialog.findViewById(R.id.folder_editText);
         Button confirmButton = (Button) createFolderDialog.findViewById(R.id.confirm_create_button);
         Button cancelButton = (Button) createFolderDialog.findViewById(R.id.cancel_create_button);
         TextInputLayout passwordLayout = (TextInputLayout) createFolderDialog.findViewById(R.id.folder_inputLayout);
@@ -133,20 +130,28 @@ public class DialogManager {
             }
         });
 
-        cancelButton.setOnClickListener(v -> createFolderDialog.dismiss());
-        createFolderDialog.show();
+        cancelButton.setOnClickListener(v -> {
+            createFolderDialog.dismiss();
+        });
+        return createFolderDialog;
     }
 
-    public void showConfirmImportDialog(Context context, String fileData, ConfirmImportDialogCallback callback) {
+    public String getFolderNameText() {
+        return folderNamedText.getText().toString();
+    }
+
+    public AlertDialog showConfirmImportDialog(Context context, String fileData, ConfirmImportDialogCallback callback, String password) {
         AlertDialog confirmImportDialog = new AlertDialog.Builder(context)
                 .setView(R.layout.password_prompt_dialog)
                 .setCancelable(false)
                 .create();
         confirmImportDialog.show();
-        final EditText passwordText = (EditText) confirmImportDialog.findViewById(R.id.passwordText);
+        passwordText = (EditText) confirmImportDialog.findViewById(R.id.passwordText);
         Button importButton = (Button) confirmImportDialog.findViewById(R.id.continueButton);
         Button closeButton = (Button) confirmImportDialog.findViewById(R.id.close_button);
         TextInputLayout passwordLayout = (TextInputLayout) confirmImportDialog.findViewById(R.id.password_inputLayout);
+
+        passwordText.setText(password);
 
         importButton.setOnClickListener(v -> {
             if (new FileUtils().confirmImport(fileData, passwordText.getText().toString())) {
@@ -157,15 +162,23 @@ public class DialogManager {
                 passwordLayout.setError(context.getResources().getString(R.string.wrong_password));
             }
         });
-        closeButton.setOnClickListener(v -> confirmImportDialog.dismiss());
+        closeButton.setOnClickListener(v -> {
+            confirmImportDialog.dismiss();
+        });
+        return confirmImportDialog;
     }
+
+    public String getPasswordText() {
+        return passwordText.getText().toString();
+    }
+
 
     public interface PurchaseDialogCallback {
         void onPurchaseClicked();
     }
 
     public interface InvestDialogCallback {
-        public void onInvestClicked(String investAmount);
+        void onInvestClicked(String investAmount);
     }
 
     public interface CreateFolderDialogCallback {
@@ -174,6 +187,11 @@ public class DialogManager {
 
     public interface ConfirmImportDialogCallback {
         void onImportSuccessful();
+    }
+
+    public enum DialogNames {
+        CREATE_FOLDER_DIALOG,
+        CONFIRM_IMPORT_DIALOG;
     }
 
 }

@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.ui.file_manager_screen;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,8 +26,11 @@ import butterknife.OnClick;
 public class FileManagerActivity extends AppCompatActivity implements FileManagerContract.View, FileManagerRecyclerViewAdapter.FileManagerCallback, DialogManager.ConfirmImportDialogCallback, DialogManager.CreateFolderDialogCallback {
 
     public static final String START_FILE_MANAGER_TAG = "file_manager_parameter";
-    private static final String IS_FOLDER_DIALOG_SHOWING = "create_folder_dialog_is_open";
+    private static final String IS_DIALOG_SHOWING = "is_dialog_showing";
     private static final String FOLDER_NAME = "folder_name";
+    private static final String DIALOG_NAME = "dialog_name";
+    private static final String JSON_DATA = "json_data";
+    private static final String PASSWORD = "password";
 
     private final String basePath = Environment.getExternalStorageDirectory().getPath();
     private final String CURRENT_PATH_KEY = "current_path";
@@ -35,6 +39,12 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
     private ArrayList<File> fileList = new ArrayList<>();
     private FileManagerRecyclerViewAdapter adapter;
     private FileManagerPresenter presenter;
+
+    private DialogManager dialogManager;
+    private DialogManager.DialogNames dialogName;
+    private AlertDialog displayAlertDialog;
+
+    private String jsonData;
 
     @BindView(R.id.folders_recyclerView)
     RecyclerView foldersRecyclerView;
@@ -49,13 +59,20 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
 
         ButterKnife.bind(this);
 
+        dialogManager = new DialogManager();
+
         presenter = new FileManagerPresenter();
         presenter.init(this);
 
         if (savedInstanceState != null) {
             currentDirectory = savedInstanceState.getString(CURRENT_PATH_KEY, basePath);
-            if (savedInstanceState.getBoolean(IS_FOLDER_DIALOG_SHOWING)) {
+            if ((savedInstanceState.getBoolean(IS_DIALOG_SHOWING))
+                    && (savedInstanceState.getSerializable(DIALOG_NAME) == DialogManager.DialogNames.CREATE_FOLDER_DIALOG)) {
                 showCreateFolderDialog(savedInstanceState.getString(FOLDER_NAME));
+            }
+            if ((savedInstanceState.getBoolean(IS_DIALOG_SHOWING))
+                    && (savedInstanceState.getSerializable(DIALOG_NAME) == DialogManager.DialogNames.CONFIRM_IMPORT_DIALOG)) {
+                showConfirmImportDialog(savedInstanceState.getString(JSON_DATA), savedInstanceState.getString(PASSWORD));
             }
         } else {
             currentDirectory = basePath;
@@ -120,9 +137,9 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
             } else {
                 if (presenter.jsonKeystoreFileCheck(fileList.get(fileIndex), "address") != null) {
                     File selectedUserJsonFile = fileList.get(fileIndex);
-                    String jsonData = presenter.getDataFromJsonKeystoreFile(selectedUserJsonFile, "all_data");
-                    showConfirmImportDialog(jsonData);
-                } else ToastUtil.showToast("This file is not JSON");
+                    jsonData = presenter.getDataFromJsonKeystoreFile(selectedUserJsonFile, "all_data");
+                    showConfirmImportDialog(jsonData, "");
+                } else ToastUtil.showToast("Wrong File");
             }
         }
     }
@@ -140,8 +157,16 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (currentDirectory != null) outState.putString(CURRENT_PATH_KEY, currentDirectory);
-        if (DialogManager.createFolderDialog != null && DialogManager.createFolderDialog.isShowing()){
-            outState.putBoolean(IS_FOLDER_DIALOG_SHOWING, true);
+        if (displayAlertDialog != null && displayAlertDialog.isShowing()) {
+            outState.putBoolean(IS_DIALOG_SHOWING, true);
+            outState.putSerializable(DIALOG_NAME, dialogName);
+            if (dialogName == DialogManager.DialogNames.CONFIRM_IMPORT_DIALOG) {
+                outState.putString(JSON_DATA, jsonData);
+                outState.putString(PASSWORD, dialogManager.getPasswordText());
+            }
+            if (dialogName == DialogManager.DialogNames.CREATE_FOLDER_DIALOG) {
+                outState.putString(FOLDER_NAME, dialogManager.getFolderNameText());
+            }
         }
     }
 
@@ -165,12 +190,14 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
 
     @Override
     public void showCreateFolderDialog(String folderName) {
-        new DialogManager().showCreateFolderDialog(this, folderName, this);
+        displayAlertDialog = dialogManager.showCreateFolderDialog(this, folderName, this);
+        dialogName = DialogManager.DialogNames.CREATE_FOLDER_DIALOG;
     }
 
     @Override
-    public void showConfirmImportDialog(String jsonData) {
-        new DialogManager().showConfirmImportDialog(this, jsonData, this);
+    public void showConfirmImportDialog(String jsonData, String password) {
+        displayAlertDialog = dialogManager.showConfirmImportDialog(this, jsonData, this, password);
+        dialogName = DialogManager.DialogNames.CONFIRM_IMPORT_DIALOG;
     }
 
 
