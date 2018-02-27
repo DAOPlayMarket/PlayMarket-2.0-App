@@ -12,7 +12,7 @@ public class FileManagerContract {
 
         void showCreateFolderDialog(String folderName);
 
-        void showConfirmImportDialog(String jsonData);
+        void showConfirmImportDialog(String jsonData, String password);
     }
 
     interface Presenter{
