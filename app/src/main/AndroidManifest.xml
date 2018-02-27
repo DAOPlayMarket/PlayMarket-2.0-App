@@ -49,12 +49,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/whiteStatusBarStyle" />
         <activity
-            android:name=".ui.AppListActivity"
-            android:label="@string/title_app_list"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name=".ui.AppDetailActivityOld"
             android:label="@string/title_app_detail"
             android:parentActivityName=".ui.AppListActivity"
@@ -96,13 +90,13 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="c9546f35cbfcc932887cc4166668464f6715b155" />
-
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
 
         <activity android:name=".ui.invest_screen.InvestActivity" />
-        <activity android:name=".ui.file_manager_screen.FileManagerActivity"></activity>
+        <activity android:name=".ui.file_manager_screen.FileManagerActivity" />
+        <activity android:name=".ui.exchange_screen.ExchangeActivity"></activity>
     </application>
 
 </manifest>

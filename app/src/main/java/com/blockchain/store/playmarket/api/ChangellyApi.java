@@ -1,9 +1,11 @@
 package com.blockchain.store.playmarket.api;
 
+import com.blockchain.store.playmarket.data.entities.ChangellyCreateTransactionResponse;
 import com.blockchain.store.playmarket.data.entities.ChangellyCurrenciesResponse;
 import com.blockchain.store.playmarket.data.entities.ChangellyBaseBody;
 import com.blockchain.store.playmarket.data.entities.ChangellyMinimumAmountResponse;
 
+import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 import rx.Observable;
@@ -20,5 +22,8 @@ public interface ChangellyApi {
     Observable<ChangellyMinimumAmountResponse> getMinimumAmount(@Body ChangellyBaseBody body);
 
     @POST("./")
-    Observable<ChangellyCurrenciesResponse> getExchangeAmount(@Body ChangellyBaseBody body);
+    Observable<ChangellyMinimumAmountResponse> getExchangeAmount(@Body ChangellyBaseBody body);
+
+    @POST("./")
+    Observable<ChangellyCreateTransactionResponse> createTransaction(@Body ChangellyBaseBody body);
 }

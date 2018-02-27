@@ -9,5 +9,5 @@ import java.util.ArrayList;
 public class ChangellyCurrenciesResponse {
     public String jsonrpc;
     public int id;
-    public ArrayList<String> result;
+    public ArrayList<ChangellyCurrency> result;
 }
