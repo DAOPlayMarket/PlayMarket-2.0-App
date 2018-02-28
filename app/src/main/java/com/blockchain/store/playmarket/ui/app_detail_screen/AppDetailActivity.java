@@ -156,7 +156,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     public void onDetailedInfoReady(AppInfo appInfo) {
         this.appInfo = appInfo;
         mainLayoutHolder.setVisibility(View.VISIBLE);
-        appDescription.setText(Html.fromHtml(appInfo.description));
+        if (appInfo.description != null)
+            appDescription.setText(Html.fromHtml(appInfo.description));
         setupRecyclerView(appInfo);
         presenter.loadButtonsState(app, isUserPurchasedApp);
     }
@@ -186,6 +187,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @Override
     public void onDetailedInfoFailed(Throwable throwable) {
+        throwable.printStackTrace();
         mainLayoutHolder.setVisibility(View.GONE);
         showErrorView(true);
     }
@@ -213,8 +215,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     @Override
-    public void onCheckPurchaseReady(CheckPurchaseResponse checkPurchaseResponse) {
-        isUserPurchasedApp = checkPurchaseResponse.isPurchased;
+    public void onCheckPurchaseReady(boolean isPurchased) {
+        isUserPurchasedApp = isPurchased;
     }
 
     @Override

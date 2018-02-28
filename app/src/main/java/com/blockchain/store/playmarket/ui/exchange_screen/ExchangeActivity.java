@@ -5,29 +5,27 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.api.RestApi;
-import com.blockchain.store.playmarket.data.entities.ChangellyBaseBody;
+import com.blockchain.store.playmarket.adapters.ChangellyCurrenciesAdapter;
+import com.blockchain.store.playmarket.data.entities.ChangellyCreateTransactionResponse;
 import com.blockchain.store.playmarket.data.entities.ChangellyCurrency;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
+import com.blockchain.store.playmarket.utilities.fragment_dialogs.ChooseCurrencyDialog;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ExchangeActivity extends AppCompatActivity implements ExchangeActivityContract.View {
+public class ExchangeActivity extends AppCompatActivity implements ExchangeActivityContract.View, ChangellyCurrenciesAdapter.ChangellyAdapterCallback {
     private static final String TAG = "ExchangeActivity";
 
     @BindView(R.id.top_layout_app_name) TextView toolbarTitle;
@@ -38,9 +36,11 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
     @BindView(R.id.content_holder) LinearLayout contentHolder;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
+    @BindView(R.id.payin_address) TextView payinAddress;
 
     ExchangeActivityViewModel exchangeActivityViewModel;
     ExchangeActivityPresenter presenter;
+    ChooseCurrencyDialog exchangeDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,6 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         setContentView(R.layout.activity_exchange);
         ButterKnife.bind(this);
         exchangeActivityViewModel = ViewModelProviders.of(this).get(ExchangeActivityViewModel.class);
-        setViews();
         attachPresenter();
     }
 
@@ -58,16 +57,17 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         if (exchangeActivityViewModel.changellyCurrencies == null) {
             presenter.loadAllCurrencies();
         } else {
-            initIcon(exchangeActivityViewModel.changellyCurrencies);
-        }
-        if (exchangeActivityViewModel.isErrorWithCurrency) {
-            errorHolder.setVisibility(View.VISIBLE);
-        } else {
+            onLoadCurrenciesReady(exchangeActivityViewModel.changellyCurrencies);
             contentHolder.setVisibility(View.VISIBLE);
         }
     }
 
-    private void setViews() {
+    private void setViews(ArrayList<ChangellyCurrency> currencies) {
+        exchangeDialog = (ChooseCurrencyDialog) getSupportFragmentManager().findFragmentByTag("dialog_tag");
+        if (exchangeDialog == null)
+            exchangeDialog = ChooseCurrencyDialog.instance(currencies);
+        if (currencies.size() > 0)
+            initIcon(currencies.get(0));
         userAddressField.setText(AccountManager.getAddress().getHex());
 
     }
@@ -75,9 +75,8 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
     @OnClick(R.id.get_estimated_amount_btn)
     public void onGetEstimatedAmountClicked() {
         presenter.getEstimatedAmount(
-                exchangeActivityViewModel.changellyCurrencies.get(0).name,
+                exchangeActivityViewModel.chosenCurrency.name,
                 enteredAmount.getText().toString());
-        // TODO
     }
 
     @OnClick(R.id.create_transaction)
@@ -86,9 +85,9 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
                 enteredAmount.getText().toString(), null);
     }
 
-    @OnClick(R.id.exchange_icon)
+    @OnClick(R.id.exchange_holder)
     void onExchangeIconClicked() {
-
+        exchangeDialog.show(getSupportFragmentManager(), "dialog_tag");
     }
 
     @OnClick(R.id.top_layout_back_arrow)
@@ -104,20 +103,18 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
     @Override
     public void onLoadCurrenciesReady(ArrayList<ChangellyCurrency> currencies) {
         exchangeActivityViewModel.changellyCurrencies = currencies;
-        exchangeActivityViewModel.isErrorWithCurrency = false;
-
         contentHolder.setVisibility(View.VISIBLE);
         errorHolder.setVisibility(View.GONE);
-        initIcon(exchangeActivityViewModel.changellyCurrencies);
+        setViews(currencies);
     }
 
-    private void initIcon(ArrayList<ChangellyCurrency> changellyCurrencies) {
-        exchangeIcon.setImageURI(Uri.parse(changellyCurrencies.get(0).getImageUrl()));
+    private void initIcon(ChangellyCurrency changellyCurrencies) {
+        exchangeActivityViewModel.chosenCurrency = changellyCurrencies;
+        exchangeIcon.setImageURI(Uri.parse(changellyCurrencies.getImageUrl()));
     }
 
     @Override
     public void onLoadCurrenciesFailed(Throwable throwable) {
-        exchangeActivityViewModel.isErrorWithCurrency = true;
         contentHolder.setVisibility(View.GONE);
         errorHolder.setVisibility(View.VISIBLE);
         ToastUtil.showToast(throwable.getMessage());
@@ -133,9 +130,25 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         ToastUtil.showToast(throwable.getMessage());
     }
 
+    @Override
+    public void onTransactionCreatedSuccessfully(ChangellyCreateTransactionResponse changellyCreateTransactionResponse) {
+        payinAddress.setText(changellyCreateTransactionResponse.result.payinAddress);
+    }
+
+    @Override
+    public void onTransactionCreatedFailed(Throwable throwable) {
+        ToastUtil.showToast(throwable.getMessage());
+    }
+
     @OnClick(R.id.error_view_repeat_btn)
     public void error_view_repeat_btn() {
         presenter.loadAllCurrencies();
+    }
+
+    @Override
+    public void onChangellyCurrencyClicked(ChangellyCurrency changellyCurrency) {
+        initIcon(changellyCurrency);
+        exchangeDialog.dismissAllowingStateLoss();
     }
 
 }

@@ -4,7 +4,7 @@ package com.blockchain.store.playmarket.data.entities;
  * Created by Crypton04 on 27.02.2018.
  */
 
-class ChangellyTranscation {
+public class ChangellyTranscation {
     public String id;
     public String apiExtraFee;
     public String changellyFee;

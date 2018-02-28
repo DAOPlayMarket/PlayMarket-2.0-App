@@ -12,9 +12,8 @@ import java.util.ArrayList;
  */
 
 public class ExchangeActivityViewModel extends ViewModel {
-    public String addressToSend = "";
-    public String folderName = "";
-    public boolean isDialogShown = false;
-    public boolean isErrorWithCurrency = false;
+    public ChangellyCurrency chosenCurrency;
     public ArrayList<ChangellyCurrency> changellyCurrencies;
+    public String userEnteredAmount;
+    public String payinAddress;
 }

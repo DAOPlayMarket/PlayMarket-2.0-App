@@ -33,7 +33,7 @@ public class ExchangeActivityPresenter implements ExchangeActivityContract.Prese
                 .map(changellyCurrenciesResponse -> {
                     ArrayList<ChangellyCurrency> changellyCurrencies = new ArrayList<>();
                     for (ChangellyCurrency currency : changellyCurrenciesResponse.result) {
-                        if (currency.enabled) {
+                        if (currency.enabled && !currency.name.equalsIgnoreCase("eth")) {
                             changellyCurrencies.add(currency);
                         }
                     }
@@ -71,11 +71,11 @@ public class ExchangeActivityPresenter implements ExchangeActivityContract.Prese
     }
 
     private void onCreateTransationReady(ChangellyCreateTransactionResponse changellyCreateTransactionResponse) {
-        Log.d(TAG, "onCreateTransationReady() called with: changellyCreateTransactionResponse = [" + changellyCreateTransactionResponse + "]");
+        view.onTransactionCreatedSuccessfully(changellyCreateTransactionResponse);
     }
 
     private void onCreateTransactionFailed(Throwable throwable) {
-        Log.d(TAG, "onCreateTransactionFailed() calledwith: throwable = [" + throwable + "]");
+        view.onTransactionCreatedFailed(throwable);
     }
 
     private void onEstimatedAmountReady(ChangellyMinimumAmountResponse changellyMinimumAmountResponse) {

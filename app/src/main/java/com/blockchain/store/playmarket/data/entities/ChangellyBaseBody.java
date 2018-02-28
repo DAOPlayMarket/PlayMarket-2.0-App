@@ -15,7 +15,7 @@ import io.reactivex.annotations.Nullable;
 
 public class ChangellyBaseBody {
     private String jsonrpc = "2.0";
-    private int id = 0;
+    private String id = "test";
     private String method;
     private HashMap<String, String> params;
 

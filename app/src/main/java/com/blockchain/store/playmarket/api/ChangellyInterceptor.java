@@ -31,9 +31,10 @@ public class ChangellyInterceptor implements Interceptor {
         Request request = chain.request();
         RequestBody body = request.body();
         String sign = "";
+        String bodyString = "";
         if (body != null && body.contentType() != null && body.contentType().subtype() != null) {
             if (body.contentType().subtype().contains("json")) {
-                String bodyString = bodyToString(body);
+                bodyString = bodyToString(body);
                 sign = buildHmacSignature(bodyString, PRIVATE_KEY);
             }
         }

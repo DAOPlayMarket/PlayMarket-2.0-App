@@ -6,6 +6,6 @@ package com.blockchain.store.playmarket.data.entities;
 
 public class ChangellyCreateTransactionResponse {
     public String jsonrpc;
-    public int id;
+    public Object id;
     public ChangellyTranscation result;
 }

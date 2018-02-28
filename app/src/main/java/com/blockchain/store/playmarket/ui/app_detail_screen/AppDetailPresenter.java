@@ -53,7 +53,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
         String accountAddress = AccountManager.getAddress().getHex();
 
         RestApi.getServerApi().getAppInfo(app.catalogId, app.appId)
-                .zipWith(RestApi.getServerApi().checkPurchase(app.appId, accountAddress), (Func2<AppInfo, CheckPurchaseResponse, Pair>) Pair::new)
+                .zipWith(RestApi.getServerApi().checkPurchase(app.appId, accountAddress), (Func2<AppInfo, Boolean, Pair>) Pair::new)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> {
@@ -65,7 +65,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     }
 
-    private void onDetailedInfoReady(Pair<AppInfo, CheckPurchaseResponse> pair) {
+    private void onDetailedInfoReady(Pair<AppInfo, Boolean> pair) {
         view.onCheckPurchaseReady(pair.second);
         view.onDetailedInfoReady(pair.first);
     }
@@ -75,6 +75,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
     private void onDetailedInfoFailed(Throwable throwable) {
+
         view.onDetailedInfoFailed(throwable);
     }
 
@@ -211,6 +212,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     public void onInvestClicked(AppInfo appInfo, String investCount) {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .zipWith(RestApi.getServerApi().getInvestAddress(), Pair::new)
+                .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
                 .flatMap(accountInfo -> {
                     Log.d(TAG, "onInvestClicked() called with: appInfo = [" + appInfo + "], investCount = [" + investCount + "]");
                     return mapInvestTransaction(accountInfo, investCount);
@@ -221,14 +223,17 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     }
 
-    private Observable<PurchaseAppResponse> mapInvestTransaction(Pair<AccountInfoResponse, InvestAddressResponse> accountInfo, String investCount) {
+    private Observable<PurchaseAppResponse> mapInvestTransaction(Pair<Pair<AccountInfoResponse, InvestAddressResponse>, String> accountInfo, String investCount) {
+        AccountInfoResponse accountInfoResponse = accountInfo.first.first;
+        InvestAddressResponse investAddressResponse = accountInfo.first.second;
+        String gasPrice = accountInfo.second;
         Log.d(TAG, "mapInvestTransaction() called with: accountInfo = [" + accountInfo + "], investCount = [" + investCount + "]");
         String rawTransaction = "";
         try {
             rawTransaction = CryptoUtils.generateInvestTransactionWithAddress(
-                    accountInfo.first.count,
-                    new BigInt(Long.parseLong(accountInfo.first.gasPrice)),
-                    investCount, accountInfo.second.address);
+                    accountInfoResponse.count,
+                    new BigInt(Long.parseLong(gasPrice)),
+                    investCount, investAddressResponse.address);
             Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
         } catch (Exception e) {
             e.printStackTrace();
@@ -241,6 +246,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     @Override
     public void onPurchasedClicked(AppInfo appInfo) {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
+                .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
                 .flatMap(this::mapAppBuyTransaction)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -248,12 +254,13 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
 
-    private Observable<PurchaseAppResponse> mapAppBuyTransaction(AccountInfoResponse accountInfo) {
+    private Observable<PurchaseAppResponse> mapAppBuyTransaction(Pair<AccountInfoResponse, String> accountInfo) {
+
         String rawTransaction = "";
         try {
             rawTransaction = CryptoUtils.generateAppBuyTransaction(
-                    accountInfo.count,
-                    new BigInt(Long.parseLong(accountInfo.gasPrice)),
+                    accountInfo.first.count,
+                    new BigInt(Long.parseLong(accountInfo.second)),
                     app);
             Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
         } catch (Exception e) {

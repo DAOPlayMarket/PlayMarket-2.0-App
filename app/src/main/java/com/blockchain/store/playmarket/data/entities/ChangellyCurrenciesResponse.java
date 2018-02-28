@@ -8,6 +8,6 @@ import java.util.ArrayList;
 
 public class ChangellyCurrenciesResponse {
     public String jsonrpc;
-    public int id;
+    public Object id;
     public ArrayList<ChangellyCurrency> result;
 }

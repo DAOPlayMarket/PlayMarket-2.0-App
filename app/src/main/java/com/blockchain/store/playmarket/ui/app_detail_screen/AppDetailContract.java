@@ -30,7 +30,7 @@ public class AppDetailContract {
 
         void showPurchaseDialog();
 
-        void onCheckPurchaseReady(CheckPurchaseResponse checkPurchaseResponse);
+        void onCheckPurchaseReady(boolean isPurchased);
 
         void onPurchaseSuccessful(PurchaseAppResponse purchaseAppResponse);
 

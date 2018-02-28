@@ -1,6 +1,6 @@
 package com.blockchain.store.playmarket.ui.exchange_screen;
 
-import com.blockchain.store.playmarket.data.entities.ChangellyCurrenciesResponse;
+import com.blockchain.store.playmarket.data.entities.ChangellyCreateTransactionResponse;
 import com.blockchain.store.playmarket.data.entities.ChangellyCurrency;
 
 import java.util.ArrayList;
@@ -20,6 +20,10 @@ public class ExchangeActivityContract {
         void onEstimatedAmountReady(String result);
 
         void onEstimatedAmountFail(Throwable throwable);
+
+        void onTransactionCreatedSuccessfully(ChangellyCreateTransactionResponse changellyCreateTransactionResponse);
+
+        void onTransactionCreatedFailed(Throwable throwable);
     }
 
     public interface Presenter {
