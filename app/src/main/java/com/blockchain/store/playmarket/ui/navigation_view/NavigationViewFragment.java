@@ -1,22 +1,29 @@
 package com.blockchain.store.playmarket.ui.navigation_view;
 
 
+import android.accounts.Account;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.about_screen.AboutAppActivity;
 import com.blockchain.store.playmarket.ui.library_screen.LibraryActivity;
@@ -25,10 +32,16 @@ import com.blockchain.store.playmarket.ui.settings_screen.SettingsActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Blockies;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.blockchain.store.playmarket.utilities.FileUtils;
+
+import org.ethereum.geth.Address;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class NavigationViewFragment extends Fragment implements NavigationViewContract.View {
     private static final String TAG = "NavigationViewFragment";
@@ -89,14 +102,32 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
         startActivity(new Intent(getActivity(), LibraryActivity.class));
     }
 
-    @OnClick(R.id.nav_view_exchange)
+    @OnClick(R.id.nav_view_send)
     void showAddFundsDialog() {
-        final Dialog d = new Dialog(getContext());
-        d.setContentView(R.layout.add_funds_dialog);
-        TextView textView = d.findViewById(R.id.balanceText);
+        AlertDialog confirmImportDialog = new AlertDialog.Builder(getContext())
+                .setView(R.layout.transfer_dialog)
+                .setCancelable(false)
+                .create();
+        confirmImportDialog.show();
 
-        textView.setText(new EthereumPrice(AccountManager.getUserBalance()).inEther().toString());
-        d.show();
+        AccountInfoResponse accountInfoResponse = new AccountInfoResponse();
+
+        Observable<AccountInfoResponse> accountInfoResponseObservable = RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex());
+        accountInfoResponseObservable
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(data -> {
+                    accountInfoResponse.balance = data.balance;
+                    accountInfoResponse.count = data.count;
+                    accountInfoResponse.gasPrice = data.gasPrice;
+                });
+
+        EditText senderAddressEditText = (EditText) confirmImportDialog.findViewById(R.id.sender_address_editText);
+        EditText senderPasswordEditText = (EditText) confirmImportDialog.findViewById(R.id.sender_password_editText);
+        EditText payeeAddressEditText = (EditText) confirmImportDialog.findViewById(R.id.payee_address_editText);
+        EditText transferAmountEditText = (EditText) confirmImportDialog.findViewById(R.id.transfer_amount_editText);
+        Button confirmTransferButton = (Button) confirmImportDialog.findViewById(R.id.confirm_transfer_button);
+        Button cancelTransferButton = (Button) confirmImportDialog.findViewById(R.id.cancel_transfer_button);
     }
 
     @OnClick(R.id.settings_layout)

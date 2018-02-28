@@ -187,6 +187,6 @@ public class DialogManager {
 
     public enum DialogNames {
         CREATE_FOLDER_DIALOG,
-        CONFIRM_IMPORT_DIALOG;
+        CONFIRM_IMPORT_DIALOG
     }
 }

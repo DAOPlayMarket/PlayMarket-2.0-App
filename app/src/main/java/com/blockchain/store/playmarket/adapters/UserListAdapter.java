@@ -1,8 +1,6 @@
 package com.blockchain.store.playmarket.adapters;
 
 
-import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +11,6 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.utilities.FileUtils;
-import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -29,7 +26,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
 
     private int selectedItemIndex = 0;
 
-    public UserListAdapter(ArrayList<File> usersArrayList){
+    public UserListAdapter(ArrayList<File> usersArrayList) {
         this.usersArrayList = usersArrayList;
     }
 
@@ -55,7 +52,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     }
 
     // Метод получения позиции выбранного элемента в "JsonKeystoreFileList".
-    public int getSelectedItem(){
+    public int getSelectedItem() {
         return selectedItemIndex;
     }
 
