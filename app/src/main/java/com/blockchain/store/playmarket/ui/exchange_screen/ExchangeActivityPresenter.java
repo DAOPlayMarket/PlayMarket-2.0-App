@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.ui.exchange_screen;
 
 import android.util.Log;
+import android.util.Pair;
 
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.ChangellyBaseBody;
@@ -11,7 +12,9 @@ import com.blockchain.store.playmarket.data.entities.ChangellyMinimumAmountRespo
 import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -39,15 +42,17 @@ public class ExchangeActivityPresenter implements ExchangeActivityContract.Prese
                     }
                     return changellyCurrencies;
                 })
+                .flatMap(currencies -> RestApi.getChangellyApi().getMinimumAmount(ChangellyBaseBody.getMinAmount(currencies.get(0).name)), Pair::new)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> view.showLoadCurrenciesProgress(true))
-                .doOnTerminate(() -> view.showLoadCurrenciesProgress(false))
+                .doOnUnsubscribe(() -> view.showLoadCurrenciesProgress(false))
                 .subscribe(this::onAllCurrenciesReady, this::onAllCurrenciesError);
     }
 
-    private void onAllCurrenciesReady(ArrayList<ChangellyCurrency> changellyCurrencies) {
-        view.onLoadCurrenciesReady(changellyCurrencies);
+    private void onAllCurrenciesReady(Pair<ArrayList<ChangellyCurrency>, ChangellyMinimumAmountResponse> responsePair) {
+        view.onLoadCurrenciesReady(responsePair.first);
+        view.onMinumumAmountReady(responsePair.second.result);
     }
 
     private void onAllCurrenciesError(Throwable throwable) {
@@ -59,7 +64,17 @@ public class ExchangeActivityPresenter implements ExchangeActivityContract.Prese
         RestApi.getChangellyApi().getExchangeAmount(ChangellyBaseBody.getExchangeAmount(name, amount))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(() -> view.showLoadCurrenciesProgress(true))
+                .doOnUnsubscribe(() -> view.showLoadCurrenciesProgress(false))
                 .subscribe(this::onEstimatedAmountReady, this::onEstimatedAmountFail);
+    }
+
+    private void onEstimatedAmountReady(ChangellyMinimumAmountResponse changellyMinimumAmountResponse) {
+        view.onEstimatedAmountReady(changellyMinimumAmountResponse.result);
+    }
+
+    private void onEstimatedAmountFail(Throwable throwable) {
+        view.onEstimatedAmountFail(throwable);
     }
 
     @Override
@@ -67,6 +82,8 @@ public class ExchangeActivityPresenter implements ExchangeActivityContract.Prese
         RestApi.getChangellyApi().createTransaction(ChangellyBaseBody.createTransactionBody(from, address, amount, extraId))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(() -> view.showLoadCurrenciesProgress(true))
+                .doOnUnsubscribe(() -> view.showLoadCurrenciesProgress(false))
                 .subscribe(this::onCreateTransationReady, this::onCreateTransactionFailed);
     }
 
@@ -78,11 +95,24 @@ public class ExchangeActivityPresenter implements ExchangeActivityContract.Prese
         view.onTransactionCreatedFailed(throwable);
     }
 
-    private void onEstimatedAmountReady(ChangellyMinimumAmountResponse changellyMinimumAmountResponse) {
-        view.onEstimatedAmountReady(changellyMinimumAmountResponse.result);
+    @Override
+    public void loadMinimumAmount(ChangellyCurrency changellyCurrency) {
+        RestApi.getChangellyApi().getMinimumAmount(ChangellyBaseBody.getMinAmount(changellyCurrency.name))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(() -> view.showLoadCurrenciesProgress(true))
+                .doOnUnsubscribe(() -> view.showLoadCurrenciesProgress(false))
+                .subscribe(this::onMinimumAmountReady, this::onMinimumAmountFailed);
+
     }
 
-    private void onEstimatedAmountFail(Throwable throwable) {
-        view.onEstimatedAmountFail(throwable);
+    private void onMinimumAmountReady(ChangellyMinimumAmountResponse changellyMinimumAmountResponse) {
+        view.onMinumumAmountReady(changellyMinimumAmountResponse.result);
     }
+
+    private void onMinimumAmountFailed(Throwable throwable) {
+        view.onMinimumAmountError(throwable);
+    }
+
+
 }

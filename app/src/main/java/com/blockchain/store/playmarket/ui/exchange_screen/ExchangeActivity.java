@@ -27,6 +27,7 @@ import butterknife.OnClick;
 
 public class ExchangeActivity extends AppCompatActivity implements ExchangeActivityContract.View, ChangellyCurrenciesAdapter.ChangellyAdapterCallback {
     private static final String TAG = "ExchangeActivity";
+    private static final String DIALOG_TAG = "dialog_tag";
 
     @BindView(R.id.top_layout_app_name) TextView toolbarTitle;
     @BindView(R.id.user_address_field) EditText userAddressField;
@@ -34,9 +35,11 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
     @BindView(R.id.estimated_amount) TextView estimatedAmount;
     @BindView(R.id.exchange_icon) SimpleDraweeView exchangeIcon;
     @BindView(R.id.content_holder) LinearLayout contentHolder;
-    @BindView(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.progress_holder) LinearLayout progressLayout;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
     @BindView(R.id.payin_address) TextView payinAddress;
+    @BindView(R.id.minimum_amount) TextView minimumAmount;
+    @BindView(R.id.chosen_currency_name) TextView chosenCurrencyName;
 
     ExchangeActivityViewModel exchangeActivityViewModel;
     ExchangeActivityPresenter presenter;
@@ -48,6 +51,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         setContentView(R.layout.activity_exchange);
         ButterKnife.bind(this);
         exchangeActivityViewModel = ViewModelProviders.of(this).get(ExchangeActivityViewModel.class);
+
         attachPresenter();
     }
 
@@ -63,7 +67,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
     }
 
     private void setViews(ArrayList<ChangellyCurrency> currencies) {
-        exchangeDialog = (ChooseCurrencyDialog) getSupportFragmentManager().findFragmentByTag("dialog_tag");
+        exchangeDialog = (ChooseCurrencyDialog) getSupportFragmentManager().findFragmentByTag(DIALOG_TAG);
         if (exchangeDialog == null)
             exchangeDialog = ChooseCurrencyDialog.instance(currencies);
         if (currencies.size() > 0)
@@ -87,7 +91,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
 
     @OnClick(R.id.exchange_holder)
     void onExchangeIconClicked() {
-        exchangeDialog.show(getSupportFragmentManager(), "dialog_tag");
+        exchangeDialog.show(getSupportFragmentManager(), DIALOG_TAG);
     }
 
     @OnClick(R.id.top_layout_back_arrow)
@@ -97,7 +101,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
 
     @Override
     public void showLoadCurrenciesProgress(boolean isShown) {
-        progressBar.setVisibility(isShown ? View.VISIBLE : View.GONE);
+        progressLayout.setVisibility(isShown ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -109,6 +113,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
     }
 
     private void initIcon(ChangellyCurrency changellyCurrencies) {
+        chosenCurrencyName.setText(changellyCurrencies.name);
         exchangeActivityViewModel.chosenCurrency = changellyCurrencies;
         exchangeIcon.setImageURI(Uri.parse(changellyCurrencies.getImageUrl()));
     }
@@ -140,6 +145,16 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         ToastUtil.showToast(throwable.getMessage());
     }
 
+    @Override
+    public void onMinumumAmountReady(String amount) {
+        this.minimumAmount.setText(amount);
+    }
+
+    @Override
+    public void onMinimumAmountError(Throwable throwable) {
+        ToastUtil.showToast(throwable.getMessage());
+    }
+
     @OnClick(R.id.error_view_repeat_btn)
     public void error_view_repeat_btn() {
         presenter.loadAllCurrencies();
@@ -149,6 +164,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
     public void onChangellyCurrencyClicked(ChangellyCurrency changellyCurrency) {
         initIcon(changellyCurrency);
         exchangeDialog.dismissAllowingStateLoss();
+        presenter.loadMinimumAmount(changellyCurrency);
     }
 
 }
