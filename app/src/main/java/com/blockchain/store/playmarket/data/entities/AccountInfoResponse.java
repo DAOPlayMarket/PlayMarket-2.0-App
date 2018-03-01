@@ -10,5 +10,4 @@ public class AccountInfoResponse {
     public String balance;
     @SerializedName("countTx")
     public int count;
-    public String gasPrice;
 }

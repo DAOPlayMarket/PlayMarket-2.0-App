@@ -48,22 +48,14 @@ public class InvestPresenter implements InvestContract.Presenter {
                 .subscribe(this::onInvestSuccessful, this::onPurchaseError);
     }
 
-    private void onError(Throwable throwable) {
-        Log.d(TAG, "onError() called with: throwable = [" + throwable + "]");
-    }
-
-    private void onOK(InvestAddressResponse investAddressResponse) {
-        Log.d(TAG, "onOK() called with: investAddressResponse = [" + investAddressResponse + "]");
-    }
-
     private Observable<PurchaseAppResponse> mapInvestTransaction(AccountInfoResponse accountInfo, String investCount) {
         Log.d(TAG, "mapInvestTransaction() called with: accountInfo = [" + accountInfo + "], investCount = [" + investCount + "]");
         String rawTransaction = "";
         try {
-            rawTransaction = CryptoUtils.generateInvestTransactionWithAddress(
-                    accountInfo.count,
-                    new BigInt(Long.parseLong(accountInfo.gasPrice)),
-                    investCount, "0xB268d40843224B539068606Fb9F0dbAFb430D765");
+//            rawTransaction = CryptoUtils.generateInvestTransactionWithAddress(
+//                    accountInfo.count,
+//                    new BigInt(Long.parseLong(accountInfo.gasPrice)),
+//                    investCount, "0xB268d40843224B539068606Fb9F0dbAFb430D765");
             Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
         } catch (Exception e) {
             e.printStackTrace();

@@ -2,8 +2,10 @@ package com.blockchain.store.playmarket.utilities;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,9 +14,11 @@ import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
+import com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivityViewModel;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.math.BigDecimal;
+import java.util.zip.Inflater;
 
 public class DialogManager {
 
@@ -189,4 +193,5 @@ public class DialogManager {
         CREATE_FOLDER_DIALOG,
         CONFIRM_IMPORT_DIALOG
     }
+
 }

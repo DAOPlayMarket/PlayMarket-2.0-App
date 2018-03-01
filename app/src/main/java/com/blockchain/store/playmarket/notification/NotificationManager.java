@@ -10,7 +10,6 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
 import com.blockchain.store.playmarket.utilities.Constants;
-import com.bumptech.glide.request.target.NotificationTarget;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -39,8 +39,8 @@ public class NavigationViewPresenter implements NavigationViewContract.Presenter
                 .subscribe(this::onBalanceReady, this::onBalanceFail);
     }
 
-    private void onBalanceReady(BalanceResponse balanceResponse) {
-        view.onBalanceReady(balanceResponse.balance);
+    private void onBalanceReady(String userBalance) {
+        view.onBalanceReady(userBalance);
     }
 
     private void onBalanceFail(Throwable throwable) {

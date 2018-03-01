@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/top_layout_holder"
+        layout="@layout/detail_app_toolbar" />
+
+    <LinearLayout
+        android:id="@+id/content_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_layout_holder"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:context="com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivity"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/exchange_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:minHeight="40dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/eth_big" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="10dp"
+                android:src="@drawable/back"
+                android:tint="@color/invest_main_color" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/exchange_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/eth_big" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/main_list_left_padding"
+            android:layout_marginRight="@dimen/main_list_left_padding"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/user_address_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="your address" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/entered_amount"
+                    android:layout_width="match_parent"
+                    android:inputType="numberDecimal"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter amount" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/get_estimated_amount_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Get estimated amount" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Estimated amount:" />
+
+            <TextView
+                android:id="@+id/estimated_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/create_transaction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Create transaction" />
+
+            <TextView
+                android:id="@+id/payin_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/error_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+</RelativeLayout>

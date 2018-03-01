@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="me.relex:photodraweeview-1.1.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/photodraweeview-1.1.0.aar/41433000119e4a9ac399de2ed2a4c6fe/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/photodraweeview-1.1.0.aar/41433000119e4a9ac399de2ed2a4c6fe/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/me.relex/photodraweeview/1.1.0/9e846b7e7c9644e33b3b7468561c6db089c725bb/photodraweeview-1.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

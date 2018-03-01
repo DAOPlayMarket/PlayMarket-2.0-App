@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.about_screen.AboutAppActivity;
+import com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivity;
 import com.blockchain.store.playmarket.ui.library_screen.LibraryActivity;
 import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
 import com.blockchain.store.playmarket.ui.settings_screen.SettingsActivity;
@@ -43,7 +45,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class NavigationViewFragment extends Fragment implements NavigationViewContract.View {
+public class NavigationViewFragment extends Fragment implements NavigationViewContract.View, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "NavigationViewFragment";
 
     @BindView(R.id.wishlist_layout) LinearLayout wishlistLayout;
@@ -60,6 +62,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     @BindView(R.id.user_balance_holder) LinearLayout userBalanceHolder;
     @BindView(R.id.balance_error_holder) LinearLayout userBalanceErrorHolder;
     @BindView(R.id.user_balance_progress_bar) ProgressBar progressBar;
+    @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
 
     NavigationViewPresenter presenter;
 
@@ -82,6 +85,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     private void setViews() {
         userAddress.setText(AccountManager.getAddress().getHex());
         avatarImage.setImageBitmap(Blockies.createIcon(AccountManager.getAddress().getHex().toLowerCase()));
+        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     private void attachPresenter() {
@@ -157,6 +161,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
     @Override
     public void onBalanceReady(String balance) {
+        swipeRefreshLayout.setRefreshing(false);
         userBalanceErrorHolder.setVisibility(View.GONE);
         userBalanceHolder.setVisibility(View.VISIBLE);
         AccountManager.setUserBalance(balance);
@@ -165,6 +170,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
     @Override
     public void onBalanceFail(Throwable throwable) {
+        swipeRefreshLayout.setRefreshing(false);
         userBalanceErrorHolder.setVisibility(View.VISIBLE);
         userBalanceHolder.setVisibility(View.GONE);
     }
@@ -176,7 +182,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
     @OnClick(R.id.nav_view_exchange)
     void onExchangeClicked() {
-//        presenter.loadUserBalance();
+        startActivity(new Intent(getActivity(), ExchangeActivity.class));
     }
 
     @OnClick(R.id.error_view_repeat_btn)
@@ -185,4 +191,8 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     }
 
 
+    @Override
+    public void onRefresh() {
+        presenter.loadUserBalance();
+    }
 }

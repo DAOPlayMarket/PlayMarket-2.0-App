@@ -10,6 +10,6 @@ import java.util.ArrayList;
 
 public class ChangellyMinimumAmountResponse {
     public String jsonrpc;
-    public int id;
+    public Object id;
     public String result;
 }

@@ -52,15 +52,18 @@ public interface ServerApi {
 
     @FormUrlEncoded
     @POST("check-buy")
-    Observable<CheckPurchaseResponse> checkPurchase(@Field("idApp") String appId, @Field("address") String address);
+    Observable<Boolean> checkPurchase(@Field("idApp") String appId, @Field("address") String address);
 
     @FormUrlEncoded
     @GET("get-invest-address")
     Observable<InvestAddressResponse> getInvestAddress();
+    @FormUrlEncoded
+    @GET("get-gas-price")
+    Observable<String> getGasPrice();
 
     @FormUrlEncoded
     @POST("get-address-balance")
-    Observable<BalanceResponse> getBalance(@Field("address") String address);
+    Observable<String> getBalance(@Field("address") String address);
 
     @FormUrlEncoded
     @POST("get-transaction-count")

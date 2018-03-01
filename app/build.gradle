@@ -54,9 +54,10 @@ android {
 }
 
 dependencies {
-    compile 'com.ms-square:expandableTextView:0.1.4'
-    compile 'com.github.mancj:MaterialSearchBar:0.7.5'
-    compile 'com.miguelcatalan:materialsearchview:1.4.0'
+    implementation "android.arch.lifecycle:extensions:1.1.0"
+
+    implementation 'com.github.mancj:MaterialSearchBar:0.7.5'
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 
     implementation "com.google.android.gms:play-services-location:11.8.0"
 
@@ -82,7 +83,6 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
-    implementation 'com.github.bumptech.glide:glide:4.5.0'
     implementation 'com.facebook.fresco:fresco:1.8.0'
 
     implementation 'io.ethmobile:ethdroid:2.0.0-m2'
@@ -102,7 +102,6 @@ dependencies {
     implementation 'com.android.support:design:27.0.2'
 
     implementation 'de.measite.minidns:minidns-hla:0.2.2'
-    implementation 'com.github.pwittchen:infinitescroll:0.0.1'
     implementation 'com.android.support:multidex:1.0.2'
     implementation 'us.feras.mdv:markdownview:1.1.0'
     testCompile 'junit:junit:4.12'
