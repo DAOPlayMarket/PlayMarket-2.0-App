@@ -96,7 +96,9 @@
 
         <activity android:name=".ui.invest_screen.InvestActivity" />
         <activity android:name=".ui.file_manager_screen.FileManagerActivity" />
-        <activity android:name=".ui.exchange_screen.ExchangeActivity"></activity>
+        <activity
+            android:name=".ui.exchange_screen.ExchangeActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -107,6 +107,7 @@
     <string name="todo">TODO</string>
     <string name="confirm_button">Confirm</string>
     <string name="nav_view_transfer">Передать</string>
+    <string name="ethereum_name">ETH</string>
 
     <string-array name="query_suggestions">
         <item>Android</item>

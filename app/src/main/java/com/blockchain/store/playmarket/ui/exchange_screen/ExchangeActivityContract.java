@@ -24,14 +24,22 @@ public class ExchangeActivityContract {
         void onTransactionCreatedSuccessfully(ChangellyCreateTransactionResponse changellyCreateTransactionResponse);
 
         void onTransactionCreatedFailed(Throwable throwable);
+
+        void onMinumumAmountReady(String minimumAmount);
+
+        void onMinimumAmountError(Throwable throwable);
     }
+
 
     public interface Presenter {
         void init(View view);
+
         void loadAllCurrencies();
 
         void getEstimatedAmount(String name, String amount);
 
         void createTransaction(String from, String address, String amount, String extraId);
+
+        void loadMinimumAmount(ChangellyCurrency changellyCurrency);
     }
 }

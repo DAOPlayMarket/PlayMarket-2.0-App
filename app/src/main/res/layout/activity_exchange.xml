@@ -28,11 +28,25 @@
             android:minHeight="40dp"
             android:orientation="horizontal">
 
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/exchange_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/eth_big" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/exchange_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/eth_big" />
+
+                <TextView
+                    android:id="@+id/chosen_currency_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    tools:text="BTC" />
+            </LinearLayout>
+
 
             <ImageView
                 android:layout_width="40dp"
@@ -42,10 +56,22 @@
                 android:src="@drawable/back"
                 android:tint="@color/invest_main_color" />
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/eth_big" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/eth_big" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/ethereum_name" />
+            </LinearLayout>
 
 
         </LinearLayout>
@@ -63,6 +89,17 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:hint="your address" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minimum amount:" />
+
+            <TextView
+                android:id="@+id/minimum_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Minimum amount:" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -112,12 +149,20 @@
 
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:id="@+id/progress_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
 
     <include
         layout="@layout/error_view"
