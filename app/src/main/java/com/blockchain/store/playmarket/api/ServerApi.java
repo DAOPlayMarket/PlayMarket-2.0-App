@@ -49,6 +49,9 @@ public interface ServerApi {
     @FormUrlEncoded
     @POST("invest")
     Observable<PurchaseAppResponse> investApp(@Field("signedTransactionData") String transactionData);
+    @FormUrlEncoded
+    @POST("invest")
+    Observable<PurchaseAppResponse> sendTransferTransaction(@Field("signedTransactionData") String transactionData);
 
     @FormUrlEncoded
     @POST("check-buy")
@@ -57,7 +60,7 @@ public interface ServerApi {
     @FormUrlEncoded
     @GET("get-invest-address")
     Observable<InvestAddressResponse> getInvestAddress();
-    @FormUrlEncoded
+
     @GET("get-gas-price")
     Observable<String> getGasPrice();
 
