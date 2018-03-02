@@ -67,6 +67,7 @@
     <string name="enter_folder_name">Enter folder name</string>
     <string name="empty_password">Password field can not be empty</string>
     <string name="empty_field">This field can not be empty</string>
+    <string name="insufficient_funds">You don\'t have the required amount</string>
     <string name="short_password">Password cannot be less than 7 characters</string>
     <string name="create_folder">Create new folder</string>
 
@@ -108,6 +109,9 @@
     <string name="confirm_button">Confirm</string>
     <string name="nav_view_transfer">Передать</string>
     <string name="ethereum_name">ETH</string>
+    <string name="recipient_address">Recipient address</string>
+    <string name="sender_password">Sender password</string>
+    <string name="amount">Amount</string>
 
     <string-array name="query_suggestions">
         <item>Android</item>
