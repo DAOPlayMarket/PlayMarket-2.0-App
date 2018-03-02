@@ -24,7 +24,6 @@ public class NavigationViewPresenter implements NavigationViewContract.Presenter
     @Override
     public void init(NavigationViewContract.View view) {
         this.view = view;
-        testChangelly();
     }
 
     @Override
@@ -47,21 +46,4 @@ public class NavigationViewPresenter implements NavigationViewContract.Presenter
         view.onBalanceFail(throwable);
     }
 
-
-    private void testChangelly() {
-        RestApi.getChangellyApi().getCurrenciesFull(ChangellyBaseBody.getCurrenciesFull()).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onOK, this::onFail);
-    }
-
-    private void onOK(ChangellyCurrenciesResponse changellyCurrenciesResponse) {
-        Log.d(TAG, "onOK() called with: changellyCurrenciesResponse = [" + changellyCurrenciesResponse + "]");
-    }
-
-    private void onOK(ChangellyMinimumAmountResponse changellyMinimumAmountResponse) {
-        Log.d(TAG, "onOK() called with: changellyMinimumAmountResponse = [" + changellyMinimumAmountResponse + "]");
-    }
-
-    private void onFail(Throwable throwable) {
-        Log.d(TAG, "onFail() called with: throwable = [" + throwable + "]");
-    }
 }

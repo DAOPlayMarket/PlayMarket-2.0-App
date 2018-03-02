@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="com.orhanobut:hawk-2.0.1">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/hawk-2.0.1.aar/7459187e078ec1823e263e620b1a7bfd/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/hawk-2.0.1.aar/7459187e078ec1823e263e620b1a7bfd/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/hawk-2.0.1.aar/d75913ad2b1367caff6195bd17d68846/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/hawk-2.0.1.aar/d75913ad2b1367caff6195bd17d68846/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

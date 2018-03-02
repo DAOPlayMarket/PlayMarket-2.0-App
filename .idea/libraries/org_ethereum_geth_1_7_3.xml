@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="org.ethereum:geth-1.7.3">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/geth-1.7.3.aar/81bc985f90bf2a7abb550f5546c828ca/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/geth-1.7.3.aar/81bc985f90bf2a7abb550f5546c828ca/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/geth-1.7.3.aar/2b6ffcf71432fe354cef97ed2fc35e2e/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/geth-1.7.3.aar/2b6ffcf71432fe354cef97ed2fc35e2e/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

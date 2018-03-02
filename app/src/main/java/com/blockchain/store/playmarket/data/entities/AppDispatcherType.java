@@ -11,6 +11,7 @@ public class AppDispatcherType {
     public String categoryId;
     public int subCategoryId;
     public int totalCount;
+    public boolean isInitialized = false;
     public ArrayList<App> apps = new ArrayList<>();
 
     public AppDispatcherType(String categoryId, int subCategoryId, int totalCount) {
