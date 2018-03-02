@@ -5,6 +5,6 @@
     android:id="@+id/transfer_viewPager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.blockchain.store.playmarket.TransferFragment">
+    tools:context="com.blockchain.store.playmarket.ui.transfer_screen.TransferFragment">
 
 </com.blockchain.store.playmarket.utilities.NonSwipeableViewPager>

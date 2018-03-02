@@ -1,4 +1,4 @@
-package com.blockchain.store.playmarket;
+package com.blockchain.store.playmarket.ui.transfer_screen;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.TransferViewPagerAdapter;
 import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
 

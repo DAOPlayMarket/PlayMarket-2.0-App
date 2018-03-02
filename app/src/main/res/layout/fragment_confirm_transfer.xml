@@ -3,7 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.blockchain.store.playmarket.ConfirmTransferFragment">
+    tools:context="com.blockchain.store.playmarket.ui.transfer_screen.confirm_transfer_screen.ConfirmTransferFragment">
+
+    <TextView
+        android:id="@+id/sender_address_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/recipient_address_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/transfer_amount_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/sender_password_editText"
@@ -23,4 +38,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="back" />
+
 </LinearLayout>
