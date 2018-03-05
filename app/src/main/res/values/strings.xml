@@ -123,4 +123,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="below_minimum_amount_error">Please enter the amount above the minimum</string>
 </resources>

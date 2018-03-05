@@ -1,16 +1,11 @@
 package com.blockchain.store.playmarket.utilities.fragment_dialogs;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,8 +16,6 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.ChangellyCurrenciesAdapter;
 import com.blockchain.store.playmarket.adapters.ChangellyCurrenciesAdapter.ChangellyAdapterCallback;
 import com.blockchain.store.playmarket.data.entities.ChangellyCurrency;
-import com.blockchain.store.playmarket.ui.AppDetailFragment;
-import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 
 import java.util.ArrayList;
 
