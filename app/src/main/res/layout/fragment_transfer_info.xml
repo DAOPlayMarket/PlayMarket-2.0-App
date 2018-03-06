@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/recipient_address"
-            android:inputType="textPersonName" />
+            android:maxLength="42" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -38,25 +38,19 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/amount"
-            android:inputType="number" />
+            android:inputType="numberDecimal" />
     </android.support.design.widget.TextInputLayout>
 
     <TextView
         android:id="@+id/balance_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="TextView" />
+        android:padding="10dp" />
 
     <Button
         android:id="@+id/continue_transfer_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Continue" />
+        android:text="@string/continue_btn" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cancel" />
 </LinearLayout>

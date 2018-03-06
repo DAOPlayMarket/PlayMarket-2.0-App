@@ -20,23 +20,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/sender_password_editText"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/sender_password_inputLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Sender password"/>
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/sender_password_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/sender_password"
+            tools:ignore="TextFields" />
+    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/confirm_transfer_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="@string/confirm_button" />
 
     <Button
         android:id="@+id/back_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="back" />
+        android:text="@string/back" />
 
 </LinearLayout>

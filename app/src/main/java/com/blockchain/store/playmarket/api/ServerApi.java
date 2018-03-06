@@ -3,23 +3,17 @@ package com.blockchain.store.playmarket.api;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
-import com.blockchain.store.playmarket.data.entities.BalanceResponse;
 import com.blockchain.store.playmarket.data.entities.Category;
-import com.blockchain.store.playmarket.data.entities.CheckPurchaseResponse;
-import com.blockchain.store.playmarket.data.entities.GasPriceResponse;
 import com.blockchain.store.playmarket.data.entities.InvestAddressResponse;
 import com.blockchain.store.playmarket.data.entities.NonceResponce;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
-import com.blockchain.store.playmarket.data.entities.SearchResponse;
 
 import java.util.ArrayList;
 
-import okhttp3.ResponseBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -49,9 +43,10 @@ public interface ServerApi {
     @FormUrlEncoded
     @POST("invest")
     Observable<PurchaseAppResponse> investApp(@Field("signedTransactionData") String transactionData);
+
     @FormUrlEncoded
-    @POST("invest")
-    Observable<PurchaseAppResponse> sendTransferTransaction(@Field("signedTransactionData") String transactionData);
+    @POST("transfer")
+    Observable<PurchaseAppResponse> transferTheAmount(@Field("signedTransactionData") String transactionData);
 
     @FormUrlEncoded
     @POST("check-buy")
@@ -73,7 +68,7 @@ public interface ServerApi {
     Observable<NonceResponce> getNonce(@Field("address") String address);
 
     @FormUrlEncoded
-    @POST("get-address-info")
+    @POST("get-info-for-tx")
     Observable<AccountInfoResponse> getAccountInfo(@Field("address") String address);
 
     @FormUrlEncoded

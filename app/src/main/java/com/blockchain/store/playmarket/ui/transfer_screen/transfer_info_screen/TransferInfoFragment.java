@@ -58,58 +58,68 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         View view = inflater.inflate(R.layout.fragment_transfer_info, container, false);
         ButterKnife.bind(this, view);
 
-        transferViewModel = ViewModelProviders.of(this).get(TransferViewModel.class);
+        transferViewModel = ViewModelProviders.of(getParentFragment()).get(TransferViewModel.class);
 
         presenter = new TransferInfoPresenter();
         presenter.init(this, getContext());
-        presenter.getAccountInfo();
-
+        presenter.getAccountBalance();
+        senderAddressEditText.setText(presenter.getSenderAddress());
 
         return view;
     }
 
-    @OnClick(R.id.continue_transfer_button) void continueButtonPressed(){
+    @OnClick(R.id.continue_transfer_button)
+    void continueButtonPressed() {
 
         boolean emptyAddressCheck = true;
         boolean emptyAmountCheck = true;
         boolean amountCountCheck = true;
 
-        if (recipientAddressEditText.getText().length() == 0){
+        if (recipientAddressEditText.getText().length() == 0) {
             recipientAddressInputLayout.setErrorEnabled(true);
             recipientAddressInputLayout.setError(getResources().getString(R.string.empty_field));
             emptyAddressCheck = false;
         }
+        //else if (recipientAddressEditText.getText().length() > 1 && recipientAddressEditText.getText().length() < 42) {
+        //    recipientAddressInputLayout.setErrorEnabled(true);
+        //    recipientAddressInputLayout.setError(getResources().getString(R.string.short_account));
+        //    emptyAddressCheck = false;
+        //}
         else recipientAddressInputLayout.setErrorEnabled(false);
 
-        if (amountEditText.getText().length() == 0){
+        if (amountEditText.getText().length() == 0) {
             amountInputLayout.setErrorEnabled(true);
             amountInputLayout.setError(getResources().getString(R.string.empty_field));
             emptyAmountCheck = false;
-        }
-        else amountInputLayout.setErrorEnabled(false);
+        } else amountInputLayout.setErrorEnabled(false);
 
-        if (emptyAmountCheck){
+        if (emptyAmountCheck) {
             BigDecimal transferAmount = new BigDecimal(amountEditText.getText().toString());
-            if (transferAmount.doubleValue() > balance.doubleValue()){
+            if (transferAmount.doubleValue() > balance.doubleValue()) {
                 amountInputLayout.setErrorEnabled(true);
                 amountInputLayout.setError(getResources().getString(R.string.insufficient_funds));
                 amountCountCheck = false;
-            }
-            else amountInputLayout.setErrorEnabled(false);
+            } else amountInputLayout.setErrorEnabled(false);
 
         }
 
-        if (emptyAddressCheck && emptyAmountCheck &&  amountCountCheck) {
-            transferViewModel.senderAddress.setValue(senderAddressEditText.getText().toString());
-            transferViewModel.recepientAddress.setValue(recipientAddressEditText.getText().toString());
-            transferViewModel.transferAmount.setValue(amountEditText.getText().toString());
+        if (emptyAddressCheck && emptyAmountCheck && amountCountCheck) {
+            putDataOnViewModel();
             ((TransferFragment) getParentFragment()).goToConfirmTransfer();
         }
     }
 
     @Override
-    public void getAccountInfoSuccessful(AccountInfoResponse accountInfoResponse) {
-        balance = new EthereumPrice(accountInfoResponse.balance).inEther();
+    public void getAccountBalanceSuccessful(String accountBalance) {
+        balance = new EthereumPrice(accountBalance).inEther();
         balanceTextView.setText(balance.toString());
+
+    }
+
+    private void putDataOnViewModel() {
+        transferViewModel.senderAddress.setValue(senderAddressEditText.getText().toString());
+        transferViewModel.recipientAddress.setValue(recipientAddressEditText.getText().toString());
+        transferViewModel.transferAmount.setValue(amountEditText.getText().toString());
+        transferViewModel.balance.setValue(balanceTextView.getText().toString());
     }
 }

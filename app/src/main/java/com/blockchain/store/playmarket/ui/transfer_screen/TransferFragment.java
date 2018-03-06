@@ -13,6 +13,7 @@ import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class TransferFragment extends DialogFragment {
 
@@ -43,6 +44,10 @@ public class TransferFragment extends DialogFragment {
             int height = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width, height);
         }
+    }
+
+    @OnClick(R.id.cancel_transfer_button) void cancelButtonPressed(){
+        this.dismiss();
     }
 
     public void goToConfirmTransfer() {
