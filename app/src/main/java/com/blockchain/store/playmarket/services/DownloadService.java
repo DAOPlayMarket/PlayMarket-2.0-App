@@ -19,6 +19,7 @@ import java.io.File;
  */
 
 public class DownloadService extends IntentService {
+    private static final int TIMEOUT_IN_MILLIS = 3000;
     private static final String TAG = "DownloadService";
 
     public DownloadService() {
@@ -38,6 +39,7 @@ public class DownloadService extends IntentService {
         NotificationManager.getManager().registerNewNotification(app);
         Ion.with(getBaseContext())
                 .load(url)
+                .setTimeout(TIMEOUT_IN_MILLIS)
                 .progress((downloaded, total) -> {
                     int progress = (int) ((double) downloaded / total * 100);
                     Log.d(TAG, "progress: downloaded: " + downloaded + ". Total: " + total + ". progress " + progress);
@@ -51,7 +53,7 @@ public class DownloadService extends IntentService {
                 }
 
             } else {
-                NotificationManager.getManager().downloadCompleteWithError(app);
+                NotificationManager.getManager().downloadCompleteWithError(app,exception);
             }
         });
 

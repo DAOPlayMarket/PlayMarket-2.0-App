@@ -42,9 +42,9 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
     @BindView(R.id.chosen_currency_name) TextView chosenCurrencyName;
     @BindView(R.id.layout_holder) View layoutHolder;
 
-    ExchangeActivityViewModel exchangeActivityViewModel;
-    ExchangeActivityPresenter presenter;
-    ChooseCurrencyDialog exchangeDialog;
+    private ExchangeActivityViewModel exchangeActivityViewModel;
+    private ExchangeActivityPresenter presenter;
+    private ChooseCurrencyDialog exchangeDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,6 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         setContentView(R.layout.activity_exchange);
         ButterKnife.bind(this);
         exchangeActivityViewModel = ViewModelProviders.of(this).get(ExchangeActivityViewModel.class);
-
         attachPresenter();
     }
 
