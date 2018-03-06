@@ -18,9 +18,28 @@ public class EthereumPrice {
 
     private DecimalFormat df;
 
+    public static enum Currency{
+        ETHER,
+        GWEI,
+        WEI
+    }
+
     public EthereumPrice (String price) {
         wei = new BigDecimal(price);
         df = makeDecimalFormat();
+    }
+
+    public EthereumPrice(String price, Currency currency){
+        wei = new BigDecimal(price);
+        df = makeDecimalFormat();
+
+        if (currency == Currency.ETHER){
+            wei = wei.multiply(new BigDecimal("1000000000000000000"));
+        }
+
+        if (currency == Currency.GWEI){
+            wei = wei.multiply(new BigDecimal("1000000000"));
+        }
     }
 
     public String getUnits() {
@@ -35,6 +54,10 @@ public class EthereumPrice {
 
     public BigDecimal inWei() {
         return wei;
+    }
+
+    public String inLongToString(){
+        return String.valueOf(wei.longValue());
     }
 
     public String inWeiString() {

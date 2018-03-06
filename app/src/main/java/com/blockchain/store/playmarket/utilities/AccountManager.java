@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.utilities;
 
 import com.blockchain.store.playmarket.Application;
 
+import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
 
 import io.ethmobile.ethdroid.KeyManager;
@@ -43,6 +44,15 @@ public class AccountManager {
     public static Address getAddress() {
         try {
             return keyManager.getAccounts().get(0).getAddress();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Account getAccount() {
+        try {
+            return keyManager.getAccounts().get(0);
         } catch (Exception e) {
             e.printStackTrace();
         }

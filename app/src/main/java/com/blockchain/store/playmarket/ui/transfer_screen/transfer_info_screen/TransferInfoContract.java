@@ -12,7 +12,7 @@ public class TransferInfoContract {
 
     interface View{
 
-        void getAccountInfoSuccessful(AccountInfoResponse accountInfoResponse);
+        void getAccountBalanceSuccessful(String accountBalance);
 
     }
 
@@ -20,7 +20,9 @@ public class TransferInfoContract {
 
         void init(View view, Context context);
 
-        void getAccountInfo();
+        void getAccountBalance();
+
+        String getSenderAddress();
 
     }
 }
