@@ -1,5 +1,7 @@
 package com.blockchain.store.playmarket.ui.transfer_screen.confirm_transfer_screen;
 
+import android.content.Context;
+
 import org.ethereum.geth.BigInt;
 
 /**
@@ -9,12 +11,13 @@ import org.ethereum.geth.BigInt;
 public class ConfirmTransferContract {
 
     interface View{
+        void closeTransferDialog();
 
-
+        void showToast(String message);
     }
 
     interface Presenter{
-        void init(View view);
+        void init(View view, Context context);
 
         boolean passwordCheck(String password);
 

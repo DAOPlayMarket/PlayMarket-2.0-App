@@ -77,6 +77,7 @@
     <string name="failed_autosave_message">"JSON Keystore File" auto save failed"</string>
     <string name="success_save_message">Copy of the JSON Keystore File is successfully saved</string>
     <string name="failed_save_message">"JSON Keystore File" save failed"</string>
+    <string name="transaction_success">"Transaction success"</string>
 
 
     <string name="btn_install">install</string>

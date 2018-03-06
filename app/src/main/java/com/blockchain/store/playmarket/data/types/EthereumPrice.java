@@ -56,6 +56,10 @@ public class EthereumPrice {
         return wei;
     }
 
+    public String inLongToString(){
+        return String.valueOf(wei.longValue());
+    }
+
     public String inWeiString() {
         return wei.toPlainString();
     }
