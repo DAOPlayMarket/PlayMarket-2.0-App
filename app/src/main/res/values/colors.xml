@@ -26,5 +26,6 @@
     <color name="nav_yellow">#ffc77d</color>
     <color name="invest_btn_bg">#3b026d</color>
     <color name="invest_main_color">#5c757b</color>
+    <color name="invest_text_color">#67777b</color>
 
 </resources>

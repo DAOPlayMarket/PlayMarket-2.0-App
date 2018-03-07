@@ -3,10 +3,6 @@ package com.blockchain.store.playmarket.ui.navigation_view;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.api.RestApi;
-import com.blockchain.store.playmarket.data.entities.BalanceResponse;
-import com.blockchain.store.playmarket.data.entities.ChangellyBaseBody;
-import com.blockchain.store.playmarket.data.entities.ChangellyCurrenciesResponse;
-import com.blockchain.store.playmarket.data.entities.ChangellyMinimumAmountResponse;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
 import rx.android.schedulers.AndroidSchedulers;
