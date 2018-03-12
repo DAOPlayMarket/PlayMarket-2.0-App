@@ -5,6 +5,7 @@ import android.location.Location;
 import android.os.Build;
 import android.util.Log;
 
+import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.content.LocationManager;
@@ -70,14 +71,17 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
 
     private void onNearestNodeFail(Throwable throwable) {
         view.setStatusText("Search for the nearest node fail: " + throwable.getMessage());
+        view.onNearestNodeFailed(throwable);
     }
 
     @Override
     public void onLocationReady(Location location) {
-//        testChangelly();
         locationManager.stopLocationServices();
-////        getNearestNode(location);
-        view.onLocationReady();
+        if (BuildConfig.DEBUG) {
+            view.onLocationReady();
+        } else {
+            getNearestNode(location);
+        }
 
     }
 

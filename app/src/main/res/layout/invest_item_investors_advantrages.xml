@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/investTextTitle"
+        android:layout_marginBottom="20dp"
+        android:text="@string/investors_advantages"
+        />
+
+    <TextView
+        style="@style/investTextBody"
+        android:id="@+id/invest_ico_description_title"
+        android:text="Успешно проведено preTGE собрано $165 000, всем участникам уже обменяли предварительные preTGE токены на основные токены TGE
+Разработана demo-версия продукта
+Интервью советнику Президента - Герману Клименко http://radio.mediametrics.ru/investment_in_ICO/54907/
+Достигнуты договоренности с биржей CoinPlace на размещение токена после ICO
+Растущий рынок P2P кредитования: $300 000 000 000 к 2020 году по прогнозам Morgan Stanley
+Отработанные на практике механизмы скоринга и верификации заемщиков и привлечения капитала для выдачи кредитов
+Пристальное внимание к юридическим аспектам, проработанная легальная основа всех бизнес-процессов
+Гарантийный фонд: поручительства по займам, до 100% гарантии возврата благодаря токену SOFIN
+Защищенная от подделки кредитная история на базе блокчейн. Прозрачность системы для стороннего аудита
+Опытная команда, закрывающая все необходимые компетенции: более 40 специалистов для успешного старта проекта"
+         />
+
+</LinearLayout>

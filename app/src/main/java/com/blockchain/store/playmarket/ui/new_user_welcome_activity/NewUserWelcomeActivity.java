@@ -19,6 +19,7 @@ import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.file_manager_screen.FileManagerActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
+import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
@@ -67,6 +68,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
         }
         if (isLaunchedFromSettings) {
             setViewFromSettings();
+            addressTextView.setText(AccountManager.getAddress().getHex());
         }
     }
 
@@ -80,7 +82,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     Вызывается после нажатия на кнопку "save_mail_imageButton" пользователем.
     */
     @OnClick(R.id.save_mail_imageButton)
-    void sendMail(){
+    void sendMail() {
         try {
             String jsonKeystoreFileURL = Application.keyManager.getAccounts().get(0).getURL();
             final String pathToJsonFile = jsonKeystoreFileURL.replace("keystore:///", "");
@@ -118,7 +120,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     }
 
     @OnClick(R.id.local_save_imageButton)
-    void localSaveKey(){
+    void localSaveKey() {
         Intent intent = new Intent(getApplicationContext(), FileManagerActivity.class);
         intent.putExtra(FileManagerActivity.START_FILE_MANAGER_TAG, "folders");
         startActivityForResult(intent, 1);
@@ -129,18 +131,17 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
             fileList.clear();
             fileList.addAll(getFiles(currentPath));
             adapter.notifyDataSetChanged();
+        } catch (NullPointerException e) {
+            Toast.makeText(getApplicationContext(), android.R.string.unknownName, Toast.LENGTH_SHORT).show();
         }
-        catch (NullPointerException e){
-        Toast.makeText(getApplicationContext(), android.R.string.unknownName, Toast.LENGTH_SHORT).show();
-    }
 
     }
 
-    private ArrayList<File> getFiles(String directoryPath){
+    private ArrayList<File> getFiles(String directoryPath) {
         File directory = new File(directoryPath);
         ArrayList<File> folderList = new ArrayList<>();
 
-        for (int i =0; i< directory.listFiles().length; i++){
+        for (int i = 0; i < directory.listFiles().length; i++) {
             if (directory.listFiles()[i].isDirectory()) folderList.add(directory.listFiles()[i]);
         }
 
@@ -152,7 +153,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     Вызывается после нажатия на кнопку "continue_button" пользователем.
     */
     @OnClick(R.id.continue_button)
-    void goToMainActivity(){
+    void goToMainActivity() {
         Intent myIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
         startActivity(myIntent);
         finish();

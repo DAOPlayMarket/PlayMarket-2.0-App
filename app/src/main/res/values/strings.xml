@@ -129,4 +129,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="below_minimum_amount_error">Please enter the amount above the minimum</string>
+    <string name="ico_description">ICO description</string>
+    <string name="investors_advantages">Investors advantages</string>
+    <string name="screenshots">Screenshots</string>
 </resources>

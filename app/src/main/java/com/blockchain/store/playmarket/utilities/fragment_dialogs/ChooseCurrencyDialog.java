@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +32,10 @@ public class ChooseCurrencyDialog extends DialogFragment {
     private static final String CURRENCIES_ARGS = "currencies";
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
+    @BindView(R.id.search_view) SearchView searchView;
 
     ArrayList<ChangellyCurrency> currencies;
+    ChangellyCurrenciesAdapter adapter;
     ChangellyAdapterCallback callback;
 
     public static ChooseCurrencyDialog instance(ArrayList<ChangellyCurrency> currencies) {
@@ -57,7 +60,22 @@ public class ChooseCurrencyDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.choose_currency_dialog, null);
         ButterKnife.bind(this, view);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
-        recyclerView.setAdapter(new ChangellyCurrenciesAdapter(currencies, callback));
+        adapter = new ChangellyCurrenciesAdapter(currencies, callback);
+        adapter.setHasStableIds(true);
+        recyclerView.setAdapter(adapter);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                adapter.getFilter().filter(query);
+                return false;
+            }
+        });
         return view;
     }
 

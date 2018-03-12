@@ -28,6 +28,8 @@ import com.blockchain.store.playmarket.ui.settings_screen.SettingsActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Blockies;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.blockchain.store.playmarket.utilities.ToastUtil;
+import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -159,6 +161,13 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
         intent.putExtra(Constants.WELCOME_ACTIVITY_IS_LUANCHED_FROM_SETTINGS_EXTRA, true);
         startActivity(intent);
     }
+
+    @OnClick(R.id.user_id_title)
+    void copyAddressToClipBoard() {
+        ClipboardUtils.copyToClipboard(getActivity(), userAddress.getText().toString());
+        ToastUtil.showToast(R.string.address_copied);
+    }
+
 
     @Override
     public void onBalanceReady(String balance) {

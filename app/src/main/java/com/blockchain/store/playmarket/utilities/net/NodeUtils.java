@@ -71,12 +71,13 @@ public class NodeUtils {
 
         double minNodeLat = 300;
         double minNodeLon = 300;
-
+        //todo check minNOdeLat variables
         for (int i = 0; i < nodes.length; i++) {
             String[] splitNode = nodes[i].split(":");
 
             if (i == 0 || (Math.abs(lat - Double.valueOf(splitNode[1])) < minNodeLat && Math.abs(lon - Double.valueOf(splitNode[2])) < minNodeLon)) {
-                minNodeLat = Math.abs(lon - Double.valueOf(splitNode[1]));
+//                minNodeLat = Math.abs(lon - Double.valueOf(splitNode[1]));
+                minNodeLat = Math.abs(lat - Double.valueOf(splitNode[1]));
                 minNodeLon = Math.abs(lon - Double.valueOf(splitNode[2]));
 
                 nearestNodeIndex = i;

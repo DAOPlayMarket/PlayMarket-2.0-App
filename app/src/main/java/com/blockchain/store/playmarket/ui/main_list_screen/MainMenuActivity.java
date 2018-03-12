@@ -26,6 +26,7 @@ import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
 import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
@@ -83,7 +84,10 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     }
 
     private void attachFragment() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view_holder, new NavigationViewFragment()).commitAllowingStateLoss();
+        Fragment navViewFragment = getSupportFragmentManager().findFragmentByTag(Constants.NAV_VIEW_FRAGMENT_TAG);
+        if (navViewFragment == null)
+            navViewFragment = new NavigationViewFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view_holder, navViewFragment, Constants.NAV_VIEW_FRAGMENT_TAG).commitAllowingStateLoss();
     }
 
     private void initViews() {

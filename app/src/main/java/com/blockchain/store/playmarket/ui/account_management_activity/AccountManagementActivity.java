@@ -32,7 +32,6 @@ public class AccountManagementActivity extends AppCompatActivity {
     public CryptoUtils crypto;
     private KeyManager keyManager;
     private String datadir;
-
     private String etherAddress;
 
     @Override
