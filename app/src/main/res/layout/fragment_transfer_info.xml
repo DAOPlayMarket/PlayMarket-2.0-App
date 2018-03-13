@@ -1,56 +1,68 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.blockchain.store.playmarket.ui.transfer_screen.transfer_info_screen.TransferInfoFragment">
 
-    <EditText
-        android:id="@+id/sender_address_editText"
+    <SurfaceView
+        android:id="@+id/scaner_surfaceView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:enabled="false"
-        android:inputType="textPersonName" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/info"/>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/recipient_address_inputLayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <EditText
-            android:id="@+id/recipient_address_editText"
+            android:id="@+id/sender_address_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/recipient_address"
-            android:maxLength="42" />
-    </android.support.design.widget.TextInputLayout>
+            android:enabled="false"
+            android:inputType="textPersonName" />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/amount_inputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/recipient_address_inputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/amount_editText"
+            <EditText
+                android:id="@+id/recipient_address_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/recipient_address"
+                android:maxLength="42" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/amount_inputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/amount_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/amount"
+                android:inputType="numberDecimal" />
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/balance_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/amount"
-            android:inputType="numberDecimal" />
-    </android.support.design.widget.TextInputLayout>
+            android:padding="10dp" />
 
-    <TextView
-        android:id="@+id/balance_textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp" />
+        <Button
+            android:id="@+id/continue_transfer_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/continue_btn" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/continue_transfer_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/continue_btn" />
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

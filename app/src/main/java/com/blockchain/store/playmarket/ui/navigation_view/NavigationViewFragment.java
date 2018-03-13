@@ -112,7 +112,6 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     @OnClick(R.id.nav_view_send)
     void showAddFundsDialog() {
         DialogFragment transferFragment = new TransferFragment();
-        transferFragment.setCancelable(false);
         transferFragment.show(getFragmentManager(), "transfer_dialog");
 
         //AccountInfoResponse accountInfoResponse = new AccountInfoResponse();
@@ -124,8 +123,8 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
         //        .subscribeOn(Schedulers.newThread())
         //        .observeOn(AndroidSchedulers.mainThread())
         //        .subscribe(this::onAccountInfoReady,this::onAccountInfoError);
-
     }
+
 
     private void onAccountInfoReady(Pair<AccountInfoResponse, String> accountInfoResponseStringPair) {
 

@@ -29,7 +29,6 @@ public class TransferFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_transfer_dialog, container, false);
         ButterKnife.bind(this, view);
-
         TransferViewPagerAdapter transferAdapter = new TransferViewPagerAdapter(getChildFragmentManager());
         transferViewPager.setAdapter(transferAdapter);
         return view;
@@ -46,7 +45,8 @@ public class TransferFragment extends DialogFragment {
         }
     }
 
-    @OnClick(R.id.cancel_transfer_button) void cancelButtonPressed(){
+    @OnClick(R.id.cancel_transfer_button)
+    void cancelButtonPressed() {
         this.dismiss();
     }
 
