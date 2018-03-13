@@ -66,24 +66,25 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         appListViewHolder.recyclerViewNested.setHasFixedSize(true);
         appListViewHolder.recyclerViewNested.setNestedScrollingEnabled(true);
         appListViewHolder.recyclerViewNested.setAdapter(appListViewHolder.adapter);
-//        GestureDetector gestureDetector = new GestureDetector(view.getContext(), new GestureListener(appListViewHolder.recyclerViewNested));
-//        appListViewHolder.recyclerViewNested.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-//            @Override
-//            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-//                gestureDetector.onTouchEvent(e);
-//                return false;
-//            }
-//
-//            @Override
-//            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-//
-//            }
-//
-//            @Override
-//            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-//
-//            }
-//        });
+        GestureDetector gestureDetector = new GestureDetector(view.getContext(),new GestureListener(appListViewHolder.recyclerViewNested));
+        appListViewHolder.recyclerViewNested.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                Log.d(TAG, "onInterceptTouchEvent() called with: rv = [" + rv + "], e = [" + e + "]");
+                gestureDetector.onTouchEvent(e);
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
         return appListViewHolder;
     }
 

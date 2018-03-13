@@ -76,6 +76,8 @@ public class ChooseCurrencyDialog extends DialogFragment {
                 return false;
             }
         });
+        searchView.setQuery("",false);
+        searchView.clearFocus();
         return view;
     }
 
