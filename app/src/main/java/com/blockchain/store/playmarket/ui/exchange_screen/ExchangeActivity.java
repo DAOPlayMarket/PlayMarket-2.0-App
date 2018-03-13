@@ -5,9 +5,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
@@ -29,18 +29,19 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
     private static final String TAG = "ExchangeActivity";
     private static final String DIALOG_TAG = "dialog_tag";
 
-    @BindView(R.id.top_layout_app_name) TextView toolbarTitle;
     @BindView(R.id.user_address_field) EditText userAddressField;
     @BindView(R.id.entered_amount) EditText enteredAmount;
-    @BindView(R.id.estimated_amount) TextView estimatedAmount;
     @BindView(R.id.exchange_icon) SimpleDraweeView exchangeIcon;
     @BindView(R.id.content_holder) LinearLayout contentHolder;
     @BindView(R.id.progress_holder) LinearLayout progressLayout;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
-    @BindView(R.id.payin_address) TextView payinAddress;
     @BindView(R.id.minimum_amount) TextView minimumAmount;
-    @BindView(R.id.chosen_currency_name) TextView chosenCurrencyName;
     @BindView(R.id.layout_holder) View layoutHolder;
+
+    @BindView(R.id.chosen_currency_name) TextView chosenCurrencyName;
+    @BindView(R.id.chosen_currency_fullname) TextView chosenCurrencyFullname;
+    @BindView(R.id.exchange_details_currency) TextView exchangeDetailsCurrency;
+    @BindView(R.id.exchange_details_amount) TextView exchangeDetailsAmount;
 
     private ExchangeActivityViewModel exchangeActivityViewModel;
     private ExchangeActivityPresenter presenter;
@@ -76,7 +77,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
 
     }
 
-    @OnClick(R.id.get_estimated_amount_btn)
+    //    @OnClick(R.id.get_estimated_amount_btn)
     public void onGetEstimatedAmountClicked() {
         if (Double.parseDouble(enteredAmount.getText().toString()) > Double.parseDouble(minimumAmount.getText().toString())) {
             enteredAmount.setError(null);
@@ -89,7 +90,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         }
     }
 
-    @OnClick(R.id.create_transaction)
+    //    @OnClick(R.id.create_transaction)
     public void onCreateTransactionClicked() {
         presenter.createTransaction(exchangeActivityViewModel.changellyCurrencies.get(0).name, userAddressField.getText().toString(),
                 enteredAmount.getText().toString(), null);
@@ -100,14 +101,15 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         exchangeDialog.show(getSupportFragmentManager(), DIALOG_TAG);
     }
 
-    @OnClick(R.id.top_layout_back_arrow)
-    void onBackClicked() {
-        this.onBackPressed();
-    }
-
     @Override
     public void showLoadCurrenciesProgress(boolean isShown) {
         progressLayout.setVisibility(isShown ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void onMinimumAmountReady(String amount) {
+        layoutHolder.setVisibility(View.VISIBLE);
+        this.minimumAmount.setText(String.format(getString(R.string.send_amount), amount));
     }
 
     @Override
@@ -122,6 +124,8 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         chosenCurrencyName.setText(changellyCurrencies.name);
         exchangeActivityViewModel.chosenCurrency = changellyCurrencies;
         exchangeIcon.setImageURI(Uri.parse(changellyCurrencies.getImageUrl()));
+        chosenCurrencyName.setText(exchangeActivityViewModel.chosenCurrency.name);
+        chosenCurrencyFullname.setText(exchangeActivityViewModel.chosenCurrency.fullName);
     }
 
     @Override
@@ -132,8 +136,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
     }
 
     @Override
-    public void onEstimatedAmountReady(String result) {
-        estimatedAmount.setText(result);
+    public void onEstimatedAmountReady(String estimatedAmount) {
     }
 
     @Override
@@ -143,18 +146,12 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
 
     @Override
     public void onTransactionCreatedSuccessfully(ChangellyCreateTransactionResponse changellyCreateTransactionResponse) {
-        payinAddress.setText(changellyCreateTransactionResponse.result.payinAddress);
+//        payinAddress.setText(changellyCreateTransactionResponse.result.payinAddress);
     }
 
     @Override
     public void onTransactionCreatedFailed(Throwable throwable) {
         ToastUtil.showToast(throwable.getMessage());
-    }
-
-    @Override
-    public void onMinumumAmountReady(String amount) {
-        layoutHolder.setVisibility(View.VISIBLE);
-        this.minimumAmount.setText(amount);
     }
 
     @Override
@@ -174,5 +171,16 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         exchangeDialog.dismissAllowingStateLoss();
         presenter.loadMinimumAmount(changellyCurrency);
     }
+
+    @OnClick(R.id.exchange_cancel)
+    public void exchange_cancel() {
+        this.onBackPressed();
+    }
+
+    @OnClick(R.id.exchange_continue)
+    public void exchange_continue() {
+        // TODO
+    }
+
 
 }

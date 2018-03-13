@@ -1,6 +1,5 @@
 package com.blockchain.store.playmarket.ui.exchange_screen;
 
-import android.util.Log;
 import android.util.Pair;
 
 import com.blockchain.store.playmarket.api.RestApi;
@@ -11,12 +10,7 @@ import com.blockchain.store.playmarket.data.entities.ChangellyMinimumAmountRespo
 
 import java.util.ArrayList;
 
-import io.reactivex.disposables.Disposable;
-import io.reactivex.internal.disposables.DisposableHelper;
-import okhttp3.ResponseBody;
-import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -54,7 +48,7 @@ public class ExchangeActivityPresenter implements ExchangeActivityContract.Prese
 
     private void onAllCurrenciesReady(Pair<ArrayList<ChangellyCurrency>, ChangellyMinimumAmountResponse> responsePair) {
         view.onLoadCurrenciesReady(responsePair.first);
-        view.onMinumumAmountReady(responsePair.second.result);
+        view.onMinimumAmountReady(responsePair.second.result);
     }
 
     private void onAllCurrenciesError(Throwable throwable) {
@@ -109,7 +103,7 @@ public class ExchangeActivityPresenter implements ExchangeActivityContract.Prese
     }
 
     private void onMinimumAmountReady(ChangellyMinimumAmountResponse changellyMinimumAmountResponse) {
-        view.onMinumumAmountReady(changellyMinimumAmountResponse.result);
+        view.onMinimumAmountReady(changellyMinimumAmountResponse.result);
     }
 
     private void onMinimumAmountFailed(Throwable throwable) {

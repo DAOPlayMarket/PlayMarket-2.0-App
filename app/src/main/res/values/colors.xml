@@ -24,8 +24,17 @@
     <color name="nav_image_tint">#e7e7e7</color>
     <color name="nav_text_color">#5c757b</color>
     <color name="nav_yellow">#ffc77d</color>
+
     <color name="invest_btn_bg">#3b026d</color>
     <color name="invest_main_color">#5c757b</color>
     <color name="invest_text_color">#67777b</color>
+
+    <color name="exchange_main_title_text_color">#009c85</color>
+    <color name="exchange_main_field_text_color">#309f90</color>
+    <color name="exchange_gray_text_color">#808080</color>
+    <color name="exchange_main_bg_color">#cdf0ea</color>
+    <color name="exchange_buttoncolor">#06a880</color>
+    <color name="exchange_dot_color">#064139</color>
+
 
 </resources>

@@ -25,7 +25,7 @@ public class ExchangeActivityContract {
 
         void onTransactionCreatedFailed(Throwable throwable);
 
-        void onMinumumAmountReady(String minimumAmount);
+        void onMinimumAmountReady(String minimumAmount);
 
         void onMinimumAmountError(Throwable throwable);
     }
