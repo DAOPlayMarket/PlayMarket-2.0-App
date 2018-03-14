@@ -14,10 +14,26 @@ import net.glxn.qrgen.core.image.ImageType;
  */
 
 public class QrUtils {
-    public static Bitmap getBitmapQrFromAddress(String address) {
+
+    public enum QR_SIZE {
+        SMALL, LARGE
+    }
+
+    public static Bitmap getBitmapQrFromAddress(String address, QR_SIZE qrSize) {
         Context baseContext = Application.getInstance().getBaseContext();
-        int avatarHeight = (int) baseContext.getResources().getDimension(R.dimen.QR_AVATAR_HEIGHT);
-        int avatarWidth = (int) baseContext.getResources().getDimension(R.dimen.QR_AVATAR_WIDTH);
+        int avatarHeight = 0;
+        int avatarWidth = 0;
+        if (qrSize == QR_SIZE.SMALL) {
+            avatarHeight = (int) baseContext.getResources().getDimension(R.dimen.QR_AVATAR_SIZE_SMALL);
+            avatarWidth = (int) baseContext.getResources().getDimension(R.dimen.QR_AVATAR_SIZE_SMALL);
+        }
+        if (qrSize == QR_SIZE.LARGE) {
+            avatarHeight = (int) baseContext.getResources().getDimension(R.dimen.QR_AVATAR_SIZE_LARGE);
+            avatarWidth = (int) baseContext.getResources().getDimension(R.dimen.QR_AVATAR_SIZE_LARGE);
+        }
+        if (avatarHeight == 0 && avatarWidth == 0) {
+            return QRCode.from(address).to(ImageType.PNG).bitmap();
+        }
         return QRCode.from(address).to(ImageType.PNG).withSize(avatarWidth, avatarHeight).bitmap();
     }
 }

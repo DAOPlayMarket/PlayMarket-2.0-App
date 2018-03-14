@@ -138,6 +138,7 @@
     <string name="send_amount">Send amount:\n(Minimum amount: %1$s)</string>
     <string name="transaction_details">Transaction details:</string>
     <string name="exchange_details_currency">Exchange %1$s to ETC</string>
-    <string name="exchange_details_amount">%1$s %2$s >> $3$s $4$s</string>
+    <string name="exchange_details_amount">%1$s %2$s >> %3$s %4$s</string>
     <string name="exchange_details_fee">* fee included (0.5%)</string>
+    <string name="exchange_confirm_transaction">To complete the transaction, make a transfer of %1$s %2$s to the account:</string>
 </resources>

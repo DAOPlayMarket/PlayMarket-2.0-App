@@ -74,7 +74,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
     private void setViews() {
         userAddress.setText(AccountManager.getAddress().getHex());
-        avatarImage.setImageBitmap(QrUtils.getBitmapQrFromAddress(AccountManager.getAddress().getHex()));
+        avatarImage.setImageBitmap(QrUtils.getBitmapQrFromAddress(AccountManager.getAddress().getHex(), QrUtils.QR_SIZE.SMALL));
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 

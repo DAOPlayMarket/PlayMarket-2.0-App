@@ -65,7 +65,7 @@
             android:name=".services.DownloadService"
             android:exported="true" />
 
-        <activity android:name=".ui.app_detail_screen.AppDetailActivity" />
+        <activity android:name=".ui.app_detail_screen.AppDetailActivity" android:windowSoftInputMode=""/>
 
         <receiver android:name=".broadcasts.InstallPackageReceiver">
             <intent-filter>

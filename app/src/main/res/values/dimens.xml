@@ -21,6 +21,7 @@
     <dimen name="navigation_view_indents">5dp</dimen>
     <dimen name="nav_drawer_menu_height">40dp</dimen>
     <dimen name="setting_item_height">80dp</dimen>
-    <dimen name="QR_AVATAR_WIDTH">100dp</dimen>
-    <dimen name="QR_AVATAR_HEIGHT">100dp</dimen>
+    <dimen name="QR_AVATAR_SIZE_SMALL">100dp</dimen>
+    <dimen name="QR_AVATAR_SIZE_LARGE">160dp</dimen>
+    <dimen name="exchange_dialog_large_margin">20dp</dimen>
 </resources>

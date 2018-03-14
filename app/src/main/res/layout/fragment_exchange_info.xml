@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/content_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/buttons_holder"
+        android:layout_below="@id/top_layout_holder"
+        android:layout_marginLeft="@dimen/main_list_left_padding"
+        android:layout_marginRight="@dimen/main_list_left_padding"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:context="com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivity"
+        tools:visibility="visible">
+
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/exchangeTextTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:text="@string/exchange_source" />
+
+        <LinearLayout
+            android:id="@+id/exchange_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@color/exchange_main_bg_color"
+            android:minHeight="40dp"
+            android:orientation="horizontal">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/exchange_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/eth_big" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/chosen_currency_name"
+                    style="@style/exchangeTextBody"
+                    tools:text="BTC" />
+
+                <TextView
+                    android:id="@+id/chosen_currency_fullname"
+                    style="@style/exchangeTextBody"
+                    tools:text="Bitcoin" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_more_horiz_black_48dp"
+                android:textStyle="bold"
+                android:tint="@color/exchange_dot_color" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_holder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/exchangeTextTitle"
+                android:text="@string/recipient_address_field" />
+
+            <EditText
+                android:id="@+id/user_address_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/exchange_main_field_text_color"
+                android:enabled="false"
+                android:textColor="@color/exchange_main_field_text_color"
+                android:textSize="13sp"
+                tools:text="0xd1ce561c07164639153e8540edaa769c89906181" />
+
+            <TextView
+                android:id="@+id/minimum_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/send_amount"
+                android:textColor="@color/exchange_main_title_text_color" />
+
+            <EditText
+                android:id="@+id/entered_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/exchange_main_field_text_color"
+                android:inputType="numberDecimal"
+                android:textColor="@color/exchange_main_field_text_color"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="0,01" />
+
+            <include layout="@layout/exchange_activity_transaction_details" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/progress_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:clickable="true"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+    <include
+        layout="@layout/error_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>
