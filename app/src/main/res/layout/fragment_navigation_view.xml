@@ -36,8 +36,8 @@
 
                 <ImageView
                     android:id="@+id/avatar_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="60dp"
+                    android:layout_width="@dimen/QR_AVATAR_SIZE_SMALL"
+                    android:layout_height="@dimen/QR_AVATAR_SIZE_LARGE"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"

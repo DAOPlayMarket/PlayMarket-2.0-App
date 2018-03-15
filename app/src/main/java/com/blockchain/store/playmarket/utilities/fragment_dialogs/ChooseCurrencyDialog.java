@@ -84,8 +84,8 @@ public class ChooseCurrencyDialog extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ChangellyAdapterCallback) {
-            this.callback = (ChangellyAdapterCallback) context;
+        if (getParentFragment() instanceof ChangellyAdapterCallback) {
+            this.callback = (ChangellyAdapterCallback) getParentFragment();
         }
     }
 

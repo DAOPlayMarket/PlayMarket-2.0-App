@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/transaction_holder"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/exchangeGrayText"
+        android:text="@string/transaction_details"
+        android:textAllCaps="true"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/exchange_details_currency"
+        style="@style/exchangeGrayText"
+        android:text="@string/exchange_details_currency" />
+
+    <TextView
+        android:id="@+id/exchange_details_amount"
+        style="@style/exchangeGrayText"
+        android:text="@string/exchange_details_amount"
+        android:visibility="gone" />
+
+    <TextView
+        style="@style/exchangeGrayText"
+        android:text="@string/exchange_details_fee" />
+</merge>

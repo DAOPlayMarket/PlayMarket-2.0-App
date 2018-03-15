@@ -1,154 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_holder"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/top_layout_holder"
-        layout="@layout/detail_app_toolbar" />
-
-    <LinearLayout
-        android:id="@+id/content_holder"
+    <com.blockchain.store.playmarket.utilities.NonSwipeableViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/top_layout_holder"
-        android:orientation="vertical"
-        android:visibility="gone"
-        tools:context="com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivity"
-        tools:visibility="visible">
+        android:layout_above="@+id/buttons_holder" />
 
-        <LinearLayout
-            android:id="@+id/exchange_holder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:minHeight="40dp"
-            android:orientation="horizontal">
+    <LinearLayout
+        android:id="@+id/buttons_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="@dimen/main_list_left_padding"
+        android:layout_marginRight="@dimen/main_list_left_padding"
+        android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+        <Button
+            android:id="@+id/exchange_cancel"
+            style="@style/exchangeBackButton"
+            android:text="@string/cancel_btn" />
 
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/exchange_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/eth_big" />
-
-                <TextView
-                    android:id="@+id/chosen_currency_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="BTC" />
-            </LinearLayout>
-
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:padding="10dp"
-                android:rotation="180"
-                android:src="@drawable/back"
-                android:tint="@color/invest_main_color" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/eth_big" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/ethereum_name" />
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_holder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/main_list_left_padding"
-            android:layout_marginRight="@dimen/main_list_left_padding"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/user_address_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:hint="your address" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Minimum amount:" />
-
-            <TextView
-                android:id="@+id/minimum_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Minimum amount:" />
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/entered_amount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter amount"
-                    android:inputType="numberDecimal" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <Button
-                android:id="@+id/get_estimated_amount_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Get estimated amount" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Estimated amount:" />
-
-            <TextView
-                android:id="@+id/estimated_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/create_transaction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Create transaction" />
-
-            <TextView
-                android:id="@+id/payin_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-
+        <Button
+            android:id="@+id/exchange_continue"
+            style="@style/exchangeContinueButton"
+            android:text="@string/continue_btn" />
     </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/progress_holder"
@@ -172,4 +55,5 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="gone" />
+
 </RelativeLayout>

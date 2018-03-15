@@ -17,7 +17,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.ui.transfer_screen.TransferFragment;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.about_screen.AboutAppActivity;
@@ -25,9 +24,10 @@ import com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivity;
 import com.blockchain.store.playmarket.ui.library_screen.LibraryActivity;
 import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
 import com.blockchain.store.playmarket.ui.settings_screen.SettingsActivity;
+import com.blockchain.store.playmarket.ui.transfer_screen.TransferFragment;
 import com.blockchain.store.playmarket.utilities.AccountManager;
-import com.blockchain.store.playmarket.utilities.Blockies;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.blockchain.store.playmarket.utilities.QrUtils;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 
@@ -38,36 +38,21 @@ import butterknife.OnClick;
 public class NavigationViewFragment extends Fragment implements NavigationViewContract.View, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "NavigationViewFragment";
 
-    @BindView(R.id.wishlist_layout)
-    LinearLayout wishlistLayout;
-    @BindView(R.id.library_layout)
-    LinearLayout libraryLayout;
-    @BindView(R.id.news_layout)
-    LinearLayout newsLayout;
-    @BindView(R.id.history_layout)
-    LinearLayout historyLayout;
-    @BindView(R.id.settings_layout)
-    LinearLayout settingsLayout;
-    @BindView(R.id.ether_exchange_layout)
-    LinearLayout etherExchangeLayout;
-    @BindView(R.id.my_ico_layout)
-    LinearLayout myIcoLayout;
-    @BindView(R.id.about_layout)
-    LinearLayout aboutLayout;
-    @BindView(R.id.user_id_title)
-    TextView userAddress;
-    @BindView(R.id.ether_count)
-    TextView balanceView;
-    @BindView(R.id.avatar_image)
-    ImageView avatarImage;
-    @BindView(R.id.user_balance_holder)
-    LinearLayout userBalanceHolder;
-    @BindView(R.id.balance_error_holder)
-    LinearLayout userBalanceErrorHolder;
-    @BindView(R.id.user_balance_progress_bar)
-    ProgressBar progressBar;
-    @BindView(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.wishlist_layout) LinearLayout wishlistLayout;
+    @BindView(R.id.library_layout) LinearLayout libraryLayout;
+    @BindView(R.id.news_layout) LinearLayout newsLayout;
+    @BindView(R.id.history_layout) LinearLayout historyLayout;
+    @BindView(R.id.settings_layout) LinearLayout settingsLayout;
+    @BindView(R.id.ether_exchange_layout) LinearLayout etherExchangeLayout;
+    @BindView(R.id.my_ico_layout) LinearLayout myIcoLayout;
+    @BindView(R.id.about_layout) LinearLayout aboutLayout;
+    @BindView(R.id.user_id_title) TextView userAddress;
+    @BindView(R.id.ether_count) TextView balanceView;
+    @BindView(R.id.avatar_image) ImageView avatarImage;
+    @BindView(R.id.user_balance_holder) LinearLayout userBalanceHolder;
+    @BindView(R.id.balance_error_holder) LinearLayout userBalanceErrorHolder;
+    @BindView(R.id.user_balance_progress_bar) ProgressBar progressBar;
+    @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
 
     NavigationViewPresenter presenter;
 
@@ -89,7 +74,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
     private void setViews() {
         userAddress.setText(AccountManager.getAddress().getHex());
-        avatarImage.setImageBitmap(Blockies.createIcon(AccountManager.getAddress().getHex().toLowerCase()));
+        avatarImage.setImageBitmap(QrUtils.getBitmapQrFromAddress(AccountManager.getAddress().getHex(), QrUtils.QR_SIZE.SMALL));
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 

@@ -54,6 +54,7 @@ android {
 }
 
 dependencies {
+    compile 'com.github.kenglxn.QRGen:android:2.4.0'
     implementation 'me.dm7.barcodescanner:zxing:1.9.8'
 
     implementation "android.arch.lifecycle:extensions:1.1.0"
