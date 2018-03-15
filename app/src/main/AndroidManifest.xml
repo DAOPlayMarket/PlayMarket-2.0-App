@@ -55,17 +55,17 @@
             android:name=".ui.main_list_screen.MainMenuActivity"
             android:label="@string/title_activity_main_menu"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".ui.permissions_prompt_activity.PermissionsPromptActivity"
             android:theme="@style/whiteStatusBarStyle" />
 
         <service
             android:name=".services.PurchaseVerifierService"
-            android:exported="true" />
+            android:exported="true"/>
         <service
             android:name=".services.DownloadService"
-            android:exported="true" />
+            android:exported="true"/>
 
         <activity android:name=".ui.app_detail_screen.AppDetailActivity" android:windowSoftInputMode=""/>
 
@@ -93,11 +93,12 @@
         <activity android:name=".ui.invest_screen.InvestActivity" />
         <activity android:name=".ui.file_manager_screen.FileManagerActivity" />
         <activity
+            android:name=".ui.transfer_screen.TransferActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".ui.exchange_screen.ExchangeActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".utilities.QRactivity"
-            android:hardwareAccelerated="false">
-        </activity>
+        <activity android:name=".utilities.QRCodeScannerActivity"/>
 
     </application>
 

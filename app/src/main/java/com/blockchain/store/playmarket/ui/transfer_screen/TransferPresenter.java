@@ -1,4 +1,4 @@
-package com.blockchain.store.playmarket.ui.transfer_screen.confirm_transfer_screen;
+package com.blockchain.store.playmarket.ui.transfer_screen;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,18 +12,16 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
 import rx.Observable;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-public class ConfirmTransferPresenter implements ConfirmTransferContract.Presenter {
+public class TransferPresenter implements TransferContract.Presenter {
 
-    private ConfirmTransferContract.View view;
+    private TransferContract.View view;
     private Context context;
 
     @Override
-    public void init(ConfirmTransferContract.View view, Context context) {
+    public void init(TransferContract.View view, Context context) {
         this.view = view;
         this.context = context;
     }
@@ -65,7 +63,7 @@ public class ConfirmTransferPresenter implements ConfirmTransferContract.Present
 
     private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
         Log.d("transfer", purchaseAppResponse.hash);
-        view.closeTransferDialog();
+        view.closeTransferActivity();
         view.showToast(context.getResources().getString(R.string.transaction_success));
     }
 

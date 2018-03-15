@@ -28,6 +28,7 @@
     <color name="invest_btn_bg">#3b026d</color>
     <color name="invest_main_color">#5c757b</color>
     <color name="invest_text_color">#67777b</color>
+    <color name="transfer_color">#009c85</color>
 
     <color name="exchange_main_title_text_color">#009c85</color>
     <color name="exchange_main_field_text_color">#309f90</color>

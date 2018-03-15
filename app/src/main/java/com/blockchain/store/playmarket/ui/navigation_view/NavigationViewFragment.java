@@ -3,11 +3,9 @@ package com.blockchain.store.playmarket.ui.navigation_view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +15,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
+import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.about_screen.AboutAppActivity;
 import com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivity;
 import com.blockchain.store.playmarket.ui.library_screen.LibraryActivity;
 import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
 import com.blockchain.store.playmarket.ui.settings_screen.SettingsActivity;
-import com.blockchain.store.playmarket.ui.transfer_screen.TransferFragment;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.QrUtils;
@@ -98,27 +95,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
     @OnClick(R.id.nav_view_send)
     void showAddFundsDialog() {
-        DialogFragment transferFragment = new TransferFragment();
-        transferFragment.show(getFragmentManager(), "transfer_dialog");
-
-        //AccountInfoResponse accountInfoResponse = new AccountInfoResponse();
-//
-        //Observable<AccountInfoResponse> accountInfoResponseObservable = RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex());
-        //Observable<String> gasPriceResponseObservable = RestApi.getServerApi().getGasPrice();
-//
-        //accountInfoResponseObservable.zipWith(gasPriceResponseObservable, Pair::new)
-        //        .subscribeOn(Schedulers.newThread())
-        //        .observeOn(AndroidSchedulers.mainThread())
-        //        .subscribe(this::onAccountInfoReady,this::onAccountInfoError);
-    }
-
-
-    private void onAccountInfoReady(Pair<AccountInfoResponse, String> accountInfoResponseStringPair) {
-
-    }
-
-    private void onAccountInfoError(Throwable throwable) {
-
+        startActivity(new Intent(getActivity(),TransferActivity.class));
     }
 
     @OnClick(R.id.settings_layout)

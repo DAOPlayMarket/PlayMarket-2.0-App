@@ -1,9 +1,44 @@
-<com.blockchain.store.playmarket.utilities.NonSwipeableViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/transfer_viewPager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context="com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity">
 
-</com.blockchain.store.playmarket.utilities.NonSwipeableViewPager>
+    <com.blockchain.store.playmarket.utilities.NonSwipeableViewPager
+        android:id="@+id/transfer_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/cancel_transfer_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@color/Clear"
+            android:text="@string/cancel_btn"
+            android:textColor="@color/transfer_color"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/continue_transfer_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/transfer_selected_button"
+            android:text="@string/continue_btn"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</LinearLayout>
