@@ -9,8 +9,18 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
 import org.ethereum.geth.BigInt;
+import org.ethereum.geth.Geth;
 import org.ethereum.geth.Transaction;
+import org.web3j.crypto.TransactionEncoder;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.Web3jFactory;
+import org.web3j.protocol.core.Ethereum;
+import org.web3j.protocol.core.methods.request.RawTransaction;
+import org.web3j.protocol.core.methods.response.Web3ClientVersion;
+import org.web3j.protocol.rx.Web3jRx;
+import org.web3j.utils.Convert;
 
+import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -121,9 +131,12 @@ public class CryptoUtils {
     public static String generateInvestTransaction(int nonce, BigInt gasPrice, String investPrice) throws Exception {
         KeyManager keyManager = Application.keyManager;
         Account account = keyManager.getAccounts().get(0);
+//        RawTransaction rawTransaction = new RawTransaction()
         Transaction transaction = new Transaction(nonce, new Address(Constants.INVEST_ADDRESS),
                 new BigInt(Long.parseLong(investPrice)), new BigInt(GAS_LIMIT), gasPrice, null);
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
+//        TransactionEncoder.signMessage(transaction1)
+
         return getRawTransaction(signedTransaction);
     }
 

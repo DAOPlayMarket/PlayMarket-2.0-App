@@ -6,6 +6,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.TransferViewPagerAdapter;
@@ -28,6 +29,7 @@ public class TransferFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_transfer_dialog, container, false);
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         ButterKnife.bind(this, view);
         TransferViewPagerAdapter transferAdapter = new TransferViewPagerAdapter(getChildFragmentManager());
         transferViewPager.setAdapter(transferAdapter);

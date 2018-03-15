@@ -44,24 +44,6 @@ public class ExchangeInfoFragmentPresenter implements ExchangeInfoFragmentContra
         view.onEstimatedAmountFail(throwable);
     }
 
-//    @Override
-//    public void createTransaction(String from, String address, String amount, String extraId) {
-//        RestApi.getChangellyApi().createTransaction(ChangellyBaseBody.createTransactionBody(from, address, amount, extraId))
-//                .subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnSubscribe(() -> view.showLoadCurrenciesProgress(true))
-//                .doOnUnsubscribe(() -> view.showLoadCurrenciesProgress(false))
-//                .subscribe(this::onCreateTransationReady, this::onCreateTransactionFailed);
-//    }
-//
-//    private void onCreateTransationReady(ChangellyCreateTransactionResponse changellyCreateTransactionResponse) {
-//        view.onTransactionCreatedSuccessfully(changellyCreateTransactionResponse);
-//    }
-//
-//    private void onCreateTransactionFailed(Throwable throwable) {
-//        view.onTransactionCreatedFailed(throwable);
-//    }
-
     @Override
     public void loadMinimumAmount(ChangellyCurrency changellyCurrency) {
         RestApi.getChangellyApi().getMinimumAmount(ChangellyBaseBody.getMinAmount(changellyCurrency.name))

@@ -22,6 +22,7 @@
     <dimen name="nav_drawer_menu_height">40dp</dimen>
     <dimen name="setting_item_height">80dp</dimen>
     <dimen name="QR_AVATAR_SIZE_SMALL">100dp</dimen>
-    <dimen name="QR_AVATAR_SIZE_LARGE">160dp</dimen>
+    <dimen name="QR_AVATAR_SIZE_LARGE">200dp</dimen>
     <dimen name="exchange_dialog_large_margin">20dp</dimen>
+    <dimen name="exchange_transaction_amount_large">22sp</dimen>
 </resources>

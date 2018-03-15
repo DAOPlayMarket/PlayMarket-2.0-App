@@ -4,6 +4,7 @@ import android.util.Pair;
 
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.ChangellyBaseBody;
+import com.blockchain.store.playmarket.data.entities.ChangellyCreateTransactionResponse;
 import com.blockchain.store.playmarket.data.entities.ChangellyCurrency;
 import com.blockchain.store.playmarket.data.entities.ChangellyMinimumAmountResponse;
 
@@ -51,4 +52,24 @@ public class ExchangeActivityPresenter implements ExchangeActivityContracts.Pres
     private void onAllCurrenciesError(Throwable throwable) {
         view.onLoadCurrenciesFailed(throwable);
     }
+
+
+    @Override
+    public void createTransaction(String from, String address, String amount) {
+        RestApi.getChangellyApi().createTransaction(ChangellyBaseBody.createTransactionBody(from, address, amount, null))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(() -> view.showLoadCurrenciesProgress(true))
+                .doOnUnsubscribe(() -> view.showLoadCurrenciesProgress(false))
+                .subscribe(this::onCreateTransationReady, this::onCreateTransactionFailed);
+    }
+
+    private void onCreateTransationReady(ChangellyCreateTransactionResponse changellyCreateTransactionResponse) {
+        view.onTransactionCreatedSuccessfully(changellyCreateTransactionResponse);
+    }
+
+    private void onCreateTransactionFailed(Throwable throwable) {
+        view.onTransactionCreatedFailed(throwable);
+    }
+
 }

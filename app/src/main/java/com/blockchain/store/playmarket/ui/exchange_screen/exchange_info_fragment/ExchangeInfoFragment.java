@@ -50,6 +50,7 @@ public class ExchangeInfoFragment extends Fragment implements ExchangeInfoFragme
 
     @BindView(R.id.chosen_currency_name) TextView chosenCurrencyName;
     @BindView(R.id.chosen_currency_fullname) TextView chosenCurrencyFullname;
+    @BindView(R.id.exchange_details_fee) TextView exchangeDetailsFee;
     @BindView(R.id.exchange_details_currency) TextView exchangeDetailsCurrency;
     @BindView(R.id.exchange_details_amount) TextView exchangeDetailsAmount;
 
@@ -124,6 +125,7 @@ public class ExchangeInfoFragment extends Fragment implements ExchangeInfoFragme
     @Override
     public void onMinimumAmountReady(String amount) {
         layoutHolder.setVisibility(View.VISIBLE);
+        exchangeActivityViewModel.minEnteredAmount.setValue(amount);
         this.minimumAmount.setText(String.format(getString(R.string.send_amount), amount));
     }
 
@@ -140,7 +142,7 @@ public class ExchangeInfoFragment extends Fragment implements ExchangeInfoFragme
     public void onEstimatedAmountReady(String estimatedAmount) {
         exchangeActivityViewModel.estimatedAmount.setValue(estimatedAmount);
         exchangeDetailsAmount.setVisibility(View.VISIBLE);
-        exchangeActivityViewModel.minEnteredAmount.setValue(estimatedAmount);
+        exchangeDetailsFee.setVisibility(View.VISIBLE);
         exchangeDetailsAmount.setText(String.format(getString(R.string.exchange_details_amount),
                 enteredAmount.getText().toString(),
                 exchangeActivityViewModel.chosenCurrency.getValue().name,
@@ -166,8 +168,20 @@ public class ExchangeInfoFragment extends Fragment implements ExchangeInfoFragme
     @Override
     public void onChangellyCurrencyClicked(ChangellyCurrency changellyCurrency) {
         onCurrencyChosen(changellyCurrency);
+        enteredAmount.setText(enteredAmount.getText());
         exchangeDialog.dismissAllowingStateLoss();
         presenter.loadMinimumAmount(changellyCurrency);
     }
 
+    public boolean isCanCreateTransaction() {
+        if (enteredAmount.getText().toString().trim().isEmpty() ||
+                exchangeActivityViewModel.userEnteredAmount.getValue() == null ||
+                Double.parseDouble(exchangeActivityViewModel.userEnteredAmount.getValue()) <
+                        Double.parseDouble(exchangeActivityViewModel.minEnteredAmount.getValue())) {
+            enteredAmount.setError(getString(R.string.below_minimum_amount_error));
+            enteredAmount.requestFocus();
+            return false;
+        }
+        return true;
+    }
 }
