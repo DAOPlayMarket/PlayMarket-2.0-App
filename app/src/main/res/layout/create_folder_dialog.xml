@@ -52,9 +52,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:background="@color/Clear"
+            android:background="@drawable/transfer_selected_button"
             android:text="@string/confirm_button"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/white"
             tools:ignore="ButtonStyle" />
     </LinearLayout>
 

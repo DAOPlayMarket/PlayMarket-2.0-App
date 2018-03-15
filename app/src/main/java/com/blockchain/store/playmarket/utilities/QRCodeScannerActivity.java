@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.utilities;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,15 +10,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.google.zxing.Result;
+import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
-
-public class QRactivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
-    private static final String TAG = "QRactivity";
+public class QRCodeScannerActivity extends AppCompatActivity implements ZBarScannerView.ResultHandler {
+    private static final String TAG = "QRCodeScannerActivity";
     private static final int MY_CAMERA_REQUEST_CODE = 100;
 
-    private ZXingScannerView mScannerView;
+    private ZBarScannerView mScannerView;
 
     @Override
     public void onCreate(Bundle state) {
@@ -26,7 +25,7 @@ public class QRactivity extends AppCompatActivity implements ZXingScannerView.Re
                 == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
         }
-        mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
+        mScannerView = new ZBarScannerView(this);   // Programmatically initialize the scanner view
         setContentView(mScannerView);                // Set the scanner view as the content view
     }
 
@@ -44,13 +43,16 @@ public class QRactivity extends AppCompatActivity implements ZXingScannerView.Re
     }
 
     @Override
-    public void handleResult(Result rawResult) {
+    public void handleResult(me.dm7.barcodescanner.zbar.Result rawResult) {
         // Do something with the result here
-        Log.v(TAG, rawResult.getText()); // Prints scan results
+        Log.v(TAG, rawResult.getContents()); // Prints scan results
         Log.v(TAG, rawResult.getBarcodeFormat().toString()); // Prints the scan format (qrcode, pdf417 etc.)
-
+        Intent intent = new Intent();
+        intent.putExtra("qrResult", rawResult.getContents());
+        setResult(1, intent);
         // If you would like to resume scanning, call this method below:
         mScannerView.resumeCameraPreview(this);
+        finish();
     }
 
     @Override
@@ -65,4 +67,5 @@ public class QRactivity extends AppCompatActivity implements ZXingScannerView.Re
             }
         }
     }
+
 }

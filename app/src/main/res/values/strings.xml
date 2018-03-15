@@ -117,7 +117,14 @@
     <string name="sender_password">Sender password</string>
     <string name="recipient_address">Recipient address</string>
     <string name="recipient_address_field">Recipient address:</string>
-    <string name="amount">Amount</string>
+    <string name="amount">Send amount</string>
+    <string name="wei">WEI</string>
+    <string name="eth">ETH</string>
+    <string name="send_info">Your send amount:</string>
+    <string name="your_address">From your ETH address:</string>
+    <string name="to">To:</string>
+    <string name="your_eth_address">Your ETH Address</string>
+    <string name="current_balance">Current balance</string>
 
     <string-array name="query_suggestions">
         <item>Android</item>
@@ -141,5 +148,6 @@
     <string name="exchange_details_amount">%1$s %2$s >> %3$s %4$s</string>
     <string name="exchange_details_fee">* fee included (0.5%)</string>
     <string name="exchange_confirm_transaction">To complete the transaction, make a transfer of %1$s %2$s to the account:</string>
+    <string name="transfer_confirm_transaction">To complete the transaction, enter your account password:</string>
     <string name="exchange_step_field">Step %1$d of 2</string>
 </resources>
