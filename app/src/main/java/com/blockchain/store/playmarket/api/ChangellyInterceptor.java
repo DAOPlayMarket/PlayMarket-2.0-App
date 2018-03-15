@@ -61,8 +61,6 @@ public class ChangellyInterceptor implements Interceptor {
         }
     }
 
-//    String hmac = buildHmacSignature(main.toString(), PRIVATE_KET);
-
     private String buildHmacSignature(String value, String secret) {
         String result;
         try {

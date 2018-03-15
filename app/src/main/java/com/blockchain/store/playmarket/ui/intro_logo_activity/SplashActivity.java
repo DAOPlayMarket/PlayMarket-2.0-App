@@ -9,7 +9,9 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -23,6 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
+
     private static final String TAG = "SplashActivity";
     private static final int SplashDisplayLength = 500; //todo set to 5s when
     private static final int LOCATION_FOUND_TIMEOUT_MILLIS = 10000; //
@@ -34,7 +37,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     @BindView(R.id.LogoVideoView) VideoView logoVideoView;
     @BindView(R.id.continue_without_location) Button continueWithoutLocation;
     @BindView(R.id.network_status) TextView networkStatus;
-
+    @BindView(R.id.error_holder) LinearLayout errorHolder;
     private SplashPresenter presenter;
 
     @Override
@@ -134,9 +137,22 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         networkStatus.setText(text);
     }
 
+    @Override
+    public void onNearestNodeFailed(Throwable throwable) {
+        errorHolder.setVisibility(View.VISIBLE);
+    }
+
     @OnClick(R.id.continue_without_location)
     void onLocationTimeoutClicked() {
         loadLoginPromptActivity();
     }
+
+    @OnClick(R.id.error_view_repeat_btn)
+    public void error_view_repeat_btn() {
+        errorHolder.setVisibility(View.GONE);
+        presenter.requestUserLocation(this);
+
+    }
+
 }
 

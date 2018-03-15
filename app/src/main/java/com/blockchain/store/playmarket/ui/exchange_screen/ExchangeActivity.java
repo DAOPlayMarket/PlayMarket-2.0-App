@@ -40,10 +40,11 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
     @BindView(R.id.payin_address) TextView payinAddress;
     @BindView(R.id.minimum_amount) TextView minimumAmount;
     @BindView(R.id.chosen_currency_name) TextView chosenCurrencyName;
+    @BindView(R.id.layout_holder) View layoutHolder;
 
-    ExchangeActivityViewModel exchangeActivityViewModel;
-    ExchangeActivityPresenter presenter;
-    ChooseCurrencyDialog exchangeDialog;
+    private ExchangeActivityViewModel exchangeActivityViewModel;
+    private ExchangeActivityPresenter presenter;
+    private ChooseCurrencyDialog exchangeDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,6 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         setContentView(R.layout.activity_exchange);
         ButterKnife.bind(this);
         exchangeActivityViewModel = ViewModelProviders.of(this).get(ExchangeActivityViewModel.class);
-
         attachPresenter();
     }
 
@@ -78,9 +78,15 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
 
     @OnClick(R.id.get_estimated_amount_btn)
     public void onGetEstimatedAmountClicked() {
-        presenter.getEstimatedAmount(
-                exchangeActivityViewModel.chosenCurrency.name,
-                enteredAmount.getText().toString());
+        if (Double.parseDouble(enteredAmount.getText().toString()) > Double.parseDouble(minimumAmount.getText().toString())) {
+            enteredAmount.setError(null);
+            presenter.getEstimatedAmount(
+                    exchangeActivityViewModel.chosenCurrency.name,
+                    enteredAmount.getText().toString());
+        } else {
+            enteredAmount.setError(getString(R.string.below_minimum_amount_error));
+            enteredAmount.requestFocus();
+        }
     }
 
     @OnClick(R.id.create_transaction)
@@ -147,12 +153,14 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
 
     @Override
     public void onMinumumAmountReady(String amount) {
+        layoutHolder.setVisibility(View.VISIBLE);
         this.minimumAmount.setText(amount);
     }
 
     @Override
     public void onMinimumAmountError(Throwable throwable) {
-        ToastUtil.showToast(throwable.getMessage());
+        ToastUtil.showToast("Error while getting minimum amount. Please choose another currency to exchange. " + throwable.getMessage());
+        layoutHolder.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.error_view_repeat_btn)

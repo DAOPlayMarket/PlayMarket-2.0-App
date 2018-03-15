@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.blockchain.store.playmarket">
 
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -51,13 +52,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/whiteStatusBarStyle" />
         <activity
-            android:name=".ui.AppDetailActivityOld"
-            android:label="@string/title_app_detail"
-            android:parentActivityName=".ui.AppListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name=".ui.main_list_screen.MainMenuActivity"
             android:label="@string/title_activity_main_menu"
             android:theme="@style/AppTheme.NoActionBar"
@@ -101,6 +95,9 @@
         <activity
             android:name=".ui.exchange_screen.ExchangeActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".utilities.QRactivity"
+            android:hardwareAccelerated="false">
+        </activity>
 
     </application>
 

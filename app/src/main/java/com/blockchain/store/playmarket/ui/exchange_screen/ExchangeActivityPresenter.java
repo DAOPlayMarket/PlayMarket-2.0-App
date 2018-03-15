@@ -11,6 +11,8 @@ import com.blockchain.store.playmarket.data.entities.ChangellyMinimumAmountRespo
 
 import java.util.ArrayList;
 
+import io.reactivex.disposables.Disposable;
+import io.reactivex.internal.disposables.DisposableHelper;
 import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;

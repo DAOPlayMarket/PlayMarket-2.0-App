@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
@@ -20,12 +22,14 @@ import butterknife.ButterKnife;
  * Created by Crypton04 on 28.02.2018.
  */
 
-public class ChangellyCurrenciesAdapter extends RecyclerView.Adapter<ChangellyCurrenciesAdapter.CurrencyViewHolder> {
-    ArrayList<ChangellyCurrency> currencies;
+public class ChangellyCurrenciesAdapter extends RecyclerView.Adapter<ChangellyCurrenciesAdapter.CurrencyViewHolder> implements Filterable {
+    ArrayList<ChangellyCurrency> originalCurrencies;
+    ArrayList<ChangellyCurrency> filteredCurrencies;
     ChangellyAdapterCallback callback;
 
     public ChangellyCurrenciesAdapter(ArrayList<ChangellyCurrency> currencies, ChangellyAdapterCallback callback) {
-        this.currencies = currencies;
+        this.originalCurrencies = currencies;
+        this.filteredCurrencies = currencies;
         this.callback = callback;
     }
 
@@ -38,12 +42,53 @@ public class ChangellyCurrenciesAdapter extends RecyclerView.Adapter<ChangellyCu
 
     @Override
     public void onBindViewHolder(CurrencyViewHolder holder, int position) {
-        holder.bind(currencies.get(position));
+        holder.bind(filteredCurrencies.get(position));
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return filteredCurrencies.get(position).hashCode();
     }
 
     @Override
     public int getItemCount() {
-        return currencies.size();
+        return filteredCurrencies.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charString = constraint.toString();
+                ArrayList<ChangellyCurrency> tempCurrencies = new ArrayList<>();
+                if (charString.isEmpty()) {
+                    tempCurrencies = originalCurrencies;
+                } else {
+                    for (ChangellyCurrency originalCurrency : originalCurrencies) {
+                        if (originalCurrency.fullName.toLowerCase().contains(charString.toLowerCase())) {
+                            tempCurrencies.add(originalCurrency);
+                        }
+                    }
+                    if (tempCurrencies.isEmpty()) {
+                        for (ChangellyCurrency originalCurrency : originalCurrencies) {
+                            if (originalCurrency.name.toLowerCase().contains(charString.toLowerCase())) {
+                                tempCurrencies.add(originalCurrency);
+                            }
+                        }
+                    }
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = tempCurrencies;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                filteredCurrencies = (ArrayList<ChangellyCurrency>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     class CurrencyViewHolder extends RecyclerView.ViewHolder {
@@ -66,4 +111,5 @@ public class ChangellyCurrenciesAdapter extends RecyclerView.Adapter<ChangellyCu
     public interface ChangellyAdapterCallback {
         void onChangellyCurrencyClicked(ChangellyCurrency changellyCurrency);
     }
+
 }

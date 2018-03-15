@@ -19,7 +19,6 @@ import static com.blockchain.store.playmarket.ui.main_list_screen.MainFragmentCo
 public class MainFragmentPresenter implements Presenter, AppDispatcherListeners {
     private static final String TAG = "MainFragmentPresenter";
     ArrayList<AppDispatcherType> appDispatcherTypes;
-    private Category category;
     private View view;
 
     @Override
@@ -32,7 +31,6 @@ public class MainFragmentPresenter implements Presenter, AppDispatcherListeners 
     public void setProvider(Category category) {
         appDispatcherTypes = Application.getAppsDispatcher().addProviders(category);
         view.onDispatchersReady(appDispatcherTypes);
-        Application.getAppsDispatcher().loadNewData(appDispatcherTypes, this);
     }
 
 
@@ -59,6 +57,14 @@ public class MainFragmentPresenter implements Presenter, AppDispatcherListeners 
 
     @Override
     public void loadNewData(AppDispatcherType dispatcherType) {
-        Application.getAppsDispatcher().loadNewData(dispatcherType,this);
+        Application.getAppsDispatcher().loadNewData(dispatcherType, this);
+    }
+
+    @Override
+    public void requestNewItems(AppDispatcherType appDispatcherType) {
+        if (!appDispatcherType.isInitialized) {
+            appDispatcherType.isInitialized = true;
+            Application.getAppsDispatcher().loadNewData(appDispatcherType, this);
+        }
     }
 }

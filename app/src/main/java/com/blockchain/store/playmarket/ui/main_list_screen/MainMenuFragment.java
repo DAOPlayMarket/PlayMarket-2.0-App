@@ -19,6 +19,7 @@ import com.blockchain.store.playmarket.adapters.AppListAdapter;
 import com.blockchain.store.playmarket.data.entities.AppDispatcherType;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
+import com.blockchain.store.playmarket.interfaces.AppListHolderCallback;
 import com.blockchain.store.playmarket.utilities.EndlessRecyclerOnScrollListener;
 
 import org.spongycastle.crypto.Digest;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainMenuFragment extends Fragment implements MainFragmentContract.View, EndlessRecyclerOnScrollListener.EndlessCallback {
+public class MainMenuFragment extends Fragment implements MainFragmentContract.View, EndlessRecyclerOnScrollListener.EndlessCallback, AppListHolderCallback {
     private static final String TAG = "MainMenuFragment";
     private static final String CATEGORY_EXTRA_ARGS = "category_extra_args";
     private static final String LIST_STATE_KEY = "list_state_key";
@@ -114,7 +115,7 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
         layoutManager.setInitialPrefetchItemCount(0);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        adapter = new AppListAdapter(category.subCategories, appDispatcherTypes, this, mainCallback);
+        adapter = new AppListAdapter(category.subCategories, appDispatcherTypes, this, mainCallback, this);
         adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
     }
@@ -155,5 +156,10 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
         if (savedInstanceState != null) {
             recyclerView.getLayoutManager().onRestoreInstanceState(savedInstanceState.getParcelable(LIST_STATE_KEY));
         }
+    }
+
+    @Override
+    public void onViewHolderCreated(AppDispatcherType dispatcherType) {
+        presenter.requestNewItems(dispatcherType);
     }
 }

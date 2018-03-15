@@ -1,22 +1,20 @@
 package com.blockchain.store.playmarket.ui.main_list_screen;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,10 +23,10 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
-import com.blockchain.store.playmarket.ui.account_management_activity.AccountManagementActivity;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
 import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
@@ -86,7 +84,10 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     }
 
     private void attachFragment() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view_holder, new NavigationViewFragment()).commitAllowingStateLoss();
+        Fragment navViewFragment = getSupportFragmentManager().findFragmentByTag(Constants.NAV_VIEW_FRAGMENT_TAG);
+        if (navViewFragment == null)
+            navViewFragment = new NavigationViewFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view_holder, navViewFragment, Constants.NAV_VIEW_FRAGMENT_TAG).commitAllowingStateLoss();
     }
 
     private void initViews() {
@@ -117,6 +118,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        Fragment transfer_dialog = getSupportFragmentManager().findFragmentByTag("transfer_dialog");
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (searchView.isSearchOpen()) {

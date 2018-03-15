@@ -35,12 +35,6 @@ public class MainMenuPresenter implements Presenter {
                 .doOnSubscribe(() -> view.setProgress(true))
                 .doOnTerminate(() -> view.setProgress(false))
                 .subscribe(this::onCategoriesLoaded, this::onCategoriesLoadFail);
-
-//        RestApi.getInfuraApi().getUserBalance(new ChangellyBaseBody("0x542F5F14cff76c619eE91fada241e053079D3CA3"))
-//                .subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(this::onBalanceOk, this::onBalanceFail);
-
     }
 
     @Override

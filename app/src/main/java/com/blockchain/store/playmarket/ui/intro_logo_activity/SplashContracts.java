@@ -14,6 +14,8 @@ public class SplashContracts {
 
         void setStatusText(@StringRes int stringRes);
         void setStatusText(String stringRes);
+
+        void onNearestNodeFailed(Throwable throwable);
     }
 
     public interface Presenter {

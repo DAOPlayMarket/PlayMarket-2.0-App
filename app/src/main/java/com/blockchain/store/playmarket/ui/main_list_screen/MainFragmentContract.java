@@ -24,5 +24,7 @@ public class MainFragmentContract {
         void onDestroy();
 
         void loadNewData(AppDispatcherType dispatcherType);
+
+        void requestNewItems(AppDispatcherType category);
     }
 }

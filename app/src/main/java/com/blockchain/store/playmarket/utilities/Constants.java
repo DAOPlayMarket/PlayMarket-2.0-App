@@ -12,6 +12,30 @@ public class Constants {
         STATE_PURCHASE_UNDEFIEND, STATE_PURCHASE, STATE_UNKOWN
     }
 
+    public enum TRANSACTION_TYPE {
+        BUY_APP {
+            @Override
+            public String toString() {
+                return "buy-app";
+            }
+        },
+        INVEST {
+            @Override
+            public String toString() {
+                return "invest";
+            }
+        },
+        TRANSFER {
+            @Override
+            public String toString() {
+                return "transfer";
+            }
+        }
+
+
+    }
+
+
     public static final String WELCOME_ACTIVITY_ADDRESS_EXTRA = "welcome_activity_address_extra";
     public static final String WELCOME_ACTIVITY_IS_LUANCHED_FROM_SETTINGS_EXTRA = "welcome_activity_is_launched_from_settings_extra";
 
@@ -36,4 +60,8 @@ public class Constants {
     public static final String DOWNLOADED_APPS_LIST = "downloaded_apps_list";
 
     public static final String YOUTUBE_KEY = "AIzaSyC7xC32ijRVgfRQmHPQGlhOHinLe1kNpJc";
+
+    /*fragment tags*/
+
+    public static final String NAV_VIEW_FRAGMENT_TAG = "nav_view_fragment_tag";
 }

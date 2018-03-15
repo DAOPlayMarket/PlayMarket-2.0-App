@@ -64,13 +64,14 @@ public class NotificationManager {
         return false;
     }
 
-    public void downloadCompleteWithError(App app) {
+    public void downloadCompleteWithError(App app, Exception exception) {
 
         NotificationObject notificationObject = getNotificationObjectByApp(app);
         if (notificationObject != null) {
             notificationObject.setCurrentState(Constants.APP_STATE.STATE_DOWNLOAD_ERROR);
             reportDownloadFailUpdate(notificationObject);
             cancelNotification(app);
+            updateText(app,exception.getMessage());
             removeNotificationObject(notificationObject);
         }
     }
@@ -102,6 +103,13 @@ public class NotificationManager {
         notificationObject.getNotificationBuilder().setProgress(100, progress, false);
         showNotification(notificationObject);
         reportUpdateProgress(notificationObject);
+    }
+
+    public void updateText(App app, String text) {
+        NotificationObject notificationObject = getNotificationObjectByApp(app);
+        if (notificationObject == null) return;
+        notificationObject.getNotificationBuilder().setContentText(text);
+        showNotification(notificationObject);
     }
 
     private NotificationCompat.Builder createInstallNotification(App app) {
@@ -192,11 +200,6 @@ public class NotificationManager {
                 iterator.remove();
             }
         }
-//        for (Pair<String, NotificationManagerCallbacks> object : this.callbacks) {
-//            if (object.second != null && object.second.equals(callback)) {
-//                this.callbacks.remove(object);
-//            }
-//        }
         Log.d(TAG, "removeCallback: now callbacks " + this.callbacks.size());
     }
 }
