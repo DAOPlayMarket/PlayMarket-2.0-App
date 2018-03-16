@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
@@ -26,44 +27,24 @@ import butterknife.OnTextChanged;
 
 public class TransferInfoFragment extends Fragment implements TransferInfoContract.View {
 
-    private TransferInfoPresenter presenter;
-
-    private BigDecimal accountBalanceInEther;
-
-    private TransferViewModel transferViewModel;
-
-    private boolean isEth;
-
     private final String ETH = "eth";
     private final String WEI = "wei";
 
-    @BindView(R.id.sender_address_textView)
-    TextView senderAddressTextView;
+    private TransferInfoPresenter presenter;
+    private BigDecimal accountBalanceInEther;
+    private TransferViewModel transferViewModel;
+    private boolean isEth;
 
-    @BindView(R.id.recipient_address_editText)
-    EditText recipientAddressEditText;
-
-    @BindView(R.id.amount_editText)
-    EditText amountEditText;
-
-    @BindView(R.id.balance_textView)
-    TextView balanceTextView;
-
-    @BindView(R.id.sender_address_info_textView)
-    TextView senderAddressInfoTextView;
-
-    @BindView(R.id.recipient_address_info_textView)
-    TextView recipientAddressInfoTextView;
-
-    @BindView(R.id.amount_info_textView)
-    TextView amountInfoTextView;
-
-    @BindView(R.id.wei_textView)
-    TextView weiTextView;
-
-    @BindView(R.id.eth_textView)
-    TextView ethTextView;
-
+    @BindView(R.id.sender_address_textView) TextView senderAddressTextView;
+    @BindView(R.id.recipient_address_editText) EditText recipientAddressEditText;
+    @BindView(R.id.amount_editText) EditText amountEditText;
+    @BindView(R.id.balance_textView) TextView balanceTextView;
+    @BindView(R.id.sender_address_info_textView) TextView senderAddressInfoTextView;
+    @BindView(R.id.recipient_address_info_textView) TextView recipientAddressInfoTextView;
+    @BindView(R.id.amount_info_textView) TextView amountInfoTextView;
+    @BindView(R.id.wei_textView) TextView weiTextView;
+    @BindView(R.id.eth_textView) TextView ethTextView;
+    @BindView(R.id.error_view_holder) LinearLayout errorViewHolder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -134,6 +115,11 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
 
     }
 
+    @Override
+    public void onAccountBalanceError(Throwable throwable) {
+        errorViewHolder.setVisibility(View.VISIBLE);
+    }
+
     private void ethSelect() {
         ethTextView.setBackgroundResource(R.drawable.transfer_selected_button);
         ethTextView.setTextColor(Color.parseColor("#ffffff"));
@@ -163,7 +149,9 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         transferViewModel.isEth.setValue(isEth);
         transferViewModel.dimension.setValue(WEI);
     }
-    public boolean isHasNoError(){
+
+    public boolean isHasNoError() {
+        if (errorViewHolder.getVisibility() == View.VISIBLE) return false;
 
         boolean emptyAmountCheck = true;
         boolean isHasNoError = true;
@@ -172,9 +160,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
             recipientAddressEditText.setError(getResources().getString(R.string.empty_field));
             recipientAddressEditText.requestFocus();
             isHasNoError = false;
-        }
-
-        else if (recipientAddressEditText.getText().length() > 1 && recipientAddressEditText.getText().length() < 42) {
+        } else if (recipientAddressEditText.getText().length() > 1 && recipientAddressEditText.getText().length() < 42) {
             recipientAddressEditText.setError(getResources().getString(R.string.short_account));
             recipientAddressEditText.requestFocus();
             isHasNoError = false;
@@ -204,5 +190,12 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         }
 
         return isHasNoError;
+    }
+
+
+    @OnClick(R.id.error_view_repeat_btn)
+    void onErrorViewRepeatClicked() {
+        errorViewHolder.setVisibility(View.GONE);
+        presenter.getAccountBalance();
     }
 }

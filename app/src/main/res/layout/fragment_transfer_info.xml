@@ -1,11 +1,10 @@
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context="com.blockchain.store.playmarket.ui.transfer_screen.transfer_info_screen.TransferInfoFragment">
 
     <ImageView
@@ -82,16 +81,16 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/transfer_color"
-            android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:text="@string/recipient_address" />
+            android:layout_marginStart="15dp"
+            android:text="@string/recipient_address"
+            android:textColor="@color/transfer_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
             android:orientation="horizontal">
 
             <EditText
@@ -121,37 +120,37 @@
         android:id="@+id/amount_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
         android:orientation="vertical"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipient_linearLayout"
-        android:descendantFocusability="beforeDescendants"
-        android:focusableInTouchMode="true"
-        android:baselineAligned="false">
+        app:layout_constraintTop_toBottomOf="@+id/recipient_linearLayout">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:textColor="@color/transfer_color"
-            android:text="@string/amount" />
+            android:layout_marginStart="15dp"
+            android:text="@string/amount"
+            android:textColor="@color/transfer_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp">
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp">
 
             <EditText
                 android:id="@+id/amount_editText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
                 android:layout_weight="1"
+                android:inputType="numberDecimal"
                 android:textSize="14sp" />
 
             <LinearLayout
@@ -217,41 +216,56 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="@string/send_info" />
+            android:text="@string/send_info"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/amount_info_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="20dp"
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="@string/your_address" />
+            android:text="@string/your_address"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/sender_address_info_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/to"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/recipient_address_info_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
     </LinearLayout>
 
+
+    <LinearLayout
+        android:visibility="visible"
+        android:id="@+id/error_view_holder"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <include
+            android:visibility="visible"
+            layout="@layout/error_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
 

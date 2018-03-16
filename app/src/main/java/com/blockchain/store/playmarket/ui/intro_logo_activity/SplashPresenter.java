@@ -5,15 +5,26 @@ import android.location.Location;
 import android.os.Build;
 import android.util.Log;
 
+import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.content.LocationManager;
+import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.ChangellyCurrenciesResponse;
 import com.blockchain.store.playmarket.data.entities.ChangellyBaseBody;
 import com.blockchain.store.playmarket.data.entities.ChangellyMinimumAmountResponse;
+import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.net.NodeUtils;
 
+import org.ethereum.geth.Account;
+import org.ethereum.geth.BigInt;
+import org.web3j.crypto.WalletUtils;
+
+import io.ethmobile.ethdroid.Utils;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -34,6 +45,8 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
 
     @Override
     public void requestUserLocation(Context context) {
+//        createTransfer();
+//        if (true) return;
         view.setStatusText(R.string.network_status_location_search);
         if (isEmulator()) {
             view.onLocationReady();
@@ -41,6 +54,43 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
             locationManager.getLocation(context, this);
         }
 
+    }
+
+    private void createTransfer() {
+        Observable<AccountInfoResponse> accountInfoResponseObservable = RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex());
+        accountInfoResponseObservable
+                .flatMap(accountInfoResponse -> {
+                    String transaction = generateTransaction(accountInfoResponse, "1000000000000000000", "0xD1cE561C07164639153E8540EDaa769C89906181");
+                    return RestApi.getServerApi().transferTheAmount(transaction);
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::transferSuccess, this::transferFailed);
+    }
+
+
+    private String generateTransaction(AccountInfoResponse accountInfoResponse, String transferAmount, String address) {
+        String rawTransaction;
+        try {
+            Account account = Application.keyManager.getAccounts().get(0);
+            Application.keyManager.unlockAccount(account, "123123123");
+            String jsonKeystoreFileURL = Application.keyManager.getAccounts().get(0).getURL();
+            String pathToJsonFile = jsonKeystoreFileURL.replace("keystore:///", "");
+            rawTransaction = CryptoUtils.test(accountInfoResponse.count, accountInfoResponse.gasPrice, transferAmount, address);
+            Log.d(TAG, "generateTransaction:old " + rawTransaction);
+            return rawTransaction;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
+        Log.d("transfer", purchaseAppResponse.hash);
+    }
+
+    private void transferFailed(Throwable throwable) {
+        Log.d("transfer", throwable.getMessage());
     }
 
 

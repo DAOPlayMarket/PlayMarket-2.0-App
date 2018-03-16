@@ -14,6 +14,7 @@ public class TransferInfoContract {
 
         void getAccountBalanceSuccessful(String accountBalance);
 
+        void onAccountBalanceError(Throwable throwable);
     }
 
     interface Presenter{

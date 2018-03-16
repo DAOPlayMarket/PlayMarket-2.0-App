@@ -17,7 +17,7 @@
             android:orientation="vertical"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
-            android:paddingTop="50dp">
+            android:paddingTop="20dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -37,7 +37,7 @@
                 <ImageView
                     android:id="@+id/avatar_image"
                     android:layout_width="@dimen/QR_AVATAR_SIZE_SMALL"
-                    android:layout_height="@dimen/QR_AVATAR_SIZE_LARGE"
+                    android:layout_height="@dimen/QR_AVATAR_SIZE_SMALL"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"

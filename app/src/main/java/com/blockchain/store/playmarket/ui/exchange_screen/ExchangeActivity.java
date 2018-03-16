@@ -3,7 +3,6 @@ package com.blockchain.store.playmarket.ui.exchange_screen;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -24,10 +23,6 @@ import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 
-import org.ethereum.geth.BigInt;
-import org.ethereum.geth.Geth;
-
-import java.math.BigInteger;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -44,6 +39,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
     @BindView(R.id.error_holder) LinearLayout errorHolder;
     @BindView(R.id.layout_holder) RelativeLayout layoutHolder;
     @BindView(R.id.step_field) TextView stepField;
+    @BindView(R.id.buttons_holder) LinearLayout buttonsHolder;
 
     private ExchangeActivityViewModel exchangeActivityViewModel;
     private ExchangeActivityPresenter presenter;
@@ -59,11 +55,9 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                // use this
                 if (position == 0 || position == 1) {
                     stepField.setText(String.format(getString(R.string.exchange_step_field), position + 1));
                 }
-                Log.d(TAG, "onPageScrolled() called with: position = [" + position + "], positionOffset = [" + positionOffset + "], positionOffsetPixels = [" + positionOffsetPixels + "]");
             }
 
             @Override
@@ -126,7 +120,6 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         presenter.loadCurrencies();
     }
 
-
     @Override
     public void showLoadCurrenciesProgress(boolean isShown) {
         progressHolder.setVisibility(isShown ? View.VISIBLE : View.GONE);
@@ -136,6 +129,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
     public void onLoadCurrenciesReady(ArrayList<ChangellyCurrency> changellyCurrencies, ChangellyMinimumAmountResponse minimumAmount) {
         errorHolder.setVisibility(View.GONE);
         layoutHolder.setVisibility(View.VISIBLE);
+        buttonsHolder.setVisibility(View.VISIBLE);
         initViewPager(changellyCurrencies, minimumAmount);
     }
 
@@ -143,6 +137,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
     public void onLoadCurrenciesFailed(Throwable throwable) {
         ToastUtil.showToast(throwable.getMessage());
         errorHolder.setVisibility(View.VISIBLE);
+        buttonsHolder.setVisibility(View.GONE);
         layoutHolder.setVisibility(View.GONE);
     }
 
@@ -154,9 +149,8 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
 
     @Override
     public void onTransactionCreatedFailed(Throwable throwable) {
-
+        ToastUtil.showToast(throwable.getMessage());
     }
-
 
     private void initViewPager(ArrayList<ChangellyCurrency> changellyCurrencies, ChangellyMinimumAmountResponse minimumAmount) {
         exchangeActivityViewModel.changellyCurrencies.setValue(changellyCurrencies);

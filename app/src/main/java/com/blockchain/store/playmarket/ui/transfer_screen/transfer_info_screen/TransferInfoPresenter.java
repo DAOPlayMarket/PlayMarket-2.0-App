@@ -30,8 +30,9 @@ public class TransferInfoPresenter implements TransferInfoContract.Presenter {
         accountBalanceObservable
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::getAccountInfoSuccessful);
+                .subscribe(this::getAccountInfoSuccessful, this::getAccountInfoBalance);
     }
+
 
     @Override
     public String getSenderAddress() {
@@ -40,5 +41,9 @@ public class TransferInfoPresenter implements TransferInfoContract.Presenter {
 
     private void getAccountInfoSuccessful(String accountBalance) {
         view.getAccountBalanceSuccessful(accountBalance);
+    }
+
+    private void getAccountInfoBalance(Throwable throwable) {
+        view.onAccountBalanceError(throwable);
     }
 }

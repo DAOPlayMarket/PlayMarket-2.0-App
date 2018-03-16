@@ -11,7 +11,9 @@ import org.ethereum.geth.Address;
 import org.ethereum.geth.BigInt;
 import org.ethereum.geth.Geth;
 import org.ethereum.geth.Transaction;
+import org.web3j.crypto.Credentials;
 import org.web3j.crypto.TransactionEncoder;
+import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.Ethereum;
@@ -21,6 +23,7 @@ import org.web3j.protocol.rx.Web3jRx;
 import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -122,7 +125,7 @@ public class CryptoUtils {
         KeyManager keyManager = Application.keyManager;
         Account account = keyManager.getAccounts().get(0);
         Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
-                new BigInt(Long.parseLong(app.price)), new BigInt(GAS_LIMIT), gasPrice,
+                new BigInt(Long.parseLong(app.price)), GAS_LIMIT, gasPrice,
                 getDataForBuyApp(app.appId, NODE_ADDRESS));
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
         return getRawTransaction(signedTransaction);
@@ -131,21 +134,21 @@ public class CryptoUtils {
     public static String generateInvestTransaction(int nonce, BigInt gasPrice, String investPrice) throws Exception {
         KeyManager keyManager = Application.keyManager;
         Account account = keyManager.getAccounts().get(0);
-//        RawTransaction rawTransaction = new RawTransaction()
+
         Transaction transaction = new Transaction(nonce, new Address(Constants.INVEST_ADDRESS),
-                new BigInt(Long.parseLong(investPrice)), new BigInt(GAS_LIMIT), gasPrice, null);
+                new BigInt(Long.parseLong(investPrice)),GAS_LIMIT, gasPrice, null);
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
-//        TransactionEncoder.signMessage(transaction1)
 
         return getRawTransaction(signedTransaction);
     }
+
 
     // temp
     public static String generateInvestTransactionWithAddress(int nonce, BigInt gasPrice, String investPrice, String address) throws Exception {
         KeyManager keyManager = Application.keyManager;
         Account account = keyManager.getAccounts().get(0);
         Transaction transaction = new Transaction(nonce, new Address(Constants.INVEST_ADDRESS),
-                new BigInt(Long.parseLong(investPrice)), new BigInt(GAS_LIMIT), gasPrice, null);
+                new BigInt(Long.parseLong(investPrice)), GAS_LIMIT, gasPrice, null);
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
         return getRawTransaction(signedTransaction);
     }
@@ -154,9 +157,32 @@ public class CryptoUtils {
         KeyManager keyManager = Application.keyManager;
         Account account = keyManager.getAccounts().get(0);
         Transaction transaction = new Transaction(nonce, new Address(recipientAddress),
-                new BigInt(Long.parseLong(transferAmount)), new BigInt(GAS_LIMIT), new BigInt(Long.parseLong(gasPrice)), null);
+                new BigInt(Long.parseLong(transferAmount)), GAS_LIMIT, new BigInt(Long.parseLong(gasPrice)), null);
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
         return getRawTransaction(signedTransaction);
+    }
+    public static String test(int nonce, String gasPrice, String transferAmount, String recipientAddress) throws Exception {
+        BigInt price = new BigInt(0);
+        price.setBytes(transferAmount.getBytes());
+        KeyManager keyManager = Application.keyManager;
+        Account account = keyManager.getAccounts().get(0);
+        Transaction transaction = new Transaction(nonce, new Address(recipientAddress),
+                price, GAS_LIMIT, new BigInt(Long.parseLong(gasPrice)), null);
+        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
+        return getRawTransaction(signedTransaction);
+    }
+
+
+    public static String testTransaction(int nonce, String gasPrice, String transferAmount, String recipientAddress, Credentials credentials) {
+        RawTransaction rawTransaction = RawTransaction.createTransaction(new BigInteger(String.valueOf(nonce)),
+                new BigInteger(gasPrice),
+                new BigInteger(String.valueOf(GAS_LIMIT)),
+                Constants.PLAY_MARKET_ADDRESS,
+                new BigInteger(transferAmount),
+                null);
+//        Transaction tr = new Transaction(new BigInt())
+        byte[] bytes = TransactionEncoder.signMessage(rawTransaction, credentials);
+        return new String(bytes);
     }
 }
 

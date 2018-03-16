@@ -33,7 +33,7 @@ import io.ethmobile.ethdroid.KeyManager;
  * An activity representing a single App detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a {@link AppListActivity}.
+ * in a {@link }.
  */
 public class AppDetailActivityOld extends AppCompatActivity {
 
@@ -302,18 +302,18 @@ public class AppDetailActivityOld extends AppCompatActivity {
                     }
 
                     Transaction tx;
-                    if (invest) {
-                        tx = new Transaction(
-                                nonce, new Address(CryptoUtils.ICO_CONTRACT_ADDRESS),
-                                value, new BigInt(300000), new BigInt(Long.valueOf(gasPrice)), null);
-                    } else {
-                        tx = new Transaction(
-                                nonce, new Address(CryptoUtils.CONTRACT_ADDRESS),
-                                value, new BigInt(200000), new BigInt(Long.valueOf(gasPrice)), CryptoUtils.getDataForBuyApp(idApp2, String.valueOf(idCat)));
-                    }
+//                    if (invest) {
+//                        tx = new Transaction(
+//                                nonce, new Address(CryptoUtils.ICO_CONTRACT_ADDRESS),
+//                                value, new BigInt(300000), new BigInt(Long.valueOf(gasPrice)), null);
+//                    } else {
+//                        tx = new Transaction(
+//                                nonce, new Address(CryptoUtils.CONTRACT_ADDRESS),
+//                                value, new BigInt(200000), new BigInt(Long.valueOf(gasPrice)), CryptoUtils.getDataForBuyApp(idApp2, String.valueOf(idCat)));
+//                    }
 
                     try {
-                        Transaction transaction = keyManager.getKeystore().signTxPassphrase(keyManager.getAccounts().get(0), password, tx, new BigInt(3));
+                        Transaction transaction = keyManager.getKeystore().signTxPassphrase(keyManager.getAccounts().get(0), password, null, new BigInt(3));
 
                         if (invest) {
                             APIUtils.api.sendTX(CryptoUtils.getRawTransaction(transaction));
