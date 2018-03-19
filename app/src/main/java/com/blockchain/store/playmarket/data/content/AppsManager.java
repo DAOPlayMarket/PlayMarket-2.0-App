@@ -20,6 +20,7 @@ import rx.schedulers.Schedulers;
 
 public class AppsManager implements AppDataListeners {
     private static final String TAG = "AppsManager";
+
     public void loadNextList(ArrayList<AppDispatcherType> dispatcherTypes, AppDispatcherListeners listeners) {
         for (AppDispatcherType dispatcherType : dispatcherTypes) {
             Log.d(TAG, "loadNextList: skip count  " + dispatcherType.apps.size());
@@ -34,7 +35,7 @@ public class AppsManager implements AppDataListeners {
                     })
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(listeners::onNewItemCountChanged, listeners::onNewItemError);
+                    .subscribe(listeners::onNewItemCountChanged, error -> listeners.onNewItemError(dispatcherType,error));
         }
     }
 

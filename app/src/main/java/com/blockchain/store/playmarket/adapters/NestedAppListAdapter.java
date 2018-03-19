@@ -2,16 +2,12 @@ package com.blockchain.store.playmarket.adapters;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,9 +17,8 @@ import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppDispatcherType;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
+import com.blockchain.store.playmarket.interfaces.AppListHolderCallback;
 import com.facebook.drawee.view.SimpleDraweeView;
-
-import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,10 +34,12 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private AppDispatcherType dispatcherType;
     private AppListCallbacks mainCallback;
+    private AppListHolderCallback holderCallback;
     private boolean isLoading = true;
 
-    public NestedAppListAdapter(AppListCallbacks mainCallback) {
+    public NestedAppListAdapter(AppListCallbacks mainCallback, AppListHolderCallback holderCallback) {
         this.mainCallback = mainCallback;
+        this.holderCallback = holderCallback;
     }
 
     public void setItemsDispatcher(AppDispatcherType dispatcherType) {
@@ -94,7 +91,7 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((NestedAppListViewHolder) holder).bind(dispatcherType.apps.get(position), position);
         }
         if (holder instanceof LoadViewHolder) {
-            ((LoadViewHolder) holder).bind(isLoading, dispatcherType.apps.size());
+            ((LoadViewHolder) holder).bind(isLoading, dispatcherType.apps.size(), dispatcherType);
         }
     }
 
@@ -143,16 +140,28 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
     class LoadViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.progress_bar) ProgressBar progressBar;
         @BindView(R.id.cardView) View cardView;
-        @BindView(R.id.no_item_view) TextView textView;
+        @BindView(R.id.no_item_view) TextView noItemView;
+        @BindView(R.id.repeat_btn) Button repeatBtn;
+
+        private Context context;
 
         public LoadViewHolder(View itemView) {
             super(itemView);
+            this.context = itemView.getContext();
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(boolean isLoading, int size) {
-            if (!isLoading && size == 0) {
-                textView.setVisibility(View.VISIBLE);
+        public void bind(boolean isLoading, int size, AppDispatcherType appDispatcherType) {
+            boolean isContainsError = appDispatcherType.isContainsError;
+            repeatBtn.setVisibility(isContainsError ? View.VISIBLE : View.GONE);
+            noItemView.setText(isContainsError ?
+                    context.getString(R.string.load_failed)
+                    : context.getString(R.string.no_items));
+            if (isContainsError) {
+                repeatBtn.setOnClickListener(v -> holderCallback.onItemRepeatRequestClicked(appDispatcherType));
+                progressBar.setVisibility(View.GONE);
+            } else if (!isLoading && size == 0) {
+                noItemView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
             } else {
                 cardView.setVisibility(isLoading ? View.VISIBLE : View.GONE);

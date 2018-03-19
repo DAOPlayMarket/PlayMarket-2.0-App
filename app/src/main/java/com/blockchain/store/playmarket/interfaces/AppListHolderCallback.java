@@ -8,4 +8,6 @@ import com.blockchain.store.playmarket.data.entities.AppDispatcherType;
 
 public interface AppListHolderCallback {
     void onViewHolderCreated(AppDispatcherType dispatcherType);
+
+    void onItemRepeatRequestClicked(AppDispatcherType appDispatcherType);
 }

@@ -40,13 +40,14 @@ public class MainFragmentPresenter implements Presenter, AppDispatcherListeners 
     }
 
     @Override
-    public void onNewItemError(Throwable throwable) {
-        Log.d(TAG, "onNewItemError() called with: throwable = [" + throwable + "]");
+    public void onNewItemError(AppDispatcherType dispatcherType, Throwable throwable) {
+        dispatcherType.isContainsError = true;
+        view.firstItemsReady(dispatcherType);
     }
 
     @Override
     public void onNewItemCountChanged(AppDispatcherType dispatcherType) {
-        Log.d(TAG, "onNewItemCountChanged() called with: dispatcherType = [" + dispatcherType + "]");
+        dispatcherType.isContainsError = false;
         view.firstItemsReady(dispatcherType);
     }
 

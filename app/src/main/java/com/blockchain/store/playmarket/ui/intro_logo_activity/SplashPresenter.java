@@ -16,13 +16,25 @@ import com.blockchain.store.playmarket.data.entities.ChangellyBaseBody;
 import com.blockchain.store.playmarket.data.entities.ChangellyMinimumAmountResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.FileUtils;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.net.NodeUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.ethereum.geth.Account;
 import org.ethereum.geth.BigInt;
+import org.ethereum.geth.Geth;
+import org.ethereum.geth.Transaction;
+import org.web3j.crypto.Credentials;
+import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.Wallet;
+import org.web3j.crypto.WalletFile;
 import org.web3j.crypto.WalletUtils;
+import org.web3j.protocol.ObjectMapperFactory;
 
+import java.io.File;
+
+import io.ethmobile.ethdroid.EthDroid;
 import io.ethmobile.ethdroid.Utils;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -73,12 +85,12 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
         String rawTransaction;
         try {
             Account account = Application.keyManager.getAccounts().get(0);
-            Application.keyManager.unlockAccount(account, "123123123");
-            String jsonKeystoreFileURL = Application.keyManager.getAccounts().get(0).getURL();
-            String pathToJsonFile = jsonKeystoreFileURL.replace("keystore:///", "");
-            rawTransaction = CryptoUtils.test(accountInfoResponse.count, accountInfoResponse.gasPrice, transferAmount, address);
-            Log.d(TAG, "generateTransaction:old " + rawTransaction);
-            return rawTransaction;
+            Application.keyManager.unlockAccount(account, "");
+//            rawTransaction = CryptoUtils.test(accountInfoResponse.count, accountInfoResponse.gasPrice, transferAmount, address);
+            String testTransaction = CryptoUtils.testTransaction(accountInfoResponse.count, accountInfoResponse.gasPrice, transferAmount, account.getAddress().getHex());
+//            Transaction transaction = Geth.newTransactionFromRLP(rawTransaction.getBytes());
+//            Log.d(TAG, "generateTransaction:old " + rawTransaction);
+            return "";
         } catch (Exception e) {
             e.printStackTrace();
         }

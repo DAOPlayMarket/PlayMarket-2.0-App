@@ -90,7 +90,7 @@ dependencies {
 
     implementation 'io.ethmobile:ethdroid:2.0.0-m2'
     implementation "org.ethereum:geth:1.8.2"
-    implementation 'org.web3j:core-android:2.2.1'
+    implementation 'org.web3j:core:3.3.1-android'
 
     compile fileTree(include: ['*.aar'], dir: 'libs')
     compile fileTree(include: ['*.jar'], dir: 'libs')

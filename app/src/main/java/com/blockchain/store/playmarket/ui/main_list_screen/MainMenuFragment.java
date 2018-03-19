@@ -161,4 +161,9 @@ public class MainMenuFragment extends Fragment implements MainFragmentContract.V
     public void onViewHolderCreated(AppDispatcherType dispatcherType) {
         presenter.requestNewItems(dispatcherType);
     }
+
+    @Override
+    public void onItemRepeatRequestClicked(AppDispatcherType appDispatcherType) {
+        presenter.loadNewData(appDispatcherType);
+    }
 }

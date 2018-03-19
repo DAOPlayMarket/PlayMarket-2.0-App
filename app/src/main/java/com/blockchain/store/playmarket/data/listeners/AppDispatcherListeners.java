@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public interface AppDispatcherListeners {
     void addItemCountChanged(ArrayList<App> apps);
 
-    void onNewItemError(Throwable throwable);
+    void onNewItemError(AppDispatcherType appDispatcherType, Throwable throwable);
 
     void onNewItemCountChanged(AppDispatcherType dispatcherType);
 }

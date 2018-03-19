@@ -13,6 +13,7 @@ public class AppDispatcherType {
     public int totalCount;
     public boolean isInitialized = false;
     public ArrayList<App> apps = new ArrayList<>();
+    public boolean isContainsError = false;
 
     public AppDispatcherType(String categoryId, int subCategoryId, int totalCount) {
         this.categoryId = categoryId;

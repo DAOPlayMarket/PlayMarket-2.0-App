@@ -9,20 +9,15 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
 import org.ethereum.geth.BigInt;
-import org.ethereum.geth.Geth;
 import org.ethereum.geth.Transaction;
-import org.web3j.crypto.Credentials;
+import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.TransactionEncoder;
+import org.web3j.crypto.TransactionUtils;
+import org.web3j.crypto.Wallet;
 import org.web3j.crypto.WalletUtils;
-import org.web3j.protocol.Web3j;
-import org.web3j.protocol.Web3jFactory;
-import org.web3j.protocol.core.Ethereum;
-import org.web3j.protocol.core.methods.request.RawTransaction;
-import org.web3j.protocol.core.methods.response.Web3ClientVersion;
-import org.web3j.protocol.rx.Web3jRx;
-import org.web3j.utils.Convert;
+import org.web3j.rlp.RlpDecoder;
+import org.web3j.rlp.RlpEncoder;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -136,7 +131,7 @@ public class CryptoUtils {
         Account account = keyManager.getAccounts().get(0);
 
         Transaction transaction = new Transaction(nonce, new Address(Constants.INVEST_ADDRESS),
-                new BigInt(Long.parseLong(investPrice)),GAS_LIMIT, gasPrice, null);
+                new BigInt(Long.parseLong(investPrice)), GAS_LIMIT, gasPrice, null);
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
 
         return getRawTransaction(signedTransaction);
@@ -161,6 +156,7 @@ public class CryptoUtils {
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
         return getRawTransaction(signedTransaction);
     }
+
     public static String test(int nonce, String gasPrice, String transferAmount, String recipientAddress) throws Exception {
         BigInt price = new BigInt(0);
         price.setBytes(transferAmount.getBytes());
@@ -173,16 +169,26 @@ public class CryptoUtils {
     }
 
 
-    public static String testTransaction(int nonce, String gasPrice, String transferAmount, String recipientAddress, Credentials credentials) {
+    public static String testTransaction(int nonce, String gasPrice, String transferAmount, String recipientAddress) {
+        KeyManager keyManager = Application.keyManager;
         RawTransaction rawTransaction = RawTransaction.createTransaction(new BigInteger(String.valueOf(nonce)),
                 new BigInteger(gasPrice),
                 new BigInteger(String.valueOf(GAS_LIMIT)),
                 Constants.PLAY_MARKET_ADDRESS,
                 new BigInteger(transferAmount),
-                null);
+                "");
+        try {
+            byte[] encode = TransactionEncoder.encode(rawTransaction);
+            Log.d("", "testTransaction: " + new String(encode));
+            Transaction transactionnew = new Transaction(encode);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
 //        Transaction tr = new Transaction(new BigInt())
-        byte[] bytes = TransactionEncoder.signMessage(rawTransaction, credentials);
-        return new String(bytes);
+//        byte[] bytes = TransactionEncoder.signMessage(rawTransaction, credentials);
+        return null;
     }
 }
 
