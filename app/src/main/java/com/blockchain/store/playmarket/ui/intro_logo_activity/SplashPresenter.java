@@ -57,54 +57,13 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
 
     @Override
     public void requestUserLocation(Context context) {
-//        createTransfer();
-//        if (true) return;
         view.setStatusText(R.string.network_status_location_search);
         if (isEmulator()) {
             view.onLocationReady();
         } else {
             locationManager.getLocation(context, this);
         }
-
     }
-
-    private void createTransfer() {
-        Observable<AccountInfoResponse> accountInfoResponseObservable = RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex());
-        accountInfoResponseObservable
-                .flatMap(accountInfoResponse -> {
-                    String transaction = generateTransaction(accountInfoResponse, "1000000000000000000", "0xD1cE561C07164639153E8540EDaa769C89906181");
-                    return RestApi.getServerApi().transferTheAmount(transaction);
-                })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::transferSuccess, this::transferFailed);
-    }
-
-
-    private String generateTransaction(AccountInfoResponse accountInfoResponse, String transferAmount, String address) {
-        String rawTransaction;
-        try {
-            Account account = Application.keyManager.getAccounts().get(0);
-            Application.keyManager.unlockAccount(account, "");
-//            rawTransaction = CryptoUtils.test(accountInfoResponse.count, accountInfoResponse.gasPrice, transferAmount, address);
-            String testTransaction = CryptoUtils.testTransaction(accountInfoResponse.count, accountInfoResponse.gasPrice, transferAmount, account.getAddress().getHex());
-//            Transaction transaction = Geth.newTransactionFromRLP(rawTransaction.getBytes());
-//            Log.d(TAG, "generateTransaction:old " + rawTransaction);
-            return "";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
-        Log.d("transfer", purchaseAppResponse.hash);
-    }
-
-    private void transferFailed(Throwable throwable) {
-        Log.d("transfer", throwable.getMessage());
-    }
-
 
     private static boolean isEmulator() {
         return Build.FINGERPRINT.startsWith("generic")
@@ -132,7 +91,7 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
     }
 
     private void onNearestNodeFail(Throwable throwable) {
-        view.setStatusText("Search for the nearest node fail: " + throwable.getMessage());
+        view.setStatusText(R.string.search_for_node_fail);
         view.onNearestNodeFailed(throwable);
     }
 
@@ -144,8 +103,5 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
         } else {
             getNearestNode(location);
         }
-
     }
-
-
 }

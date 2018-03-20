@@ -1,11 +1,16 @@
 package com.blockchain.store.playmarket.ui.exchange_screen;
 
+import android.animation.LayoutTransition;
+import android.animation.ValueAnimator;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.transition.ChangeBounds;
+import android.support.transition.Transition;
+import android.support.transition.TransitionManager;
+import android.support.transition.TransitionSet;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -22,6 +27,8 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
+
+import org.web3j.tx.TransactionManager;
 
 import java.util.ArrayList;
 
@@ -55,13 +62,13 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (position == 0 || position == 1) {
-                    stepField.setText(String.format(getString(R.string.exchange_step_field), position + 1));
-                }
             }
 
             @Override
             public void onPageSelected(int position) {
+                stepField.setText(String.format(getString(R.string.exchange_step_field), position + 1));
+                exchangeCancel.setText(position == 0 ? getString(R.string.cancel_btn) : getString(R.string.another_exchange));
+                exchangeContinue.setText(position == 0 ? getString(R.string.continue_btn) : getString(R.string.cancel_btn));
             }
 
             @Override
@@ -128,7 +135,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
     @Override
     public void onLoadCurrenciesReady(ArrayList<ChangellyCurrency> changellyCurrencies, ChangellyMinimumAmountResponse minimumAmount) {
         errorHolder.setVisibility(View.GONE);
-        layoutHolder.setVisibility(View.VISIBLE);
+        viewPager.setVisibility(View.VISIBLE);
         buttonsHolder.setVisibility(View.VISIBLE);
         initViewPager(changellyCurrencies, minimumAmount);
     }
@@ -138,7 +145,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         ToastUtil.showToast(throwable.getMessage());
         errorHolder.setVisibility(View.VISIBLE);
         buttonsHolder.setVisibility(View.GONE);
-        layoutHolder.setVisibility(View.GONE);
+        viewPager.setVisibility(View.GONE);
     }
 
     @Override
@@ -158,8 +165,8 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         if (changellyCurrencies.size() > 0) {
             exchangeActivityViewModel.chosenCurrency.setValue(changellyCurrencies.get(0));
             viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-            viewPagerAdapter.addFragment(new ExchangeInfoFragment(), "");
-            viewPagerAdapter.addFragment(new ExchangeConfirmFragment(), "");
+            viewPagerAdapter.addFragment(new ExchangeInfoFragment());
+            viewPagerAdapter.addFragment(new ExchangeConfirmFragment());
             viewPager.setAdapter(viewPagerAdapter);
         } else {
             //todo show error

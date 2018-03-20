@@ -25,12 +25,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
-
     private static final String TAG = "SplashActivity";
-    private static final int SplashDisplayLength = 500; //todo set to 5s when
-    private static final int LOCATION_FOUND_TIMEOUT_MILLIS = 10000; //
+    private static final int SplashDisplayLength = 500;
     private static final int PERMISSION_REQUEST_CODE = 101;
-
     public static final int LOCATION_DIALOG_REQUEST = 102;
 
     @BindView(R.id.LogoTextView) TextView logoTextView;
@@ -38,6 +35,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     @BindView(R.id.continue_without_location) Button continueWithoutLocation;
     @BindView(R.id.network_status) TextView networkStatus;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
+
     private SplashPresenter presenter;
 
     @Override
@@ -50,14 +48,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         setLogoTextFont();
         setupAndPlayVideo();
         checkLocationPermission();
-        startLocationTimeout();
-    }
-
-    private void startLocationTimeout() {
-//        final Handler handler = new Handler();
-//        handler.postDelayed(() -> {
-//            continueWithoutLocation.setVisibility(View.VISIBLE);
-//        }, LOCATION_FOUND_TIMEOUT_MILLIS);
     }
 
     private void checkLocationPermission() {
@@ -75,7 +65,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             presenter.requestUserLocation(this);
         } else {
-            //todo SHOW DIALOG WTF?
             this.finish();
         }
     }
@@ -102,7 +91,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         logoVideoView.setVideoURI(Uri.parse(path));
         logoVideoView.setOnPreparedListener(mp -> mp.setLooping(true));
         logoVideoView.start();
-
     }
 
     protected void loadLoginPromptActivity() {

@@ -52,7 +52,12 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.main_list_item, parent, false);
-        AppListViewHolder appListViewHolder = new AppListViewHolder(view, endlessCallback, holderCallback);
+        AppListViewHolder appListViewHolder = new AppListViewHolder(view);
+        setUpViewHolder(appListViewHolder, view);
+        return appListViewHolder;
+    }
+
+    private void setUpViewHolder(AppListViewHolder appListViewHolder, View view) {
         appListViewHolder.recyclerViewNested.setRecycledViewPool(recycledViewPool);
         appListViewHolder.adapter = new NestedAppListAdapter(mainCallback, holderCallback);
         appListViewHolder.adapter.setHasStableIds(true);
@@ -81,7 +86,6 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             }
         });
-        return appListViewHolder;
     }
 
     @Override
@@ -123,13 +127,11 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @BindView(R.id.id_category_arrow) TextView categoryArrow;
         @BindView(R.id.recycler_view_nested) RecyclerView recyclerViewNested;
         private NestedAppListAdapter adapter;
-        private EndlessRecyclerOnScrollListener.EndlessCallback endlessCallback;
         private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
-        public AppListViewHolder(View itemView, EndlessRecyclerOnScrollListener.EndlessCallback endlessCallback, AppListHolderCallback holderCallback) {
+        public AppListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            this.endlessCallback = endlessCallback;
         }
 
         public void bind(SubCategory subCategory, AppDispatcherType dispatcherType, int position) {

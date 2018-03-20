@@ -151,4 +151,6 @@
     <string name="transfer_confirm_transaction">To complete the transaction, enter your account password:</string>
     <string name="exchange_step_field">Step %1$d of 2</string>
     <string name="load_failed">Load failed</string>
+    <string name="another_exchange">Another exchange</string>
+    <string name="search_for_node_fail">Search for the nearest node fail</string>
 </resources>
