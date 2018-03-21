@@ -67,23 +67,5 @@ public class AccountManager {
     public static void setUserBalance(String userBalance) {
         AccountManager.userBalance = userBalance;
     }
-    /*
-    * Generate Signed Transaction
-    *  Transaction tx = new Transaction(0,AccountManager.getAddress(),new BigInt(0),new BigInt(21000),new BigInt(1000002359L),null);
-     try {
-     String s = tx.encodeJSON();
-     Log.d(TAG, "unsigned transaction: " +s);
-     } catch (Exception e) {
-     e.printStackTrace();
-     }
-     try {
-     Account account = Application.keyManager.getAccounts().get(0);
-     KeyStore keystore = Application.keyManager.getKeystore();
-     Transaction signedTranscation = keystore.signTxPassphrase(account, "", tx, new BigInt(4));
-     String s = signedTranscation.encodeJSON();
-     Log.d(TAG, "signed transaction: " + s);
-     } catch (Exception e) {
-     e.printStackTrace();
-     }
-    * */
+
 }

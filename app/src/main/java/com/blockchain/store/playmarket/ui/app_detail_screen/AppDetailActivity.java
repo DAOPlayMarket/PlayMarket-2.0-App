@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +31,7 @@ import com.blockchain.store.playmarket.data.entities.CheckPurchaseResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
+import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.facebook.common.executors.CallerThreadExecutor;
@@ -54,7 +56,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     private static final String APP_EXTRA = "app_extra";
     private static final int DEFAULT_MAX_LINES = 4;
     private static final int LIMIT_MAX_LINES = 150;
-    public static final int ANIMATOR_DURATION = 400;
+    private static final int ANIMATOR_DURATION = 400;
 
     @BindView(R.id.top_layout_app_name) TextView toolbarAppName;
     @BindView(R.id.top_layout_holder) LinearLayout topLayoutHolder;
@@ -85,6 +87,12 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         context.startActivity(starter);
     }
 
+    public static void start(Context context, App app, ActivityOptionsCompat options) {
+        Intent starter = new Intent(context, AppDetailActivity.class);
+        starter.putExtra(APP_EXTRA, app);
+        context.startActivity(starter/*, options.toBundle()*/);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +121,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     private void setViews() {
 //        investBtn.setVisibility(app.isIco ? View.VISIBLE : View.INVISIBLE);
         imageIcon.setImageURI(Uri.parse(app.getIconUrl()));
+        startPostponedEnterTransition();
         toolbarAppName.setText(app.nameApp);
         appName.setText(app.nameApp);
     }
@@ -285,4 +294,6 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
 
     }
+
+
 }

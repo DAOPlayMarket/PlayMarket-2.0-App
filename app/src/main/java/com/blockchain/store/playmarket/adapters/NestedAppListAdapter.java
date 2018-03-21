@@ -126,14 +126,8 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 String priceInEther = new EthereumPrice(app.price).inEther().toString();
                 price.setText(priceInEther);
             }
-            cardView.setOnClickListener(v -> mainCallback.onAppClicked(app));
-//            dots.setOnClickListener(v -> {
-//                PopupMenu popup = new PopupMenu(context, dots);
-//                MenuInflater inflater = popup.getMenuInflater();
-//                inflater.inflate(R.menu.main_menu, popup.getMenu());
-//                popup.show();
-//            });
-
+            cardView.setOnClickListener(v -> mainCallback.onAppClickedWithTransition(app, imageView));
+//            cardView.setOnClickListener(v -> mainCallback.onAppClicked(app));
         }
     }
 
