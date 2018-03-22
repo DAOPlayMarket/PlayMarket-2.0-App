@@ -1,14 +1,8 @@
 package com.blockchain.store.playmarket.ui.exchange_screen;
 
-import android.animation.LayoutTransition;
-import android.animation.ValueAnimator;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.transition.ChangeBounds;
-import android.support.transition.Transition;
-import android.support.transition.TransitionManager;
-import android.support.transition.TransitionSet;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -27,8 +21,6 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
-
-import org.web3j.tx.TransactionManager;
 
 import java.util.ArrayList;
 
@@ -169,7 +161,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
             viewPagerAdapter.addFragment(new ExchangeConfirmFragment());
             viewPager.setAdapter(viewPagerAdapter);
         } else {
-            //todo show error
+            errorHolder.setVisibility(View.VISIBLE);
         }
 
     }

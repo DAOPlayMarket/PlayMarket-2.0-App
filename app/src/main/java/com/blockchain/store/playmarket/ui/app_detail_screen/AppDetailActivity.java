@@ -285,9 +285,6 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
             textDescriptionAnimator = ObjectAnimator.ofInt(appDescription, "maxLines", DEFAULT_MAX_LINES);
         }
 
-        Log.d(TAG, "onDescriptionClicked: " + textDescriptionAnimator.isStarted());
-        Log.d(TAG, "onDescriptionClicked: " + textDescriptionAnimator.isRunning());
-
         if (textDescriptionAnimator != null && !textDescriptionAnimator.isStarted()) {
             textDescriptionAnimator.setDuration(ANIMATOR_DURATION).start();
         }
