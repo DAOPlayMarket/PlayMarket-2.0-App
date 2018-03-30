@@ -18,6 +18,7 @@
         android:padding="8dp">
 
         <com.facebook.drawee.view.SimpleDraweeView
+            android:transitionName="app_icon"
             android:id="@+id/imageView"
             android:layout_width="@dimen/application_icon_width"
             android:layout_height="@dimen/application_icon_height"

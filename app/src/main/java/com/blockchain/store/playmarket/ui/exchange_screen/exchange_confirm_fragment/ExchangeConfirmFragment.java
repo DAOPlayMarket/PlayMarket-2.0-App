@@ -16,9 +16,12 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.ChangellyCurrency;
 import com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivityViewModel;
 import com.blockchain.store.playmarket.utilities.QrUtils;
+import com.blockchain.store.playmarket.utilities.ToastUtil;
+import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,7 +48,7 @@ public class ExchangeConfirmFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         exchangeActivityViewModel = ViewModelProviders.of(getActivity()).get(ExchangeActivityViewModel.class);
-        exchangeDetailsAmount.setTextSize(TypedValue.COMPLEX_UNIT_PX,getActivity().getResources().getDimension(R.dimen.exchange_transaction_amount_large));
+        exchangeDetailsAmount.setTextSize(TypedValue.COMPLEX_UNIT_PX, getActivity().getResources().getDimension(R.dimen.exchange_transaction_amount_large));
         exchangeDetailsAmount.setTypeface(exchangeDetailsAmount.getTypeface(), Typeface.BOLD);
         exchangeDetailsAmount.setVisibility(View.VISIBLE);
         exchangeDetailsFee.setVisibility(View.VISIBLE);
@@ -76,6 +79,12 @@ public class ExchangeConfirmFragment extends Fragment {
 
     private void onCurrencyChosen(ChangellyCurrency changellyCurrencies) {
         exchangeDetailsCurrency.setText(String.format(getString(R.string.exchange_details_currency), changellyCurrencies.name.toUpperCase()));
+    }
+
+    @OnClick({R.id.address_qr, R.id.address_field})
+    void onAddressClicked() {
+        ClipboardUtils.copyToClipboard(getActivity(), addressField.getText().toString());
+        ToastUtil.showToast(getString(R.string.address_copied));
     }
 
 

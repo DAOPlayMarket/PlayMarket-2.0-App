@@ -109,6 +109,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
 
     @Override
     public void getAccountBalanceSuccessful(String accountBalance) {
+        errorViewHolder.setVisibility(View.GONE);
         accountBalanceInEther = new EthereumPrice(accountBalance).inEther();
         balanceTextView.setText(accountBalanceInEther.toString());
         transferViewModel.balance.setValue(balanceTextView.getText().toString());

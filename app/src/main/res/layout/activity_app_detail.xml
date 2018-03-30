@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/top_layout_holder"
-        layout="@layout/detail_app_toolbar"/>
+        layout="@layout/detail_app_toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -37,7 +37,8 @@
                     android:layout_height="@dimen/application_icon_width"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
-                    tools:background="@android:color/black"/>
+                    android:transitionName="app_icon"
+                    tools:background="@android:color/black" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -53,7 +54,7 @@
                         android:layout_marginBottom="24dp"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/title_text_size"
-                        tools:text="Daily Deals: Prime Day Edition"/>
+                        tools:text="Daily Deals: Prime Day Edition" />
 
                     <TextView
                         android:id="@+id/app_description"
@@ -65,7 +66,7 @@
                         android:ellipsize="end"
                         android:gravity="bottom"
                         android:maxLines="4"
-                        tools:text="Daily Deals: Prime Day Edition"/>
+                        tools:text="Daily Deals: Prime Day Edition" />
 
                 </LinearLayout>
 
@@ -89,7 +90,7 @@
                     android:rating="4.5"
                     android:stepSize="0.1"
                     app:mrb_progressBackgroundTint="@android:color/transparent"
-                    app:mrb_progressTint="@color/ratingBarStarColor"/>
+                    app:mrb_progressTint="@color/ratingBarStarColor" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -98,7 +99,7 @@
                     android:text="4.5"
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/delete_view"
@@ -110,7 +111,7 @@
                     android:text="@string/delete_with_underscore"
                     android:textColor="@color/mainRedColor"
                     android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -126,10 +127,11 @@
                 <Button
                     android:id="@+id/invest_btn"
                     style="@style/ColorButton"
+                    android:visibility="invisible"
                     android:layout_marginRight="8dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_invest_btn"
-                    android:text="@string/btn_invest"/>
+                    android:text="@string/btn_invest" />
 
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -144,20 +146,20 @@
                         android:background="@drawable/rounded_action_bg"
                         android:visibility="visible"
                         tools:text="Download"
-                        tools:visibility="visible"/>
+                        tools:visibility="visible" />
 
                     <ProgressBar
                         android:id="@+id/price_progress_bar"
                         style="@style/ColorButton"
                         android:layout_width="match_parent"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
                 </FrameLayout>
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
 
         </LinearLayout>
@@ -168,12 +170,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 </RelativeLayout>

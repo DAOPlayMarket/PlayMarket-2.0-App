@@ -16,13 +16,25 @@ import com.blockchain.store.playmarket.data.entities.ChangellyBaseBody;
 import com.blockchain.store.playmarket.data.entities.ChangellyMinimumAmountResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.FileUtils;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.net.NodeUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.ethereum.geth.Account;
 import org.ethereum.geth.BigInt;
+import org.ethereum.geth.Geth;
+import org.ethereum.geth.Transaction;
+import org.web3j.crypto.Credentials;
+import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.Wallet;
+import org.web3j.crypto.WalletFile;
 import org.web3j.crypto.WalletUtils;
+import org.web3j.protocol.ObjectMapperFactory;
 
+import java.io.File;
+
+import io.ethmobile.ethdroid.EthDroid;
 import io.ethmobile.ethdroid.Utils;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -45,54 +57,13 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
 
     @Override
     public void requestUserLocation(Context context) {
-//        createTransfer();
-//        if (true) return;
         view.setStatusText(R.string.network_status_location_search);
         if (isEmulator()) {
             view.onLocationReady();
         } else {
             locationManager.getLocation(context, this);
         }
-
     }
-
-    private void createTransfer() {
-        Observable<AccountInfoResponse> accountInfoResponseObservable = RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex());
-        accountInfoResponseObservable
-                .flatMap(accountInfoResponse -> {
-                    String transaction = generateTransaction(accountInfoResponse, "1000000000000000000", "0xD1cE561C07164639153E8540EDaa769C89906181");
-                    return RestApi.getServerApi().transferTheAmount(transaction);
-                })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::transferSuccess, this::transferFailed);
-    }
-
-
-    private String generateTransaction(AccountInfoResponse accountInfoResponse, String transferAmount, String address) {
-        String rawTransaction;
-        try {
-            Account account = Application.keyManager.getAccounts().get(0);
-            Application.keyManager.unlockAccount(account, "123123123");
-            String jsonKeystoreFileURL = Application.keyManager.getAccounts().get(0).getURL();
-            String pathToJsonFile = jsonKeystoreFileURL.replace("keystore:///", "");
-            rawTransaction = CryptoUtils.test(accountInfoResponse.count, accountInfoResponse.gasPrice, transferAmount, address);
-            Log.d(TAG, "generateTransaction:old " + rawTransaction);
-            return rawTransaction;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
-        Log.d("transfer", purchaseAppResponse.hash);
-    }
-
-    private void transferFailed(Throwable throwable) {
-        Log.d("transfer", throwable.getMessage());
-    }
-
 
     private static boolean isEmulator() {
         return Build.FINGERPRINT.startsWith("generic")
@@ -120,7 +91,7 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
     }
 
     private void onNearestNodeFail(Throwable throwable) {
-        view.setStatusText("Search for the nearest node fail: " + throwable.getMessage());
+        view.setStatusText(R.string.search_for_node_fail);
         view.onNearestNodeFailed(throwable);
     }
 
@@ -132,8 +103,5 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
         } else {
             getNearestNode(location);
         }
-
     }
-
-
 }

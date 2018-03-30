@@ -10,24 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppDispatcherType;
 import com.blockchain.store.playmarket.data.entities.SubCategory;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.interfaces.AppListHolderCallback;
-import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.EndlessRecyclerOnScrollListener;
 import com.blockchain.store.playmarket.utilities.GestureListener;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.support.v7.widget.RecyclerView.NO_POSITION;
 import static android.support.v7.widget.RecyclerView.ViewHolder;
 
 /**
@@ -57,16 +52,22 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.main_list_item, parent, false);
-        AppListViewHolder appListViewHolder = new AppListViewHolder(view, endlessCallback);
+        AppListViewHolder appListViewHolder = new AppListViewHolder(view);
+        setUpViewHolder(appListViewHolder, view);
+        return appListViewHolder;
+    }
+
+    private void setUpViewHolder(AppListViewHolder appListViewHolder, View view) {
         appListViewHolder.recyclerViewNested.setRecycledViewPool(recycledViewPool);
-        appListViewHolder.adapter = new NestedAppListAdapter(mainCallback);
+        appListViewHolder.adapter = new NestedAppListAdapter(mainCallback, holderCallback);
         appListViewHolder.adapter.setHasStableIds(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false);
         appListViewHolder.recyclerViewNested.setLayoutManager(layoutManager);
         appListViewHolder.recyclerViewNested.setHasFixedSize(true);
         appListViewHolder.recyclerViewNested.setNestedScrollingEnabled(true);
         appListViewHolder.recyclerViewNested.setAdapter(appListViewHolder.adapter);
-        GestureDetector gestureDetector = new GestureDetector(view.getContext(),new GestureListener(appListViewHolder.recyclerViewNested));
+        appListViewHolder.endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener((LinearLayoutManager) appListViewHolder.recyclerViewNested.getLayoutManager(), this.endlessCallback);
+        GestureDetector gestureDetector = new GestureDetector(view.getContext(), new GestureListener(appListViewHolder.recyclerViewNested));
         appListViewHolder.recyclerViewNested.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
@@ -85,7 +86,6 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             }
         });
-        return appListViewHolder;
     }
 
     @Override
@@ -127,12 +127,11 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @BindView(R.id.id_category_arrow) TextView categoryArrow;
         @BindView(R.id.recycler_view_nested) RecyclerView recyclerViewNested;
         private NestedAppListAdapter adapter;
-        private EndlessRecyclerOnScrollListener.EndlessCallback endlessCallback;
+        private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
-        public AppListViewHolder(View itemView, EndlessRecyclerOnScrollListener.EndlessCallback endlessCallback) {
+        public AppListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            this.endlessCallback = endlessCallback;
         }
 
         public void bind(SubCategory subCategory, AppDispatcherType dispatcherType, int position) {
@@ -141,13 +140,10 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             adapter.setItemsDispatcher(dispatcherType);
 
-//            if (!dispatcherType.apps.isEmpty()) {
-//                recyclerViewNested.setOnScrollListener(new EndlessRecyclerOnScrollListener((LinearLayoutManager) recyclerViewNested.getLayoutManager(), dispatcherType, this.endlessCallback));
-//            }
-
-
+            if (!dispatcherType.apps.isEmpty() && endlessRecyclerOnScrollListener.getDispatcherType() == null) {
+                endlessRecyclerOnScrollListener.setDispatcherType(dispatcherType);
+                recyclerViewNested.setOnScrollListener(endlessRecyclerOnScrollListener);
+            }
         }
-
     }
-
 }

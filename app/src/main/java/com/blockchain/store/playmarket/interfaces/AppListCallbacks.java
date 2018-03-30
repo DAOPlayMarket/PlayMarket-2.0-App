@@ -1,5 +1,7 @@
 package com.blockchain.store.playmarket.interfaces;
 
+import android.view.View;
+
 import com.blockchain.store.playmarket.data.entities.App;
 
 /**
@@ -8,4 +10,9 @@ import com.blockchain.store.playmarket.data.entities.App;
 
 public interface AppListCallbacks {
     void onAppClicked(App app);
+
+    default void onAppClickedWithTransition(App app, View view){
+
+    };
+
 }

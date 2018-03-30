@@ -21,8 +21,6 @@ import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
 
 public class TransferConfirmFragment extends Fragment {
-
-
     private TransferViewModel transferViewModel;
 
     @BindView(R.id.sender_address_info_textView)
@@ -67,7 +65,7 @@ public class TransferConfirmFragment extends Fragment {
         transferViewModel.dimension.observe(getActivity(), s -> dimensionTextView.setText(s));
     }
 
-    public void showError(){
+    public void showError() {
         senderPasswordEditText.setError(getResources().getString(R.string.insufficient_funds));
         senderPasswordEditText.requestFocus();
     }
