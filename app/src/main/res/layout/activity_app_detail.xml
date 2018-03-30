@@ -127,6 +127,7 @@
                 <Button
                     android:id="@+id/invest_btn"
                     style="@style/ColorButton"
+                    android:visibility="invisible"
                     android:layout_marginRight="8dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_invest_btn"

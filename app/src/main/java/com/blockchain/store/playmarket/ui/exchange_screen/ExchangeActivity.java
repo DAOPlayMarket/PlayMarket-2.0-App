@@ -129,6 +129,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         errorHolder.setVisibility(View.GONE);
         viewPager.setVisibility(View.VISIBLE);
         buttonsHolder.setVisibility(View.VISIBLE);
+        stepField.setVisibility(View.VISIBLE);
         initViewPager(changellyCurrencies, minimumAmount);
     }
 
@@ -138,6 +139,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         errorHolder.setVisibility(View.VISIBLE);
         buttonsHolder.setVisibility(View.GONE);
         viewPager.setVisibility(View.GONE);
+        stepField.setVisibility(View.GONE);
     }
 
     @Override

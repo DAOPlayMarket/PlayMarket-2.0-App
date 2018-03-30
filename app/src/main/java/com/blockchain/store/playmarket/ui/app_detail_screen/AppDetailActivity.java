@@ -246,7 +246,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @OnClick(R.id.invest_btn)
     void onInvestBtnClicked() {
-        InvestActivity.start(this, appInfo);
+//        InvestActivity.start(this, appInfo);
 //        new DialogManager().showInvestDialog(appInfo, this, investAmount -> presenter.onInvestClicked(appInfo, investAmount));
     }
 
