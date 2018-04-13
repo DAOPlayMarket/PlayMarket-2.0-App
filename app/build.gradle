@@ -25,13 +25,14 @@ android {
         multiDexEnabled true
         versionCode 6
         versionName '1.1.4'
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
+            matchingFallbacks = ["debug"]
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {}
     }
     lintOptions {
         checkReleaseBuilds false
@@ -54,8 +55,8 @@ android {
 }
 
 dependencies {
-    compile 'com.github.kenglxn.QRGen:android:2.4.0'
-    compile 'me.dm7.barcodescanner:zbar:1.9.8'
+    implementation 'com.github.kenglxn.QRGen:android:2.4.0'
+    implementation 'me.dm7.barcodescanner:zbar:1.9.8'
 
     implementation "android.arch.lifecycle:extensions:1.1.0"
 
@@ -64,7 +65,7 @@ dependencies {
 
     implementation "com.google.android.gms:play-services-location:11.8.0"
 
-    implementation 'com.android.support:palette-v7:27.0.2'
+    implementation 'com.android.support:palette-v7:27.1.0'
     implementation 'com.github.stfalcon:frescoimageviewer:0.5.0'
     implementation "com.facebook.fresco:imagepipeline-okhttp3:1.8.1"
 
@@ -73,7 +74,7 @@ dependencies {
 
     implementation 'com.orhanobut:hawk:2.0.1'
 
-    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
 
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
@@ -92,24 +93,20 @@ dependencies {
     implementation "org.ethereum:geth:1.8.2"
     implementation 'org.web3j:core:3.3.1-android'
 
-    compile fileTree(include: ['*.aar'], dir: 'libs')
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    implementation 'com.android.support:support-compat:27.0.2'
+    implementation fileTree(include: ['*.aar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:support-compat:27.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.android.support:support-v4:27.0.2'
-    implementation 'com.android.support:recyclerview-v7:27.0.2'
-    implementation 'com.android.support:cardview-v7:27.0.2'
-    implementation 'com.android.support:design:27.0.2'
+    implementation 'com.android.support:support-v4:27.1.0'
+    implementation 'com.android.support:recyclerview-v7:27.1.0'
+    implementation 'com.android.support:cardview-v7:27.1.0'
+    implementation 'com.android.support:design:27.1.0'
 
     implementation 'de.measite.minidns:minidns-hla:0.2.2'
     implementation 'com.android.support:multidex:1.0.2'
     implementation 'us.feras.mdv:markdownview:1.1.0'
-    testCompile 'junit:junit:4.12'
-    compile files('libs/YouTubeAndroidPlayerApi.jar')
-    compile('com.crashlytics.sdk.android:crashlytics:2.9.0@aar') {
+    implementation files('libs/YouTubeAndroidPlayerApi.jar')
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.0@aar') {
         transitive = true;
     }
 }

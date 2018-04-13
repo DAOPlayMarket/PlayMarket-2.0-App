@@ -11,6 +11,9 @@ import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
+import org.ethereum.geth.Account;
+
+import io.ethmobile.ethdroid.KeyManager;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -60,6 +63,7 @@ public class TransferPresenter implements TransferContract.Presenter {
         }
         return null;
     }
+
 
     private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
         Log.d("transfer", purchaseAppResponse.hash);

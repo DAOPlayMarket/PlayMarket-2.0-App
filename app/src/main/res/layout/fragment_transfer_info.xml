@@ -253,6 +253,7 @@
 
 
     <LinearLayout
+        tools:visibility="gone"
         android:visibility="visible"
         android:id="@+id/error_view_holder"
         android:background="@color/white"
