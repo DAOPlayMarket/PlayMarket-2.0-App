@@ -6,4 +6,5 @@ package com.blockchain.store.playmarket.data.entities;
 
 public class PurchaseAppResponse {
     public String hash;
+    public String link;
 }

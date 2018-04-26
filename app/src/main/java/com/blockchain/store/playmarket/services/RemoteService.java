@@ -13,6 +13,7 @@ public class RemoteService extends IntentService {
     private static final String TAG = "RemoteService";
     private static final String EXTRA_METHOD_NAME = "method_name";
     private static final String METHOD_GET_BALANCE = "method_get_balance";
+    private static final String METHOD_GET_ACCOUNT = "method_get_account";
     private static final String METHOD_TRANSACTION = "method_get_transaction";
     private static final String EXTRA_METHOD_RESULT = "method_extra_result";
     private static final String EXTRA_METHOD_ERROR = "method_extra_error";
@@ -63,20 +64,20 @@ public class RemoteService extends IntentService {
     }
 
     private void sendUserAddress(String addressHex) {
-        Intent outerIntent = getOuterIntent(METHOD_GET_BALANCE);
+        Intent outerIntent = getOuterIntent(METHOD_GET_ACCOUNT);
         outerIntent.putExtra(EXTRA_METHOD_RESULT, addressHex);
         sendBroadCast(outerIntent);
     }
 
     private void onTransactionCreate(PurchaseAppResponse purchaseAppResponse) {
         Intent outerIntent = getOuterIntent(METHOD_TRANSACTION);
-        outerIntent.putExtra(EXTRA_METHOD_RESULT, purchaseAppResponse.hash);
+        outerIntent.putExtra(EXTRA_METHOD_RESULT, purchaseAppResponse.link);
         sendBroadCast(outerIntent);
     }
 
     private void onTransactionFailed(Throwable throwable) {
         Intent outerIntent = getOuterIntent(METHOD_TRANSACTION);
-        outerIntent.putExtra(EXTRA_METHOD_ERROR, throwable.getMessage());
+        outerIntent.putExtra(EXTRA_METHOD_ERROR, throwable);
         sendBroadCast(outerIntent);
     }
 
@@ -88,7 +89,7 @@ public class RemoteService extends IntentService {
 
     private void onUserBalanceError(Throwable throwable) {
         Intent outerIntent = getOuterIntent(METHOD_GET_BALANCE);
-        outerIntent.putExtra(EXTRA_METHOD_ERROR, throwable.getMessage());
+        outerIntent.putExtra(EXTRA_METHOD_ERROR, throwable);
         sendBroadCast(outerIntent);
     }
 
