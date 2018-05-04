@@ -3,6 +3,9 @@ package com.blockchain.store.playmarket.utilities.net;
 import android.location.Location;
 import android.util.Log;
 
+import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.data.entities.Node;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -11,29 +14,31 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Set;
 
 import de.measite.minidns.hla.ResolverApi;
 import de.measite.minidns.hla.ResolverResult;
 import de.measite.minidns.record.TXT;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by samsheff on 04/09/2017.
  */
 
 public class NodeUtils {
+    private static final String TAG = "NodeUtils";
+    private static final String NODES_DNS_SERVER = "nodes.playmarket.io";
+    private static final String IP_LOOKUP_URL = "http://ip-api.com/line";
 
-    public static final String NODES_DNS_SERVER = "nodes.playmarket.io";
-    public static final String IP_LOOKUP_URL = "http://ip-api.com/line";
 
-
-    public static String[] getNodesList(String domain) throws IOException {
+    private static ArrayList<Node> getNodesList(String domain) throws IOException {
         ResolverResult<TXT> result = ResolverApi.INSTANCE.resolve(domain, TXT.class);
         if (!result.wasSuccessful()) {
-            return new String[0];
+            return convertNodesToLocation(new String[0]);
         }
         Set<TXT> answers = result.getAnswers();
         String nodesList = "";
@@ -43,7 +48,19 @@ public class NodeUtils {
         }
         String[] nodes = nodesList.split("\\|");
 
-        return nodes;
+        return convertNodesToLocation(nodes);
+    }
+
+    private static ArrayList<Node> convertNodesToLocation(String[] nodes) {
+        ArrayList<Node> nodesList = new ArrayList<>();
+        for (String node : nodes) {
+            Location location = new Location("");
+            String[] locationSplit = node.split(":");
+            location.setLatitude(Double.parseDouble(locationSplit[1]));
+            location.setLongitude(Double.parseDouble(locationSplit[2]));
+            nodesList.add(new Node(locationSplit[0], location));
+        }
+        return nodesList;
     }
 
     public static ArrayList getCoordinates() throws IOException {
@@ -71,7 +88,6 @@ public class NodeUtils {
 
         double minNodeLat = 300;
         double minNodeLon = 300;
-        //todo check minNOdeLat variables
         for (int i = 0; i < nodes.length; i++) {
             String[] splitNode = nodes[i].split(":");
 
@@ -87,16 +103,48 @@ public class NodeUtils {
         return nodes[nearestNodeIndex].split(":")[0];
     }
 
-    public Observable<String> getNearestNode(Location location) {
+    public static ArrayList<Node> sortNodesByNearest(ArrayList<Node> nodes, Location location) {
+        Log.d(TAG, "getNearestNodes: nodes before sorting " + nodes.toString());
+        Collections.sort(nodes, new NodeComparator(location));
+        Log.d(TAG, "getNearestNodes: nodes after sorting " + nodes.toString());
+        return nodes;
+    }
+
+
+    public Observable<Node> getNearestNode(Location location) {
         return Observable.create(subscriber -> {
             try {
-                String[] nodes = NodeUtils.getNodesList(NodeUtils.NODES_DNS_SERVER);
-                String nearestNodeIP = NodeUtils.getNearestNode(nodes, location.getLatitude(), location.getLongitude());
-                subscriber.onNext(nearestNodeIP);
+                ArrayList<Node> nodes = NodeUtils.getNodesList(NodeUtils.NODES_DNS_SERVER);
+                ArrayList<Node> nearestNodeIP = NodeUtils.sortNodesByNearest(nodes, location);
+                for (Node node : nearestNodeIP) {
+                    Response<ResponseBody> execute = null;
+                    try {
+                        execute = RestApi.getServerApi().checkAvailability(RestApi.getCheckUrlEndpointByNode(node.address)).execute();
+                    } catch (Exception e) {
+
+                    }
+                    if (execute != null && execute.isSuccessful()) {
+                        subscriber.onNext(node);
+                        return;
+                    }
+                }
                 subscriber.onCompleted();
             } catch (Exception e) {
                 subscriber.onError(e);
             }
         });
+    }
+
+    private static class NodeComparator implements Comparator<Node> {
+
+        Location origin;
+
+        NodeComparator(Location origin) {
+            this.origin = origin;
+        }
+
+        public int compare(Node left, Node right) {
+            return Float.compare(origin.distanceTo(left.location), origin.distanceTo(right.location));
+        }
     }
 }

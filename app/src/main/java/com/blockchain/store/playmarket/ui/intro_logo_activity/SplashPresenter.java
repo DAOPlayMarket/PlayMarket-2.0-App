@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Location;
 import android.os.Build;
 import android.util.Log;
+import android.util.Pair;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.BuildConfig;
@@ -14,6 +15,7 @@ import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.ChangellyCurrenciesResponse;
 import com.blockchain.store.playmarket.data.entities.ChangellyBaseBody;
 import com.blockchain.store.playmarket.data.entities.ChangellyMinimumAmountResponse;
+import com.blockchain.store.playmarket.data.entities.Node;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.FileUtils;
@@ -33,10 +35,14 @@ import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.ObjectMapperFactory;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import io.ethmobile.ethdroid.EthDroid;
 import io.ethmobile.ethdroid.Utils;
+import okhttp3.ResponseBody;
 import rx.Observable;
+import rx.Single;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -48,6 +54,7 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
     private static final String TAG = "SplashPresenter";
     private SplashContracts.View view;
     private LocationManager locationManager;
+    private Subscription nearestNodeSubscription;
 
     @Override
     public void init(SplashContracts.View view) {
@@ -78,10 +85,28 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
 
     private void getNearestNode(Location location) {
         view.setStatusText(R.string.network_status_node_search);
-        new NodeUtils().getNearestNode(location)
+        nearestNodeSubscription = new NodeUtils().getNearestNode(location)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onNearestNodeFound, this::onNearestNodeFail);
+
+    }
+
+    private void onNearestNodeFound(Node node) {
+        Log.d(TAG, "onNearestNodeFound() called with: node = [" + node + "]");
+        if (!nearestNodeSubscription.isUnsubscribed()) {
+            nearestNodeSubscription.unsubscribe();
+        }
+        RestApi.setServerEndpoint(node.address);
+        view.onLocationReady();
+    }
+
+    private void onNearestNodeFound(ResponseBody responseBody) {
+        Log.d(TAG, "onNearestNodeFound() called with: responseBody = [" + responseBody + "]");
+        if (!nearestNodeSubscription.isUnsubscribed()) {
+            nearestNodeSubscription.unsubscribe();
+        }
+
     }
 
     private void onNearestNodeFound(String nearestNodeIp) {
@@ -91,6 +116,7 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
     }
 
     private void onNearestNodeFail(Throwable throwable) {
+        Log.d(TAG, "onNearestNodeFail() called with: throwable = [" + throwable + "]");
         view.setStatusText(R.string.search_for_node_fail);
         view.onNearestNodeFailed(throwable);
     }
