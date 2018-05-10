@@ -146,7 +146,7 @@
             android:textStyle="bold"/>
 
         <Button
-            android:id="@+id/continueButton"
+            android:id="@+id/continue_button"
             style="@style/ColorButton"
             android:layout_width="0dp"
             android:layout_margin="5dp"

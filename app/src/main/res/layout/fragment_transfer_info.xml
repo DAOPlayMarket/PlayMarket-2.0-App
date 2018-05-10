@@ -99,6 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:maxLength="42"
+                tools:text = "0xdB2301db944a59680619F86017418EBb10b9DE4b"
                 android:textSize="14sp" />
 
             <ImageButton
@@ -236,7 +237,8 @@
             android:id="@+id/sender_address_info_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:text = "0xdB2301db944a59680619F86017418EBb10b9DE4b"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -248,6 +250,7 @@
             android:id="@+id/recipient_address_info_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            tools:text = "0xdB2301db944a59680619F86017418EBb10b9DE4b"
             android:textSize="12sp" />
     </LinearLayout>
 

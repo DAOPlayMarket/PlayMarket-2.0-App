@@ -34,7 +34,7 @@
     <color name="exchange_main_field_text_color">#309f90</color>
     <color name="exchange_gray_text_color">#808080</color>
     <color name="exchange_main_bg_color">#cdf0ea</color>
-    <color name="exchange_buttoncolor">#06a880</color>
+    <color name="exchange_button_color">#06a880</color>
     <color name="exchange_dot_color">#064139</color>
 
 

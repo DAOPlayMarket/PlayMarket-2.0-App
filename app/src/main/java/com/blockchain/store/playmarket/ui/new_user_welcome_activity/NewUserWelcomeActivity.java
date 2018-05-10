@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -194,7 +193,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
 
         d.show();
 
-        TextView addFundsBtn = d.findViewById(R.id.continueButton);
+        TextView addFundsBtn = d.findViewById(R.id.continue_button);
         addFundsBtn.setOnClickListener(v -> {
             copyKeyJsonToClipboard(passwordText.getText().toString());
             d.dismiss();

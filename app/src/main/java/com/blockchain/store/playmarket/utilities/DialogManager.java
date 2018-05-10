@@ -2,10 +2,8 @@ package com.blockchain.store.playmarket.utilities;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,11 +12,9 @@ import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
-import com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivityViewModel;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.math.BigDecimal;
-import java.util.zip.Inflater;
 
 public class DialogManager {
 
@@ -38,7 +34,7 @@ public class DialogManager {
         TextView appTitleText = dialog.findViewById(R.id.appTitleText);
         TextView priceText = dialog.findViewById(R.id.priceText);
         TextView balanceText = dialog.findViewById(R.id.balanceText);
-        Button continueButton = dialog.findViewById(R.id.continueButton);
+        Button continueButton = dialog.findViewById(R.id.continue_button);
         Button cancelButton = dialog.findViewById(R.id.cancelButton);
         EditText passwordText = dialog.findViewById(R.id.passwordText);
 
@@ -76,7 +72,7 @@ public class DialogManager {
 
         EditText passwordText = dialog.findViewById(R.id.passwordText);
         EditText investmentAmountText = dialog.findViewById(R.id.investmentAmountText);
-        Button continueButton = dialog.findViewById(R.id.continueButton);
+        Button continueButton = dialog.findViewById(R.id.continue_button);
         Button closeButton = dialog.findViewById(R.id.cancelButton);
         TextView balanceText = dialog.findViewById(R.id.balanceText);
         closeButton.setOnClickListener(v -> dialog.dismiss());
@@ -147,9 +143,9 @@ public class DialogManager {
                 .create();
         confirmImportDialog.show();
         passwordText = (EditText) confirmImportDialog.findViewById(R.id.passwordText);
-        Button importButton = (Button) confirmImportDialog.findViewById(R.id.continueButton);
+        Button importButton = (Button) confirmImportDialog.findViewById(R.id.continue_button);
         Button closeButton = (Button) confirmImportDialog.findViewById(R.id.close_button);
-        TextInputLayout passwordLayout = (TextInputLayout) confirmImportDialog.findViewById(R.id.password_inputLayout);
+        EditText passwordEditText = (EditText) confirmImportDialog.findViewById(R.id.passwordText);
 
         passwordText.setText(password);
 
@@ -158,8 +154,7 @@ public class DialogManager {
                 callback.onImportSuccessful();
                 confirmImportDialog.dismiss();
             } else {
-                passwordLayout.setErrorEnabled(true);
-                passwordLayout.setError(context.getResources().getString(R.string.wrong_password));
+                passwordEditText.setError(context.getResources().getString(R.string.wrong_password));
             }
         });
         closeButton.setOnClickListener(v -> {
@@ -193,5 +188,4 @@ public class DialogManager {
         CREATE_FOLDER_DIALOG,
         CONFIRM_IMPORT_DIALOG
     }
-
 }

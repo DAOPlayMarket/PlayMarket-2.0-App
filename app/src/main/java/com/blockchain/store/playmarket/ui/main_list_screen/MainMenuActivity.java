@@ -213,7 +213,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         TextView balanceTextView = (TextView) d.findViewById(R.id.balanceText);
         balanceTextView.setText(APIUtils.api.balance.getDisplayPrice(true));
 
-        Button close_btn = (Button) d.findViewById(R.id.continueButton);
+        Button close_btn = (Button) d.findViewById(R.id.continue_button);
         close_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 d.dismiss();

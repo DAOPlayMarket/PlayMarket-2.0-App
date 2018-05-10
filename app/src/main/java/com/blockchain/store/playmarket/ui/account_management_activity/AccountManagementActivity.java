@@ -79,7 +79,7 @@ public class AccountManagementActivity extends AppCompatActivity {
 
         d.show();
 
-        TextView addFundsBtn = (TextView) d.findViewById(R.id.continueButton);
+        TextView addFundsBtn = (TextView) d.findViewById(R.id.continue_button);
         addFundsBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 copyKeyJsonToClipboard(passwordText.getText().toString());
@@ -88,7 +88,7 @@ public class AccountManagementActivity extends AppCompatActivity {
         });
 
 
-        Button close_btn = (Button) d.findViewById(R.id.continueButton);
+        Button close_btn = (Button) d.findViewById(R.id.continue_button);
         close_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 d.dismiss();
@@ -104,7 +104,7 @@ public class AccountManagementActivity extends AppCompatActivity {
 
         d.show();
 
-        TextView addFundsBtn = (TextView) d.findViewById(R.id.continueButton);
+        TextView addFundsBtn = (TextView) d.findViewById(R.id.continue_button);
         addFundsBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 makeNewAccount(passwordText.getText().toString());
@@ -113,7 +113,7 @@ public class AccountManagementActivity extends AppCompatActivity {
         });
 
 
-        Button close_btn = (Button) d.findViewById(R.id.continueButton);
+        Button close_btn = (Button) d.findViewById(R.id.continue_button);
         close_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 d.dismiss();

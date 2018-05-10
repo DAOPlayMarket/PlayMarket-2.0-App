@@ -55,6 +55,9 @@ android {
 }
 
 dependencies {
+
+    implementation 'com.mtramin:rxfingerprint:2.2.1'
+
     implementation 'com.github.kenglxn.QRGen:android:2.4.0'
     implementation 'me.dm7.barcodescanner:zbar:1.9.8'
 

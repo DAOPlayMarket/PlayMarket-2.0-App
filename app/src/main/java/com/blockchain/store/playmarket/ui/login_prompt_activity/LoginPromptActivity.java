@@ -104,18 +104,16 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
 
 
         final EditText passwordText = (EditText) view.findViewById(R.id.passwordText);
-        Button continueButton = (Button) view.findViewById(R.id.continueButton);
+        Button continueButton = (Button) view.findViewById(R.id.continue_button);
         Button closeButton = (Button) view.findViewById(R.id.close_button);
-        TextInputLayout passwordLayout = (TextInputLayout) view.findViewById(R.id.password_inputLayout);
+        EditText passwordEditText = (EditText) view.findViewById(R.id.passwordText);
 
 
         continueButton.setOnClickListener(v -> {
             if (passwordText.getText().toString().equals("")) {
-                passwordLayout.setErrorEnabled(true);
-                passwordLayout.setError(getResources().getString(R.string.empty_password));
+                passwordEditText.setError(getResources().getString(R.string.empty_password));
             } else if (passwordText.getText().length() < 7) {
-                passwordLayout.setErrorEnabled(true);
-                passwordLayout.setError(getResources().getString(R.string.short_password));
+                passwordEditText.setError(getResources().getString(R.string.short_password));
             } else {
                 String address = makeNewAccount(passwordText.getText().toString());
                 newUserDialog.dismiss();
@@ -138,18 +136,16 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
                 .create();
 
         final EditText passwordText = (EditText) view.findViewById(R.id.passwordText);
-        Button importButton = (Button) view.findViewById(R.id.continueButton);
+        Button importButton = (Button) view.findViewById(R.id.continue_button);
         Button closeButton = (Button) view.findViewById(R.id.close_button);
-        TextInputLayout passwordLayout = (TextInputLayout) view.findViewById(R.id.password_inputLayout);
-
+        EditText passwordEditText = (EditText) view.findViewById(R.id.passwordText);
 
         importButton.setOnClickListener(v -> {
             if (presenter.confirmImportButtonPressed(fileData, passwordText.getText().toString())) {
                 goToMainActivity();
                 ToastUtil.showToast(R.string.import_successful);
             } else {
-                passwordLayout.setErrorEnabled(true);
-                passwordLayout.setError(getResources().getString(R.string.wrong_password));
+                passwordEditText.setError(getResources().getString(R.string.wrong_password));
             }
         });
 

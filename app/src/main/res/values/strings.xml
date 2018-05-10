@@ -111,6 +111,7 @@
     <string name="confirm_button">Confirm</string>
     <string name="nav_view_transfer">Передать</string>
     <string name="ethereum_name">ETH</string>
+    <string name="performing_action">For performing this action, a password is required. Please enter it below.</string>
 
     <!--hints-->
     <string name="sender_address">Sender address</string>
@@ -125,6 +126,7 @@
     <string name="to">To:</string>
     <string name="your_eth_address">Your ETH Address</string>
     <string name="current_balance">Current balance</string>
+    <string name="press_sensor">"Press your sensor \nto complete transaction"</string>
 
     <string-array name="query_suggestions">
         <item>Android</item>
@@ -143,12 +145,12 @@
     <string name="exchange_source">Select the source of the deposit:</string>
     <string name="exchange_dots">...</string>
     <string name="send_amount">Send amount:\n(Minimum amount: %1$s)</string>
-    <string name="transaction_details">Transaction details:</string>
+    <string name="transaction_details">transaction details:</string>
     <string name="exchange_details_currency">Exchange %1$s to ETC</string>
     <string name="exchange_details_amount">%1$s %2$s >> %3$s %4$s</string>
     <string name="exchange_details_fee">* fee included (0.5%)</string>
     <string name="exchange_confirm_transaction">To complete the transaction, make a transfer of %1$s %2$s to the account:</string>
-    <string name="transfer_confirm_transaction">To complete the transaction, enter your account password:</string>
+    <string name="transfer_confirm_transaction">To complete transaction input your password:</string>
     <string name="exchange_step_field">Step %1$d of 2</string>
     <string name="load_failed">Load failed</string>
     <string name="another_exchange">Another exchange</string>
