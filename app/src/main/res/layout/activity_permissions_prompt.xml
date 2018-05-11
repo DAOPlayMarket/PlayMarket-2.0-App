@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.blockchain.store.playmarket.ui.login_prompt_activity.LoginPromptActivity"
+    tools:context="com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="81dp">
 
@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@+id/LogoTextView" />
 
     <Button
-        android:id="@+id/NewUserButton"
+        android:id="@+id/create_account_button"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="0dp"
         android:layout_height="62dp"

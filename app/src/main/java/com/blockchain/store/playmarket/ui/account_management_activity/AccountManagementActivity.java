@@ -69,13 +69,11 @@ public class AccountManagementActivity extends AppCompatActivity {
         }
     }
 
-    ;
-
     public void promptForPassword(View view) {
         final Dialog d = new Dialog(this);
         d.setContentView(R.layout.password_prompt_dialog);
 
-        final EditText passwordText = (EditText) d.findViewById(R.id.passwordText);
+        final EditText passwordText = (EditText) d.findViewById(R.id.password_editText);
 
         d.show();
 
@@ -100,7 +98,7 @@ public class AccountManagementActivity extends AppCompatActivity {
         final Dialog d = new Dialog(this);
         d.setContentView(R.layout.password_prompt_dialog);
 
-        final EditText passwordText = (EditText) d.findViewById(R.id.passwordText);
+        final EditText passwordText = (EditText) d.findViewById(R.id.password_editText);
 
         d.show();
 

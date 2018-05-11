@@ -39,11 +39,6 @@ public class FileManagerPresenter implements FileManagerContract.Presenter {
     }
 
     @Override
-    public boolean confirmImportButtonPressed(String fileString, String password) {
-        return fileUtils.confirmImport(fileString, password);
-    }
-
-    @Override
     public String jsonKeystoreFileCheck(File file, String type) {
         return fileUtils.readJsonKeystoreFile(file, type);
     }

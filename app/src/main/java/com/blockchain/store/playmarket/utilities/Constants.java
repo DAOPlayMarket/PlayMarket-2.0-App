@@ -64,4 +64,5 @@ public class Constants {
     /*fragment tags*/
 
     public static final String NAV_VIEW_FRAGMENT_TAG = "nav_view_fragment_tag";
+    public static final String ENCRYPTED_PASSWORD = "encrypted_account_password";
 }

@@ -11,8 +11,6 @@ public class FileManagerContract {
         void showToast(Boolean success);
 
         void showCreateFolderDialog(String folderName);
-
-        void showConfirmImportDialog(String jsonData, String password);
     }
 
     interface Presenter{
@@ -26,8 +24,6 @@ public class FileManagerContract {
         void confirmSaveButtonPressed(String currentDirectory);
 
         String getDataFromJsonKeystoreFile(File file, String type);
-
-        boolean confirmImportButtonPressed(String fileString, String password);
 
         String jsonKeystoreFileCheck(File file, String type);
 

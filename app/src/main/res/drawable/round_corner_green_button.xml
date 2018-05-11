@@ -7,5 +7,5 @@
         android:radius="5dp"
         />
     <solid
-        android:color="@color/exchange_button_color"/>
+        android:color="@color/green_color"/>
 </shape>

@@ -46,11 +46,11 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
 
     private String jsonData;
 
-    @BindView(R.id.folders_recyclerView)
-    RecyclerView foldersRecyclerView;
+    @BindView(R.id.folders_recyclerView) RecyclerView foldersRecyclerView;
 
-    @BindView(R.id.path_textView)
-    TextView pathTextView;
+    @BindView(R.id.path_textView) TextView pathTextView;
+
+    @BindView(R.id.info_textView) TextView infoTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,15 +70,18 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
                     && (savedInstanceState.getSerializable(DIALOG_NAME) == DialogManager.DialogNames.CREATE_FOLDER_DIALOG)) {
                 showCreateFolderDialog(savedInstanceState.getString(FOLDER_NAME));
             }
-            if ((savedInstanceState.getBoolean(IS_DIALOG_SHOWING))
-                    && (savedInstanceState.getSerializable(DIALOG_NAME) == DialogManager.DialogNames.CONFIRM_IMPORT_DIALOG)) {
-                showConfirmImportDialog(savedInstanceState.getString(JSON_DATA), savedInstanceState.getString(PASSWORD));
-            }
+            //if ((savedInstanceState.getBoolean(IS_DIALOG_SHOWING))
+            //        && (savedInstanceState.getSerializable(DIALOG_NAME) == DialogManager.DialogNames.CONFIRM_IMPORT_DIALOG)) {
+            //    showConfirmImportDialog(savedInstanceState.getString(JSON_DATA), savedInstanceState.getString(PASSWORD));
+            //}
         } else {
             currentDirectory = basePath;
         }
 
         fileManagerType = getIntent().getStringExtra(START_FILE_MANAGER_TAG);
+
+        if (fileManagerType.equals("folders")) infoTextView.setText(getResources().getText(R.string.chose_folder));
+        if (fileManagerType.equals("all_files")) infoTextView.setText(getResources().getText(R.string.chose_file));
 
         pathTextView.setText(currentDirectory);
         fileList = presenter.getFolderList(currentDirectory, fileManagerType);
@@ -138,7 +141,10 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
                 if (presenter.jsonKeystoreFileCheck(fileList.get(fileIndex), "address") != null) {
                     File selectedUserJsonFile = fileList.get(fileIndex);
                     jsonData = presenter.getDataFromJsonKeystoreFile(selectedUserJsonFile, "all_data");
-                    showConfirmImportDialog(jsonData, "");
+                    Intent intent = new Intent();
+                    intent.putExtra("json_data", jsonData);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 } else ToastUtil.showToast("Wrong File");
             }
         }
@@ -193,13 +199,6 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
         displayAlertDialog = dialogManager.showCreateFolderDialog(this, folderName, this);
         dialogName = DialogManager.DialogNames.CREATE_FOLDER_DIALOG;
     }
-
-    @Override
-    public void showConfirmImportDialog(String jsonData, String password) {
-        displayAlertDialog = dialogManager.showConfirmImportDialog(this, jsonData, this, password);
-        dialogName = DialogManager.DialogNames.CONFIRM_IMPORT_DIALOG;
-    }
-
 
     @Override
     public void onImportSuccessful() {

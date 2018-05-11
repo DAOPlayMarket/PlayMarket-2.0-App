@@ -184,25 +184,25 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
         }
     }
 
-    public void promptForPassword(View view) {
-        final Dialog d = new Dialog(this);
-
-        d.setContentView(R.layout.password_prompt_dialog);
-
-        final EditText passwordText = d.findViewById(R.id.passwordText);
-
-        d.show();
-
-        TextView addFundsBtn = d.findViewById(R.id.continue_button);
-        addFundsBtn.setOnClickListener(v -> {
-            copyKeyJsonToClipboard(passwordText.getText().toString());
-            d.dismiss();
-        });
-
-
-        Button close_btn = d.findViewById(R.id.close_button);
-        close_btn.setOnClickListener(v -> d.dismiss());
-    }
+    //public void promptForPassword(View view) {
+    //    final Dialog d = new Dialog(this);
+//
+    //    d.setContentView(R.layout.password_prompt_dialog);
+//
+    //    final EditText passwordText = d.findViewById(R.id.passwordText);
+//
+    //    d.show();
+//
+    //    TextView addFundsBtn = d.findViewById(R.id.continue_button);
+    //    addFundsBtn.setOnClickListener(v -> {
+    //        copyKeyJsonToClipboard(passwordText.getText().toString());
+    //        d.dismiss();
+    //    });
+//
+//
+    //    Button close_btn = d.findViewById(R.id.close_button);
+    //    close_btn.setOnClickListener(v -> d.dismiss());
+    //}
 
 
     private void showCopiedAlert() {

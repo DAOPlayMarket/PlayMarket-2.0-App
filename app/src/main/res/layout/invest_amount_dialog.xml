@@ -105,7 +105,7 @@
         android:layout_height="10dp" />
 
     <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/passwordText"
+        android:id="@+id/password_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"

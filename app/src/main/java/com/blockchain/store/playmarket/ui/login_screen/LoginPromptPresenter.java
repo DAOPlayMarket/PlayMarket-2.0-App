@@ -1,4 +1,7 @@
-package com.blockchain.store.playmarket.ui.login_prompt_activity;
+package com.blockchain.store.playmarket.ui.login_screen;
+
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 
 import com.blockchain.store.playmarket.utilities.FileUtils;
 
@@ -18,23 +21,6 @@ public class LoginPromptPresenter implements LoginPromptContract.Presenter {
     }
 
     @Override
-    public boolean confirmImportButtonPressed(String fileString, String password) {
-        return fileUtils.confirmImport(fileString, password);
-    }
-
-    @Override
-    public boolean checkJsonFileExists() {
-        return fileUtils.checkJsonKeystoreFile();
-    }
-
-    @Override
-    public void autoSaveJsonKeystoreFile() {
-        String newDirectoryPath = fileUtils.createNewFolder();
-        Boolean success = fileUtils.saveJsonKeystoreFile(newDirectoryPath);
-        view.showToast(success);
-    }
-
-    @Override
     public String getDataFromJsonKeystoreFile(File file, String type) {
         return fileUtils.readJsonKeystoreFile(file, type);
     }
@@ -44,5 +30,13 @@ public class LoginPromptPresenter implements LoginPromptContract.Presenter {
         return fileUtils.getJsonKeystoreFileList();
     }
 
+    @Override
+    public boolean checkJsonFileExists() {
+        return fileUtils.checkJsonKeystoreFile();
+    }
 
+    @Override
+    public void saveJsonDataOnViewModel(LoginViewModel loginViewModel, String jsonData) {
+        loginViewModel.jsonData.setValue(jsonData);
+    }
 }

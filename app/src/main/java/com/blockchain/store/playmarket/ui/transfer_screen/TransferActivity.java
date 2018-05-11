@@ -27,8 +27,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     private String transferAmount;
     private boolean isEth;
 
-    @BindView(R.id.transfer_viewPager)
-    NonSwipeableViewPager transferViewPager;
+    @BindView(R.id.transfer_viewPager) NonSwipeableViewPager transferViewPager;
     ViewPagerAdapter transferAdapter;
 
     @Override

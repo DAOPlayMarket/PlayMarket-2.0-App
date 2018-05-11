@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.ui.login_prompt_activity.LoginPromptActivity;
+import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
 public class PermissionsPromptActivity extends AppCompatActivity {

@@ -39,8 +39,8 @@
 
     <!--activity_login_prompt-->
     <string name="welcome">Welcome!\nDid you use our application before?</string>
-    <string name="new_user_button">New user</string>
-    <string name="import_user_button"><u>Import user</u></string>
+    <string name="new_account_button">Create account</string>
+    <string name="import_account_button"><u>Import account</u></string>
 
     <!--activity_new_user_welcome-->
     <string name="congratulations_title">Congratulations, a new user is created!</string>
@@ -61,6 +61,7 @@
     <string name="add_folder_button">+ Add Folder</string>
     <string name="back_button">Back</string>
     <string name="chose_folder">Select a folder to save the JSON File</string>
+    <string name="chose_file">Select a JSON File to import</string>
 
     <!--dialog strings-->
     <string name="enter_your_password">Enter your password</string>
@@ -126,7 +127,6 @@
     <string name="to">To:</string>
     <string name="your_eth_address">Your ETH Address</string>
     <string name="current_balance">Current balance</string>
-    <string name="press_sensor">"Press your sensor \nto complete transaction"</string>
 
     <string-array name="query_suggestions">
         <item>Android</item>
@@ -155,4 +155,13 @@
     <string name="load_failed">Load failed</string>
     <string name="another_exchange">Another exchange</string>
     <string name="search_for_node_fail">Search for the nearest node fail</string>
+
+    <!--Fingerprint Scanner-->
+    <string name="press_sensor">Press the sensor</string>
+    <string name="about_activate">Touch the fingerprint scanner to activate the fingerprint authentication</string>
+    <string name="remind">Remind me later</string>
+    <string name="do_not_activate">Do not activate</string>
+    <string name="enable_fingerprint">You can enable \nfingerprint authentication</string>
+    <string name="press_sensor_to_complete">"Press your sensor \nto complete transaction"</string>
+    <string name="use_password"><u>"Use password"</u></string>
 </resources>

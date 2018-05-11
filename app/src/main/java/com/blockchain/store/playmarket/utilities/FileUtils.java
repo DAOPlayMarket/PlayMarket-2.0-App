@@ -23,7 +23,7 @@ import java.util.Objects;
 
 public class FileUtils {
 
-    private static final String TAG = "LoginPromptActivity";
+    private static final String TAG = "LoginPromptActivityOld";
     private static final String DEFAULT_PATH = Environment.getExternalStorageDirectory().getPath();
     private static final String DEFAULT_DIRECTORY_NAME = "/PlayMarket2.0/Accounts/";
 
@@ -121,10 +121,10 @@ public class FileUtils {
     }
 
     // Метод импортирования данных из JSON Keystore File.
-    public boolean confirmImport(String fileString, String password) {
+    public boolean importJsonKeystoreFile(String fileString, String password) {
         try {
             Account account = Application.keyManager.getKeystore().importKey(fileString.getBytes(), password, password);
-            Log.d(TAG, "confirmImport: ");
+            Log.d(TAG, "importJsonKeystoreFile: ");
             return true;
         } catch (Exception e) {
             e.printStackTrace();
