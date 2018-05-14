@@ -69,32 +69,6 @@ public class AccountManagementActivity extends AppCompatActivity {
         }
     }
 
-    ;
-
-    public void promptForPassword(View view) {
-        final Dialog d = new Dialog(this);
-        d.setContentView(R.layout.password_prompt_dialog);
-
-        final EditText passwordText = (EditText) d.findViewById(R.id.passwordText);
-
-        d.show();
-
-        TextView addFundsBtn = (TextView) d.findViewById(R.id.continueButton);
-        addFundsBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                copyKeyJsonToClipboard(passwordText.getText().toString());
-                d.dismiss();
-            }
-        });
-
-
-        Button close_btn = (Button) d.findViewById(R.id.continueButton);
-        close_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                d.dismiss();
-            }
-        });
-    }
 
     public void promptForPasswordForNewAccount() {
         final Dialog d = new Dialog(this);

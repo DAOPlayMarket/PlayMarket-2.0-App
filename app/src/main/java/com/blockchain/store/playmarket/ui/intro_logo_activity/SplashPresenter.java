@@ -101,20 +101,6 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
         view.onLocationReady();
     }
 
-    private void onNearestNodeFound(ResponseBody responseBody) {
-        Log.d(TAG, "onNearestNodeFound() called with: responseBody = [" + responseBody + "]");
-        if (!nearestNodeSubscription.isUnsubscribed()) {
-            nearestNodeSubscription.unsubscribe();
-        }
-
-    }
-
-    private void onNearestNodeFound(String nearestNodeIp) {
-        Log.d(TAG, "onNearestNodeFound() called with: nearestNodeIp = [" + nearestNodeIp + "]");
-        RestApi.setServerEndpoint(nearestNodeIp);
-        view.onLocationReady();
-    }
-
     private void onNearestNodeFail(Throwable throwable) {
         Log.d(TAG, "onNearestNodeFail() called with: throwable = [" + throwable + "]");
         view.setStatusText(R.string.search_for_node_fail);

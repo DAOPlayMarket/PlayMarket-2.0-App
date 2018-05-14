@@ -22,6 +22,7 @@ import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelco
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
+import com.orhanobut.hawk.Hawk;
 
 import org.ethereum.geth.Account;
 
@@ -131,7 +132,6 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
     @Override
     public void showDialogConfirmImport(String fileData) {
         View view = getLayoutInflater().inflate(R.layout.password_prompt_dialog, null);
-
         confirmImportDialog = new AlertDialog.Builder(this)
                 .setView(view)
                 .setCancelable(false)
