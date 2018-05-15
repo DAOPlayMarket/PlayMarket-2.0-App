@@ -36,6 +36,8 @@
     <color name="exchange_main_bg_color">#cdf0ea</color>
     <color name="green_color">#06a880</color>
     <color name="exchange_dot_color">#064139</color>
+    <color name="light_green_background_color">#1405b297</color>
+    <color name="light_gray_background_color">#14828786</color>
 
 
 </resources>

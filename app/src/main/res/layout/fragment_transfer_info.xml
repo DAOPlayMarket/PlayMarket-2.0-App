@@ -194,18 +194,16 @@
         android:id="@+id/info_linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:layout_marginEnd="100dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
         android:layout_weight="1"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/amount_linearLayout"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.466">
 
         <TextView
             android:layout_width="match_parent"
@@ -238,7 +236,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            tools:text = "0xdB2301db944a59680619F86017418EBb10b9DE4b"/>
+            tools:text="0xdB2301db944a59680619F86017418EBb10b9DE4b" />
 
         <TextView
             android:layout_width="match_parent"
@@ -250,8 +248,8 @@
             android:id="@+id/recipient_address_info_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text = "0xdB2301db944a59680619F86017418EBb10b9DE4b"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:text="0xdB2301db944a59680619F86017418EBb10b9DE4b" />
     </LinearLayout>
 
 

@@ -56,6 +56,8 @@ android {
 
 dependencies {
 
+    implementation 'com.mattprecious.swirl:swirl:1.1.0'
+
     implementation 'com.mtramin:rxfingerprint:2.2.1'
 
     implementation 'com.github.kenglxn.QRGen:android:2.4.0'

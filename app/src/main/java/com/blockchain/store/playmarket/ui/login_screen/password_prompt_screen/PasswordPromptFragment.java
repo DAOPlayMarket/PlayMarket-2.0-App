@@ -4,11 +4,16 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.interfaces.LoginPromptCallback;
@@ -30,8 +35,12 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
     private LoginViewModel loginViewModel;
     private String jsonData;
 
-    @BindView(R.id.password_editText)
-    EditText passwordEditText;
+    @BindView(R.id.password_editText) EditText passwordEditText;
+    @BindView(R.id.available_fingerprint_imageView) ImageView availableFingerImageView;
+    @BindView(R.id.not_available_fingerprint_imageView) ImageView notAvailableFingerImageView;
+    @BindView(R.id.info_textView) TextView infoTextView;
+    @BindView(R.id.fingerprint_layout) LinearLayout fingerPrintLayout;
+    @BindView(R.id.configure_fingerprint_button) Button configureFingerprintButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,64 +55,34 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
         presenter = new PasswordPromptPresenter();
         presenter.init(this);
 
+        fingerprintAvailable();
+
         loginViewModel = ViewModelProviders.of(getActivity()).get(LoginViewModel.class);
         loginViewModel.jsonData.observe(getActivity(), s -> jsonData = s);
 
         return view;
     }
 
-    @OnClick(R.id.cancel_login_button)
-    void cancelLoginButtonClicked() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        fingerprintAvailable();
+    }
+
+    @OnClick(R.id.cancel_login_button) void cancelLoginButtonClicked() {
         loginViewModel.jsonData.setValue(null);
         loginViewModel.accountPassword.setValue(null);
         loginPromptCallback.openWelcomeFragment();
     }
 
-    @OnClick(R.id.continue_login_button)
-    void continueLoginButtonClicked() {
-        if (jsonData == null) {
-            if (passwordEditText.getText().toString().isEmpty()) {
-                passwordEditText.setError(getResources().getString(R.string.empty_password));
-            } else if (passwordEditText.getText().length() < 7) {
-                passwordEditText.setError(getResources().getString(R.string.short_password));
-            } else {
-                if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.NOT_SUPPORTED)) {
-                    String address = presenter.createNewAccount(passwordEditText.getText().toString());
-                    openWelcomeActivity(address);
-                }
-                else {
-                    loginViewModel.accountPassword.setValue(passwordEditText.getText().toString());
-                    loginPromptCallback.openFingerprintConfigFragment();
-                }
-            }
-
-        } else {
-            if (presenter.importAccount(jsonData, passwordEditText.getText().toString())) {
-                if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.NOT_SUPPORTED)) {
-                    goToMainActivity();
-                    ToastUtil.showToast(R.string.import_successful);
-                }
-                else{
-                    loginViewModel.accountPassword.setValue(passwordEditText.getText().toString());
-                    loginPromptCallback.openFingerprintConfigFragment();
-                }
-            } else {
-                passwordEditText.setError(getResources().getString(R.string.wrong_password));
-            }
-        }
+    @OnClick(R.id.continue_login_button) void continueLoginButtonClicked() {
+        if (jsonData == null) createNewAccount();
+        else importAccount(jsonData);
     }
 
-    public void goToMainActivity() {
-        startActivity(new Intent(getContext(), MainMenuActivity.class));
-        getActivity().finish();
+    @OnClick(R.id.configure_fingerprint_button) void configureButtonClicked(){
+        startActivity(new Intent(Settings.ACTION_SECURITY_SETTINGS));
     }
-
-    public void openWelcomeActivity(String address) {
-        Intent intent = new Intent(getContext(), NewUserWelcomeActivity.class);
-        intent.putExtra(Constants.WELCOME_ACTIVITY_ADDRESS_EXTRA, address);
-        startActivity(intent);
-    }
-
 
     @Override
     public void onAttach(Context context) {
@@ -117,5 +96,78 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
     public void showToast(Boolean success) {
         if (success) ToastUtil.showToast(R.string.success_autosave_message);
         else ToastUtil.showToast(R.string.failed_autosave_message);
+    }
+
+    private void openMainActivity() {
+        startActivity(new Intent(getContext(), MainMenuActivity.class));
+        getActivity().finish();
+    }
+
+    private void openWelcomeActivity(String address) {
+        Intent intent = new Intent(getContext(), NewUserWelcomeActivity.class);
+        intent.putExtra(Constants.WELCOME_ACTIVITY_ADDRESS_EXTRA, address);
+        startActivity(intent);
+    }
+
+    private void openFingerprintConfiguringFragment() {
+        loginViewModel.accountPassword.setValue(passwordEditText.getText().toString());
+        loginPromptCallback.openFingerprintConfigFragment();
+    }
+
+    private void createNewAccount() {
+        if (checkPasswordForNewAccount()) {
+            String address = presenter.createNewAccount(passwordEditText.getText().toString());
+            if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.READY))
+                openFingerprintConfiguringFragment();
+            else openWelcomeActivity(address);
+        }
+    }
+
+    private void importAccount(String accountData) {
+        if (presenter.importAccount(accountData, passwordEditText.getText().toString())) {
+            if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.READY))
+                openFingerprintConfiguringFragment();
+            else {
+                openMainActivity();
+                ToastUtil.showToast(R.string.import_successful);
+            }
+        } else {
+            passwordEditText.setError(getResources().getString(R.string.wrong_password));
+        }
+    }
+
+    private boolean checkPasswordForNewAccount() {
+        if (passwordEditText.getText().toString().isEmpty()) {
+            passwordEditText.setError(getResources().getString(R.string.empty_password));
+            return false;
+        } else if (passwordEditText.getText().length() < 7) {
+            passwordEditText.setError(getResources().getString(R.string.short_password));
+            return false;
+        }
+        return true;
+    }
+
+    private void fingerprintAvailable() {
+
+        if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.NOT_SUPPORTED))
+            fingerPrintLayout.setVisibility(View.GONE);
+
+        else if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.NO_FINGERPRINTS)) {
+            fingerPrintLayout.setBackgroundColor(getResources().getColor(R.color.light_gray_background_color));
+            infoTextView.setText(getResources().getString(R.string.is_not_configured));
+            infoTextView.setTextColor(getResources().getColor(R.color.exchange_gray_text_color));
+            configureFingerprintButton.setVisibility(View.VISIBLE);
+            availableFingerImageView.setVisibility(View.GONE);
+            notAvailableFingerImageView.setVisibility(View.VISIBLE);
+
+        } else if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.READY)) {
+            fingerPrintLayout.setBackgroundColor(getResources().getColor(R.color.light_green_background_color));
+            infoTextView.setTextColor(getResources().getColor(R.color.green_color));
+            infoTextView.setText(getResources().getString(R.string.is_available));
+            configureFingerprintButton.setVisibility(View.GONE);
+            availableFingerImageView.setVisibility(View.VISIBLE);
+            notAvailableFingerImageView.setVisibility(View.GONE);
+
+        }
     }
 }

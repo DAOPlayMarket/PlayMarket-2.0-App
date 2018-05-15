@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,10 +8,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
         android:layout_marginBottom="40dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
 
         <TextView
@@ -88,18 +87,19 @@
             android:gravity="center"
             android:padding="10dp"
             android:textSize="13sp"
-            tools:text = "0xdB2301db944a59680619F86017418EBb10b9DE4b" />
+            tools:text="0xdB2301db944a59680619F86017418EBb10b9DE4b" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/password_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
-        android:layout_marginBottom="20dp"
-        android:orientation="vertical"
         android:descendantFocusability="beforeDescendants"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -117,41 +117,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
+                android:inputType="textPassword"
                 android:maxLength="42"
                 android:textSize="14sp"
-                tools:ignore="TextFields"
-                android:inputType="textPassword"/>
+                tools:ignore="TextFields" />
 
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/fingerprint_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#1405b297"
+        android:background= "@color/light_green_background_color"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="30dp"
-            android:src="@drawable/fingerprint" />
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/available_fingerprint" />
 
         <TextView
+            android:id="@+id/transaction_state_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="30dp"
             android:text="@string/press_sensor_to_complete"
             android:textColor="@color/green_color"
             android:textSize="14sp" />
 
         <Button
             android:id="@+id/use_password_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="@color/Clear"

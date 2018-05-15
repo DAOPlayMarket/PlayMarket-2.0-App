@@ -161,7 +161,10 @@
     <string name="about_activate">Touch the fingerprint scanner to activate the fingerprint authentication</string>
     <string name="remind">Remind me later</string>
     <string name="do_not_activate">Do not activate</string>
-    <string name="enable_fingerprint">You can enable \nfingerprint authentication</string>
-    <string name="press_sensor_to_complete">"Press your sensor \nto complete transaction"</string>
-    <string name="use_password"><u>"Use password"</u></string>
+    <string name="enable_fingerprint">Enable fingerprint \nauthentication?</string>
+    <string name="press_sensor_to_complete">Press your sensor \nto complete transaction</string>
+    <string name="use_password"><u>Use password</u></string>
+    <string name="is_available">You can use fingerprint \nauthentication</string>
+    <string name="is_not_configured">Fingerprint supported \nbut not configured for device</string>
+    <string name="configure_button">Configure fingerprint?</string>
 </resources>
