@@ -9,6 +9,9 @@ import com.blockchain.store.playmarket.repositories.BalanceRepository;
 import com.blockchain.store.playmarket.repositories.TransferRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
+import java.net.ConnectException;
+import java.net.UnknownHostException;
+
 public class RemoteService extends IntentService {
     private static final String TAG = "RemoteService";
     private static final String EXTRA_METHOD_NAME = "method_name";
@@ -19,10 +22,13 @@ public class RemoteService extends IntentService {
     private static final String EXTRA_METHOD_ERROR = "method_extra_error";
     private static final String REMOTE_INTENT_NAME = "RemoteService";
     private static final String USER_NOT_PROVIDED_ERROR = "user_not_provided_error";
+    private static final String UNKNOWN_HOST_EXCEPTION = "unknown_host_exception";
 
     private static final String VALUE_TRANSFER_AMOUNT = "transfer_amount";
     private static final String VALUE_RECIPIENT_ADDRESS = "recipient_address";
     private static final String VALUE_PASSWORD = "user_password";
+
+    public static final String WRONG_PASSWORD_ERROR = "password_wrong_error";
 
     public RemoteService() {
         super("RemoteService");
@@ -32,10 +38,12 @@ public class RemoteService extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         if (intent != null && intent.hasExtra(EXTRA_METHOD_NAME)) {
             if (AccountManager.getAccount() == null) {
-                sendNoUserIntent(EXTRA_METHOD_NAME);
+                sendNoUserIntent(USER_NOT_PROVIDED_ERROR);
                 return;
             }
             switch (intent.getStringExtra(EXTRA_METHOD_NAME)) {
+                case METHOD_GET_ACCOUNT:
+                    sendUserAddress(AccountManager.getAccount().getAddress().getHex());
                 case METHOD_GET_BALANCE:
                     new BalanceRepository().getAccountBalance().subscribe(this::onUserBalanceReady, this::onUserBalanceError);
                     sendUserAddress(AccountManager.getAccount().getAddress().getHex());
@@ -77,7 +85,11 @@ public class RemoteService extends IntentService {
 
     private void onTransactionFailed(Throwable throwable) {
         Intent outerIntent = getOuterIntent(METHOD_TRANSACTION);
-        outerIntent.putExtra(EXTRA_METHOD_ERROR, throwable);
+        if (throwable instanceof UnknownHostException || throwable instanceof ConnectException) {
+            outerIntent.putExtra(EXTRA_METHOD_ERROR, UNKNOWN_HOST_EXCEPTION);
+        } else {
+            outerIntent.putExtra(EXTRA_METHOD_ERROR, throwable.getMessage());
+        }
         sendBroadCast(outerIntent);
     }
 
@@ -89,7 +101,11 @@ public class RemoteService extends IntentService {
 
     private void onUserBalanceError(Throwable throwable) {
         Intent outerIntent = getOuterIntent(METHOD_GET_BALANCE);
-        outerIntent.putExtra(EXTRA_METHOD_ERROR, throwable);
+        if (throwable instanceof UnknownHostException || throwable instanceof ConnectException) {
+            outerIntent.putExtra(EXTRA_METHOD_ERROR, UNKNOWN_HOST_EXCEPTION);
+        } else {
+            outerIntent.putExtra(EXTRA_METHOD_ERROR, throwable.getMessage());
+        }
         sendBroadCast(outerIntent);
     }
 

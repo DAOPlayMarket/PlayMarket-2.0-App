@@ -4,7 +4,9 @@ import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.services.RemoteService;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
 import org.ethereum.geth.Account;
@@ -23,7 +25,7 @@ public class TransferRepository {
                         String transaction = generateTransaction(accountInfoResponse, transferAmountInWei, recipientAddress);
                         return RestApi.getServerApi().transferTheAmount(transaction);
                     } else {
-                        throw new RuntimeException("Password is wrong");
+                        throw new IllegalArgumentException(RemoteService.WRONG_PASSWORD_ERROR);
                     }
                 })
                 .subscribeOn(Schedulers.newThread())

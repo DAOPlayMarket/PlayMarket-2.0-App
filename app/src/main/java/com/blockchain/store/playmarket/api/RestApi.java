@@ -1,12 +1,15 @@
 package com.blockchain.store.playmarket.api;
 
 import android.util.Log;
+import android.util.Pair;
 
+import com.blockchain.store.playmarket.data.entities.Node;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.security.cert.CertificateException;
+import java.util.Observable;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
@@ -20,6 +23,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -39,6 +43,7 @@ public class RestApi {
 
     private static final String PLAYMARKET_BASE_URL = ".playmarket.io";
     private static final String TAG = "RestApi";
+    private static final String AVAILABILITY_REQUEST_NAME = "/api/availability";
 
     private static String PORT_SUFFIX = ":3000";
     private static String nodeUrl = "https://n";
@@ -102,6 +107,12 @@ public class RestApi {
         Log.d(TAG, "setServerEndpoint: " + SERVER_ENDPOINT);
     }
 
+    public static String getCheckUrlEndpointByNode(String nodeAddress) {
+        String resultUrl = nodeUrl + nodeAddress + PLAYMARKET_BASE_URL + PORT_SUFFIX + AVAILABILITY_REQUEST_NAME;
+        Log.d(TAG, "getCheckUrlEndpointByNode() called with: nodeAddress = [" + resultUrl + "]");
+        return resultUrl;
+    }
+
     public static SSLSocketFactory getSllSocketFactory() {
         // Install the all-trusting trust manager
         final SSLContext sslContext;
@@ -130,4 +141,5 @@ public class RestApi {
             return null;
         }
     }
+
 }
