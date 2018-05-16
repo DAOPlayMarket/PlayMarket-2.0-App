@@ -37,10 +37,12 @@ public class RestApi {
     public static final String BASE_URL_INFURA = "https://rinkeby.infura.io/iYGysj5Sns7HV42MdiXi/";
     public static final String CHANGELLY_ENDPOINT = "https://api.changelly.com";
 
+
     public static String SERVER_ENDPOINT = "https://192.168.11.186:3000";
     public static String BASE_URL = SERVER_ENDPOINT + "/api/";
     public static String ICON_URL = SERVER_ENDPOINT + "/data/";
 
+    private static String DEBUG_SERVER_ENDPOINT = "https://192.168.11.186:3000";
     private static final String PLAYMARKET_BASE_URL = ".playmarket.io";
     private static final String TAG = "RestApi";
     private static final String AVAILABILITY_REQUEST_NAME = "/api/availability";
@@ -49,6 +51,7 @@ public class RestApi {
     private static String nodeUrl = "https://n";
     private static ServerApi restApi;
     private static ChangellyApi changellyApi;
+    private static ServerApi customApi;
 
     public static ServerApi getServerApi() {
         if (restApi == null) {
@@ -63,6 +66,14 @@ public class RestApi {
         }
         return changellyApi;
     }
+
+    public static ServerApi getCustomUrlApi(String url) {
+        if (customApi == null) {
+            setupWithCustomUrl(url);
+        }
+        return customApi;
+    }
+
 
     private static void setupWithRest() {
         Log.d(TAG, "setupWithRest: " + BASE_URL);
@@ -107,8 +118,15 @@ public class RestApi {
         Log.d(TAG, "setServerEndpoint: " + SERVER_ENDPOINT);
     }
 
+    public static void setDebugEndpoint() {
+        SERVER_ENDPOINT = DEBUG_SERVER_ENDPOINT;
+        BASE_URL = SERVER_ENDPOINT + "/api/";
+        ICON_URL = SERVER_ENDPOINT + "/data/";
+        Log.d(TAG, "setServerEndpoint: " + SERVER_ENDPOINT);
+    }
+
     public static String getCheckUrlEndpointByNode(String nodeAddress) {
-        String resultUrl = nodeUrl + nodeAddress + PLAYMARKET_BASE_URL + PORT_SUFFIX + AVAILABILITY_REQUEST_NAME;
+        String resultUrl = nodeUrl + nodeAddress + PLAYMARKET_BASE_URL + PORT_SUFFIX + "/";
         Log.d(TAG, "getCheckUrlEndpointByNode() called with: nodeAddress = [" + resultUrl + "]");
         return resultUrl;
     }
@@ -140,6 +158,26 @@ public class RestApi {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    private static void setupWithCustomUrl(String url) {
+        Log.d(TAG, "setupWithRest: " + BASE_URL);
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .hostnameVerifier((hostname, session) -> true)
+                .sslSocketFactory(getSllSocketFactory()).build();
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapterFactory(new ResultAdapterFactory()).create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(url)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(client)
+                .build();
+        customApi = retrofit.create(ServerApi.class);
     }
 
 }

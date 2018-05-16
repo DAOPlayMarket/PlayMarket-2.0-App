@@ -70,6 +70,7 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
     }
 
     @OnClick(R.id.cancel_login_button) void cancelLoginButtonClicked() {
+        passwordEditText.setText("");
         loginViewModel.jsonData.setValue(null);
         loginViewModel.accountPassword.setValue(null);
         loginPromptCallback.openWelcomeFragment();

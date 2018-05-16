@@ -119,9 +119,9 @@ public class NodeUtils {
                 for (Node node : nearestNodeIP) {
                     Response<ResponseBody> execute = null;
                     try {
-                        execute = RestApi.getServerApi().checkAvailability(RestApi.getCheckUrlEndpointByNode(node.address)).execute();
+                        execute = RestApi.getCustomUrlApi(RestApi.getCheckUrlEndpointByNode(node.address)).checkAvailability().execute();
                     } catch (Exception e) {
-
+                        e.printStackTrace();
                     }
                     if (execute != null && execute.isSuccessful()) {
                         subscriber.onNext(node);
@@ -136,7 +136,6 @@ public class NodeUtils {
     }
 
     private static class NodeComparator implements Comparator<Node> {
-
         Location origin;
 
         NodeComparator(Location origin) {
@@ -146,5 +145,6 @@ public class NodeUtils {
         public int compare(Node left, Node right) {
             return Float.compare(origin.distanceTo(left.location), origin.distanceTo(right.location));
         }
+
     }
 }

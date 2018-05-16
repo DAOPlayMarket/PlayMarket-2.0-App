@@ -4,44 +4,14 @@ import android.content.Context;
 import android.location.Location;
 import android.os.Build;
 import android.util.Log;
-import android.util.Pair;
 
-import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.content.LocationManager;
-import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
-import com.blockchain.store.playmarket.data.entities.ChangellyCurrenciesResponse;
-import com.blockchain.store.playmarket.data.entities.ChangellyBaseBody;
-import com.blockchain.store.playmarket.data.entities.ChangellyMinimumAmountResponse;
 import com.blockchain.store.playmarket.data.entities.Node;
-import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
-import com.blockchain.store.playmarket.utilities.AccountManager;
-import com.blockchain.store.playmarket.utilities.FileUtils;
-import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.net.NodeUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.ethereum.geth.Account;
-import org.ethereum.geth.BigInt;
-import org.ethereum.geth.Geth;
-import org.ethereum.geth.Transaction;
-import org.web3j.crypto.Credentials;
-import org.web3j.crypto.ECKeyPair;
-import org.web3j.crypto.Wallet;
-import org.web3j.crypto.WalletFile;
-import org.web3j.crypto.WalletUtils;
-import org.web3j.protocol.ObjectMapperFactory;
-
-import java.io.File;
-import java.util.ArrayList;
-
-import io.ethmobile.ethdroid.EthDroid;
-import io.ethmobile.ethdroid.Utils;
-import okhttp3.ResponseBody;
-import rx.Observable;
-import rx.Single;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;

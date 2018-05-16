@@ -86,6 +86,6 @@ public interface ServerApi {
     @POST("search")
     Observable<ArrayList<App>> getSearchResult(@Field("query") String query);
 
-    @GET()
-    Call<ResponseBody> checkAvailability(@Url String url);
+    @GET("api/availability")
+    Call<ResponseBody> checkAvailability();
 }

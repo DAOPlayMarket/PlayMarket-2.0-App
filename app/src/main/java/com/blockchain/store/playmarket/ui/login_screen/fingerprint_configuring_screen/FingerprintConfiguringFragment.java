@@ -46,6 +46,9 @@ public class FingerprintConfiguringFragment extends Fragment {
         loginViewModel = ViewModelProviders.of(getActivity()).get(LoginViewModel.class);
 
         loginViewModel.accountPassword.observe(getActivity(), s -> {
+            if(s == null || s.isEmpty()){
+                return;
+            }
             accountPassword = s;
             encryptData();
         });
