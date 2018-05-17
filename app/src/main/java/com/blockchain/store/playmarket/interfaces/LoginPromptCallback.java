@@ -5,7 +5,4 @@ public interface LoginPromptCallback {
     void openWelcomeFragment();
 
     void openPasswordPromptFragment();
-
-    void openFingerprintConfigFragment();
-
 }

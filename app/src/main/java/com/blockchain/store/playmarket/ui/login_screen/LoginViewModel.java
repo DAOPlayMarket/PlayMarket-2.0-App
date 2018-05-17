@@ -6,8 +6,4 @@ import android.arch.lifecycle.ViewModel;
 public class LoginViewModel extends ViewModel {
 
     public MutableLiveData<String> jsonData = new MutableLiveData<>();
-
-    public MutableLiveData<String> accountPassword = new MutableLiveData<>();
-
-
 }

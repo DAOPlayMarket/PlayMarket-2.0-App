@@ -14,9 +14,8 @@ import android.widget.Toast;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.UserListAdapter;
 import com.blockchain.store.playmarket.interfaces.LoginPromptCallback;
-import com.blockchain.store.playmarket.ui.login_screen.fingerprint_configuring_screen.FingerprintConfiguringFragment;
-import com.blockchain.store.playmarket.ui.login_screen.welcome_screen.WelcomeFragment;
 import com.blockchain.store.playmarket.ui.login_screen.password_prompt_screen.PasswordPromptFragment;
+import com.blockchain.store.playmarket.ui.login_screen.welcome_screen.WelcomeFragment;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
@@ -52,19 +51,13 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         loginAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         loginAdapter.addFragment(new WelcomeFragment());
         loginAdapter.addFragment(new PasswordPromptFragment());
-        loginAdapter.addFragment(new FingerprintConfiguringFragment());
         loginViewPager.setAdapter(loginAdapter);
 
         if (AccountManager.isHasUsers()) {
-            goToMainActivity(null);
+            openMainActivity(null);
         } else {
             if (presenter.checkJsonFileExists()) showImportUserDialog();
         }
-    }
-
-    public void goToMainActivity(View view) {
-        startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
-        finish();
     }
 
     @Override
@@ -116,17 +109,16 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
     }
 
     @Override
-    public void openFingerprintConfigFragment() {
-        loginViewPager.setCurrentItem(2, true);
-    }
-
-    @Override
     public void onBackPressed() {
         if (loginViewPager.getCurrentItem() == 1) {
+
             loginViewModel.jsonData.setValue(null);
-            loginViewModel.accountPassword.setValue(null);
             openWelcomeFragment();
-        }
-        else if (loginViewPager.getCurrentItem() == 0) super.onBackPressed();
+        } else if (loginViewPager.getCurrentItem() == 0) super.onBackPressed();
+    }
+
+    public void openMainActivity(View view) {
+        startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
+        finish();
     }
 }

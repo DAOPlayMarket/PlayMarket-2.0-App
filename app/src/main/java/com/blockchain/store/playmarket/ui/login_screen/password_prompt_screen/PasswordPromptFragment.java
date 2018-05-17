@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.content.res.AppCompatResources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.interfaces.LoginPromptCallback;
+import com.blockchain.store.playmarket.ui.login_screen.FingerprintConfiguringActivity;
 import com.blockchain.store.playmarket.ui.login_screen.LoginViewModel;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
@@ -30,6 +33,9 @@ import butterknife.OnClick;
 
 public class PasswordPromptFragment extends Fragment implements PasswordPromptContract.View {
 
+    public final static String ACCOUNT_PASSWORD = "account_password";
+    public final static String NEW_ACCOUNT = "new_account";
+
     private LoginPromptCallback loginPromptCallback;
     private PasswordPromptPresenter presenter;
     private LoginViewModel loginViewModel;
@@ -41,6 +47,7 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
     @BindView(R.id.info_textView) TextView infoTextView;
     @BindView(R.id.fingerprint_layout) LinearLayout fingerPrintLayout;
     @BindView(R.id.configure_fingerprint_button) Button configureFingerprintButton;
+    @BindView(R.id.password_textInputLayout) TextInputLayout passwordTextInputLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,10 +77,7 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
     }
 
     @OnClick(R.id.cancel_login_button) void cancelLoginButtonClicked() {
-        passwordEditText.setText("");
-        loginViewModel.jsonData.setValue(null);
-        loginViewModel.accountPassword.setValue(null);
-        loginPromptCallback.openWelcomeFragment();
+        clearScreenData();
     }
 
     @OnClick(R.id.continue_login_button) void continueLoginButtonClicked() {
@@ -110,42 +114,61 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
         startActivity(intent);
     }
 
-    private void openFingerprintConfiguringFragment() {
-        loginViewModel.accountPassword.setValue(passwordEditText.getText().toString());
-        loginPromptCallback.openFingerprintConfigFragment();
+    private void openFingerprintActivity(){
+        String accountPassword = passwordEditText.getText().toString();
+
+        Intent intent = new Intent(getContext(), FingerprintConfiguringActivity.class);
+        intent.putExtra(ACCOUNT_PASSWORD, accountPassword);
+        if (jsonData == null) intent.putExtra(NEW_ACCOUNT, true);
+        else intent.putExtra(NEW_ACCOUNT, false);
+        startActivity(intent);
     }
 
     private void createNewAccount() {
         if (checkPasswordForNewAccount()) {
             String address = presenter.createNewAccount(passwordEditText.getText().toString());
             if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.READY))
-                openFingerprintConfiguringFragment();
+                openFingerprintActivity();
             else openWelcomeActivity(address);
         }
     }
 
     private void importAccount(String accountData) {
         if (presenter.importAccount(accountData, passwordEditText.getText().toString())) {
-            if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.READY))
-                openFingerprintConfiguringFragment();
-            else {
+            if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.READY)){
+                openFingerprintActivity();
+            } else {
                 openMainActivity();
                 ToastUtil.showToast(R.string.import_successful);
             }
         } else {
-            passwordEditText.setError(getResources().getString(R.string.wrong_password));
+            passwordTextInputLayout.setError(getResources().getString(R.string.wrong_password));
         }
     }
 
     private boolean checkPasswordForNewAccount() {
         if (passwordEditText.getText().toString().isEmpty()) {
-            passwordEditText.setError(getResources().getString(R.string.empty_password));
-            return false;
-        } else if (passwordEditText.getText().length() < 7) {
-            passwordEditText.setError(getResources().getString(R.string.short_password));
+            showPasswordError(getResources().getString(R.string.empty_password));
+        return false;
+    }
+            else if (passwordEditText.getText().length() < 7) {
+            showPasswordError(getResources().getString(R.string.short_password));
             return false;
         }
         return true;
+    }
+
+    private void showPasswordError(String errorText){
+        passwordTextInputLayout.setPasswordVisibilityToggleTintList(AppCompatResources.getColorStateList(getContext(), R.color.red_error_color));
+        passwordTextInputLayout.setError(errorText);
+    }
+
+    private void clearScreenData(){
+        passwordTextInputLayout.setPasswordVisibilityToggleTintList(AppCompatResources.getColorStateList(getContext(), R.color.green_color));
+        passwordEditText.setText("");
+        passwordTextInputLayout.setError("");
+        loginViewModel.jsonData.setValue(null);
+        loginPromptCallback.openWelcomeFragment();
     }
 
     private void fingerprintAvailable() {
@@ -168,7 +191,6 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
             configureFingerprintButton.setVisibility(View.GONE);
             availableFingerImageView.setVisibility(View.VISIBLE);
             notAvailableFingerImageView.setVisibility(View.GONE);
-
         }
     }
 }

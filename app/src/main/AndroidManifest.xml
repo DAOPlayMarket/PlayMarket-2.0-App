@@ -104,10 +104,10 @@
         <activity android:name=".utilities.QRCodeScannerActivity" />
 
         <service
-            android:name="com.blockchain.store.playmarket.services.RemoteService"
+            android:name=".services.RemoteService"
             android:exported="true" />
 
-
+        <activity android:name=".ui.login_screen.FingerprintConfiguringActivity"></activity>
     </application>
 
 </manifest>
