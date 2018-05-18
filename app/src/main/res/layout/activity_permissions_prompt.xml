@@ -55,13 +55,14 @@
 
     <Button
         android:id="@+id/create_account_button"
-        style="@style/Widget.AppCompat.Button.Colored"
+        android:background="@drawable/round_corner_green_button"
         android:layout_width="0dp"
         android:layout_height="62dp"
         android:layout_marginEnd="46dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="46dp"
+        android:textColor="@color/white"
         android:onClick="requestPermissions"
         android:text="@string/got_it_btn"
         app:layout_constraintBottom_toBottomOf="parent"
