@@ -141,9 +141,7 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
                 openMainActivity();
                 ToastUtil.showToast(R.string.import_successful);
             }
-        } else {
-            passwordTextInputLayout.setError(getResources().getString(R.string.wrong_password));
-        }
+        } else showPasswordError(getResources().getString(R.string.wrong_password));
     }
 
     private boolean checkPasswordForNewAccount() {
@@ -173,8 +171,10 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
 
     private void fingerprintAvailable() {
 
-        if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.NOT_SUPPORTED))
+        if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.NOT_SUPPORTED)) {
+            configureFingerprintButton.setVisibility(View.GONE);
             fingerPrintLayout.setVisibility(View.GONE);
+        }
 
         else if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.NO_FINGERPRINTS)) {
             fingerPrintLayout.setBackgroundColor(getResources().getColor(R.color.light_gray_background_color));

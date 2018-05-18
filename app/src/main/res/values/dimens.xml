@@ -25,4 +25,5 @@
     <dimen name="QR_AVATAR_SIZE_LARGE">200dp</dimen>
     <dimen name="exchange_dialog_large_margin">20dp</dimen>
     <dimen name="exchange_transaction_amount_large">22sp</dimen>
+    <dimen name="perimeter_layout_margin">15dp</dimen>
 </resources>
