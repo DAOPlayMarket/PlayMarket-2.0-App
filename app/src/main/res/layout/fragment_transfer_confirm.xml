@@ -34,7 +34,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/amount_info_textView"
+                android:id="@+id/amount_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
@@ -88,42 +88,49 @@
             tools:text="0xdB2301db944a59680619F86017418EBb10b9DE4b" />
     </LinearLayout>
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/password_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/perimeter_layout_margin"
-        android:layout_marginEnd="@dimen/perimeter_layout_margin"
-        android:layout_marginStart="@dimen/perimeter_layout_margin"
-        android:textSize="14sp"
-        android:text="@string/transfer_confirm_transaction"/>
+        android:visibility="gone"
+        android:layout_margin="@dimen/perimeter_layout_margin"
+        android:orientation="vertical">
 
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/password_textInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/perimeter_layout_margin"
-        android:layout_marginStart="@dimen/perimeter_layout_margin"
-        app:errorEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/green_color">
-
-        <EditText
-            android:id="@+id/password_editText"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/imageView6"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            android:layout_marginBottom="10dp"
+            android:text="@string/transfer_confirm_transaction"
+            android:textSize="14sp" />
 
-    </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/password_textInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/green_color">
+
+            <EditText
+                android:id="@+id/password_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/imageView6"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/fingerprint_layout"
@@ -139,8 +146,8 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="30dp"
-            android:src="@drawable/available_fingerprint"
-            android:contentDescription="@string/todo" />
+            android:contentDescription="@string/todo"
+            android:src="@drawable/available_fingerprint" />
 
         <TextView
             android:id="@+id/transaction_state_textView"
@@ -150,7 +157,7 @@
             android:layout_marginEnd="30dp"
             android:text="@string/press_sensor_to_complete"
             android:textColor="@color/green_color"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 
@@ -158,8 +165,8 @@
         android:id="@+id/use_password_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/perimeter_layout_margin"
         android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/perimeter_layout_margin"
         android:background="@color/Clear"
         android:gravity="center_vertical"
         android:paddingEnd="@dimen/perimeter_layout_margin"

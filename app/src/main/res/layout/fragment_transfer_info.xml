@@ -11,6 +11,7 @@
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="130dp"
+        android:contentDescription="@string/todo"
         android:scaleType="centerCrop"
         android:src="@drawable/transfer_background"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,7 +23,7 @@
         android:id="@+id/linearLayout3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="15dp"
+        android:layout_margin="@dimen/perimeter_layout_margin"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/imageView3"
         app:layout_constraintEnd_toEndOf="@+id/imageView3"
@@ -31,12 +32,11 @@
         app:layout_constraintTop_toTopOf="@+id/imageView3">
 
         <TextView
-            android:id="@+id/textView8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/your_eth_address"
             android:textColor="@color/transfer_color"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/sender_address_textView"
@@ -47,12 +47,11 @@
             android:textSize="13sp" />
 
         <TextView
-            android:id="@+id/textView10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/current_balance"
             android:textColor="@color/transfer_color"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/balance_textView"
@@ -67,53 +66,47 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#1405b297"
-        android:descendantFocusability="beforeDescendants"
-        android:focusableInTouchMode="true"
-        android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/perimeter_layout_margin"
+        android:paddingStart="@dimen/perimeter_layout_margin"
+        android:paddingTop="@dimen/perimeter_layout_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3">
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        tools:ignore="RtlSymmetry">
 
 
-        <TextView
-            android:layout_width="match_parent"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/recipient_address_textInputLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:layout_marginStart="15dp"
-            android:text="@string/recipient_address"
-            android:textColor="@color/transfer_color" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="15dp"
-            android:layout_marginStart="15dp"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            app:errorEnabled="true">
 
             <EditText
                 android:id="@+id/recipient_address_editText"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:maxLength="42"
-                tools:text = "0xdB2301db944a59680619F86017418EBb10b9DE4b"
-                android:textSize="14sp" />
+                android:ellipsize="end"
+                android:hint="@string/recipient_address"
+                android:singleLine="true"
+                android:textSize="14sp"
+                tools:text="0xdB2301db944a59680619F86017418EBb10b9DE4b" />
 
-            <ImageButton
-                android:id="@+id/qr_scanner_button"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="15dp"
-                android:layout_marginStart="15dp"
-                android:background="@color/Clear"
-                android:scaleType="fitXY"
-                android:src="@drawable/qr_icon" />
+        </android.support.design.widget.TextInputLayout>
 
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/qr_scanner_button"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@color/Clear"
+            android:contentDescription="@string/todo"
+            android:scaleType="fitXY"
+            android:src="@drawable/qr_icon" />
 
     </LinearLayout>
 
@@ -121,72 +114,68 @@
         android:id="@+id/amount_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/perimeter_layout_margin"
+        android:layout_marginStart="@dimen/perimeter_layout_margin"
+        android:layout_marginTop="@dimen/perimeter_layout_margin"
         android:baselineAligned="false"
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
-        android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipient_linearLayout">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:layout_marginStart="15dp"
-            android:text="@string/amount"
-            android:textColor="@color/transfer_color" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="15dp"
-            android:layout_marginStart="15dp">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/amount_textInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:errorEnabled="true">
 
             <EditText
                 android:id="@+id/amount_editText"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:hint="@string/amount"
                 android:inputType="numberDecimal"
                 android:textSize="14sp" />
+        </android.support.design.widget.TextInputLayout>
 
-            <LinearLayout
-                android:id="@+id/dimension_linearLayout"
+        <LinearLayout
+            android:id="@+id/dimension_linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/wei_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="5dp"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                android:background="@drawable/round_corners"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:text="@string/wei" />
 
-                <TextView
-                    android:id="@+id/wei_textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/round_corners"
-                    android:gravity="center"
-                    android:paddingEnd="10dp"
-                    android:paddingStart="10dp"
-                    android:text="@string/wei" />
-
-                <TextView
-                    android:id="@+id/eth_textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/round_corners"
-                    android:gravity="center"
-                    android:paddingEnd="10dp"
-                    android:paddingStart="10dp"
-                    android:text="@string/eth" />
-            </LinearLayout>
-
+            <TextView
+                android:id="@+id/eth_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/round_corners"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:text="@string/eth" />
         </LinearLayout>
-
 
     </LinearLayout>
 
@@ -200,17 +189,18 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/amount_linearLayout"
-        app:layout_constraintVertical_bias="0.466">
+        app:layout_constraintVertical_bias="0.435">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="10dp"
             android:text="@string/transaction_details"
-            android:textSize="13sp" />
+            android:textAllCaps="true"
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -218,24 +208,42 @@
             android:text="@string/send_info"
             android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/amount_info_textView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:textSize="12sp" />
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/amount_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:textSize="12sp"
+                tools:text="256" />
+
+            <TextView
+                android:id="@+id/dimension_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                tools:text="WEI" />
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/your_address"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/sender_address_info_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12sp"
+
+            android:visibility="gone"
             tools:text="0xdB2301db944a59680619F86017418EBb10b9DE4b" />
 
         <TextView
@@ -254,19 +262,19 @@
 
 
     <LinearLayout
-        tools:visibility="gone"
-        android:visibility="visible"
         android:id="@+id/error_view_holder"
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center">
+        android:background="@color/white"
+        android:gravity="center"
+        android:visibility="visible"
+        tools:visibility="gone">
 
         <include
-            android:visibility="visible"
             layout="@layout/error_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="visible" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

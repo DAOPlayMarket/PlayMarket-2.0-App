@@ -2,8 +2,8 @@ package com.blockchain.store.playmarket.ui.transfer_screen.transfer_info_screen;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.view.LayoutInflater;
@@ -27,8 +27,8 @@ import butterknife.OnTextChanged;
 
 public class TransferInfoFragment extends Fragment implements TransferInfoContract.View {
 
-    private final String ETH = "eth";
-    private final String WEI = "wei";
+    private static final String ETH = "ETH";
+    private static final String WEI = "WEI";
 
     private TransferInfoPresenter presenter;
     private BigDecimal accountBalanceInEther;
@@ -41,10 +41,13 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     @BindView(R.id.balance_textView) TextView balanceTextView;
     @BindView(R.id.sender_address_info_textView) TextView senderAddressInfoTextView;
     @BindView(R.id.recipient_address_info_textView) TextView recipientAddressInfoTextView;
-    @BindView(R.id.amount_info_textView) TextView amountInfoTextView;
+    @BindView(R.id.dimension_textView) TextView dimensionTextView;
+    @BindView(R.id.amount_textView) TextView amountTextView;
     @BindView(R.id.wei_textView) TextView weiTextView;
     @BindView(R.id.eth_textView) TextView ethTextView;
     @BindView(R.id.error_view_holder) LinearLayout errorViewHolder;
+    @BindView(R.id.recipient_address_textInputLayout) TextInputLayout recipientAddressTextInputLayout;
+    @BindView(R.id.amount_textInputLayout) TextInputLayout amountTextInputLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,11 +89,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
 
     @OnTextChanged(value = R.id.amount_editText, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     void onAmountChanged(Editable editable) {
-
-        String dimension;
-        if (isEth) dimension = "eth";
-        else (dimension) = "wei";
-        amountInfoTextView.setText(editable.toString() + " " + dimension);
+        amountTextView.setText(editable);
         transferViewModel.transferAmount.setValue(editable.toString());
     }
 
@@ -123,12 +122,13 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
 
     private void ethSelect() {
         ethTextView.setBackgroundResource(R.drawable.transfer_selected_button);
-        ethTextView.setTextColor(Color.parseColor("#ffffff"));
+        ethTextView.setTextColor(getResources().getColor(R.color.white));
 
         weiTextView.setBackgroundResource(R.drawable.transfer_unselected_button);
-        weiTextView.setTextColor(Color.parseColor("#06a880"));
+        weiTextView.setTextColor(getResources().getColor(R.color.green_color));
 
-        amountInfoTextView.setText(amountEditText.getText().toString() + " " + "eth");
+        amountTextView.setText(amountEditText.getText());
+        dimensionTextView.setText(ETH);
         transferViewModel.transferAmount.setValue(amountEditText.getText().toString());
 
         isEth = true;
@@ -138,12 +138,13 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
 
     private void weiSelect() {
         weiTextView.setBackgroundResource(R.drawable.transfer_selected_button);
-        weiTextView.setTextColor(Color.parseColor("#ffffff"));
+        weiTextView.setTextColor(getResources().getColor(R.color.white));
 
         ethTextView.setBackgroundResource(R.drawable.transfer_unselected_button);
-        ethTextView.setTextColor(Color.parseColor("#06a880"));
+        ethTextView.setTextColor(getResources().getColor(R.color.green_color));
 
-        amountInfoTextView.setText(amountEditText.getText().toString() + " " + "wei");
+        amountTextView.setText(amountEditText.getText());
+        dimensionTextView.setText(WEI);
         transferViewModel.transferAmount.setValue(amountEditText.getText().toString());
 
         isEth = false;
@@ -158,21 +159,20 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         boolean isHasNoError = true;
 
         if (recipientAddressEditText.getText().length() == 0) {
-            recipientAddressEditText.setError(getResources().getString(R.string.empty_field));
-            recipientAddressEditText.requestFocus();
+            recipientAddressTextInputLayout.setError(getResources().getString(R.string.empty_field));
             isHasNoError = false;
         } else if (recipientAddressEditText.getText().length() > 1 && recipientAddressEditText.getText().length() < 42) {
-            recipientAddressEditText.setError(getResources().getString(R.string.short_account));
-            recipientAddressEditText.requestFocus();
+            recipientAddressTextInputLayout.setError(getResources().getString(R.string.short_account));
             isHasNoError = false;
         }
+        else recipientAddressTextInputLayout.setError("");
 
         if (amountEditText.getText().length() == 0) {
-            amountEditText.setError(getResources().getString(R.string.empty_field));
-            amountEditText.requestFocus();
+            amountTextInputLayout.setError(getResources().getString(R.string.empty_field));
             emptyAmountCheck = false;
             isHasNoError = false;
         }
+        else amountTextInputLayout.setError("");
 
         if (emptyAmountCheck) {
             String transferAmount = amountEditText.getText().toString();
@@ -184,12 +184,11 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
             BigDecimal transferAmountBigDecimal = new BigDecimal(transferAmount);
             BigDecimal balanceBigDecimal = new BigDecimal(balanceAmountInEther);
             if (transferAmountBigDecimal.doubleValue() > balanceBigDecimal.doubleValue()) {
-                amountEditText.setError(getResources().getString(R.string.insufficient_funds));
-                amountEditText.requestFocus();
+                amountTextInputLayout.setError(getResources().getString(R.string.insufficient_funds));
                 isHasNoError = false;
             }
+            else amountTextInputLayout.setError("");
         }
-
         return isHasNoError;
     }
 

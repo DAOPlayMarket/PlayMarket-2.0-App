@@ -34,8 +34,6 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     private String transferAmount;
     private boolean isEth;
 
-    private Disposable fingerprintDisposable = Disposables.empty();
-
     @BindView(R.id.transfer_viewPager) NonSwipeableViewPager transferViewPager;
     @BindView(R.id.continue_transfer_button) Button continueButton;
     ViewPagerAdapter transferAdapter;
@@ -89,7 +87,6 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     }
 
     @OnClick(R.id.cancel_transfer_button) void cancelButtonClicked() {
-        setContinueButtonVisibility(View.VISIBLE);
         back();
     }
 
@@ -108,6 +105,9 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
 
     private void back() {
         if (transferViewPager.getCurrentItem() == 1) {
+            TransferConfirmFragment transferConfirmFragment = (TransferConfirmFragment) transferAdapter.getItem(1);
+            transferConfirmFragment.disposedFingerprint();
+            setContinueButtonVisibility(View.VISIBLE);
             goToTransferInfo();
         } else {
             this.finish();

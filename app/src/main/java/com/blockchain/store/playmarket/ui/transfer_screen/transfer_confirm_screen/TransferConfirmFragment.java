@@ -4,26 +4,23 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.content.res.AppCompatResources;
 import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferViewModel;
 import com.blockchain.store.playmarket.utilities.Constants;
-import com.blockchain.store.playmarket.utilities.ToastUtil;
-import com.mtramin.rxfingerprint.EncryptionMethod;
 import com.mtramin.rxfingerprint.RxFingerprint;
 import com.orhanobut.hawk.Hawk;
-
-import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,12 +34,14 @@ public class TransferConfirmFragment extends Fragment {
 
     @BindView(R.id.sender_address_info_textView) TextView senderAddressTextView;
     @BindView(R.id.recipient_address_info_textView) TextView recipientAddressTextView;
-    @BindView(R.id.amount_info_textView) TextView transferAmountTextView;
+    @BindView(R.id.amount_textView) TextView transferAmountTextView;
     @BindView(R.id.dimension_textView) TextView dimensionTextView;
-    @BindView(R.id.password_editText) EditText senderPasswordEditText;
+    @BindView(R.id.password_editText) EditText passwordEditText;
+    @BindView(R.id.password_textInputLayout) TextInputLayout passwordTextInputLayout;
     @BindView(R.id.fingerprint_layout) LinearLayout fingerprintLayout;
-    @BindView(R.id.password_layout) LinearLayout passwordLayout;
+    @BindView(R.id.password_layout)  LinearLayout passwordLayout;
     @BindView(R.id.transaction_state_textView) TextView transactionStateTextView;
+    @BindView(R.id.use_password_button) Button usePasswordButton;
 
     private Disposable fingerprintDisposable = Disposables.empty();
 
@@ -65,7 +64,7 @@ public class TransferConfirmFragment extends Fragment {
         transferViewModel.senderPassword.setValue(editable.toString());
     }
 
-    @OnClick(R.id.use_password_button) void usePasswordButtonClicked(){
+    @OnClick(R.id.use_password_button) void usePasswordButtonClicked() {
         initPassword();
     }
 
@@ -78,20 +77,22 @@ public class TransferConfirmFragment extends Fragment {
     }
 
     public void showError() {
-        senderPasswordEditText.setError(getResources().getString(R.string.wrong_password));
-        senderPasswordEditText.requestFocus();
+        passwordTextInputLayout.setPasswordVisibilityToggleTintList(AppCompatResources.getColorStateList(getContext(), R.color.red_error_color));
+        passwordTextInputLayout.setError(getResources().getString(R.string.wrong_password));
     }
 
     public void initFingerprint() {
         fingerprintLayout.setVisibility(View.VISIBLE);
+        usePasswordButton.setVisibility(View.VISIBLE);
         passwordLayout.setVisibility(View.GONE);
         enableFingerprint();
     }
 
-    public void initPassword(){
+    public void initPassword() {
         fingerprintLayout.setVisibility(View.GONE);
         passwordLayout.setVisibility(View.VISIBLE);
-        fingerprintDisposable.dispose();
+        usePasswordButton.setVisibility(View.GONE);
+        disposedFingerprint();
         ((TransferActivity) getActivity()).setContinueButtonVisibility(View.VISIBLE);
     }
 
@@ -118,5 +119,9 @@ public class TransferConfirmFragment extends Fragment {
                     }
                     Log.e("ERROR", "decrypt", throwable);
                 });
+    }
+
+    public void disposedFingerprint(){
+        fingerprintDisposable.dispose();
     }
 }
