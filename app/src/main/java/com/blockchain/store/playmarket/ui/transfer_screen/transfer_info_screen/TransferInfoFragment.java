@@ -167,7 +167,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         }
         else recipientAddressTextInputLayout.setError("");
 
-        if (amountEditText.getText().length() == 0) {
+        if (amountEditText.getText().toString().isEmpty() && !amountEditText.getText().toString().equalsIgnoreCase("0")) {
             amountTextInputLayout.setError(getResources().getString(R.string.empty_field));
             emptyAmountCheck = false;
             isHasNoError = false;

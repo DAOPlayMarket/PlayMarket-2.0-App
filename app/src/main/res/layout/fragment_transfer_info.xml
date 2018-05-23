@@ -91,6 +91,7 @@
                 android:ellipsize="end"
                 android:hint="@string/recipient_address"
                 android:singleLine="true"
+                android:maxLength="45"
                 android:textSize="14sp"
                 tools:text="0xdB2301db944a59680619F86017418EBb10b9DE4b" />
 

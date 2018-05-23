@@ -1,5 +1,7 @@
 package com.blockchain.store.playmarket.ui.login_screen;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,8 +25,25 @@ import io.reactivex.disposables.Disposables;
 
 public class FingerprintConfiguringActivity extends AppCompatActivity {
 
+    private static String START_ARGS = "start_args";
+    private boolean isStartedFromMenu = false;
     private String accountPassword;
     private Disposable fingerprintDisposable = Disposables.empty();
+
+
+    public static void startFromMenu(Activity activity, int resultCode) {
+        Intent starter = new Intent(activity.getBaseContext(), FingerprintConfiguringActivity.class);
+        starter.putExtra(START_ARGS, true);
+        activity.startActivityForResult(starter, resultCode);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (getIntent() != null) {
+            isStartedFromMenu = getIntent().getBooleanExtra(START_ARGS, false);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +51,17 @@ public class FingerprintConfiguringActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fingerprint_configuring);
 
         ButterKnife.bind(this);
-
-        accountPassword =  getIntent().getStringExtra(PasswordPromptFragment.ACCOUNT_PASSWORD);
-
+        accountPassword = getIntent().getStringExtra(PasswordPromptFragment.ACCOUNT_PASSWORD);
         encryptData();
     }
 
-    @OnClick(R.id.dont_activate_button) void doNotActivateButtonClicked(){
+    @OnClick(R.id.dont_activate_button)
+    void doNotActivateButtonClicked() {
         fingerprintDisposable.dispose();
+        if (isStartedFromMenu) {
+            finish();
+            return;
+        }
         finishFingerprintConfiguring();
     }
 
@@ -48,7 +70,7 @@ public class FingerprintConfiguringActivity extends AppCompatActivity {
                 .subscribe(fingerprintEncryptionResult -> {
                     switch (fingerprintEncryptionResult.getResult()) {
                         case FAILED:
-                            Toast.makeText(this, "Fingerprint not recognized, try again!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, R.string.fingerprint_not_recognized, Toast.LENGTH_LONG).show();
                             break;
                         case HELP:
                             Toast.makeText(this, fingerprintEncryptionResult.getMessage(), Toast.LENGTH_LONG).show();
@@ -56,7 +78,7 @@ public class FingerprintConfiguringActivity extends AppCompatActivity {
                         case AUTHENTICATED:
                             String encrypted = fingerprintEncryptionResult.getEncrypted();
                             Hawk.put(Constants.ENCRYPTED_PASSWORD, encrypted);
-                            Toast.makeText(this, "encryption successful:" + encrypted, Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, R.string.fingerprint_success, Toast.LENGTH_LONG).show();
 
                             finishFingerprintConfiguring();
                             break;
@@ -74,13 +96,16 @@ public class FingerprintConfiguringActivity extends AppCompatActivity {
                 });
     }
 
-    private void finishFingerprintConfiguring(){
+    private void finishFingerprintConfiguring() {
+        if (isStartedFromMenu) {
+            finish();
+            return;
+        }
         boolean newAccount = getIntent().getBooleanExtra(PasswordPromptFragment.NEW_ACCOUNT, true);
-        if (newAccount){
+        if (newAccount) {
             String account = AccountManager.getAddress().getHex();
             openWelcomeActivity(account);
-        }
-        else openMainActivity();
+        } else openMainActivity();
     }
 
     public void openWelcomeActivity(String address) {

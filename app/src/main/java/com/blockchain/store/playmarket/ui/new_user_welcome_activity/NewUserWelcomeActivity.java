@@ -153,8 +153,10 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     */
     @OnClick(R.id.continue_button)
     void goToMainActivity() {
-        Intent myIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
-        startActivity(myIntent);
+        if (!isLaunchedFromSettings) {
+            Intent myIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
+            startActivity(myIntent);
+        }
         finish();
     }
 

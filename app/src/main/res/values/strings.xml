@@ -110,7 +110,7 @@
     <string name="network_status_node_search">Search for the nearest node</string>
     <string name="todo">TODO</string>
     <string name="confirm_button">Confirm</string>
-    <string name="nav_view_transfer">Передать</string>
+    <string name="nav_view_transfer">Transfer</string>
     <string name="ethereum_name">ETH</string>
     <string name="performing_action">For performing this action, a password is required. Please enter it below.</string>
 
@@ -167,4 +167,6 @@
     <string name="is_available">You can use fingerprint \nauthentication</string>
     <string name="is_not_configured">Fingerprint supported \nbut not configured for device</string>
     <string name="configure_button">Configure fingerprint?</string>
+    <string name="fingerprint_success">Password successfully encrypted!</string>
+    <string name="fingerprint_not_recognized">Fingerprint not recognized, try again!</string>
 </resources>
