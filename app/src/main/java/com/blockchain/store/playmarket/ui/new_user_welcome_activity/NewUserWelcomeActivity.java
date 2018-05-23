@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.file_manager_screen.FileManagerActivity;
+import com.blockchain.store.playmarket.ui.login_screen.FingerprintConfiguringActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -37,7 +38,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     private static final String TAG = "NewUserWelcomeActivity";
     private static final String LAUNCHED_FROM_SETTINGS_PARAM = "launched_from_settings";
     private NewUserWelcomePresenter presenter;
-    private static final int CHOSE_FILE_CODE = 99;
+    private static final int FINGERPRINT_RESULT_CODE = 99;
 
     private ArrayList<File> fileList = new ArrayList<File>();
     private String currentPath = "";
@@ -45,6 +46,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     @BindView(R.id.address_text_view) TextView addressTextView;
     @BindView(R.id.NewUserWelcomeTextView) TextView newUserWelcomeNext;
     @BindView(R.id.continue_button) Button continueButton;
+    @BindView(R.id.fingerprint) TextView fingerPrintText;
 
     private boolean isLaunchedFromSettings;
 
@@ -72,8 +74,14 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     }
 
     private void setViewFromSettings() {
+        fingerPrintText.setVisibility(View.VISIBLE);
         continueButton.setText(R.string.back);
         newUserWelcomeNext.setVisibility(View.GONE);
+    }
+
+    @OnClick(R.id.fingerprint)
+    void onFingerprintClicked() {
+        FingerprintConfiguringActivity.startFromMenu(this, FINGERPRINT_RESULT_CODE);
     }
 
     /*
