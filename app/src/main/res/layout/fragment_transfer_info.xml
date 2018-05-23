@@ -44,21 +44,44 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:textColor="@color/white"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            tools:text="0xdB2301db944a59680619F86017418EBb10b9DE4b" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/current_balance"
             android:textColor="@color/transfer_color"
             android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/balance_textView"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff"
-            android:textSize="22sp" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/balance_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:singleLine="true"
+                android:textSize="22sp"
+                tools:text="1000"/>
+
+            <TextView
+                android:id="@+id/dimension_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:gravity="center_vertical"
+                tools:text="ETH"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -88,6 +111,7 @@
                 android:id="@+id/recipient_address_editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="42"
                 android:ellipsize="end"
                 android:hint="@string/recipient_address"
                 android:singleLine="true"
@@ -98,13 +122,12 @@
 
         <ImageButton
             android:id="@+id/qr_scanner_button"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
             android:background="@color/Clear"
             android:contentDescription="@string/todo"
+            android:padding="10dp"
             android:scaleType="fitXY"
             android:src="@drawable/qr_icon" />
 
@@ -222,7 +245,7 @@
                 tools:text="256" />
 
             <TextView
-                android:id="@+id/dimension_textView"
+                android:id="@+id/dimension_info_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"

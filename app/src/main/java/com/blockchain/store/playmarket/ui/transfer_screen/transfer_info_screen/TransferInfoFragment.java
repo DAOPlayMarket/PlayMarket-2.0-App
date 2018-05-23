@@ -41,6 +41,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     @BindView(R.id.balance_textView) TextView balanceTextView;
     @BindView(R.id.sender_address_info_textView) TextView senderAddressInfoTextView;
     @BindView(R.id.recipient_address_info_textView) TextView recipientAddressInfoTextView;
+    @BindView(R.id.dimension_info_textView) TextView dimensionInfoTextView;
     @BindView(R.id.dimension_textView) TextView dimensionTextView;
     @BindView(R.id.amount_textView) TextView amountTextView;
     @BindView(R.id.wei_textView) TextView weiTextView;
@@ -111,6 +112,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         errorViewHolder.setVisibility(View.GONE);
         accountBalanceInEther = new EthereumPrice(accountBalance).inEther();
         balanceTextView.setText(accountBalanceInEther.toString());
+        dimensionTextView.setText(ETH);
         transferViewModel.balance.setValue(balanceTextView.getText().toString());
 
     }
@@ -128,7 +130,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         weiTextView.setTextColor(getResources().getColor(R.color.green_color));
 
         amountTextView.setText(amountEditText.getText());
-        dimensionTextView.setText(ETH);
+        dimensionInfoTextView.setText(ETH);
         transferViewModel.transferAmount.setValue(amountEditText.getText().toString());
 
         isEth = true;
@@ -144,7 +146,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         ethTextView.setTextColor(getResources().getColor(R.color.green_color));
 
         amountTextView.setText(amountEditText.getText());
-        dimensionTextView.setText(WEI);
+        dimensionInfoTextView.setText(WEI);
         transferViewModel.transferAmount.setValue(amountEditText.getText().toString());
 
         isEth = false;

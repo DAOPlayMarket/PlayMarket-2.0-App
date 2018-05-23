@@ -57,7 +57,6 @@ public class FingerprintConfiguringActivity extends AppCompatActivity {
                             String encrypted = fingerprintEncryptionResult.getEncrypted();
                             Hawk.put(Constants.ENCRYPTED_PASSWORD, encrypted);
                             Toast.makeText(this, "encryption successful:" + encrypted, Toast.LENGTH_LONG).show();
-
                             finishFingerprintConfiguring();
                             break;
                     }
