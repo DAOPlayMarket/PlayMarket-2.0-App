@@ -121,6 +121,11 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     }
 
     @Override
+    public void setStatusText(int stringRes, String errorString) {
+        networkStatus.setText(getString(stringRes) + ' ' + errorString);
+    }
+
+    @Override
     public void setStatusText(String text) {
         networkStatus.setText(text);
     }
