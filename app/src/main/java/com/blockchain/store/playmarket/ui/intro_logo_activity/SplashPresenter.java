@@ -73,7 +73,7 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
 
     private void onNearestNodeFail(Throwable throwable) {
         Log.d(TAG, "onNearestNodeFail() called with: throwable = [" + throwable + "]");
-        view.setStatusText(R.string.search_for_node_fail,throwable.getMessage());
+        view.setStatusText(R.string.search_for_node_fail,throwable.toString());
         view.onNearestNodeFailed(throwable);
     }
 
@@ -81,7 +81,8 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
     public void onLocationReady(Location location) {
         locationManager.stopLocationServices();
         if (BuildConfig.DEBUG) {
-            view.onLocationReady();
+            getNearestNode(location);
+//            view.onLocationReady();
         } else {
             getNearestNode(location);
         }

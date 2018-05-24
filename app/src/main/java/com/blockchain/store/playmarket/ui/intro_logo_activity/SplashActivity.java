@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,6 +39,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     @BindView(R.id.error_holder) LinearLayout errorHolder;
 
     private SplashPresenter presenter;
+    private String errorString = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +125,19 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
 
     @Override
     public void setStatusText(int stringRes, String errorString) {
-        networkStatus.setText(getString(stringRes) + ' ' + errorString);
+        this.errorString = errorString;
+        networkStatus.setText(getString(stringRes));
+
+    }
+
+    @OnClick(R.id.network_status)
+    void onNetworkStatusClicked() {
+        if (errorString != null) {
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    .setMessage(errorString).create();
+            alertDialog.getWindow().addFlags(Window.FEATURE_NO_TITLE);
+            alertDialog.show();
+        }
     }
 
     @Override
