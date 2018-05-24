@@ -20,6 +20,7 @@ import android.widget.VideoView;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
+import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
 import butterknife.BindView;

@@ -81,8 +81,8 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
     public void onLocationReady(Location location) {
         locationManager.stopLocationServices();
         if (BuildConfig.DEBUG) {
-            getNearestNode(location);
-//            view.onLocationReady();
+//            getNearestNode(location);
+            view.onLocationReady();
         } else {
             getNearestNode(location);
         }
