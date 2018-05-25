@@ -93,7 +93,7 @@
     <string name="not_enought_balance">Not enough balance</string>
     <string name="cancel_btn">Cancel</string>
     <string name="password">Password</string>
-    <string name="wrong_password">Wrong password!</string>
+    <string name="wrong_password">Wrong password</string>
     <string name="no_items">No items</string>
     <string name="recycler_empty_view">No item found!</string>
     <string name="successfully_paid">Successfully paid</string>

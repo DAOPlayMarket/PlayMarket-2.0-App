@@ -1,6 +1,5 @@
 package com.blockchain.store.playmarket.ui.new_user_welcome_activity;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,14 +9,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.file_manager_screen.FileManagerActivity;
-import com.blockchain.store.playmarket.ui.login_screen.FingerprintConfiguringActivity;
+import com.blockchain.store.playmarket.ui.fingerprint_screen.FingerprintConfiguringActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -81,7 +79,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
 
     @OnClick(R.id.fingerprint)
     void onFingerprintClicked() {
-        FingerprintConfiguringActivity.startFromMenu(this, FINGERPRINT_RESULT_CODE);
+        FingerprintConfiguringActivity.start(this, FingerprintConfiguringActivity.StartArguments.StartedFromMenu, null);
     }
 
     /*

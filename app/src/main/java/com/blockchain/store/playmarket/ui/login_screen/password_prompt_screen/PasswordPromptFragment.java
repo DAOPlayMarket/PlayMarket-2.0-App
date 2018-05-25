@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.interfaces.LoginPromptCallback;
-import com.blockchain.store.playmarket.ui.login_screen.FingerprintConfiguringActivity;
+import com.blockchain.store.playmarket.ui.fingerprint_screen.FingerprintConfiguringActivity;
 import com.blockchain.store.playmarket.ui.login_screen.LoginViewModel;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
@@ -30,11 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-
 public class PasswordPromptFragment extends Fragment implements PasswordPromptContract.View {
-
-    public final static String ACCOUNT_PASSWORD = "account_password";
-    public final static String NEW_ACCOUNT = "new_account";
 
     private LoginPromptCallback loginPromptCallback;
     private PasswordPromptPresenter presenter;
@@ -114,21 +110,12 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
         startActivity(intent);
     }
 
-    private void openFingerprintActivity(){
-        String accountPassword = passwordEditText.getText().toString();
-
-        Intent intent = new Intent(getContext(), FingerprintConfiguringActivity.class);
-        intent.putExtra(ACCOUNT_PASSWORD, accountPassword);
-        if (jsonData == null) intent.putExtra(NEW_ACCOUNT, true);
-        else intent.putExtra(NEW_ACCOUNT, false);
-        startActivity(intent);
-    }
-
     private void createNewAccount() {
         if (checkPasswordForNewAccount()) {
             String address = presenter.createNewAccount(passwordEditText.getText().toString());
-            if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.READY))
-                openFingerprintActivity();
+            if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.READY)) {
+                FingerprintConfiguringActivity.start(getContext(), FingerprintConfiguringActivity.StartArguments.StartedFromNewAccount, passwordEditText.getText().toString());
+            }
             else openWelcomeActivity(address);
         }
     }
@@ -136,7 +123,7 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
     private void importAccount(String accountData) {
         if (presenter.importAccount(accountData, passwordEditText.getText().toString())) {
             if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.READY)){
-                openFingerprintActivity();
+                FingerprintConfiguringActivity.start(getContext(), FingerprintConfiguringActivity.StartArguments.StartedFromImportAccount, passwordEditText.getText().toString());
             } else {
                 openMainActivity();
                 ToastUtil.showToast(R.string.import_successful);

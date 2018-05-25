@@ -34,8 +34,8 @@ public class TransferConfirmFragment extends Fragment {
 
     @BindView(R.id.sender_address_info_textView) TextView senderAddressTextView;
     @BindView(R.id.recipient_address_info_textView) TextView recipientAddressTextView;
-    @BindView(R.id.amount_textView) TextView transferAmountTextView;
-    @BindView(R.id.dimension_textView) TextView dimensionTextView;
+    @BindView(R.id.amount_info_textView) TextView transferAmountTextView;
+    @BindView(R.id.dimension_info_textView) TextView dimensionTextView;
     @BindView(R.id.password_editText) EditText passwordEditText;
     @BindView(R.id.password_textInputLayout) TextInputLayout passwordTextInputLayout;
     @BindView(R.id.fingerprint_layout) LinearLayout fingerprintLayout;

@@ -18,6 +18,11 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="SwitchTextAppearance" parent="@android:style/TextAppearance.Holo.Small">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
     <style name="CustomDialogTheme" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@color/greyBackground</item>
         <item name="android:windowIsFloating">false</item>
