@@ -93,7 +93,7 @@
     <string name="not_enought_balance">Not enough balance</string>
     <string name="cancel_btn">Cancel</string>
     <string name="password">Password</string>
-    <string name="wrong_password">Wrong password!</string>
+    <string name="wrong_password">Wrong password</string>
     <string name="no_items">No items</string>
     <string name="recycler_empty_view">No item found!</string>
     <string name="successfully_paid">Successfully paid</string>
@@ -110,7 +110,7 @@
     <string name="network_status_node_search">Search for the nearest node</string>
     <string name="todo">TODO</string>
     <string name="confirm_button">Confirm</string>
-    <string name="nav_view_transfer">Передать</string>
+    <string name="nav_view_transfer">Transfer</string>
     <string name="ethereum_name">ETH</string>
     <string name="performing_action">For performing this action, a password is required. Please enter it below.</string>
 
@@ -154,7 +154,7 @@
     <string name="exchange_step_field">Step %1$d of 2</string>
     <string name="load_failed">Load failed</string>
     <string name="another_exchange">Another exchange</string>
-    <string name="search_for_node_fail">Search for the nearest node fail</string>
+    <string name="search_for_node_fail">Search for the nearest node fail. Tap for more details</string>
 
     <!--Fingerprint Scanner-->
     <string name="press_sensor">Press the sensor</string>
@@ -167,4 +167,6 @@
     <string name="is_available">You can use fingerprint \nauthentication</string>
     <string name="is_not_configured">Fingerprint supported \nbut not configured for device</string>
     <string name="configure_button">Configure fingerprint?</string>
+    <string name="fingerprint_success">Password successfully encrypted!</string>
+    <string name="fingerprint_not_recognized">Fingerprint not recognized, try again!</string>
 </resources>

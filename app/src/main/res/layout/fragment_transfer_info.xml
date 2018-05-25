@@ -78,6 +78,7 @@
                 android:textColor="@color/white"
                 android:textSize="22sp"
                 android:gravity="center_vertical"
+                android:text="@string/eth"/>
                 tools:text="ETH"/>
 
         </LinearLayout>
@@ -198,6 +199,7 @@
                 android:paddingStart="10dp"
                 android:paddingTop="5dp"
                 android:text="@string/eth" />
+
         </LinearLayout>
 
     </LinearLayout>
@@ -237,7 +239,7 @@
             android:layout_marginBottom="10dp">
 
             <TextView
-                android:id="@+id/amount_textView"
+                android:id="@+id/amount_info_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
@@ -281,8 +283,8 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             tools:text="0xdB2301db944a59680619F86017418EBb10b9DE4b" />
-    </LinearLayout>
 
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/error_view_holder"

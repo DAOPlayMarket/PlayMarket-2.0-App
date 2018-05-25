@@ -13,6 +13,7 @@ import com.blockchain.store.playmarket.ui.transfer_screen.transfer_confirm_scree
 import com.blockchain.store.playmarket.ui.transfer_screen.transfer_info_screen.TransferInfoFragment;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
+import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 import com.mtramin.rxfingerprint.RxFingerprint;
 import com.orhanobut.hawk.Hawk;
@@ -121,7 +122,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
 
     @Override
     public void showToast(String message) {
-
+        ToastUtil.showToast(message);
     }
 
     private void getDataFromViewModel() {
