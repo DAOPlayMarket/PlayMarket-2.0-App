@@ -13,6 +13,7 @@ public class SplashContracts {
         void onLocationReady();
 
         void setStatusText(@StringRes int stringRes);
+        void setStatusText(@StringRes int stringRes, String errorString);
         void setStatusText(String stringRes);
 
         void onNearestNodeFailed(Throwable throwable);

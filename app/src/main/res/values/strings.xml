@@ -154,7 +154,7 @@
     <string name="exchange_step_field">Step %1$d of 2</string>
     <string name="load_failed">Load failed</string>
     <string name="another_exchange">Another exchange</string>
-    <string name="search_for_node_fail">Search for the nearest node fail</string>
+    <string name="search_for_node_fail">Search for the nearest node fail. Tap for more details</string>
 
     <!--Fingerprint Scanner-->
     <string name="press_sensor">Press the sensor</string>
