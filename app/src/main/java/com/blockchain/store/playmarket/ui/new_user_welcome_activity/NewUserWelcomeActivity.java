@@ -72,7 +72,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     }
 
     private void setViewFromSettings() {
-//        fingerPrintText.setVisibility(View.VISIBLE);
+        fingerPrintText.setVisibility(View.VISIBLE);
         continueButton.setText(R.string.back);
         newUserWelcomeNext.setVisibility(View.GONE);
     }

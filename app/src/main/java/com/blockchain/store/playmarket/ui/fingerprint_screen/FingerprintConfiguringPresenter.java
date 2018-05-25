@@ -3,7 +3,9 @@ package com.blockchain.store.playmarket.ui.fingerprint_screen;
 import android.content.Context;
 import android.util.Log;
 
+import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.mtramin.rxfingerprint.RxFingerprint;
@@ -26,7 +28,7 @@ public class FingerprintConfiguringPresenter implements FingerprintConfiguringCo
     }
 
     @Override
-    public void encryptAccountPassword(String accountPassword) {
+    public void subscribeFingerprint(String accountPassword) {
         fingerprintDisposable = RxFingerprint.encrypt(context, accountPassword)
                 .subscribe(fingerprintEncryptionResult -> {
                     switch (fingerprintEncryptionResult.getResult()) {
@@ -55,4 +57,22 @@ public class FingerprintConfiguringPresenter implements FingerprintConfiguringCo
                     ToastUtil.showToast(throwable.getMessage());
                 });
     }
+
+    @Override
+    public void disposeFingerprint() {
+        fingerprintDisposable.dispose();
+    }
+
+    @Override
+    public boolean checkAccountPassword(String accountPassword) {
+        try {
+            Application.keyManager.getKeystore().unlock(AccountManager.getAccount(), accountPassword);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 }

@@ -65,6 +65,7 @@
 
     <!--dialog strings-->
     <string name="enter_your_password">Enter your password</string>
+    <string name="enter_your_password_first">Enter your account password first</string>
     <string name="enter_folder_name">Enter folder name</string>
     <string name="empty_password">Password field can not be empty</string>
     <string name="empty_field">This field can not be empty</string>

@@ -44,8 +44,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="38dp"
         android:layout_marginRight="38dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="64dp"
         android:text="@string/congratulations_title"
+        android:visibility="visible"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -53,16 +54,17 @@
 
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/fingerprint_info_textView"
         android:layout_width="281dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="38dp"
         android:layout_marginStart="38dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="40dp"
         android:gravity="center"
         android:text="@string/save_key_title"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/NewUserWelcomeTextView" />
 
@@ -79,7 +81,7 @@
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/fingerprint_info_textView"
         tools:text="0x5197744f9769D3dD2e60D7f6fDE3B61737726D51" />
 
     <TextView
@@ -88,18 +90,18 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="38dp"
         android:layout_marginStart="38dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="368dp"
         android:text="@string/save"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fingerprint" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/continue_button"
         android:layout_width="0dp"
-        android:layout_height="57dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="57dp"
         android:layout_marginRight="57dp"
@@ -112,7 +114,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/save_cloud_imageButton"
-        app:layout_constraintVertical_bias="0.301" />
+        app:layout_constraintVertical_bias="0.261" />
 
     <ImageButton
         android:id="@+id/save_mail_imageButton"
@@ -172,9 +174,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="40dp"
         android:text="Configure fingerprint."
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/address_text_view"

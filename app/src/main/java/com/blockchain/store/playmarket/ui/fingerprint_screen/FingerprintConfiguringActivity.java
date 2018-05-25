@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.content.res.AppCompatResources;
+import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blockchain.store.playmarket.R;
@@ -22,6 +24,7 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 
@@ -32,6 +35,10 @@ public class FingerprintConfiguringActivity extends AppCompatActivity implements
     @BindView(R.id.account_password_editText) EditText accountPasswordEditText;
     @BindView(R.id.confirm_password_button) Button confirmPasswordButton;
     @BindView(R.id.available_fingerprint_imageView) ImageView availableFingerprintImageView;
+
+    @BindView(R.id.fingerprint_title_textView) TextView fingerprintTitleTextView;
+    @BindView(R.id.fingerprint_info_textView) TextView fingerprintInfoTextView;
+    @BindView(R.id.password_title_textView) TextView passwordTitleitleTextView;
 
     public enum StartArguments {
         StartedFromMenu,
@@ -44,7 +51,6 @@ public class FingerprintConfiguringActivity extends AppCompatActivity implements
 
     private StartArguments startArguments;
     private String accountPassword;
-    private Disposable fingerprintDisposable = Disposables.empty();
     private FingerprintConfiguringPresenter presenter;
 
     public static void start(Context context, StartArguments startArguments, String accountPassword) {
@@ -69,7 +75,7 @@ public class FingerprintConfiguringActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        fingerprintDisposable.dispose();
+        presenter.disposeFingerprint();
     }
 
 
@@ -118,30 +124,76 @@ public class FingerprintConfiguringActivity extends AppCompatActivity implements
             startArguments = (StartArguments) getIntent().getSerializableExtra(START_ARGS);
             switch (startArguments) {
                 case StartedFromImportAccount:
-                    passwordLayoutVisible(false);
+                    confirmPasswordLinearLayout.setVisibility(View.GONE);
                     accountPassword = getIntent().getStringExtra(PASSWORD);
-                    presenter.encryptAccountPassword(accountPassword);
+                    presenter.subscribeFingerprint(accountPassword);
                     break;
                 case StartedFromNewAccount:
-                    passwordLayoutVisible(false);
+                    confirmPasswordLinearLayout.setVisibility(View.GONE);
                     accountPassword = getIntent().getStringExtra(PASSWORD);
-                    presenter.encryptAccountPassword(accountPassword);
+                    presenter.subscribeFingerprint(accountPassword);
                     break;
                 case StartedFromMenu:
-                    passwordLayoutVisible(true);
+                    confirmPasswordLinearLayout.setVisibility(View.VISIBLE);
+                    fingerprintIsAvailable(false);
                     break;
             }
         }
     }
 
-    private void passwordLayoutVisible(boolean isShow){
-        if (isShow) {
-            confirmPasswordLinearLayout.setVisibility(View.VISIBLE);
-            availableFingerprintImageView.setColorFilter(getResources().getColor(R.color.greyBackground));
+    @OnClick(R.id.confirm_password_button) void confirmPasswordButtonClicked(){
+        String accountPassword = accountPasswordEditText.getText().toString();
+        if (presenter.checkAccountPassword(accountPassword)){
+            hidePasswordError();
+            fingerprintIsAvailable(true);
+            presenter.subscribeFingerprint(accountPassword);
+
+        } else {
+            showPasswordError(getResources().getString(R.string.wrong_password));
         }
-        else{
-            confirmPasswordLinearLayout.setVisibility(View.GONE);
+    }
+
+    private void fingerprintIsAvailable(boolean isAvailable){
+        if (isAvailable){
             availableFingerprintImageView.setColorFilter(getResources().getColor(R.color.green_color));
+            fingerprintTitleTextView.setTextColor(getResources().getColor(R.color.black));
+            fingerprintInfoTextView.setTextColor(getResources().getColor(R.color.black));
+            availableFingerprintImageView.setColorFilter(getResources().getColor(R.color.green_color));
+
+            passwordTitleitleTextView.setEnabled(false);
+            accountPasswordEditText.setEnabled(false);
+            confirmPasswordButton.setEnabled(false);
+
+
+        } else {
+            availableFingerprintImageView.setColorFilter(getResources().getColor(R.color.greyBackground));
+            fingerprintTitleTextView.setTextColor(getResources().getColor(R.color.greyBackground));
+            fingerprintInfoTextView.setTextColor(getResources().getColor(R.color.greyBackground));
+            availableFingerprintImageView.setColorFilter(getResources().getColor(R.color.greyBackground));
+
+            passwordTitleitleTextView.setEnabled(true);
+            accountPasswordEditText.setEnabled(true);
+            confirmPasswordButton.setEnabled(true);
+
         }
+    }
+
+    private void showPasswordError(String errorText){
+        accountPasswordTextInputLayout.setPasswordVisibilityToggleTintList(AppCompatResources.getColorStateList(this, R.color.red_error_color));
+        accountPasswordTextInputLayout.setError(errorText);
+    }
+
+    private void hidePasswordError(){
+        accountPasswordTextInputLayout.setPasswordVisibilityToggleTintList(AppCompatResources.getColorStateList(this, R.color.green_color));
+        accountPasswordTextInputLayout.setError(null);
+    }
+
+    @OnTextChanged(value = R.id.account_password_editText, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
+    void onPasswordChanged(Editable editable) {
+        hidePasswordError();
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 }
