@@ -48,6 +48,8 @@
     <string name="chose_file">Select a JSON File to import</string>
 
     <!--dialog strings-->
+    <string name="enter_your_password">Enter your password</string>
+    <string name="enter_your_password_first">Enter your account password first</string>
     <string name="enter_folder_name">Enter folder name</string>
     <string name="empty_password">Password field can not be empty</string>
     <string name="empty_field">This field can not be empty</string>
@@ -74,7 +76,7 @@
     <string name="not_enought_balance">Not enough balance</string>
     <string name="cancel_btn">Cancel</string>
     <string name="password">Password</string>
-    <string name="wrong_password">Wrong password!</string>
+    <string name="wrong_password">Wrong password</string>
     <string name="no_items">No items</string>
     <string name="recycler_empty_view">No item found!</string>
     <string name="successfully_paid">Successfully paid</string>

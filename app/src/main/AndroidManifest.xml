@@ -107,7 +107,7 @@
             android:name=".services.RemoteService"
             android:exported="true" />
 
-        <activity android:name=".ui.login_screen.FingerprintConfiguringActivity"></activity>
+        <activity android:name=".ui.fingerprint_screen.FingerprintConfiguringActivity"></activity>
     </application>
 
 </manifest>
