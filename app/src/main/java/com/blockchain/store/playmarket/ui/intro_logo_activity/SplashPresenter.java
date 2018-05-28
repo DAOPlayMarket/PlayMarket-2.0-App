@@ -10,6 +10,7 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.content.LocationManager;
 import com.blockchain.store.playmarket.data.entities.Node;
+import com.blockchain.store.playmarket.fabric.EventsHelper;
 import com.blockchain.store.playmarket.utilities.net.NodeUtils;
 
 import rx.Subscription;
@@ -72,8 +73,9 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
     }
 
     private void onNearestNodeFail(Throwable throwable) {
-        Log.d(TAG, "onNearestNodeFail() called with: throwable = [" + throwable + "]");
-        view.setStatusText(R.string.search_for_node_fail,throwable.toString());
+        EventsHelper.logExceptions(throwable);
+
+        view.setStatusText(R.string.search_for_node_fail, throwable.toString());
         view.onNearestNodeFailed(throwable);
     }
 

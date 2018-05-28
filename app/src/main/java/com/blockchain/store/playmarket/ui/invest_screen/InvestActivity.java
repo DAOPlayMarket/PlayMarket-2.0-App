@@ -34,7 +34,7 @@ public class InvestActivity extends YouTubeBaseActivity implements YouTubePlayer
     @BindView(R.id.top_layout_holder) LinearLayout top_layout_holder;
     @BindView(R.id.app_logo) ImageView app_logo;
     @BindView(R.id.invest_btn) Button invest_btn;
-    @BindView(R.id.youtube) YouTubePlayerView youtube;
+//    @BindView(R.id.youtube) YouTubePlayerView youtube;
 
     private AppInfo appInfo;
     private InvestPresenter presenter;
@@ -56,7 +56,7 @@ public class InvestActivity extends YouTubeBaseActivity implements YouTubePlayer
             throw new RuntimeException("App must be provided!");
         }
         attachPresenter();
-        youtube.initialize(Constants.YOUTUBE_KEY, this);
+//        youtube.initialize(Constants.YOUTUBE_KEY, this);
     }
 
     private void attachPresenter() {
@@ -84,7 +84,7 @@ public class InvestActivity extends YouTubeBaseActivity implements YouTubePlayer
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
         if (!wasRestored) {
-            youTubePlayer.cueVideo("lG0Ys-2d4MA");
+//            youTubePlayer.cueVideo("lG0Ys-2d4MA");
         }
     }
 

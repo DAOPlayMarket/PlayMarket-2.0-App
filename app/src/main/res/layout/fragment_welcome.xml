@@ -36,7 +36,6 @@
         tools:layout_constraintLeft_creator="1" />
 
     <TextView
-        android:id="@+id/LoginPromptTextView"
         android:layout_width="284dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

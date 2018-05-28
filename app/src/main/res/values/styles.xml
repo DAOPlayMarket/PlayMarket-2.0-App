@@ -18,22 +18,9 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="CustomDialogTheme" parent="@android:style/Theme.Dialog">
-        <item name="android:windowBackground">@color/greyBackground</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
-
     <style name="ActionBarStyle">
         <item name="android:actionBarSize">128dp</item>
         <item name="actionBarSize">64dp</item>
-    </style>
-
-    <style name="categoryRadioButton">
-        <item name="android:layout_height">30dp</item>
-        <item name="android:layout_width">75dp</item>
-        <item name="android:button">@null</item>
-        <item name="android:background">@drawable/radio_button_categories</item>
     </style>
 
     <style name="whiteStatusBarStyle" parent="Theme.AppCompat.Light.NoActionBar">
@@ -66,24 +53,6 @@
         <item name="android:scaleType">center</item>
 
         <item name="android:tint">@color/nav_image_tint</item>
-    </style>
-
-    <style name="investTextTitle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:textColor">@color/invest_text_color</item>
-    </style>
-
-    <style name="investTextBody">
-        <item name="android:autoLink">all</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:textColor">@color/invest_text_color</item>
     </style>
 
     <style name="exchangeTextTitle">

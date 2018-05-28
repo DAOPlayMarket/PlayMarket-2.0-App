@@ -1,7 +1,6 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_app_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -146,7 +145,6 @@
         app:layout_constraintTop_toTopOf="@+id/backButton" />
 
     <ImageButton
-        android:id="@+id/searchButton"
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_marginBottom="8dp"
