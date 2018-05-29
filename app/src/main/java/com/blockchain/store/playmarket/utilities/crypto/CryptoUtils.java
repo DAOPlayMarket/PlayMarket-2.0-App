@@ -144,8 +144,6 @@ public class CryptoUtils {
         return getRawTransaction(signedTransaction);
     }
 
-
-    // temp
     public static String generateInvestTransactionWithAddress(int nonce, BigInt gasPrice, String investPrice, String address) throws Exception {
         BigInt price = new BigInt(0);
         price.setString(investPrice, 10);
@@ -167,18 +165,6 @@ public class CryptoUtils {
 
         Transaction transaction = new Transaction(nonce, new Address(recipientAddress),
                 price, GAS_LIMIT, new BigInt(Long.parseLong(gasPrice)), null);
-        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
-        return getRawTransaction(signedTransaction);
-    }
-
-    public static String test(int nonce, String gasPrice, String transferAmount, String recipientAddress) throws Exception {
-        BigInt price = new BigInt(0);
-        price.setString(transferAmount, 10);
-
-        KeyManager keyManager = Application.keyManager;
-        Account account = keyManager.getAccounts().get(0);
-        Transaction transaction = new Transaction(nonce, new Address(recipientAddress),
-                price, GAS_LIMIT, new BigInt(Long.parseLong(gasPrice) * 2), null);
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
         return getRawTransaction(signedTransaction);
     }
