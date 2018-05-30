@@ -41,7 +41,6 @@ public class NodeUtils {
             throw new RuntimeException("Dns look up error. " + result.getResponseCode());
         }
 
-
         Set<TXT> answers = result.getAnswers();
         String nodesList = "";
 
