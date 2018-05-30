@@ -38,8 +38,10 @@ public class NodeUtils {
     private static ArrayList<Node> getNodesList(String domain) throws IOException {
         ResolverResult<TXT> result = ResolverApi.INSTANCE.resolve(domain, TXT.class);
         if (!result.wasSuccessful()) {
-            return convertNodesToLocation(new String[0]);
+            throw new RuntimeException("Dns look up error. " + result.getResponseCode());
         }
+
+
         Set<TXT> answers = result.getAnswers();
         String nodesList = "";
 
