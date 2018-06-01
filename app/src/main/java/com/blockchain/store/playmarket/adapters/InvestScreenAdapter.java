@@ -8,7 +8,14 @@ import android.view.ViewGroup;
 
 import com.blockchain.store.playmarket.R;
 
+
 public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public static final int INVEST_VIEWTYPE_MAIN = 0;
+    public static final int INVEST_VIEWTYPE_YOUTUBE = 1;
+    public static final int INVEST_VIEWTYPE_BODY = 2;
+    public static final int INVEST_VIEWTYPE_TITLE = 3;
+    public static final int INVEST_VIEWTYPE_MEMBER = 4;
+    public static final int INVEST_VIEWTYPE_SOCIAL = 5;
 
     public InvestScreenAdapter() {
     }
@@ -21,17 +28,35 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View investMainViewHolder = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.invest_main_view, parent, false);
-        View investYoutubeViewHolder = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.invest_youtube_view, parent, false);
-        View investBodyMessageViewHolder = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.invest_body_view, parent, false);
+        View view = null;
+        switch (viewType) {
+            case INVEST_VIEWTYPE_MAIN:
+                View investMainViewHolder = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.invest_main_view, parent, false);
+                break;
+            case INVEST_VIEWTYPE_YOUTUBE:
+                View investYoutubeViewHolder = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.invest_youtube_view, parent, false);
+                break;
+            case INVEST_VIEWTYPE_BODY:
+                View investBodyMessageViewHolder = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.invest_body_view, parent, false);
 
-        View investMemberViewHolder = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.invest_member_view, parent, false);
-        View investTitleViewHolder = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.invest_title_view, parent, false);
+                break;
+            case INVEST_VIEWTYPE_TITLE:
+                View investTitleViewHolder = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.invest_title_view, parent, false);
+                break;
+            case INVEST_VIEWTYPE_MEMBER:
+                View investMemberViewHolder = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.invest_member_view, parent, false);
+                break;
+            case INVEST_VIEWTYPE_SOCIAL:
+
+                break;
+
+        }
+
 
         return null;
     }

@@ -34,7 +34,6 @@ public class InvestActivity extends YouTubeBaseActivity implements YouTubePlayer
     @BindView(R.id.top_layout_holder) LinearLayout top_layout_holder;
     @BindView(R.id.app_logo) ImageView app_logo;
     @BindView(R.id.invest_btn) Button invest_btn;
-//    @BindView(R.id.youtube) YouTubePlayerView youtube;
 
     private AppInfo appInfo;
     private InvestPresenter presenter;

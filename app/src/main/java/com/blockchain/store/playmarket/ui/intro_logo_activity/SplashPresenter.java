@@ -13,6 +13,10 @@ import com.blockchain.store.playmarket.data.entities.Node;
 import com.blockchain.store.playmarket.fabric.EventsHelper;
 import com.blockchain.store.playmarket.utilities.net.NodeUtils;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -78,7 +82,14 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
 
     private void onNearestNodeFail(Throwable throwable) {
         EventsHelper.logExceptions(throwable);
-        view.setStatusText(R.string.search_for_node_fail, throwable.toString());
+        throwable.getStackTrace().toString();
+
+
+        Writer writer = new StringWriter();
+        throwable.printStackTrace(new PrintWriter(writer));
+        String error = writer.toString();
+
+        view.setStatusText(R.string.search_for_node_fail,  error);
         view.onNearestNodeFailed(throwable);
     }
 
