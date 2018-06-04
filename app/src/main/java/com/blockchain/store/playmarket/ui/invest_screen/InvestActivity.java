@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.adapters.InvestScreenAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
@@ -29,14 +32,11 @@ public class InvestActivity extends YouTubeBaseActivity implements YouTubePlayer
     private static final String TAG = "InvestActivity";
     private static final String INVEST_APP_PARAM = "invest_app_param";
 
-    @BindView(R.id.top_layout_back_arrow) ImageView top_layout_back_arrow;
-    @BindView(R.id.top_layout_app_name) TextView top_layout_app_name;
-    @BindView(R.id.top_layout_holder) LinearLayout top_layout_holder;
-    @BindView(R.id.app_logo) ImageView app_logo;
-    @BindView(R.id.invest_btn) Button invest_btn;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     private AppInfo appInfo;
     private InvestPresenter presenter;
+    private InvestScreenAdapter adapter;
 
     public static void start(Context context, AppInfo appInfo) {
         Intent starter = new Intent(context, InvestActivity.class);
@@ -55,7 +55,14 @@ public class InvestActivity extends YouTubeBaseActivity implements YouTubePlayer
             throw new RuntimeException("App must be provided!");
         }
         attachPresenter();
+        setUpRecycler();
 //        youtube.initialize(Constants.YOUTUBE_KEY, this);
+    }
+
+    private void setUpRecycler() {
+        adapter = new InvestScreenAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 
     private void attachPresenter() {
@@ -69,15 +76,15 @@ public class InvestActivity extends YouTubeBaseActivity implements YouTubePlayer
 
     }
 
-    @OnClick(R.id.invest_btn)
-    public void invest_btn() {
-        new DialogManager().showInvestDialog(appInfo, this, investAmount -> presenter.onInvestClicked(appInfo, investAmount));
-    }
+//    @OnClick(R.id.invest_btn)
+//    public void invest_btn() {
+//        new DialogManager().showInvestDialog(appInfo, this, investAmount -> presenter.onInvestClicked(appInfo, investAmount));
+//    }
 
-    @OnClick(R.id.top_layout_back_arrow)
-    public void onBackArrowClicked() {
-        super.onBackPressed();
-    }
+//    @OnClick(R.id.top_layout_back_arrow)
+//    public void onBackArrowClicked() {
+//        super.onBackPressed();
+//    }
 
 
     @Override

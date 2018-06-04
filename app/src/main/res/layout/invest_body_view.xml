@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
     android:layout_marginTop="10dp"
     android:orientation="vertical">
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:textColor="@color/invest_text_color"
-        tools:text="Успешно проведено preTGE собрано $165 000, всем участникам уже обменяли предварительные preTGE токены на основные токены TGE
+        android:text="Успешно проведено preTGE собрано $165 000, всем участникам уже обменяли предварительные preTGE токены на основные токены TGE
 Разработана demo-версия продукта
 Интервью советнику Президента - Герману Клименко http://radio.mediametrics.ru/investment_in_ICO/54907/
 Достигнуты договоренности с биржей CoinPlace на размещение токена после ICO

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.data.entities.InvestTempPojo;
 
 
 public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -16,13 +17,15 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static final int INVEST_VIEWTYPE_TITLE = 3;
     public static final int INVEST_VIEWTYPE_MEMBER = 4;
     public static final int INVEST_VIEWTYPE_SOCIAL = 5;
+    private InvestTempPojo investTempPojo;
 
     public InvestScreenAdapter() {
+        investTempPojo = new InvestTempPojo();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return super.getItemViewType(position);
+        return investTempPojo.objectViewType.get(position);
     }
 
     @NonNull
@@ -31,26 +34,26 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         View view = null;
         switch (viewType) {
             case INVEST_VIEWTYPE_MAIN:
-                View investMainViewHolder = LayoutInflater.from(parent.getContext())
+                view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.invest_main_view, parent, false);
-                break;
+                return new InvestMainViewHolder(view);
             case INVEST_VIEWTYPE_YOUTUBE:
                 View investYoutubeViewHolder = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.invest_youtube_view, parent, false);
-                break;
+                return new InvestYoutubeViewHolder(investYoutubeViewHolder);
             case INVEST_VIEWTYPE_BODY:
                 View investBodyMessageViewHolder = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.invest_body_view, parent, false);
 
-                break;
+                return new InvestBodyMessageViewHolder(investBodyMessageViewHolder);
             case INVEST_VIEWTYPE_TITLE:
                 View investTitleViewHolder = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.invest_title_view, parent, false);
-                break;
+                return new InvestTitleViewHolder(investTitleViewHolder);
             case INVEST_VIEWTYPE_MEMBER:
                 View investMemberViewHolder = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.invest_member_view, parent, false);
-                break;
+                return new InvestMemberViewHolder(investMemberViewHolder);
             case INVEST_VIEWTYPE_SOCIAL:
 
                 break;
@@ -64,11 +67,12 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
+
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return investTempPojo.objects.size();
     }
 
     public class InvestMainViewHolder extends RecyclerView.ViewHolder {

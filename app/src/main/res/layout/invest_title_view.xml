@@ -8,6 +8,6 @@
     android:textStyle="bold"
     android:textSize="16sp"
     android:textColor="@color/invest_text_color"
-    tools:text="Investors advantages">
+    android:text="Investors advantages">
 
 </TextView>
