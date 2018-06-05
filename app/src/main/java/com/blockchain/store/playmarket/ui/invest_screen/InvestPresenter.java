@@ -66,13 +66,13 @@ public class InvestPresenter implements InvestContract.Presenter {
     }
 
     private void onInvestSuccessful(PurchaseAppResponse purchaseAppResponse) {
-        view.onPurchaseSuccessful(purchaseAppResponse);
+//        view.onPurchaseSuccessful(purchaseAppResponse);
         Log.d(TAG, "onInvestSuccessful() called with: appInfo = [" + purchaseAppResponse + "]");
     }
 
 
     private void onPurchaseError(Throwable throwable) {
-        view.onPurchaseError(throwable);
+//        view.onPurchaseError(throwable);
         Log.d(TAG, "onAccountInfoError() called with: throwable = [" + throwable + "]");
     }
 }

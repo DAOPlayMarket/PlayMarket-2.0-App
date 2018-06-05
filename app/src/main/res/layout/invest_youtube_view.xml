@@ -2,6 +2,8 @@
 <com.google.android.youtube.player.YouTubePlayerView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/invest_youtube_player"
     android:layout_width="match_parent"
-    android:layout_height="300dp">
+    android:layout_height="220dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp">
 
 </com.google.android.youtube.player.YouTubePlayerView>

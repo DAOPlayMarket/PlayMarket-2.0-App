@@ -16,6 +16,8 @@ import com.blockchain.store.playmarket.adapters.InvestScreenAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.interfaces.InvestAdapterCallback;
+import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
@@ -28,7 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class InvestActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, InvestContract.View {
+public class InvestActivity extends YouTubeBaseActivity implements InvestContract.View, InvestAdapterCallback {
     private static final String TAG = "InvestActivity";
     private static final String INVEST_APP_PARAM = "invest_app_param";
 
@@ -56,11 +58,10 @@ public class InvestActivity extends YouTubeBaseActivity implements YouTubePlayer
         }
         attachPresenter();
         setUpRecycler();
-//        youtube.initialize(Constants.YOUTUBE_KEY, this);
     }
 
     private void setUpRecycler() {
-        adapter = new InvestScreenAdapter();
+        adapter = new InvestScreenAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
@@ -76,36 +77,14 @@ public class InvestActivity extends YouTubeBaseActivity implements YouTubePlayer
 
     }
 
-//    @OnClick(R.id.invest_btn)
-//    public void invest_btn() {
-//        new DialogManager().showInvestDialog(appInfo, this, investAmount -> presenter.onInvestClicked(appInfo, investAmount));
-//    }
-
-//    @OnClick(R.id.top_layout_back_arrow)
-//    public void onBackArrowClicked() {
-//        super.onBackPressed();
-//    }
-
-
-    @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
-        if (!wasRestored) {
-//            youTubePlayer.cueVideo("lG0Ys-2d4MA");
-        }
+    @OnClick(R.id.top_layout_back_arrow)
+    public void onBackArrowClicked() {
+        super.onBackPressed();
     }
 
     @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-
+    public void onInvestBtnClicked(String address) {
+        startActivity(new Intent(this, TransferActivity.class));
     }
 
-    @Override
-    public void onPurchaseSuccessful(PurchaseAppResponse purchaseAppResponse) {
-        ToastUtil.showToast(R.string.successfully_paid);
-    }
-
-    @Override
-    public void onPurchaseError(Throwable throwable) {
-        ToastUtil.showToast(throwable.getMessage());
-    }
 }

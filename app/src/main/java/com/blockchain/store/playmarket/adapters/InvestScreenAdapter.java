@@ -5,10 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.InvestTempPojo;
-
+import com.blockchain.store.playmarket.interfaces.InvestAdapterCallback;
+import com.blockchain.store.playmarket.utilities.Constants;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 
 public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int INVEST_VIEWTYPE_MAIN = 0;
@@ -17,9 +22,11 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static final int INVEST_VIEWTYPE_TITLE = 3;
     public static final int INVEST_VIEWTYPE_MEMBER = 4;
     public static final int INVEST_VIEWTYPE_SOCIAL = 5;
+    private final InvestAdapterCallback adapterCallback;
     private InvestTempPojo investTempPojo;
 
-    public InvestScreenAdapter() {
+    public InvestScreenAdapter(InvestAdapterCallback adapterCallback) {
+        this.adapterCallback = adapterCallback;
         investTempPojo = new InvestTempPojo();
     }
 
@@ -40,7 +47,22 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case INVEST_VIEWTYPE_YOUTUBE:
                 View investYoutubeViewHolder = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.invest_youtube_view, parent, false);
-                return new InvestYoutubeViewHolder(investYoutubeViewHolder);
+
+                InvestYoutubeViewHolder youtubeViewHolder = new InvestYoutubeViewHolder(investYoutubeViewHolder);
+                youtubeViewHolder.youTubePlayerView.initialize(Constants.YOUTUBE_KEY, new YouTubePlayer.OnInitializedListener() {
+                    @Override
+                    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
+                        if (!wasRestored) {
+                            youTubePlayer.cueVideo("QYjyfCt6gWc");
+                        }
+                    }
+
+                    @Override
+                    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+                    }
+                });
+                return youtubeViewHolder;
             case INVEST_VIEWTYPE_BODY:
                 View investBodyMessageViewHolder = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.invest_body_view, parent, false);
@@ -66,7 +88,24 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
+        if (holder instanceof InvestMainViewHolder) {
+            ((InvestMainViewHolder) holder).bind();
+        }
+        if (holder instanceof InvestYoutubeViewHolder) {
+            ((InvestYoutubeViewHolder) holder).bind();
+        }
+        if (holder instanceof InvestBodyMessageViewHolder) {
+            ((InvestBodyMessageViewHolder) holder).bind();
+        }
+        if (holder instanceof InvestTitleViewHolder) {
+            ((InvestTitleViewHolder) holder).bind();
+        }
+        if (holder instanceof InvestMemberViewHolder) {
+            ((InvestMemberViewHolder) holder).bind();
+        }
+//        if (holder instanceof InvestMainViewHolder) {
+//            ((InvestMainViewHolder) holder).bind();
+//        }
 
     }
 
@@ -83,12 +122,15 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
          * progress bar limits,current value
          * button 'invest'
          * */
+        private Button investButton;
+
         public InvestMainViewHolder(View itemView) {
             super(itemView);
+            investButton = itemView.findViewById(R.id.invest_btn);
         }
 
         public void bind() {
-
+            investButton.setOnClickListener(v -> adapterCallback.onInvestBtnClicked("test address"));
         }
     }
 
@@ -96,8 +138,19 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         /* requires:
          * Youtube's video id
          * */
+        private YouTubePlayerView youTubePlayerView;
+
         public InvestYoutubeViewHolder(View itemView) {
             super(itemView);
+            youTubePlayerView = itemView.findViewById(R.id.invest_youtube_player);
+        }
+
+        public YouTubePlayerView getYouTubePlayerView() {
+            return youTubePlayerView;
+        }
+
+        public void bind() {
+
         }
     }
 
@@ -108,6 +161,10 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         public InvestBodyMessageViewHolder(View itemView) {
             super(itemView);
+        }
+
+        public void bind() {
+
         }
     }
 
@@ -126,6 +183,10 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public InvestMemberViewHolder(View itemView) {
             super(itemView);
         }
+
+        public void bind() {
+
+        }
     }
 
     public class InvestSocialMediaViewHolder extends RecyclerView.ViewHolder {
@@ -139,6 +200,10 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         /* One line text */
         public InvestTitleViewHolder(View itemView) {
             super(itemView);
+        }
+
+        public void bind() {
+
         }
     }
 

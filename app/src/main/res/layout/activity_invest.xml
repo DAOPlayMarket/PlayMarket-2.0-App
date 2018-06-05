@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:id="@+id/recycler_view"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
+    <include layout="@layout/detail_app_toolbar" />
 
-</android.support.v7.widget.RecyclerView>
+    <View
+        android:background="@color/cardview_dark_background"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp" />
+</LinearLayout>

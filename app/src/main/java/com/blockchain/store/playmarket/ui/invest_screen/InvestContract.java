@@ -10,9 +10,6 @@ import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 public class InvestContract {
     interface View{
 
-        void onPurchaseSuccessful(PurchaseAppResponse purchaseAppResponse);
-
-        void onPurchaseError(Throwable throwable);
     }
     interface Presenter{
         void init(View view);
