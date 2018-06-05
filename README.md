@@ -1,10 +1,17 @@
 
 # PlayMarket 2.0
 
+![PlayMarket 2.0](https://github.com/CryptonStudio/PlayMarket-2.0-App/blob/master/docs/photo/pm_logo.png)
+
 DAO PlayMarket 2.0 is a decentralized Android App Store that accepts payments in cryptocurrency and is combined with an ICO platform for developers.
 
 
 Personal freedom is impossible without economic security and independence. Therefore, we created an open, censorship-resistant marketplace using blockchain and smart contracts.
+
+
+<img src="https://github.com/CryptonStudio/PlayMarket-2.0-App/blob/master/docs/photo/Screenshot_1527503265.png" width="360" height="640">  |  <img src="https://github.com/CryptonStudio/PlayMarket-2.0-App/blob/master/docs/photo/Screenshot_1527503311.png" width="360" height="640">
+
+<img src="https://github.com/CryptonStudio/PlayMarket-2.0-App/blob/master/docs/photo/Screenshot_1527503334.png" width="360" height="640">  |  <img src="https://github.com/CryptonStudio/PlayMarket-2.0-App/blob/master/docs/photo/Screenshot_1527503340.png" width="360" height="640">
 
 
 The application supports Android 5.0 and above.
