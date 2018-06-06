@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.adapters;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.stfalcon.frescoimageviewer.ImageViewer;
 
 public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int INVEST_VIEWTYPE_MAIN = 0;
@@ -22,6 +24,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static final int INVEST_VIEWTYPE_TITLE = 3;
     public static final int INVEST_VIEWTYPE_MEMBER = 4;
     public static final int INVEST_VIEWTYPE_SOCIAL = 5;
+    public static final int INVEST_VIEWETYPE_IMAGE_GALLERY = 6;
     private final InvestAdapterCallback adapterCallback;
     private InvestTempPojo investTempPojo;
 
@@ -79,6 +82,10 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case INVEST_VIEWTYPE_SOCIAL:
 
                 break;
+            case INVEST_VIEWETYPE_IMAGE_GALLERY:
+                View investGalleryViewHolder = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.invest_gallery_view, parent, false);
+                return new InvestGalleryViewHolder(investGalleryViewHolder);
 
         }
 
@@ -102,6 +109,9 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         if (holder instanceof InvestMemberViewHolder) {
             ((InvestMemberViewHolder) holder).bind();
+        }
+        if (holder instanceof InvestGalleryViewHolder) {
+            ((InvestGalleryViewHolder) holder).bind();
         }
 //        if (holder instanceof InvestMainViewHolder) {
 //            ((InvestMainViewHolder) holder).bind();
@@ -200,6 +210,25 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         /* One line text */
         public InvestTitleViewHolder(View itemView) {
             super(itemView);
+        }
+
+        public void bind() {
+
+        }
+    }
+
+    public class InvestGalleryViewHolder extends RecyclerView.ViewHolder {
+
+        private ImageViewer.Builder imageViewerBuilder;
+        private ImageListAdapter imageAdapter;
+        private RecyclerView recyclerView;
+
+        public InvestGalleryViewHolder(View itemView) {
+            super(itemView);
+            recyclerView = itemView.findViewById(R.id.recycler_view);
+            recyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
+//            imageAdapter = new ImageListAdapter(null,null);
+//            recyclerView.setAdapter(imageAdapter);
         }
 
         public void bind() {

@@ -76,8 +76,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.price_progress_bar) ProgressBar priceProgressBar;
 
     private ImageViewer.Builder imageViewerBuilder;
-    private AppDetailPresenter presenter;
     private ImageListAdapter imageAdapter;
+    private AppDetailPresenter presenter;
     private AppInfo appInfo;
     private App app;
     private boolean isUserPurchasedApp;

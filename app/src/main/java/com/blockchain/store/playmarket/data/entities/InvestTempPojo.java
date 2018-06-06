@@ -26,6 +26,10 @@ public class InvestTempPojo {
                 "Защищенная от подделки кредитная история на базе блокчейн. Прозрачность системы для стороннего аудита\n" +
                 "Опытная команда, закрывающая все необходимые компетенции: более 40 специалистов для успешного старта проекта"));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_BODY);
+        objects.add(new InvestTitle("Screenshots"));
+        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
+        objects.add(new InvestTitle("Screenshots"));
+        objectViewType.add(InvestScreenAdapter.INVEST_VIEWETYPE_IMAGE_GALLERY);
         objects.add(new InvestTitle("Investors advantages"));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
         objects.add(new InvestBody("Успешно проведено preTGE собрано $165 000, всем участникам уже обменяли предварительные preTGE токены на основные токены TGE \n" +
