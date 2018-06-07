@@ -7,15 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.InvestTempPojo;
+import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.interfaces.InvestAdapterCallback;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.stfalcon.frescoimageviewer.ImageViewer;
+
+import java.util.ArrayList;
 
 public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int INVEST_VIEWTYPE_MAIN = 0;
@@ -102,10 +106,12 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((InvestYoutubeViewHolder) holder).bind();
         }
         if (holder instanceof InvestBodyMessageViewHolder) {
-            ((InvestBodyMessageViewHolder) holder).bind();
+            String body = (String) investTempPojo.objects.get(position);
+            ((InvestBodyMessageViewHolder) holder).bind(body);
         }
         if (holder instanceof InvestTitleViewHolder) {
-            ((InvestTitleViewHolder) holder).bind();
+            String title = (String) investTempPojo.objects.get(position);
+            ((InvestTitleViewHolder) holder).bind(title);
         }
         if (holder instanceof InvestMemberViewHolder) {
             ((InvestMemberViewHolder) holder).bind();
@@ -168,13 +174,15 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         /* requires:
          * title
          * description*/
+        private TextView bodyView;
 
         public InvestBodyMessageViewHolder(View itemView) {
             super(itemView);
+            bodyView = itemView.findViewById(R.id.body_message);
         }
 
-        public void bind() {
-
+        public void bind(String body) {
+            bodyView.setText(body);
         }
     }
 
@@ -208,31 +216,44 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public class InvestTitleViewHolder extends RecyclerView.ViewHolder {
         /* One line text */
+        private TextView titleView;
+
         public InvestTitleViewHolder(View itemView) {
             super(itemView);
+            titleView = itemView.findViewById(R.id.invest_title_view);
         }
 
-        public void bind() {
-
+        public void bind(String title) {
+            titleView.setText(title);
         }
     }
 
-    public class InvestGalleryViewHolder extends RecyclerView.ViewHolder {
+    public class InvestGalleryViewHolder extends RecyclerView.ViewHolder implements ImageListAdapterCallback {
 
         private ImageViewer.Builder imageViewerBuilder;
         private ImageListAdapter imageAdapter;
         private RecyclerView recyclerView;
+        private ArrayList<String> imagePaths = new ArrayList<>();
 
         public InvestGalleryViewHolder(View itemView) {
             super(itemView);
+            imagePaths.add("https://n000001.playmarket.io:3000/data/IPFS/QmdwWfuR3Y4ZsYGB7uJLn9Xj1PKJ9oMdJ8BxNaPEdMK7CX/pictures/1.jpg");
+            imagePaths.add("https://n000001.playmarket.io:3000/data/IPFS/QmdwWfuR3Y4ZsYGB7uJLn9Xj1PKJ9oMdJ8BxNaPEdMK7CX/pictures/2.jpg");
+            imagePaths.add("https://n000001.playmarket.io:3000/data/IPFS/QmdwWfuR3Y4ZsYGB7uJLn9Xj1PKJ9oMdJ8BxNaPEdMK7CX/pictures/3.jpg");
             recyclerView = itemView.findViewById(R.id.recycler_view);
-            recyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
-//            imageAdapter = new ImageListAdapter(null,null);
-//            recyclerView.setAdapter(imageAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
+            imageAdapter = new ImageListAdapter(imagePaths, this);
+            imageViewerBuilder = new ImageViewer.Builder(itemView.getContext(), imagePaths);
+            recyclerView.setAdapter(imageAdapter);
         }
 
         public void bind() {
 
+        }
+
+        @Override
+        public void onImageGalleryItemClicked(int position) {
+            imageViewerBuilder.setStartPosition(position).show();
         }
     }
 
