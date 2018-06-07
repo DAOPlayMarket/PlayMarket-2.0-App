@@ -21,6 +21,8 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
+import com.mtramin.rxfingerprint.RxFingerprint;
+import com.orhanobut.hawk.Hawk;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -44,7 +46,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     @BindView(R.id.address_text_view) TextView addressTextView;
     @BindView(R.id.NewUserWelcomeTextView) TextView newUserWelcomeNext;
     @BindView(R.id.continue_button) Button continueButton;
-    @BindView(R.id.fingerprint) TextView fingerPrintText;
+    @BindView(R.id.fingerprint) Button fingerPrintButton;
 
     private boolean isLaunchedFromSettings;
 
@@ -62,7 +64,8 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
         presenter.init(this, getApplicationContext());
         ButterKnife.bind(this);
         if (getIntent() != null) {
-            addressTextView.setText(getIntent().getStringExtra(Constants.WELCOME_ACTIVITY_ADDRESS_EXTRA));
+            if (checkFingerprint()) fingerPrintButton.setVisibility(View.VISIBLE);
+            setFingerprintButtonVisibility();
             isLaunchedFromSettings = getIntent().getBooleanExtra(Constants.WELCOME_ACTIVITY_IS_LUANCHED_FROM_SETTINGS_EXTRA, false);
         }
         if (isLaunchedFromSettings) {
@@ -72,14 +75,14 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     }
 
     private void setViewFromSettings() {
-        fingerPrintText.setVisibility(View.VISIBLE);
+        setFingerprintButtonVisibility();
         continueButton.setText(R.string.back);
         newUserWelcomeNext.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.fingerprint)
     void onFingerprintClicked() {
-        FingerprintConfiguringActivity.start(this, FingerprintConfiguringActivity.StartArguments.StartedFromMenu, null);
+        startActivityForResult(new Intent(this, FingerprintConfiguringActivity.class), 1);
     }
 
     /*
@@ -212,6 +215,15 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     //    close_btn.setOnClickListener(v -> d.dismiss());
     //}
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) return;
+        setFingerprintButtonVisibility();
+        String resultMessage = data.getStringExtra(FingerprintConfiguringActivity.RESULT);
+        ToastUtil.showToast(resultMessage);
+    }
+
 
     private void showCopiedAlert() {
         ToastUtil.showToast(R.string.address_copied);
@@ -219,6 +231,15 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
 
     private void showBackupAlert() {
         ToastUtil.showToast(R.string.wallet_backup_copied);
+    }
+
+    private boolean checkFingerprint() {
+        return RxFingerprint.isAvailable(this) && Hawk.contains(Constants.ENCRYPTED_PASSWORD);
+    }
+
+    private void setFingerprintButtonVisibility(){
+        if (checkFingerprint()) fingerPrintButton.setVisibility(View.VISIBLE);
+        else fingerPrintButton.setVisibility(View.GONE);
     }
 
 }

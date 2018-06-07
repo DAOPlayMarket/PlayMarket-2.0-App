@@ -1,6 +1,8 @@
 package com.blockchain.store.playmarket.ui.file_manager_screen;
 
 
+import android.content.Context;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -8,20 +10,18 @@ public class FileManagerContract {
 
     interface View{
 
-        void showToast(Boolean success);
-
         void showCreateFolderDialog(String folderName);
     }
 
     interface Presenter{
 
-        void init(FileManagerContract.View view);
+        void init(FileManagerContract.View view, Context context);
 
         ArrayList<File> getFolderList(String path, String type);
 
-        void createFolderButtonPressed(String currentDirectory, String folderName);
+        void createFolder(String currentDirectory, String folderName);
 
-        void confirmSaveButtonPressed(String currentDirectory);
+        void saveJsonAccountOnDevice(String currentDirectory);
 
         String getDataFromJsonKeystoreFile(File file, String type);
 

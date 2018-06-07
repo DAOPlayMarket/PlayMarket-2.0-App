@@ -9,8 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:textAlignment="center"
         android:layout_marginTop="30dp"
         android:text="@string/found_json_keystore"
         android:textColor="@color/black"
@@ -19,8 +18,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:textAlignment="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="30dp"
         android:gravity="center"
         android:text="@string/import_message" />
@@ -30,8 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="225dp"
         android:layout_marginBottom="30dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="30dp">
 
     </android.support.v7.widget.RecyclerView>
@@ -40,28 +40,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/close_manager_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/round_corner_green_button"
+            android:layout_marginEnd="5dp"
             android:maxHeight="225dp"
             android:text="@string/cancel_btn"
             style="?android:attr/buttonBarButtonStyle"
-            android:textColor="@android:color/background_light" />
+            android:textColor="@color/green_color" />
 
         <Button
             android:id="@+id/import_button"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
             android:background="@drawable/round_corner_green_button"
             android:text="@string/import_button"

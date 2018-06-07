@@ -41,8 +41,8 @@ public class FingerprintConfiguringPresenter implements FingerprintConfiguringCo
                         case AUTHENTICATED:
                             String encrypted = fingerprintEncryptionResult.getEncrypted();
                             Hawk.put(Constants.ENCRYPTED_PASSWORD, encrypted);
-                            view.showToast(context.getResources().getString(R.string.fingerprint_success));
-                            view.closeFingerprintActivity();
+                            //view.showToast(context.getResources().getString(R.string.fingerprint_success));
+                            view.closeFingerprintActivity(context.getResources().getString(R.string.fingerprint_success));
                             break;
                     }
                 }, throwable -> {

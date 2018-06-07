@@ -10,7 +10,7 @@ public class FingerprintConfiguringContract {
 
         void openMainActivity();
 
-        void closeFingerprintActivity();
+        void closeFingerprintActivity(String resultMessage);
 
         void showToast(String textResources);
 

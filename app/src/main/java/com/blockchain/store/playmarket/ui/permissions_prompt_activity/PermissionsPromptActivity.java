@@ -11,6 +11,8 @@ import android.view.View;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
+import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
+import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
 public class PermissionsPromptActivity extends AppCompatActivity {
@@ -19,15 +21,15 @@ public class PermissionsPromptActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_permissions_prompt);
-
-        if (PermissionUtils.storagePermissionGranted(this)) {
-            goToLoginPromptActivity();
-        }
     }
 
     public void requestPermissions(View view) {
         if (PermissionUtils.storagePermissionGranted(this)) {
-            goToLoginPromptActivity();
+            if (AccountManager.isHasUsers()) {
+                openMainMenuActivity();
+            } else {
+                openLoginPromptActivity();
+            }
         }
 
         PermissionUtils.verifyStoragePermissions(this);
@@ -38,7 +40,11 @@ public class PermissionsPromptActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (grantResults.length > 0
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            goToLoginPromptActivity();
+            if (AccountManager.isHasUsers()) {
+                openMainMenuActivity();
+            } else {
+                openLoginPromptActivity();
+            }
         } else {
             Intent intent = new Intent();
             intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -48,9 +54,13 @@ public class PermissionsPromptActivity extends AppCompatActivity {
         }
     }
 
-    public void goToLoginPromptActivity() {
-        Intent myIntent = new Intent(getApplicationContext(), LoginPromptActivity.class);
-        startActivity(myIntent);
+    public void openLoginPromptActivity() {
+        startActivity(new Intent(getApplicationContext(), LoginPromptActivity.class));
+        finish();
+    }
+
+    public void openMainMenuActivity() {
+        startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
         finish();
     }
 }

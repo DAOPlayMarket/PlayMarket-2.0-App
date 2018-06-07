@@ -36,6 +36,7 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
     private PasswordPromptPresenter presenter;
     private LoginViewModel loginViewModel;
     private String jsonData;
+    private String accountAddress;
 
     @BindView(R.id.password_editText) EditText passwordEditText;
     @BindView(R.id.available_fingerprint_imageView) ImageView availableFingerImageView;
@@ -56,7 +57,7 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
         ButterKnife.bind(this, view);
 
         presenter = new PasswordPromptPresenter();
-        presenter.init(this);
+        presenter.init(this, getContext());
 
         fingerprintAvailable();
 
@@ -77,8 +78,10 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
     }
 
     @OnClick(R.id.continue_login_button) void continueLoginButtonClicked() {
-        if (jsonData == null) createNewAccount();
-        else importAccount(jsonData);
+        String accountPassword = passwordEditText.getText().toString();
+
+        if (jsonData == null) createNewAccount(accountPassword);
+        else importExistingAccount(jsonData, accountPassword);
     }
 
     @OnClick(R.id.configure_fingerprint_button) void configureButtonClicked(){
@@ -93,12 +96,6 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
         }
     }
 
-    @Override
-    public void showToast(Boolean success) {
-        if (success) ToastUtil.showToast(R.string.success_autosave_message);
-        else ToastUtil.showToast(R.string.failed_autosave_message);
-    }
-
     private void openMainActivity() {
         startActivity(new Intent(getContext(), MainMenuActivity.class));
         getActivity().finish();
@@ -110,40 +107,33 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
         startActivity(intent);
     }
 
-    private void createNewAccount() {
-        if (checkPasswordForNewAccount()) {
-            String address = presenter.createNewAccount(passwordEditText.getText().toString());
-            if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.READY)) {
-                FingerprintConfiguringActivity.start(getContext(), FingerprintConfiguringActivity.StartArguments.StartedFromNewAccount, passwordEditText.getText().toString());
-            }
-            else openWelcomeActivity(address);
+    private void openFingerprintActivity(String accountPassword){
+        Intent intent = new Intent(getContext(), FingerprintConfiguringActivity.class);
+        intent.putExtra(FingerprintConfiguringActivity.PASSWORD, accountPassword);
+        startActivityForResult(intent, 1);
+    }
+
+    private void createNewAccount(String accountPassword) {
+        if (presenter.checkPasswordForNewAccount(accountPassword)) {
+            accountAddress = presenter.createNewAccount(accountPassword);
+            if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.READY)) openFingerprintActivity(accountPassword);
+            else openWelcomeActivity(accountAddress);
         }
     }
 
-    private void importAccount(String accountData) {
-        if (presenter.importAccount(accountData, passwordEditText.getText().toString())) {
-            if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.READY)){
-                FingerprintConfiguringActivity.start(getContext(), FingerprintConfiguringActivity.StartArguments.StartedFromImportAccount, passwordEditText.getText().toString());
-            } else {
+    private void importExistingAccount(String accountData, String accountPassword) {
+        if (presenter.importAccount(accountData, accountPassword)) {
+            if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.READY)) openFingerprintActivity(accountPassword);
+            else {
                 openMainActivity();
                 ToastUtil.showToast(R.string.import_successful);
             }
         } else showPasswordError(getResources().getString(R.string.wrong_password));
     }
 
-    private boolean checkPasswordForNewAccount() {
-        if (passwordEditText.getText().toString().isEmpty()) {
-            showPasswordError(getResources().getString(R.string.empty_password));
-        return false;
-    }
-            else if (passwordEditText.getText().length() < 7) {
-            showPasswordError(getResources().getString(R.string.short_password));
-            return false;
-        }
-        return true;
-    }
 
-    private void showPasswordError(String errorText){
+    @Override
+    public void showPasswordError(String errorText){
         passwordTextInputLayout.setPasswordVisibilityToggleTintList(AppCompatResources.getColorStateList(getContext(), R.color.red_error_color));
         passwordTextInputLayout.setError(errorText);
     }
@@ -179,5 +169,15 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
             availableFingerImageView.setVisibility(View.VISIBLE);
             notAvailableFingerImageView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) return;
+        String resultMessage = data.getStringExtra(FingerprintConfiguringActivity.RESULT);
+        ToastUtil.showToast(resultMessage);
+        if (jsonData == null) openWelcomeActivity(accountAddress);
+        else openMainActivity();
     }
 }

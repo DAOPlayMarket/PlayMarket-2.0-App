@@ -62,7 +62,7 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
         dialogManager = new DialogManager();
 
         presenter = new FileManagerPresenter();
-        presenter.init(this);
+        presenter.init(this, getApplicationContext());
 
         if (savedInstanceState != null) {
             currentDirectory = savedInstanceState.getString(CURRENT_PATH_KEY, basePath);
@@ -129,7 +129,7 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
     void confirmButtonPressed() {
 
         if (fileManagerType.equals("folders")) {
-            presenter.confirmSaveButtonPressed(currentDirectory);
+            presenter.saveJsonAccountOnDevice(currentDirectory);
             finish();
         }
 
@@ -188,13 +188,6 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
     }
 
     @Override
-    public void showToast(Boolean success) {
-        if (success) ToastUtil.showToast(R.string.success_save_message);
-        else ToastUtil.showToast(R.string.failed_save_message);
-    }
-
-
-    @Override
     public void showCreateFolderDialog(String folderName) {
         displayAlertDialog = dialogManager.showCreateFolderDialog(this, folderName, this);
         dialogName = DialogManager.DialogNames.CREATE_FOLDER_DIALOG;
@@ -207,7 +200,7 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
 
     @Override
     public void createFolderClicked(String folderName) {
-        presenter.createFolderButtonPressed(currentDirectory, folderName);
+        presenter.createFolder(currentDirectory, folderName);
         fileList = presenter.getFolderList(currentDirectory, fileManagerType);
         setFoldersRecyclerView(fileList);
     }

@@ -31,6 +31,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     private static final String WEI = "WEI";
 
     private TransferInfoPresenter presenter;
+    private String recipientAddress;
     private BigDecimal accountBalanceInEther;
     private TransferViewModel transferViewModel;
     private boolean isEth;
@@ -70,6 +71,16 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         String senderAddress = presenter.getSenderAddress();
         senderAddressTextView.setText(senderAddress);
         transferViewModel.senderAddress.setValue(senderAddressTextView.getText().toString());
+
+        getDataFromTransferViewModel();
+
+        if (recipientAddress == null){
+            recipientAddressEditText.setEnabled(true);
+        }
+        else{
+            recipientAddressEditText.setText(recipientAddress);
+            recipientAddressEditText.setEnabled(false);
+        }
 
         return view;
     }
@@ -119,10 +130,10 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     }
 
     private void ethSelect() {
-        ethTextView.setBackgroundResource(R.drawable.transfer_selected_button);
+        ethTextView.setBackgroundResource(R.drawable.round_corner_green_button);
         ethTextView.setTextColor(getResources().getColor(R.color.white));
 
-        weiTextView.setBackgroundResource(R.drawable.transfer_unselected_button);
+        weiTextView.setBackgroundResource(R.color.Clear);
         weiTextView.setTextColor(getResources().getColor(R.color.green_color));
 
         dimensionInfoTextView.setText(ETH);
@@ -133,10 +144,10 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     }
 
     private void weiSelect() {
-        weiTextView.setBackgroundResource(R.drawable.transfer_selected_button);
+        weiTextView.setBackgroundResource(R.drawable.round_corner_green_button);
         weiTextView.setTextColor(getResources().getColor(R.color.white));
 
-        ethTextView.setBackgroundResource(R.drawable.transfer_unselected_button);
+        ethTextView.setBackgroundResource(R.color.Clear);
         ethTextView.setTextColor(getResources().getColor(R.color.green_color));
 
         dimensionInfoTextView.setText(WEI);
@@ -191,5 +202,9 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     void onErrorViewRepeatClicked() {
         errorViewHolder.setVisibility(View.GONE);
         presenter.getAccountBalance();
+    }
+
+    private void getDataFromTransferViewModel(){
+        transferViewModel.recipientAddress.observe(getActivity(), s -> recipientAddress = s);
     }
 }

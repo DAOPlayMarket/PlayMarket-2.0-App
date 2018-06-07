@@ -37,6 +37,7 @@
     <string name="save_key_title">Please, don\'t forget to save your personal account key for user data transfer to other devices.</string>
     <string name="save">Save</string>
     <string name="continue_btn">Continue</string>
+    <string name="configure_fingerprint">Configure fingerprint</string>
 
     <!--send_mail_dialog-->
 

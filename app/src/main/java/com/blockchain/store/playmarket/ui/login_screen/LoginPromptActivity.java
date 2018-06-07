@@ -53,11 +53,8 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         loginAdapter.addFragment(new PasswordPromptFragment());
         loginViewPager.setAdapter(loginAdapter);
 
-        if (AccountManager.isHasUsers()) {
-            openMainActivity(null);
-        } else {
-            if (presenter.checkJsonFileExists()) showImportUserDialog();
-        }
+        if (presenter.checkJsonFileExists()) showImportUserDialog();
+
     }
 
     @Override
@@ -115,10 +112,5 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
             loginViewModel.jsonData.setValue(null);
             openWelcomeFragment();
         } else if (loginViewPager.getCurrentItem() == 0) super.onBackPressed();
-    }
-
-    public void openMainActivity(View view) {
-        startActivity(new Intent(getApplicationContext(), MainMenuActivity.class));
-        finish();
     }
 }

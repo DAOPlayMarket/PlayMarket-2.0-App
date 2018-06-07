@@ -38,27 +38,13 @@ public class FingerprintConfiguringActivity extends AppCompatActivity implements
 
     @BindView(R.id.fingerprint_title_textView) TextView fingerprintTitleTextView;
     @BindView(R.id.fingerprint_info_textView) TextView fingerprintInfoTextView;
-    @BindView(R.id.password_title_textView) TextView passwordTitleitleTextView;
+    @BindView(R.id.password_title_textView) TextView passwordTitleTextView;
 
-    public enum StartArguments {
-        StartedFromMenu,
-        StartedFromNewAccount,
-        StartedFromImportAccount
-    }
+    public static String PASSWORD = "account_password";
+    public static String RESULT = "resultMessage";
 
-    private static String START_ARGS = "start_args";
-    private static String PASSWORD = "account_password";
-
-    private StartArguments startArguments;
     private String accountPassword;
     private FingerprintConfiguringPresenter presenter;
-
-    public static void start(Context context, StartArguments startArguments, String accountPassword) {
-        Intent starter = new Intent(context, FingerprintConfiguringActivity.class);
-        starter.putExtra(START_ARGS, startArguments);
-        if (accountPassword != null) starter.putExtra(PASSWORD, accountPassword);
-        context.startActivity(starter);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +55,17 @@ public class FingerprintConfiguringActivity extends AppCompatActivity implements
         presenter = new FingerprintConfiguringPresenter();
         presenter.init(this, getApplicationContext());
 
-        getStartData();
+        accountPassword = getIntent().getStringExtra(PASSWORD);
+
+        if (accountPassword == null){
+            confirmPasswordLinearLayout.setVisibility(View.VISIBLE);
+            fingerprintIsAvailable(false);
+        }
+        else{
+            confirmPasswordLinearLayout.setVisibility(View.GONE);
+            accountPassword = getIntent().getStringExtra(PASSWORD);
+            presenter.subscribeFingerprint(accountPassword);
+        }
     }
 
     @Override
@@ -94,20 +90,13 @@ public class FingerprintConfiguringActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void closeFingerprintActivity() {
-        switch (startArguments) {
-            case StartedFromImportAccount:
-                openMainActivity();
-                break;
-            case StartedFromNewAccount:
-                String account = AccountManager.getAddress().getHex();
-                openWelcomeActivity(account);
-                break;
-            case StartedFromMenu:
-                finish();
-                break;
-        }
+    public void closeFingerprintActivity(String resultMessage) {
+        Intent intent = new Intent();
+        intent.putExtra(RESULT, resultMessage);
+        setResult(RESULT_OK, intent);
+        finish();
     }
+
 
     @Override
     public void showToast(String text) {
@@ -116,29 +105,7 @@ public class FingerprintConfiguringActivity extends AppCompatActivity implements
 
     @OnClick(R.id.dont_activate_button)
     void doNotActivateButtonClicked() {
-        closeFingerprintActivity();
-    }
-
-    private void getStartData(){
-        if (getIntent() != null) {
-            startArguments = (StartArguments) getIntent().getSerializableExtra(START_ARGS);
-            switch (startArguments) {
-                case StartedFromImportAccount:
-                    confirmPasswordLinearLayout.setVisibility(View.GONE);
-                    accountPassword = getIntent().getStringExtra(PASSWORD);
-                    presenter.subscribeFingerprint(accountPassword);
-                    break;
-                case StartedFromNewAccount:
-                    confirmPasswordLinearLayout.setVisibility(View.GONE);
-                    accountPassword = getIntent().getStringExtra(PASSWORD);
-                    presenter.subscribeFingerprint(accountPassword);
-                    break;
-                case StartedFromMenu:
-                    confirmPasswordLinearLayout.setVisibility(View.VISIBLE);
-                    fingerprintIsAvailable(false);
-                    break;
-            }
-        }
+        closeFingerprintActivity("Fingerprint activating is canceled");
     }
 
     @OnClick(R.id.confirm_password_button) void confirmPasswordButtonClicked(){
@@ -160,7 +127,7 @@ public class FingerprintConfiguringActivity extends AppCompatActivity implements
             fingerprintInfoTextView.setTextColor(getResources().getColor(R.color.black));
             availableFingerprintImageView.setColorFilter(getResources().getColor(R.color.green_color));
 
-            passwordTitleitleTextView.setEnabled(false);
+            passwordTitleTextView.setEnabled(false);
             accountPasswordEditText.setEnabled(false);
             confirmPasswordButton.setEnabled(false);
 
@@ -171,7 +138,7 @@ public class FingerprintConfiguringActivity extends AppCompatActivity implements
             fingerprintInfoTextView.setTextColor(getResources().getColor(R.color.greyBackground));
             availableFingerprintImageView.setColorFilter(getResources().getColor(R.color.greyBackground));
 
-            passwordTitleitleTextView.setEnabled(true);
+            passwordTitleTextView.setEnabled(true);
             accountPasswordEditText.setEnabled(true);
             confirmPasswordButton.setEnabled(true);
 

@@ -26,6 +26,8 @@ import io.reactivex.disposables.Disposables;
 
 public class TransferActivity extends AppCompatActivity implements TransferContract.View, LifecycleOwner {
 
+    public static String RECIPIENT = "recipient_address";
+
     private TransferViewModel transferViewModel;
 
     private TransferPresenter presenter;
@@ -46,6 +48,11 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
         ButterKnife.bind(this);
 
         getDataFromViewModel();
+
+        recipientAddress = getIntent().getStringExtra(RECIPIENT);
+        if (recipientAddress != null){
+            transferViewModel.recipientAddress.setValue(recipientAddress);
+        }
 
         presenter = new TransferPresenter();
         presenter.init(this, getApplicationContext());

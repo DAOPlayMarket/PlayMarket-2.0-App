@@ -7,7 +7,9 @@ import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.Application;
+import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.utilities.FileUtils;
+import com.blockchain.store.playmarket.utilities.ToastUtil;
 
 import org.ethereum.geth.Account;
 
@@ -16,24 +18,27 @@ public class PasswordPromptPresenter implements PasswordPromptContract.Presenter
     private static final String TAG = "LoginPromptActivityOld";
 
     private PasswordPromptContract.View view;
+    private Context context;
 
     private FileUtils fileUtils;
 
     @Override
-    public void init(PasswordPromptContract.View view) {
+    public void init(PasswordPromptContract.View view, Context context) {
         this.view = view;
+        this.context = context;
         fileUtils = new FileUtils();
     }
 
     @Override
-    public String createNewAccount(String password) {
+    public String createNewAccount(String accountPassword) {
         try {
-            Account account = Application.keyManager.newAccount(password);
+            Account account = Application.keyManager.newAccount(accountPassword);
             Log.d(TAG, "makeNewAccount: " + account.getURL().toString());
             String address = account.getAddress().getHex();
             autoSaveJsonKeystoreFile();
             Log.d(TAG, address);
             return address;
+
         } catch (Exception e) {
             e.printStackTrace();
             return "";
@@ -49,7 +54,8 @@ public class PasswordPromptPresenter implements PasswordPromptContract.Presenter
     public void autoSaveJsonKeystoreFile() {
         String newDirectoryPath = fileUtils.createNewFolder();
         Boolean success = fileUtils.saveJsonKeystoreFile(newDirectoryPath);
-        view.showToast(success);
+        if (success) ToastUtil.showToast(R.string.success_autosave_message);
+        else ToastUtil.showToast(R.string.failed_autosave_message);
     }
 
     @Override
@@ -72,6 +78,18 @@ public class PasswordPromptPresenter implements PasswordPromptContract.Presenter
             return PasswordPromptContract.sensorState.NOT_SUPPORTED;
         }
     }
+
+    public boolean checkPasswordForNewAccount(String accountPassword) {
+        if (accountPassword.equals("")) {
+            view.showPasswordError(context.getResources().getString(R.string.empty_password));
+            return false;
+        } else if (accountPassword.length() < 7) {
+            view.showPasswordError(context.getResources().getString(R.string.short_password));
+            return false;
+        }
+        return true;
+    }
+
 
     public static boolean checkFingerprintCompatibility(@NonNull Context context) {
         return FingerprintManagerCompat.from(context).isHardwareDetected();

@@ -13,12 +13,13 @@ public class PasswordPromptContract {
 
     interface View {
 
-        void showToast(Boolean success);
+        void showPasswordError(String message);
+
     }
 
     interface Presenter{
 
-        void init (PasswordPromptContract.View view);
+        void init (PasswordPromptContract.View view, Context context);
 
         String createNewAccount(String password);
 
