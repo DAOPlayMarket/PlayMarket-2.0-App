@@ -24,9 +24,9 @@ Works on Rinkeby network.
   2. Buying apps with cryptocurrency.
   3. Offline creating and signing of transactions.
   4. Transfer and exchange ether.
+  
 
-
-
+[![Google Play](https://github.com/CryptonStudio/PlayMarket-2.0-App/blob/master/docs/photo/google_play.png)](https://play.google.com/apps/testing/com.blockchain.store.playmarket)
 ## How it works
 
 The mobile app is developed on the basis of the modern technologies recommended by Android Developers (the so-called native technologies). 
