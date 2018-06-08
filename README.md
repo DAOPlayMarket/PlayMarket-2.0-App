@@ -11,7 +11,7 @@ Personal freedom is impossible without economic security and independence. There
 
 <img src="https://github.com/CryptonStudio/PlayMarket-2.0-App/blob/master/docs/photo/Screenshot_1527503265.png" width="360" height="640">  |  <img src="https://github.com/CryptonStudio/PlayMarket-2.0-App/blob/master/docs/photo/Screenshot_1527503311.png" width="360" height="640">
 
-<img src="https://github.com/CryptonStudio/PlayMarket-2.0-App/blob/master/docs/photo/Screenshot_1527503334.png" width="360" height="640">  |  <img src="https://github.com/CryptonStudio/PlayMarket-2.0-App/blob/master/docs/photo/Screenshot_1527503340.png" width="360" height="640">
+<img src="https://github.com/CryptonStudio/PlayMarket-2.0-App/blob/master/docs/photo/Screenshot_1527503339.png" width="360" height="640">  |  <img src="https://github.com/CryptonStudio/PlayMarket-2.0-App/blob/master/docs/photo/Screenshot_1527503340.png" width="360" height="640">
 
 
 The application supports Android 5.0 and above.
