@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -23,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.ImageListAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -74,8 +76,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.price_progress_bar) ProgressBar priceProgressBar;
 
     private ImageViewer.Builder imageViewerBuilder;
-    private AppDetailPresenter presenter;
     private ImageListAdapter imageAdapter;
+    private AppDetailPresenter presenter;
     private AppInfo appInfo;
     private App app;
     private boolean isUserPurchasedApp;
@@ -119,7 +121,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     private void setViews() {
-//        investBtn.setVisibility(app.isIco ? View.VISIBLE : View.INVISIBLE);
+        investBtn.setVisibility(/*app.isIco || */BuildConfig.DEBUG ? View.VISIBLE : View.INVISIBLE);
         imageIcon.setImageURI(Uri.parse(app.getIconUrl()));
         startPostponedEnterTransition();
         toolbarAppName.setText(app.nameApp);
@@ -246,7 +248,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @OnClick(R.id.invest_btn)
     void onInvestBtnClicked() {
-//        InvestActivity.start(this, appInfo);
+        InvestActivity.start(this, appInfo);
 //        new DialogManager().showInvestDialog(appInfo, this, investAmount -> presenter.onInvestClicked(appInfo, investAmount));
     }
 

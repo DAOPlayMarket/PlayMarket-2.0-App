@@ -135,4 +135,6 @@
     <string name="configure_button">Configure fingerprint?</string>
     <string name="fingerprint_success">Password successfully encrypted!</string>
     <string name="fingerprint_not_recognized">Fingerprint not recognized, try again!</string>
+    <string name="invest_earned_message">Earned, ETH</string>
+    <string name="invest_hardcap">HardCap</string>
 </resources>

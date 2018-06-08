@@ -13,6 +13,10 @@ import com.blockchain.store.playmarket.data.entities.Node;
 import com.blockchain.store.playmarket.fabric.EventsHelper;
 import com.blockchain.store.playmarket.utilities.net.NodeUtils;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -37,6 +41,10 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
     public void requestUserLocation(Context context) {
         view.setStatusText(R.string.network_status_location_search);
         if (isEmulator()) {
+            Location location = new Location("");
+            location.setLongitude(56.476181);
+            location.setLatitude(84.950168);
+            getNearestNode(location);
             view.onLocationReady();
         } else {
             locationManager.getLocation(context, this);
@@ -74,7 +82,14 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
 
     private void onNearestNodeFail(Throwable throwable) {
         EventsHelper.logExceptions(throwable);
-        view.setStatusText(R.string.search_for_node_fail, throwable.toString());
+        throwable.getStackTrace().toString();
+
+
+        Writer writer = new StringWriter();
+        throwable.printStackTrace(new PrintWriter(writer));
+        String error = writer.toString();
+
+        view.setStatusText(R.string.search_for_node_fail,  error);
         view.onNearestNodeFailed(throwable);
     }
 
@@ -82,7 +97,8 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
     public void onLocationReady(Location location) {
         locationManager.stopLocationServices();
         if (BuildConfig.DEBUG) {
-            view.onLocationReady();
+//            view.onLocationReady();
+            getNearestNode(location);
         } else {
             getNearestNode(location);
         }
