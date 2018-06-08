@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.ui.invest_screen;
 
+import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.InvestScreenAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -18,6 +20,7 @@ import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.interfaces.InvestAdapterCallback;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
+import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
@@ -29,6 +32,9 @@ import com.google.android.youtube.player.YouTubePlayerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.ethmobile.ethdroid.KeyManager;
+
+import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.RECIPIENT;
 
 public class InvestActivity extends YouTubeBaseActivity implements InvestContract.View, InvestAdapterCallback {
     private static final String TAG = "InvestActivity";
@@ -84,7 +90,9 @@ public class InvestActivity extends YouTubeBaseActivity implements InvestContrac
 
     @Override
     public void onInvestBtnClicked(String address) {
-        startActivity(new Intent(this, TransferActivity.class));
+        Intent intent = new Intent(this, TransferActivity.class);
+        intent.putExtra(RECIPIENT, AccountManager.getAddress().getHex()); //todo: change to real address
+        startActivity(intent);
     }
 
 }
