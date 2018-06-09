@@ -127,9 +127,9 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (holder instanceof InvestGalleryViewHolder) {
             ((InvestGalleryViewHolder) holder).bind();
         }
-//        if (holder instanceof InvestMainViewHolder) {
-//            ((InvestMainViewHolder) holder).bind();
-//        }
+        if (holder instanceof InvestSocialMediaViewHolder) {
+            ((InvestSocialMediaViewHolder) holder).bind();
+        }
 
     }
 
@@ -231,6 +231,10 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         public InvestSocialMediaViewHolder(View itemView) {
             super(itemView);
+        }
+
+        public void bind() {
+
         }
     }
 
