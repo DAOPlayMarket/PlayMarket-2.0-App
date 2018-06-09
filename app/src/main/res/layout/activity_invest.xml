@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <include layout="@layout/detail_app_toolbar" />
-
-    <View
-        android:background="@color/cardview_dark_background"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -17,4 +10,32 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp" />
-</LinearLayout>
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        app:elevation="0dp"
+        android:padding="0dp"
+        android:layout_margin="0dp"
+        android:background="@android:color/transparent"
+        android:layout_height="?attr/actionBarSize">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
+
+            <ImageView
+                android:id="@+id/top_layout_back_arrow"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:paddingRight="@dimen/detail_app_arrow_margins"
+                android:scaleType="center"
+                android:src="@drawable/back"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+
+
+</android.support.design.widget.CoordinatorLayout>

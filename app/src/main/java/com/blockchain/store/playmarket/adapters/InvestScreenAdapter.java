@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.adapters;
 
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +20,9 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int INVEST_VIEWTYPE_MAIN = 0;
@@ -29,7 +32,12 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static final int INVEST_VIEWTYPE_MEMBER = 4;
     public static final int INVEST_VIEWTYPE_SOCIAL = 5;
     public static final int INVEST_VIEWETYPE_IMAGE_GALLERY = 6;
+
+    private static final long MILLIS_30_DAYS = 2646000000L;
+    private static final String DATE_FORMAT = "DD:HH:mm:ss";
+
     private final InvestAdapterCallback adapterCallback;
+
     private InvestTempPojo investTempPojo;
 
     public InvestScreenAdapter(InvestAdapterCallback adapterCallback) {
@@ -131,18 +139,30 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class InvestMainViewHolder extends RecyclerView.ViewHolder {
-        /* requires:
-         * App icon
-         * app name
-         * app description
-         * progress bar limits,current value
-         * button 'invest'
-         * */
+        private CountDownTimer countDownTimer;
+        private SimpleDateFormat simpleDateFormat;
         private Button investButton;
+        private TextView timeRemains;
 
         public InvestMainViewHolder(View itemView) {
             super(itemView);
+            timeRemains = itemView.findViewById(R.id.invest_time_remains);
+
+            simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
             investButton = itemView.findViewById(R.id.invest_btn);
+            countDownTimer = new CountDownTimer(MILLIS_30_DAYS, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    String formattedString = simpleDateFormat.format(new Date(millisUntilFinished));
+                    timeRemains.setText(formattedString);
+
+                }
+
+                @Override
+                public void onFinish() {
+
+                }
+            }.start();
         }
 
         public void bind() {

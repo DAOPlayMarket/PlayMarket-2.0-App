@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="?attr/actionBarSize"
     android:orientation="vertical"
     tools:context="com.blockchain.store.playmarket.ui.invest_screen.InvestActivity">
 
@@ -85,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:max="25500"
-        android:progress="20000" />
+        android:progress="1242" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -96,7 +97,7 @@
             android:id="@+id/invest_current_earned"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="12750"
+            android:text="1242"
             android:textColor="@color/invest_main_color"
             android:textSize="18sp"
             android:textStyle="bold" />

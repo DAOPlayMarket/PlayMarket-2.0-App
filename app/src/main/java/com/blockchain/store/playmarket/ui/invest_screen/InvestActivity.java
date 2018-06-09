@@ -1,50 +1,45 @@
 package com.blockchain.store.playmarket.ui.invest_screen;
 
-import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.os.CountDownTimer;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatCallback;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
 
-import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.InvestScreenAdapter;
-import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
-import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.interfaces.InvestAdapterCallback;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
-import com.blockchain.store.playmarket.utilities.Constants;
-import com.blockchain.store.playmarket.utilities.DialogManager;
-import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.ethmobile.ethdroid.KeyManager;
 
 import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.RECIPIENT;
 
-public class InvestActivity extends YouTubeBaseActivity implements InvestContract.View, InvestAdapterCallback {
+public class InvestActivity extends YouTubeBaseActivity implements InvestContract.View, InvestAdapterCallback, AppCompatCallback {
     private static final String TAG = "InvestActivity";
     private static final String INVEST_APP_PARAM = "invest_app_param";
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     private AppInfo appInfo;
     private InvestPresenter presenter;
     private InvestScreenAdapter adapter;
+    private AppCompatDelegate appCompatDelegate;
+
 
     public static void start(Context context, AppInfo appInfo) {
         Intent starter = new Intent(context, InvestActivity.class);
@@ -55,8 +50,15 @@ public class InvestActivity extends YouTubeBaseActivity implements InvestContrac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_invest);
-        ButterKnife.bind(this);
+        appCompatDelegate = AppCompatDelegate.create(this, this);
+        appCompatDelegate.onCreate(savedInstanceState);
+        appCompatDelegate.setContentView(R.layout.activity_invest);
+        appCompatDelegate.setSupportActionBar(toolbar);
+        setUpCountDownTimer();
+
+        recyclerView = findViewById(R.id.recycler_view);
+        toolbar = findViewById(R.id.toolbar);
+
         if (getIntent() != null) {
             appInfo = getIntent().getParcelableExtra(INVEST_APP_PARAM);
         } else {
@@ -64,6 +66,10 @@ public class InvestActivity extends YouTubeBaseActivity implements InvestContrac
         }
         attachPresenter();
         setUpRecycler();
+    }
+
+    private void setUpCountDownTimer() {
+
     }
 
     private void setUpRecycler() {
@@ -77,22 +83,47 @@ public class InvestActivity extends YouTubeBaseActivity implements InvestContrac
         presenter.init(this);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-    }
-
-    @OnClick(R.id.top_layout_back_arrow)
-    public void onBackArrowClicked() {
-        super.onBackPressed();
-    }
 
     @Override
     public void onInvestBtnClicked(String address) {
         Intent intent = new Intent(this, TransferActivity.class);
         intent.putExtra(RECIPIENT, AccountManager.getAddress().getHex()); //todo: change to real address
         startActivity(intent);
+    }
+
+    //region Action bar delegate
+    @Override
+    public void onSupportActionModeStarted(ActionMode mode) {
+
+    }
+
+    @Override
+    public void onSupportActionModeFinished(ActionMode mode) {
+
+    }
+
+    @Nullable
+    @Override
+    public ActionMode onWindowStartingSupportActionMode(ActionMode.Callback callback) {
+        return null;
+    }
+
+    //endregion
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @OnClick(R.id.top_layout_back_arrow)
+    public void onBackArrowClicked() {
+        super.onBackPressed();
     }
 
 }
