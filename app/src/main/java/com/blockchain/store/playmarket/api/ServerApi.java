@@ -1,19 +1,26 @@
 package com.blockchain.store.playmarket.api;
 
+import android.util.Pair;
+
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.data.entities.InvestAddressResponse;
+import com.blockchain.store.playmarket.data.entities.Node;
 import com.blockchain.store.playmarket.data.entities.NonceResponce;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -78,4 +85,7 @@ public interface ServerApi {
     @FormUrlEncoded
     @POST("search")
     Observable<ArrayList<App>> getSearchResult(@Field("query") String query);
+
+    @GET("api/availability")
+    Call<ResponseBody> checkAvailability();
 }

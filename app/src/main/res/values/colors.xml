@@ -8,17 +8,14 @@
     <color name="buyButtonColor">#56a3a6</color>
     <color name="investButtonColor">#68e5ad</color>
     <color name="priceTextColor">#d6487b</color>
-    <color name="appDetailButtonBackground">#9fe5b7</color>'
+    '
     <color name="greyBackground">#989898</color>
     <color name="lightGreenBackground">#509fe5b7</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="markdownViewBackground">#FBFBFBFF</color>
     <color name="black">#000000</color>
     <color name="yellow_light">#fcf7bf</color>
-    <color name="yellow">#f2c30b</color>
     <color name="ratingBarStarColor">#ffc785</color>
     <color name="mainRedColor">#f7467d</color>
-    <color name="detailed_btn_holder_background">#e9fbf2</color>
     <color name="action_btn_background">#00a5a7</color>
     <color name="invest_btn_background">#00e6a7</color>
     <color name="nav_image_tint">#e7e7e7</color>
@@ -34,8 +31,12 @@
     <color name="exchange_main_field_text_color">#309f90</color>
     <color name="exchange_gray_text_color">#808080</color>
     <color name="exchange_main_bg_color">#cdf0ea</color>
-    <color name="exchange_buttoncolor">#06a880</color>
+    <color name="green_color">#06a880</color>
     <color name="exchange_dot_color">#064139</color>
+    <color name="light_green_background_color">#1405b297</color>
+    <color name="light_gray_background_color">#14828786</color>
+    <color name="red_error_color">#FFDD2C00</color>
+
 
 
 </resources>

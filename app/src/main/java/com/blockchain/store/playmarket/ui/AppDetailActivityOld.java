@@ -23,7 +23,6 @@ import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.data.ImageUtils;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
-import org.ethereum.geth.Address;
 import org.ethereum.geth.BigInt;
 import org.ethereum.geth.Transaction;
 
@@ -161,39 +160,39 @@ public class AppDetailActivityOld extends AppCompatActivity {
 
 
 
-        Button close_btn = (Button) d.findViewById(R.id.continueButton);
+        Button close_btn = (Button) d.findViewById(R.id.continue_button);
         close_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                promptForPassword();
+                //promptForPassword();
                 d.dismiss();
             }
         });
     }
 
-    public void promptForPassword() {
-        final Dialog d = new Dialog(this);
-        d.setContentView(R.layout.password_prompt_dialog);
-
-        final EditText passwordText = (EditText) d.findViewById(R.id.passwordText);
-
-        d.show();
-
-        TextView addFundsBtn = (TextView) d.findViewById(R.id.continueButton);
-        addFundsBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                purchase(passwordText.getText().toString(), false, null);
-                d.dismiss();
-            }
-        });
-
-
-        Button close_btn = (Button) d.findViewById(R.id.continueButton);
-        close_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                d.dismiss();
-            }
-        });
-    }
+    //public void promptForPassword() {
+    //    final Dialog d = new Dialog(this);
+    //    d.setContentView(R.layout.password_prompt_dialog);
+//
+    //    final EditText passwordText = (EditText) d.findViewById(R.id.passwordText);
+//
+    //    d.show();
+//
+    //    TextView addFundsBtn = (TextView) d.findViewById(R.id.continue_button);
+    //    addFundsBtn.setOnClickListener(new View.OnClickListener() {
+    //        public void onClick(View v) {
+    //            purchase(passwordText.getText().toString(), false, null);
+    //            d.dismiss();
+    //        }
+    //    });
+//
+//
+    //    Button close_btn = (Button) d.findViewById(R.id.continue_button);
+    //    close_btn.setOnClickListener(new View.OnClickListener() {
+    //        public void onClick(View v) {
+    //            d.dismiss();
+    //        }
+    //    });
+    //}
 
     public void promptForAmountToInvest() {
         final Dialog d = new Dialog(this);
@@ -203,15 +202,15 @@ public class AppDetailActivityOld extends AppCompatActivity {
 
         d.show();
 
-        TextView addFundsBtn = (TextView) d.findViewById(R.id.continueButton);
+        TextView addFundsBtn = (TextView) d.findViewById(R.id.continue_button);
         addFundsBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                promptForPasswordInvest(investmentAmountText.getText().toString());
+                //promptForPasswordInvest(investmentAmountText.getText().toString());
                 d.dismiss();
             }
         });
 
-        Button close_btn = (Button) d.findViewById(R.id.continueButton);
+        Button close_btn = (Button) d.findViewById(R.id.continue_button);
         close_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 d.dismiss();
@@ -219,30 +218,30 @@ public class AppDetailActivityOld extends AppCompatActivity {
         });
     }
 
-    public void promptForPasswordInvest(final String amountToInvest) {
-        final Dialog d = new Dialog(this);
-        d.setContentView(R.layout.password_prompt_dialog);
-
-        final EditText passwordText = (EditText) d.findViewById(R.id.passwordText);
-
-        d.show();
-
-        TextView addFundsBtn = (TextView) d.findViewById(R.id.continueButton);
-        addFundsBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                purchase(passwordText.getText().toString(), true, amountToInvest);
-                d.dismiss();
-            }
-        });
-
-
-        Button close_btn = (Button) d.findViewById(R.id.continueButton);
-        close_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                d.dismiss();
-            }
-        });
-    }
+    //public void promptForPasswordInvest(final String amountToInvest) {
+    //    final Dialog d = new Dialog(this);
+    //    d.setContentView(R.layout.password_prompt_dialog);
+//
+    //    final EditText passwordText = (EditText) d.findViewById(R.id.passwordText);
+//
+    //    d.show();
+//
+    //    TextView addFundsBtn = (TextView) d.findViewById(R.id.continue_button);
+    //    addFundsBtn.setOnClickListener(new View.OnClickListener() {
+    //        public void onClick(View v) {
+    //            purchase(passwordText.getText().toString(), true, amountToInvest);
+    //            d.dismiss();
+    //        }
+    //    });
+//
+//
+    //    Button close_btn = (Button) d.findViewById(R.id.continue_button);
+    //    close_btn.setOnClickListener(new View.OnClickListener() {
+    //        public void onClick(View v) {
+    //            d.dismiss();
+    //        }
+    //    });
+    //}
 
 
     public void showAddFundsDialog() {
@@ -259,7 +258,7 @@ public class AppDetailActivityOld extends AppCompatActivity {
         TextView balanceTextView = (TextView) d.findViewById(R.id.balanceText);
         balanceTextView.setText(APIUtils.api.balance.getDisplayPrice(true));
 
-        Button close_btn = (Button) d.findViewById(R.id.continueButton);
+        Button close_btn = (Button) d.findViewById(R.id.continue_button);
         close_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 d.dismiss();
@@ -417,7 +416,7 @@ public class AppDetailActivityOld extends AppCompatActivity {
         d.show();
 
 
-        Button close_btn = (Button) d.findViewById(R.id.continueButton);
+        Button close_btn = (Button) d.findViewById(R.id.continue_button);
         close_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 promptForAmountToInvest();

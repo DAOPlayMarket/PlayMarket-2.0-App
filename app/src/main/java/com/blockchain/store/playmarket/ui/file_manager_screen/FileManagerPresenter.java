@@ -1,6 +1,10 @@
 package com.blockchain.store.playmarket.ui.file_manager_screen;
 
+import android.content.Context;
+
+import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.utilities.FileUtils;
+import com.blockchain.store.playmarket.utilities.ToastUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -8,12 +12,14 @@ import java.util.ArrayList;
 public class FileManagerPresenter implements FileManagerContract.Presenter {
 
     private FileManagerContract.View view;
+    private Context context;
 
     private FileUtils fileUtils;
 
     @Override
-    public void init(FileManagerContract.View view) {
+    public void init(FileManagerContract.View view, Context context) {
         this.view = view;
+        this.context = context;
         fileUtils = new FileUtils();
     }
 
@@ -23,24 +29,20 @@ public class FileManagerPresenter implements FileManagerContract.Presenter {
     }
 
     @Override
-    public void createFolderButtonPressed(String currentDirectory, String folderName) {
+    public void createFolder(String currentDirectory, String folderName) {
         fileUtils.createNewFolder(currentDirectory, folderName);
     }
 
    @Override
-   public void confirmSaveButtonPressed(String currentDirectory) {
+   public void saveJsonAccountOnDevice(String currentDirectory) {
        Boolean success = fileUtils.saveJsonKeystoreFile(currentDirectory);
-       view.showToast(success);
+       if (success) ToastUtil.showToast(context.getResources().getString(R.string.success_save_message));
+       else ToastUtil.showToast(context.getResources().getString(R.string.success_save_message));
    }
 
     @Override
     public String getDataFromJsonKeystoreFile(File file, String type) {
         return fileUtils.readJsonKeystoreFile(file, type);
-    }
-
-    @Override
-    public boolean confirmImportButtonPressed(String fileString, String password) {
-        return fileUtils.confirmImport(fileString, password);
     }
 
     @Override

@@ -110,15 +110,15 @@ public class PurchaseVerifierService extends IntentService {
         ArrayList coords = NodeUtils.getCoordinates();
         Log.d("Location", coords.get(0).toString() + "," + coords.get(1).toString());
 
-        String[] nodes = NodeUtils.getNodesList(NodeUtils.NODES_DNS_SERVER);
-        for (String node : nodes) {
-            Log.d("Node", node);
-        }
+//        String[] nodes = NodeUtils.getNodesList(NodeUtils.NODES_DNS_SERVER);
+//        for (String node : nodes) {
+//            Log.d("Node", node);
+//        }
+//
+//        String nearestNodeIP = NodeUtils.getNearestNode(nodes, (double) coords.get(0), (double) coords.get(1));
+//        Log.d("Node", nearestNodeIP);
 
-        String nearestNodeIP = NodeUtils.getNearestNode(nodes, (double) coords.get(0), (double) coords.get(1));
-        Log.d("Node", nearestNodeIP);
-
-        return nearestNodeIP;
+        return "";
     }
 
     public static String makeCheckPurchaseUrl(String address, String idApp, String idCat, String hashIPFS) {

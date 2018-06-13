@@ -3,41 +3,39 @@ package com.blockchain.store.playmarket.ui.invest_screen;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatCallback;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.view.ActionMode;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.data.entities.App;
+import com.blockchain.store.playmarket.adapters.InvestScreenAdapter;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
-import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
-import com.blockchain.store.playmarket.utilities.Constants;
-import com.blockchain.store.playmarket.utilities.DialogManager;
-import com.blockchain.store.playmarket.utilities.ToastUtil;
+import com.blockchain.store.playmarket.interfaces.InvestAdapterCallback;
+import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
+import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class InvestActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, InvestContract.View {
+import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.RECIPIENT;
+
+public class InvestActivity extends YouTubeBaseActivity implements InvestContract.View, InvestAdapterCallback, AppCompatCallback {
     private static final String TAG = "InvestActivity";
     private static final String INVEST_APP_PARAM = "invest_app_param";
 
-    @BindView(R.id.top_layout_back_arrow) ImageView top_layout_back_arrow;
-    @BindView(R.id.top_layout_app_name) TextView top_layout_app_name;
-    @BindView(R.id.top_layout_holder) LinearLayout top_layout_holder;
-    @BindView(R.id.app_logo) ImageView app_logo;
-    @BindView(R.id.invest_btn) Button invest_btn;
-    @BindView(R.id.youtube) YouTubePlayerView youtube;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     private AppInfo appInfo;
     private InvestPresenter presenter;
+    private InvestScreenAdapter adapter;
+    private AppCompatDelegate appCompatDelegate;
+
 
     public static void start(Context context, AppInfo appInfo) {
         Intent starter = new Intent(context, InvestActivity.class);
@@ -48,15 +46,32 @@ public class InvestActivity extends YouTubeBaseActivity implements YouTubePlayer
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_invest);
-        ButterKnife.bind(this);
+        appCompatDelegate = AppCompatDelegate.create(this, this);
+        appCompatDelegate.onCreate(savedInstanceState);
+        appCompatDelegate.setContentView(R.layout.activity_invest);
+        appCompatDelegate.setSupportActionBar(toolbar);
+        setUpCountDownTimer();
+
+        recyclerView = findViewById(R.id.recycler_view);
+        toolbar = findViewById(R.id.toolbar);
+
         if (getIntent() != null) {
             appInfo = getIntent().getParcelableExtra(INVEST_APP_PARAM);
         } else {
             throw new RuntimeException("App must be provided!");
         }
         attachPresenter();
-        youtube.initialize(Constants.YOUTUBE_KEY, this);
+        setUpRecycler();
+    }
+
+    private void setUpCountDownTimer() {
+
+    }
+
+    private void setUpRecycler() {
+        adapter = new InvestScreenAdapter(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 
     private void attachPresenter() {
@@ -64,15 +79,42 @@ public class InvestActivity extends YouTubeBaseActivity implements YouTubePlayer
         presenter.init(this);
     }
 
+
+    @Override
+    public void onInvestBtnClicked(String address) {
+        Intent intent = new Intent(this, TransferActivity.class);
+        intent.putExtra(RECIPIENT, AccountManager.getAddress().getHex()); //todo: change to real address
+        startActivity(intent);
+    }
+
+    //region Action bar delegate
+    @Override
+    public void onSupportActionModeStarted(ActionMode mode) {
+
+    }
+
+    @Override
+    public void onSupportActionModeFinished(ActionMode mode) {
+
+    }
+
+    @Nullable
+    @Override
+    public ActionMode onWindowStartingSupportActionMode(ActionMode.Callback callback) {
+        return null;
+    }
+
+    //endregion
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
 
     }
 
-    @OnClick(R.id.invest_btn)
-    public void invest_btn() {
-        new DialogManager().showInvestDialog(appInfo, this, investAmount -> presenter.onInvestClicked(appInfo, investAmount));
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @OnClick(R.id.top_layout_back_arrow)
@@ -80,26 +122,4 @@ public class InvestActivity extends YouTubeBaseActivity implements YouTubePlayer
         super.onBackPressed();
     }
 
-
-    @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
-        if (!wasRestored) {
-            youTubePlayer.cueVideo("lG0Ys-2d4MA");
-        }
-    }
-
-    @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-
-    }
-
-    @Override
-    public void onPurchaseSuccessful(PurchaseAppResponse purchaseAppResponse) {
-        ToastUtil.showToast(R.string.successfully_paid);
-    }
-
-    @Override
-    public void onPurchaseError(Throwable throwable) {
-        ToastUtil.showToast(throwable.getMessage());
-    }
 }

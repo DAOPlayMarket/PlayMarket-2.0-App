@@ -43,7 +43,7 @@ public class NonSwipeableViewPager extends ViewPager {
 
     class NonSwipeableScroller extends Scroller{
 
-        private final int scrollSpeed = 1000;
+        private final int scrollSpeed = 300;
 
         public NonSwipeableScroller(Context context) {
             super(context);

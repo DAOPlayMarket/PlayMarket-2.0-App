@@ -13,7 +13,6 @@
         android:layout_weight="1" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -35,10 +34,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:background="@drawable/transfer_selected_button"
+            android:background="@drawable/round_corner_green_button"
             android:text="@string/continue_btn"
             android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="visible" />
     </LinearLayout>
 
 </LinearLayout>

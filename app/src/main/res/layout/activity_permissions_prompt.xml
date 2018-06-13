@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.blockchain.store.playmarket.ui.login_prompt_activity.LoginPromptActivity"
+    tools:context="com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="81dp">
 
@@ -38,7 +38,6 @@
         tools:layout_constraintLeft_creator="1" />
 
     <TextView
-        android:id="@+id/LoginPromptTextView"
         android:layout_width="0dp"
         android:layout_height="101dp"
         android:layout_marginEnd="58dp"
@@ -54,14 +53,15 @@
         app:layout_constraintTop_toBottomOf="@+id/LogoTextView" />
 
     <Button
-        android:id="@+id/NewUserButton"
-        style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/create_account_button"
+        android:background="@drawable/round_corner_green_button"
         android:layout_width="0dp"
         android:layout_height="62dp"
         android:layout_marginEnd="46dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="46dp"
+        android:textColor="@color/white"
         android:onClick="requestPermissions"
         android:text="@string/got_it_btn"
         app:layout_constraintBottom_toBottomOf="parent"

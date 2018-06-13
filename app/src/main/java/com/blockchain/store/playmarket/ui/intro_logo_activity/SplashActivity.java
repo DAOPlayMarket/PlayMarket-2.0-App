@@ -8,16 +8,19 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.ui.login_prompt_activity.LoginPromptActivity;
+import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
+import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
+import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
 import butterknife.BindView;
@@ -32,11 +35,11 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
 
     @BindView(R.id.LogoTextView) TextView logoTextView;
     @BindView(R.id.LogoVideoView) VideoView logoVideoView;
-    @BindView(R.id.continue_without_location) Button continueWithoutLocation;
     @BindView(R.id.network_status) TextView networkStatus;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
 
     private SplashPresenter presenter;
+    private String errorString = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,12 +96,16 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         logoVideoView.start();
     }
 
-    protected void loadLoginPromptActivity() {
+    protected void openLoginPromptActivity() {
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
             Intent myIntent;
             if (PermissionUtils.storagePermissionGranted(this)) {
-                myIntent = new Intent(getApplicationContext(), LoginPromptActivity.class);
+                if (AccountManager.isHasUsers()) {
+                    myIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
+                } else {
+                    myIntent = new Intent(getApplicationContext(), LoginPromptActivity.class);
+                }
             } else {
                 myIntent = new Intent(getApplicationContext(), PermissionsPromptActivity.class);
             }
@@ -112,12 +119,29 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
 
     @Override
     public void onLocationReady() {
-        loadLoginPromptActivity();
+        openLoginPromptActivity();
     }
 
     @Override
     public void setStatusText(@StringRes int text) {
         networkStatus.setText(text);
+    }
+
+    @Override
+    public void setStatusText(int stringRes, String errorString) {
+        this.errorString = errorString;
+        networkStatus.setText(getString(stringRes));
+
+    }
+
+    @OnClick(R.id.network_status)
+    void onNetworkStatusClicked() {
+        if (errorString != null) {
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    .setMessage(errorString).create();
+            alertDialog.getWindow().addFlags(Window.FEATURE_NO_TITLE);
+            alertDialog.show();
+        }
     }
 
     @Override
@@ -130,17 +154,11 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         errorHolder.setVisibility(View.VISIBLE);
     }
 
-    @OnClick(R.id.continue_without_location)
-    void onLocationTimeoutClicked() {
-        loadLoginPromptActivity();
-    }
-
     @OnClick(R.id.error_view_repeat_btn)
     public void error_view_repeat_btn() {
         errorHolder.setVisibility(View.GONE);
         presenter.requestUserLocation(this);
 
     }
-
 }
 

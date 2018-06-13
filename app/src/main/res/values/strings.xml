@@ -1,32 +1,22 @@
 <resources>
     <string name="app_name">PlayMarket 2.0</string>
-    <string name="title_app_list">Apps</string>
-    <string name="title_app_detail">App Detail</string>
-    <string name="title_activity_menu">MenuActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
     <string name="title_activity_main_menu">MainMenuActivity</string>
     <string name="playmarket">PLAYMARKET 2.0</string>
     <string name="activity_permission_msg">For PlayMarket 2.0 to work on your version of Android, we need permission to save files on your phone.\n\nThis is only used for saving your wallet info and installers for purchased apps.</string>
     <string name="got_it_btn">Got it!</string>
     <string name="import_successful">Import Successful!</string>
-    <string name="import_failed">Import Failed!</string>
-    <string name="new_user_welcome_msg">This is the account management section.\n\n\n\nHere you can view your address and make an encrypted copy of your wallet.</string>
     <string name="address_copied">Address Copied!</string>
     <string name="wallet_backup_copied">Wallet Backup Copied!</string>
-    <string name="backup_wallet_btn">Backup Wallet</string>
-    <string name="new_user_congratulation_msg">Congratulations! You\'ve made a new user.\n\n\nIt is important to make a copy of your account\'s keys. Click Backup Wallet to copy your wallet to the clipboard. Save it somewhere safe and then click continue.\n\nYour address:</string>
-    <string name="account_management_msg">"This is the account management section.\n\nIt is important to make a copy of your account's keys. Click Backup Wallet to copy your wallet to the clipbaord. Save it somewhere safe!\n\nYour address:"</string>
     <string name="search">SEARCH</string>
     <string name="error_view_msg">There was a problem connecting to the server. Please try again.</string>
     <string name="error_btn_msg">Try again</string>
     <string name="download_msg">Downloading...</string>
 
     <!--fragment_navigation_view-->
-    <string name="user_id">USER ID</string>
     <string name="exchange">Exchange</string>
     <string name="wishlist">Wishlist</string>
     <string name="library">Library</string>
@@ -39,31 +29,28 @@
 
     <!--activity_login_prompt-->
     <string name="welcome">Welcome!\nDid you use our application before?</string>
-    <string name="new_user_button">New user</string>
-    <string name="import_user_button"><u>Import user</u></string>
+    <string name="new_account_button">Create account</string>
+    <string name="import_account_button"><u>Import account</u></string>
 
     <!--activity_new_user_welcome-->
     <string name="congratulations_title">Congratulations, a new user is created!</string>
     <string name="save_key_title">Please, don\'t forget to save your personal account key for user data transfer to other devices.</string>
     <string name="save">Save</string>
     <string name="continue_btn">Continue</string>
+    <string name="configure_fingerprint">Configure fingerprint</string>
 
     <!--send_mail_dialog-->
-    <string name="send_mail">Send mail</string>
-    <string name="enter_email_address">Enter email address</string>
 
     <string name="found_json_keystore">A JSON Keystore File is found</string>
     <string name="import_message">We found a JSON Keystore File on your device. If you want, you can select one of them and import it.</string>
     <string name="import_button">Import</string>
-    <string name="textview">TextView</string>
-    <string name="button">Button</string>
 
-    <string name="add_folder_button">+ Add Folder</string>
-    <string name="back_button">Back</string>
     <string name="chose_folder">Select a folder to save the JSON File</string>
+    <string name="chose_file">Select a JSON File to import</string>
 
     <!--dialog strings-->
     <string name="enter_your_password">Enter your password</string>
+    <string name="enter_your_password_first">Enter your account password first</string>
     <string name="enter_folder_name">Enter folder name</string>
     <string name="empty_password">Password field can not be empty</string>
     <string name="empty_field">This field can not be empty</string>
@@ -84,15 +71,13 @@
     <string name="btn_download">download</string>
     <string name="btn_open">open</string>
     <string name="btn_invest">Invest</string>
-    <string name="btn_delete">Delete</string>
     <string name="delete_with_underscore"><u>Удалить</u></string>
     <string name="app_free">FREE</string>
-    <string name="app_buy_text">Buy: </string>
     <string name="dialog_app_purchase_body">To confirm your purchase, press continue below.</string>
     <string name="not_enought_balance">Not enough balance</string>
     <string name="cancel_btn">Cancel</string>
     <string name="password">Password</string>
-    <string name="wrong_password">Wrong password!</string>
+    <string name="wrong_password">Wrong password</string>
     <string name="no_items">No items</string>
     <string name="recycler_empty_view">No item found!</string>
     <string name="successfully_paid">Successfully paid</string>
@@ -109,12 +94,11 @@
     <string name="network_status_node_search">Search for the nearest node</string>
     <string name="todo">TODO</string>
     <string name="confirm_button">Confirm</string>
-    <string name="nav_view_transfer">Передать</string>
+    <string name="nav_view_transfer">Transfer</string>
     <string name="ethereum_name">ETH</string>
+    <string name="performing_action">For performing this action, a password is required. Please enter it below.</string>
 
     <!--hints-->
-    <string name="sender_address">Sender address</string>
-    <string name="sender_password">Sender password</string>
     <string name="recipient_address">Recipient address</string>
     <string name="recipient_address_field">Recipient address:</string>
     <string name="amount">Send amount</string>
@@ -122,35 +106,35 @@
     <string name="eth">ETH</string>
     <string name="send_info">Your send amount:</string>
     <string name="your_address">From your ETH address:</string>
-    <string name="to">To:</string>
+    <string name="to">To recipient address:</string>
     <string name="your_eth_address">Your ETH Address</string>
     <string name="current_balance">Current balance</string>
 
-    <string-array name="query_suggestions">
-        <item>Android</item>
-        <item>iOS</item>
-        <item>SCALA</item>
-        <item>Ruby</item>
-        <item>JavaScript</item>
-    </string-array>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="below_minimum_amount_error">Please enter the amount above the minimum</string>
-    <string name="ico_description">ICO description</string>
-    <string name="investors_advantages">Investors advantages</string>
-    <string name="screenshots">Screenshots</string>
     <string name="exchange_source">Select the source of the deposit:</string>
-    <string name="exchange_dots">...</string>
     <string name="send_amount">Send amount:\n(Minimum amount: %1$s)</string>
-    <string name="transaction_details">Transaction details:</string>
+    <string name="transaction_details">transaction details:</string>
     <string name="exchange_details_currency">Exchange %1$s to ETC</string>
     <string name="exchange_details_amount">%1$s %2$s >> %3$s %4$s</string>
     <string name="exchange_details_fee">* fee included (0.5%)</string>
     <string name="exchange_confirm_transaction">To complete the transaction, make a transfer of %1$s %2$s to the account:</string>
-    <string name="transfer_confirm_transaction">To complete the transaction, enter your account password:</string>
+    <string name="transfer_confirm_transaction">To complete transaction input your password:</string>
     <string name="exchange_step_field">Step %1$d of 2</string>
     <string name="load_failed">Load failed</string>
     <string name="another_exchange">Another exchange</string>
-    <string name="search_for_node_fail">Search for the nearest node fail</string>
+    <string name="search_for_node_fail">Search for the nearest node fail. Tap for more details\</string>
+
+    <!--Fingerprint Scanner-->
+    <string name="press_sensor">Press the sensor</string>
+    <string name="about_activate">Touch the fingerprint scanner to activate the fingerprint authentication</string>
+    <string name="do_not_activate">Do not activate</string>
+    <string name="press_sensor_to_complete">Press your sensor \nto complete transaction</string>
+    <string name="use_password"><u>Use password</u></string>
+    <string name="is_available">You can use fingerprint \nauthentication</string>
+    <string name="is_not_configured">Fingerprint supported \nbut not configured for device</string>
+    <string name="configure_button">Configure fingerprint?</string>
+    <string name="fingerprint_success">Password successfully encrypted!</string>
+    <string name="fingerprint_not_recognized">Fingerprint not recognized, try again!</string>
+    <string name="invest_earned_message">Earned, ETH</string>
+    <string name="invest_hardcap">HardCap</string>
 </resources>

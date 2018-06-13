@@ -1,28 +1,28 @@
 package com.blockchain.store.playmarket.ui.new_user_welcome_activity;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.file_manager_screen.FileManagerActivity;
+import com.blockchain.store.playmarket.ui.fingerprint_screen.FingerprintConfiguringActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
+import com.mtramin.rxfingerprint.RxFingerprint;
+import com.orhanobut.hawk.Hawk;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -38,7 +38,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     private static final String TAG = "NewUserWelcomeActivity";
     private static final String LAUNCHED_FROM_SETTINGS_PARAM = "launched_from_settings";
     private NewUserWelcomePresenter presenter;
-    private static final int CHOSE_FILE_CODE = 99;
+    private static final int FINGERPRINT_RESULT_CODE = 99;
 
     private ArrayList<File> fileList = new ArrayList<File>();
     private String currentPath = "";
@@ -46,6 +46,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     @BindView(R.id.address_text_view) TextView addressTextView;
     @BindView(R.id.NewUserWelcomeTextView) TextView newUserWelcomeNext;
     @BindView(R.id.continue_button) Button continueButton;
+    @BindView(R.id.fingerprint) Button fingerPrintButton;
 
     private boolean isLaunchedFromSettings;
 
@@ -63,7 +64,8 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
         presenter.init(this, getApplicationContext());
         ButterKnife.bind(this);
         if (getIntent() != null) {
-            addressTextView.setText(getIntent().getStringExtra(Constants.WELCOME_ACTIVITY_ADDRESS_EXTRA));
+            if (checkFingerprint()) fingerPrintButton.setVisibility(View.VISIBLE);
+            setFingerprintButtonVisibility();
             isLaunchedFromSettings = getIntent().getBooleanExtra(Constants.WELCOME_ACTIVITY_IS_LUANCHED_FROM_SETTINGS_EXTRA, false);
         }
         if (isLaunchedFromSettings) {
@@ -73,8 +75,14 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     }
 
     private void setViewFromSettings() {
+        setFingerprintButtonVisibility();
         continueButton.setText(R.string.back);
         newUserWelcomeNext.setVisibility(View.GONE);
+    }
+
+    @OnClick(R.id.fingerprint)
+    void onFingerprintClicked() {
+        startActivityForResult(new Intent(this, FingerprintConfiguringActivity.class), 1);
     }
 
     /*
@@ -154,8 +162,10 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     */
     @OnClick(R.id.continue_button)
     void goToMainActivity() {
-        Intent myIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
-        startActivity(myIntent);
+        if (!isLaunchedFromSettings) {
+            Intent myIntent = new Intent(getApplicationContext(), MainMenuActivity.class);
+            startActivity(myIntent);
+        }
         finish();
     }
 
@@ -185,24 +195,33 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
         }
     }
 
-    public void promptForPassword(View view) {
-        final Dialog d = new Dialog(this);
+    //public void promptForPassword(View view) {
+    //    final Dialog d = new Dialog(this);
+//
+    //    d.setContentView(R.layout.password_prompt_dialog);
+//
+    //    final EditText passwordText = d.findViewById(R.id.passwordText);
+//
+    //    d.show();
+//
+    //    TextView addFundsBtn = d.findViewById(R.id.continue_button);
+    //    addFundsBtn.setOnClickListener(v -> {
+    //        copyKeyJsonToClipboard(passwordText.getText().toString());
+    //        d.dismiss();
+    //    });
+//
+//
+    //    Button close_btn = d.findViewById(R.id.close_button);
+    //    close_btn.setOnClickListener(v -> d.dismiss());
+    //}
 
-        d.setContentView(R.layout.password_prompt_dialog);
-
-        final EditText passwordText = d.findViewById(R.id.passwordText);
-
-        d.show();
-
-        TextView addFundsBtn = d.findViewById(R.id.continueButton);
-        addFundsBtn.setOnClickListener(v -> {
-            copyKeyJsonToClipboard(passwordText.getText().toString());
-            d.dismiss();
-        });
-
-
-        Button close_btn = d.findViewById(R.id.close_button);
-        close_btn.setOnClickListener(v -> d.dismiss());
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) return;
+        setFingerprintButtonVisibility();
+        String resultMessage = data.getStringExtra(FingerprintConfiguringActivity.RESULT);
+        ToastUtil.showToast(resultMessage);
     }
 
 
@@ -212,6 +231,15 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
 
     private void showBackupAlert() {
         ToastUtil.showToast(R.string.wallet_backup_copied);
+    }
+
+    private boolean checkFingerprint() {
+        return RxFingerprint.isAvailable(this) && Hawk.contains(Constants.ENCRYPTED_PASSWORD);
+    }
+
+    private void setFingerprintButtonVisibility(){
+        if (checkFingerprint()) fingerPrintButton.setVisibility(View.VISIBLE);
+        else fingerPrintButton.setVisibility(View.GONE);
     }
 
 }

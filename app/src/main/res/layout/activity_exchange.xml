@@ -22,7 +22,7 @@
         android:layout_marginRight="@dimen/main_list_left_padding"
         android:text="@string/exchange_step_field"
         android:textAllCaps="true"
-        android:textColor="@color/exchange_buttoncolor" />
+        android:textColor="@color/green_color" />
 
     <LinearLayout
         android:id="@+id/buttons_holder"

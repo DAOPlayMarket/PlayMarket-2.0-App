@@ -4,19 +4,29 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.transfer_screen.transfer_confirm_screen.TransferConfirmFragment;
 import com.blockchain.store.playmarket.ui.transfer_screen.transfer_info_screen.TransferInfoFragment;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
+import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
+import com.mtramin.rxfingerprint.RxFingerprint;
+import com.orhanobut.hawk.Hawk;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.Disposables;
 
 public class TransferActivity extends AppCompatActivity implements TransferContract.View, LifecycleOwner {
+
+    public static String RECIPIENT = "recipient_address";
 
     private TransferViewModel transferViewModel;
 
@@ -27,8 +37,8 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     private String transferAmount;
     private boolean isEth;
 
-    @BindView(R.id.transfer_viewPager)
-    NonSwipeableViewPager transferViewPager;
+    @BindView(R.id.transfer_viewPager) NonSwipeableViewPager transferViewPager;
+    @BindView(R.id.continue_transfer_button) Button continueButton;
     ViewPagerAdapter transferAdapter;
 
     @Override
@@ -39,6 +49,11 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
 
         getDataFromViewModel();
 
+        recipientAddress = getIntent().getStringExtra(RECIPIENT);
+        if (recipientAddress != null){
+            transferViewModel.recipientAddress.setValue(recipientAddress);
+        }
+
         presenter = new TransferPresenter();
         presenter.init(this, getApplicationContext());
 
@@ -48,15 +63,24 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
         transferViewPager.setAdapter(transferAdapter);
     }
 
-    @OnClick(R.id.continue_transfer_button)
-    void continueButtonClicked() {
+    @OnClick(R.id.continue_transfer_button) public void continueButtonClicked() {
         TransferInfoFragment transferInfoFragment = (TransferInfoFragment) transferAdapter.getItem(0);
         TransferConfirmFragment transferConfirmFragment = (TransferConfirmFragment) transferAdapter.getItem(1);
+
         if (transferViewPager.getCurrentItem() == 0
                 && transferInfoFragment.isHasNoError()) {
             goToConfirmTransfer();
+            if (checkFingerprint()) {
+                transferConfirmFragment.initFingerprint();
+                setContinueButtonVisibility(View.INVISIBLE);
+            }
+            else {
+                transferConfirmFragment.initPassword();
+                setContinueButtonVisibility(View.VISIBLE);
+            }
         }
-        else if (transferViewPager.getCurrentItem() == 1){
+
+        else if (transferViewPager.getCurrentItem() == 1) {
             getDataFromViewModel();
             if (presenter.passwordCheck(password)) {
                 if (isEth)
@@ -64,15 +88,13 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
                 else
                     transferAmount = new EthereumPrice(transferAmount, EthereumPrice.Currency.WEI).inLongToString();
                 presenter.createTransaction(transferAmount, recipientAddress);
-            }
-            else {
+            } else {
                 transferConfirmFragment.showError();
             }
         }
     }
 
-    @OnClick(R.id.cancel_transfer_button)
-    void cancelButtonClicked() {
+    @OnClick(R.id.cancel_transfer_button) void cancelButtonClicked() {
         back();
     }
 
@@ -91,6 +113,9 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
 
     private void back() {
         if (transferViewPager.getCurrentItem() == 1) {
+            TransferConfirmFragment transferConfirmFragment = (TransferConfirmFragment) transferAdapter.getItem(1);
+            transferConfirmFragment.disposedFingerprint();
+            setContinueButtonVisibility(View.VISIBLE);
             goToTransferInfo();
         } else {
             this.finish();
@@ -104,7 +129,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
 
     @Override
     public void showToast(String message) {
-
+        ToastUtil.showToast(message);
     }
 
     private void getDataFromViewModel() {
@@ -114,5 +139,13 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
         transferViewModel.transferAmount.observe(this, s -> transferAmount = s);
         transferViewModel.senderPassword.observe(this, s -> password = s);
         transferViewModel.isEth.observe(this, aBoolean -> isEth = aBoolean);
+    }
+
+    private boolean checkFingerprint() {
+        return RxFingerprint.isAvailable(this) && Hawk.contains(Constants.ENCRYPTED_PASSWORD);
+    }
+
+    public void setContinueButtonVisibility(int type){
+        continueButton.setVisibility(type);
     }
 }
