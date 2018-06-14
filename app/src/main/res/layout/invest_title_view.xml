@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="8dp"
     android:textStyle="bold"
     android:textSize="16sp"
     android:textColor="@color/invest_text_color"

@@ -64,6 +64,8 @@ public class InvestTempPojo {
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
         objects.add(new InvestMember());
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
+        objects.add(new String("Contacts"));
+        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
 
 
     }
