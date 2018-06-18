@@ -9,6 +9,7 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -55,6 +56,8 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation "com.google.android.gms:play-services-location:15.0.1"
 
     implementation 'com.mattprecious.swirl:swirl:1.1.0'
 
@@ -67,8 +70,6 @@ dependencies {
 
     implementation 'com.github.mancj:MaterialSearchBar:0.7.5'
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
-
-    implementation "com.google.android.gms:play-services-location:11.8.0"
 
     implementation 'com.android.support:palette-v7:27.1.0'
     implementation 'com.github.stfalcon:frescoimageviewer:0.5.0'

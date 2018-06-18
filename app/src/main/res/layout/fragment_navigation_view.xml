@@ -149,20 +149,6 @@
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
-                <Button
-                    android:id="@+id/invest_button"
-                    android:layout_width="0dp"
-                    android:layout_height="35dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/top_up_button"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/invest_btn_text"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-
             </LinearLayout>
 
             <include layout="@layout/nav_view_items" />

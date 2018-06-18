@@ -81,13 +81,6 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
         presenter.loadUserBalance();
     }
 
-    @OnClick(R.id.invest_button) void investButtonClicked(){
-        String recipientAddress = "0xdB2301db944a59680619F86017418EBb10b9DE4b";
-        Intent intent = new Intent(getActivity(), TransferActivity.class);
-        intent.putExtra(TransferActivity.RECIPIENT, recipientAddress);
-        startActivity(intent);
-    }
-
     @OnClick(R.id.close_image_button)
     void onCloseImageClicked() {
         closeDrawers();

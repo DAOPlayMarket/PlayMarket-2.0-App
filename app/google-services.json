@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1054692125369",
+    "firebase_url": "https://playmarket-a6cb1.firebaseio.com",
+    "project_id": "playmarket-a6cb1",
+    "storage_bucket": "playmarket-a6cb1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1054692125369:android:50555e3dc200980b",
+        "android_client_info": {
+          "package_name": "com.blockchain.store.playmarket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1054692125369-dbd6s4j88ko7m8ve7ab3ijueg4v98bjn.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1054692125369-dbd6s4j88ko7m8ve7ab3ijueg4v98bjn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCz8PbxbQbyuy-78SQh-beJSEjHOBBMPpg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
