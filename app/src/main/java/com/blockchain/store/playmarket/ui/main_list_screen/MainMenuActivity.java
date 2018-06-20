@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
@@ -273,5 +274,9 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         return false;
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Application.stopAnalytic();
+    }
 }

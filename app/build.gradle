@@ -9,7 +9,6 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
-apply plugin: 'com.google.gms.google-services'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -56,7 +55,8 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.6.+@aar') { transitive = true }
+    implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.6.+'
     implementation "com.google.android.gms:play-services-location:15.0.1"
 
     implementation 'com.mattprecious.swirl:swirl:1.1.0'

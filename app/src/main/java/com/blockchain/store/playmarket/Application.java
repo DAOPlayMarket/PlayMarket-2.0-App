@@ -7,6 +7,11 @@ import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.AWSStartupHandler;
+import com.amazonaws.mobile.client.AWSStartupResult;
+import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
+import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
 import com.blockchain.store.playmarket.data.content.AppsDispatcher;
 import com.blockchain.store.playmarket.data.content.AppsManager;
 import com.blockchain.store.playmarket.utilities.AccountManager;
@@ -50,6 +55,7 @@ public class Application extends MultiDexApplication {
     private static AppsDispatcher appsDispatcher;
     private static AppsManager appsManager;
     private static Application instance;
+    private static PinpointManager pinpointManager;
 
     @Override
     public void onCreate() {
@@ -61,8 +67,14 @@ public class Application extends MultiDexApplication {
         keyManager = KeyManager.newKeyManager(getFilesDir().getAbsolutePath());
         AccountManager.setKeyManager(keyManager);
         Hawk.init(this).build();
+        setUntrustedManager();
+        setUpAWS();
+    }
+
+    private void setUntrustedManager() {
         setUpFresco();
         setUpIon();
+
     }
 
     private void setUpIon() {
@@ -173,4 +185,23 @@ public class Application extends MultiDexApplication {
                 }
         };
     }
+
+
+    private void setUpAWS() {
+        AWSMobileClient.getInstance().initialize(this).execute();
+        PinpointConfiguration config = new PinpointConfiguration(
+                this,
+                AWSMobileClient.getInstance().getCredentialsProvider(),
+                AWSMobileClient.getInstance().getConfiguration());
+        pinpointManager = new PinpointManager(config);
+        pinpointManager.getSessionClient().startSession();
+        pinpointManager.getAnalyticsClient().submitEvents();
+
+    }
+
+    public static void stopAnalytic() {
+        pinpointManager.getSessionClient().stopSession();
+        pinpointManager.getAnalyticsClient().submitEvents();
+    }
+
 }
