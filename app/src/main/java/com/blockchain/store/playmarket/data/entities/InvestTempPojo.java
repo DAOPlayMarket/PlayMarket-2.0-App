@@ -8,66 +8,57 @@ public class InvestTempPojo {
     public ArrayList<Object> objects = new ArrayList<>();
     public ArrayList<Integer> objectViewType = new ArrayList<>();
 
-    public InvestTempPojo() {
-        objects.add(new InvestMainItem());
+    public InvestTempPojo(AppInfo appInfo) {
+        objects.add(new InvestMainItem(
+                appInfo.app.nameApp,
+                "",
+                String.valueOf(Long.parseLong(appInfo.app.tokenSold) / Long.parseLong(appInfo.app.icoDecimals)),
+                String.valueOf(Long.parseLong(appInfo.app.icoTotalSupply) / Long.parseLong(appInfo.app.icoDecimals)),
+                Integer.parseInt(appInfo.app.currentStage),
+                3,
+                appInfo.app.icoStages.get(Integer.parseInt(appInfo.app.currentStage) - 1).time
+        ));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MAIN);
 
-        objects.add(new InvestYoutube("QYjyfCt6gWc"));
+        objects.add(new InvestYoutube(appInfo.app.youtubeID));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_YOUTUBE);
+
 
         objects.add(new String("ICO description"));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
 
-        objects.add(new String("Успешно проведено preTGE собрано $165 000, всем участникам уже обменяли предварительные preTGE токены на основные токены TGE \n" +
-                "Разработана demo-версия продукта\n" +
-                "Интервью советнику Президента - Герману Клименко http://radio.mediametrics.ru/investment_in_ICO/54907/\n" +
-                "Достигнуты договоренности с биржей CoinPlace на размещение токена после ICO\n" +
-                "Растущий рынок P2P кредитования: $300 000 000 000 к 2020 году по прогнозам Morgan Stanley\n" +
-                "Отработанные на практике механизмы скоринга и верификации заемщиков и привлечения капитала для выдачи кредитов\n" +
-                "Пристальное внимание к юридическим аспектам, проработанная легальная основа всех бизнес-процессов\n" +
-                "Гарантийный фонд: поручительства по займам, до 100% гарантии возврата благодаря токену SOFIN\n" +
-                "Защищенная от подделки кредитная история на базе блокчейн. Прозрачность системы для стороннего аудита\n" +
-                "Опытная команда, закрывающая все необходимые компетенции: более 40 специалистов для успешного старта проекта"));
+        objects.add(new String(appInfo.description));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_BODY);
 
         objects.add(new String("Screenshots"));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
 
-        objects.add(new String("Screenshots"));
+        objects.add(new ScreenShotBody(appInfo.pictures.imageNameList));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWETYPE_IMAGE_GALLERY);
 
-        objects.add(new String("Investors advantages"));
-        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
-        objects.add(new String("Успешно проведено preTGE собрано $165 000, всем участникам уже обменяли предварительные preTGE токены на основные токены TGE \n" +
-                "Разработана demo-версия продукта\n" +
-                "Интервью советнику Президента - Герману Клименко http://radio.mediametrics.ru/investment_in_ICO/54907/\n" +
-                "Достигнуты договоренности с биржей CoinPlace на размещение токена после ICO\n" +
-                "Растущий рынок P2P кредитования: $300 000 000 000 к 2020 году по прогнозам Morgan Stanley\n" +
-                "Отработанные на практике механизмы скоринга и верификации заемщиков и привлечения капитала для выдачи кредитов\n" +
-                "Пристальное внимание к юридическим аспектам, проработанная легальная основа всех бизнес-процессов\n" +
-                "Гарантийный фонд: поручительства по займам, до 100% гарантии возврата благодаря токену SOFIN\n" +
-                "Защищенная от подделки кредитная история на базе блокчейн. Прозрачность системы для стороннего аудита\n" +
-                "Опытная команда, закрывающая все необходимые компетенции: более 40 специалистов для успешного старта проекта"));
-        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_BODY);
+        if (appInfo.icoInfo.advisors != null && !appInfo.icoInfo.advisors.isEmpty()) {
 
-        objects.add(new String("Advisors"));
-        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
-        objects.add(new InvestMember());
-        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
-        objects.add(new InvestMember());
-        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
-        objects.add(new InvestMember());
-        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
-        objects.add(new String("Our team"));
-        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
-        objects.add(new InvestMember());
-        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
-        objects.add(new InvestMember());
-        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
+            objects.add(new String("Advisors"));
+            objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
+
+            for (IcoTeam advisor : appInfo.icoInfo.advisors) {
+                objects.add(new InvestMember(advisor.name, advisor.description, advisor.photo));
+                objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
+            }
+        }
+
+        if (appInfo.icoInfo.team != null && !appInfo.icoInfo.team.isEmpty()) {
+
+            objects.add(new String("Our team"));
+            objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
+
+            for (IcoTeam team : appInfo.icoInfo.team) {
+                objects.add(new InvestMember(team.name, team.description, team.photo));
+                objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
+            }
+        }
         objects.add(new String("Contacts"));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
-
-
     }
 }
 
@@ -80,6 +71,16 @@ class InvestMainItem {
     int stageCurrent = 2;
     int stageMax = 5;
     String totalTime = "28:15:22:54";
+
+    public InvestMainItem(String name, String description, String earnedMin, String earnedMax, int stageCurrent, int stageMax, String totalTime) {
+        this.name = name;
+        this.description = description;
+        this.earnedMin = earnedMin;
+        this.earnedMax = earnedMax;
+        this.stageCurrent = stageCurrent;
+        this.stageMax = stageMax;
+        this.totalTime = totalTime;
+    }
 }
 
 class InvestYoutube {
@@ -106,10 +107,28 @@ class InvestBody {
     }
 }
 
+class ScreenShotBody {
+    ArrayList<String> screenShotsList;
+
+    public ScreenShotBody(ArrayList<String> screenShotsList) {
+        this.screenShotsList = screenShotsList;
+    }
+}
+
 class InvestMember {
     String name = "Александр Рубин";
     String description = "Основатель Glenwood Capital, финансист, эксперт в сфере инвестирования и управления капиталом за плечами которого15-лет опыта в области и более 20 международных инвести-\u0003ционных проектов успешно завершенных при его непосред-\u0003ственном участии.\n";
     String fb;
     String vk;
     String imagePath;
+
+    public InvestMember(String name) {
+        this.name = name;
+    }
+
+    public InvestMember(String name, String description, String imagePath) {
+        this.name = name;
+        this.description = description;
+        this.imagePath = imagePath;
+    }
 }

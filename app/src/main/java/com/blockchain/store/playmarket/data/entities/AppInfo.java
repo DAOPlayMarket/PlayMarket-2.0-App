@@ -18,6 +18,8 @@ public class AppInfo implements Parcelable {
     public App app;
     public String description;
     public PicturesResponse pictures;
+    @SerializedName("infoICO")
+    public IcoInfo icoInfo;
 
     public String getImageUrl(String imageName) {
         try {

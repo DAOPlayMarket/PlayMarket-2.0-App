@@ -61,15 +61,15 @@ public class InvestActivity extends YouTubeBaseActivity implements InvestContrac
             throw new RuntimeException("App must be provided!");
         }
         attachPresenter();
-        setUpRecycler();
+        setUpRecycler(appInfo);
     }
 
     private void setUpCountDownTimer() {
 
     }
 
-    private void setUpRecycler() {
-        adapter = new InvestScreenAdapter(this);
+    private void setUpRecycler(AppInfo appInfo) {
+        adapter = new InvestScreenAdapter(appInfo,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.InvestTempPojo;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.interfaces.InvestAdapterCallback;
@@ -40,9 +41,9 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private InvestTempPojo investTempPojo;
 
-    public InvestScreenAdapter(InvestAdapterCallback adapterCallback) {
+    public InvestScreenAdapter(AppInfo appInfo, InvestAdapterCallback adapterCallback) {
         this.adapterCallback = adapterCallback;
-        investTempPojo = new InvestTempPojo();
+        investTempPojo = new InvestTempPojo(appInfo);
     }
 
     @Override
