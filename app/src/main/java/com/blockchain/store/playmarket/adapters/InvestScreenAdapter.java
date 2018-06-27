@@ -264,9 +264,6 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             String youtube = investMember.socialMapLinks.get(Constants.social_youtube);
             String telegram = investMember.socialMapLinks.get(Constants.social_telegram);
             String git = investMember.socialMapLinks.get(Constants.social_git);
-            String tratata = investMember.socialMapLinks.get("tratata");
-
-
         }
     }
 

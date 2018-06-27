@@ -121,7 +121,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     private void setViews() {
-        investBtn.setVisibility(/*app.isIco || */BuildConfig.DEBUG ? View.VISIBLE : View.INVISIBLE);
+        investBtn.setVisibility(app.isIco || BuildConfig.DEBUG ? View.VISIBLE : View.INVISIBLE);
         imageIcon.setImageURI(Uri.parse(app.getIconUrl()));
         startPostponedEnterTransition();
         toolbarAppName.setText(app.nameApp);

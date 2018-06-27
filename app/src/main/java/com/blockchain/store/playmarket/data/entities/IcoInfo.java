@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-class IcoInfo implements Parcelable {
+public class IcoInfo implements Parcelable {
     @SerializedName("team")
     public ArrayList<IcoTeam> team;
     @SerializedName("advisors")
