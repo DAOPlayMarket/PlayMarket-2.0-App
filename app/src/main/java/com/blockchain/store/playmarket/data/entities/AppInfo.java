@@ -41,6 +41,10 @@ public class AppInfo implements Parcelable {
         return imagePathList;
     }
 
+    public AppInfo() {
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -51,18 +55,17 @@ public class AppInfo implements Parcelable {
         dest.writeParcelable(this.app, flags);
         dest.writeString(this.description);
         dest.writeParcelable(this.pictures, flags);
-    }
-
-    public AppInfo() {
+        dest.writeParcelable(this.icoInfo, flags);
     }
 
     protected AppInfo(Parcel in) {
         this.app = in.readParcelable(App.class.getClassLoader());
         this.description = in.readString();
         this.pictures = in.readParcelable(PicturesResponse.class.getClassLoader());
+        this.icoInfo = in.readParcelable(IcoInfo.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<AppInfo> CREATOR = new Parcelable.Creator<AppInfo>() {
+    public static final Creator<AppInfo> CREATOR = new Creator<AppInfo>() {
         @Override
         public AppInfo createFromParcel(Parcel source) {
             return new AppInfo(source);

@@ -4,6 +4,7 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,13 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.InvestBody;
+import com.blockchain.store.playmarket.data.entities.InvestMainItem;
+import com.blockchain.store.playmarket.data.entities.InvestMember;
 import com.blockchain.store.playmarket.data.entities.InvestTempPojo;
+import com.blockchain.store.playmarket.data.entities.InvestTitle;
+import com.blockchain.store.playmarket.data.entities.InvestYoutube;
+import com.blockchain.store.playmarket.data.entities.ScreenShotBody;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.interfaces.InvestAdapterCallback;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -108,25 +115,28 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Object object = investTempPojo.objects.get(position);
         if (holder instanceof InvestMainViewHolder) {
-            ((InvestMainViewHolder) holder).bind();
+            ((InvestMainViewHolder) holder).bind((InvestMainItem) object);
         }
         if (holder instanceof InvestYoutubeViewHolder) {
-            ((InvestYoutubeViewHolder) holder).bind();
+            ((InvestYoutubeViewHolder) holder).bind((InvestYoutube) object);
         }
         if (holder instanceof InvestBodyMessageViewHolder) {
-            String body = (String) investTempPojo.objects.get(position);
-            ((InvestBodyMessageViewHolder) holder).bind(body);
+            InvestBody investBody = (InvestBody) investTempPojo.objects.get(position);
+            ((InvestBodyMessageViewHolder) holder).bind(investBody);
         }
         if (holder instanceof InvestTitleViewHolder) {
-            String title = (String) investTempPojo.objects.get(position);
-            ((InvestTitleViewHolder) holder).bind(title);
+            InvestTitle investTitle = (InvestTitle) investTempPojo.objects.get(position);
+            ((InvestTitleViewHolder) holder).bind(investTitle);
         }
         if (holder instanceof InvestMemberViewHolder) {
-            ((InvestMemberViewHolder) holder).bind();
+            InvestMember investMember = (InvestMember) investTempPojo.objects.get(position);
+            ((InvestMemberViewHolder) holder).bind(investMember);
         }
         if (holder instanceof InvestGalleryViewHolder) {
-            ((InvestGalleryViewHolder) holder).bind();
+            ScreenShotBody screenShotBody = (ScreenShotBody) investTempPojo.objects.get(position);
+            ((InvestGalleryViewHolder) holder).bind(screenShotBody);
         }
         if (holder instanceof InvestSocialMediaViewHolder) {
             ((InvestSocialMediaViewHolder) holder).bind();
@@ -141,33 +151,42 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public class InvestMainViewHolder extends RecyclerView.ViewHolder {
         private CountDownTimer countDownTimer;
-        private SimpleDateFormat simpleDateFormat;
+        private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
         private Button investButton;
         private TextView timeRemains;
+        private TextView currentStage;
+        private TextView currentEarned;
+        private TextView totalEarned;
 
         public InvestMainViewHolder(View itemView) {
             super(itemView);
             timeRemains = itemView.findViewById(R.id.invest_time_remains);
-
-            simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
             investButton = itemView.findViewById(R.id.invest_btn);
-            countDownTimer = new CountDownTimer(MILLIS_30_DAYS, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    String formattedString = simpleDateFormat.format(new Date(millisUntilFinished));
-                    timeRemains.setText(formattedString);
-
-                }
-
-                @Override
-                public void onFinish() {
-
-                }
-            }.start();
+            currentStage = itemView.findViewById(R.id.invest_current_stage);
+            currentEarned = itemView.findViewById(R.id.invest_current_earned);
+            totalEarned = itemView.findViewById(R.id.invest_total_earned);
         }
 
-        public void bind() {
-            investButton.setOnClickListener(v -> adapterCallback.onInvestBtnClicked("test address"));
+        public void bind(InvestMainItem investMainItem) {
+            currentStage.setText(String.valueOf(investMainItem.stageCurrent));
+            currentEarned.setText(investMainItem.earnedMin);
+            totalEarned.setText(investMainItem.earnedMax);
+            investButton.setOnClickListener(v -> adapterCallback.onInvestBtnClicked(investMainItem.devAddr));
+            if (countDownTimer != null) {
+                countDownTimer = new CountDownTimer(Long.parseLong(investMainItem.totalTime), 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        String formattedString = simpleDateFormat.format(new Date(millisUntilFinished));
+                        timeRemains.setText(formattedString);
+                    }
+
+                    @Override
+                    public void onFinish() {
+//                        timeRemains.setText("00:00:00:00");
+                    }
+                }.start();
+            }
+
         }
     }
 
@@ -186,7 +205,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return youTubePlayerView;
         }
 
-        public void bind() {
+        public void bind(InvestYoutube object) {
 
         }
     }
@@ -202,8 +221,8 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             bodyView = itemView.findViewById(R.id.body_message);
         }
 
-        public void bind(String body) {
-            bodyView.setText(body);
+        public void bind(InvestBody investBody) {
+            bodyView.setText(Html.fromHtml(investBody.body));
         }
     }
 
@@ -223,7 +242,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(itemView);
         }
 
-        public void bind() {
+        public void bind(InvestMember investMember) {
 
         }
     }
@@ -248,7 +267,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             titleView = itemView.findViewById(R.id.invest_title_view);
         }
 
-        public void bind(String title) {
+        public void bind(InvestTitle title) {
             titleView.setText(title);
         }
     }
@@ -272,7 +291,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             recyclerView.setAdapter(imageAdapter);
         }
 
-        public void bind() {
+        public void bind(ScreenShotBody screenShotBody) {
 
         }
 

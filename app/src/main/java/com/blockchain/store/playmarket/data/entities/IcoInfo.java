@@ -15,6 +15,11 @@ class IcoInfo implements Parcelable {
     public String youtubeID;
     public String tokenSold;
     public String usdRaised;
+    public String currentStage;
+
+
+    public IcoInfo() {
+    }
 
     @Override
     public int describeContents() {
@@ -23,27 +28,24 @@ class IcoInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeList(this.team);
-        dest.writeList(this.advisors);
+        dest.writeTypedList(this.team);
+        dest.writeTypedList(this.advisors);
         dest.writeString(this.youtubeID);
         dest.writeString(this.tokenSold);
         dest.writeString(this.usdRaised);
-    }
-
-    public IcoInfo() {
+        dest.writeString(this.currentStage);
     }
 
     protected IcoInfo(Parcel in) {
-        this.team = new ArrayList<IcoTeam>();
-        in.readList(this.team, IcoTeam.class.getClassLoader());
-        this.advisors = new ArrayList<IcoTeam>();
-        in.readList(this.advisors, IcoTeam.class.getClassLoader());
+        this.team = in.createTypedArrayList(IcoTeam.CREATOR);
+        this.advisors = in.createTypedArrayList(IcoTeam.CREATOR);
         this.youtubeID = in.readString();
         this.tokenSold = in.readString();
         this.usdRaised = in.readString();
+        this.currentStage = in.readString();
     }
 
-    public static final Parcelable.Creator<IcoInfo> CREATOR = new Parcelable.Creator<IcoInfo>() {
+    public static final Creator<IcoInfo> CREATOR = new Creator<IcoInfo>() {
         @Override
         public IcoInfo createFromParcel(Parcel source) {
             return new IcoInfo(source);

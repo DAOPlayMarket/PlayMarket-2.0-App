@@ -40,10 +40,18 @@
         android:layout_marginBottom="20dp">
 
         <TextView
+            android:id="@+id/invest_stage_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stage #"
+            android:textColor="@color/invest_main_color"
+            android:textSize="24sp" />
+
+        <TextView
             android:id="@+id/invest_current_stage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Stage #2"
+            android:text="2"
             android:textColor="@color/invest_main_color"
             android:textSize="24sp" />
 
@@ -51,7 +59,7 @@
             android:id="@+id/invest_total_stage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="/5"
+            android:text="/3"
             android:textColor="@color/invest_main_color" />
 
         <android.support.v4.widget.Space

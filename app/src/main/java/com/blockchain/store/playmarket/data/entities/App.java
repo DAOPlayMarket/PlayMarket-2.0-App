@@ -46,10 +46,6 @@ public class App implements Parcelable {
     public String icoStartDate;
     public String icoEndDate;
     public String icoHardCapUsd;
-    public String youtubeID;
-    public String tokenSold;
-    public String usdRaised;
-    public String currentStage;
 
     //total supply / 10^(ico decimals)
     // tokenSold
@@ -97,15 +93,11 @@ public class App implements Parcelable {
         dest.writeString(this.icoSymbol);
         dest.writeString(this.icoName);
         dest.writeString(this.icoDecimals);
-        dest.writeList(this.icoStages);
+        dest.writeTypedList(this.icoStages);
         dest.writeString(this.icoTotalSupply);
         dest.writeString(this.icoStartDate);
         dest.writeString(this.icoEndDate);
         dest.writeString(this.icoHardCapUsd);
-        dest.writeString(this.youtubeID);
-        dest.writeString(this.tokenSold);
-        dest.writeString(this.usdRaised);
-        dest.writeString(this.currentStage);
     }
 
     protected App(Parcel in) {
@@ -130,16 +122,11 @@ public class App implements Parcelable {
         this.icoSymbol = in.readString();
         this.icoName = in.readString();
         this.icoDecimals = in.readString();
-        this.icoStages = new ArrayList<IcoStages>();
-        in.readList(this.icoStages, IcoStages.class.getClassLoader());
+        this.icoStages = in.createTypedArrayList(IcoStages.CREATOR);
         this.icoTotalSupply = in.readString();
         this.icoStartDate = in.readString();
         this.icoEndDate = in.readString();
         this.icoHardCapUsd = in.readString();
-        this.youtubeID = in.readString();
-        this.tokenSold = in.readString();
-        this.usdRaised = in.readString();
-        this.currentStage = in.readString();
     }
 
     public static final Creator<App> CREATOR = new Creator<App>() {
