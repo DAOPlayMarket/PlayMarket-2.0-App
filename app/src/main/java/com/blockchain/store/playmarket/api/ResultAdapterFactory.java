@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.api;
 
+import com.blockchain.store.playmarket.data.entities.IcoTeam;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -38,6 +39,13 @@ public class ResultAdapterFactory implements TypeAdapterFactory {
                     } else if (jsonObject.has("status") && jsonObject.get("status").getAsInt() != 200) {
                         throw new IOException(jsonObject.get("message").getAsString());
                     }
+                }
+                try {
+                    if (jsonElement.getAsString().isEmpty()) {
+                        return (T) new IcoTeam();
+                    }
+                } catch (Exception e) {
+
                 }
 
                 return delegate.fromJsonTree(jsonElement);

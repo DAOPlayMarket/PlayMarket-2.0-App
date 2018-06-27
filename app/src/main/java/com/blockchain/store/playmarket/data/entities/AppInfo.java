@@ -18,8 +18,7 @@ public class AppInfo implements Parcelable {
     public App app;
     public String description;
     public PicturesResponse pictures;
-    @SerializedName("infoICO")
-    public IcoInfo icoInfo;
+    public IcoInfo infoICO = null;
 
     public String getImageUrl(String imageName) {
         try {
@@ -39,7 +38,7 @@ public class AppInfo implements Parcelable {
 
     public ArrayList<String> getIcoScreenShotsUrl() {
         ArrayList<String> images = new ArrayList<>();
-        for (String picture : icoInfo.pictures) {
+        for (String picture : infoICO.pictures) {
             images.add(RestApi.ICON_URL + app.hashTagICO + "/" + app.hashICO + "/images/pictures/" + picture);
         }
 
@@ -47,7 +46,7 @@ public class AppInfo implements Parcelable {
     }
 
     public String getIcoIcon() {
-        return RestApi.ICON_URL + app.hashTagICO + "/" + app.hashICO + "/images/icon/" + icoInfo.iconUrl;
+        return RestApi.ICON_URL + app.hashTagICO + "/" + app.hashICO + "/images/icon/" + infoICO.iconUrl;
     }
 
     public String getFormattedPrice() {
@@ -76,14 +75,14 @@ public class AppInfo implements Parcelable {
         dest.writeParcelable(this.app, flags);
         dest.writeString(this.description);
         dest.writeParcelable(this.pictures, flags);
-        dest.writeParcelable(this.icoInfo, flags);
+        dest.writeParcelable(this.infoICO, flags);
     }
 
     protected AppInfo(Parcel in) {
         this.app = in.readParcelable(App.class.getClassLoader());
         this.description = in.readString();
         this.pictures = in.readParcelable(PicturesResponse.class.getClassLoader());
-        this.icoInfo = in.readParcelable(IcoInfo.class.getClassLoader());
+        this.infoICO = in.readParcelable(IcoInfo.class.getClassLoader());
     }
 
     public static final Creator<AppInfo> CREATOR = new Creator<AppInfo>() {

@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.Map;
 
-class IcoTeam implements Parcelable {
+public class IcoTeam implements Parcelable {
     @SerializedName("n")
     public String name;
     @SerializedName("p")

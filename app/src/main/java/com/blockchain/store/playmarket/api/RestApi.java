@@ -1,29 +1,18 @@
 package com.blockchain.store.playmarket.api;
 
 import android.util.Log;
-import android.util.Pair;
 
-import com.blockchain.store.playmarket.data.entities.Node;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
 import java.security.cert.CertificateException;
-import java.util.Observable;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -85,7 +74,7 @@ public class RestApi {
                 .sslSocketFactory(getSllSocketFactory()).build();
 
         Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(new ResultAdapterFactory()).create();
+                .registerTypeAdapterFactory(new ResultAdapterFactory()).setLenient().create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -170,7 +159,7 @@ public class RestApi {
                 .sslSocketFactory(getSllSocketFactory()).build();
 
         Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(new ResultAdapterFactory()).create();
+                .registerTypeAdapterFactory(new ResultAdapterFactory()).setLenient().create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create(gson))
