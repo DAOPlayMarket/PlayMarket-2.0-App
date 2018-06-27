@@ -14,8 +14,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/invest_member_name"
@@ -39,4 +38,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/invest_member_avatar"
         app:layout_constraintTop_toBottomOf="@+id/invest_member_name" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:minHeight="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/invest_member_description"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/invest_member_description"
+        app:layout_constraintTop_toBottomOf="@+id/invest_member_description">
+
+        <com.blockchain.store.playmarket.views.FontAwesomeTextView
+            android:text="\uf1d3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
