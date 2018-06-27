@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,11 @@ import com.google.android.youtube.player.YouTubePlayerView;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int INVEST_VIEWTYPE_MAIN = 0;
@@ -169,7 +174,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             totalEarned.setText(investMainItem.earnedMax);
             iconView.setImageURI(investMainItem.iconUrl);
             investButton.setOnClickListener(v -> adapterCallback.onInvestBtnClicked(investMainItem.devAddr));
-            if (countDownTimer != null) {
+            if (countDownTimer == null) {
                 countDownTimer = new CountDownTimer(Long.parseLong(investMainItem.totalTime), 1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
@@ -250,6 +255,17 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             investMemberTitle.setText(investMember.name);
             investMemberDescription.setText(investMember.description);
             investMemberAvatar.setImageURI(investMember.imagePath);
+            String google_plus = investMember.socialMapLinks.get(Constants.social_google_plus);
+            String facebook = investMember.socialMapLinks.get(Constants.social_facebook);
+            String linkedin = investMember.socialMapLinks.get(Constants.social_linkedin);
+            String twitter = investMember.socialMapLinks.get(Constants.social_twitter);
+            String instagram = investMember.socialMapLinks.get(Constants.social_instagram);
+            String vk = investMember.socialMapLinks.get(Constants.social_vk);
+            String youtube = investMember.socialMapLinks.get(Constants.social_youtube);
+            String telegram = investMember.socialMapLinks.get(Constants.social_telegram);
+            String git = investMember.socialMapLinks.get(Constants.social_git);
+            String tratata = investMember.socialMapLinks.get("tratata");
+
 
         }
     }

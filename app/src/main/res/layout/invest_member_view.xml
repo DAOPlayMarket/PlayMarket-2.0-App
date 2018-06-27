@@ -22,11 +22,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
-        android:text="Name Name Name "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/invest_member_avatar"
-        app:layout_constraintTop_toTopOf="@+id/invest_member_avatar" />
+        app:layout_constraintTop_toTopOf="@+id/invest_member_avatar"
+        tools:text="Name Name Name " />
 
     <TextView
         android:id="@+id/invest_member_description"
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Description description description description description description description description description description  "
+        tools:text="Description description description description description description description description description description  "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/invest_member_avatar"
         app:layout_constraintTop_toBottomOf="@+id/invest_member_name" />
@@ -43,7 +43,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:minHeight="32dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@+id/invest_member_description"
         app:layout_constraintHorizontal_bias="0.0"
@@ -51,9 +50,13 @@
         app:layout_constraintTop_toBottomOf="@+id/invest_member_description">
 
         <com.blockchain.store.playmarket.views.FontAwesomeTextView
-            android:text="\uf1d3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/font_awesome_default_margin"
+            android:text="@string/fa_icon_fbs"
+            android:textSize="20sp" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

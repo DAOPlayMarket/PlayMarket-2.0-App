@@ -65,4 +65,16 @@ public class Constants {
 
     public static final String NAV_VIEW_FRAGMENT_TAG = "nav_view_fragment_tag";
     public static final String ENCRYPTED_PASSWORD = "encrypted_account_password";
+
+    /*Social titles*/
+    public static final String social_google_plus = "google-plus";
+    public static final String social_facebook = "facebook";
+    public static final String social_linkedin = "linkedin";
+    public static final String social_twitter = "twitter";
+    public static final String social_instagram = "instagram";
+    public static final String social_vk = "vk";
+    public static final String social_youtube = "youtube";
+    public static final String social_telegram = "telegram";
+    public static final String social_git = "git";
+
 }

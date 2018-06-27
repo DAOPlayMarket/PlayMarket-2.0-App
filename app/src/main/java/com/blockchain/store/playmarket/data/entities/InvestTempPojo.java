@@ -48,7 +48,7 @@ public class InvestTempPojo {
             objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
 
             for (IcoTeam advisor : appInfo.icoInfo.advisors) {
-                objects.add(new InvestMember(advisor.name, advisor.description, appInfo.getIcoAdvisorsUrl(advisor.photo)));
+                objects.add(new InvestMember(advisor.name, advisor.description, appInfo.getIcoAdvisorsUrl(advisor.photo), advisor.socialLinks));
                 objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
             }
         }
@@ -59,7 +59,7 @@ public class InvestTempPojo {
             objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
 
             for (IcoTeam team : appInfo.icoInfo.team) {
-                objects.add(new InvestMember(team.name, team.description, appInfo.getIcoTeamUrl(team.photo)));
+                objects.add(new InvestMember(team.name, team.description, appInfo.getIcoTeamUrl(team.photo), team.socialLinks));
                 objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
             }
         }

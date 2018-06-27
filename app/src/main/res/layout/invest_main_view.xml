@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
-        android:text="PlayMarket 2.0"
+        tools:text="PlayMarket 2.0"
         android:textColor="@color/invest_main_color"
         android:textSize="32sp" />
 
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
-        android:text="A Decentralized App Store for Android \nmade with the Ethereum Blockchain"
+        tools:text="A Decentralized App Store for Android \nmade with the Ethereum Blockchain"
         android:textColor="@color/invest_main_color"
         android:textSize="12sp" />
 
@@ -80,7 +80,7 @@
             android:id="@+id/invest_time_remains"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="28:15:22:54"
+            android:text="--:--:--:--"
             android:textColor="@color/invest_main_color"
             android:textSize="24sp" />
 
