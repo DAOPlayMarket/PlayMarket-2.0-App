@@ -70,21 +70,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case INVEST_VIEWTYPE_YOUTUBE:
                 View investYoutubeViewHolder = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.invest_youtube_view, parent, false);
-
                 InvestYoutubeViewHolder youtubeViewHolder = new InvestYoutubeViewHolder(investYoutubeViewHolder);
-                youtubeViewHolder.youTubePlayerView.initialize(Constants.YOUTUBE_KEY, new YouTubePlayer.OnInitializedListener() {
-                    @Override
-                    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
-                        if (!wasRestored) {
-                            youTubePlayer.cueVideo("QYjyfCt6gWc");
-                        }
-                    }
-
-                    @Override
-                    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-
-                    }
-                });
                 return youtubeViewHolder;
             case INVEST_VIEWTYPE_BODY:
                 View investBodyMessageViewHolder = LayoutInflater.from(parent.getContext())
@@ -191,10 +177,8 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class InvestYoutubeViewHolder extends RecyclerView.ViewHolder {
-        /* requires:
-         * Youtube's video id
-         * */
         private YouTubePlayerView youTubePlayerView;
+        private boolean isInitialized = false;
 
         public InvestYoutubeViewHolder(View itemView) {
             super(itemView);
@@ -205,15 +189,28 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return youTubePlayerView;
         }
 
-        public void bind(InvestYoutube object) {
+        public void bind(InvestYoutube investYoutuber) {
+            if (!isInitialized) {
+                isInitialized = true;
+                youTubePlayerView.initialize(Constants.YOUTUBE_KEY, new YouTubePlayer.OnInitializedListener() {
+                    @Override
+                    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
+                        if (!wasRestored) {
+                            youTubePlayer.cueVideo(investYoutuber.videoId);
+                        }
+                    }
+
+                    @Override
+                    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+                    }
+                });
+            }
 
         }
     }
 
     public class InvestBodyMessageViewHolder extends RecyclerView.ViewHolder {
-        /* requires:
-         * title
-         * description*/
         private TextView bodyView;
 
         public InvestBodyMessageViewHolder(View itemView) {
@@ -223,15 +220,6 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         public void bind(InvestBody investBody) {
             bodyView.setText(Html.fromHtml(investBody.body));
-        }
-    }
-
-    public class InvestScreenshotsViewHolder extends RecyclerView.ViewHolder {
-        /* requires:
-         * screenshots
-         * */
-        public InvestScreenshotsViewHolder(View itemView) {
-            super(itemView);
         }
     }
 
@@ -277,21 +265,19 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private ImageViewer.Builder imageViewerBuilder;
         private ImageListAdapter imageAdapter;
         private RecyclerView recyclerView;
-        private ArrayList<String> imagePaths = new ArrayList<>();
 
         public InvestGalleryViewHolder(View itemView) {
             super(itemView);
-            imagePaths.add("https://n000001.playmarket.io:3000/data/IPFS/QmdwWfuR3Y4ZsYGB7uJLn9Xj1PKJ9oMdJ8BxNaPEdMK7CX/pictures/1.jpg");
-            imagePaths.add("https://n000001.playmarket.io:3000/data/IPFS/QmdwWfuR3Y4ZsYGB7uJLn9Xj1PKJ9oMdJ8BxNaPEdMK7CX/pictures/2.jpg");
-            imagePaths.add("https://n000001.playmarket.io:3000/data/IPFS/QmdwWfuR3Y4ZsYGB7uJLn9Xj1PKJ9oMdJ8BxNaPEdMK7CX/pictures/3.jpg");
             recyclerView = itemView.findViewById(R.id.recycler_view);
             recyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
-            imageAdapter = new ImageListAdapter(imagePaths, this);
-            imageViewerBuilder = new ImageViewer.Builder(itemView.getContext(), imagePaths);
-            recyclerView.setAdapter(imageAdapter);
         }
 
         public void bind(ScreenShotBody screenShotBody) {
+            if(imageAdapter == null){
+                imageAdapter = new ImageListAdapter(screenShotBody.screenShotsList, this);
+                imageViewerBuilder = new ImageViewer.Builder(itemView.getContext(), screenShotBody.screenShotsList);
+                recyclerView.setAdapter(imageAdapter);
+            }
 
         }
 
