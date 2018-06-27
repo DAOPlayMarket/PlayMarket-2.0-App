@@ -16,6 +16,9 @@ class IcoInfo implements Parcelable {
     public String tokenSold;
     public String usdRaised;
     public String currentStage;
+    public ArrayList<String> pictures;
+    @SerializedName("icon")
+    public String iconUrl;
 
 
     public IcoInfo() {
@@ -34,6 +37,8 @@ class IcoInfo implements Parcelable {
         dest.writeString(this.tokenSold);
         dest.writeString(this.usdRaised);
         dest.writeString(this.currentStage);
+        dest.writeStringList(this.pictures);
+        dest.writeString(this.iconUrl);
     }
 
     protected IcoInfo(Parcel in) {
@@ -43,6 +48,8 @@ class IcoInfo implements Parcelable {
         this.tokenSold = in.readString();
         this.usdRaised = in.readString();
         this.currentStage = in.readString();
+        this.pictures = in.createStringArrayList();
+        this.iconUrl = in.readString();
     }
 
     public static final Creator<IcoInfo> CREATOR = new Creator<IcoInfo>() {

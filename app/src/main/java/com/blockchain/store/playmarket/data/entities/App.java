@@ -46,6 +46,8 @@ public class App implements Parcelable {
     public String icoStartDate;
     public String icoEndDate;
     public String icoHardCapUsd;
+    public String hashICO;
+    public String hashTagICO;
 
     //total supply / 10^(ico decimals)
     // tokenSold
@@ -98,6 +100,8 @@ public class App implements Parcelable {
         dest.writeString(this.icoStartDate);
         dest.writeString(this.icoEndDate);
         dest.writeString(this.icoHardCapUsd);
+        dest.writeString(this.hashICO);
+        dest.writeString(this.hashTagICO);
     }
 
     protected App(Parcel in) {
@@ -127,6 +131,8 @@ public class App implements Parcelable {
         this.icoStartDate = in.readString();
         this.icoEndDate = in.readString();
         this.icoHardCapUsd = in.readString();
+        this.hashICO = in.readString();
+        this.hashTagICO = in.readString();
     }
 
     public static final Creator<App> CREATOR = new Creator<App>() {

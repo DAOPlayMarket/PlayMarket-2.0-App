@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -49,6 +51,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     @BindView(R.id.error_view_holder) LinearLayout errorViewHolder;
     @BindView(R.id.recipient_address_textInputLayout) TextInputLayout recipientAddressTextInputLayout;
     @BindView(R.id.amount_textInputLayout) TextInputLayout amountTextInputLayout;
+    @BindView(R.id.qr_scanner_button) ImageButton qrCodeImage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,12 +77,12 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
 
         getDataFromTransferViewModel();
 
-        if (recipientAddress == null){
+        if (recipientAddress == null) {
             recipientAddressEditText.setEnabled(true);
-        }
-        else{
+        } else {
             recipientAddressEditText.setText(recipientAddress);
             recipientAddressEditText.setEnabled(false);
+            qrCodeImage.setEnabled(false);
         }
 
         return view;
@@ -169,15 +172,13 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         } else if (recipientAddressEditText.getText().length() > 1 && recipientAddressEditText.getText().length() < 42) {
             recipientAddressTextInputLayout.setError(getResources().getString(R.string.short_account));
             isHasNoError = false;
-        }
-        else recipientAddressTextInputLayout.setError("");
+        } else recipientAddressTextInputLayout.setError("");
 
         if (amountEditText.getText().toString().isEmpty() && !amountEditText.getText().toString().equalsIgnoreCase("0")) {
             amountTextInputLayout.setError(getResources().getString(R.string.empty_field));
             emptyAmountCheck = false;
             isHasNoError = false;
-        }
-        else amountTextInputLayout.setError("");
+        } else amountTextInputLayout.setError("");
 
         if (emptyAmountCheck) {
             String transferAmount = amountEditText.getText().toString();
@@ -191,8 +192,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
             if (transferAmountBigDecimal.doubleValue() > balanceBigDecimal.doubleValue()) {
                 amountTextInputLayout.setError(getResources().getString(R.string.insufficient_funds));
                 isHasNoError = false;
-            }
-            else amountTextInputLayout.setError("");
+            } else amountTextInputLayout.setError("");
         }
         return isHasNoError;
     }
@@ -204,7 +204,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         presenter.getAccountBalance();
     }
 
-    private void getDataFromTransferViewModel(){
+    private void getDataFromTransferViewModel() {
         transferViewModel.recipientAddress.observe(getActivity(), s -> recipientAddress = s);
     }
 }

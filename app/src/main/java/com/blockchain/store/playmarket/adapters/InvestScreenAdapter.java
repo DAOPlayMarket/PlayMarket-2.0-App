@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
@@ -24,13 +23,13 @@ import com.blockchain.store.playmarket.data.entities.ScreenShotBody;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.interfaces.InvestAdapterCallback;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -144,6 +143,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private TextView currentStage;
         private TextView currentEarned;
         private TextView totalEarned;
+        private SimpleDraweeView iconView;
 
         public InvestMainViewHolder(View itemView) {
             super(itemView);
@@ -152,12 +152,14 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             currentStage = itemView.findViewById(R.id.invest_current_stage);
             currentEarned = itemView.findViewById(R.id.invest_current_earned);
             totalEarned = itemView.findViewById(R.id.invest_total_earned);
+            iconView = itemView.findViewById(R.id.invest_app_logo);
         }
 
         public void bind(InvestMainItem investMainItem) {
             currentStage.setText(String.valueOf(investMainItem.stageCurrent));
             currentEarned.setText(investMainItem.earnedMin);
             totalEarned.setText(investMainItem.earnedMax);
+            iconView.setImageURI(investMainItem.iconUrl);
             investButton.setOnClickListener(v -> adapterCallback.onInvestBtnClicked(investMainItem.devAddr));
             if (countDownTimer != null) {
                 countDownTimer = new CountDownTimer(Long.parseLong(investMainItem.totalTime), 1000) {
@@ -227,7 +229,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public class InvestMemberViewHolder extends RecyclerView.ViewHolder {
         private TextView investMemberTitle;
         private TextView investMemberDescription;
-        private ImageView investMemberAvatar;
+        private SimpleDraweeView investMemberAvatar;
 
         public InvestMemberViewHolder(View itemView) {
             super(itemView);
@@ -237,6 +239,9 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         public void bind(InvestMember investMember) {
+            investMemberTitle.setText(investMember.name);
+            investMemberDescription.setText(investMember.description);
+            investMemberAvatar.setImageURI(investMember.imagePath);
 
         }
     }
@@ -261,8 +266,8 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             titleView = itemView.findViewById(R.id.invest_title_view);
         }
 
-        public void bind(InvestTitle title) {
-            titleView.setText(title);
+        public void bind(InvestTitle investTitle) {
+            titleView.setText(investTitle.title);
         }
     }
 

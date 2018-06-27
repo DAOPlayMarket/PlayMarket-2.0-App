@@ -10,6 +10,7 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.InvestScreenAdapter;
@@ -19,8 +20,6 @@ import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 
-import butterknife.BindView;
-import butterknife.OnClick;
 
 import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.RECIPIENT;
 
@@ -28,14 +27,13 @@ public class InvestActivity extends YouTubeBaseActivity implements InvestContrac
     private static final String TAG = "InvestActivity";
     private static final String INVEST_APP_PARAM = "invest_app_param";
 
-    @BindView(R.id.recycler_view) RecyclerView recyclerView;
-    @BindView(R.id.toolbar) Toolbar toolbar;
-
+    private Toolbar toolbar;
     private AppInfo appInfo;
     private InvestPresenter presenter;
     private InvestScreenAdapter adapter;
     private AppCompatDelegate appCompatDelegate;
-
+    private RecyclerView recyclerView;
+    private ImageView backArrow;
 
     public static void start(Context context, AppInfo appInfo) {
         Intent starter = new Intent(context, InvestActivity.class);
@@ -54,7 +52,8 @@ public class InvestActivity extends YouTubeBaseActivity implements InvestContrac
 
         recyclerView = findViewById(R.id.recycler_view);
         toolbar = findViewById(R.id.toolbar);
-
+        backArrow = findViewById(R.id.top_layout_back_arrow);
+        backArrow.setOnClickListener(v -> super.onBackPressed());
         if (getIntent() != null) {
             appInfo = getIntent().getParcelableExtra(INVEST_APP_PARAM);
         } else {
@@ -69,7 +68,7 @@ public class InvestActivity extends YouTubeBaseActivity implements InvestContrac
     }
 
     private void setUpRecycler(AppInfo appInfo) {
-        adapter = new InvestScreenAdapter(appInfo,this);
+        adapter = new InvestScreenAdapter(appInfo, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
@@ -83,7 +82,7 @@ public class InvestActivity extends YouTubeBaseActivity implements InvestContrac
     @Override
     public void onInvestBtnClicked(String address) {
         Intent intent = new Intent(this, TransferActivity.class);
-        intent.putExtra(RECIPIENT, AccountManager.getAddress().getHex()); //todo: change to real address
+        intent.putExtra(RECIPIENT, address);
         startActivity(intent);
     }
 
@@ -117,9 +116,5 @@ public class InvestActivity extends YouTubeBaseActivity implements InvestContrac
         super.onDestroy();
     }
 
-    @OnClick(R.id.top_layout_back_arrow)
-    public void onBackArrowClicked() {
-        super.onBackPressed();
-    }
 
 }

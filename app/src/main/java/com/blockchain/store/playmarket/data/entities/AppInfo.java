@@ -29,7 +29,28 @@ public class AppInfo implements Parcelable {
         }
     }
 
-    public String getFormattedPrice(){
+    public String getIcoAdvisorsUrl(String imageName) {
+        return RestApi.ICON_URL + app.hashTagICO + "/" + app.hashICO + "/images/advisors/" + imageName;
+    }
+
+    public String getIcoTeamUrl(String imageName) {
+        return RestApi.ICON_URL + app.hashTagICO + "/" + app.hashICO + "/images/team/" + imageName;
+    }
+
+    public ArrayList<String> getIcoScreenShotsUrl() {
+        ArrayList<String> images = new ArrayList<>();
+        for (String picture : icoInfo.pictures) {
+            images.add(RestApi.ICON_URL + app.hashTagICO + "/" + app.hashICO + "/images/pictures/" + picture);
+        }
+
+        return images;
+    }
+
+    public String getIcoIcon() {
+        return RestApi.ICON_URL + app.hashTagICO + "/" + app.hashICO + "/images/icon/" + icoInfo.iconUrl;
+    }
+
+    public String getFormattedPrice() {
         return new EthereumPrice(app.price).inEther().toString();
     }
 

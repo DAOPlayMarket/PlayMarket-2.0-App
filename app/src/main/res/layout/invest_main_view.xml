@@ -7,10 +7,10 @@
     android:orientation="vertical"
     tools:context="com.blockchain.store.playmarket.ui.invest_screen.InvestActivity">
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/invest_app_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center"
         android:src="@mipmap/ic_logo" />
 
@@ -155,5 +155,5 @@
         android:background="@drawable/rounded_invest_bg"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="@string/invest_btn_text" />
+        android:text="@string/btn_invest" />
 </LinearLayout>
