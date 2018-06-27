@@ -93,8 +93,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:max="25500"
-        android:progress="1242" />
+        android:max="100000000"
+        android:progress="50000000" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -129,6 +129,13 @@
         android:orientation="horizontal">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/invest_earned_message"
+            android:textColor="@color/invest_main_color"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/invest_earned_currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/invest_earned_message"

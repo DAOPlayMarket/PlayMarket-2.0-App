@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
@@ -144,6 +145,8 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private TextView currentEarned;
         private TextView totalEarned;
         private SimpleDraweeView iconView;
+        private ProgressBar progressBar;
+        private TextView icoCurrency;
 
         public InvestMainViewHolder(View itemView) {
             super(itemView);
@@ -153,10 +156,15 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             currentEarned = itemView.findViewById(R.id.invest_current_earned);
             totalEarned = itemView.findViewById(R.id.invest_total_earned);
             iconView = itemView.findViewById(R.id.invest_app_logo);
+            progressBar = itemView.findViewById(R.id.invest_progress_bar);
+            icoCurrency = itemView.findViewById(R.id.invest_earned_currency);
         }
 
         public void bind(InvestMainItem investMainItem) {
+            icoCurrency.setText(investMainItem.icoSymbol);
             currentStage.setText(String.valueOf(investMainItem.stageCurrent));
+            progressBar.setMax(Integer.parseInt(investMainItem.earnedMax));
+            progressBar.setProgress(Integer.parseInt(investMainItem.earnedMin));
             currentEarned.setText(investMainItem.earnedMin);
             totalEarned.setText(investMainItem.earnedMax);
             iconView.setImageURI(investMainItem.iconUrl);

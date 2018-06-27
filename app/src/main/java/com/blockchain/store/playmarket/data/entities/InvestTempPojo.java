@@ -20,7 +20,8 @@ public class InvestTempPojo {
                 3,
                 appInfo.app.icoStages.get(Integer.parseInt(appInfo.icoInfo.currentStage) - 1).time,
                 appInfo.app.adrDev,
-                appInfo.getIcoIcon()
+                appInfo.getIcoIcon(),
+                appInfo.app.icoSymbol
         ));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MAIN);
 

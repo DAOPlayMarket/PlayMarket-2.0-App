@@ -10,8 +10,9 @@ public class InvestMainItem {
     public String totalTime;
     public String devAddr;
     public String iconUrl;
+    public String icoSymbol;
 
-    public InvestMainItem(String name, String description, String earnedMin, String earnedMax, int stageCurrent, int stageMax, String totalTime, String devAddr, String iconUrl) {
+    public InvestMainItem(String name, String description, String earnedMin, String earnedMax, int stageCurrent, int stageMax, String totalTime, String devAddr, String iconUrl, String icoSymbol) {
         this.name = name;
         this.description = description;
         this.earnedMin = earnedMin;
@@ -21,6 +22,7 @@ public class InvestMainItem {
         this.totalTime = totalTime;
         this.devAddr = devAddr;
         this.iconUrl = iconUrl;
+        this.icoSymbol = icoSymbol;
     }
 
 

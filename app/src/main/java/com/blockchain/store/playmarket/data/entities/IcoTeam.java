@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 class IcoTeam implements Parcelable {
     @SerializedName("n")
     public String name;
@@ -12,8 +15,11 @@ class IcoTeam implements Parcelable {
     public String photo;
     @SerializedName("d")
     public String description;
-//    @SerializedName("c")
-//    public SocialLinks socialLinks;
+    @SerializedName("c")
+    public ArrayList<Map<String,String>> socialLinks;
+
+    public IcoTeam() {
+    }
 
     @Override
     public int describeContents() {
@@ -25,18 +31,19 @@ class IcoTeam implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.photo);
         dest.writeString(this.description);
-    }
-
-    public IcoTeam() {
+        dest.writeList(this.socialLinks);
     }
 
     protected IcoTeam(Parcel in) {
         this.name = in.readString();
         this.photo = in.readString();
         this.description = in.readString();
+        this.socialLinks = new ArrayList<Map<String, String>>();
+
+        in.readList(this.socialLinks, Map.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<IcoTeam> CREATOR = new Parcelable.Creator<IcoTeam>() {
+    public static final Creator<IcoTeam> CREATOR = new Creator<IcoTeam>() {
         @Override
         public IcoTeam createFromParcel(Parcel source) {
             return new IcoTeam(source);
