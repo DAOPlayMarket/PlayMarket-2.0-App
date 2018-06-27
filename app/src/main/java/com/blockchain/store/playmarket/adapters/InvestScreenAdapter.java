@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
@@ -224,10 +225,15 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class InvestMemberViewHolder extends RecyclerView.ViewHolder {
-        /* requires:
-         * photo, name, description, social media icons and links*/
+        private TextView investMemberTitle;
+        private TextView investMemberDescription;
+        private ImageView investMemberAvatar;
+
         public InvestMemberViewHolder(View itemView) {
             super(itemView);
+            investMemberTitle = itemView.findViewById(R.id.invest_member_name);
+            investMemberDescription = itemView.findViewById(R.id.invest_member_description);
+            investMemberAvatar = itemView.findViewById(R.id.invest_member_avatar);
         }
 
         public void bind(InvestMember investMember) {
@@ -273,7 +279,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         public void bind(ScreenShotBody screenShotBody) {
-            if(imageAdapter == null){
+            if (imageAdapter == null) {
                 imageAdapter = new ImageListAdapter(screenShotBody.screenShotsList, this);
                 imageViewerBuilder = new ImageViewer.Builder(itemView.getContext(), screenShotBody.screenShotsList);
                 recyclerView.setAdapter(imageAdapter);
