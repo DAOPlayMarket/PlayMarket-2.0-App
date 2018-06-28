@@ -34,7 +34,7 @@
             android:minHeight="40dp"
             android:orientation="horizontal">
 
-            <com.facebook.drawee.view.SimpleDraweeView
+            <ImageView
                 android:id="@+id/exchange_icon"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

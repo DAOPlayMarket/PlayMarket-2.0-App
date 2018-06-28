@@ -127,11 +127,11 @@
                 <Button
                     android:id="@+id/invest_btn"
                     style="@style/ColorButton"
-                    android:visibility="invisible"
                     android:layout_marginRight="8dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_invest_btn"
-                    android:text="@string/btn_invest" />
+                    android:text="@string/btn_invest"
+                    android:visibility="invisible" />
 
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -159,7 +159,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp" />
 
 
         </LinearLayout>

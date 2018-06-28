@@ -31,6 +31,9 @@ public interface ServerApi {
     @GET("get-categories")
     Observable<ArrayList<Category>> getCagories();
 
+    @GET("get-apps-ico")
+    Observable<ArrayList<App>> getIcoApps();
+
     @FormUrlEncoded
     @POST("get-app")
     Observable<AppInfo> getAppInfo(@Field("idCTG") String categoryId, @Field("idApp") String appId);

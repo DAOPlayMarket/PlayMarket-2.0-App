@@ -152,6 +152,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         for (Category category : categories) {
             viewPagerAdapter.addFragment(MainMenuFragment.newInstance(category), category.name);
         }
+
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 

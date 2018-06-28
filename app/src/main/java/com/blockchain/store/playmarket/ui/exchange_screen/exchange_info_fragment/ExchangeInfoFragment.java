@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.ui.exchange_screen.exchange_info_fragmen
 
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,6 +22,10 @@ import com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivityViewMo
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.fragment_dialogs.ChooseCurrencyDialog;
+import com.blockchain.store.playmarket.utilities.glide_svg.SvgSoftwareLayerSetter;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.concurrent.TimeUnit;
@@ -41,7 +47,7 @@ public class ExchangeInfoFragment extends Fragment implements ExchangeInfoFragme
 
     @BindView(R.id.user_address_field) EditText userAddressField;
     @BindView(R.id.entered_amount) EditText enteredAmount;
-    @BindView(R.id.exchange_icon) SimpleDraweeView exchangeIcon;
+    @BindView(R.id.exchange_icon) ImageView exchangeIcon;
     @BindView(R.id.content_holder) LinearLayout contentHolder;
     @BindView(R.id.progress_holder) LinearLayout progressLayout;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
@@ -58,7 +64,7 @@ public class ExchangeInfoFragment extends Fragment implements ExchangeInfoFragme
     private ExchangeInfoFragmentPresenter presenter;
     private ChooseCurrencyDialog exchangeDialog;
     private BehaviorSubject<String> userInputSubject = BehaviorSubject.create();
-
+    private RequestBuilder<PictureDrawable> requestBuilder;
     public ExchangeInfoFragment() {
     }
 
@@ -131,7 +137,11 @@ public class ExchangeInfoFragment extends Fragment implements ExchangeInfoFragme
 
     private void onCurrencyChosen(ChangellyCurrency changellyCurrencies) {
         exchangeActivityViewModel.chosenCurrency.setValue(changellyCurrencies);
-        exchangeIcon.setImageURI(Uri.parse(changellyCurrencies.getImageUrl()));
+
+        Glide.with(this)
+                .as(PictureDrawable.class).listener(new SvgSoftwareLayerSetter()).transition(DrawableTransitionOptions.withCrossFade()).load(changellyCurrencies.getImageUrl()).into(exchangeIcon);
+//        exchangeIcon.setImageURI(Uri.parse(changellyCurrencies.getImageUrl()));
+
         chosenCurrencyName.setText(exchangeActivityViewModel.chosenCurrency.getValue().name.toUpperCase());
         chosenCurrencyFullname.setText(exchangeActivityViewModel.chosenCurrency.getValue().fullName);
         exchangeDetailsCurrency.setText(String.format(getString(R.string.exchange_details_currency), changellyCurrencies.name.toUpperCase()));

@@ -13,7 +13,7 @@ public class ChangellyCurrency implements Parcelable {
     public boolean enabled;
 
     public String getImageUrl() {
-        return "https://changelly.com/coins/" + name + ".png";
+        return "https://changelly.com/coins/" + name + ".svg";
     }
 
     @Override

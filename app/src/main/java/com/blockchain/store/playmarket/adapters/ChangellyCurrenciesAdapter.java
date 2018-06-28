@@ -1,5 +1,7 @@
 package com.blockchain.store.playmarket.adapters;
 
+import android.content.Context;
+import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +13,9 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.ChangellyCurrency;
+import com.blockchain.store.playmarket.utilities.glide_svg.SvgSoftwareLayerSetter;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -95,14 +100,17 @@ public class ChangellyCurrenciesAdapter extends RecyclerView.Adapter<ChangellyCu
         @BindView(R.id.currency_icon) SimpleDraweeView currencyIcon;
         @BindView(R.id.currency_name) TextView currencyName;
         @BindView(R.id.currency_holder) View currencyHolder;
+        private Context context;
 
         public CurrencyViewHolder(View itemView) {
             super(itemView);
+            this.context = itemView.getContext();
             ButterKnife.bind(this, itemView);
         }
 
         public void bind(ChangellyCurrency changellyCurrency) {
-            currencyIcon.setImageURI(Uri.parse(changellyCurrency.getImageUrl()));
+            Glide.with(context).as(PictureDrawable.class).listener(new SvgSoftwareLayerSetter()).transition(DrawableTransitionOptions.withCrossFade()).load(changellyCurrency.getImageUrl()).into(currencyIcon);
+//            currencyIcon.setImageURI(Uri.parse(changellyCurrency.getImageUrl()));
             currencyName.setText(changellyCurrency.fullName);
             currencyHolder.setOnClickListener(v -> callback.onChangellyCurrencyClicked(changellyCurrency));
         }
