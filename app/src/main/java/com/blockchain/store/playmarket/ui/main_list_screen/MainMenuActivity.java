@@ -26,6 +26,7 @@ import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
+import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
 import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -152,6 +153,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         for (Category category : categories) {
             viewPagerAdapter.addFragment(MainMenuFragment.newInstance(category), category.name);
         }
+        viewPagerAdapter.addFragment(new IcoFragment(), getString(R.string.fragment_ico_title));
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
