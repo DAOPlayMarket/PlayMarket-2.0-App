@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.ui.ico_screen;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,8 @@ import java.util.ArrayList;
 public class IcoFragment extends Fragment implements IcoFragmentContracts.View {
     private static final String TAG = "IcoFragment";
 
-    IcoFragmentPresenter presenter;
+    private IcoFragmentPresenter presenter;
+    private RecyclerView recyclerView;
 
     public IcoFragment() {
         // Required empty public constructor
@@ -30,7 +32,7 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ico, container, false);
-        bindViews();
+        bindViews(view);
         attachPresenter();
         getIcoApps();
         return view;
@@ -45,7 +47,8 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View {
         presenter.getIcoApps();
     }
 
-    private void bindViews() {
+    private void bindViews(View view) {
+        recyclerView = view.findViewById(R.id.recycler_view);
 
     }
 

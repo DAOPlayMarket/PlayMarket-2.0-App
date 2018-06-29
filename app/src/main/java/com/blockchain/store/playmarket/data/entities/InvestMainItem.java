@@ -7,12 +7,12 @@ public class InvestMainItem {
     public String earnedMax;
     public int stageCurrent;
     public int stageMax;
-    public String totalTime;
+    public long totalTime;
     public String devAddr;
     public String iconUrl;
     public String icoSymbol;
 
-    public InvestMainItem(String name, String description, String earnedMin, String earnedMax, int stageCurrent, int stageMax, String totalTime, String devAddr, String iconUrl, String icoSymbol) {
+    public InvestMainItem(String name, String description, String earnedMin, String earnedMax, int stageCurrent, int stageMax, long totalTime, String devAddr, String iconUrl, String icoSymbol) {
         this.name = name;
         this.description = description;
         this.earnedMin = earnedMin;

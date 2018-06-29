@@ -175,7 +175,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             iconView.setImageURI(investMainItem.iconUrl);
             investButton.setOnClickListener(v -> adapterCallback.onInvestBtnClicked(investMainItem.devAddr));
             if (countDownTimer == null) {
-                countDownTimer = new CountDownTimer(Long.parseLong(investMainItem.totalTime), 1000) {
+                countDownTimer = new CountDownTimer(investMainItem.totalTime, 1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
                         String formattedString = simpleDateFormat.format(new Date(millisUntilFinished));
