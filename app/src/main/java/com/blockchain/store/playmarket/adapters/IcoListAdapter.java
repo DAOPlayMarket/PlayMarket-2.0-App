@@ -1,19 +1,27 @@
 package com.blockchain.store.playmarket.adapters;
 
+import android.net.Uri;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppViewHolder> {
+    private static final String TAG = "IcoListAdapter";
+
     private ArrayList<App> appList = new ArrayList<App>();
     private AppListCallbacks appListCallbacks;
 
@@ -40,14 +48,23 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
     }
 
     public class IcoAppViewHolder extends RecyclerView.ViewHolder {
-
+        @BindView(R.id.icon) SimpleDraweeView icon;
+        @BindView(R.id.title) TextView title;
+        @BindView(R.id.dots) ImageView dots;
+        @BindView(R.id.tokens_bought) TextView tokenBought;
+        @BindView(R.id.time_remains) TextView timeRemains;
+        @BindView(R.id.cardView) CardView cardView;
 
         public IcoAppViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            cardView.setOnClickListener(v -> appListCallbacks.onAppClickedWithTransition(appList.get(getAdapterPosition()), itemView));
         }
 
         public void bind(App app) {
+            icon.setImageURI(Uri.parse(app.getIconUrl()));
+            title.setText(app.nameApp);
+//            tokenBought.setText(app.bou);
         }
     }
 }
