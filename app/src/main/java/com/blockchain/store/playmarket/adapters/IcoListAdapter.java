@@ -55,7 +55,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
         @BindView(R.id.time_remains) TextView timeRemains;
         @BindView(R.id.cardView) CardView cardView;
 
-        public IcoAppViewHolder(View itemView) {
+        IcoAppViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             cardView.setOnClickListener(v -> appListCallbacks.onAppClickedWithTransition(appList.get(getAdapterPosition()), itemView));
@@ -65,6 +65,8 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
             icon.setImageURI(Uri.parse(app.getIconUrl()));
             title.setText(app.nameApp);
 //            tokenBought.setText(app.bou);
+
+            cardView.setOnClickListener(v -> appListCallbacks.onAppClicked(app));
         }
     }
 }

@@ -113,8 +113,8 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public NestedAppListViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
             this.context = itemView.getContext();
-
         }
 
         public void bind(App app, int position) {

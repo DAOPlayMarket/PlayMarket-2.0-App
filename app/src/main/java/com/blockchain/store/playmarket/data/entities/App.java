@@ -146,4 +146,10 @@ public class App implements Parcelable {
             return new App[size];
         }
     };
+
+//    public long getStageTimeRemaining(){
+//        long totalTimeInUnix = Long.parseLong(icoStages.get(Integer.parseInt(currentStage) - 1).time);
+//        long totalTimeFromUnix = ((totalTimeInUnix*1000)-System.currentTimeMillis());
+//        return totalTimeFromUnix;
+//    }
 }

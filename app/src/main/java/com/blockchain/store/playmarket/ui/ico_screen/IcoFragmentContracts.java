@@ -10,6 +10,8 @@ public class IcoFragmentContracts {
         void onIcoAppsReady(ArrayList<App> apps);
 
         void onIcoAppsFailed(Throwable throwable);
+
+        void setProgress(boolean progress);
     }
 
     public interface Presenter {

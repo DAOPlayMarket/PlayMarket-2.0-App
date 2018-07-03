@@ -1,5 +1,7 @@
 package com.blockchain.store.playmarket.ui.ico_screen;
 
+import android.util.Log;
+
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.repositories.IcoAppsRepository;
 
@@ -23,6 +25,16 @@ public class IcoFragmentPresenter implements IcoFragmentContracts.Presenter, Ico
     @Override
     public void onIcoAppsReady(ArrayList<App> apps) {
         view.onIcoAppsReady(apps);
+    }
+
+    @Override
+    public void onIcoAppsSubscribed() {
+        view.setProgress(true);
+    }
+
+    @Override
+    public void onIcoAppsTerminated() {
+        view.setProgress(false);
     }
 
     @Override

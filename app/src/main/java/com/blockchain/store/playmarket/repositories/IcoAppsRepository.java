@@ -16,6 +16,8 @@ public class IcoAppsRepository {
         RestApi.getServerApi().getIcoApps()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
+                .doOnSubscribe(()->this.callback.onIcoAppsSubscribed())
+                .doOnTerminate(()->this.callback.onIcoAppsTerminated())
                 .subscribe(this::onIcoAppsReady, this::onIcoAppsFailed);
     }
 
@@ -31,5 +33,15 @@ public class IcoAppsRepository {
         void onIcoAppsReady(ArrayList<App> apps);
 
         void onIcoAppsFailed(Throwable throwable);
+
+        default void onIcoAppsSubscribed() {
+
+        }
+
+        default void onIcoAppsTerminated() {
+
+        }
+
+
     }
 }
