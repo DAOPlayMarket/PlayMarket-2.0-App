@@ -140,15 +140,7 @@ public class Application extends MultiDexApplication {
     }
 
     private HostnameVerifier getHostnameVerifier() {
-        return new HostnameVerifier() {
-            @Override
-            public boolean verify(String hostname, SSLSession session) {
-                return true;
-                // or the following:
-                // HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
-                // return hv.verify("www.yourserver.com", session);
-            }
-        };
+        return (hostname, session) -> true;
     }
 
     private TrustManager[] getWrappedTrustManagers(TrustManager[] trustManagers) {

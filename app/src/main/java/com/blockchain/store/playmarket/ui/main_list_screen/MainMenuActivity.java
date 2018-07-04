@@ -156,6 +156,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         viewPagerAdapter.addFragment(new IcoFragment(), getString(R.string.fragment_ico_title));
 
         viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
 
     }

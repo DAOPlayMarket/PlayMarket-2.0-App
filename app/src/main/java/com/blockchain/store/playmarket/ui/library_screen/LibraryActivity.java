@@ -48,7 +48,6 @@ public class LibraryActivity extends AppCompatActivity implements AppListCallbac
         ButterKnife.bind(this);
         toolbarTitle.setText(R.string.library_screen_title);
         initViewPager();
-//        loadSavedApps();
     }
 
     private void initViewPager() {
