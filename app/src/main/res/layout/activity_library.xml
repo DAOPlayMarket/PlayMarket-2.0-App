@@ -11,6 +11,22 @@
         android:id="@+id/top_layout_holder"
         layout="@layout/detail_app_toolbar" />
 
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_layout_holder"
+        android:background="@null"
+        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabTextColor="@android:color/darker_gray" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tab_layout" />
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
@@ -20,12 +36,12 @@
 
     <TextView
         android:id="@+id/empty_view"
-        android:layout_centerInParent="true"
-        android:textSize="22sp"
-        android:visibility="gone"
-        android:text="@string/recycler_empty_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/recycler_empty_view"
+        android:textSize="22sp"
+        android:visibility="gone" />
 
 
 </RelativeLayout>
