@@ -35,6 +35,8 @@ public class AppDetailContract {
         void onPurchaseSuccessful(PurchaseAppResponse purchaseAppResponse);
 
         void onPurchaseError(Throwable throwable);
+
+        void onReviewsReady();
     }
 
     public interface Presenter {
@@ -50,8 +52,9 @@ public class AppDetailContract {
 
         void onDeleteButtonClicked(App app);
 
-        void onInvestClicked(AppInfo appInfo, String investCount);
 
         void onPurchasedClicked(AppInfo appInfo);
+
+        void getReviews();
     }
 }

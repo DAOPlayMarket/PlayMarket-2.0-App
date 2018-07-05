@@ -11,9 +11,9 @@
         android:id="@+id/top_layout_holder"
         layout="@layout/detail_app_toolbar" />
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/top_layout_holder">
 
         <LinearLayout
@@ -162,9 +162,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp" />
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/reviews_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
 
         </LinearLayout>
-    </ScrollView>
+
+
+    </android.support.v4.widget.NestedScrollView>
 
     <include
         layout="@layout/error_view"

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -24,16 +23,14 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.ImageListAdapter;
+import com.blockchain.store.playmarket.adapters.UserReviewAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
-import com.blockchain.store.playmarket.data.entities.CheckPurchaseResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
-import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.facebook.common.executors.CallerThreadExecutor;
@@ -74,14 +71,17 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.delete_view) TextView deleteBtn;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.price_progress_bar) ProgressBar priceProgressBar;
+    @BindView(R.id.reviews_recycler_view) RecyclerView reviewsRecyclerView;
 
+    private boolean isUserPurchasedApp;
+
+    private ObjectAnimator textDescriptionAnimator;
     private ImageViewer.Builder imageViewerBuilder;
     private ImageListAdapter imageAdapter;
+    private UserReviewAdapter userReviewAdapter;
     private AppDetailPresenter presenter;
     private AppInfo appInfo;
     private App app;
-    private boolean isUserPurchasedApp;
-    private ObjectAnimator textDescriptionAnimator;
 
     public static void start(Context context, App app) {
         Intent starter = new Intent(context, AppDetailActivity.class);
@@ -112,6 +112,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         presenter = new AppDetailPresenter();
         presenter.init(this);
         presenter.getDetailedInfo(app);
+        presenter.getReviews();
     }
 
     @Override
@@ -169,11 +170,11 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         mainLayoutHolder.setVisibility(View.VISIBLE);
         if (appInfo.description != null)
             appDescription.setText(Html.fromHtml(appInfo.description));
-        setupRecyclerView(appInfo);
+        setupScreenshotRecyclerView(appInfo);
         presenter.loadButtonsState(app, isUserPurchasedApp);
     }
 
-    private void setupRecyclerView(AppInfo appInfo) {
+    private void setupScreenshotRecyclerView(AppInfo appInfo) {
         if (appInfo.pictures != null && appInfo.pictures.imageNameList != null) {
             imageViewerBuilder = new ImageViewer.Builder(this, appInfo.getImagePathList());
             imageAdapter = new ImageListAdapter(appInfo.getImagePathList(), this);
@@ -183,6 +184,22 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
             recyclerView.setLayoutManager(linearLayoutManager);
             recyclerView.setAdapter(imageAdapter);
         }
+    }
+
+    @Override
+    public void onReviewsReady() {
+        setupReviewsRecyclerView();
+    }
+
+    private void setupReviewsRecyclerView() {
+        userReviewAdapter = new UserReviewAdapter();
+        reviewsRecyclerView.setHasFixedSize(true);
+        reviewsRecyclerView.setNestedScrollingEnabled(false);
+        LinearLayoutManager layout = new LinearLayoutManager(this);
+//        layout.setAutoMeasureEnabled(false);
+        reviewsRecyclerView.setLayoutManager(layout);
+        reviewsRecyclerView.setAdapter(userReviewAdapter);
+//        reviewsRecyclerView
     }
 
 
@@ -249,7 +266,6 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @OnClick(R.id.invest_btn)
     void onInvestBtnClicked() {
         InvestActivity.start(this, appInfo);
-//        new DialogManager().showInvestDialog(appInfo, this, investAmount -> presenter.onInvestClicked(appInfo, investAmount));
     }
 
 

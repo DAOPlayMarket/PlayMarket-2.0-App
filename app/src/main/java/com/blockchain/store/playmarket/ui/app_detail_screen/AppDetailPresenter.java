@@ -51,7 +51,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     @Override
     public void getDetailedInfo(App app) {
         String accountAddress = AccountManager.getAddress().getHex();
-
         RestApi.getServerApi().getAppInfo(app.catalogId, app.appId)
                 .zipWith(RestApi.getServerApi().checkPurchase(app.appId, accountAddress), (Func2<AppInfo, Boolean, Pair>) Pair::new)
                 .subscribeOn(Schedulers.newThread())
@@ -68,10 +67,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     private void onDetailedInfoReady(Pair<AppInfo, Boolean> pair) {
         view.onCheckPurchaseReady(pair.second);
         view.onDetailedInfoReady(pair.first);
-    }
-
-    private void onDetailedInfoReady(AppInfo appInfo) {
-        view.onDetailedInfoReady(appInfo);
     }
 
     private void onDetailedInfoFailed(Throwable throwable) {
@@ -176,26 +171,22 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     @Override
     public void onAppDownloadStarted() {
         changeState(Constants.APP_STATE.STATE_DOWNLOAD_STARTED);
-        Log.d(TAG, "onAppDownloadStarted() called");
     }
 
     @Override
     public void onAppDownloadProgressChanged(int progress) {
         changeState(Constants.APP_STATE.STATE_DOWNLOADING);
         view.setActionButtonText(String.valueOf(progress) + " %");
-        Log.d(TAG, "onAppDownloadProgressChanged() called with: progress = [" + progress + "]");
     }
 
     @Override
     public void onAppDownloadSuccessful() {
         changeState(Constants.APP_STATE.STATE_DOWNLOADED_NOT_INSTALLED);
-        Log.d(TAG, "onAppDownloadSuccessful() called");
     }
 
     @Override
     public void onAppDownloadError() {
         changeState(Constants.APP_STATE.STATE_DOWNLOAD_ERROR);
-        Log.d(TAG, "onAppDownloadError() called");
     }
 
     @Override
@@ -209,41 +200,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
     @Override
-    public void onInvestClicked(AppInfo appInfo, String investCount) {
-        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-                .zipWith(RestApi.getServerApi().getInvestAddress(), Pair::new)
-                .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
-                .flatMap(accountInfo -> {
-                    Log.d(TAG, "onInvestClicked() called with: appInfo = [" + appInfo + "], investCount = [" + investCount + "]");
-                    return mapInvestTransaction(accountInfo, investCount);
-                })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onPurchaseSuccessful, this::onPurchaseError);
-
-    }
-
-    private Observable<PurchaseAppResponse> mapInvestTransaction(Pair<Pair<AccountInfoResponse, InvestAddressResponse>, String> accountInfo, String investCount) {
-        AccountInfoResponse accountInfoResponse = accountInfo.first.first;
-        InvestAddressResponse investAddressResponse = accountInfo.first.second;
-        String gasPrice = accountInfo.second;
-        Log.d(TAG, "mapInvestTransaction() called with: accountInfo = [" + accountInfo + "], investCount = [" + investCount + "]");
-        String rawTransaction = "";
-        try {
-            rawTransaction = CryptoUtils.generateInvestTransactionWithAddress(
-                    accountInfoResponse.count,
-                    new BigInt(Long.parseLong(gasPrice)),
-                    investCount, investAddressResponse.address);
-            Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        return RestApi.getServerApi().investApp(rawTransaction);
-
-    }
-
-    @Override
     public void onPurchasedClicked(AppInfo appInfo) {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
@@ -251,6 +207,11 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onPurchaseSuccessful, this::onPurchaseError);
+    }
+
+    @Override
+    public void getReviews() {
+        view.onReviewsReady();
     }
 
 
@@ -273,12 +234,10 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     private void onPurchaseSuccessful(PurchaseAppResponse purchaseAppResponse) {
         view.onPurchaseSuccessful(purchaseAppResponse);
-        Log.d(TAG, "onPurchaseSuccessful() called with: appInfo = [" + purchaseAppResponse + "]");
     }
 
 
     private void onPurchaseError(Throwable throwable) {
         view.onPurchaseError(throwable);
-        Log.d(TAG, "onAccountInfoError() called with: throwable = [" + throwable + "]");
     }
 }

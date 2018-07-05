@@ -38,5 +38,10 @@
     <color name="red_error_color">#FFDD2C00</color>
     <color name="ico_tokens_bought">#5e9091</color>
 
+    <!--Material colors. Used for testing user's avatars-->
+    <color name="material_color_1">#673ab7</color>
+    <color name="material_color_2">#00bcd4</color>
+    <color name="material_color_3">#4caf50</color>
+
 
 </resources>

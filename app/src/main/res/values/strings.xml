@@ -153,4 +153,6 @@
     <string name="fragment_ico_title">ICO</string>
     <string name="tokens_bought">Tokens bought</string>
     <string name="more">More</string>
+    <string name="read_more">Read more</string>
+    <string name="read_less">Read less</string>
 </resources>
