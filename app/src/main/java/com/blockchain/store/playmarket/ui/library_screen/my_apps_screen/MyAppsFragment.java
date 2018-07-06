@@ -15,6 +15,7 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.SearchListAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
+import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.orhanobut.hawk.Hawk;
 
@@ -72,9 +73,11 @@ public class MyAppsFragment extends Fragment implements AppListCallbacks {
             appsList = Hawk.get(Constants.DOWNLOADED_APPS_LIST);
         }
         if (isShowOnlyUpdatedApps) {
-
+            populateRecyclerView(new ArrayList<>());
+        } else {
+            populateRecyclerView(appsList);
         }
-        populateRecyclerView(appsList);
+
     }
 
     private void populateRecyclerView(ArrayList<App> apps) {
@@ -89,6 +92,6 @@ public class MyAppsFragment extends Fragment implements AppListCallbacks {
 
     @Override
     public void onAppClicked(App app) {
-
+        AppDetailActivity.start(getActivity(), app);
     }
 }
