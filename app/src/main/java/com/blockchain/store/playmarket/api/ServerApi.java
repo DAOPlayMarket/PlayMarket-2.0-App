@@ -5,6 +5,7 @@ import android.util.Pair;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.AvailabilityResponse;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.data.entities.InvestAddressResponse;
 import com.blockchain.store.playmarket.data.entities.Node;
@@ -90,5 +91,5 @@ public interface ServerApi {
     Observable<ArrayList<App>> getSearchResult(@Field("query") String query);
 
     @GET("api/availability")
-    Call<ResponseBody> checkAvailability();
+    Call<AvailabilityResponse> checkAvailability();
 }
