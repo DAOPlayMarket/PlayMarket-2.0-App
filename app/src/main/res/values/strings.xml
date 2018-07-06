@@ -148,11 +148,12 @@
     <string name="invest_earned_message">Earned, </string>
     <string name="invest_hardcap">HardCap</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_ico_title">ICO</string>
     <string name="tokens_bought">Tokens bought</string>
     <string name="more">More</string>
     <string name="read_more">Read more</string>
     <string name="read_less">Read less</string>
+    <string name="my_apps_fragment_title">My Apps</string>
+    <string name="my_apps_update_fragment_title">Updates</string>
 </resources>

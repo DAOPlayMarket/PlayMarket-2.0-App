@@ -17,6 +17,7 @@ import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
+import com.blockchain.store.playmarket.ui.library_screen.my_apps_screen.MyAppsFragment;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuFragment;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
@@ -32,14 +33,8 @@ public class LibraryActivity extends AppCompatActivity implements AppListCallbac
     private static final String TAG = "LibraryActivity";
 
     @BindView(R.id.top_layout_app_name) TextView toolbarTitle;
-    @BindView(R.id.recycler_view) RecyclerView recyclerView;
-    @BindView(R.id.empty_view) TextView emptyView;
     @BindView(R.id.view_pager) ViewPager viewPager;
     @BindView(R.id.tab_layout) TabLayout tabLayout;
-
-    private SearchListAdapter adapter;
-
-    private ArrayList<App> app = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +48,8 @@ public class LibraryActivity extends AppCompatActivity implements AppListCallbac
 
     private void initViewPager() {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new IcoFragment(), getString(R.string.fragment_ico_title));
+        viewPagerAdapter.addFragment(MyAppsFragment.newInstance(false), getString(R.string.my_apps_fragment_title));
+        viewPagerAdapter.addFragment(MyAppsFragment.newInstance(true), getString(R.string.my_apps_update_fragment_title));
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
