@@ -48,6 +48,11 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     private void bindViews(View view) {
         recyclerView = view.findViewById(R.id.recyclerView);
         errorHolder = view.findViewById(R.id.error_holder);
@@ -103,4 +108,5 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
     public void onAppClicked(App app) {
         AppDetailActivity.start(getActivity(), app);
     }
+
 }

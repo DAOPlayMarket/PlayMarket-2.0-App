@@ -58,23 +58,6 @@ public class LibraryActivity extends AppCompatActivity implements AppListCallbac
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void loadSavedApps() {
-        if (Hawk.contains(Constants.DOWNLOADED_APPS_LIST)) {
-            app = Hawk.get(Constants.DOWNLOADED_APPS_LIST);
-        }
-        populateRecyclerView(app);
-    }
-
-    private void populateRecyclerView(ArrayList<App> apps) {
-        if (apps.isEmpty()) {
-            emptyView.setVisibility(View.VISIBLE);
-        } else {
-            adapter = new SearchListAdapter(apps, this);
-            recyclerView.setAdapter(adapter);
-        }
-
-    }
-
     @Override
     public void onAppClicked(App app) {
         AppDetailActivity.start(this, app);

@@ -89,7 +89,7 @@
     <string name="password">Password</string>
     <string name="wrong_password">Wrong password</string>
     <string name="no_items">No items</string>
-    <string name="recycler_empty_view">No item found!</string>
+    <string name="recycler_empty_view">No items found!</string>
     <string name="successfully_paid">Successfully paid</string>
     <string name="setting_autoinstall">Automatically install applications after downloading.</string>
     <string name="settings_title">Settings</string>
