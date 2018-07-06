@@ -122,7 +122,6 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     private void setViews() {
-        investBtn.setVisibility(app.isIco ? View.VISIBLE : View.INVISIBLE);
         imageIcon.setImageURI(Uri.parse(app.getIconUrl()));
         startPostponedEnterTransition();
         toolbarAppName.setText(app.nameApp);
@@ -166,12 +165,25 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @Override
     public void onDetailedInfoReady(AppInfo appInfo) {
+        setInvestButtonVisibility(appInfo);
         this.appInfo = appInfo;
         mainLayoutHolder.setVisibility(View.VISIBLE);
         if (appInfo.description != null)
             appDescription.setText(Html.fromHtml(appInfo.description));
         setupScreenshotRecyclerView(appInfo);
         presenter.loadButtonsState(app, isUserPurchasedApp);
+    }
+
+    private void setInvestButtonVisibility(AppInfo appInfo) {
+        if (appInfo.app.isIco) {
+            if (appInfo.infoICO != null && appInfo.app.icoStages != null) {
+                investBtn.setVisibility(View.VISIBLE);
+            }
+
+        } else {
+            investBtn.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     private void setupScreenshotRecyclerView(AppInfo appInfo) {

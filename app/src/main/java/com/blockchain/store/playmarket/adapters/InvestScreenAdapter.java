@@ -243,27 +243,47 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private TextView investMemberTitle;
         private TextView investMemberDescription;
         private SimpleDraweeView investMemberAvatar;
+        private TextView gplusIcon;
+        private TextView facebookIcon;
+        private TextView linkedinIcon;
+        private TextView twitterIcon;
+        private TextView instagramIcon;
+        private TextView vkIcon;
+        private TextView youtubeIcon;
+        private TextView telegramIcon;
+        private TextView gitIcon;
 
         public InvestMemberViewHolder(View itemView) {
             super(itemView);
             investMemberTitle = itemView.findViewById(R.id.invest_member_name);
             investMemberDescription = itemView.findViewById(R.id.invest_member_description);
             investMemberAvatar = itemView.findViewById(R.id.invest_member_avatar);
+//            gplusIcon = itemView.findViewById(R.id.icon_gplus);
+//            facebookIcon = itemView.findViewById(R.id.icon_fb);
+//            linkedinIcon = itemView.findViewById(R.id.icon_linkedin);
+//            twitterIcon = itemView.findViewById(R.id.icon_twitter);
+//            instagramIcon = itemView.findViewById(R.id.icon_instagram);
+//            vkIcon = itemView.findViewById(R.id.icon_vk);
+//            youtubeIcon = itemView.findViewById(R.id.icon_youtube);
+//            telegramIcon = itemView.findViewById(R.id.icon_telegram);
+//            gitIcon = itemView.findViewById(R.id.icon_git);
         }
 
         public void bind(InvestMember investMember) {
             investMemberTitle.setText(investMember.name);
             investMemberDescription.setText(investMember.description);
             investMemberAvatar.setImageURI(investMember.imagePath);
-            String google_plus = investMember.socialMapLinks.get(Constants.social_google_plus);
-            String facebook = investMember.socialMapLinks.get(Constants.social_facebook);
-            String linkedin = investMember.socialMapLinks.get(Constants.social_linkedin);
-            String twitter = investMember.socialMapLinks.get(Constants.social_twitter);
-            String instagram = investMember.socialMapLinks.get(Constants.social_instagram);
-            String vk = investMember.socialMapLinks.get(Constants.social_vk);
-            String youtube = investMember.socialMapLinks.get(Constants.social_youtube);
-            String telegram = investMember.socialMapLinks.get(Constants.social_telegram);
-            String git = investMember.socialMapLinks.get(Constants.social_git);
+//            String google_plus = investMember.socialMapLinks.get(Constants.social_google_plus);
+//            String facebook = investMember.socialMapLinks.get(Constants.social_facebook);
+//            String linkedin = investMember.socialMapLinks.get(Constants.social_linkedin);
+//            String twitter = investMember.socialMapLinks.get(Constants.social_twitter);
+//            String instagram = investMember.socialMapLinks.get(Constants.social_instagram);
+//            String vk = investMember.socialMapLinks.get(Constants.social_vk);
+//            String youtube = investMember.socialMapLinks.get(Constants.social_youtube);
+//            String telegram = investMember.socialMapLinks.get(Constants.social_telegram);
+//            String git = investMember.socialMapLinks.get(Constants.social_git);
+
+
         }
     }
 
