@@ -121,12 +121,12 @@ public class NodeUtils {
                 for (Node node : nearestNodeIP) {
                     Response<AvailabilityResponse> execute = null;
                     try {
-                        execute = RestApi.getCustomUrlApi(RestApi.getCheckUrlEndpointByNode(node.address)).checkAvailability().execute();
+                        execute = new RestApi().getCustomUrlApi(RestApi.getCheckUrlEndpointByNode(node.address)).checkAvailability().execute();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
-                    if (execute != null && execute.body() != null && execute.body().message.isEmpty()) {
+                    if (execute != null) {
                         subscriber.onNext(node);
                         return;
                     }

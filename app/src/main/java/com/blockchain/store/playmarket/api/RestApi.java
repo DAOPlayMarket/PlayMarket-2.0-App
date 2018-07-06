@@ -40,7 +40,7 @@ public class RestApi {
     private static String nodeUrl = "https://n";
     private static ServerApi restApi;
     private static ChangellyApi changellyApi;
-    private static ServerApi customApi;
+    private ServerApi customApi;
 
     public static ServerApi getServerApi() {
         if (restApi == null) {
@@ -56,11 +56,10 @@ public class RestApi {
         return changellyApi;
     }
 
-    public static ServerApi getCustomUrlApi(String url) {
-        if (customApi == null) {
-            setupWithCustomUrl(url);
-        }
-        return customApi;
+    public ServerApi getCustomUrlApi(String url) {
+        return setupWithCustomUrl(url);
+
+
     }
 
 
@@ -149,7 +148,7 @@ public class RestApi {
         }
     }
 
-    private static void setupWithCustomUrl(String url) {
+    private ServerApi setupWithCustomUrl(String url) {
         Log.d(TAG, "setupWithRest: " + BASE_URL);
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -166,7 +165,7 @@ public class RestApi {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(client)
                 .build();
-        customApi = retrofit.create(ServerApi.class);
+        return retrofit.create(ServerApi.class);
     }
 
 }
