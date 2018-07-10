@@ -9,15 +9,28 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
-    <include layout="@layout/error_view"
-        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:text="@string/recycler_empty_view"
+        android:textSize="22sp"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <include
+        layout="@layout/error_view"
+        android:visibility="gone" />
+
 
     <ProgressBar
         android:id="@+id/progress_bar"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
 </FrameLayout>

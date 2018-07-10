@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.IcoListAdapter;
@@ -32,6 +33,7 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
     private View errorHolder;
     private Button errorRepeatButton;
     private ProgressBar progressBar;
+    private TextView emptyView;
 
     public IcoFragment() {
         // Required empty public constructor
@@ -58,6 +60,8 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
         errorHolder = view.findViewById(R.id.error_holder);
         errorRepeatButton = view.findViewById(R.id.error_view_repeat_btn);
         progressBar = view.findViewById(R.id.progress_bar);
+        emptyView = view.findViewById(R.id.empty_view);
+
         errorRepeatButton.setOnClickListener(v -> presenter.getIcoApps());
     }
 
@@ -75,11 +79,15 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
     @Override
     public void onIcoAppsReady(ArrayList<App> apps) {
         if (apps.isEmpty()) {
-            setErrorViewVisible(true);
+            setEmptyViewVisible(true);
         } else {
             setupRecyclerView(apps);
         }
 
+    }
+
+    private void setEmptyViewVisible(boolean isVisible) {
+        emptyView.setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 
     private void setErrorViewVisible(boolean isVisible) {

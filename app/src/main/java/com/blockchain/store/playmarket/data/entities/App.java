@@ -13,16 +13,17 @@ import java.util.ArrayList;
  */
 
 public class App implements Parcelable {
+    @SerializedName("idApp")
+    public String appId;
+    @SerializedName("value")
+    public String price;
+
     public String nameApp;
     public String hashTag;
     public String hash;
     @SerializedName("idCTG")
     public String catalogId;
-    @SerializedName("idApp")
-    public String appId;
     public String subCategory;
-    @SerializedName("value")
-    public String price;
     @SerializedName("publish")
     public boolean isPublish;
     @SerializedName("free")
