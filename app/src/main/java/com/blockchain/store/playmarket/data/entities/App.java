@@ -45,7 +45,7 @@ public class App implements Parcelable {
     @SerializedName("publish")
     public boolean isPublish;
     @SerializedName("icoRelease")
-    public boolean isIco;
+    public boolean isIco = false;
     public String icoUrl;
     public String locale;
     public boolean pP;
@@ -62,7 +62,7 @@ public class App implements Parcelable {
 
     public String getIconUrl() {
         try {
-            return RestApi.ICON_URL + hashTag + "/" + hash + files.images.logo;
+            return RestApi.ICON_URL + hashTag + "/" + hash + "/" + files.images.logo;
         } catch (Exception e) {
             return "";
         }
@@ -70,19 +70,22 @@ public class App implements Parcelable {
 
     public String getDownloadLink() {
         try {
-            return RestApi.ICON_URL + hashTag + "/" + hash + files.app;
+            return RestApi.ICON_URL + hashTag + "/" + hash + "/" + files.app;
         } catch (Exception e) {
             return "";
         }
     }
 
     public ArrayList<String> getImages() {
-
-        ArrayList<String> images = new ArrayList<>();
-        for (String s : files.images.gallery) {
-            images.add(RestApi.ICON_URL + hashTag + "/" + hash + s);
+        try {
+            ArrayList<String> images = new ArrayList<>();
+            for (String s : files.images.gallery) {
+                images.add(RestApi.ICON_URL + hashTag + "/" + hash + "/" + s);
+            }
+            return images;
+        } catch (Exception e) {
+            return new ArrayList<>();
         }
-        return images;
     }
 
     public String getFileName() {
@@ -93,6 +96,12 @@ public class App implements Parcelable {
     public App() {
     }
 
+    //    public long getStageTimeRemaining(){
+//        long totalTimeInUnix = Long.parseLong(icoStages.get(Integer.parseInt(currentStage) - 1).time);
+//        long totalTimeFromUnix = ((totalTimeInUnix*1000)-System.currentTimeMillis());
+//        return totalTimeFromUnix;
+//    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -100,22 +109,29 @@ public class App implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.nameApp);
+        dest.writeString(this.appId);
+        dest.writeString(this.price);
+        dest.writeByte(this.isFree ? (byte) 1 : (byte) 0);
+        dest.writeString(this.adrDev);
         dest.writeString(this.hashTag);
         dest.writeString(this.hash);
-        dest.writeString(this.catalogId);
-        dest.writeString(this.appId);
+        dest.writeString(this.description);
+        dest.writeString(this.privacyPolicy);
+        dest.writeString(this.urlApp);
+        dest.writeByte(this.isForChildren ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isAdverising ? (byte) 1 : (byte) 0);
+        dest.writeString(this.ageRestrictions);
+        dest.writeString(this.email);
+        dest.writeString(this.youtubeID);
+        dest.writeString(this.shortDescription);
+        dest.writeString(this.slogan);
         dest.writeString(this.subCategory);
-        dest.writeString(this.price);
+        dest.writeString(this.catalogId);
+        dest.writeString(this.nameApp);
+        dest.writeParcelable(this.files, flags);
         dest.writeByte(this.isPublish ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.isFree ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isIco ? (byte) 1 : (byte) 0);
         dest.writeString(this.icoUrl);
-        dest.writeString(this.adrDev);
-        dest.writeString(this.email);
-        dest.writeString(this.ageRestrictions);
-        dest.writeString(this.urlApp);
-        dest.writeString(this.privacyPolicy);
         dest.writeString(this.locale);
         dest.writeByte(this.pP ? (byte) 1 : (byte) 0);
         dest.writeString(this.icoSymbol);
@@ -131,22 +147,29 @@ public class App implements Parcelable {
     }
 
     protected App(Parcel in) {
-        this.nameApp = in.readString();
+        this.appId = in.readString();
+        this.price = in.readString();
+        this.isFree = in.readByte() != 0;
+        this.adrDev = in.readString();
         this.hashTag = in.readString();
         this.hash = in.readString();
-        this.catalogId = in.readString();
-        this.appId = in.readString();
+        this.description = in.readString();
+        this.privacyPolicy = in.readString();
+        this.urlApp = in.readString();
+        this.isForChildren = in.readByte() != 0;
+        this.isAdverising = in.readByte() != 0;
+        this.ageRestrictions = in.readString();
+        this.email = in.readString();
+        this.youtubeID = in.readString();
+        this.shortDescription = in.readString();
+        this.slogan = in.readString();
         this.subCategory = in.readString();
-        this.price = in.readString();
+        this.catalogId = in.readString();
+        this.nameApp = in.readString();
+        this.files = in.readParcelable(AppFiles.class.getClassLoader());
         this.isPublish = in.readByte() != 0;
-        this.isFree = in.readByte() != 0;
         this.isIco = in.readByte() != 0;
         this.icoUrl = in.readString();
-        this.adrDev = in.readString();
-        this.email = in.readString();
-        this.ageRestrictions = in.readString();
-        this.urlApp = in.readString();
-        this.privacyPolicy = in.readString();
         this.locale = in.readString();
         this.pP = in.readByte() != 0;
         this.icoSymbol = in.readString();
@@ -172,10 +195,4 @@ public class App implements Parcelable {
             return new App[size];
         }
     };
-
-//    public long getStageTimeRemaining(){
-//        long totalTimeInUnix = Long.parseLong(icoStages.get(Integer.parseInt(currentStage) - 1).time);
-//        long totalTimeFromUnix = ((totalTimeInUnix*1000)-System.currentTimeMillis());
-//        return totalTimeFromUnix;
-//    }
 }

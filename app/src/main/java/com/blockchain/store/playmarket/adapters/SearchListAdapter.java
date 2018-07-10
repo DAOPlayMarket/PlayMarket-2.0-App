@@ -70,6 +70,8 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
 
         public void bind(App app) {
             content.setText(app.nameApp);
+            String iconUrl = app.getIconUrl();
+
             imageView.setImageURI(Uri.parse(app.getIconUrl()));
             etherIcon.setVisibility(app.isFree ? View.GONE : View.VISIBLE);
             if (app.isFree) {
