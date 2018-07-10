@@ -15,28 +15,38 @@ import java.util.ArrayList;
 public class App implements Parcelable {
     @SerializedName("idApp")
     public String appId;
-    @SerializedName("value")
+    @SerializedName("price")
     public String price;
-
-    public String nameApp;
-    public String hashTag;
-    public String hash;
-    @SerializedName("idCTG")
-    public String catalogId;
-    public String subCategory;
-    @SerializedName("publish")
-    public boolean isPublish;
     @SerializedName("free")
     public boolean isFree;
+    public String adrDev;
+    public String hashTag;
+    public String hash;
+    @SerializedName("longDescr")
+    public String description;
+    public String privacyPolicy;
+    public String urlApp;
+    public boolean isForChildren;
+    @SerializedName("advertising")
+    public boolean isAdverising;
+    public String ageRestrictions;
+    public String email;
+    public String youtubeID;
+    @SerializedName("shortDescr")
+    public String shortDescription;
+    public String slogan;
+    public String subCategory;
+    @SerializedName("idCTG")
+    public String catalogId;
+    public String nameApp;
+
+    public AppFiles files;
+
+    @SerializedName("publish")
+    public boolean isPublish;
     @SerializedName("icoRelease")
     public boolean isIco;
     public String icoUrl;
-    public String adrDev;
-
-    public String email;
-    public String ageRestrictions;
-    public String urlApp;
-    public String privacyPolicy;
     public String locale;
     public boolean pP;
     public String icoSymbol;
@@ -50,14 +60,29 @@ public class App implements Parcelable {
     public String hashICO;
     public String hashTagICO;
 
-    //total supply / 10^(ico decimals)
-    // tokenSold
     public String getIconUrl() {
-        return RestApi.ICON_URL + hashTag + "/" + hash + "/icon/icon.jpg";
+        try {
+            return RestApi.ICON_URL + hashTag + "/" + hash + files.images.logo;
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     public String getDownloadLink() {
-        return RestApi.ICON_URL + hashTag + "/" + hash + "/app/app.apk";
+        try {
+            return RestApi.ICON_URL + hashTag + "/" + hash + files.app;
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public ArrayList<String> getImages() {
+
+        ArrayList<String> images = new ArrayList<>();
+        for (String s : files.images.gallery) {
+            images.add(RestApi.ICON_URL + hashTag + "/" + hash + s);
+        }
+        return images;
     }
 
     public String getFileName() {
