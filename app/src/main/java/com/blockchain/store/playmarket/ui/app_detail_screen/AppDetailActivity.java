@@ -251,7 +251,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @Override
     public void showPurchaseDialog() {
-        new DialogManager().showPurchaseDialog(appInfo, this, () -> {
+        new DialogManager().showPurchaseDialog(app, this, () -> {
             presenter.onPurchasedClicked(appInfo);
         });
     }
@@ -285,7 +285,11 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @OnClick(R.id.action_btn)
     public void onActionBtnClicked() {
-        presenter.onActionButtonClicked(app);
+        new DialogManager().showPurchaseDialog(app, this, () -> {
+            presenter.onSendReviewClicked("myreview", "5");
+        });
+
+//        presenter.onActionButtonClicked(app);
     }
 
     @OnClick(R.id.error_view_repeat_btn)

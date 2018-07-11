@@ -209,10 +209,10 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 .subscribe(this::onPurchaseSuccessful, this::onPurchaseError);
     }
 
-    public void onSendReviewClicked(String review, String vote){
+    public void onSendReviewClicked(String review, String vote) {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
-                .flatMap(this::mapAppBuyTransaction)
+                .flatMap(pair -> mapReviewCreationTransaction(pair, review, vote))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onPurchaseSuccessful, this::onPurchaseError);
@@ -238,6 +238,23 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
         }
         return RestApi.getServerApi().purchaseApp(rawTransaction);
+
+    }
+
+    private Observable<PurchaseAppResponse> mapReviewCreationTransaction(Pair<AccountInfoResponse, String> accountInfo, String review, String vote) {
+
+        String rawTransaction = "";
+        try {
+            rawTransaction = CryptoUtils.generateSendReviewTransaction(
+                    accountInfo.first.count,
+                    new BigInt(Long.parseLong(accountInfo.second)),
+                    app, vote, review, 0);
+            Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return RestApi.getServerApi().deployTransaction(rawTransaction, null);
 
     }
 

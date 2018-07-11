@@ -22,8 +22,16 @@ import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
+import org.web3j.abi.FunctionEncoder;
+import org.web3j.abi.TypeReference;
+import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.Function;
+import org.web3j.abi.datatypes.Type;
+import org.web3j.abi.datatypes.Uint;
+import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.crypto.TransactionUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
@@ -35,6 +43,11 @@ import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.ClientTransactionManager;
 import org.web3j.tx.Contract;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -43,6 +56,8 @@ import io.ethmobile.ethdroid.exception.SmartContractException;
 import io.ethmobile.ethdroid.solidity.ContractType;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static com.blockchain.store.playmarket.utilities.Constants.NODE_ADDRESS;
 
 public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
     private static final String TAG = "SplashActivity";
@@ -63,12 +78,12 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro_logo);
         ButterKnife.bind(this);
-//        test();
-        presenter = new SplashPresenter();
-        presenter.init(this);
-        setLogoTextFont();
-        setupAndPlayVideo();
-        checkLocationPermission();
+        test();
+//        presenter = new SplashPresenter();
+//        presenter.init(this);
+//        setLogoTextFont();
+//        setupAndPlayVideo();
+//        checkLocationPermission();
     }
 
     private void checkLocationPermission() {
@@ -180,9 +195,27 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     }
 
     private void test() {
-        Web3j web = Web3jFactory.build(new HttpService("https://rinkeby.infura.io/mS4OSWU5XZxDi9R75Dc7 "));
-        ClientTransactionManager t = new ClientTransactionManager(web, "");
-        web.ethGetTransactionByHash("0x8c8f13aa8d227b1cd0b07896106841bba618c60e17180c433f9c640016da5c2b").observable().observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::onTestOk, this::onTestError);
+        ArrayList<Type> arrayList = new ArrayList<>();
+        arrayList.add(new Uint(new BigInteger("1")));
+        arrayList.add(new Address("0xa10E1b2255d3EC6d0fc379518C579a5f3caa9c42"));
+
+
+        List<TypeReference<?>> typeReferences = Arrays.<TypeReference<?>>asList(new TypeReference<org.web3j.abi.datatypes.Uint>() {
+                                                                                },
+                new TypeReference<org.web3j.abi.datatypes.Address>() {
+                });
+
+        Function function = new Function("buyApp",
+                arrayList, typeReferences);
+
+        String encode = FunctionEncoder.encode(function);
+        Log.d("test", "generateAppBuyTransaction: " + encode);
+
+        byte[] oldMehod = CryptoUtils.getDataForBuyApp("1", "a10E1b2255d3EC6d0fc379518C579a5f3caa9c42");
+        Log.d(TAG, "old method: " + oldMehod);
+
+
+//        web.ethGetTransactionByHash("0x8c8f13aa8d227b1cd0b07896106841bba618c60e17180c433f9c640016da5c2b").observable().observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::onTestOk, this::onTestError);
     }
 
     private void onTestOk(EthTransaction ethTransaction) {
