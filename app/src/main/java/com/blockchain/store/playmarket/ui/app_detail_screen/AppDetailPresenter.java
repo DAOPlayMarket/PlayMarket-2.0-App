@@ -10,8 +10,6 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
-import com.blockchain.store.playmarket.data.entities.CheckPurchaseResponse;
-import com.blockchain.store.playmarket.data.entities.InvestAddressResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
@@ -31,7 +29,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
-import static com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailContract.*;
+import static com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailContract.Presenter;
+import static com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailContract.View;
 
 /**
  * Created by Crypton04 on 30.01.2018.

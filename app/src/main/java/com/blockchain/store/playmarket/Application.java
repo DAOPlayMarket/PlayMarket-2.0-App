@@ -68,7 +68,7 @@ public class Application extends MultiDexApplication {
         AccountManager.setKeyManager(keyManager);
         Hawk.init(this).build();
         setUntrustedManager();
-        setUpAWS();
+//        setUpAWS();
     }
 
     private void setUntrustedManager() {
@@ -192,8 +192,8 @@ public class Application extends MultiDexApplication {
     }
 
     public static void stopAnalytic() {
-        pinpointManager.getSessionClient().stopSession();
-        pinpointManager.getAnalyticsClient().submitEvents();
+//        pinpointManager.getSessionClient().stopSession();
+//        pinpointManager.getAnalyticsClient().submitEvents();
     }
 
 }
