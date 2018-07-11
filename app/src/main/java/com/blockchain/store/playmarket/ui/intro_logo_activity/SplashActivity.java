@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -23,9 +24,25 @@ import com.blockchain.store.playmarket.ui.permissions_prompt_activity.Permission
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
+import org.web3j.crypto.TransactionUtils;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.Web3jFactory;
+import org.web3j.protocol.core.Request;
+import org.web3j.protocol.core.methods.response.EthCompileSolidity;
+import org.web3j.protocol.core.methods.response.EthTransaction;
+import org.web3j.protocol.core.methods.response.Web3ClientVersion;
+import org.web3j.protocol.http.HttpService;
+import org.web3j.tx.ClientTransactionManager;
+import org.web3j.tx.Contract;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.ethmobile.ethdroid.EthDroid;
+import io.ethmobile.ethdroid.exception.SmartContractException;
+import io.ethmobile.ethdroid.solidity.ContractType;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
     private static final String TAG = "SplashActivity";
@@ -46,6 +63,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro_logo);
         ButterKnife.bind(this);
+//        test();
         presenter = new SplashPresenter();
         presenter.init(this);
         setLogoTextFont();
@@ -159,6 +177,24 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         errorHolder.setVisibility(View.GONE);
         presenter.requestUserLocation(this);
 
+    }
+
+    private void test() {
+        Web3j web = Web3jFactory.build(new HttpService("https://rinkeby.infura.io/mS4OSWU5XZxDi9R75Dc7 "));
+        ClientTransactionManager t = new ClientTransactionManager(web, "");
+        web.ethGetTransactionByHash("0x8c8f13aa8d227b1cd0b07896106841bba618c60e17180c433f9c640016da5c2b").observable().observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::onTestOk, this::onTestError);
+    }
+
+    private void onTestOk(EthTransaction ethTransaction) {
+        Log.d(TAG, "onTestOk() called with: ethTransaction = [" + ethTransaction + "]");
+    }
+
+    private void onTestOk(Web3ClientVersion web3ClientVersion) {
+        Log.d(TAG, "onTestOk() called with: web3ClientVersion = [" + web3ClientVersion + "]");
+    }
+
+    private void onTestError(Throwable throwable) {
+        Log.d(TAG, "onTestError() called with: throwable = [" + throwable + "]");
     }
 }
 

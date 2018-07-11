@@ -209,6 +209,15 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 .subscribe(this::onPurchaseSuccessful, this::onPurchaseError);
     }
 
+    public void onSendReviewClicked(String review, String vote){
+        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
+                .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
+                .flatMap(this::mapAppBuyTransaction)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onPurchaseSuccessful, this::onPurchaseError);
+    }
+
     @Override
     public void getReviews() {
         view.onReviewsReady();

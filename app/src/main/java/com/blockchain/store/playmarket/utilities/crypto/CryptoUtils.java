@@ -96,6 +96,32 @@ public class CryptoUtils {
         return hexStringToByteArray(data);
     }
 
+    public static byte[] getDataForReviewAnApp(String appId, String address, String vote, String description, int txIndex) {
+//        byte[] hash = sha3("buyApp(uint256,address)".getBytes());
+        byte[] hash = sha3("newRating(address,uint256,uint256,string,bytes32)".getBytes());
+
+        appId = Integer.toHexString(Integer.valueOf(appId));
+        String hashString = bytesToHexString(hash);
+        String functionHash = hashString.substring(0, 8);
+
+        Log.d("Ether", functionHash);
+        Log.d("Ether", hashString);
+
+        String appIdEnc = String.format("%64s", appId).replace(' ', '0');
+        String catIdEnc = String.format("%64s", address).replace(' ', '0');
+        String voteIdEnc = String.format("%64s", vote).replace(' ', '0');
+        String descriptionIdEnc = String.format("%64s", description).replace(' ', '0');
+        String txIndexEnc = String.format("%64s", txIndex).replace(' ', '0');
+
+        Log.d("Ether", appIdEnc);
+        Log.d("Ether", catIdEnc);
+
+        String data = functionHash + appIdEnc + catIdEnc + voteIdEnc + descriptionIdEnc + txIndexEnc;
+        Log.d("Ether", data);
+
+        return hexStringToByteArray(data);
+    }
+
     public static String bytesToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
         for (byte b : bytes) {
@@ -126,6 +152,20 @@ public class CryptoUtils {
         Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
                 price, GAS_LIMIT, gasPrice,
                 getDataForBuyApp(app.appId, NODE_ADDRESS));
+        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
+        return getRawTransaction(signedTransaction);
+    }
+
+    public static String generateSendReviewTransaction(int nonce, BigInt gasPrice, App app, String vote, String description, int txIndex) throws Exception {
+        KeyManager keyManager = Application.keyManager;
+        Account account = keyManager.getAccounts().get(0);
+
+        BigInt price = new BigInt(0);
+        price.setString(app.price, 10);
+
+        Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
+                price, GAS_LIMIT, gasPrice,
+                getDataForReviewAnApp(app.appId, NODE_ADDRESS, vote, description, txIndex));
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
         return getRawTransaction(signedTransaction);
     }

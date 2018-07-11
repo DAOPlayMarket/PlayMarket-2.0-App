@@ -77,4 +77,7 @@ public class Constants {
     public static final String social_telegram = "telegram";
     public static final String social_git = "git";
 
+    public static final int USER_REVIEW_EXPAND_ANIMATION_MILLIS = 120;
+    public static final String INFURA_TOKEN = "mS4OSWU5XZxDi9R75Dc7";
+
 }

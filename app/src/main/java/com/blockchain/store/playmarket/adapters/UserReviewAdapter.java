@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.utilities.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,7 +91,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<UserReviewAdapter.Us
             }
 
             if (textDescriptionAnimator != null && !textDescriptionAnimator.isStarted()) {
-                textDescriptionAnimator.setDuration(150).start();
+                textDescriptionAnimator.setDuration(Constants.USER_REVIEW_EXPAND_ANIMATION_MILLIS).start();
             }
         }
 

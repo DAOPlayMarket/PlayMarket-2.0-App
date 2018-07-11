@@ -168,14 +168,16 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         setInvestButtonVisibility(appInfo);
         this.appInfo = appInfo;
         mainLayoutHolder.setVisibility(View.VISIBLE);
-        if (appInfo.description != null)
-            appDescription.setText(Html.fromHtml(appInfo.description));
+        if (app.description != null)
+            appDescription.setText(Html.fromHtml(app.description));
         setupScreenshotRecyclerView(appInfo);
         presenter.loadButtonsState(app, isUserPurchasedApp);
     }
 
     private void setInvestButtonVisibility(AppInfo appInfo) {
-        if (appInfo.app.isIco) {
+        investBtn.setVisibility(View.INVISIBLE);
+        if (true) return;
+        if (this.app.isIco) {
             if (appInfo.infoICO != null && appInfo.app.icoStages != null) {
                 investBtn.setVisibility(View.VISIBLE);
             }
@@ -187,9 +189,9 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     private void setupScreenshotRecyclerView(AppInfo appInfo) {
-        if (appInfo.pictures != null && appInfo.pictures.imageNameList != null) {
-            imageViewerBuilder = new ImageViewer.Builder(this, appInfo.getImagePathList());
-            imageAdapter = new ImageListAdapter(appInfo.getImagePathList(), this);
+        if (app.files != null && app.getImages() != null) {
+            imageViewerBuilder = new ImageViewer.Builder(this, app.getImages());
+            imageAdapter = new ImageListAdapter(app.getImages(), this);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             SnapHelper snapHelper = new LinearSnapHelper();
             snapHelper.attachToRecyclerView(recyclerView);
