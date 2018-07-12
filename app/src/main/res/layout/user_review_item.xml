@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="6dp">
+    android:id="@+id/root_view"
+    android:layout_marginTop="6dp"
+    android:animateLayoutChanges="true">
 
     <ImageView
         android:id="@+id/user_icon"
@@ -21,6 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:layout_marginEnd="16dp"
         android:ellipsize="middle"
         android:singleLine="true"
         android:textColor="@color/action_btn_background"
@@ -35,20 +38,21 @@
         android:id="@+id/user_commentary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:maxLines="2"
+        android:text="TextViewT extVfsdafd sfd fd fdfddffd fdfs df dsasdfa fasdf d assf sd fsdf f saf asdfsa fsd f sdaf dfd s f fsdaeie wTextVie wTextVi fs fsdfas dfd dsf sdf ew TextView TextVieasd s s s s s s s s  s s d   dadsa  d wTextView fdas asfd df"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/user_icon"
-        app:layout_constraintTop_toBottomOf="@+id/user_icon"
-        android:text="TextViewT extVfsdafd sfd fd fdfddffd fdfs df dsasdfa fasdf d assf sd fsdf f saf asdfsa fsd f sdaf dfd s f fsdaeie wTextVie wTextVi fs fsdfas dfd dsf sdf ew TextView TextVieasd s s s s s s s s  s s d   dadsa  d wTextView fdas asfd df" />
+        app:layout_constraintTop_toBottomOf="@+id/user_icon" />
 
     <TextView
         android:id="@+id/read_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/read_more"
         android:textColor="@color/colorAccent"
@@ -74,7 +78,20 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:background="@color/exchange_gray_text_color"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/reply"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/user_replay_holder"
+        layout="@layout/user_replay_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="32dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/reply"
+        app:layout_constraintTop_toBottomOf="@+id/reply" />
 </android.support.constraint.ConstraintLayout>

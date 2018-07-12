@@ -2,6 +2,8 @@ package com.blockchain.store.playmarket.adapters;
 
 import android.animation.ObjectAnimator;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.transition.TransitionManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.util.Log;
@@ -9,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
@@ -28,6 +32,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int TYPE_USER_REVIEW = 0;
     private static final int TYPE_REVIEW_FIELD = 1;
     ArrayList<UserReview> userReviews;
+    private int expandedItem = -1;
 
     public UserReviewAdapter(ArrayList<UserReview> userReviews) {
         this.userReviews = userReviews;
@@ -35,8 +40,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        if ()
-            return super.getItemViewType(position);
+        return super.getItemViewType(position);
     }
 
     @NonNull
@@ -56,7 +60,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        return userReviews.size() + 1;
+        return userReviews.size();
     }
 
     class UserReplyViewHolder extends RecyclerView.ViewHolder {
@@ -73,8 +77,12 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @BindView(R.id.read_more) TextView readMore;
         @BindView(R.id.reply) TextView reply;
         @BindView(R.id.left_divider) View leftDivider;
+        @BindView(R.id.rating) TextView ratingView;
+        @BindView(R.id.root_view) ConstraintLayout constraintLayout;
+        @BindView(R.id.user_replay_holder) LinearLayout userReplayHolder;
 
         @BindView(R.id.rating_bar) MaterialRatingBar materialRatingBar;
+
         private ObjectAnimator textDescriptionAnimator;
         private View itemView;
 
@@ -82,12 +90,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(itemView);
             this.itemView = itemView;
             ButterKnife.bind(this, itemView);
-            materialRatingBar.setOnRatingChangeListener(new MaterialRatingBar.OnRatingChangeListener() {
-                @Override
-                public void onRatingChanged(MaterialRatingBar ratingBar, float rating) {
-                    Log.d(TAG, "onRatingChanged() called with: ratingBar = [" + ratingBar + "], rating = [" + rating + "]");
-                }
-            });
+            materialRatingBar.setOnRatingChangeListener((ratingBar, rating) -> ratingView.setText(String.valueOf(((int) rating))));
             userCommentary.post(() -> setupViewAfterOnMeasure(userCommentary));
         }
 
@@ -95,10 +98,21 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 //            userCommentary.setText(userReview.description);
             userIcon.setImageBitmap(Blockies.createIcon(userReview.vote));
             userName.setText(userReview.voter);
+            reply.setVisibility(userReview.isReviewOnReview || position == expandedItem ? View.INVISIBLE : View.VISIBLE);
 
-            reply.setVisibility(userReview.isReviewOnReview ? View.INVISIBLE : View.VISIBLE);
+            userReplayHolder.setVisibility(position == expandedItem ? View.VISIBLE : View.GONE);
+
             leftDivider.setVisibility(userReview.isReviewOnReview ? View.VISIBLE : View.GONE);
 
+
+            reply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    expandedItem = position;
+                    TransitionManager.beginDelayedTransition(constraintLayout);
+                    notifyDataSetChanged();
+                }
+            });
         }
 
         private void setupViewAfterOnMeasure(TextView userCommentary) {
