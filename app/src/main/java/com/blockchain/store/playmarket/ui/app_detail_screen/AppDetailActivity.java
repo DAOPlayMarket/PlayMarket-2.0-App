@@ -205,11 +205,11 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     @Override
-    public void onReviewsReady(ArrayList<SortedUserReview> userReviews) {
+    public void onReviewsReady(ArrayList<UserReview> userReviews) {
         setupReviewsRecyclerView(userReviews);
     }
 
-    private void setupReviewsRecyclerView(ArrayList<SortedUserReview> userReviews) {
+    private void setupReviewsRecyclerView(ArrayList<UserReview> userReviews) {
         userReviewAdapter = new UserReviewAdapter(userReviews);
         reviewsRecyclerView.setHasFixedSize(true);
         reviewsRecyclerView.setNestedScrollingEnabled(false);

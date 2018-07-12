@@ -3,7 +3,7 @@ package com.blockchain.store.playmarket.ui.app_detail_screen;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
-import com.blockchain.store.playmarket.data.entities.SortedUserReview;
+import com.blockchain.store.playmarket.data.entities.UserReview;
 
 import java.util.ArrayList;
 
@@ -38,7 +38,7 @@ public class AppDetailContract {
 
         void onPurchaseError(Throwable throwable);
 
-        void onReviewsReady(ArrayList<SortedUserReview> userReviews);
+        void onReviewsReady(ArrayList<UserReview> userReviews);
     }
 
     public interface Presenter {

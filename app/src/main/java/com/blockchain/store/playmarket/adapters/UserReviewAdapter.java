@@ -21,30 +21,49 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
-public class UserReviewAdapter extends RecyclerView.Adapter<UserReviewAdapter.UserReviewViewHolder> {
+public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "UserReviewAdapter";
-    ArrayList<SortedUserReview> userReviews;
+    private static final int TYPE_USER_REVIEW = 0;
+    private static final int TYPE_REVIEW_FIELD = 1;
+    ArrayList<UserReview> userReviews;
 
-    public UserReviewAdapter(ArrayList<SortedUserReview> userReviews) {
+    public UserReviewAdapter(ArrayList<UserReview> userReviews) {
         this.userReviews = userReviews;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if ()
+            return super.getItemViewType(position);
     }
 
     @NonNull
     @Override
-    public UserReviewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_review_item, parent, false);
         return new UserReviewViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserReviewViewHolder holder, int position) {
-        holder.bind(userReviews.get(position), position);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof UserReviewViewHolder) {
+            ((UserReviewViewHolder) holder).bind(userReviews.get(position), position);
+        }
+
     }
 
     @Override
     public int getItemCount() {
-        return userReviews.size();
+        return userReviews.size() + 1;
+    }
+
+    class UserReplyViewHolder extends RecyclerView.ViewHolder {
+
+        public UserReplyViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 
     class UserReviewViewHolder extends RecyclerView.ViewHolder {
@@ -52,6 +71,10 @@ public class UserReviewAdapter extends RecyclerView.Adapter<UserReviewAdapter.Us
         @BindView(R.id.user_name) TextView userName;
         @BindView(R.id.user_commentary) TextView userCommentary;
         @BindView(R.id.read_more) TextView readMore;
+        @BindView(R.id.reply) TextView reply;
+        @BindView(R.id.left_divider) View leftDivider;
+
+        @BindView(R.id.rating_bar) MaterialRatingBar materialRatingBar;
         private ObjectAnimator textDescriptionAnimator;
         private View itemView;
 
@@ -59,12 +82,23 @@ public class UserReviewAdapter extends RecyclerView.Adapter<UserReviewAdapter.Us
             super(itemView);
             this.itemView = itemView;
             ButterKnife.bind(this, itemView);
+            materialRatingBar.setOnRatingChangeListener(new MaterialRatingBar.OnRatingChangeListener() {
+                @Override
+                public void onRatingChanged(MaterialRatingBar ratingBar, float rating) {
+                    Log.d(TAG, "onRatingChanged() called with: ratingBar = [" + ratingBar + "], rating = [" + rating + "]");
+                }
+            });
             userCommentary.post(() -> setupViewAfterOnMeasure(userCommentary));
         }
 
-        public void bind(SortedUserReview userReview, int position) {
-            userCommentary.setText(userReview.userReview.description);
-            userIcon.setImageBitmap(Blockies.createIcon(userReview.userReview.vote));
+        public void bind(UserReview userReview, int position) {
+//            userCommentary.setText(userReview.description);
+            userIcon.setImageBitmap(Blockies.createIcon(userReview.vote));
+            userName.setText(userReview.voter);
+
+            reply.setVisibility(userReview.isReviewOnReview ? View.INVISIBLE : View.VISIBLE);
+            leftDivider.setVisibility(userReview.isReviewOnReview ? View.VISIBLE : View.GONE);
+
         }
 
         private void setupViewAfterOnMeasure(TextView userCommentary) {

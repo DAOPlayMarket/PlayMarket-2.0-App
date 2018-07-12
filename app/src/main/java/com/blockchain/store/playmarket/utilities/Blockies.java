@@ -67,7 +67,8 @@ public class Blockies {
                 canvas.drawRect(col * scale, row * scale, (col * scale) + scale, (row * scale) + scale, paint);
             }
         }
-        return getCroppedBitmap(bmp);
+//        return getCroppedBitmap(bmp);
+        return bmp;
     }
 
     private static double rand() {

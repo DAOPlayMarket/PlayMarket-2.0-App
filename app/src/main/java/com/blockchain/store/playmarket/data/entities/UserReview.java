@@ -13,11 +13,16 @@ public class UserReview implements Parcelable {
     public String vote;
     public String idApp;
     public String voter;
+    public boolean isReviewOnReview = false;
+
 
     public boolean isTxIndexIsEmpty() {
-        txIndex = txIndex.replaceFirst("0x", "").replaceAll("0", "");
-        Log.d(TAG, "isTxIndexIsEmpty: " + txIndex.isEmpty());
-        return txIndex.isEmpty();
+        String tempString = txIndex.replaceFirst("0x", "").replaceAll("0", "");
+        Log.d(TAG, "isTxIndexIsEmpty: " + tempString);
+        return tempString.isEmpty();
+    }
+
+    public UserReview() {
     }
 
     @Override
@@ -34,9 +39,7 @@ public class UserReview implements Parcelable {
         dest.writeString(this.vote);
         dest.writeString(this.idApp);
         dest.writeString(this.voter);
-    }
-
-    public UserReview() {
+        dest.writeByte(this.isReviewOnReview ? (byte) 1 : (byte) 0);
     }
 
     protected UserReview(Parcel in) {
@@ -47,9 +50,10 @@ public class UserReview implements Parcelable {
         this.vote = in.readString();
         this.idApp = in.readString();
         this.voter = in.readString();
+        this.isReviewOnReview = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<UserReview> CREATOR = new Parcelable.Creator<UserReview>() {
+    public static final Creator<UserReview> CREATOR = new Creator<UserReview>() {
         @Override
         public UserReview createFromParcel(Parcel source) {
             return new UserReview(source);

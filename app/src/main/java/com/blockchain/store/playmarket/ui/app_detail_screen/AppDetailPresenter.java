@@ -20,6 +20,7 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
+import com.google.android.gms.common.UserRecoverableException;
 import com.orhanobut.hawk.Hawk;
 
 import org.ethereum.geth.BigInt;
@@ -235,23 +236,36 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
     private void sortUserReviews(ArrayList<UserReview> userReviews) {
-        ArrayList<SortedUserReview> sortedUserReviews = new ArrayList<>();
+        ArrayList<SortedUserReview> newUserReviews = new ArrayList<>();
 
         for (UserReview review : userReviews) {
             if (review.isTxIndexIsEmpty()) {
                 SortedUserReview sortedUserReview = new SortedUserReview();
                 sortedUserReview.userReview = review;
-                sortedUserReviews.add(sortedUserReview);
+                newUserReviews.add(sortedUserReview);
             }
         }
-        for (UserReview review : userReviews) {
-            for (SortedUserReview sortedUserReview : sortedUserReviews) {
+        for (SortedUserReview sortedUserReview : newUserReviews) {
+            for (UserReview review : userReviews) {
+                Log.d(TAG, "sortUserReviews: " + sortedUserReview.userReview.txIndexOrigin);
+                Log.d(TAG, "review: " + review.txIndex);
                 if (sortedUserReview.userReview.txIndexOrigin.equalsIgnoreCase(review.txIndex)) {
                     sortedUserReview.reviewOnUserReview.add(review);
                 }
             }
         }
-        view.onReviewsReady(sortedUserReviews);
+
+
+        ArrayList<UserReview> sortedUserReview = new ArrayList<>();
+        for (SortedUserReview review : newUserReviews) {
+            sortedUserReview.add(review.userReview);
+            for (UserReview userReview : review.reviewOnUserReview) {
+                userReview.isReviewOnReview = true;
+                sortedUserReview.add(userReview);
+                sortedUserReview.add(userReview);
+            }
+        }
+        view.onReviewsReady(sortedUserReview);
 
     }
 
