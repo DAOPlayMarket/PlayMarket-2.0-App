@@ -2,8 +2,10 @@ package com.blockchain.store.playmarket.ui.app_detail_screen;
 
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
-import com.blockchain.store.playmarket.data.entities.CheckPurchaseResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.data.entities.SortedUserReview;
+
+import java.util.ArrayList;
 
 
 /**
@@ -36,7 +38,7 @@ public class AppDetailContract {
 
         void onPurchaseError(Throwable throwable);
 
-        void onReviewsReady();
+        void onReviewsReady(ArrayList<SortedUserReview> userReviews);
     }
 
     public interface Presenter {
@@ -55,6 +57,6 @@ public class AppDetailContract {
 
         void onPurchasedClicked(AppInfo appInfo);
 
-        void getReviews();
+        void getReviews(String appId);
     }
 }

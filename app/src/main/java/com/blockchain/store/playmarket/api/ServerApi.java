@@ -11,6 +11,7 @@ import com.blockchain.store.playmarket.data.entities.InvestAddressResponse;
 import com.blockchain.store.playmarket.data.entities.Node;
 import com.blockchain.store.playmarket.data.entities.NonceResponce;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.data.entities.UserReview;
 
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
@@ -92,4 +93,8 @@ public interface ServerApi {
 
     @GET("api/availability")
     Call<AvailabilityResponse> checkAvailability();
+
+    @FormUrlEncoded()
+    @POST("get-reviews")
+    Observable<ArrayList<UserReview>> getReviews(@Field("idApp") int appId);
 }

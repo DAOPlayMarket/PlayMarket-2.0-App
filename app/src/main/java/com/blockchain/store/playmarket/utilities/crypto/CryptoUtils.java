@@ -13,9 +13,13 @@ import org.ethereum.geth.Transaction;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Bytes;
+import org.web3j.abi.datatypes.DynamicBytes;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
+import org.web3j.abi.datatypes.Utf8String;
+import org.web3j.abi.datatypes.generated.AbiTypes;
+import org.web3j.abi.datatypes.generated.Bytes23;
 import org.web3j.abi.datatypes.generated.Bytes32;
 import org.web3j.crypto.ContractUtils;
 import org.web3j.crypto.RawTransaction;
@@ -38,6 +42,7 @@ import io.ethmobile.ethdroid.KeyManager;
 
 import static com.blockchain.store.playmarket.utilities.Constants.GAS_LIMIT;
 import static com.blockchain.store.playmarket.utilities.Constants.NODE_ADDRESS;
+import static com.blockchain.store.playmarket.utilities.Constants.NON_LOCAL_NODE_ADDRESS;
 import static com.blockchain.store.playmarket.utilities.Constants.RINKEBY_ID;
 import static org.web3j.crypto.Hash.sha3;
 
@@ -102,46 +107,63 @@ public class CryptoUtils {
         Log.d("Ether", catIdEnc);
 
         String data = functionHash + appIdEnc + catIdEnc;
-        Log.d("Ether", data);
+        Log.d("oldMethod", "result = " + data);
 
         return hexStringToByteArray(data);
     }
 
-    public static byte[] getDataForReviewAnApp(String appId, String address, String vote, String description, int txIndex) {
-        // new Rating (address voter, uint idApp, uint vote, string description, bytes32 txIndex)
+    public static byte[] getDataForBuyAppWithWeb3(String appId, String address) {
         String originalAddress = address;
         if (address.startsWith("0x")) {
             address = address.replaceFirst("0x", "");
         }
+        ArrayList<Type> valueList = new ArrayList<>();
+        valueList.add(new Uint(new BigInteger(appId)));
+        valueList.add(new org.web3j.abi.datatypes.Address(address));
+
+        List<TypeReference<?>> typeReferences = Arrays.asList(
+                new TypeReference<org.web3j.abi.datatypes.Uint>() {
+                },
+                new TypeReference<org.web3j.abi.datatypes.Address>() {
+                });
+        Function function = new Function("buyApp",
+                valueList, typeReferences);
+
+        String encode = FunctionEncoder.encode(function);
+
+        if (encode.startsWith("0x")) {
+            encode = encode.replaceFirst("0x", "");
+        }
+        Log.d("newMethod", "result = " + encode);
+        return hexStringToByteArray(encode);
+    }
+
+    public static byte[] getDataForReviewAnApp(String appId, String address, String vote, String description, int txIndex) {
+        // function pushFeedbackRating(uint idApp, uint vote, string description, bytes32 txIndex)
         ArrayList<Type> arrayList = new ArrayList<>();
-        arrayList.add(new org.web3j.abi.datatypes.Address(address));
         arrayList.add(new Uint(new BigInteger(appId)));
         arrayList.add(new Uint(new BigInteger(vote)));
-        arrayList.add(new org.web3j.abi.datatypes.Utf8String(description));
+        arrayList.add(new Utf8String(description));
         if (txIndex != 0) {
             String s = Integer.toHexString(txIndex);
             byte[] bytes1 = hexStringToByteArray(s);
-            arrayList.add(new Bytes32(bytes1));
+            arrayList.add(new Bytes32(new byte[1]));
         } else {
-            arrayList.add(new Bytes32(new byte[32]));
+            arrayList.add(Bytes32.DEFAULT);
         }
 
         List<TypeReference<?>> typeReferences = Arrays.asList(
-                new TypeReference<org.web3j.abi.datatypes.Address>() {
+                new TypeReference<Uint>() {
                 },
-                new TypeReference<org.web3j.abi.datatypes.Uint>() {
+                new TypeReference<Uint>() {
                 },
-                new TypeReference<org.web3j.abi.datatypes.Uint>() {
+                new TypeReference<Utf8String>() {
                 },
-                new TypeReference<org.web3j.abi.datatypes.Utf8String>() {
-                },
-                new TypeReference<Bytes>() {
+                new TypeReference<Bytes32>() {
                 }
         );
-//        if (txIndex != 0) {
 
-//        }
-        Function function = new Function("newRating",
+        Function function = new Function("pushFeedbackRating",
                 arrayList, typeReferences);
 
         String encode = FunctionEncoder.encode(function);
@@ -149,9 +171,7 @@ public class CryptoUtils {
         if (encode.startsWith("0x")) {
             encode = encode.replaceFirst("0x", "");
         }
-//        byte[] resultBytes = encode.getBytes();
-//        Log.d("test", "getDataForReviewAnApp: " + resultBytes);
-        return encode.getBytes();
+        return hexStringToByteArray(encode);
     }
 
     public static String bytesToHexString(byte[] bytes) {
@@ -181,9 +201,14 @@ public class CryptoUtils {
         BigInt price = new BigInt(0);
         price.setString(app.price, 10);
 
-        Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
+//        getDataForBuyAppWithWeb3(app.appId, NON_LOCAL_NODE_ADDRESS);
+//        getDataForBuyApp(app.appId, NON_LOCAL_NODE_ADDRESS);
+        /*
+
+        * */
+        Transaction transaction = new Transaction(nonce, new Address(Constants.REVIEW_ADDRESS),
                 price, GAS_LIMIT, gasPrice,
-                getDataForBuyApp(app.appId, NODE_ADDRESS));
+                getDataForBuyAppWithWeb3(app.appId, NON_LOCAL_NODE_ADDRESS));
 
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
         return getRawTransaction(signedTransaction);
@@ -198,15 +223,6 @@ public class CryptoUtils {
                 price, GAS_LIMIT, gasPrice,
                 getDataForReviewAnApp(app.appId, account.getAddress().getHex(), vote, description, txIndex));
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
-//        org.web3j.protocol.core.methods.request.Transaction functionCallTransaction = org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction(
-//                account.getAddress().getHex(),new BigInteger(String.valueOf(nonce)),new BigInteger(gasPrice.toString()),new BigInteger(String.valueOf(GAS_LIMIT)),Constants.REVIEW_ADDRESS,
-//                getDataForReviewAnApp(app.appId, account.getAddress().getHex(), vote, description, txIndex)
-//        );
-//        Web3j build = Web3jFactory.build(new HttpService("https://rinkeby.infura.io/iYGysj5Sns7HV42MdiXi/"));
-//
-//        org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse =
-//                build.ethSendTransaction(functionCallTransaction).sendAsync().get();
-//        Log.d("", "generateSendReviewTransaction: ");
         return getRawTransaction(signedTransaction);
     }
 

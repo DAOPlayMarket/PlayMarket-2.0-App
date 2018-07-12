@@ -49,10 +49,17 @@ public class Constants {
     public static final String SEARCH_ACTIVITY_QUERY_EXTRA = "search_activity_query_extra";
 
     /* Transaction prefs */
-    public static final String PLAY_MARKET_ADDRESS = "0x3f2512Aee154F1D7d5EF3670ec0234AEe2FB60A9";
+    public static final String PLAY_MARKET_ADDRESS = "0x9AEB3B7023448f65E81d718662A29A6874Fe8402";
+
     public static final String INVEST_ADDRESS = "0xB268d40843224B539068606Fb9F0dbAFb430D765";
+    public static final String REVIEW_ADDRESS = "0x55F3CcDAD68Df5BcF51551AdE4A9ac17f19Fc010";
+
     public static final String NODE_ADDRESS = "65D8706C1Ff1f9323272A818C22C1381de6D7556";
-    public static final String REVIEW_ADDRESS = "0x9AEB3B7023448f65E81d718662A29A6874Fe8402";
+
+    public static final String NON_LOCAL_NODE_ADDRESS = "0x4aa3c414a450609ef39e9154bd686a04b915e87d";
+
+    public static final String LOCAL_NODE_ADDRESS = "0xa10e1b2255d3ec6d0fc379518c579a5f3caa9c42";
+
 
     /*Settings prefs*/
     public static final String SETTINGS_AUTOINSTALL_FLAG = "settings_autoinstall_flag";

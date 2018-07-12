@@ -11,6 +11,8 @@ import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.data.entities.SortedUserReview;
+import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
 import com.blockchain.store.playmarket.notification.NotificationManager;
@@ -24,7 +26,9 @@ import org.ethereum.geth.BigInt;
 
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
@@ -218,8 +222,41 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
     @Override
-    public void getReviews() {
-        view.onReviewsReady();
+    public void getReviews(String appId) {
+        RestApi.getServerApi().getReviews(Integer.parseInt(appId))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onReviewReady, this::onReviewFailed);
+    }
+
+    private void onReviewReady(ArrayList<UserReview> userReviews) {
+        sortUserReviews(userReviews);
+
+    }
+
+    private void sortUserReviews(ArrayList<UserReview> userReviews) {
+        ArrayList<SortedUserReview> sortedUserReviews = new ArrayList<>();
+
+        for (UserReview review : userReviews) {
+            if (review.isTxIndexIsEmpty()) {
+                SortedUserReview sortedUserReview = new SortedUserReview();
+                sortedUserReview.userReview = review;
+                sortedUserReviews.add(sortedUserReview);
+            }
+        }
+        for (UserReview review : userReviews) {
+            for (SortedUserReview sortedUserReview : sortedUserReviews) {
+                if (sortedUserReview.userReview.txIndexOrigin.equalsIgnoreCase(review.txIndex)) {
+                    sortedUserReview.reviewOnUserReview.add(review);
+                }
+            }
+        }
+        view.onReviewsReady(sortedUserReviews);
+
+    }
+
+    private void onReviewFailed(Throwable throwable) {
+        Log.d(TAG, "onReviewFailed: ");
     }
 
 

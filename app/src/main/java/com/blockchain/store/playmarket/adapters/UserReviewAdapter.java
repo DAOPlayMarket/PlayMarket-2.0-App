@@ -12,16 +12,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.data.entities.SortedUserReview;
+import com.blockchain.store.playmarket.data.entities.UserReview;
+import com.blockchain.store.playmarket.utilities.Blockies;
 import com.blockchain.store.playmarket.utilities.Constants;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class UserReviewAdapter extends RecyclerView.Adapter<UserReviewAdapter.UserReviewViewHolder> {
     private static final String TAG = "UserReviewAdapter";
+    ArrayList<SortedUserReview> userReviews;
 
-    public UserReviewAdapter() {
-
+    public UserReviewAdapter(ArrayList<SortedUserReview> userReviews) {
+        this.userReviews = userReviews;
     }
 
     @NonNull
@@ -33,18 +39,17 @@ public class UserReviewAdapter extends RecyclerView.Adapter<UserReviewAdapter.Us
 
     @Override
     public void onBindViewHolder(@NonNull UserReviewViewHolder holder, int position) {
-        holder.bind(position);
+        holder.bind(userReviews.get(position), position);
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return userReviews.size();
     }
 
     class UserReviewViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.user_icon) ImageView userIcon;
         @BindView(R.id.user_name) TextView userName;
-        @BindView(R.id.user_review_date) TextView userReviewDate;
         @BindView(R.id.user_commentary) TextView userCommentary;
         @BindView(R.id.read_more) TextView readMore;
         private ObjectAnimator textDescriptionAnimator;
@@ -57,15 +62,9 @@ public class UserReviewAdapter extends RecyclerView.Adapter<UserReviewAdapter.Us
             userCommentary.post(() -> setupViewAfterOnMeasure(userCommentary));
         }
 
-        public void bind(int position) {
-            if (position % 3 == 0) {
-                userIcon.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.material_color_3));
-            } else if (position % 2 == 0) {
-                userIcon.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.material_color_2));
-            } else {
-                userIcon.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.material_color_1));
-            }
-
+        public void bind(SortedUserReview userReview, int position) {
+            userCommentary.setText(userReview.userReview.description);
+            userIcon.setImageBitmap(Blockies.createIcon(userReview.userReview.vote));
         }
 
         private void setupViewAfterOnMeasure(TextView userCommentary) {

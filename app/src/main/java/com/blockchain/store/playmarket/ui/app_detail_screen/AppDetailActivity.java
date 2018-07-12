@@ -29,6 +29,8 @@ import com.blockchain.store.playmarket.adapters.UserReviewAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.data.entities.SortedUserReview;
+import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
 import com.blockchain.store.playmarket.utilities.DialogManager;
@@ -45,6 +47,8 @@ import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.stfalcon.frescoimageviewer.ImageViewer;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -112,7 +116,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         presenter = new AppDetailPresenter();
         presenter.init(this);
         presenter.getDetailedInfo(app);
-        presenter.getReviews();
+        presenter.getReviews(app.appId);
     }
 
     @Override
@@ -201,12 +205,12 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     @Override
-    public void onReviewsReady() {
-        setupReviewsRecyclerView();
+    public void onReviewsReady(ArrayList<SortedUserReview> userReviews) {
+        setupReviewsRecyclerView(userReviews);
     }
 
-    private void setupReviewsRecyclerView() {
-        userReviewAdapter = new UserReviewAdapter();
+    private void setupReviewsRecyclerView(ArrayList<SortedUserReview> userReviews) {
+        userReviewAdapter = new UserReviewAdapter(userReviews);
         reviewsRecyclerView.setHasFixedSize(true);
         reviewsRecyclerView.setNestedScrollingEnabled(false);
         LinearLayoutManager layout = new LinearLayoutManager(this);
@@ -286,7 +290,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @OnClick(R.id.action_btn)
     public void onActionBtnClicked() {
         new DialogManager().showPurchaseDialog(app, this, () -> {
-            presenter.onSendReviewClicked("myreview", "5");
+//            presenter.onSendReviewClicked("myreview", "5");
+            presenter.onPurchasedClicked(appInfo);
         });
 
 //        presenter.onActionButtonClicked(app);
