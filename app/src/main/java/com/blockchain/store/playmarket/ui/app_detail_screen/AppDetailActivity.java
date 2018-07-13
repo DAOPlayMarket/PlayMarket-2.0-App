@@ -29,7 +29,6 @@ import com.blockchain.store.playmarket.adapters.UserReviewAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
-import com.blockchain.store.playmarket.data.entities.SortedUserReview;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
@@ -54,7 +53,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AppDetailActivity extends AppCompatActivity implements AppDetailContract.View, ImageListAdapterCallback {
+public class AppDetailActivity extends AppCompatActivity implements AppDetailContract.View, ImageListAdapterCallback, UserReviewAdapter.UserReviewCallback {
     private static final String TAG = "AppDetailActivity";
     private static final String APP_EXTRA = "app_extra";
     private static final int DEFAULT_MAX_LINES = 4;
@@ -210,7 +209,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     private void setupReviewsRecyclerView(ArrayList<UserReview> userReviews) {
-        userReviewAdapter = new UserReviewAdapter(userReviews);
+        userReviewAdapter = new UserReviewAdapter(userReviews,this);
         reviewsRecyclerView.setHasFixedSize(true);
         reviewsRecyclerView.setNestedScrollingEnabled(false);
         LinearLayoutManager layout = new LinearLayoutManager(this);
@@ -289,12 +288,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @OnClick(R.id.action_btn)
     public void onActionBtnClicked() {
-        new DialogManager().showPurchaseDialog(app, this, () -> {
-//            presenter.onSendReviewClicked("myreview", "5");
-            presenter.onPurchasedClicked(appInfo);
-        });
-
-//        presenter.onActionButtonClicked(app);
+        presenter.onActionButtonClicked(app);
     }
 
     @OnClick(R.id.error_view_repeat_btn)
@@ -333,5 +327,15 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     }
 
+    @Override public void onReplyClicked(String message, String vote) {
+        new DialogManager().showPurchaseDialog(app, this, () -> {
+            presenter.onSendReviewClicked(message, vote);
+        });
+    }
 
+    @Override public void onReplyOnReviewClicked(UserReview userReview, String message) {
+        new DialogManager().showPurchaseDialog(app, this, () -> {
+            presenter.onSendReviewClicked(message, "5");
+        });
+    }
 }

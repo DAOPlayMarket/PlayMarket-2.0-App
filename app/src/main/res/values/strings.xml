@@ -157,5 +157,6 @@
     <string name="my_apps_fragment_title">My Apps</string>
     <string name="my_apps_update_fragment_title">Updates</string>
     <string name="reply">Reply</string>
+    <string name="reply_hide">Hide</string>
     <string name="send">Send</string>
 </resources>

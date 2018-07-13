@@ -10,13 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.data.entities.SortedUserReview;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.utilities.Blockies;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -29,25 +29,37 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "UserReviewAdapter";
-    private static final int TYPE_USER_REVIEW = 0;
-    private static final int TYPE_REVIEW_FIELD = 1;
+    private static final int TYPE_USER_REPLY = 0;
+    private static final int TYPE_USER_REVIEW = 1;
     ArrayList<UserReview> userReviews;
-    private int expandedItem = -1;
+    int expandedItem = -1;
+    UserReviewCallback callback;
 
-    public UserReviewAdapter(ArrayList<UserReview> userReviews) {
+    public UserReviewAdapter(ArrayList<UserReview> userReviews, UserReviewCallback callback) {
+        this.callback = callback;
         this.userReviews = userReviews;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return super.getItemViewType(position);
+        if (position >= userReviews.size()) {
+            return TYPE_USER_REPLY;
+        } else {
+            return TYPE_USER_REVIEW;
+        }
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_review_item, parent, false);
-        return new UserReviewViewHolder(view);
+        if (viewType == TYPE_USER_REVIEW) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_review_item, parent, false);
+            return new UserReviewViewHolder(view);
+        } else if (viewType == TYPE_USER_REPLY) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_replay_item, parent, false);
+            return new UserReplyViewHolder(view);
+        }
+        return null;
     }
 
     @Override
@@ -55,19 +67,27 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (holder instanceof UserReviewViewHolder) {
             ((UserReviewViewHolder) holder).bind(userReviews.get(position), position);
         }
-
     }
 
     @Override
     public int getItemCount() {
-        return userReviews.size();
+        return userReviews.size() + 1;
     }
 
     class UserReplyViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.rating_bar) MaterialRatingBar ratingBar;
+        @BindView(R.id.rating) TextView ratingView;
+        @BindView(R.id.action_btn) Button replyButton;
+        @BindView(R.id.review_description) EditText reviewDescription;
+
         public UserReplyViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
+            ratingBar.setOnRatingChangeListener((ratingBar, rating) -> ratingView.setText(String.valueOf(((int) rating))));
+            replyButton.setOnClickListener(view -> callback.onReplyClicked(reviewDescription.getText().toString(), ratingView.getText().toString()));
         }
+
     }
 
     class UserReviewViewHolder extends RecyclerView.ViewHolder {
@@ -80,8 +100,9 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @BindView(R.id.rating) TextView ratingView;
         @BindView(R.id.root_view) ConstraintLayout constraintLayout;
         @BindView(R.id.user_replay_holder) LinearLayout userReplayHolder;
-
+        @BindView(R.id.action_btn) Button replyButton;
         @BindView(R.id.rating_bar) MaterialRatingBar materialRatingBar;
+        @BindView(R.id.review_description) EditText reviewDescription;
 
         private ObjectAnimator textDescriptionAnimator;
         private View itemView;
@@ -90,7 +111,6 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(itemView);
             this.itemView = itemView;
             ButterKnife.bind(this, itemView);
-            materialRatingBar.setOnRatingChangeListener((ratingBar, rating) -> ratingView.setText(String.valueOf(((int) rating))));
             userCommentary.post(() -> setupViewAfterOnMeasure(userCommentary));
         }
 
@@ -98,20 +118,25 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 //            userCommentary.setText(userReview.description);
             userIcon.setImageBitmap(Blockies.createIcon(userReview.vote));
             userName.setText(userReview.voter);
-            reply.setVisibility(userReview.isReviewOnReview || position == expandedItem ? View.INVISIBLE : View.VISIBLE);
+            ratingView.setVisibility(View.INVISIBLE);
+            materialRatingBar.setVisibility(View.INVISIBLE);
+            reply.setText(itemView.getContext().getString(position == expandedItem ? R.string.reply_hide : R.string.reply));
+            reply.setVisibility(userReview.isReviewOnReview ? View.INVISIBLE : View.VISIBLE);
 
             userReplayHolder.setVisibility(position == expandedItem ? View.VISIBLE : View.GONE);
 
             leftDivider.setVisibility(userReview.isReviewOnReview ? View.VISIBLE : View.GONE);
 
+            replyButton.setOnClickListener(view -> callback.onReplyOnReviewClicked(userReview, reviewDescription.getText().toString()));
 
-            reply.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            reply.setOnClickListener(v -> {
+                if (expandedItem == position) {
+                    expandedItem = -1;
+                } else {
                     expandedItem = position;
-                    TransitionManager.beginDelayedTransition(constraintLayout);
-                    notifyDataSetChanged();
                 }
+                TransitionManager.beginDelayedTransition(constraintLayout);
+                notifyDataSetChanged();
             });
         }
 
@@ -143,5 +168,11 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
 
+    }
+
+    public interface UserReviewCallback {
+        void onReplyClicked(String message, String vote);
+
+        void onReplyOnReviewClicked(UserReview userReview, String message);
     }
 }

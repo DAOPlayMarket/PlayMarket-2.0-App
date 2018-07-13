@@ -12,23 +12,11 @@ import org.ethereum.geth.BigInt;
 import org.ethereum.geth.Transaction;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
-import org.web3j.abi.datatypes.Bytes;
-import org.web3j.abi.datatypes.DynamicBytes;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
-import org.web3j.abi.datatypes.generated.AbiTypes;
-import org.web3j.abi.datatypes.generated.Bytes23;
 import org.web3j.abi.datatypes.generated.Bytes32;
-import org.web3j.crypto.ContractUtils;
-import org.web3j.crypto.RawTransaction;
-import org.web3j.crypto.TransactionEncoder;
-import org.web3j.crypto.TransactionUtils;
-import org.web3j.crypto.Wallet;
-import org.web3j.crypto.WalletUtils;
-import org.web3j.rlp.RlpDecoder;
-import org.web3j.rlp.RlpEncoder;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -41,7 +29,6 @@ import io.ethmobile.ethdroid.EthDroid;
 import io.ethmobile.ethdroid.KeyManager;
 
 import static com.blockchain.store.playmarket.utilities.Constants.GAS_LIMIT;
-import static com.blockchain.store.playmarket.utilities.Constants.NODE_ADDRESS;
 import static com.blockchain.store.playmarket.utilities.Constants.NON_LOCAL_NODE_ADDRESS;
 import static com.blockchain.store.playmarket.utilities.Constants.RINKEBY_ID;
 import static org.web3j.crypto.Hash.sha3;
@@ -113,7 +100,6 @@ public class CryptoUtils {
     }
 
     public static byte[] getDataForBuyAppWithWeb3(String appId, String address) {
-        String originalAddress = address;
         if (address.startsWith("0x")) {
             address = address.replaceFirst("0x", "");
         }
