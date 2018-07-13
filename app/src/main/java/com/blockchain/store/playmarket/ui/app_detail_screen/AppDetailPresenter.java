@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.ui.app_detail_screen;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.util.Log;
 import android.util.Pair;
 
@@ -84,6 +85,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
         switch (appState) {
             case STATE_DOWNLOAD_ERROR:
             case STATE_NOT_DOWNLOAD:
+            case STATE_HAS_UPDATE:
                 addItemToLibrary(app);
                 NotificationManager.getManager().registerCallback(app, this);
                 new MyPackageManager().startDownloadApkService(app);
@@ -112,21 +114,36 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     private void addItemToLibrary(App app) {
         ArrayList<App> appList = new ArrayList<>();
+        boolean isContains = false;
         if (Hawk.contains(Constants.DOWNLOADED_APPS_LIST)) {
             appList = Hawk.get(Constants.DOWNLOADED_APPS_LIST);
-            if (appList.contains(app)) return;
+
+            for (App app1 : appList) {
+                if (app1.appId.equalsIgnoreCase(app.appId)) {
+                    isContains = true;
+                }
+            }
         }
-        appList.add(app);
-        Hawk.put(Constants.DOWNLOADED_APPS_LIST, appList);
+        if (!isContains) {
+            appList.add(app);
+            Hawk.put(Constants.DOWNLOADED_APPS_LIST, appList);
+        }
+
+
     }
 
     @Override
     public void loadButtonsState(App app, boolean isUserPurchasedApp) {
         this.app = app;
         if (app.isFree || isUserPurchasedApp) {
-            boolean applicationInstalled = new MyPackageManager().isApplicationInstalled(app.hash);
+            boolean applicationInstalled = new MyPackageManager().isApplicationInstalled(app.packageName);
             if (applicationInstalled) {
-                changeState(Constants.APP_STATE.STATE_INSTALLED);
+                if (new MyPackageManager().isHasUpdate(app)) {
+                    changeState(Constants.APP_STATE.STATE_HAS_UPDATE);
+                } else {
+                    changeState(Constants.APP_STATE.STATE_INSTALLED);
+                }
+
             } else if (NotificationManager.getManager().isCallbackAlreadyRegistered(app, this)) {
                 NotificationManager.getManager().registerCallback(app, this);
                 changeState(Constants.APP_STATE.STATE_DOWNLOADING);
@@ -152,6 +169,8 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
             case STATE_DOWNLOAD_ERROR:
             case STATE_NOT_DOWNLOAD:
                 view.setActionButtonText(context.getString(R.string.btn_download));
+            case STATE_HAS_UPDATE:
+                view.setActionButtonText(context.getString(R.string.update));
                 break;
             case STATE_INSTALLING:
                 break;
@@ -214,12 +233,28 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
     public void onSendReviewClicked(String review, String vote) {
+        sendReview(review, vote, "");
+    }
+
+    public void onSendReviewClicked(String review, String vote, String txIndex) {
+        sendReview(review, vote, txIndex);
+    }
+
+    private void sendReview(String review, String vote, String txIndex) {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
-                .flatMap(pair -> mapReviewCreationTransaction(pair, review, vote))
+                .flatMap(pair -> mapReviewCreationTransaction(pair, review, vote, txIndex))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onPurchaseSuccessful, this::onPurchaseError);
+                .subscribe(this::onReviewSendSuccessfully, this::onReviewSendFailed);
+    }
+
+    private void onReviewSendSuccessfully(PurchaseAppResponse purchaseAppResponse) {
+        view.onReviewSendSuccessfully();
+    }
+
+    private void onReviewSendFailed(Throwable throwable) {
+        view.onPurchaseError(throwable);
     }
 
     @Override
@@ -262,7 +297,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
             for (UserReview userReview : review.reviewOnUserReview) {
                 userReview.isReviewOnReview = true;
                 sortedUserReview.add(userReview);
-                sortedUserReview.add(userReview);
             }
         }
         view.onReviewsReady(sortedUserReview);
@@ -291,14 +325,14 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     }
 
-    private Observable<PurchaseAppResponse> mapReviewCreationTransaction(Pair<AccountInfoResponse, String> accountInfo, String review, String vote) {
+    private Observable<PurchaseAppResponse> mapReviewCreationTransaction(Pair<AccountInfoResponse, String> accountInfo, String review, String vote, String txIndex) {
 
         String rawTransaction = "";
         try {
             rawTransaction = CryptoUtils.generateSendReviewTransaction(
                     accountInfo.first.count,
                     new BigInt(Long.parseLong(accountInfo.second)),
-                    app, vote, review, 0);
+                    app, vote, review, txIndex);
             Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
         } catch (Exception e) {
             e.printStackTrace();

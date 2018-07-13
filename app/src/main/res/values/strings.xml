@@ -159,4 +159,6 @@
     <string name="reply">Reply</string>
     <string name="reply_hide">Hide</string>
     <string name="send">Send</string>
+    <string name="successfully_review_send" >Review successfully created!</string>
+    <string name="update">Update</string>
 </resources>

@@ -208,6 +208,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         setupReviewsRecyclerView(userReviews);
     }
 
+
     private void setupReviewsRecyclerView(ArrayList<UserReview> userReviews) {
         userReviewAdapter = new UserReviewAdapter(userReviews,this);
         reviewsRecyclerView.setHasFixedSize(true);
@@ -268,6 +269,11 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     public void onPurchaseSuccessful(PurchaseAppResponse purchaseAppResponse) {
         ToastUtil.showToast(R.string.successfully_paid);
     }
+    @Override
+    public void onReviewSendSuccessfully() {
+        ToastUtil.showToast(R.string.successfully_review_send);
+    }
+
 
     @Override
     public void onPurchaseError(Throwable throwable) {
@@ -335,7 +341,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @Override public void onReplyOnReviewClicked(UserReview userReview, String message) {
         new DialogManager().showPurchaseDialog(app, this, () -> {
-            presenter.onSendReviewClicked(message, "5");
+            presenter.onSendReviewClicked(message, "5",userReview.txIndexOrigin);
         });
     }
 }

@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.data.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.blockchain.store.playmarket.api.RestApi;
 import com.google.gson.annotations.SerializedName;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
  */
 
 public class App implements Parcelable {
+    private static final String TAG = "App";
+
     @SerializedName("idApp")
     public String appId;
     @SerializedName("price")
@@ -52,17 +55,21 @@ public class App implements Parcelable {
     public String icoSymbol;
     public String icoName;
     public String icoDecimals;
-    public ArrayList<IcoStages> icoStages;
+    public ArrayList<IcoStages> icoStages = new ArrayList<>();
     public String icoTotalSupply;
     public String icoStartDate;
     public String icoEndDate;
     public String icoHardCapUsd;
     public String hashICO;
     public String hashTagICO;
-
+    public String version;
+    public String packageName;
+    public IcoInfo infoICO = null;
     public String getIconUrl() {
         try {
-            return RestApi.ICON_URL + hashTag + "/" + hash + "/" + files.images.logo;
+            String iconUrl = RestApi.ICON_URL + hashTag + "/" + hash + "/" + files.images.logo;
+            Log.d(TAG, "Icon Url: " + iconUrl);
+            return iconUrl;
         } catch (Exception e) {
             return "";
         }
@@ -70,7 +77,9 @@ public class App implements Parcelable {
 
     public String getDownloadLink() {
         try {
-            return RestApi.ICON_URL + hashTag + "/" + hash + "/" + files.app;
+            String downloadLink = RestApi.ICON_URL + hashTag + "/" + hash + "/" + files.app;
+            Log.d(TAG, "getDownloadLink: " + downloadLink);
+            return downloadLink;
         } catch (Exception e) {
             return "";
         }
@@ -82,6 +91,7 @@ public class App implements Parcelable {
             for (String s : files.images.gallery) {
                 images.add(RestApi.ICON_URL + hashTag + "/" + hash + "/" + s);
             }
+            Log.d(TAG, "getImages: " + images);
             return images;
         } catch (Exception e) {
             return new ArrayList<>();
@@ -144,6 +154,8 @@ public class App implements Parcelable {
         dest.writeString(this.icoHardCapUsd);
         dest.writeString(this.hashICO);
         dest.writeString(this.hashTagICO);
+        dest.writeString(this.version);
+        dest.writeString(this.packageName);
     }
 
     protected App(Parcel in) {
@@ -182,6 +194,8 @@ public class App implements Parcelable {
         this.icoHardCapUsd = in.readString();
         this.hashICO = in.readString();
         this.hashTagICO = in.readString();
+        this.version = in.readString();
+        this.packageName = in.readString();
     }
 
     public static final Creator<App> CREATOR = new Creator<App>() {

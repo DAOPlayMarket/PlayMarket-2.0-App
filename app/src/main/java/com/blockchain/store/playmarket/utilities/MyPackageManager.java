@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
@@ -17,6 +18,8 @@ import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.services.DownloadService;
 import com.blockchain.store.playmarket.utilities.device.BuildUtils;
+
+import org.web3j.abi.datatypes.Int;
 
 import java.io.File;
 import java.util.Collections;
@@ -61,6 +64,31 @@ public class MyPackageManager {
 
     public boolean isAppFileExists(App app) {
         return getFileFromApp(app).exists();
+    }
+
+    public boolean isHasUpdate(App app) {
+        PackageInfo pinfo = null;
+        Context applicationContext = Application.getInstance().getApplicationContext();
+        try {
+            pinfo = applicationContext.getPackageManager().getPackageInfo(app.packageName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (pinfo == null) {
+            return false;
+        }
+        int appCode = 0;
+
+        try {
+            String number = app.version.replaceAll("\\D+", "");
+            appCode = Integer.parseInt(number);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (appCode > pinfo.versionCode) {
+            return true;
+        }
+        return false;
     }
 
     public void uninstallApkByApp(App app) {

@@ -17,6 +17,7 @@ import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Bytes32;
+import org.web3j.utils.Numeric;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -124,18 +125,17 @@ public class CryptoUtils {
         return hexStringToByteArray(encode);
     }
 
-    public static byte[] getDataForReviewAnApp(String appId, String address, String vote, String description, int txIndex) {
+    public static byte[] getDataForReviewAnApp(String appId, String address, String vote, String description, String txIndex) {
         // function pushFeedbackRating(uint idApp, uint vote, string description, bytes32 txIndex)
         ArrayList<Type> arrayList = new ArrayList<>();
         arrayList.add(new Uint(new BigInteger(appId)));
         arrayList.add(new Uint(new BigInteger(vote)));
         arrayList.add(new Utf8String(description));
-        if (txIndex != 0) {
-            String s = Integer.toHexString(txIndex);
-            byte[] bytes1 = hexStringToByteArray(s);
-            arrayList.add(new Bytes32(new byte[1]));
-        } else {
+        if (txIndex.isEmpty()) {
             arrayList.add(Bytes32.DEFAULT);
+        } else {
+            byte[] bytes = Numeric.hexStringToByteArray(txIndex);
+            arrayList.add(new Bytes32(bytes));
         }
 
         List<TypeReference<?>> typeReferences = Arrays.asList(
@@ -200,7 +200,7 @@ public class CryptoUtils {
         return getRawTransaction(signedTransaction);
     }
 
-    public static String generateSendReviewTransaction(int nonce, BigInt gasPrice, App app, String vote, String description, int txIndex) throws Exception {
+    public static String generateSendReviewTransaction(int nonce, BigInt gasPrice, App app, String vote, String description, String txIndex) throws Exception {
         KeyManager keyManager = Application.keyManager;
         Account account = keyManager.getAccounts().get(0);
         BigInt price = new BigInt(0);

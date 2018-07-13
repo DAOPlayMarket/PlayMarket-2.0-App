@@ -115,7 +115,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         public void bind(UserReview userReview, int position) {
-//            userCommentary.setText(userReview.description);
+            userCommentary.setText(userReview.description);
             userIcon.setImageBitmap(Blockies.createIcon(userReview.vote));
             userName.setText(userReview.voter);
             ratingView.setVisibility(View.INVISIBLE);

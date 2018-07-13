@@ -46,7 +46,6 @@ public class ResultAdapterFactory implements TypeAdapterFactory {
                 } catch (Exception e) {
                     return (T) new IcoInfo();
                 }
-
             }
         }.nullSafe();
     }

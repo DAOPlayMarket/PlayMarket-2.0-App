@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 class AppImages implements Parcelable {
     public String banner;
-    public ArrayList<String> gallery;
+    public ArrayList<String> gallery = new ArrayList<>();
     public String logo;
 
     @Override
@@ -18,7 +18,12 @@ class AppImages implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.banner);
-        dest.writeStringList(this.gallery);
+        try {
+            dest.writeStringList(this.gallery);
+        } catch (Exception e) {
+
+        }
+
         dest.writeString(this.logo);
     }
 

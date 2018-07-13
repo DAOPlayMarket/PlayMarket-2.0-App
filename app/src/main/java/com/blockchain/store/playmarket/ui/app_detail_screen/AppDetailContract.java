@@ -39,6 +39,8 @@ public class AppDetailContract {
         void onPurchaseError(Throwable throwable);
 
         void onReviewsReady(ArrayList<UserReview> userReviews);
+
+        void onReviewSendSuccessfully();
     }
 
     public interface Presenter {
