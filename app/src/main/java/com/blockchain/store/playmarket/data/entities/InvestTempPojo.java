@@ -8,61 +8,68 @@ public class InvestTempPojo {
     public ArrayList<Object> objects = new ArrayList<>();
     public ArrayList<Integer> objectViewType = new ArrayList<>();
 
-    public InvestTempPojo(AppInfo appInfo) {
-        String tokenSold = String.valueOf(Long.parseLong(appInfo.infoICO.tokenSold) / (long) Math.pow(10, Long.parseLong(appInfo.app.icoDecimals)));
-        String totalTokens = String.valueOf(Long.parseLong(appInfo.app.icoTotalSupply) / (long) Math.pow(10, Long.parseLong(appInfo.app.icoDecimals)));
+    public InvestTempPojo(AppInfo app) {
+//        String tokenSold = String.valueOf(Long.parseLong(appInfo.infoICO.tokenSold) / (long) Math.pow(10, Long.parseLong(appInfo.app.icoDecimals)));
+        String tokenSold = "0";
+        String totalTokens = String.valueOf(Long.parseLong(app.icoTotalSupply) / (long) Math.pow(10, 8));
 
-        long totalTimeInUnix = Long.parseLong(appInfo.app.icoStages.get(Integer.parseInt(appInfo.infoICO.currentStage) - 1).time);
-        long totalTimeFromUnix = ((totalTimeInUnix*1000)-System.currentTimeMillis());
+        long totalTimeInUnix = Long.parseLong(app.icoStages.get(0).time);
+        long totalTimeFromUnix = ((totalTimeInUnix * 1000) - System.currentTimeMillis());
         objects.add(new InvestMainItem(
-                appInfo.app.nameApp,
+                app.nameApp,
                 "",
                 tokenSold,
                 totalTokens,
-                Integer.parseInt(appInfo.infoICO.currentStage),
+                1,
                 3,
                 totalTimeFromUnix,
-                appInfo.app.adrDev,
-                appInfo.getIcoIcon(),
-                appInfo.app.icoSymbol
+                "",
+                app.getIconUrl(),
+                app.icoSymbol
         ));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MAIN);
 
-        objects.add(new InvestYoutube(appInfo.infoICO.youtubeID));
+        objects.add(new InvestYoutube(app.infoICO.youtubeID));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_YOUTUBE);
 
 
         objects.add(new InvestTitle("ICO description"));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
 
+        objects.add(new InvestBody(app.infoICO.description));
+        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_BODY);
 
-        objects.add(new InvestBody(appInfo.description));
+        objects.add(new InvestTitle("Investors advantages"));
+        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
+
+
+        objects.add(new InvestBody(app.infoICO.advantages));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_BODY);
 
         objects.add(new InvestTitle("Screenshots"));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
 
-        objects.add(new ScreenShotBody(appInfo.getIcoScreenShotsUrl()));
+        objects.add(new ScreenShotBody(app.getImages()));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWETYPE_IMAGE_GALLERY);
 
-        if (appInfo.infoICO.advisors != null && !appInfo.infoICO.advisors.isEmpty()) {
+        if (app.infoICO.advisors != null && !app.infoICO.advisors.isEmpty()) {
 
             objects.add(new InvestTitle("Advisors"));
             objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
 
-            for (IcoTeam advisor : appInfo.infoICO.advisors) {
-                objects.add(new InvestMember(advisor.name, advisor.description, appInfo.getIcoAdvisorsUrl(advisor.photo), advisor.socialLinks));
+            for (IcoTeam advisor : app.infoICO.advisors) {
+                objects.add(new InvestMember(advisor.name, advisor.description, app.getImageByPath(advisor.photo), advisor.social));
                 objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
             }
         }
 
-        if (appInfo.infoICO.team != null && !appInfo.infoICO.team.isEmpty()) {
+        if (app.infoICO.team != null && !app.infoICO.team.isEmpty()) {
 
             objects.add(new InvestTitle("Our team"));
             objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
 
-            for (IcoTeam team : appInfo.infoICO.team) {
-                objects.add(new InvestMember(team.name, team.description, appInfo.getIcoTeamUrl(team.photo), team.socialLinks));
+            for (IcoTeam team : app.infoICO.team) {
+                objects.add(new InvestMember(team.name, team.description, app.getImageByPath(team.photo), team.social));
                 objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
             }
         }

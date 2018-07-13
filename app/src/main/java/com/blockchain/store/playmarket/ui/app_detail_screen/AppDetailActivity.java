@@ -168,8 +168,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @Override
     public void onDetailedInfoReady(AppInfo appInfo) {
-        setInvestButtonVisibility(appInfo);
         this.appInfo = appInfo;
+        setInvestButtonVisibility(appInfo);
         mainLayoutHolder.setVisibility(View.VISIBLE);
         if (app.description != null)
             appDescription.setText(Html.fromHtml(app.description));
@@ -179,11 +179,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     private void setInvestButtonVisibility(AppInfo appInfo) {
         investBtn.setVisibility(View.INVISIBLE);
-        if (true) return;
-        if (this.app.isIco) {
-            if (appInfo.infoICO != null && appInfo.app.icoStages != null) {
+        if (this.appInfo.isIco) {
                 investBtn.setVisibility(View.VISIBLE);
-            }
 
         } else {
             investBtn.setVisibility(View.INVISIBLE);
@@ -210,7 +207,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
 
     private void setupReviewsRecyclerView(ArrayList<UserReview> userReviews) {
-        userReviewAdapter = new UserReviewAdapter(userReviews,this);
+        userReviewAdapter = new UserReviewAdapter(userReviews, this);
         reviewsRecyclerView.setHasFixedSize(true);
         reviewsRecyclerView.setNestedScrollingEnabled(false);
         LinearLayoutManager layout = new LinearLayoutManager(this);
@@ -269,6 +266,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     public void onPurchaseSuccessful(PurchaseAppResponse purchaseAppResponse) {
         ToastUtil.showToast(R.string.successfully_paid);
     }
+
     @Override
     public void onReviewSendSuccessfully() {
         ToastUtil.showToast(R.string.successfully_review_send);
@@ -333,15 +331,17 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     }
 
-    @Override public void onReplyClicked(String message, String vote) {
+    @Override
+    public void onReplyClicked(String message, String vote) {
         new DialogManager().showPurchaseDialog(app, this, () -> {
             presenter.onSendReviewClicked(message, vote);
         });
     }
 
-    @Override public void onReplyOnReviewClicked(UserReview userReview, String message) {
+    @Override
+    public void onReplyOnReviewClicked(UserReview userReview, String message) {
         new DialogManager().showPurchaseDialog(app, this, () -> {
-            presenter.onSendReviewClicked(message, "5",userReview.txIndexOrigin);
+            presenter.onSendReviewClicked(message, "5", userReview.txIndexOrigin);
         });
     }
 }

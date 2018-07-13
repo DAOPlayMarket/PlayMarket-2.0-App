@@ -48,7 +48,7 @@ public class App implements Parcelable {
     @SerializedName("publish")
     public boolean isPublish;
     @SerializedName("icoRelease")
-    public boolean isIco = false;
+    public boolean isIco;
     public String icoUrl;
     public String locale;
     public boolean pP;
@@ -65,6 +65,7 @@ public class App implements Parcelable {
     public String version;
     public String packageName;
     public IcoInfo infoICO = null;
+
     public String getIconUrl() {
         try {
             String iconUrl = RestApi.ICON_URL + hashTag + "/" + hash + "/" + files.images.logo;
@@ -96,6 +97,11 @@ public class App implements Parcelable {
         } catch (Exception e) {
             return new ArrayList<>();
         }
+    }
+
+    public String getImageByPath(String path) {
+        String url = RestApi.ICON_URL + hashTag + "/" + hash + "/";
+        return url;
     }
 
     public String getFileName() {
@@ -156,6 +162,7 @@ public class App implements Parcelable {
         dest.writeString(this.hashTagICO);
         dest.writeString(this.version);
         dest.writeString(this.packageName);
+        dest.writeParcelable(this.infoICO, flags);
     }
 
     protected App(Parcel in) {
@@ -196,6 +203,7 @@ public class App implements Parcelable {
         this.hashTagICO = in.readString();
         this.version = in.readString();
         this.packageName = in.readString();
+        this.infoICO = in.readParcelable(IcoInfo.class.getClassLoader());
     }
 
     public static final Creator<App> CREATOR = new Creator<App>() {

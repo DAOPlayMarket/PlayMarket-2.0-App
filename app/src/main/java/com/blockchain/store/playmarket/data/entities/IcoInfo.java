@@ -10,12 +10,15 @@ import java.util.ArrayList;
 public class IcoInfo implements Parcelable {
 
     public IcoFiles files;
-
+    public String youtubeID;
+    public String email;
     @SerializedName("team")
     public ArrayList<IcoTeam> team;
     @SerializedName("advisors")
     public ArrayList<IcoTeam> advisors;
-    public String youtubeID;
+    public String description;
+    public String advantages;
+
     public String tokenSold;
     public String usdRaised;
     public String currentStage;
@@ -34,9 +37,13 @@ public class IcoInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.files, flags);
+        dest.writeString(this.youtubeID);
+        dest.writeString(this.email);
         dest.writeTypedList(this.team);
         dest.writeTypedList(this.advisors);
-        dest.writeString(this.youtubeID);
+        dest.writeString(this.description);
+        dest.writeString(this.advantages);
         dest.writeString(this.tokenSold);
         dest.writeString(this.usdRaised);
         dest.writeString(this.currentStage);
@@ -45,9 +52,13 @@ public class IcoInfo implements Parcelable {
     }
 
     protected IcoInfo(Parcel in) {
+        this.files = in.readParcelable(IcoFiles.class.getClassLoader());
+        this.youtubeID = in.readString();
+        this.email = in.readString();
         this.team = in.createTypedArrayList(IcoTeam.CREATOR);
         this.advisors = in.createTypedArrayList(IcoTeam.CREATOR);
-        this.youtubeID = in.readString();
+        this.description = in.readString();
+        this.advantages = in.readString();
         this.tokenSold = in.readString();
         this.usdRaised = in.readString();
         this.currentStage = in.readString();

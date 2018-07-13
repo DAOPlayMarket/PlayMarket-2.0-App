@@ -22,6 +22,7 @@ import com.blockchain.store.playmarket.data.entities.InvestTempPojo;
 import com.blockchain.store.playmarket.data.entities.InvestTitle;
 import com.blockchain.store.playmarket.data.entities.InvestYoutube;
 import com.blockchain.store.playmarket.data.entities.ScreenShotBody;
+import com.blockchain.store.playmarket.data.entities.SocialLinks;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.interfaces.InvestAdapterCallback;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -258,32 +259,32 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             investMemberTitle = itemView.findViewById(R.id.invest_member_name);
             investMemberDescription = itemView.findViewById(R.id.invest_member_description);
             investMemberAvatar = itemView.findViewById(R.id.invest_member_avatar);
-//            gplusIcon = itemView.findViewById(R.id.icon_gplus);
-//            facebookIcon = itemView.findViewById(R.id.icon_fb);
-//            linkedinIcon = itemView.findViewById(R.id.icon_linkedin);
-//            twitterIcon = itemView.findViewById(R.id.icon_twitter);
-//            instagramIcon = itemView.findViewById(R.id.icon_instagram);
-//            vkIcon = itemView.findViewById(R.id.icon_vk);
-//            youtubeIcon = itemView.findViewById(R.id.icon_youtube);
-//            telegramIcon = itemView.findViewById(R.id.icon_telegram);
-//            gitIcon = itemView.findViewById(R.id.icon_git);
+            gplusIcon = itemView.findViewById(R.id.icon_gplus);
+            facebookIcon = itemView.findViewById(R.id.icon_fb);
+            linkedinIcon = itemView.findViewById(R.id.icon_linkedin);
+            twitterIcon = itemView.findViewById(R.id.icon_twitter);
+            instagramIcon = itemView.findViewById(R.id.icon_instagram);
+            vkIcon = itemView.findViewById(R.id.icon_vk);
+            youtubeIcon = itemView.findViewById(R.id.icon_youtube);
+            telegramIcon = itemView.findViewById(R.id.icon_telegram);
+            gitIcon = itemView.findViewById(R.id.icon_git);
         }
 
         public void bind(InvestMember investMember) {
             investMemberTitle.setText(investMember.name);
             investMemberDescription.setText(investMember.description);
             investMemberAvatar.setImageURI(investMember.imagePath);
-//            String google_plus = investMember.socialMapLinks.get(Constants.social_google_plus);
-//            String facebook = investMember.socialMapLinks.get(Constants.social_facebook);
-//            String linkedin = investMember.socialMapLinks.get(Constants.social_linkedin);
-//            String twitter = investMember.socialMapLinks.get(Constants.social_twitter);
-//            String instagram = investMember.socialMapLinks.get(Constants.social_instagram);
-//            String vk = investMember.socialMapLinks.get(Constants.social_vk);
-//            String youtube = investMember.socialMapLinks.get(Constants.social_youtube);
-//            String telegram = investMember.socialMapLinks.get(Constants.social_telegram);
-//            String git = investMember.socialMapLinks.get(Constants.social_git);
 
-
+            gplusIcon.setVisibility(investMember.socialLinks.googlePlus != null && investMember.socialLinks.googlePlus.isEmpty() ? View.VISIBLE : View.GONE);
+            facebookIcon.setVisibility(investMember.socialLinks.facebook != null && investMember.socialLinks.facebook.isEmpty() ? View.VISIBLE : View.GONE);
+            linkedinIcon.setVisibility(investMember.socialLinks.linkedin != null && investMember.socialLinks.linkedin.isEmpty() ? View.VISIBLE : View.GONE);
+//            twitterIcon.setVisibility(investMember.socialLinks. != null && investMember.socialLinks.facebook.isEmpty() ? View.VISIBLE : View.GONE);
+            twitterIcon.setVisibility(View.GONE);
+            instagramIcon.setVisibility(investMember.socialLinks.instagram != null && investMember.socialLinks.instagram.isEmpty() ? View.VISIBLE : View.GONE);
+            vkIcon.setVisibility(investMember.socialLinks.vk != null && investMember.socialLinks.vk.isEmpty() ? View.VISIBLE : View.GONE);
+            youtubeIcon.setVisibility(investMember.socialLinks.youtube != null && investMember.socialLinks.youtube.isEmpty() ? View.VISIBLE : View.GONE);
+            telegramIcon.setVisibility(investMember.socialLinks.telegram != null && investMember.socialLinks.telegram.isEmpty() ? View.VISIBLE : View.GONE);
+            gitIcon.setVisibility(investMember.socialLinks.git != null && investMember.socialLinks.git.isEmpty() ? View.VISIBLE : View.GONE);
         }
     }
 
