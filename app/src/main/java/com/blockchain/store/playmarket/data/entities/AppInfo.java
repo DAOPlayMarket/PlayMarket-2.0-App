@@ -101,7 +101,7 @@ public class AppInfo implements Parcelable {
     }
 
     public String getImageByPath(String path) {
-        String url = RestApi.ICON_URL + hashTag + "/" + hash + "/";
+        String url = RestApi.ICON_URL + hashTag + "/" + hashICO + "/" + path;
         return url;
     }
 

@@ -82,7 +82,7 @@ public class InvestActivity extends YouTubeBaseActivity implements InvestContrac
     @Override
     public void onInvestBtnClicked(String address) {
         Intent intent = new Intent(this, TransferActivity.class);
-        intent.putExtra(RECIPIENT, address);
+        intent.putExtra(RECIPIENT, appInfo.adrDev);
         startActivity(intent);
     }
 
