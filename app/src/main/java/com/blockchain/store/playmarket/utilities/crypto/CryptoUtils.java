@@ -192,7 +192,7 @@ public class CryptoUtils {
         /*
 
         * */
-        Transaction transaction = new Transaction(nonce, new Address(Constants.REVIEW_ADDRESS),
+        Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
                 price, GAS_LIMIT, gasPrice,
                 getDataForBuyAppWithWeb3(app.appId, NON_LOCAL_NODE_ADDRESS));
 
@@ -205,38 +205,40 @@ public class CryptoUtils {
         Account account = keyManager.getAccounts().get(0);
         BigInt price = new BigInt(0);
 
-        Transaction transaction = new Transaction(nonce, new Address(Constants.REVIEW_ADDRESS),
+        Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
                 price, GAS_LIMIT, gasPrice,
                 getDataForReviewAnApp(app.appId, account.getAddress().getHex(), vote, description, txIndex));
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
         return getRawTransaction(signedTransaction);
     }
 
-    public static String generateInvestTransaction(int nonce, BigInt gasPrice, String investPrice) throws Exception {
-        KeyManager keyManager = Application.keyManager;
-        Account account = keyManager.getAccounts().get(0);
 
-        BigInt price = new BigInt(0);
-        price.setString(investPrice, 10);
-
-        Transaction transaction = new Transaction(nonce, new Address(Constants.INVEST_ADDRESS),
-                price, GAS_LIMIT, gasPrice, null);
-        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
-
-        return getRawTransaction(signedTransaction);
-    }
-
-    public static String generateInvestTransactionWithAddress(int nonce, BigInt gasPrice, String investPrice, String address) throws Exception {
-        BigInt price = new BigInt(0);
-        price.setString(investPrice, 10);
-
-        KeyManager keyManager = Application.keyManager;
-        Account account = keyManager.getAccounts().get(0);
-        Transaction transaction = new Transaction(nonce, new Address(Constants.INVEST_ADDRESS),
-                price, GAS_LIMIT, gasPrice, null);
-        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
-        return getRawTransaction(signedTransaction);
-    }
+// Old methods
+//    public static String generateInvestTransaction(int nonce, BigInt gasPrice, String investPrice) throws Exception {
+//        KeyManager keyManager = Application.keyManager;
+//        Account account = keyManager.getAccounts().get(0);
+//
+//        BigInt price = new BigInt(0);
+//        price.setString(investPrice, 10);
+//
+//        Transaction transaction = new Transaction(nonce, new Address(Constants.INVEST_ADDRESS),
+//                price, GAS_LIMIT, gasPrice, null);
+//        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
+//
+//        return getRawTransaction(signedTransaction);
+//    }
+//
+//    public static String generateInvestTransactionWithAddress(int nonce, BigInt gasPrice, String investPrice, String address) throws Exception {
+//        BigInt price = new BigInt(0);
+//        price.setString(investPrice, 10);
+//
+//        KeyManager keyManager = Application.keyManager;
+//        Account account = keyManager.getAccounts().get(0);
+//        Transaction transaction = new Transaction(nonce, new Address(Constants.INVEST_ADDRESS),
+//                price, GAS_LIMIT, gasPrice, null);
+//        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
+//        return getRawTransaction(signedTransaction);
+//    }
 
     public static String generateTransferTransaction(int nonce, String gasPrice, String transferAmount, String recipientAddress) throws Exception {
         BigInt price = new BigInt(0);

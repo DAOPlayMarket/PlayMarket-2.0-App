@@ -31,17 +31,8 @@ import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
-import org.web3j.abi.datatypes.Utf8String;
-import org.web3j.crypto.TransactionUtils;
-import org.web3j.protocol.Web3j;
-import org.web3j.protocol.Web3jFactory;
-import org.web3j.protocol.core.Request;
-import org.web3j.protocol.core.methods.response.EthCompileSolidity;
 import org.web3j.protocol.core.methods.response.EthTransaction;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
-import org.web3j.protocol.http.HttpService;
-import org.web3j.tx.ClientTransactionManager;
-import org.web3j.tx.Contract;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -51,13 +42,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.ethmobile.ethdroid.EthDroid;
-import io.ethmobile.ethdroid.exception.SmartContractException;
-import io.ethmobile.ethdroid.solidity.ContractType;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-
-import static com.blockchain.store.playmarket.utilities.Constants.NODE_ADDRESS;
 
 public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
     private static final String TAG = "SplashActivity";

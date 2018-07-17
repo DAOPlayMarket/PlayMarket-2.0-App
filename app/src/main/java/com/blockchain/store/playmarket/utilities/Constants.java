@@ -49,12 +49,7 @@ public class Constants {
     public static final String SEARCH_ACTIVITY_QUERY_EXTRA = "search_activity_query_extra";
 
     /* Transaction prefs */
-    public static final String PLAY_MARKET_ADDRESS = "0x9AEB3B7023448f65E81d718662A29A6874Fe8402";
-
-    public static final String INVEST_ADDRESS = "0xB268d40843224B539068606Fb9F0dbAFb430D765";
-    public static final String REVIEW_ADDRESS = "0x857A6198520aFd1B6Cba74a9313A57B6F07743BD";
-
-    public static final String NODE_ADDRESS = "65D8706C1Ff1f9323272A818C22C1381de6D7556";
+    public static final String PLAY_MARKET_ADDRESS = "0x857A6198520aFd1B6Cba74a9313A57B6F07743BD";
 
     public static final String NON_LOCAL_NODE_ADDRESS = "0x4aa3c414a450609ef39e9154bd686a04b915e87d";
 
