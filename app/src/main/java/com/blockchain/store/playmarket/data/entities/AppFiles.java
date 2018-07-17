@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 class AppFiles implements Parcelable {
-    public String app;
+    public String apk;
     public AppImages images;
 
     @Override
@@ -14,7 +14,7 @@ class AppFiles implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.app);
+        dest.writeString(this.apk);
         dest.writeParcelable(this.images, flags);
     }
 
@@ -22,7 +22,7 @@ class AppFiles implements Parcelable {
     }
 
     protected AppFiles(Parcel in) {
-        this.app = in.readString();
+        this.apk = in.readString();
         this.images = in.readParcelable(AppImages.class.getClassLoader());
     }
 

@@ -174,7 +174,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             currentEarned.setText(investMainItem.earnedMin);
             totalEarned.setText(investMainItem.earnedMax);
             iconView.setImageURI(investMainItem.iconUrl);
-            investButton.setOnClickListener(v -> adapterCallback.onInvestBtnClicked(investMainItem.devAddr));
+            investButton.setOnClickListener(v -> adapterCallback.onInvestBtnClicked(investMainItem.adrIco));
             if (countDownTimer == null) {
                 countDownTimer = new CountDownTimer(investMainItem.totalTime, 1000) {
                     @Override

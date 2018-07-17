@@ -19,6 +19,8 @@ public class AppInfo implements Parcelable {
 
     @SerializedName("idApp")
     public String appId;
+    @SerializedName("adrICO")
+    public String adrICO;
     @SerializedName("price")
     public String price;
     @SerializedName("free")
@@ -79,7 +81,7 @@ public class AppInfo implements Parcelable {
 
     public String getDownloadLink() {
         try {
-            String downloadLink = RestApi.ICON_URL + hashTag + "/" + hash + "/" + files.app;
+            String downloadLink = RestApi.ICON_URL + hashTag + "/" + hash + "/" + files.apk;
             Log.d(TAG, "getDownloadLink: " + downloadLink);
             return downloadLink;
         } catch (Exception e) {
@@ -118,6 +120,7 @@ public class AppInfo implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.appId);
+        dest.writeString(this.adrICO);
         dest.writeString(this.price);
         dest.writeByte(this.isFree ? (byte) 1 : (byte) 0);
         dest.writeString(this.adrDev);
@@ -162,6 +165,7 @@ public class AppInfo implements Parcelable {
 
     protected AppInfo(Parcel in) {
         this.appId = in.readString();
+        this.adrICO = in.readString();
         this.price = in.readString();
         this.isFree = in.readByte() != 0;
         this.adrDev = in.readString();

@@ -21,8 +21,6 @@ import com.orhanobut.hawk.Hawk;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.disposables.Disposables;
 
 public class TransferActivity extends AppCompatActivity implements TransferContract.View, LifecycleOwner {
 

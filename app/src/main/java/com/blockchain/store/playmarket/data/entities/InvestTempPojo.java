@@ -24,6 +24,7 @@ public class InvestTempPojo {
                 3,
                 totalTimeFromUnix,
                 "",
+                app.adrICO,
                 app.getIconUrl(),
                 app.icoSymbol
         ));

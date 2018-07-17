@@ -85,6 +85,11 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
         switch (appState) {
             case STATE_DOWNLOAD_ERROR:
             case STATE_NOT_DOWNLOAD:
+                addItemToLibrary(app);
+                NotificationManager.getManager().registerCallback(app, this);
+                new MyPackageManager().startDownloadApkService(app);
+                changeState(Constants.APP_STATE.STATE_DOWNLOADING);
+                break;
             case STATE_HAS_UPDATE:
                 addItemToLibrary(app);
                 NotificationManager.getManager().registerCallback(app, this);
@@ -169,6 +174,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
             case STATE_DOWNLOAD_ERROR:
             case STATE_NOT_DOWNLOAD:
                 view.setActionButtonText(context.getString(R.string.btn_download));
+                break;
             case STATE_HAS_UPDATE:
                 view.setActionButtonText(context.getString(R.string.update));
                 break;
