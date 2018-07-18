@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class AppDetailActivity extends AppCompatActivity implements AppDetailContract.View, ImageListAdapterCallback, UserReviewAdapter.UserReviewCallback {
     private static final String TAG = "AppDetailActivity";
@@ -70,6 +71,10 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.image_icon) SimpleDraweeView imageIcon;
     @BindView(R.id.app_name) TextView appName;
     @BindView(R.id.app_description) TextView appDescription;
+    @BindView(R.id.rating_textView) TextView appRating;
+    @BindView(R.id.no_marks_textView) TextView noMarksTextView;
+    @BindView(R.id.rating_materialRatingBar) MaterialRatingBar ratingBar;
+
     @BindView(R.id.invest_btn) Button investBtn;
     @BindView(R.id.delete_view) TextView deleteBtn;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
@@ -173,6 +178,21 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         mainLayoutHolder.setVisibility(View.VISIBLE);
         if (app.description != null)
             appDescription.setText(Html.fromHtml(app.description));
+        if (app.rating != null) {
+            noMarksTextView.setVisibility(View.GONE);
+            appRating.setVisibility(View.VISIBLE);
+            ratingBar.setVisibility(View.VISIBLE);
+
+            double rating = ((double) app.rating.ratingSum / app.rating.ratingCount);
+            rating = Math.round(rating * 10.0) / 10.0;
+            appRating.setText(String.valueOf(rating));
+            ratingBar.setRating(Float.valueOf(String.valueOf(rating)));
+        }
+        else {
+            noMarksTextView.setVisibility(View.VISIBLE);
+            ratingBar.setVisibility(View.GONE);
+        }
+
         setupScreenshotRecyclerView(appInfo);
         presenter.loadButtonsState(app, isUserPurchasedApp);
     }

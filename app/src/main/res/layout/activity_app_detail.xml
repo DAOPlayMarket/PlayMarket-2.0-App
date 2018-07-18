@@ -82,22 +82,33 @@
                 android:paddingLeft="@dimen/app_detaild_top_layout_padding"
                 android:paddingRight="@dimen/app_detaild_top_layout_padding">
 
+                <TextView
+                    android:id="@+id/no_marks_textView"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:text="@string/no_marks" />
+
                 <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:id="@+id/rating_materialRatingBar"
                     style="@style/Widget.AppCompat.RatingBar.Small"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
-                    android:rating="4.5"
+                    tools:rating="4.5"
+                    android:visibility="gone"
                     android:stepSize="0.1"
                     app:mrb_progressBackgroundTint="@android:color/transparent"
                     app:mrb_progressTint="@color/ratingBarStarColor" />
 
                 <TextView
+                    android:id="@+id/rating_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
-                    android:text="4.5"
+                    tools:text="4.5"
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
                     android:textStyle="bold" />

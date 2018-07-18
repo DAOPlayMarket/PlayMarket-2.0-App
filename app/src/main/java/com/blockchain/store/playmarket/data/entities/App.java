@@ -67,6 +67,7 @@ public class App implements Parcelable {
     public String version;
     public String packageName;
     public IcoInfo infoICO = null;
+    public Rating rating;
 
     public String getIconUrl() {
         try {
@@ -166,6 +167,7 @@ public class App implements Parcelable {
         dest.writeString(this.version);
         dest.writeString(this.packageName);
         dest.writeParcelable(this.infoICO, flags);
+        dest.writeParcelable(this.rating, flags);
     }
 
     protected App(Parcel in) {
@@ -208,6 +210,7 @@ public class App implements Parcelable {
         this.version = in.readString();
         this.packageName = in.readString();
         this.infoICO = in.readParcelable(IcoInfo.class.getClassLoader());
+        this.rating = in.readParcelable(Rating.class.getClassLoader());
     }
 
     public static final Creator<App> CREATOR = new Creator<App>() {
