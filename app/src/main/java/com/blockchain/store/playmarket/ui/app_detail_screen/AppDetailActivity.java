@@ -121,6 +121,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         presenter.init(this);
         presenter.getDetailedInfo(app);
         presenter.getReviews(app.appId);
+        //if (app.adrICO!=null) presenter.getTokens(app);
     }
 
     @Override

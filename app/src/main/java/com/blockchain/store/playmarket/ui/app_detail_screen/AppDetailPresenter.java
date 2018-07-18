@@ -11,6 +11,7 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.BalanceIco;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.SortedUserReview;
 import com.blockchain.store.playmarket.data.entities.UserReview;
@@ -26,6 +27,7 @@ import com.orhanobut.hawk.Hawk;
 
 import org.ethereum.geth.BigInt;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
@@ -56,6 +58,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     @Override
     public void getDetailedInfo(App app) {
         String accountAddress = AccountManager.getAddress().getHex();
+        String[] icoAddr = {app.adrICO};
         RestApi.getServerApi().getAppInfo(app.catalogId, app.appId)
                 .zipWith(RestApi.getServerApi().checkPurchase(app.appId, accountAddress), (Func2<AppInfo, Boolean, Pair>) Pair::new)
                 .subscribeOn(Schedulers.newThread())
@@ -66,8 +69,9 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 })
                 .doOnTerminate(() -> view.setProgress(false))
                 .subscribe(this::onDetailedInfoReady, this::onDetailedInfoFailed);
-
     }
+
+
 
     private void onDetailedInfoReady(Pair<AppInfo, Boolean> pair) {
         view.onCheckPurchaseReady(pair.second);
@@ -269,6 +273,23 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onReviewReady, this::onReviewFailed);
+    }
+
+    @Override
+    public void getTokens(App app) {
+        String[] icoAddress = {app.adrICO};
+        RestApi.getServerApi().getBalanceOf(icoAddress, app.adrDev)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onTokensReady, this::onTokensFailed);
+    }
+
+    private void onTokensReady(ArrayList<BalanceIco> balanceIco) {
+        ArrayList<BalanceIco> balance = balanceIco;
+    }
+
+    private void onTokensFailed(Throwable throwable) {
+        Log.d(TAG, "onReviewFailed: ");
     }
 
     private void onReviewReady(ArrayList<UserReview> userReviews) {
