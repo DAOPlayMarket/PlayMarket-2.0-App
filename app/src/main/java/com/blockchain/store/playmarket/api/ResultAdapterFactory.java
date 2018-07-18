@@ -1,5 +1,7 @@
 package com.blockchain.store.playmarket.api;
 
+import com.blockchain.store.playmarket.data.entities.IcoInfo;
+import com.blockchain.store.playmarket.data.entities.IcoTeam;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -39,8 +41,11 @@ public class ResultAdapterFactory implements TypeAdapterFactory {
                         throw new IOException(jsonObject.get("message").getAsString());
                     }
                 }
-
-                return delegate.fromJsonTree(jsonElement);
+                try {
+                    return delegate.fromJsonTree(jsonElement);
+                } catch (Exception e) {
+                    return (T) new IcoInfo();
+                }
             }
         }.nullSafe();
     }

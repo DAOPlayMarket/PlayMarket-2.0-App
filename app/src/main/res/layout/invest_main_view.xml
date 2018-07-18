@@ -7,10 +7,10 @@
     android:orientation="vertical"
     tools:context="com.blockchain.store.playmarket.ui.invest_screen.InvestActivity">
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/invest_app_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center"
         android:src="@mipmap/ic_logo" />
 
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
-        android:text="PlayMarket 2.0"
+        tools:text="PlayMarket 2.0"
         android:textColor="@color/invest_main_color"
         android:textSize="32sp" />
 
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
-        android:text="A Decentralized App Store for Android \nmade with the Ethereum Blockchain"
+        tools:text="A Decentralized App Store for Android \nmade with the Ethereum Blockchain"
         android:textColor="@color/invest_main_color"
         android:textSize="12sp" />
 
@@ -40,10 +40,18 @@
         android:layout_marginBottom="20dp">
 
         <TextView
+            android:id="@+id/invest_stage_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stage #"
+            android:textColor="@color/invest_main_color"
+            android:textSize="24sp" />
+
+        <TextView
             android:id="@+id/invest_current_stage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Stage #2"
+            android:text="2"
             android:textColor="@color/invest_main_color"
             android:textSize="24sp" />
 
@@ -51,7 +59,7 @@
             android:id="@+id/invest_total_stage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="/5"
+            android:text="/3"
             android:textColor="@color/invest_main_color" />
 
         <android.support.v4.widget.Space
@@ -72,7 +80,7 @@
             android:id="@+id/invest_time_remains"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="28:15:22:54"
+            android:text="--:--:--:--"
             android:textColor="@color/invest_main_color"
             android:textSize="24sp" />
 
@@ -85,8 +93,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:max="25500"
-        android:progress="1242" />
+        android:max="100000000"
+        android:progress="50000000" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -126,6 +134,13 @@
             android:text="@string/invest_earned_message"
             android:textColor="@color/invest_main_color"
             android:textSize="14sp" />
+        <TextView
+            android:id="@+id/invest_earned_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/invest_earned_message"
+            android:textColor="@color/invest_main_color"
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="0dp"
@@ -147,5 +162,5 @@
         android:background="@drawable/rounded_invest_bg"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="@string/invest_btn_text" />
+        android:text="@string/btn_invest" />
 </LinearLayout>

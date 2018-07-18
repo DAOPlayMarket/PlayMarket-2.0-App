@@ -107,18 +107,29 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
         @BindView(R.id.dots) ImageView dots;
         @BindView(R.id.ratingText) TextView ratingText;
         @BindView(R.id.ratingStar) ImageView ratingStar;
+        @BindView(R.id.no_rating_textView) TextView noRating;
         @BindView(R.id.Price) TextView price;
         @BindView(R.id.etherIcon) ImageView etherIcon;
         private Context context;
 
         public NestedAppListViewHolder(View itemView) {
             super(itemView);
-            this.context = itemView.getContext();
             ButterKnife.bind(this, itemView);
+            this.context = itemView.getContext();
         }
 
         public void bind(App app, int position) {
             content.setText(app.nameApp);
+            if (app.rating != null){
+                noRating.setVisibility(View.GONE);
+                double rating = ((double) app.rating.ratingSum / app.rating.ratingCount);
+                rating = Math.round(rating * 10.0) / 10.0;
+                ratingText.setText(String.valueOf(rating));
+            } else {
+                noRating.setVisibility(View.VISIBLE);
+                ratingText.setVisibility(View.GONE);
+                ratingStar.setVisibility(View.GONE);
+            }
             imageView.setImageURI(Uri.parse(app.getIconUrl()));
             if (app.isFree) {
                 price.setText(R.string.app_free);

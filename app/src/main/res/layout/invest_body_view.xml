@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
+        android:autoLink="all"
         android:textColor="@color/invest_text_color"
         android:text="Успешно проведено preTGE собрано $165 000, всем участникам уже обменяли предварительные preTGE токены на основные токены TGE
 Разработана demo-версия продукта

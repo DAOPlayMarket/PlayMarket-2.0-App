@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -21,7 +22,22 @@ import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
+
+import org.web3j.abi.FunctionEncoder;
+import org.web3j.abi.TypeReference;
+import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.Function;
+import org.web3j.abi.datatypes.Type;
+import org.web3j.abi.datatypes.Uint;
+import org.web3j.protocol.core.methods.response.EthTransaction;
+import org.web3j.protocol.core.methods.response.Web3ClientVersion;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +62,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro_logo);
         ButterKnife.bind(this);
+//        test();
         presenter = new SplashPresenter();
         presenter.init(this);
         setLogoTextFont();
@@ -159,6 +176,42 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         errorHolder.setVisibility(View.GONE);
         presenter.requestUserLocation(this);
 
+    }
+
+    private void test() {
+        ArrayList<Type> arrayList = new ArrayList<>();
+        arrayList.add(new Uint(new BigInteger("1")));
+        arrayList.add(new Address("0xa10E1b2255d3EC6d0fc379518C579a5f3caa9c42"));
+
+
+        List<TypeReference<?>> typeReferences = Arrays.<TypeReference<?>>asList(new TypeReference<org.web3j.abi.datatypes.Uint>() {
+                                                                                },
+                new TypeReference<org.web3j.abi.datatypes.Address>() {
+                });
+
+        Function function = new Function("buyApp",
+                arrayList, typeReferences);
+
+        String encode = FunctionEncoder.encode(function);
+        Log.d("test", "generateAppBuyTransaction: " + encode);
+
+        byte[] oldMehod = CryptoUtils.getDataForBuyApp("1", "a10E1b2255d3EC6d0fc379518C579a5f3caa9c42");
+        Log.d(TAG, "old method: " + oldMehod);
+
+
+//        web.ethGetTransactionByHash("0x8c8f13aa8d227b1cd0b07896106841bba618c60e17180c433f9c640016da5c2b").observable().observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::onTestOk, this::onTestError);
+    }
+
+    private void onTestOk(EthTransaction ethTransaction) {
+        Log.d(TAG, "onTestOk() called with: ethTransaction = [" + ethTransaction + "]");
+    }
+
+    private void onTestOk(Web3ClientVersion web3ClientVersion) {
+        Log.d(TAG, "onTestOk() called with: web3ClientVersion = [" + web3ClientVersion + "]");
+    }
+
+    private void onTestError(Throwable throwable) {
+        Log.d(TAG, "onTestError() called with: throwable = [" + throwable + "]");
     }
 }
 

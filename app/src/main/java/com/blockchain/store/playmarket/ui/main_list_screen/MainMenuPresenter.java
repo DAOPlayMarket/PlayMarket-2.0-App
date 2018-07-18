@@ -9,6 +9,7 @@ import com.blockchain.store.playmarket.data.entities.SearchResponse;
 
 import java.util.ArrayList;
 
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 

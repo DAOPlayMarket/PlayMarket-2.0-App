@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:background="@android:color/white"
     android:orientation="vertical">
 
@@ -11,9 +12,9 @@
         android:id="@+id/top_layout_holder"
         layout="@layout/detail_app_toolbar" />
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/top_layout_holder">
 
         <LinearLayout
@@ -81,22 +82,33 @@
                 android:paddingLeft="@dimen/app_detaild_top_layout_padding"
                 android:paddingRight="@dimen/app_detaild_top_layout_padding">
 
+                <TextView
+                    android:id="@+id/no_marks_textView"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:text="@string/no_marks" />
+
                 <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:id="@+id/rating_materialRatingBar"
                     style="@style/Widget.AppCompat.RatingBar.Small"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
-                    android:rating="4.5"
+                    tools:rating="4.5"
+                    android:visibility="gone"
                     android:stepSize="0.1"
                     app:mrb_progressBackgroundTint="@android:color/transparent"
                     app:mrb_progressTint="@color/ratingBarStarColor" />
 
                 <TextView
+                    android:id="@+id/rating_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
-                    android:text="4.5"
+                    tools:text="4.5"
                     android:textColor="@android:color/black"
                     android:textSize="22sp"
                     android:textStyle="bold" />
@@ -127,11 +139,11 @@
                 <Button
                     android:id="@+id/invest_btn"
                     style="@style/ColorButton"
-                    android:visibility="invisible"
                     android:layout_marginRight="8dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_invest_btn"
-                    android:text="@string/btn_invest" />
+                    android:text="@string/btn_invest"
+                    android:visibility="invisible" />
 
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -159,11 +171,19 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp" />
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/reviews_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
 
         </LinearLayout>
-    </ScrollView>
+
+
+    </android.support.v4.widget.NestedScrollView>
 
     <include
         layout="@layout/error_view"

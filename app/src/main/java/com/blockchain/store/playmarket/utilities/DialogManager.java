@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -23,7 +24,7 @@ public class DialogManager {
 
     private static final String TAG = "DialogManager";
 
-    public void showPurchaseDialog(AppInfo appinfo, Context context, PurchaseDialogCallback callback) {
+    public void showPurchaseDialog(App app, Context context, PurchaseDialogCallback callback) {
         String accountBalanceInWei = AccountManager.getUserBalance();
 
         Dialog dialog = new Dialog(context);
@@ -38,13 +39,13 @@ public class DialogManager {
         Button cancelButton = dialog.findViewById(R.id.cancelButton);
         EditText passwordText = dialog.findViewById(R.id.password_editText);
 
-        appIcon.setImageURI(appinfo.app.getIconUrl());
-        appTitleText.setText(appinfo.app.nameApp);
+        appIcon.setImageURI(app.getIconUrl());
+        appTitleText.setText(app.nameApp);
         balanceText.setText(new EthereumPrice(accountBalanceInWei).inEther().toString());
-        priceText.setText(appinfo.getFormattedPrice());
+        priceText.setText(app.price);
 
         continueButton.setOnClickListener(v -> {
-            if (new BigDecimal(accountBalanceInWei).compareTo(new BigDecimal(appinfo.app.price)) == 1) {
+            if (new BigDecimal(accountBalanceInWei).compareTo(new BigDecimal(app.price)) == 1) {
                 try {
                     Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordText.getText().toString());
                     dialog.dismiss();

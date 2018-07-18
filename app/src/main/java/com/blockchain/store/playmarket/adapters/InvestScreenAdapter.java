@@ -4,17 +4,29 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.InvestBody;
+import com.blockchain.store.playmarket.data.entities.InvestMainItem;
+import com.blockchain.store.playmarket.data.entities.InvestMember;
 import com.blockchain.store.playmarket.data.entities.InvestTempPojo;
+import com.blockchain.store.playmarket.data.entities.InvestTitle;
+import com.blockchain.store.playmarket.data.entities.InvestYoutube;
+import com.blockchain.store.playmarket.data.entities.ScreenShotBody;
+import com.blockchain.store.playmarket.data.entities.SocialLinks;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.interfaces.InvestAdapterCallback;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
@@ -23,6 +35,9 @@ import com.stfalcon.frescoimageviewer.ImageViewer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int INVEST_VIEWTYPE_MAIN = 0;
@@ -40,9 +55,9 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private InvestTempPojo investTempPojo;
 
-    public InvestScreenAdapter(InvestAdapterCallback adapterCallback) {
+    public InvestScreenAdapter(AppInfo appInfo, InvestAdapterCallback adapterCallback) {
         this.adapterCallback = adapterCallback;
-        investTempPojo = new InvestTempPojo();
+        investTempPojo = new InvestTempPojo(appInfo);
     }
 
     @Override
@@ -62,21 +77,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case INVEST_VIEWTYPE_YOUTUBE:
                 View investYoutubeViewHolder = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.invest_youtube_view, parent, false);
-
                 InvestYoutubeViewHolder youtubeViewHolder = new InvestYoutubeViewHolder(investYoutubeViewHolder);
-                youtubeViewHolder.youTubePlayerView.initialize(Constants.YOUTUBE_KEY, new YouTubePlayer.OnInitializedListener() {
-                    @Override
-                    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
-                        if (!wasRestored) {
-                            youTubePlayer.cueVideo("QYjyfCt6gWc");
-                        }
-                    }
-
-                    @Override
-                    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-
-                    }
-                });
                 return youtubeViewHolder;
             case INVEST_VIEWTYPE_BODY:
                 View investBodyMessageViewHolder = LayoutInflater.from(parent.getContext())
@@ -107,25 +108,28 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Object object = investTempPojo.objects.get(position);
         if (holder instanceof InvestMainViewHolder) {
-            ((InvestMainViewHolder) holder).bind();
+            ((InvestMainViewHolder) holder).bind((InvestMainItem) object);
         }
         if (holder instanceof InvestYoutubeViewHolder) {
-            ((InvestYoutubeViewHolder) holder).bind();
+            ((InvestYoutubeViewHolder) holder).bind((InvestYoutube) object);
         }
         if (holder instanceof InvestBodyMessageViewHolder) {
-            String body = (String) investTempPojo.objects.get(position);
-            ((InvestBodyMessageViewHolder) holder).bind(body);
+            InvestBody investBody = (InvestBody) investTempPojo.objects.get(position);
+            ((InvestBodyMessageViewHolder) holder).bind(investBody);
         }
         if (holder instanceof InvestTitleViewHolder) {
-            String title = (String) investTempPojo.objects.get(position);
-            ((InvestTitleViewHolder) holder).bind(title);
+            InvestTitle investTitle = (InvestTitle) investTempPojo.objects.get(position);
+            ((InvestTitleViewHolder) holder).bind(investTitle);
         }
         if (holder instanceof InvestMemberViewHolder) {
-            ((InvestMemberViewHolder) holder).bind();
+            InvestMember investMember = (InvestMember) investTempPojo.objects.get(position);
+            ((InvestMemberViewHolder) holder).bind(investMember);
         }
         if (holder instanceof InvestGalleryViewHolder) {
-            ((InvestGalleryViewHolder) holder).bind();
+            ScreenShotBody screenShotBody = (ScreenShotBody) investTempPojo.objects.get(position);
+            ((InvestGalleryViewHolder) holder).bind(screenShotBody);
         }
         if (holder instanceof InvestSocialMediaViewHolder) {
             ((InvestSocialMediaViewHolder) holder).bind();
@@ -140,41 +144,58 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public class InvestMainViewHolder extends RecyclerView.ViewHolder {
         private CountDownTimer countDownTimer;
-        private SimpleDateFormat simpleDateFormat;
+        private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
         private Button investButton;
         private TextView timeRemains;
+        private TextView currentStage;
+        private TextView currentEarned;
+        private TextView totalEarned;
+        private SimpleDraweeView iconView;
+        private ProgressBar progressBar;
+        private TextView icoCurrency;
 
         public InvestMainViewHolder(View itemView) {
             super(itemView);
             timeRemains = itemView.findViewById(R.id.invest_time_remains);
-
-            simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
             investButton = itemView.findViewById(R.id.invest_btn);
-            countDownTimer = new CountDownTimer(MILLIS_30_DAYS, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    String formattedString = simpleDateFormat.format(new Date(millisUntilFinished));
-                    timeRemains.setText(formattedString);
-
-                }
-
-                @Override
-                public void onFinish() {
-
-                }
-            }.start();
+            currentStage = itemView.findViewById(R.id.invest_current_stage);
+            currentEarned = itemView.findViewById(R.id.invest_current_earned);
+            totalEarned = itemView.findViewById(R.id.invest_total_earned);
+            iconView = itemView.findViewById(R.id.invest_app_logo);
+            progressBar = itemView.findViewById(R.id.invest_progress_bar);
+            icoCurrency = itemView.findViewById(R.id.invest_earned_currency);
         }
 
-        public void bind() {
-            investButton.setOnClickListener(v -> adapterCallback.onInvestBtnClicked("test address"));
+        public void bind(InvestMainItem investMainItem) {
+            icoCurrency.setText(investMainItem.icoSymbol);
+            currentStage.setText(String.valueOf(investMainItem.stageCurrent));
+            progressBar.setMax(Integer.parseInt(investMainItem.earnedMax));
+            progressBar.setProgress(Integer.parseInt(investMainItem.earnedMin));
+            currentEarned.setText(investMainItem.earnedMin);
+            totalEarned.setText(investMainItem.earnedMax);
+            iconView.setImageURI(investMainItem.iconUrl);
+            investButton.setOnClickListener(v -> adapterCallback.onInvestBtnClicked(investMainItem.adrIco));
+            if (countDownTimer == null) {
+                countDownTimer = new CountDownTimer(investMainItem.totalTime, 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        String formattedString = simpleDateFormat.format(new Date(millisUntilFinished));
+                        timeRemains.setText(formattedString);
+                    }
+
+                    @Override
+                    public void onFinish() {
+//                        timeRemains.setText("00:00:00:00");
+                    }
+                }.start();
+            }
+
         }
     }
 
     public class InvestYoutubeViewHolder extends RecyclerView.ViewHolder {
-        /* requires:
-         * Youtube's video id
-         * */
         private YouTubePlayerView youTubePlayerView;
+        private boolean isInitialized = false;
 
         public InvestYoutubeViewHolder(View itemView) {
             super(itemView);
@@ -185,15 +206,28 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return youTubePlayerView;
         }
 
-        public void bind() {
+        public void bind(InvestYoutube investYoutuber) {
+            if (!isInitialized) {
+                isInitialized = true;
+                youTubePlayerView.initialize(Constants.YOUTUBE_KEY, new YouTubePlayer.OnInitializedListener() {
+                    @Override
+                    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
+                        if (!wasRestored) {
+                            youTubePlayer.cueVideo(investYoutuber.videoId);
+                        }
+                    }
+
+                    @Override
+                    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+                    }
+                });
+            }
 
         }
     }
 
     public class InvestBodyMessageViewHolder extends RecyclerView.ViewHolder {
-        /* requires:
-         * title
-         * description*/
         private TextView bodyView;
 
         public InvestBodyMessageViewHolder(View itemView) {
@@ -201,29 +235,56 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             bodyView = itemView.findViewById(R.id.body_message);
         }
 
-        public void bind(String body) {
-            bodyView.setText(body);
-        }
-    }
-
-    public class InvestScreenshotsViewHolder extends RecyclerView.ViewHolder {
-        /* requires:
-         * screenshots
-         * */
-        public InvestScreenshotsViewHolder(View itemView) {
-            super(itemView);
+        public void bind(InvestBody investBody) {
+            bodyView.setText(Html.fromHtml(investBody.body));
         }
     }
 
     public class InvestMemberViewHolder extends RecyclerView.ViewHolder {
-        /* requires:
-         * photo, name, description, social media icons and links*/
+        private TextView investMemberTitle;
+        private TextView investMemberDescription;
+        private SimpleDraweeView investMemberAvatar;
+        private TextView gplusIcon;
+        private TextView facebookIcon;
+        private TextView linkedinIcon;
+        private TextView twitterIcon;
+        private TextView instagramIcon;
+        private TextView vkIcon;
+        private TextView youtubeIcon;
+        private TextView telegramIcon;
+        private TextView gitIcon;
+
         public InvestMemberViewHolder(View itemView) {
             super(itemView);
+            investMemberTitle = itemView.findViewById(R.id.invest_member_name);
+            investMemberDescription = itemView.findViewById(R.id.invest_member_description);
+            investMemberAvatar = itemView.findViewById(R.id.invest_member_avatar);
+            gplusIcon = itemView.findViewById(R.id.icon_gplus);
+            facebookIcon = itemView.findViewById(R.id.icon_fb);
+            linkedinIcon = itemView.findViewById(R.id.icon_linkedin);
+            twitterIcon = itemView.findViewById(R.id.icon_twitter);
+            instagramIcon = itemView.findViewById(R.id.icon_instagram);
+            vkIcon = itemView.findViewById(R.id.icon_vk);
+            youtubeIcon = itemView.findViewById(R.id.icon_youtube);
+            telegramIcon = itemView.findViewById(R.id.icon_telegram);
+            gitIcon = itemView.findViewById(R.id.icon_git);
         }
 
-        public void bind() {
+        public void bind(InvestMember investMember) {
+            investMemberTitle.setText(investMember.name);
+            investMemberDescription.setText(investMember.description);
+            investMemberAvatar.setImageURI(investMember.imagePath);
 
+            gplusIcon.setVisibility(investMember.socialLinks.googlePlus != null && investMember.socialLinks.googlePlus.isEmpty() ? View.VISIBLE : View.GONE);
+            facebookIcon.setVisibility(investMember.socialLinks.facebook != null && investMember.socialLinks.facebook.isEmpty() ? View.VISIBLE : View.GONE);
+            linkedinIcon.setVisibility(investMember.socialLinks.linkedin != null && investMember.socialLinks.linkedin.isEmpty() ? View.VISIBLE : View.GONE);
+//            twitterIcon.setVisibility(investMember.socialLinks. != null && investMember.socialLinks.facebook.isEmpty() ? View.VISIBLE : View.GONE);
+            twitterIcon.setVisibility(View.GONE);
+            instagramIcon.setVisibility(investMember.socialLinks.instagram != null && investMember.socialLinks.instagram.isEmpty() ? View.VISIBLE : View.GONE);
+            vkIcon.setVisibility(investMember.socialLinks.vk != null && investMember.socialLinks.vk.isEmpty() ? View.VISIBLE : View.GONE);
+            youtubeIcon.setVisibility(investMember.socialLinks.youtube != null && investMember.socialLinks.youtube.isEmpty() ? View.VISIBLE : View.GONE);
+            telegramIcon.setVisibility(investMember.socialLinks.telegram != null && investMember.socialLinks.telegram.isEmpty() ? View.VISIBLE : View.GONE);
+            gitIcon.setVisibility(investMember.socialLinks.git != null && investMember.socialLinks.git.isEmpty() ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -247,8 +308,8 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             titleView = itemView.findViewById(R.id.invest_title_view);
         }
 
-        public void bind(String title) {
-            titleView.setText(title);
+        public void bind(InvestTitle investTitle) {
+            titleView.setText(investTitle.title);
         }
     }
 
@@ -257,21 +318,19 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private ImageViewer.Builder imageViewerBuilder;
         private ImageListAdapter imageAdapter;
         private RecyclerView recyclerView;
-        private ArrayList<String> imagePaths = new ArrayList<>();
 
         public InvestGalleryViewHolder(View itemView) {
             super(itemView);
-            imagePaths.add("https://n000001.playmarket.io:3000/data/IPFS/QmdwWfuR3Y4ZsYGB7uJLn9Xj1PKJ9oMdJ8BxNaPEdMK7CX/pictures/1.jpg");
-            imagePaths.add("https://n000001.playmarket.io:3000/data/IPFS/QmdwWfuR3Y4ZsYGB7uJLn9Xj1PKJ9oMdJ8BxNaPEdMK7CX/pictures/2.jpg");
-            imagePaths.add("https://n000001.playmarket.io:3000/data/IPFS/QmdwWfuR3Y4ZsYGB7uJLn9Xj1PKJ9oMdJ8BxNaPEdMK7CX/pictures/3.jpg");
             recyclerView = itemView.findViewById(R.id.recycler_view);
             recyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
-            imageAdapter = new ImageListAdapter(imagePaths, this);
-            imageViewerBuilder = new ImageViewer.Builder(itemView.getContext(), imagePaths);
-            recyclerView.setAdapter(imageAdapter);
         }
 
-        public void bind() {
+        public void bind(ScreenShotBody screenShotBody) {
+            if (imageAdapter == null) {
+                imageAdapter = new ImageListAdapter(screenShotBody.screenShotsList, this);
+                imageViewerBuilder = new ImageViewer.Builder(itemView.getContext(), screenShotBody.screenShotsList);
+                recyclerView.setAdapter(imageAdapter);
+            }
 
         }
 

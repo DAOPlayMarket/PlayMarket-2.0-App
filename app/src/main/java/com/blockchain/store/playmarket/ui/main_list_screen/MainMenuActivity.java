@@ -20,11 +20,13 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
+import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
 import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -151,7 +153,10 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         for (Category category : categories) {
             viewPagerAdapter.addFragment(MainMenuFragment.newInstance(category), category.name);
         }
+        viewPagerAdapter.addFragment(new IcoFragment(), getString(R.string.fragment_ico_title));
+
         viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
 
     }
@@ -198,44 +203,9 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         return super.onOptionsItemSelected(item);
     }
 
-
-    public void showAddFundsDialog() {
-        final Dialog d = new Dialog(this);
-        d.setContentView(R.layout.show_address_dialog);
-
-        final TextView addressTextView = (TextView) d.findViewById(R.id.addressTextView);
-//        try {
-//            addressTextView.setText(keyManager.getAccounts().get(0).getAddress().getHex());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-        TextView balanceTextView = (TextView) d.findViewById(R.id.balanceText);
-        balanceTextView.setText(APIUtils.api.balance.getDisplayPrice(true));
-
-        Button close_btn = (Button) d.findViewById(R.id.continue_button);
-        close_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                d.dismiss();
-            }
-        });
-
-        Button copyAddressButton = (Button) d.findViewById(R.id.copyAddressButton);
-        copyAddressButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ClipboardUtils.copyToClipboard(getApplicationContext(), addressTextView.getText().toString());
-                showCopiedAlert();
-            }
-        });
-
-        d.show();
-    }
-
     private void showCopiedAlert() {
         ToastUtil.showToast(R.string.address_copied);
     }
-
 
     @Override
     public void onAppClicked(App app) {
@@ -273,5 +243,9 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         return false;
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Application.stopAnalytic();
+    }
 }

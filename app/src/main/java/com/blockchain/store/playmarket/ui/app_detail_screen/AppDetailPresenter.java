@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.ui.app_detail_screen;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.util.Log;
 import android.util.Pair;
 
@@ -10,9 +11,10 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
-import com.blockchain.store.playmarket.data.entities.CheckPurchaseResponse;
-import com.blockchain.store.playmarket.data.entities.InvestAddressResponse;
+import com.blockchain.store.playmarket.data.entities.BalanceIco;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.data.entities.SortedUserReview;
+import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
 import com.blockchain.store.playmarket.notification.NotificationManager;
@@ -20,18 +22,23 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
+import com.google.android.gms.common.UserRecoverableException;
 import com.orhanobut.hawk.Hawk;
 
 import org.ethereum.geth.BigInt;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
-import static com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailContract.*;
+import static com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailContract.Presenter;
+import static com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailContract.View;
 
 /**
  * Created by Crypton04 on 30.01.2018.
@@ -51,7 +58,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     @Override
     public void getDetailedInfo(App app) {
         String accountAddress = AccountManager.getAddress().getHex();
-
+        String[] icoAddr = {app.adrICO};
         RestApi.getServerApi().getAppInfo(app.catalogId, app.appId)
                 .zipWith(RestApi.getServerApi().checkPurchase(app.appId, accountAddress), (Func2<AppInfo, Boolean, Pair>) Pair::new)
                 .subscribeOn(Schedulers.newThread())
@@ -62,16 +69,13 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 })
                 .doOnTerminate(() -> view.setProgress(false))
                 .subscribe(this::onDetailedInfoReady, this::onDetailedInfoFailed);
-
     }
+
+
 
     private void onDetailedInfoReady(Pair<AppInfo, Boolean> pair) {
         view.onCheckPurchaseReady(pair.second);
         view.onDetailedInfoReady(pair.first);
-    }
-
-    private void onDetailedInfoReady(AppInfo appInfo) {
-        view.onDetailedInfoReady(appInfo);
     }
 
     private void onDetailedInfoFailed(Throwable throwable) {
@@ -85,6 +89,12 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
         switch (appState) {
             case STATE_DOWNLOAD_ERROR:
             case STATE_NOT_DOWNLOAD:
+                addItemToLibrary(app);
+                NotificationManager.getManager().registerCallback(app, this);
+                new MyPackageManager().startDownloadApkService(app);
+                changeState(Constants.APP_STATE.STATE_DOWNLOADING);
+                break;
+            case STATE_HAS_UPDATE:
                 addItemToLibrary(app);
                 NotificationManager.getManager().registerCallback(app, this);
                 new MyPackageManager().startDownloadApkService(app);
@@ -113,21 +123,36 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     private void addItemToLibrary(App app) {
         ArrayList<App> appList = new ArrayList<>();
+        boolean isContains = false;
         if (Hawk.contains(Constants.DOWNLOADED_APPS_LIST)) {
             appList = Hawk.get(Constants.DOWNLOADED_APPS_LIST);
-            if (appList.contains(app)) return;
+
+            for (App app1 : appList) {
+                if (app1.appId.equalsIgnoreCase(app.appId)) {
+                    isContains = true;
+                }
+            }
         }
-        appList.add(app);
-        Hawk.put(Constants.DOWNLOADED_APPS_LIST, appList);
+        if (!isContains) {
+            appList.add(app);
+            Hawk.put(Constants.DOWNLOADED_APPS_LIST, appList);
+        }
+
+
     }
 
     @Override
     public void loadButtonsState(App app, boolean isUserPurchasedApp) {
         this.app = app;
         if (app.isFree || isUserPurchasedApp) {
-            boolean applicationInstalled = new MyPackageManager().isApplicationInstalled(app.hash);
+            boolean applicationInstalled = new MyPackageManager().isApplicationInstalled(app.packageName);
             if (applicationInstalled) {
-                changeState(Constants.APP_STATE.STATE_INSTALLED);
+                if (new MyPackageManager().isHasUpdate(app)) {
+                    changeState(Constants.APP_STATE.STATE_HAS_UPDATE);
+                } else {
+                    changeState(Constants.APP_STATE.STATE_INSTALLED);
+                }
+
             } else if (NotificationManager.getManager().isCallbackAlreadyRegistered(app, this)) {
                 NotificationManager.getManager().registerCallback(app, this);
                 changeState(Constants.APP_STATE.STATE_DOWNLOADING);
@@ -154,6 +179,9 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
             case STATE_NOT_DOWNLOAD:
                 view.setActionButtonText(context.getString(R.string.btn_download));
                 break;
+            case STATE_HAS_UPDATE:
+                view.setActionButtonText(context.getString(R.string.update));
+                break;
             case STATE_INSTALLING:
                 break;
             case STATE_INSTALLED:
@@ -176,26 +204,22 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     @Override
     public void onAppDownloadStarted() {
         changeState(Constants.APP_STATE.STATE_DOWNLOAD_STARTED);
-        Log.d(TAG, "onAppDownloadStarted() called");
     }
 
     @Override
     public void onAppDownloadProgressChanged(int progress) {
         changeState(Constants.APP_STATE.STATE_DOWNLOADING);
         view.setActionButtonText(String.valueOf(progress) + " %");
-        Log.d(TAG, "onAppDownloadProgressChanged() called with: progress = [" + progress + "]");
     }
 
     @Override
     public void onAppDownloadSuccessful() {
         changeState(Constants.APP_STATE.STATE_DOWNLOADED_NOT_INSTALLED);
-        Log.d(TAG, "onAppDownloadSuccessful() called");
     }
 
     @Override
     public void onAppDownloadError() {
         changeState(Constants.APP_STATE.STATE_DOWNLOAD_ERROR);
-        Log.d(TAG, "onAppDownloadError() called");
     }
 
     @Override
@@ -209,41 +233,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
     @Override
-    public void onInvestClicked(AppInfo appInfo, String investCount) {
-        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-                .zipWith(RestApi.getServerApi().getInvestAddress(), Pair::new)
-                .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
-                .flatMap(accountInfo -> {
-                    Log.d(TAG, "onInvestClicked() called with: appInfo = [" + appInfo + "], investCount = [" + investCount + "]");
-                    return mapInvestTransaction(accountInfo, investCount);
-                })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onPurchaseSuccessful, this::onPurchaseError);
-
-    }
-
-    private Observable<PurchaseAppResponse> mapInvestTransaction(Pair<Pair<AccountInfoResponse, InvestAddressResponse>, String> accountInfo, String investCount) {
-        AccountInfoResponse accountInfoResponse = accountInfo.first.first;
-        InvestAddressResponse investAddressResponse = accountInfo.first.second;
-        String gasPrice = accountInfo.second;
-        Log.d(TAG, "mapInvestTransaction() called with: accountInfo = [" + accountInfo + "], investCount = [" + investCount + "]");
-        String rawTransaction = "";
-        try {
-            rawTransaction = CryptoUtils.generateInvestTransactionWithAddress(
-                    accountInfoResponse.count,
-                    new BigInt(Long.parseLong(gasPrice)),
-                    investCount, investAddressResponse.address);
-            Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        return RestApi.getServerApi().investApp(rawTransaction);
-
-    }
-
-    @Override
     public void onPurchasedClicked(AppInfo appInfo) {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
@@ -251,6 +240,98 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onPurchaseSuccessful, this::onPurchaseError);
+    }
+
+    public void onSendReviewClicked(String review, String vote) {
+        sendReview(review, vote, "");
+    }
+
+    public void onSendReviewClicked(String review, String vote, String txIndex) {
+        sendReview(review, vote, txIndex);
+    }
+
+    private void sendReview(String review, String vote, String txIndex) {
+        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
+                .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
+                .flatMap(pair -> mapReviewCreationTransaction(pair, review, vote, txIndex))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onReviewSendSuccessfully, this::onReviewSendFailed);
+    }
+
+    private void onReviewSendSuccessfully(PurchaseAppResponse purchaseAppResponse) {
+        view.onReviewSendSuccessfully();
+    }
+
+    private void onReviewSendFailed(Throwable throwable) {
+        view.onPurchaseError(throwable);
+    }
+
+    @Override
+    public void getReviews(String appId) {
+        RestApi.getServerApi().getReviews(Integer.parseInt(appId))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onReviewReady, this::onReviewFailed);
+    }
+
+    @Override
+    public void getTokens(App app) {
+        String[] icoAddress = {app.adrICO};
+        RestApi.getServerApi().getBalanceOf(icoAddress, app.adrDev)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onTokensReady, this::onTokensFailed);
+    }
+
+    private void onTokensReady(ArrayList<BalanceIco> balanceIco) {
+        ArrayList<BalanceIco> balance = balanceIco;
+    }
+
+    private void onTokensFailed(Throwable throwable) {
+        Log.d(TAG, "onReviewFailed: ");
+    }
+
+    private void onReviewReady(ArrayList<UserReview> userReviews) {
+        sortUserReviews(userReviews);
+
+    }
+
+    private void sortUserReviews(ArrayList<UserReview> userReviews) {
+        ArrayList<SortedUserReview> newUserReviews = new ArrayList<>();
+
+        for (UserReview review : userReviews) {
+            if (review.isTxIndexIsEmpty()) {
+                SortedUserReview sortedUserReview = new SortedUserReview();
+                sortedUserReview.userReview = review;
+                newUserReviews.add(sortedUserReview);
+            }
+        }
+        for (SortedUserReview sortedUserReview : newUserReviews) {
+            for (UserReview review : userReviews) {
+                Log.d(TAG, "sortUserReviews: " + sortedUserReview.userReview.txIndexOrigin);
+                Log.d(TAG, "review: " + review.txIndex);
+                if (sortedUserReview.userReview.txIndexOrigin.equalsIgnoreCase(review.txIndex)) {
+                    sortedUserReview.reviewOnUserReview.add(review);
+                }
+            }
+        }
+
+
+        ArrayList<UserReview> sortedUserReview = new ArrayList<>();
+        for (SortedUserReview review : newUserReviews) {
+            sortedUserReview.add(review.userReview);
+            for (UserReview userReview : review.reviewOnUserReview) {
+                userReview.isReviewOnReview = true;
+                sortedUserReview.add(userReview);
+            }
+        }
+        view.onReviewsReady(sortedUserReview);
+
+    }
+
+    private void onReviewFailed(Throwable throwable) {
+        Log.d(TAG, "onReviewFailed: ");
     }
 
 
@@ -271,14 +352,29 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     }
 
+    private Observable<PurchaseAppResponse> mapReviewCreationTransaction(Pair<AccountInfoResponse, String> accountInfo, String review, String vote, String txIndex) {
+
+        String rawTransaction = "";
+        try {
+            rawTransaction = CryptoUtils.generateSendReviewTransaction(
+                    accountInfo.first.count,
+                    new BigInt(Long.parseLong(accountInfo.second)),
+                    app, vote, review, txIndex);
+            Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return RestApi.getServerApi().deployTransaction(rawTransaction, null);
+
+    }
+
     private void onPurchaseSuccessful(PurchaseAppResponse purchaseAppResponse) {
         view.onPurchaseSuccessful(purchaseAppResponse);
-        Log.d(TAG, "onPurchaseSuccessful() called with: appInfo = [" + purchaseAppResponse + "]");
     }
 
 
     private void onPurchaseError(Throwable throwable) {
         view.onPurchaseError(throwable);
-        Log.d(TAG, "onAccountInfoError() called with: throwable = [" + throwable + "]");
     }
 }

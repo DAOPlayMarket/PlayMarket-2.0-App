@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -24,16 +23,15 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.ImageListAdapter;
+import com.blockchain.store.playmarket.adapters.UserReviewAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
-import com.blockchain.store.playmarket.data.entities.CheckPurchaseResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
-import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.facebook.common.executors.CallerThreadExecutor;
@@ -49,11 +47,14 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
-public class AppDetailActivity extends AppCompatActivity implements AppDetailContract.View, ImageListAdapterCallback {
+public class AppDetailActivity extends AppCompatActivity implements AppDetailContract.View, ImageListAdapterCallback, UserReviewAdapter.UserReviewCallback {
     private static final String TAG = "AppDetailActivity";
     private static final String APP_EXTRA = "app_extra";
     private static final int DEFAULT_MAX_LINES = 4;
@@ -70,18 +71,25 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.image_icon) SimpleDraweeView imageIcon;
     @BindView(R.id.app_name) TextView appName;
     @BindView(R.id.app_description) TextView appDescription;
+    @BindView(R.id.rating_textView) TextView appRating;
+    @BindView(R.id.no_marks_textView) TextView noMarksTextView;
+    @BindView(R.id.rating_materialRatingBar) MaterialRatingBar ratingBar;
+
     @BindView(R.id.invest_btn) Button investBtn;
     @BindView(R.id.delete_view) TextView deleteBtn;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.price_progress_bar) ProgressBar priceProgressBar;
+    @BindView(R.id.reviews_recycler_view) RecyclerView reviewsRecyclerView;
 
+    private boolean isUserPurchasedApp;
+
+    private ObjectAnimator textDescriptionAnimator;
     private ImageViewer.Builder imageViewerBuilder;
     private ImageListAdapter imageAdapter;
+    private UserReviewAdapter userReviewAdapter;
     private AppDetailPresenter presenter;
     private AppInfo appInfo;
     private App app;
-    private boolean isUserPurchasedApp;
-    private ObjectAnimator textDescriptionAnimator;
 
     public static void start(Context context, App app) {
         Intent starter = new Intent(context, AppDetailActivity.class);
@@ -112,6 +120,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         presenter = new AppDetailPresenter();
         presenter.init(this);
         presenter.getDetailedInfo(app);
+        presenter.getReviews(app.appId);
+        //if (app.adrICO!=null) presenter.getTokens(app);
     }
 
     @Override
@@ -121,7 +131,6 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     private void setViews() {
-        investBtn.setVisibility(/*app.isIco || */BuildConfig.DEBUG ? View.VISIBLE : View.INVISIBLE);
         imageIcon.setImageURI(Uri.parse(app.getIconUrl()));
         startPostponedEnterTransition();
         toolbarAppName.setText(app.nameApp);
@@ -166,23 +175,67 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @Override
     public void onDetailedInfoReady(AppInfo appInfo) {
         this.appInfo = appInfo;
+        setInvestButtonVisibility(appInfo);
         mainLayoutHolder.setVisibility(View.VISIBLE);
-        if (appInfo.description != null)
-            appDescription.setText(Html.fromHtml(appInfo.description));
-        setupRecyclerView(appInfo);
+        if (app.description != null)
+            appDescription.setText(Html.fromHtml(app.description));
+        if (app.rating != null) {
+            noMarksTextView.setVisibility(View.GONE);
+            appRating.setVisibility(View.VISIBLE);
+            ratingBar.setVisibility(View.VISIBLE);
+
+            double rating = ((double) app.rating.ratingSum / app.rating.ratingCount);
+            rating = Math.round(rating * 10.0) / 10.0;
+            appRating.setText(String.valueOf(rating));
+            ratingBar.setRating(Float.valueOf(String.valueOf(rating)));
+        }
+        else {
+            noMarksTextView.setVisibility(View.VISIBLE);
+            ratingBar.setVisibility(View.GONE);
+        }
+
+        setupScreenshotRecyclerView(appInfo);
         presenter.loadButtonsState(app, isUserPurchasedApp);
     }
 
-    private void setupRecyclerView(AppInfo appInfo) {
-        if (appInfo.pictures != null && appInfo.pictures.imageNameList != null) {
-            imageViewerBuilder = new ImageViewer.Builder(this, appInfo.getImagePathList());
-            imageAdapter = new ImageListAdapter(appInfo.getImagePathList(), this);
+    private void setInvestButtonVisibility(AppInfo appInfo) {
+        investBtn.setVisibility(View.INVISIBLE);
+        if (this.appInfo.isIco) {
+                investBtn.setVisibility(View.VISIBLE);
+
+        } else {
+            investBtn.setVisibility(View.INVISIBLE);
+        }
+
+    }
+
+    private void setupScreenshotRecyclerView(AppInfo appInfo) {
+        if (app.files != null && app.getImages() != null) {
+            imageViewerBuilder = new ImageViewer.Builder(this, app.getImages());
+            imageAdapter = new ImageListAdapter(app.getImages(), this);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             SnapHelper snapHelper = new LinearSnapHelper();
             snapHelper.attachToRecyclerView(recyclerView);
             recyclerView.setLayoutManager(linearLayoutManager);
             recyclerView.setAdapter(imageAdapter);
         }
+    }
+
+    @Override
+    public void onReviewsReady(ArrayList<UserReview> userReviews) {
+        setupReviewsRecyclerView(userReviews);
+    }
+
+
+    private void setupReviewsRecyclerView(ArrayList<UserReview> userReviews) {
+        userReviewAdapter = new UserReviewAdapter(userReviews, this);
+        reviewsRecyclerView.setHasFixedSize(true);
+        reviewsRecyclerView.setNestedScrollingEnabled(false);
+        LinearLayoutManager layout = new LinearLayoutManager(this);
+//        layout.setAutoMeasureEnabled(false);
+        reviewsRecyclerView.setLayoutManager(layout);
+        reviewsRecyclerView.setAdapter(userReviewAdapter);
+//        reviewsRecyclerView
     }
 
 
@@ -220,7 +273,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @Override
     public void showPurchaseDialog() {
-        new DialogManager().showPurchaseDialog(appInfo, this, () -> {
+        new DialogManager().showPurchaseDialog(app, this, () -> {
             presenter.onPurchasedClicked(appInfo);
         });
     }
@@ -236,6 +289,12 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     @Override
+    public void onReviewSendSuccessfully() {
+        ToastUtil.showToast(R.string.successfully_review_send);
+    }
+
+
+    @Override
     public void onPurchaseError(Throwable throwable) {
         ToastUtil.showToast(throwable.getMessage());
     }
@@ -249,7 +308,6 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @OnClick(R.id.invest_btn)
     void onInvestBtnClicked() {
         InvestActivity.start(this, appInfo);
-//        new DialogManager().showInvestDialog(appInfo, this, investAmount -> presenter.onInvestClicked(appInfo, investAmount));
     }
 
 
@@ -294,5 +352,17 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     }
 
+    @Override
+    public void onReplyClicked(String message, String vote) {
+        new DialogManager().showPurchaseDialog(app, this, () -> {
+            presenter.onSendReviewClicked(message, vote);
+        });
+    }
 
+    @Override
+    public void onReplyOnReviewClicked(UserReview userReview, String message) {
+        new DialogManager().showPurchaseDialog(app, this, () -> {
+            presenter.onSendReviewClicked(message, "5", userReview.txIndexOrigin);
+        });
+    }
 }

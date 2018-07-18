@@ -103,5 +103,10 @@
         <item name="android:background">@color/green_color</item>
 
     </style>
+    <style name="default_black_title">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">16sp</item>
+
+    </style>
 
 </resources>

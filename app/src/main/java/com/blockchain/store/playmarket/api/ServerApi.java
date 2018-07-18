@@ -5,15 +5,20 @@ import android.util.Pair;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.AvailabilityResponse;
+import com.blockchain.store.playmarket.data.entities.BalanceIco;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.data.entities.InvestAddressResponse;
 import com.blockchain.store.playmarket.data.entities.Node;
 import com.blockchain.store.playmarket.data.entities.NonceResponce;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.data.entities.UserReview;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
+import io.ethmobile.ethdroid.model.Balance;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -30,6 +35,9 @@ import rx.Observable;
 public interface ServerApi {
     @GET("get-categories")
     Observable<ArrayList<Category>> getCagories();
+
+    @GET("get-apps-ico")
+    Observable<ArrayList<App>> getIcoApps();
 
     @FormUrlEncoded
     @POST("get-app")
@@ -87,5 +95,13 @@ public interface ServerApi {
     Observable<ArrayList<App>> getSearchResult(@Field("query") String query);
 
     @GET("api/availability")
-    Call<ResponseBody> checkAvailability();
+    Call<AvailabilityResponse> checkAvailability();
+
+    @FormUrlEncoded()
+    @POST("get-reviews")
+    Observable<ArrayList<UserReview>> getReviews(@Field("idApp") int appId);
+
+    @FormUrlEncoded()
+    @POST("get-balanceOf")
+    Observable<ArrayList<BalanceIco>> getBalanceOf(@Field("addressPull") String[] arrayAddress, @Field("addressUser") String addressUser);
 }

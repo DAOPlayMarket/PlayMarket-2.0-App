@@ -13,9 +13,17 @@ import com.blockchain.store.playmarket.data.entities.Node;
 import com.blockchain.store.playmarket.fabric.EventsHelper;
 import com.blockchain.store.playmarket.utilities.net.NodeUtils;
 
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.Web3jFactory;
+import org.web3j.protocol.Web3jService;
+import org.web3j.protocol.core.Request;
+import org.web3j.protocol.core.Response;
+
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.concurrent.Future;
 
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -103,4 +111,5 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
             getNearestNode(location);
         }
     }
+
 }

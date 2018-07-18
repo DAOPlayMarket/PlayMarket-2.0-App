@@ -1,6 +1,16 @@
 <resources>
-    <string name="app_name">PlayMarket 2.0</string>
+    <!--Font awesome -->
+    <string name="fa_icon_google_plus" translatable="false">&#xf2b3;</string>
+    <string name="fa_icon_fbs" translatable="false">&#xf09a;</string>
+    <string name="fa_icon_linkedin" translatable="false">&#xf08c;</string>
+    <string name="fa_icon_twitter" translatable="false">&#xf099;</string>
+    <string name="fa_icon_instagram" translatable="false">&#xf16d;</string>
+    <string name="fa_icon_vk" translatable="false">&#xf189;</string>
+    <string name="fa_icon_youtube" translatable="false">&#xf167;</string>
+    <string name="fa_icon_telegram" translatable="false">&#xf2c6;</string>
+    <string name="fa_icon_git" translatable="false">&#xf1d3;</string>
 
+    <string name="app_name">PlayMarket 2.0</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -79,7 +89,7 @@
     <string name="password">Password</string>
     <string name="wrong_password">Wrong password</string>
     <string name="no_items">No items</string>
-    <string name="recycler_empty_view">No item found!</string>
+    <string name="recycler_empty_view">No items found!</string>
     <string name="successfully_paid">Successfully paid</string>
     <string name="setting_autoinstall">Automatically install applications after downloading.</string>
     <string name="settings_title">Settings</string>
@@ -135,6 +145,21 @@
     <string name="configure_button">Configure fingerprint?</string>
     <string name="fingerprint_success">Password successfully encrypted!</string>
     <string name="fingerprint_not_recognized">Fingerprint not recognized, try again!</string>
-    <string name="invest_earned_message">Earned, ETH</string>
+    <string name="invest_earned_message">Earned, </string>
     <string name="invest_hardcap">HardCap</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_ico_title">ICO</string>
+    <string name="tokens_bought">Tokens bought</string>
+    <string name="more">More</string>
+    <string name="read_more">more</string>
+    <string name="read_less">less</string>
+    <string name="my_apps_fragment_title">My Apps</string>
+    <string name="my_apps_update_fragment_title">Updates</string>
+    <string name="reply">Reply</string>
+    <string name="reply_hide">Hide</string>
+    <string name="send">Send</string>
+    <string name="successfully_review_send" >Review successfully created!</string>
+    <string name="update">Update</string>
+    <string name="no_marks">No marks</string>
 </resources>

@@ -4,6 +4,7 @@ import android.location.Location;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.data.entities.AvailabilityResponse;
 import com.blockchain.store.playmarket.data.entities.Node;
 
 import org.apache.http.HttpResponse;
@@ -118,13 +119,15 @@ public class NodeUtils {
                 ArrayList<Node> nodes = NodeUtils.getNodesList(NodeUtils.NODES_DNS_SERVER);
                 ArrayList<Node> nearestNodeIP = NodeUtils.sortNodesByNearest(nodes, location);
                 for (Node node : nearestNodeIP) {
-                    Response<ResponseBody> execute = null;
+                    //if (node.address.contains("1")) continue;
+                    Response<AvailabilityResponse> execute = null;
                     try {
-                        execute = RestApi.getCustomUrlApi(RestApi.getCheckUrlEndpointByNode(node.address)).checkAvailability().execute();
+                        execute = new RestApi().getCustomUrlApi(RestApi.getCheckUrlEndpointByNode(node.address)).checkAvailability().execute();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    if (execute != null && execute.isSuccessful()) {
+
+                    if (execute != null) {
                         subscriber.onNext(node);
                         return;
                     }

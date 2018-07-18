@@ -9,7 +9,7 @@ public class Constants {
         STATE_DOWNLOAD_STARTED, STATE_DOWNLOADING, STATE_DOWNLOADED_NOT_INSTALLED,
         STATE_DOWNLOAD_ERROR, STATE_INSTALLING, STATE_INSTALLED,
         STATE_INSTALL_FAIL, STATE_NOT_DOWNLOAD, STATE_NOT_PURCHASED,
-        STATE_PURCHASE_UNDEFIEND, STATE_PURCHASE, STATE_UNKOWN
+        STATE_PURCHASE_UNDEFIEND, STATE_PURCHASE, STATE_UNKOWN, STATE_HAS_UPDATE,
     }
 
     public enum TRANSACTION_TYPE {
@@ -49,9 +49,12 @@ public class Constants {
     public static final String SEARCH_ACTIVITY_QUERY_EXTRA = "search_activity_query_extra";
 
     /* Transaction prefs */
-    public static final String PLAY_MARKET_ADDRESS = "0x3f2512Aee154F1D7d5EF3670ec0234AEe2FB60A9";
-    public static final String INVEST_ADDRESS = "0xB268d40843224B539068606Fb9F0dbAFb430D765";
-    public static final String NODE_ADDRESS = "65D8706C1Ff1f9323272A818C22C1381de6D7556";
+    public static final String PLAY_MARKET_ADDRESS = "0x857A6198520aFd1B6Cba74a9313A57B6F07743BD";
+
+    public static final String NON_LOCAL_NODE_ADDRESS = "0x4aa3c414a450609ef39e9154bd686a04b915e87d";
+
+    public static final String LOCAL_NODE_ADDRESS = "0xa10e1b2255d3ec6d0fc379518c579a5f3caa9c42";
+
 
     /*Settings prefs*/
     public static final String SETTINGS_AUTOINSTALL_FLAG = "settings_autoinstall_flag";
@@ -65,4 +68,19 @@ public class Constants {
 
     public static final String NAV_VIEW_FRAGMENT_TAG = "nav_view_fragment_tag";
     public static final String ENCRYPTED_PASSWORD = "encrypted_account_password";
+
+    /*Social titles*/
+    public static final String social_google_plus = "google-plus";
+    public static final String social_facebook = "facebook";
+    public static final String social_linkedin = "linkedin";
+    public static final String social_twitter = "twitter";
+    public static final String social_instagram = "instagram";
+    public static final String social_vk = "vk";
+    public static final String social_youtube = "youtube";
+    public static final String social_telegram = "telegram";
+    public static final String social_git = "git";
+
+    public static final int USER_REVIEW_EXPAND_ANIMATION_MILLIS = 120;
+    public static final String INFURA_TOKEN = "mS4OSWU5XZxDi9R75Dc7";
+
 }
