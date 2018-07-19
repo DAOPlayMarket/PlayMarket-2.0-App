@@ -10,11 +10,12 @@ public class InvestTempPojo {
 
     public InvestTempPojo(AppInfo app) {
 //        String tokenSold = String.valueOf(Long.parseLong(appInfo.infoICO.tokenSold) / (long) Math.pow(10, Long.parseLong(appInfo.app.icoDecimals)));
-        String tokenSold = "0";
+        int currentPeriod = Integer.valueOf(app.currentInfo.currentPeriod);
+        String tokenSold = app.currentInfo.currentPeriod;
         String totalTokens = String.valueOf(Long.parseLong(app.icoTotalSupply) / (long) Math.pow(10, 8));
 
-        long totalTimeInUnix = Long.parseLong(app.icoStages.get(0).time);
-        long totalTimeFromUnix = ((totalTimeInUnix * 1000) - System.currentTimeMillis());
+        long endIcoUnixDate = Long.parseLong(app.icoStages.get(currentPeriod).time);
+        long totalTimeFromUnix = (endIcoUnixDate - (System.currentTimeMillis() / 1000));
         objects.add(new InvestMainItem(
                 app.nameApp,
                 "",

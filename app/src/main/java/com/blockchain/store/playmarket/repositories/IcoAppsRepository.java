@@ -1,19 +1,11 @@
 package com.blockchain.store.playmarket.repositories;
 
-import android.util.Log;
-
 import com.blockchain.store.playmarket.api.RestApi;
-import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
-import com.blockchain.store.playmarket.data.entities.BalanceIco;
-import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -49,7 +41,7 @@ public class IcoAppsRepository {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
-                    for (int i = 0; i<apps.size(); i++){ apps.get(i).balanceIco = result.get(i); }
+                    for (int i = 0; i<apps.size(); i++){ apps.get(i).icoBalance = result.get(i); }
                     callback.onIcoAppsReady(apps);
                 },
                 error -> callback.onIcoAppsFailed(error));

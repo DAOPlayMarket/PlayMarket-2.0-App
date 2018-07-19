@@ -1,31 +1,24 @@
 package com.blockchain.store.playmarket.api;
 
-import android.util.Pair;
-
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.AvailabilityResponse;
-import com.blockchain.store.playmarket.data.entities.BalanceIco;
+import com.blockchain.store.playmarket.data.entities.CurrentInfo;
+import com.blockchain.store.playmarket.data.entities.IcoBalance;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.data.entities.InvestAddressResponse;
-import com.blockchain.store.playmarket.data.entities.Node;
 import com.blockchain.store.playmarket.data.entities.NonceResponce;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
 
-import io.ethmobile.ethdroid.model.Balance;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -103,5 +96,9 @@ public interface ServerApi {
 
     @FormUrlEncoded()
     @POST("get-balanceOf")
-    Observable<ArrayList<BalanceIco>> getBalanceOf(@Field("addressPull") String arrayAddress, @Field("addressUser") String addressUser);
+    Observable<ArrayList<IcoBalance>> getBalanceOf(@Field("addressPull") String arrayAddress, @Field("addressUser") String addressUser);
+
+    @FormUrlEncoded()
+    @POST("get-current-info")
+    Observable<CurrentInfo> getCurrentInfo(@Field("address") String addressICO);
 }

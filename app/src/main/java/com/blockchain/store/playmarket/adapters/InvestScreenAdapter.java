@@ -176,10 +176,12 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             iconView.setImageURI(investMainItem.iconUrl);
             investButton.setOnClickListener(v -> adapterCallback.onInvestBtnClicked(investMainItem.adrIco));
             if (countDownTimer == null) {
-                countDownTimer = new CountDownTimer(investMainItem.totalTime, 1000) {
+                countDownTimer = new CountDownTimer(investMainItem.totalTime * 1000, 1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
-                        String formattedString = simpleDateFormat.format(new Date(millisUntilFinished));
+                        unixTimeToDays(millisUntilFinished);
+                        String formattedString = unixTimeToDays(millisUntilFinished);
+                        //String formattedString = simpleDateFormat.format(new Date(millisUntilFinished));
                         timeRemains.setText(formattedString);
                     }
 
@@ -189,8 +191,41 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                 }.start();
             }
-
         }
+    }
+
+    private String unixTimeToDays(long unixTimeSec){
+        long days = 0;
+        long hours = 0;
+        long min = 0;
+
+        String daysStr = "";
+        String hoursStr = "";
+        String minStr = "";
+
+        if (unixTimeSec > 86400000) {
+            days = unixTimeSec / 86400000;
+            days = (int) days;
+            daysStr = ((days <= 9) ? "0" + String.valueOf(days) : String.valueOf(days));
+        }
+
+        if (unixTimeSec > 3600000 ) {
+            hours = (unixTimeSec % 86400000) / 3600000;
+            hours = (int) hours;
+            hoursStr = ((hours <= 9) ? "0" + String.valueOf(hours) : String.valueOf(hours));
+        }
+
+        if  (unixTimeSec > 60000) {
+            min = ((unixTimeSec % 86400000) % 3600000) / 60000;
+            min = (int) min;
+            minStr = ((min <= 9) ? "0" + String.valueOf(min) : String.valueOf(min));
+        }
+
+        long sec = (((unixTimeSec % 86400000) % 3600000) % 60000 ) / 1000;
+        sec = (int) sec;
+        String secStr = ((sec <= 9) ? "0" + String.valueOf(sec) : String.valueOf(sec));
+
+        return daysStr + " days " + hoursStr + ":" +minStr + ":" + secStr;
     }
 
     public class InvestYoutubeViewHolder extends RecyclerView.ViewHolder {

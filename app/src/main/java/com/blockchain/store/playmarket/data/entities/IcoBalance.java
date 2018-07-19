@@ -4,19 +4,19 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 
-public class BalanceIco implements Parcelable {
+public class IcoBalance implements Parcelable {
 
     public String address;
     public String balanceOf;
     public String decimals;
 
-    protected BalanceIco(Parcel in) {
+    protected IcoBalance(Parcel in) {
         this.address = in.readString();
         this.balanceOf = in.readString();
         this.decimals = in.readString();
     }
 
-    public BalanceIco() {
+    public IcoBalance() {
     }
 
     @Override
@@ -31,15 +31,15 @@ public class BalanceIco implements Parcelable {
         dest.writeString(this.decimals);
     }
 
-    public static final Creator<BalanceIco> CREATOR = new Creator<BalanceIco>() {
+    public static final Creator<IcoBalance> CREATOR = new Creator<IcoBalance>() {
         @Override
-        public BalanceIco createFromParcel(Parcel in) {
-            return new BalanceIco(in);
+        public IcoBalance createFromParcel(Parcel in) {
+            return new IcoBalance(in);
         }
 
         @Override
-        public BalanceIco[] newArray(int size) {
-            return new BalanceIco[size];
+        public IcoBalance[] newArray(int size) {
+            return new IcoBalance[size];
         }
     };
 }

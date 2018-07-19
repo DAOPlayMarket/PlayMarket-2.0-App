@@ -14,10 +14,6 @@ import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import org.ethereum.geth.BigInt;
-import org.web3j.abi.datatypes.generated.Int64;
-
-import java.math.BigInteger;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -68,7 +64,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
         public void bind(App app) {
             icon.setImageURI(Uri.parse(app.getIconUrl()));
             title.setText(app.nameApp);
-            tokenBought.setText(String.valueOf(tokenTransform(app.balanceIco.balanceOf, app.balanceIco.decimals)));
+            tokenBought.setText(String.valueOf(tokenTransform(app.icoBalance.balanceOf, app.icoBalance.decimals)));
             cardView.setOnClickListener(v -> appListCallbacks.onAppClicked(app));
         }
     }

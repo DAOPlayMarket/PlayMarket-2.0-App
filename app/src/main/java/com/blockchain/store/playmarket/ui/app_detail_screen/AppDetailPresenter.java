@@ -1,7 +1,6 @@
 package com.blockchain.store.playmarket.ui.app_detail_screen;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.util.Log;
 import android.util.Pair;
 
@@ -11,7 +10,6 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
-import com.blockchain.store.playmarket.data.entities.BalanceIco;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.SortedUserReview;
 import com.blockchain.store.playmarket.data.entities.UserReview;
@@ -22,17 +20,13 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
-import com.google.android.gms.common.UserRecoverableException;
 import com.orhanobut.hawk.Hawk;
 
 import org.ethereum.geth.BigInt;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import okhttp3.ResponseBody;
 import rx.Observable;
-import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
@@ -73,8 +67,20 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
 
     private void onDetailedInfoReady(Pair<AppInfo, Boolean> pair) {
-        view.onCheckPurchaseReady(pair.second);
-        view.onDetailedInfoReady(pair.first);
+        if (app.adrICO != null){
+            RestApi.getServerApi().getCurrentInfo(app.adrICO)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(result -> {
+                        pair.first.currentInfo = result;
+                        view.onCheckPurchaseReady(pair.second);
+                        view.onDetailedInfoReady(pair.first);
+                    });
+        }
+        else {
+            view.onCheckPurchaseReady(pair.second);
+            view.onDetailedInfoReady(pair.first);
+        }
     }
 
     private void onDetailedInfoFailed(Throwable throwable) {
