@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -48,10 +49,11 @@ import rx.subjects.BehaviorSubject;
 
 import static com.blockchain.store.playmarket.ui.main_list_screen.MainMenuContract.Presenter;
 
-public class MainMenuActivity extends AppCompatActivity implements AppListCallbacks, MainMenuContract.View, MaterialSearchView.OnQueryTextListener {
+public class MainMenuActivity extends AppCompatActivity implements AppListCallbacks, MainMenuContract.View, MaterialSearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "MainMenuActivity";
     private static final int DEBOUNCE_INTERVAL_MILLIS = 1000;
     private static final int DOUBLE_TAP_INTERVAL_MILLIS = 2000;
+    private int tabPosition;
 
     @BindView(R.id.tab_layout) TabLayout tabLayout;
     @BindView(R.id.app_bar_layout) AppBarLayout appBarLayout;
@@ -62,6 +64,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @BindView(R.id.error_holder) View errorHolder;
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.search_view) MaterialSearchView searchView;
+    @BindView(R.id.refresh_apps_swipeLayout) SwipeRefreshLayout refreshLayout;
 
     private BehaviorSubject<String> userInputSubject = BehaviorSubject.create();
     private ArrayList<App> searchListResult = new ArrayList<>();
@@ -73,13 +76,24 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         ButterKnife.bind(this);
+        refreshLayout.setOnRefreshListener(this);
         attachPresenter();
         initViews();
         attachFragment();
         setSearchViewDebounce();
     }
 
+
+    @Override
+    public void onRefresh() {
+        tabPosition = tabLayout.getSelectedTabPosition();
+        attachPresenter();
+        refreshLayout.setRefreshing(false);
+    }
+
+
     private void attachPresenter() {
+
         presenter = new MainMenuPresenter();
         presenter.init(this);
         presenter.loadCategories();
@@ -158,7 +172,6 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
-
     }
 
     @Override

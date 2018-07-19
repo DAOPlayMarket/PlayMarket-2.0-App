@@ -198,10 +198,12 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         long days = 0;
         long hours = 0;
         long min = 0;
+        long sec = 0;
 
         String daysStr = "";
         String hoursStr = "";
         String minStr = "";
+        String secStr = "";
 
         if (unixTimeSec > 86400000) {
             days = unixTimeSec / 86400000;
@@ -209,21 +211,23 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             daysStr = ((days <= 9) ? "0" + String.valueOf(days) : String.valueOf(days));
         }
 
-        if (unixTimeSec > 3600000 ) {
+        if (unixTimeSec % 86400000 > 3600000 ) {
             hours = (unixTimeSec % 86400000) / 3600000;
             hours = (int) hours;
             hoursStr = ((hours <= 9) ? "0" + String.valueOf(hours) : String.valueOf(hours));
         }
 
-        if  (unixTimeSec > 60000) {
+        if  (((unixTimeSec % 86400000) % 3600000) > 60000) {
             min = ((unixTimeSec % 86400000) % 3600000) / 60000;
             min = (int) min;
             minStr = ((min <= 9) ? "0" + String.valueOf(min) : String.valueOf(min));
         }
 
-        long sec = (((unixTimeSec % 86400000) % 3600000) % 60000 ) / 1000;
-        sec = (int) sec;
-        String secStr = ((sec <= 9) ? "0" + String.valueOf(sec) : String.valueOf(sec));
+        if ((((unixTimeSec % 86400000) % 3600000) % 60000 ) > 1000){
+            sec = (((unixTimeSec % 86400000) % 3600000) % 60000 ) / 1000;
+            sec = (int) sec;
+            secStr = ((sec <= 9) ? "0" + String.valueOf(sec) : String.valueOf(sec));
+        }
 
         return daysStr + " days " + hoursStr + ":" +minStr + ":" + secStr;
     }
