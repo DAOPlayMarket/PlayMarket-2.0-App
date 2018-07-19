@@ -60,7 +60,5 @@ public class AppDetailContract {
         void onPurchasedClicked(AppInfo appInfo);
 
         void getReviews(String appId);
-
-        void getTokens(App app);
     }
 }

@@ -103,5 +103,5 @@ public interface ServerApi {
 
     @FormUrlEncoded()
     @POST("get-balanceOf")
-    Observable<ArrayList<BalanceIco>> getBalanceOf(@Field("addressPull") String[] arrayAddress, @Field("addressUser") String addressUser);
+    Observable<ArrayList<BalanceIco>> getBalanceOf(@Field("addressPull") String arrayAddress, @Field("addressUser") String addressUser);
 }

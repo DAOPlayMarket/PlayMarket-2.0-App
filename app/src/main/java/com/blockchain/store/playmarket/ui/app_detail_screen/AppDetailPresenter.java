@@ -58,7 +58,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     @Override
     public void getDetailedInfo(App app) {
         String accountAddress = AccountManager.getAddress().getHex();
-        String[] icoAddr = {app.adrICO};
         RestApi.getServerApi().getAppInfo(app.catalogId, app.appId)
                 .zipWith(RestApi.getServerApi().checkPurchase(app.appId, accountAddress), (Func2<AppInfo, Boolean, Pair>) Pair::new)
                 .subscribeOn(Schedulers.newThread())
@@ -273,23 +272,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onReviewReady, this::onReviewFailed);
-    }
-
-    @Override
-    public void getTokens(App app) {
-        String[] icoAddress = {app.adrICO};
-        RestApi.getServerApi().getBalanceOf(icoAddress, app.adrDev)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onTokensReady, this::onTokensFailed);
-    }
-
-    private void onTokensReady(ArrayList<BalanceIco> balanceIco) {
-        ArrayList<BalanceIco> balance = balanceIco;
-    }
-
-    private void onTokensFailed(Throwable throwable) {
-        Log.d(TAG, "onReviewFailed: ");
     }
 
     private void onReviewReady(ArrayList<UserReview> userReviews) {

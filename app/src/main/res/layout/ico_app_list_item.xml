@@ -70,9 +70,9 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:paddingRight="8dp"
+                    android:text="0"
                     android:textColor="@color/ico_tokens_bought"
-                    android:textSize="18sp"
-                    android:text="0" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tokens_bought_field"
@@ -104,29 +104,29 @@
             android:paddingRight="8dp">
 
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/invest_clock_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingRight="10dp"
                 android:src="@drawable/clock"
-                android:tint="@color/invest_main_color" />
+                android:tint="@color/invest_main_color"
+                android:visibility="gone" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/time_remains"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="--:--:--:--"
                 android:textColor="@color/invest_main_color"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:visibility="gone" />
 
             <TextView
-                android:layout_marginBottom="3dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="3dp"
                 android:layout_weight="1"
                 android:gravity="right"
                 android:text="@string/more"
