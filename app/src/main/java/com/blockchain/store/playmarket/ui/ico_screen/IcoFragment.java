@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.ui.ico_screen;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class IcoFragment extends Fragment implements IcoFragmentContracts.View, AppListCallbacks {
+public class IcoFragment extends Fragment implements IcoFragmentContracts.View, AppListCallbacks, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "IcoFragment";
 
     private IcoFragmentPresenter presenter;
@@ -34,6 +35,7 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
     private Button errorRepeatButton;
     private ProgressBar progressBar;
     private TextView emptyView;
+    private SwipeRefreshLayout icoRefrashLayout;
 
     public IcoFragment() {
         // Required empty public constructor
@@ -45,9 +47,17 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ico, container, false);
         bindViews(view);
+        icoRefrashLayout.setOnRefreshListener(this);
         attachPresenter();
         getIcoApps();
         return view;
+    }
+
+    @Override
+    public void onRefresh() {
+        attachPresenter();
+        getIcoApps();
+        icoRefrashLayout.setRefreshing(false);
     }
 
     @Override
@@ -61,6 +71,7 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
         errorRepeatButton = view.findViewById(R.id.error_view_repeat_btn);
         progressBar = view.findViewById(R.id.progress_bar);
         emptyView = view.findViewById(R.id.empty_view);
+        icoRefrashLayout = view.findViewById(R.id.ico_refresh_layout);
 
         errorRepeatButton.setOnClickListener(v -> presenter.getIcoApps());
     }
@@ -117,5 +128,4 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
     public void onAppClicked(App app) {
         AppDetailActivity.start(getActivity(), app);
     }
-
 }

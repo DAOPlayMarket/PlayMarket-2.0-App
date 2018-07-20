@@ -53,7 +53,7 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
             location.setLongitude(56.476181);
             location.setLatitude(84.950168);
             getNearestNode(location);
-            view.onLocationReady();
+            //view.onLocationReady();
         } else {
             locationManager.getLocation(context, this);
         }

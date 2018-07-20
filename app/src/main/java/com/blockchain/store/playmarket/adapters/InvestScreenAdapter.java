@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ import com.blockchain.store.playmarket.data.entities.InvestTempPojo;
 import com.blockchain.store.playmarket.data.entities.InvestTitle;
 import com.blockchain.store.playmarket.data.entities.InvestYoutube;
 import com.blockchain.store.playmarket.data.entities.ScreenShotBody;
-import com.blockchain.store.playmarket.data.entities.SocialLinks;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.interfaces.InvestAdapterCallback;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -33,11 +31,6 @@ import com.google.android.youtube.player.YouTubePlayerView;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int INVEST_VIEWTYPE_MAIN = 0;
@@ -169,10 +162,10 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public void bind(InvestMainItem investMainItem) {
             icoCurrency.setText(investMainItem.icoSymbol);
             currentStage.setText(String.valueOf(investMainItem.stageCurrent));
-            progressBar.setMax(Integer.parseInt(investMainItem.earnedMax));
-            progressBar.setProgress(Integer.parseInt(investMainItem.earnedMin));
-            currentEarned.setText(investMainItem.earnedMin);
-            totalEarned.setText(investMainItem.earnedMax);
+            progressBar.setMax(Integer.parseInt(investMainItem.icoTotalSupply));
+            progressBar.setProgress((int) Double.parseDouble(investMainItem.soldTokens));
+            currentEarned.setText(investMainItem.soldTokens);
+            totalEarned.setText(investMainItem.icoTotalSupply);
             iconView.setImageURI(investMainItem.iconUrl);
             investButton.setOnClickListener(v -> adapterCallback.onInvestBtnClicked(investMainItem.adrIco));
             if (countDownTimer == null) {
@@ -195,41 +188,27 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private String unixTimeToDays(long unixTimeSec){
-        long days = 0;
-        long hours = 0;
-        long min = 0;
-        long sec = 0;
 
-        String daysStr = "";
-        String hoursStr = "";
-        String minStr = "";
-        String secStr = "";
+        long divReminder = unixTimeSec;
+        String result = "";
 
-        if (unixTimeSec > 86400000) {
-            days = unixTimeSec / 86400000;
-            days = (int) days;
-            daysStr = ((days <= 9) ? "0" + String.valueOf(days) : String.valueOf(days));
+        int[] dimensionArr  = {86400000, 3600000, 60000, 1000};
+
+        for (int dimension : dimensionArr) {
+            if (divReminder > dimension) {
+
+                long timeValue = divReminder / dimension;
+                timeValue = (int) timeValue;
+                String timeValueStr = ((timeValue <= 9) ? "0" + String.valueOf(timeValue) : String.valueOf(timeValue));
+                result = result + ((dimension == dimensionArr[0])? timeValueStr + " days " : (dimension == dimensionArr[3])? timeValueStr : timeValueStr + ':');
+
+                divReminder = unixTimeSec % dimension;
+            } else {
+                result = result + ((dimension == dimensionArr[0])? "00 days " : (dimension == dimensionArr[3])? "00" : "00:");
+            }
         }
 
-        if (unixTimeSec % 86400000 > 3600000 ) {
-            hours = (unixTimeSec % 86400000) / 3600000;
-            hours = (int) hours;
-            hoursStr = ((hours <= 9) ? "0" + String.valueOf(hours) : String.valueOf(hours));
-        }
-
-        if  (((unixTimeSec % 86400000) % 3600000) > 60000) {
-            min = ((unixTimeSec % 86400000) % 3600000) / 60000;
-            min = (int) min;
-            minStr = ((min <= 9) ? "0" + String.valueOf(min) : String.valueOf(min));
-        }
-
-        if ((((unixTimeSec % 86400000) % 3600000) % 60000 ) > 1000){
-            sec = (((unixTimeSec % 86400000) % 3600000) % 60000 ) / 1000;
-            sec = (int) sec;
-            secStr = ((sec <= 9) ? "0" + String.valueOf(sec) : String.valueOf(sec));
-        }
-
-        return daysStr + " days " + hoursStr + ":" +minStr + ":" + secStr;
+        return result;
     }
 
     public class InvestYoutubeViewHolder extends RecyclerView.ViewHolder {

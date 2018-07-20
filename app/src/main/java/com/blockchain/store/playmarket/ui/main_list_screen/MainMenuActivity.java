@@ -49,7 +49,7 @@ import rx.subjects.BehaviorSubject;
 
 import static com.blockchain.store.playmarket.ui.main_list_screen.MainMenuContract.Presenter;
 
-public class MainMenuActivity extends AppCompatActivity implements AppListCallbacks, MainMenuContract.View, MaterialSearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener {
+public class MainMenuActivity extends AppCompatActivity implements AppListCallbacks, MainMenuContract.View, MaterialSearchView.OnQueryTextListener {
     private static final String TAG = "MainMenuActivity";
     private static final int DEBOUNCE_INTERVAL_MILLIS = 1000;
     private static final int DOUBLE_TAP_INTERVAL_MILLIS = 2000;
@@ -64,7 +64,6 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @BindView(R.id.error_holder) View errorHolder;
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.search_view) MaterialSearchView searchView;
-    @BindView(R.id.refresh_apps_swipeLayout) SwipeRefreshLayout refreshLayout;
 
     private BehaviorSubject<String> userInputSubject = BehaviorSubject.create();
     private ArrayList<App> searchListResult = new ArrayList<>();
@@ -76,24 +75,13 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         ButterKnife.bind(this);
-        refreshLayout.setOnRefreshListener(this);
         attachPresenter();
         initViews();
         attachFragment();
         setSearchViewDebounce();
     }
 
-
-    @Override
-    public void onRefresh() {
-        tabPosition = tabLayout.getSelectedTabPosition();
-        attachPresenter();
-        refreshLayout.setRefreshing(false);
-    }
-
-
     private void attachPresenter() {
-
         presenter = new MainMenuPresenter();
         presenter.init(this);
         presenter.loadCategories();
