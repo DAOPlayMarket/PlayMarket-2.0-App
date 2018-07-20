@@ -72,6 +72,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.app_name) TextView appName;
     @BindView(R.id.app_description) TextView appDescription;
     @BindView(R.id.rating_textView) TextView appRating;
+    @BindView(R.id.marks_count_textView) TextView marksCountTextView;
+    @BindView(R.id.age_restrictions_textView) TextView ageRestrictionsTextView;
     @BindView(R.id.no_marks_textView) TextView noMarksTextView;
     @BindView(R.id.rating_materialRatingBar) MaterialRatingBar ratingBar;
 
@@ -135,6 +137,12 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         startPostponedEnterTransition();
         toolbarAppName.setText(app.nameApp);
         appName.setText(app.nameApp);
+
+        String ageRestrictions = app.ageRestrictions + " +";
+        ageRestrictionsTextView.setText(ageRestrictions);
+
+        String ratingCount = (app.rating == null)? "0 marks" : app.rating.ratingCount + " marks";
+        marksCountTextView.setText(ratingCount);
     }
 
     private void generateToolbarColor() {

@@ -162,4 +162,5 @@
     <string name="successfully_review_send" >Review successfully created!</string>
     <string name="update">Update</string>
     <string name="no_marks">No marks</string>
+    <string name="age">Age</string>
 </resources>
