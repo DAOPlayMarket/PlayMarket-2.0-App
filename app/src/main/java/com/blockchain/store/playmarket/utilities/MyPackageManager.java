@@ -18,6 +18,7 @@ import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.services.DownloadService;
 import com.blockchain.store.playmarket.utilities.device.BuildUtils;
+import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
 import org.web3j.abi.datatypes.Int;
 

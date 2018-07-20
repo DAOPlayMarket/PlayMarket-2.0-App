@@ -20,6 +20,7 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
+import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 import com.orhanobut.hawk.Hawk;
 
 import org.ethereum.geth.BigInt;
