@@ -35,15 +35,15 @@
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/image_icon"
-                    android:layout_width="@dimen/application_icon_height"
-                    android:layout_height="@dimen/application_icon_width"
+                    android:layout_width="@dimen/application_icon_width"
+                    android:layout_height="@dimen/application_icon_height"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
-                    fresco:roundedCornerRadius="10sp"
+                    android:transitionName="app_icon"
+                    fresco:roundBottomLeft="true"
                     fresco:roundBottomRight="true"
                     fresco:roundTopRight="true"
-                    fresco:roundBottomLeft="true"
-                    android:transitionName="app_icon"
+                    fresco:roundedCornerRadius="10sp"
                     tools:background="@android:color/black" />
 
                 <LinearLayout
@@ -56,8 +56,9 @@
                         android:id="@+id/app_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="6dp"
-                        android:layout_marginBottom="24dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="20dp"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/title_text_size"
                         tools:text="Daily Deals: Prime Day Edition" />
@@ -66,17 +67,29 @@
                         android:id="@+id/app_description"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:layout_gravity="bottom"
                         android:layout_margin="6dp"
                         android:layout_weight="1"
                         android:ellipsize="end"
                         android:gravity="bottom"
-                        android:maxLines="4"
+                        android:maxLines="3"
                         tools:text="Daily Deals: Prime Day Edition" />
 
                 </LinearLayout>
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center"
+                android:background="@color/light_gray_background_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -93,44 +106,62 @@
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     android:gravity="center"
-                    android:text="@string/no_marks" />
-
-                <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                    android:id="@+id/rating_materialRatingBar"
-                    style="@style/Widget.AppCompat.RatingBar.Small"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="6dp"
-                    android:layout_marginRight="6dp"
-                    tools:rating="4.5"
                     android:visibility="gone"
-                    android:stepSize="0.1"
-                    app:mrb_progressBackgroundTint="@android:color/transparent"
-                    app:mrb_progressTint="@color/ratingBarStarColor" />
+                    android:text="@string/no_marks" />
 
                 <TextView
                     android:id="@+id/rating_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
-                    tools:text="4.5"
                     android:textColor="@android:color/black"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="4.5" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                        android:id="@+id/rating_materialRatingBar"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="6dp"
+                        android:rating="5"
+                        android:stepSize="0.1"
+                        android:visibility="visible"
+                        app:mrb_progressBackgroundTint="@android:color/transparent"
+                        app:mrb_progressTint="@color/ratingBarStarColor" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/delete_view"
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="6dp"
-                    android:layout_weight="1"
-                    android:gravity="right|top"
+                    android:layout_gravity="end"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/round_corner_red_button"
+                    android:gravity="center|top"
                     android:text="@string/delete_with_underscore"
-                    android:textColor="@color/mainRedColor"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:visibility="gone" />
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center"
+                android:background="@color/light_gray_background_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -146,7 +177,7 @@
                     style="@style/ColorButton"
                     android:layout_marginRight="8dp"
                     android:layout_weight="1"
-                    android:background="@drawable/rounded_invest_btn"
+                    android:background="@drawable/round_corner_purple_button"
                     android:text="@string/btn_invest"
                     android:visibility="invisible" />
 
@@ -160,9 +191,9 @@
                         android:id="@+id/action_btn"
                         style="@style/ColorButton"
                         android:layout_width="match_parent"
-                        android:background="@drawable/rounded_action_bg"
+                        android:background="@drawable/round_corner_green_button"
                         android:visibility="visible"
-                        tools:text="Download"
+                        tools:text="@string/btn_download"
                         tools:visibility="visible" />
 
                     <ProgressBar
@@ -171,7 +202,18 @@
                         android:layout_width="match_parent"
                         android:visibility="gone" />
                 </FrameLayout>
+
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center"
+                android:background="@color/light_gray_background_color" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"

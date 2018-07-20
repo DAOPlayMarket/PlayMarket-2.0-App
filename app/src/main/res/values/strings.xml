@@ -81,7 +81,7 @@
     <string name="btn_download">download</string>
     <string name="btn_open">open</string>
     <string name="btn_invest">Invest</string>
-    <string name="delete_with_underscore"><u>Удалить</u></string>
+    <string name="delete_with_underscore"><u>Delete</u></string>
     <string name="app_free">FREE</string>
     <string name="dialog_app_purchase_body">To confirm your purchase, press continue below.</string>
     <string name="not_enought_balance">Not enough balance</string>

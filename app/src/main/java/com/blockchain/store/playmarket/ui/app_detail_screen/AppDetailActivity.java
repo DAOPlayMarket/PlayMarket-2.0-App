@@ -57,7 +57,7 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 public class AppDetailActivity extends AppCompatActivity implements AppDetailContract.View, ImageListAdapterCallback, UserReviewAdapter.UserReviewCallback {
     private static final String TAG = "AppDetailActivity";
     private static final String APP_EXTRA = "app_extra";
-    private static final int DEFAULT_MAX_LINES = 4;
+    private static final int DEFAULT_MAX_LINES = 3;
     private static final int LIMIT_MAX_LINES = 150;
     private static final int ANIMATOR_DURATION = 400;
 
