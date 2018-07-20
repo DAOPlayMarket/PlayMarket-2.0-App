@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:animateLayoutChanges="true"
     android:background="@android:color/white"
     android:orientation="vertical">
@@ -38,6 +39,10 @@
                     android:layout_height="@dimen/application_icon_width"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
+                    fresco:roundedCornerRadius="10sp"
+                    fresco:roundBottomRight="true"
+                    fresco:roundTopRight="true"
+                    fresco:roundBottomLeft="true"
                     android:transitionName="app_icon"
                     tools:background="@android:color/black" />
 
