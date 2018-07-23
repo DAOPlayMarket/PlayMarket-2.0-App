@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.repositories;
 
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.App;
+import com.blockchain.store.playmarket.data.entities.IcoBalance;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class IcoAppsRepository {
         RestApi.getServerApi().getBalanceOf(icoAddressesStr, AccountManager.getAddress().getHex())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> {
+                .subscribe((ArrayList<IcoBalance> result) -> {
                     for (int i = 0; i<apps.size(); i++){ apps.get(i).icoBalance = result.get(i); }
                     callback.onIcoAppsReady(apps);
                 },

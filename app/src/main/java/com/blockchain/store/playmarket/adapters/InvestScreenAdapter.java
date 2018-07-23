@@ -174,7 +174,6 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     public void onTick(long millisUntilFinished) {
                         unixTimeToDays(millisUntilFinished);
                         String formattedString = unixTimeToDays(millisUntilFinished);
-                        //String formattedString = simpleDateFormat.format(new Date(millisUntilFinished));
                         timeRemains.setText(formattedString);
                     }
 

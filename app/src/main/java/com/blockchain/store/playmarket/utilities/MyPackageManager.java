@@ -95,7 +95,7 @@ public class MyPackageManager {
     public void uninstallApkByApp(App app) {
         Context applicationContext = Application.getInstance().getApplicationContext();
         Intent intent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE);
-        intent.setData(Uri.parse("package:" + app.hash));
+        intent.setData(Uri.parse("package:" + app.packageName));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         applicationContext.startActivity(intent);
@@ -122,23 +122,12 @@ public class MyPackageManager {
         Context applicationContext = Application.getInstance().getApplicationContext();
 
         if (isApplicationInstalled(applicationPackage)) {
-            Intent intent = new Intent();
-            intent.setPackage(applicationPackage);
 
             PackageManager pm = applicationContext.getPackageManager();
-            List<ResolveInfo> resolveInfos = pm.queryIntentActivities(intent, 0);
-            Collections.sort(resolveInfos, new ResolveInfo.DisplayNameComparator(pm));
-
-            if (resolveInfos.size() > 0) {
-                ResolveInfo resolveInfo = resolveInfos.get(0);
-                ActivityInfo activity = resolveInfo.activityInfo;
-                ComponentName name = new ComponentName(activity.applicationInfo.packageName,
-                        activity.name);
-                Intent i = new Intent(Intent.ACTION_MAIN);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                i.setComponent(name);
-
-                applicationContext.startActivity(i);
+            Intent intent = new Intent(pm.getLaunchIntentForPackage(applicationPackage));
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            if (intent != null) {
+                applicationContext.startActivity(intent);
             } else {
                 // todo say error
             }

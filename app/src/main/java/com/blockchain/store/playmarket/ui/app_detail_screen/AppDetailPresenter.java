@@ -112,7 +112,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 changeState(Constants.APP_STATE.STATE_INSTALLING);
                 break;
             case STATE_INSTALLED:
-                new MyPackageManager().openAppByPackage(app.hash);
+                new MyPackageManager().openAppByPackage(app.packageName);
                 break;
 
             case STATE_INSTALLING:
