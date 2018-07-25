@@ -18,4 +18,7 @@ public class TransferViewModel extends ViewModel {
     public MutableLiveData<String> dimension = new MutableLiveData<>();
 
     public MutableLiveData<Boolean> isEth = new MutableLiveData<>();
+
+    public MutableLiveData<Boolean> isBlockEthIcon = new MutableLiveData<>();
+
 }

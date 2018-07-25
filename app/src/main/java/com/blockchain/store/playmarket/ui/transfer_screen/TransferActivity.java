@@ -2,6 +2,8 @@ package com.blockchain.store.playmarket.ui.transfer_screen;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -24,7 +26,8 @@ import butterknife.OnClick;
 
 public class TransferActivity extends AppCompatActivity implements TransferContract.View, LifecycleOwner {
 
-    public static String RECIPIENT = "recipient_address";
+    public static String RECIPIENT_ARG = "recipient_address";
+    public static String PRICE_ARG = "price_address";
 
     private TransferViewModel transferViewModel;
 
@@ -39,6 +42,13 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     @BindView(R.id.continue_transfer_button) Button continueButton;
     ViewPagerAdapter transferAdapter;
 
+    public static void start(Context context, String recipientAddress, String priceInEth) {
+        Intent starter = new Intent(context, TransferActivity.class);
+        starter.putExtra(RECIPIENT_ARG, recipientAddress);
+        starter.putExtra(PRICE_ARG, priceInEth);
+        context.startActivity(starter);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +57,15 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
 
         getDataFromViewModel();
 
-        recipientAddress = getIntent().getStringExtra(RECIPIENT);
-        if (recipientAddress != null){
+        recipientAddress = getIntent().getStringExtra(RECIPIENT_ARG);
+        if (recipientAddress != null) {
             transferViewModel.recipientAddress.setValue(recipientAddress);
+        }
+        transferAmount = getIntent().getStringExtra(PRICE_ARG);
+
+        if (transferAmount != null) {
+            transferViewModel.isBlockEthIcon.setValue(true);
+            transferViewModel.transferAmount.setValue(transferAmount);
         }
 
         presenter = new TransferPresenter();
@@ -61,7 +77,8 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
         transferViewPager.setAdapter(transferAdapter);
     }
 
-    @OnClick(R.id.continue_transfer_button) public void continueButtonClicked() {
+    @OnClick(R.id.continue_transfer_button)
+    public void continueButtonClicked() {
         TransferInfoFragment transferInfoFragment = (TransferInfoFragment) transferAdapter.getItem(0);
         TransferConfirmFragment transferConfirmFragment = (TransferConfirmFragment) transferAdapter.getItem(1);
 
@@ -71,14 +88,11 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
             if (checkFingerprint()) {
                 transferConfirmFragment.initFingerprint();
                 setContinueButtonVisibility(View.INVISIBLE);
-            }
-            else {
+            } else {
                 transferConfirmFragment.initPassword();
                 setContinueButtonVisibility(View.VISIBLE);
             }
-        }
-
-        else if (transferViewPager.getCurrentItem() == 1) {
+        } else if (transferViewPager.getCurrentItem() == 1) {
             getDataFromViewModel();
             if (presenter.passwordCheck(password)) {
                 if (isEth)
@@ -92,7 +106,8 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
         }
     }
 
-    @OnClick(R.id.cancel_transfer_button) void cancelButtonClicked() {
+    @OnClick(R.id.cancel_transfer_button)
+    void cancelButtonClicked() {
         back();
     }
 
@@ -143,7 +158,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
         return RxFingerprint.isAvailable(this) && Hawk.contains(Constants.ENCRYPTED_PASSWORD);
     }
 
-    public void setContinueButtonVisibility(int type){
+    public void setContinueButtonVisibility(int type) {
         continueButton.setVisibility(type);
     }
 }

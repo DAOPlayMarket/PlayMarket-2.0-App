@@ -178,40 +178,5 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
 
     }
 
-    private void test() {
-        ArrayList<Type> arrayList = new ArrayList<>();
-        arrayList.add(new Uint(new BigInteger("1")));
-        arrayList.add(new Address("0xa10E1b2255d3EC6d0fc379518C579a5f3caa9c42"));
-
-
-        List<TypeReference<?>> typeReferences = Arrays.<TypeReference<?>>asList(new TypeReference<org.web3j.abi.datatypes.Uint>() {
-                                                                                },
-                new TypeReference<org.web3j.abi.datatypes.Address>() {
-                });
-
-        Function function = new Function("buyApp",
-                arrayList, typeReferences);
-
-        String encode = FunctionEncoder.encode(function);
-        Log.d("test", "generateAppBuyTransaction: " + encode);
-
-        byte[] oldMehod = CryptoUtils.getDataForBuyApp("1", "a10E1b2255d3EC6d0fc379518C579a5f3caa9c42");
-        Log.d(TAG, "old method: " + oldMehod);
-
-
-//        web.ethGetTransactionByHash("0x8c8f13aa8d227b1cd0b07896106841bba618c60e17180c433f9c640016da5c2b").observable().observeOn(rx.android.schedulers.AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(this::onTestOk, this::onTestError);
-    }
-
-    private void onTestOk(EthTransaction ethTransaction) {
-        Log.d(TAG, "onTestOk() called with: ethTransaction = [" + ethTransaction + "]");
-    }
-
-    private void onTestOk(Web3ClientVersion web3ClientVersion) {
-        Log.d(TAG, "onTestOk() called with: web3ClientVersion = [" + web3ClientVersion + "]");
-    }
-
-    private void onTestError(Throwable throwable) {
-        Log.d(TAG, "onTestError() called with: throwable = [" + throwable + "]");
-    }
 }
 

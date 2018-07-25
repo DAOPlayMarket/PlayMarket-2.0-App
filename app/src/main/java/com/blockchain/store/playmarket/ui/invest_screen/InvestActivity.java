@@ -17,11 +17,10 @@ import com.blockchain.store.playmarket.adapters.InvestScreenAdapter;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.interfaces.InvestAdapterCallback;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
-import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 
 
-import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.RECIPIENT;
+import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.RECIPIENT_ARG;
 
 public class InvestActivity extends YouTubeBaseActivity implements InvestContract.View, InvestAdapterCallback, AppCompatCallback {
     private static final String TAG = "InvestActivity";
@@ -82,7 +81,7 @@ public class InvestActivity extends YouTubeBaseActivity implements InvestContrac
     @Override
     public void onInvestBtnClicked(String address) {
         Intent intent = new Intent(this, TransferActivity.class);
-        intent.putExtra(RECIPIENT, address);
+        intent.putExtra(RECIPIENT_ARG, address);
         startActivity(intent);
     }
 

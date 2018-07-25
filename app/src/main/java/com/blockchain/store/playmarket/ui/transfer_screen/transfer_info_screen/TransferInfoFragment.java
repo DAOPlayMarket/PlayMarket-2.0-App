@@ -52,6 +52,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     @BindView(R.id.recipient_address_textInputLayout) TextInputLayout recipientAddressTextInputLayout;
     @BindView(R.id.amount_textInputLayout) TextInputLayout amountTextInputLayout;
     @BindView(R.id.qr_scanner_button) ImageButton qrCodeImage;
+    @BindView(R.id.dimension_linearLayout) View dimensionHolder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,6 +84,10 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
             recipientAddressEditText.setText(recipientAddress);
             recipientAddressEditText.setEnabled(false);
             qrCodeImage.setEnabled(false);
+        }
+        if (transferViewModel.isBlockEthIcon.getValue()) {
+            dimensionHolder.setEnabled(false);
+            ethSelect();
         }
 
         return view;
