@@ -160,6 +160,24 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.getTabAt(0).setIcon(getResources().getDrawable(R.drawable.apps_a));
+        tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.game_a));
+        tabLayout.getTabAt(2).setIcon(getResources().getDrawable(R.drawable.ico_a));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
