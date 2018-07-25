@@ -7,11 +7,23 @@
     android:fitsSystemWindows="true"
     tools:context="com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity">
 
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@null"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabTextColor="@android:color/darker_gray" />
+
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/app_bar_layout"/>
+        android:layout_above="@+id/tab_layout"
+        android:layout_below="@+id/app_bar_layout" />
 
 
     <android.support.design.widget.AppBarLayout
@@ -34,8 +46,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_marginRight="16dp"
+                    android:gravity="center"
                     android:text="@string/app_name"
                     android:textColor="@color/nav_text_color" />
 
@@ -51,17 +63,8 @@
 
         </FrameLayout>
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/colorAccent"
-            app:tabTextColor="@android:color/darker_gray" />
 
     </android.support.design.widget.AppBarLayout>
-
 
 
     <include

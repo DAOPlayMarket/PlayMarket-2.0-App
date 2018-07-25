@@ -98,7 +98,7 @@
     <string name="continue_without_location">Continue without location</string>
     <string name="account">Account</string>
     <string name="back">Back</string>
-    <string name="invest_btn_text">Поддержать</string>
+    <string name="invest_btn_text">Invest</string>
     <string name="wrong_invest_amout">Wrong amount!</string>
     <string name="network_status_location_search">Search user location...</string>
     <string name="network_status_node_search">Search for the nearest node</string>
