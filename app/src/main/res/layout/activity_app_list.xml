@@ -8,16 +8,6 @@
     tools:context="com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity">
 
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@null"
-
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/colorAccent"
-        app:tabTextColor="@android:color/darker_gray" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
@@ -48,13 +38,13 @@
                 <TextView
                     android:id="@+id/toolbar_title"
                     android:layout_width="match_parent"
-                    android:textStyle="bold"
                     android:layout_height="match_parent"
                     android:gravity="left|center"
                     android:paddingLeft="20dp"
                     android:text="@string/app_name"
                     android:textAllCaps="true"
-                    android:textColor="@color/playmarket_logo_text_color" />
+                    android:textColor="@color/playmarket_logo_text_color"
+                    android:textStyle="bold" />
 
             </android.support.v7.widget.Toolbar>
 
@@ -71,6 +61,23 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <View
+        android:id="@+id/tab_layout_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/tab_layout"
+        android:background="#d7d7d7" />
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabTextColor="@android:color/darker_gray" />
 
     <include
         android:id="@+id/error_holder"
