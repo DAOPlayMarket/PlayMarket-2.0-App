@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:animateLayoutChanges="true"
     android:background="@android:color/white"
     android:orientation="vertical">
@@ -56,9 +56,9 @@
                         android:id="@+id/app_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
-                        android:layout_marginBottom="20dp"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/title_text_size"
                         tools:text="Daily Deals: Prime Day Editiondsasas" />
@@ -67,10 +67,10 @@
                         android:id="@+id/app_description"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
                         android:layout_gravity="bottom"
                         android:layout_margin="6dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:ellipsize="end"
                         android:gravity="bottom"
@@ -84,27 +84,27 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="center"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 android:background="@color/light_gray_background_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
-                android:orientation="horizontal"
-                android:baselineAligned="false">
+                android:layout_marginStart="30dp"
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -120,11 +120,11 @@
                                 android:id="@+id/no_marks_textView"
                                 android:layout_width="100dp"
                                 android:layout_height="wrap_content"
-                                android:textSize="14sp"
                                 android:gravity="center"
+                                android:text="@string/no_marks"
                                 android:textColor="@color/black"
-                                android:visibility="gone"
-                                android:text="@string/no_marks" />
+                                android:textSize="14sp"
+                                android:visibility="gone" />
 
                             <TextView
                                 android:id="@+id/rating_textView"
@@ -156,17 +156,17 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            tools:text="23412 marks"
                             android:textSize="11sp"
-                            tools:ignore="SmallSp" />
+                            tools:ignore="SmallSp"
+                            tools:text="23412 marks" />
 
                     </LinearLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_width="50dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -175,49 +175,53 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/delete_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:layout_marginEnd="5dp"
-                            android:background="@drawable/round_corner_red_button"
-                            android:gravity="center|top"
-                            android:text="@string/delete_with_underscore"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:visibility="gone" />
-
-                        <TextView
                             android:id="@+id/age_restrictions_textView"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            tools:text="12 +"
                             android:textColor="@color/black"
-                            android:textSize="18sp" />
+                            android:textSize="18sp"
+                            tools:text="12 +" />
+
 
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="@string/age"
                         android:gravity="center"
+                        android:text="@string/age"
                         android:textSize="11sp"
                         tools:ignore="SmallSp" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/delete_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_gravity="end"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/round_corner_red_button"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/delete_with_underscore"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:visibility="visible" />
+
             </LinearLayout>
 
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="center"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 android:background="@color/light_gray_background_color" />
 
             <LinearLayout
@@ -265,11 +269,11 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="center"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 android:background="@color/light_gray_background_color" />
 
             <android.support.v7.widget.RecyclerView

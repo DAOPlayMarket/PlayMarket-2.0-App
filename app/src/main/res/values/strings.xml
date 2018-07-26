@@ -148,6 +148,9 @@
     <string name="invest_earned_message">Earned, </string>
     <string name="invest_hardcap">HardCap</string>
 
+    <!--Unlock account -->
+
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_ico_title">ICO</string>
     <string name="tokens_bought">Tokens bought</string>
@@ -159,7 +162,7 @@
     <string name="reply">Reply</string>
     <string name="reply_hide">Hide</string>
     <string name="send">Send</string>
-    <string name="successfully_review_send" >Review successfully created!</string>
+    <string name="successfully_review_send">Review successfully created!</string>
     <string name="update">Update</string>
     <string name="no_marks">No marks</string>
     <string name="age">Age</string>
