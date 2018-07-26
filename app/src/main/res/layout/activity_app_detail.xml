@@ -209,7 +209,8 @@
                     android:text="@string/delete_with_underscore"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:visibility="visible" />
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
             </LinearLayout>
 
