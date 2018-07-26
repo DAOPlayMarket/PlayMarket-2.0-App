@@ -166,4 +166,5 @@
     <string name="update">Update</string>
     <string name="no_marks">No marks</string>
     <string name="age">Age</string>
+    <string name="enter_password_to_proceed">Enter password to proceed.</string>
 </resources>
