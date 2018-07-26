@@ -38,6 +38,10 @@
     <color name="red_error_color">#FFDD2C00</color>
     <color name="ico_tokens_bought">#5e9091</color>
 
+    <color name="playmarket_logo_bg">#e2efed</color>
+    <color name="drawer_toggle_color">#536a69</color>
+    <color name="playmarket_logo_text_color">#a6b4b4</color>
+
     <!--Material colors. Used for testing user's avatars-->
     <color name="material_color_1">#673ab7</color>
     <color name="material_color_2">#00bcd4</color>

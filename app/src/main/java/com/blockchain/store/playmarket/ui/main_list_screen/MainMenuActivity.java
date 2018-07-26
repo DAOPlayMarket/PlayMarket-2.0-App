@@ -1,12 +1,15 @@
 package com.blockchain.store.playmarket.ui.main_list_screen;
 
 import android.app.Dialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -64,6 +67,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @BindView(R.id.error_holder) View errorHolder;
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.search_view) MaterialSearchView searchView;
+    @BindView(R.id.toolbar_title) TextView toolbarTitle;
 
     private BehaviorSubject<String> userInputSubject = BehaviorSubject.create();
     private ArrayList<App> searchListResult = new ArrayList<>();
@@ -138,6 +142,13 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         }
     }
 
+    @OnClick(R.id.toolbar_title)
+    void onToolbarTitleClicked() {
+        if (!searchView.isSearchOpen()) {
+            searchView.showSearch();
+        }
+    }
+
     @Override
     public void setProgress(boolean isShow) {
         progressBar.setVisibility(isShow ? View.VISIBLE : View.GONE);
@@ -160,24 +171,9 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(getResources().getDrawable(R.drawable.apps_a));
-        tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.game_a));
-        tabLayout.getTabAt(2).setIcon(getResources().getDrawable(R.drawable.ico_a));
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        tabLayout.getTabAt(0).setIcon(getResources().getDrawable(R.drawable.apps_icon));
+        tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.games_icon));
+        tabLayout.getTabAt(2).setIcon(getResources().getDrawable(R.drawable.ico_icon));
     }
 
     @Override
@@ -212,6 +208,10 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main_menu_drawer, menu);
         MenuItem item = menu.findItem(R.id.action_search);
+        Drawable iconDrawable = item.getIcon();
+        iconDrawable = DrawableCompat.wrap(iconDrawable);
+        DrawableCompat.setTint(iconDrawable, ContextCompat.getColor(this, R.color.drawer_toggle_color));
+        item.setIcon(iconDrawable);
         searchView.setMenuItem(item);
         return true;
     }

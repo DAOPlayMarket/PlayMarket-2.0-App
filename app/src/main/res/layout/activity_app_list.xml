@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@null"
+
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/colorAccent"
         app:tabTextColor="@android:color/darker_gray" />
@@ -40,16 +41,20 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:actionBarSize"
+                android:background="@color/playmarket_logo_bg"
                 android:theme="@style/ActionBarStyle"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
                 <TextView
+                    android:id="@+id/toolbar_title"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="16dp"
-                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:layout_height="match_parent"
+                    android:gravity="left|center"
+                    android:paddingLeft="20dp"
                     android:text="@string/app_name"
-                    android:textColor="@color/nav_text_color" />
+                    android:textAllCaps="true"
+                    android:textColor="@color/playmarket_logo_text_color" />
 
             </android.support.v7.widget.Toolbar>
 

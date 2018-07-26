@@ -1,7 +1,6 @@
 package com.blockchain.store.playmarket.utilities;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
@@ -28,7 +27,6 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        Log.d(TAG, "onScroll() called with: e1 = [" + e1 + "], e2 = [" + e2 + "], distanceX = [" + distanceX + "], distanceY = [" + distanceY + "]");
         if (Math.abs(distanceX) > Math.abs(distanceY)) {
             // Detected a horizontal scroll, prevent the viewpager from switching tabs
             mRecyclerView.requestDisallowInterceptTouchEvent(true);

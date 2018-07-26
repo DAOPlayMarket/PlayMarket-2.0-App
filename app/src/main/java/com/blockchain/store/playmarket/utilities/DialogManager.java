@@ -42,7 +42,7 @@ public class DialogManager {
         appIcon.setImageURI(app.getIconUrl());
         appTitleText.setText(app.nameApp);
         balanceText.setText(new EthereumPrice(accountBalanceInWei).inEther().toString());
-        priceText.setText(app.price);
+        priceText.setText(new EthereumPrice(app.price).inEther().toString());
 
         continueButton.setOnClickListener(v -> {
             if (new BigDecimal(accountBalanceInWei).compareTo(new BigDecimal(app.price)) == 1) {

@@ -2,7 +2,6 @@ package com.blockchain.store.playmarket.adapters;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -71,7 +70,6 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         appListViewHolder.recyclerViewNested.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                Log.d(TAG, "onInterceptTouchEvent() called with: rv = [" + rv + "], e = [" + e + "]");
                 gestureDetector.onTouchEvent(e);
                 return false;
             }
@@ -112,7 +110,6 @@ public class AppListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (updatedDispatcherType.subCategoryId == type.subCategoryId && updatedDispatcherType.categoryId.equalsIgnoreCase(type.categoryId)) {
                 type = updatedDispatcherType;
                 notifyDataSetChanged();
-                Log.d(TAG, "addNewItems: total count " + type.apps.size());
             }
         }
     }
