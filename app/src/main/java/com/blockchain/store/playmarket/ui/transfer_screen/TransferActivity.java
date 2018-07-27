@@ -16,6 +16,7 @@ import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.transfer_screen.transfer_confirm_screen.TransferConfirmFragment;
 import com.blockchain.store.playmarket.ui.transfer_screen.transfer_info_screen.TransferInfoFragment;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.blockchain.store.playmarket.utilities.FingerprintUtils;
 import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
@@ -168,7 +169,8 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     }
 
     private boolean checkFingerprint() {
-        return RxFingerprint.isAvailable(this) && Hawk.contains(Constants.ENCRYPTED_PASSWORD);
+        return FingerprintUtils.isFingerprintAvailibility(this);
+//        return RxFingerprint.isAvailable(this) && Hawk.contains(Constants.ENCRYPTED_PASSWORD);
     }
 
     public void setContinueButtonVisibility(int type) {

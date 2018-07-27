@@ -21,17 +21,6 @@ public class IcoAppsRepository {
                 .doOnSubscribe(()->this.callback.onIcoAppsSubscribed())
                 .doOnTerminate(()->this.callback.onIcoAppsTerminated())
                 .subscribe(this::onIcoAppsReady, this::onIcoAppsFailed);
-
-//        RestApi.getServerApi().getIcoApps()
-//                .concatMap(apps -> {
-//                    //String[] icoAddressesArr = new String[apps.size()];
-//                    //for (int i = 0; i<apps.size(); i++) { icoAddressesArr[i] = apps.get(i).adrICO; }
-//                    String icoAddresses = "[\"" + apps.get(0).adrICO + "\", " + "\"" + apps.get(1).adrICO + "\"]";
-//                    return RestApi.getServerApi().getBalanceOf(icoAddresses, AccountManager.getAddress().getHex());
-//                })
-//                .subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(this::onIcoAppsReady, this::onIcoAppsFailed);
     }
 
     private void onIcoAppsReady(ArrayList<App> apps) {

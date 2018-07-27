@@ -19,6 +19,7 @@ import com.blockchain.store.playmarket.ui.fingerprint_screen.FingerprintConfigur
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.blockchain.store.playmarket.utilities.FingerprintUtils;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 import com.mtramin.rxfingerprint.RxFingerprint;
@@ -234,7 +235,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     }
 
     private boolean checkFingerprint() {
-        return RxFingerprint.isAvailable(this) && Hawk.contains(Constants.ENCRYPTED_PASSWORD);
+        return FingerprintUtils.isFingerprintAvailibility(this);
     }
 
     private void setFingerprintButtonVisibility(){
