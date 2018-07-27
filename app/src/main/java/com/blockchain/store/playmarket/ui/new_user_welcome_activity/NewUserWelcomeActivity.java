@@ -65,7 +65,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
         presenter.init(this, getApplicationContext());
         ButterKnife.bind(this);
         if (getIntent() != null) {
-            if (checkFingerprint()) fingerPrintButton.setVisibility(View.VISIBLE);
+//            if (!checkFingerprint()) fingerPrintButton.setVisibility(View.VISIBLE);
             setFingerprintButtonVisibility();
             isLaunchedFromSettings = getIntent().getBooleanExtra(Constants.WELCOME_ACTIVITY_IS_LUANCHED_FROM_SETTINGS_EXTRA, false);
         }
@@ -239,7 +239,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     }
 
     private void setFingerprintButtonVisibility(){
-        if (checkFingerprint()) fingerPrintButton.setVisibility(View.VISIBLE);
+        if (!checkFingerprint()) fingerPrintButton.setVisibility(View.VISIBLE);
         else fingerPrintButton.setVisibility(View.GONE);
     }
 

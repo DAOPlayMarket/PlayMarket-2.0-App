@@ -34,6 +34,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
 
     private TransferInfoPresenter presenter;
     private String recipientAddress;
+    private String transferAmount;
     private BigDecimal accountBalanceInEther;
     private TransferViewModel transferViewModel;
     private boolean isEth;
@@ -85,8 +86,12 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
             recipientAddressEditText.setEnabled(false);
             qrCodeImage.setEnabled(false);
         }
+        if (transferAmount != null) {
+            amountEditText.setText(transferAmount);
+        }
         if (transferViewModel.isBlockEthIcon != null && transferViewModel.isBlockEthIcon.getValue()) {
             dimensionHolder.setEnabled(false);
+            amountEditText.setEnabled(false);
             ethSelect();
         }
 
@@ -211,5 +216,6 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
 
     private void getDataFromTransferViewModel() {
         transferViewModel.recipientAddress.observe(getActivity(), s -> recipientAddress = s);
+        transferViewModel.transferAmount.observe(getActivity(), s -> transferAmount = s);
     }
 }

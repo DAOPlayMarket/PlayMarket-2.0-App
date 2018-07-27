@@ -12,7 +12,7 @@ public class Constants {
         STATE_PURCHASE_UNDEFIEND, STATE_PURCHASE, STATE_UNKOWN, STATE_HAS_UPDATE,
     }
 
-    public enum TRANSACTION_TYPE {
+    public enum TransactionTypes {
         BUY_APP {
             @Override
             public String toString() {

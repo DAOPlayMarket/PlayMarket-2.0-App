@@ -167,4 +167,8 @@
     <string name="no_marks">No marks</string>
     <string name="age">Age</string>
     <string name="enter_password_to_proceed">Enter password to proceed.</string>
+
+    <string name="review_dialog_title">Enter password to proceed.</string>
+    <string name="or_user_your_fingerprint">Or user your fingerprint</string>
+
 </resources>

@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,9 +15,15 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
+import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.mtramin.rxfingerprint.RxFingerprint;
+import com.orhanobut.hawk.Hawk;
 
 import java.math.BigDecimal;
+
+import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.Disposables;
 
 public class DialogManager {
 
@@ -39,6 +47,51 @@ public class DialogManager {
         Button cancelButton = dialog.findViewById(R.id.cancelButton);
         EditText passwordText = dialog.findViewById(R.id.password_editText);
 
+        View fingerPrintHolder = dialog.findViewById(R.id.fingerprint_holder);
+
+
+        Disposable fingerprintDisposable = Disposables.empty();
+        if (FingerprintUtils.isFingerprintAvailibility(context)) {
+            fingerPrintHolder.setVisibility(View.VISIBLE);
+            fingerprintDisposable = RxFingerprint.decrypt(context, Hawk.get(Constants.ENCRYPTED_PASSWORD))
+                    .subscribe(fingerprintDecryptionResult -> {
+                        switch (fingerprintDecryptionResult.getResult()) {
+                            case FAILED:
+                                passwordText.setError(context.getResources().getString(R.string.fingerprint_not_recognized));
+                                passwordText.requestFocus();
+                                break;
+                            case HELP:
+                                break;
+                            case AUTHENTICATED:
+                                if (new BigDecimal(accountBalanceInWei).compareTo(new BigDecimal(app.price)) == 1) {
+                                    try {
+                                        passwordText.setText(fingerprintDecryptionResult.getDecrypted());
+                                        Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordText.getText().toString());
+                                        dialog.dismiss();
+                                        callback.onPurchaseClicked();
+                                    } catch (Exception e) {
+                                        passwordText.setError(context.getString(R.string.wrong_password));
+                                    }
+
+
+                                } else {
+                                    balanceText.setError(context.getString(R.string.not_enought_balance));
+                                    balanceText.requestFocus();
+                                }
+                                break;
+                        }
+                    }, throwable -> {
+                        //noinspection StatementWithEmptyBody
+                        if (RxFingerprint.keyInvalidated(throwable)) {
+                            // The keys you wanted to use are invalidated because the user has turned off his
+                            // secure lock screen or changed the fingerprints stored on the device
+                            // You have to re-encrypt the data to access it
+                        }
+                        Log.e("ERROR", "decrypt", throwable);
+                    });
+        }
+
+
         appIcon.setImageURI(app.getIconUrl());
         appTitleText.setText(app.nameApp);
         balanceText.setText(new EthereumPrice(accountBalanceInWei).inEther().toString());
@@ -61,7 +114,6 @@ public class DialogManager {
             }
         });
         cancelButton.setOnClickListener(v -> dialog.dismiss());
-
         dialog.show();
     }
 
@@ -137,32 +189,32 @@ public class DialogManager {
         return folderNamedText.getText().toString();
     }
 
-    public AlertDialog showUnlockAccountDialog(Context context, String fileData, ConfirmImportDialogCallback callback, String password) {
-        AlertDialog confirmImportDialog = new AlertDialog.Builder(context)
-                .setView(R.layout.password_prompt_dialog)
-                .setCancelable(false)
-                .create();
-        confirmImportDialog.show();
-        passwordText = (EditText) confirmImportDialog.findViewById(R.id.passwordText);
-        Button importButton = (Button) confirmImportDialog.findViewById(R.id.continue_button);
-        Button closeButton = (Button) confirmImportDialog.findViewById(R.id.close_button);
-        EditText passwordEditText = (EditText) confirmImportDialog.findViewById(R.id.passwordText);
-
-        passwordText.setText(password);
-
-        importButton.setOnClickListener(v -> {
-            if (new FileUtils().importJsonKeystoreFile(fileData, passwordText.getText().toString())) {
-                callback.onImportSuccessful();
-                confirmImportDialog.dismiss();
-            } else {
-                passwordEditText.setError(context.getResources().getString(R.string.wrong_password));
-            }
-        });
-        closeButton.setOnClickListener(v -> {
-            confirmImportDialog.dismiss();
-        });
-        return confirmImportDialog;
-    }
+//    public AlertDialog showUnlockAccountDialog(Context context, String fileData, ConfirmImportDialogCallback callback, String password) {
+//        AlertDialog confirmImportDialog = new AlertDialog.Builder(context)
+//                .setView(R.layout.password_prompt_dialog)
+//                .setCancelable(false)
+//                .create();
+//        confirmImportDialog.show();
+//        passwordText = (EditText) confirmImportDialog.findViewById(R.id.passwordText);
+//        Button importButton = (Button) confirmImportDialog.findViewById(R.id.continue_button);
+//        Button closeButton = (Button) confirmImportDialog.findViewById(R.id.close_button);
+//        EditText passwordEditText = (EditText) confirmImportDialog.findViewById(R.id.passwordText);
+//
+//        passwordText.setText(password);
+//
+//        importButton.setOnClickListener(v -> {
+//            if (new FileUtils().importJsonKeystoreFile(fileData, passwordText.getText().toString())) {
+//                callback.onImportSuccessful();
+//                confirmImportDialog.dismiss();
+//            } else {
+//                passwordEditText.setError(context.getResources().getString(R.string.wrong_password));
+//            }
+//        });
+//        closeButton.setOnClickListener(v -> {
+//            confirmImportDialog.dismiss();
+//        });
+//        return confirmImportDialog;
+//    }
 
     public String getPasswordText() {
         return passwordText.getText().toString();

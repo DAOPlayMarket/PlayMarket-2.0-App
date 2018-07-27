@@ -80,7 +80,6 @@ public class TransferPresenter implements TransferContract.Presenter {
     private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
         Log.d("transfer", purchaseAppResponse.hash);
         view.closeTransferActivity();
-        view.showToast(context.getResources().getString(R.string.transaction_success));
     }
 
     private void transferFailed(Throwable throwable) {

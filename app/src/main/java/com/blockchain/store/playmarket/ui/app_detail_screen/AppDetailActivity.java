@@ -33,6 +33,7 @@ import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.facebook.common.executors.CallerThreadExecutor;
@@ -284,7 +285,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @Override
     public void showPurchaseDialog() {
-        TransferActivity.startWithResult(this, PLAY_MARKET_ADDRESS, app, PURCHASE_RESULT_CODE);
+        TransferActivity.startWithResult(this, PLAY_MARKET_ADDRESS, app, Constants.TransactionTypes.BUY_APP, PURCHASE_RESULT_CODE);
 //        new DialogManager().showPurchaseDialog(app, this, () -> {
 //            presenter.onPurchasedClicked(appInfo);
 //        });

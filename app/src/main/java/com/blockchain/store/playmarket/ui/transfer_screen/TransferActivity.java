@@ -3,7 +3,6 @@ package com.blockchain.store.playmarket.ui.transfer_screen;
 import android.app.Activity;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,8 +19,6 @@ import com.blockchain.store.playmarket.utilities.FingerprintUtils;
 import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
-import com.mtramin.rxfingerprint.RxFingerprint;
-import com.orhanobut.hawk.Hawk;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +28,12 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
 
     public static String RECIPIENT_ARG = "recipient_address";
     public static String APP_ARG = "app_address";
+    public static String TRANSACTION_ARG = "transaction_arg";
+
+    public static String REVIEW_ARG = "review_arg";
+    public static String VOTE_ARG = "vote_arg";
+    public static String TX_INDEX_ARG = "tx_index_arg";
+
 
     private TransferViewModel transferViewModel;
 
@@ -48,11 +51,21 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     @BindView(R.id.continue_transfer_button) Button continueButton;
     ViewPagerAdapter transferAdapter;
 
-    public static void startWithResult(Activity actvity, String recipientAddress, App app, int resultCode) {
-        Intent starter = new Intent(actvity.getBaseContext(), TransferActivity.class);
+    public static void startWithResult(Activity activity, String review, String vote, String txIndex, Constants.TransactionTypes transactionType, int resultCode) {
+        Intent starter = new Intent(activity.getBaseContext(), TransferActivity.class);
+        starter.putExtra(REVIEW_ARG, review);
+        starter.putExtra(VOTE_ARG, vote);
+        starter.putExtra(TX_INDEX_ARG, txIndex);
+        starter.putExtra(TRANSACTION_ARG, transactionType);
+        activity.startActivityForResult(starter, resultCode);
+    }
+
+    public static void startWithResult(Activity activity, String recipientAddress, App app, Constants.TransactionTypes transactionType, int resultCode) {
+        Intent starter = new Intent(activity.getBaseContext(), TransferActivity.class);
         starter.putExtra(RECIPIENT_ARG, recipientAddress);
         starter.putExtra(APP_ARG, app);
-        actvity.startActivityForResult(starter, resultCode);
+        starter.putExtra(TRANSACTION_ARG, transactionType);
+        activity.startActivityForResult(starter, resultCode);
     }
 
     @Override
@@ -170,7 +183,6 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
 
     private boolean checkFingerprint() {
         return FingerprintUtils.isFingerprintAvailibility(this);
-//        return RxFingerprint.isAvailable(this) && Hawk.contains(Constants.ENCRYPTED_PASSWORD);
     }
 
     public void setContinueButtonVisibility(int type) {
