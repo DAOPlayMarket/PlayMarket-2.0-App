@@ -137,32 +137,32 @@ public class DialogManager {
         return folderNamedText.getText().toString();
     }
 
-    //public AlertDialog showConfirmImportDialog(Context context, String fileData, ConfirmImportDialogCallback callback, String password) {
-    //    AlertDialog confirmImportDialog = new AlertDialog.Builder(context)
-    //            .setView(R.layout.password_prompt_dialog)
-    //            .setCancelable(false)
-    //            .create();
-    //    confirmImportDialog.show();
-    //    passwordText = (EditText) confirmImportDialog.findViewById(R.id.passwordText);
-    //    Button importButton = (Button) confirmImportDialog.findViewById(R.id.continue_button);
-    //    Button closeButton = (Button) confirmImportDialog.findViewById(R.id.close_button);
-    //    EditText passwordEditText = (EditText) confirmImportDialog.findViewById(R.id.passwordText);
-//
-    //    passwordText.setText(password);
-//
-    //    importButton.setOnClickListener(v -> {
-    //        if (new FileUtils().importJsonKeystoreFile(fileData, passwordText.getText().toString())) {
-    //            callback.onImportSuccessful();
-    //            confirmImportDialog.dismiss();
-    //        } else {
-    //            passwordEditText.setError(context.getResources().getString(R.string.wrong_password));
-    //        }
-    //    });
-    //    closeButton.setOnClickListener(v -> {
-    //        confirmImportDialog.dismiss();
-    //    });
-    //    return confirmImportDialog;
-    //}
+    public AlertDialog showUnlockAccountDialog(Context context, String fileData, ConfirmImportDialogCallback callback, String password) {
+        AlertDialog confirmImportDialog = new AlertDialog.Builder(context)
+                .setView(R.layout.password_prompt_dialog)
+                .setCancelable(false)
+                .create();
+        confirmImportDialog.show();
+        passwordText = (EditText) confirmImportDialog.findViewById(R.id.passwordText);
+        Button importButton = (Button) confirmImportDialog.findViewById(R.id.continue_button);
+        Button closeButton = (Button) confirmImportDialog.findViewById(R.id.close_button);
+        EditText passwordEditText = (EditText) confirmImportDialog.findViewById(R.id.passwordText);
+
+        passwordText.setText(password);
+
+        importButton.setOnClickListener(v -> {
+            if (new FileUtils().importJsonKeystoreFile(fileData, passwordText.getText().toString())) {
+                callback.onImportSuccessful();
+                confirmImportDialog.dismiss();
+            } else {
+                passwordEditText.setError(context.getResources().getString(R.string.wrong_password));
+            }
+        });
+        closeButton.setOnClickListener(v -> {
+            confirmImportDialog.dismiss();
+        });
+        return confirmImportDialog;
+    }
 
     public String getPasswordText() {
         return passwordText.getText().toString();

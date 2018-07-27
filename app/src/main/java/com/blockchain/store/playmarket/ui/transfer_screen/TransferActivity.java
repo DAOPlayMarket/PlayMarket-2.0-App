@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.ui.transfer_screen;
 
+import android.app.Activity;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.transfer_screen.transfer_confirm_screen.TransferConfirmFragment;
 import com.blockchain.store.playmarket.ui.transfer_screen.transfer_info_screen.TransferInfoFragment;
@@ -27,7 +29,7 @@ import butterknife.OnClick;
 public class TransferActivity extends AppCompatActivity implements TransferContract.View, LifecycleOwner {
 
     public static String RECIPIENT_ARG = "recipient_address";
-    public static String PRICE_ARG = "price_address";
+    public static String APP_ARG = "app_address";
 
     private TransferViewModel transferViewModel;
 
@@ -37,17 +39,19 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     private String recipientAddress;
     private String transferAmount;
     private boolean isEth;
+
     private boolean isBlockEth;
+    private App app;
 
     @BindView(R.id.transfer_viewPager) NonSwipeableViewPager transferViewPager;
     @BindView(R.id.continue_transfer_button) Button continueButton;
     ViewPagerAdapter transferAdapter;
 
-    public static void start(Context context, String recipientAddress, String priceInEth) {
-        Intent starter = new Intent(context, TransferActivity.class);
+    public static void startWithResult(Activity actvity, String recipientAddress, App app, int resultCode) {
+        Intent starter = new Intent(actvity.getBaseContext(), TransferActivity.class);
         starter.putExtra(RECIPIENT_ARG, recipientAddress);
-        starter.putExtra(PRICE_ARG, priceInEth);
-        context.startActivity(starter);
+        starter.putExtra(APP_ARG, app);
+        actvity.startActivityForResult(starter, resultCode);
     }
 
     @Override
@@ -62,10 +66,13 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
         if (recipientAddress != null) {
             transferViewModel.recipientAddress.setValue(recipientAddress);
         }
-        transferAmount = getIntent().getStringExtra(PRICE_ARG);
-        if (transferAmount != null) {
+        app = getIntent().getParcelableExtra(APP_ARG);
+        if (app != null) {
             transferViewModel.isBlockEthIcon.setValue(true);
-            transferViewModel.transferAmount.setValue(transferAmount);
+            String totalPrice = new EthereumPrice(app.price, EthereumPrice.Currency.WEI).inEther().toString();
+            transferViewModel.transferAmount.setValue(totalPrice);
+        } else {
+            transferViewModel.isBlockEthIcon.setValue(false);
         }
 
         presenter = new TransferPresenter();
@@ -99,7 +106,11 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
                     transferAmount = new EthereumPrice(transferAmount, EthereumPrice.Currency.ETHER).inLongToString();
                 else
                     transferAmount = new EthereumPrice(transferAmount, EthereumPrice.Currency.WEI).inLongToString();
-                presenter.createTransaction(transferAmount, recipientAddress);
+                if (app == null) {
+                    presenter.createTransaction(transferAmount, recipientAddress);
+                } else {
+                    presenter.createBuyTransaction(app);
+                }
             } else {
                 transferConfirmFragment.showError();
             }
@@ -137,6 +148,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
 
     @Override
     public void closeTransferActivity() {
+        setResult(RESULT_OK);
         finish();
     }
 

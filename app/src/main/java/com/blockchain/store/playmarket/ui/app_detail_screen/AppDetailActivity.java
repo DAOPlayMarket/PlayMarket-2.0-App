@@ -32,6 +32,7 @@ import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
+import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.facebook.common.executors.CallerThreadExecutor;
@@ -54,12 +55,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
+import static com.blockchain.store.playmarket.utilities.Constants.PLAY_MARKET_ADDRESS;
+
 public class AppDetailActivity extends AppCompatActivity implements AppDetailContract.View, ImageListAdapterCallback, UserReviewAdapter.UserReviewCallback {
     private static final String TAG = "AppDetailActivity";
     private static final String APP_EXTRA = "app_extra";
     private static final int DEFAULT_MAX_LINES = 3;
     private static final int LIMIT_MAX_LINES = 150;
     private static final int ANIMATOR_DURATION = 400;
+    private static final int PURCHASE_RESULT_CODE = 111;
 
     @BindView(R.id.top_layout_app_name) TextView toolbarAppName;
     @BindView(R.id.top_layout_holder) LinearLayout topLayoutHolder;
@@ -141,7 +145,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         String ageRestrictions = app.ageRestrictions + " +";
         ageRestrictionsTextView.setText(ageRestrictions);
 
-        String ratingCount = (app.rating == null)? "0 marks" : app.rating.ratingCount + " marks";
+        String ratingCount = (app.rating == null) ? "0 marks" : app.rating.ratingCount + " marks";
         marksCountTextView.setText(ratingCount);
     }
 
@@ -196,8 +200,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
             rating = Math.round(rating * 10.0) / 10.0;
             appRating.setText(String.valueOf(rating));
             ratingBar.setRating(Float.valueOf(String.valueOf(rating)));
-        }
-        else {
+        } else {
             noMarksTextView.setVisibility(View.VISIBLE);
             ratingBar.setVisibility(View.GONE);
         }
@@ -209,7 +212,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     private void setInvestButtonVisibility(AppInfo appInfo) {
         investBtn.setVisibility(View.INVISIBLE);
         if (this.appInfo.isIco) {
-                investBtn.setVisibility(View.VISIBLE);
+            investBtn.setVisibility(View.VISIBLE);
 
         } else {
             investBtn.setVisibility(View.INVISIBLE);
@@ -281,9 +284,10 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @Override
     public void showPurchaseDialog() {
-        new DialogManager().showPurchaseDialog(app, this, () -> {
-            presenter.onPurchasedClicked(appInfo);
-        });
+        TransferActivity.startWithResult(this, PLAY_MARKET_ADDRESS, app, PURCHASE_RESULT_CODE);
+//        new DialogManager().showPurchaseDialog(app, this, () -> {
+//            presenter.onPurchasedClicked(appInfo);
+//        });
     }
 
     @Override
@@ -372,5 +376,13 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         new DialogManager().showPurchaseDialog(app, this, () -> {
             presenter.onSendReviewClicked(message, "5", userReview.txIndexOrigin);
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PURCHASE_RESULT_CODE && resultCode == RESULT_OK) {
+            presenter.onPurchasedClicked(appInfo);
+        }
     }
 }

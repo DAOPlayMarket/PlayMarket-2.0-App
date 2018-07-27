@@ -1,10 +1,9 @@
 package com.blockchain.store.playmarket.ui.fingerprint_screen;
 
-import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.content.res.AppCompatResources;
 import android.text.Editable;
 import android.view.View;
@@ -18,15 +17,12 @@ import android.widget.Toast;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
-import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.disposables.Disposables;
 
 public class FingerprintConfiguringActivity extends AppCompatActivity implements FingerprintConfiguringContract.View {
 
@@ -57,11 +53,10 @@ public class FingerprintConfiguringActivity extends AppCompatActivity implements
 
         accountPassword = getIntent().getStringExtra(PASSWORD);
 
-        if (accountPassword == null){
+        if (accountPassword == null) {
             confirmPasswordLinearLayout.setVisibility(View.VISIBLE);
             fingerprintIsAvailable(false);
-        }
-        else{
+        } else {
             confirmPasswordLinearLayout.setVisibility(View.GONE);
             accountPassword = getIntent().getStringExtra(PASSWORD);
             presenter.subscribeFingerprint(accountPassword);
@@ -108,9 +103,10 @@ public class FingerprintConfiguringActivity extends AppCompatActivity implements
         closeFingerprintActivity("Fingerprint activating is canceled");
     }
 
-    @OnClick(R.id.confirm_password_button) void confirmPasswordButtonClicked(){
+    @OnClick(R.id.confirm_password_button)
+    void confirmPasswordButtonClicked() {
         String accountPassword = accountPasswordEditText.getText().toString();
-        if (presenter.checkAccountPassword(accountPassword)){
+        if (presenter.checkAccountPassword(accountPassword)) {
             hidePasswordError();
             fingerprintIsAvailable(true);
             presenter.subscribeFingerprint(accountPassword);
@@ -120,8 +116,8 @@ public class FingerprintConfiguringActivity extends AppCompatActivity implements
         }
     }
 
-    private void fingerprintIsAvailable(boolean isAvailable){
-        if (isAvailable){
+    private void fingerprintIsAvailable(boolean isAvailable) {
+        if (isAvailable) {
             availableFingerprintImageView.setColorFilter(getResources().getColor(R.color.green_color));
             fingerprintTitleTextView.setTextColor(getResources().getColor(R.color.black));
             fingerprintInfoTextView.setTextColor(getResources().getColor(R.color.black));
@@ -145,12 +141,12 @@ public class FingerprintConfiguringActivity extends AppCompatActivity implements
         }
     }
 
-    private void showPasswordError(String errorText){
+    private void showPasswordError(String errorText) {
         accountPasswordTextInputLayout.setPasswordVisibilityToggleTintList(AppCompatResources.getColorStateList(this, R.color.red_error_color));
         accountPasswordTextInputLayout.setError(errorText);
     }
 
-    private void hidePasswordError(){
+    private void hidePasswordError() {
         accountPasswordTextInputLayout.setPasswordVisibilityToggleTintList(AppCompatResources.getColorStateList(this, R.color.green_color));
         accountPasswordTextInputLayout.setError(null);
     }
