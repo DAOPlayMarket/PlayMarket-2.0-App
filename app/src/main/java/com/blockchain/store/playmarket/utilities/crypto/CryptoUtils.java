@@ -194,19 +194,6 @@ public class CryptoUtils {
         return getRawTransaction(signedTransaction);
     }
 
-    public static String generateSendReviewTransaction(int nonce, BigInt gasPrice, App app, String vote, String description, String txIndex) throws Exception {
-        KeyManager keyManager = Application.keyManager;
-        Account account = keyManager.getAccounts().get(0);
-        BigInt price = new BigInt(0);
-
-        Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
-                price, GAS_LIMIT, gasPrice,
-                getDataForReviewAnApp(app.appId, account.getAddress().getHex(), vote, description, txIndex));
-        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
-        return getRawTransaction(signedTransaction);
-    }
-
-
     public static String generateTransferTransaction(int nonce, String gasPrice, String transferAmount, String recipientAddress) throws Exception {
         BigInt price = new BigInt(0);
         price.setString(transferAmount, 10);
@@ -219,6 +206,19 @@ public class CryptoUtils {
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
         return getRawTransaction(signedTransaction);
     }
+
+    public static String generateSendReviewTransaction(int nonce, BigInt gasPrice, App app, String vote, String description, String txIndex) throws Exception {
+        KeyManager keyManager = Application.keyManager;
+        Account account = keyManager.getAccounts().get(0);
+        BigInt price = new BigInt(0);
+
+        Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
+                price, GAS_LIMIT, gasPrice,
+                getDataForReviewAnApp(app.appId, account.getAddress().getHex(), vote, description, txIndex));
+        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
+        return getRawTransaction(signedTransaction);
+    }
+
 
 }
 

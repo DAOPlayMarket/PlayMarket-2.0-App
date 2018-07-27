@@ -37,6 +37,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     private String recipientAddress;
     private String transferAmount;
     private boolean isEth;
+    private boolean isBlockEth;
 
     @BindView(R.id.transfer_viewPager) NonSwipeableViewPager transferViewPager;
     @BindView(R.id.continue_transfer_button) Button continueButton;
@@ -62,7 +63,6 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
             transferViewModel.recipientAddress.setValue(recipientAddress);
         }
         transferAmount = getIntent().getStringExtra(PRICE_ARG);
-
         if (transferAmount != null) {
             transferViewModel.isBlockEthIcon.setValue(true);
             transferViewModel.transferAmount.setValue(transferAmount);
@@ -152,6 +152,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
         transferViewModel.transferAmount.observe(this, s -> transferAmount = s);
         transferViewModel.senderPassword.observe(this, s -> password = s);
         transferViewModel.isEth.observe(this, aBoolean -> isEth = aBoolean);
+        transferViewModel.isBlockEthIcon.observe(this, aBoolean -> isBlockEth = aBoolean);
     }
 
     private boolean checkFingerprint() {

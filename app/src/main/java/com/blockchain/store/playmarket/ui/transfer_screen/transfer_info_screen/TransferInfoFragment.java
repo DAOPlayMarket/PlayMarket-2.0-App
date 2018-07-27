@@ -85,7 +85,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
             recipientAddressEditText.setEnabled(false);
             qrCodeImage.setEnabled(false);
         }
-        if (transferViewModel.isBlockEthIcon.getValue()) {
+        if (transferViewModel.isBlockEthIcon != null && transferViewModel.isBlockEthIcon.getValue()) {
             dimensionHolder.setEnabled(false);
             ethSelect();
         }

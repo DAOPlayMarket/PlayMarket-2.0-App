@@ -62,7 +62,6 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @BindView(R.id.error_holder) View errorHolder;
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.search_view) MaterialSearchView searchView;
-    @BindView(R.id.toolbar_title) TextView toolbarTitle;
 
     private BehaviorSubject<String> userInputSubject = BehaviorSubject.create();
     private ArrayList<App> searchListResult = new ArrayList<>();
@@ -137,7 +136,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         }
     }
 
-    @OnClick(R.id.toolbar_title)
+    @OnClick(R.id.toolbar_title_holder)
     void onToolbarTitleClicked() {
         if (!searchView.isSearchOpen()) {
             searchView.showSearch();
@@ -201,13 +200,14 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main_menu_drawer, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
-        Drawable iconDrawable = item.getIcon();
-        iconDrawable = DrawableCompat.wrap(iconDrawable);
-        DrawableCompat.setTint(iconDrawable, ContextCompat.getColor(this, R.color.drawer_toggle_color));
-        item.setIcon(iconDrawable);
-        searchView.setMenuItem(item);
+//        getMenuInflater().inflate(R.menu.activity_main_menu_drawer, menu);
+//        MenuItem item = menu.findItem(R.id.action_search);
+//        Drawable iconDrawable = item.getIcon();
+//        iconDrawable = DrawableCompat.wrap(iconDrawable);
+//        DrawableCompat.setTint(iconDrawable, ContextCompat.getColor(this, R.color.drawer_toggle_color));
+//        item.setIcon(iconDrawable);
+//        searchView.setMenuItem(item);
+//        searchView.setBackgroundColor(getResources().getColor(R.color.playmarket_logo_bg));
         return true;
     }
 
