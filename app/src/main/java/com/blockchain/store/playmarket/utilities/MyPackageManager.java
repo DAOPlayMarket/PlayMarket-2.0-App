@@ -1,30 +1,21 @@
 package com.blockchain.store.playmarket.utilities;
 
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.content.FileProvider;
-import android.util.Log;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.services.DownloadService;
 import com.blockchain.store.playmarket.utilities.device.BuildUtils;
-import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
-
-import org.web3j.abi.datatypes.Int;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by Crypton04 on 31.01.2018.

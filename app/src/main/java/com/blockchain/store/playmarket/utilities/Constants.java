@@ -5,6 +5,7 @@ package com.blockchain.store.playmarket.utilities;
  */
 
 public class Constants {
+
     public enum APP_STATE {
         STATE_DOWNLOAD_STARTED, STATE_DOWNLOADING, STATE_DOWNLOADED_NOT_INSTALLED,
         STATE_DOWNLOAD_ERROR, STATE_INSTALLING, STATE_INSTALLED,
@@ -45,6 +46,7 @@ public class Constants {
 
     public static final String DOWNLOAD_SERVICE_APP_EXTRA = "download_service_app_extra";
     public static final String DOWNLOAD_SERVICE_URL_EXTRA = "download_service_url_extra";
+    public static final String DOWNLOAD_SERVICE_BITMAP_EXTRA = "download_service_bitmap_extra";
 
     public static final String SEARCH_ACTIVITY_QUERY_EXTRA = "search_activity_query_extra";
 

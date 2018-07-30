@@ -166,6 +166,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
                     Log.d(TAG, "Bitmap data source returned success, but bitmap null.");
                     return;
                 }
+
                 Palette p = Palette.from(bitmap).generate();
                 runOnUiThread(() -> {
                     int lightVibrantColor = p.getLightVibrantColor(getResources().getColor(android.R.color.white));

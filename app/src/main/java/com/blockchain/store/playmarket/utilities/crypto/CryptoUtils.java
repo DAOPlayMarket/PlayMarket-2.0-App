@@ -180,7 +180,7 @@ public class CryptoUtils {
         return b;
     }
 
-    public static String generateAppBuyTransaction(int nonce, BigInt gasPrice, App app) throws Exception {
+    public static String generateAppBuyTransaction(int nonce, BigInt gasPrice, App app, String adrNode) throws Exception {
         KeyManager keyManager = Application.keyManager;
         Account account = keyManager.getAccounts().get(0);
 
@@ -188,7 +188,7 @@ public class CryptoUtils {
         price.setString(app.price, 10);
         Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
                 price, GAS_LIMIT, gasPrice,
-                getDataForBuyAppWithWeb3(app.appId, NON_LOCAL_NODE_ADDRESS));
+                getDataForBuyAppWithWeb3(app.appId, adrNode));
 
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
         return getRawTransaction(signedTransaction);

@@ -94,7 +94,7 @@ public class TransferPresenter implements TransferContract.Presenter {
             rawTransaction = CryptoUtils.generateAppBuyTransaction(
                     accountInfo.first.count,
                     new BigInt(Long.parseLong(accountInfo.second)),
-                    app);
+                    app,accountInfo.first.adrNode);
             Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
         } catch (Exception e) {
             e.printStackTrace();

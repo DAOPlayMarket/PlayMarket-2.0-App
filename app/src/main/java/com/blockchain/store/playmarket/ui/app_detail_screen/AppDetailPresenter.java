@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.ui.app_detail_screen;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.Pair;
 
@@ -20,7 +21,6 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
-import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 import com.orhanobut.hawk.Hawk;
 
 import org.ethereum.geth.BigInt;
@@ -66,9 +66,8 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
 
-
     private void onDetailedInfoReady(Pair<AppInfo, Boolean> pair) {
-        if (app.adrICO != null){
+        if (app.adrICO != null) {
             RestApi.getServerApi().getCurrentInfo(app.adrICO)
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -77,8 +76,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                         view.onCheckPurchaseReady(pair.second);
                         view.onDetailedInfoReady(pair.first);
                     });
-        }
-        else {
+        } else {
             view.onCheckPurchaseReady(pair.second);
             view.onDetailedInfoReady(pair.first);
         }
@@ -92,6 +90,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     @Override
     public void onActionButtonClicked(App app) {
         Log.d(TAG, "onActionButtonClicked: " + appState);
+
         switch (appState) {
             case STATE_DOWNLOAD_ERROR:
             case STATE_NOT_DOWNLOAD:
@@ -331,7 +330,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
             rawTransaction = CryptoUtils.generateAppBuyTransaction(
                     accountInfo.first.count,
                     new BigInt(Long.parseLong(accountInfo.second)),
-                    app);
+                    app, accountInfo.first.adrNode);
             Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
         } catch (Exception e) {
             e.printStackTrace();

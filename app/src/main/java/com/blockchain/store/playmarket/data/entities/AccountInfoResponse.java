@@ -11,4 +11,5 @@ public class AccountInfoResponse {
     @SerializedName("countTx")
     public int count;
     public String gasPrice;
+    public String adrNode;
 }
