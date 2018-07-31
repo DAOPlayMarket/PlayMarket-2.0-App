@@ -40,7 +40,6 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     @BindView(R.id.news_layout) LinearLayout newsLayout;
     @BindView(R.id.history_layout) LinearLayout historyLayout;
     @BindView(R.id.settings_layout) LinearLayout settingsLayout;
-    @BindView(R.id.ether_exchange_layout) LinearLayout etherExchangeLayout;
     @BindView(R.id.my_ico_layout) LinearLayout myIcoLayout;
     @BindView(R.id.about_layout) LinearLayout aboutLayout;
     @BindView(R.id.user_id_title) TextView userAddress;

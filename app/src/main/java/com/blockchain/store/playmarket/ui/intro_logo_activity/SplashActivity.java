@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
@@ -42,6 +43,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.toptas.rssconverter.RssFeed;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
     private static final String TAG = "SplashActivity";
@@ -176,6 +181,19 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         errorHolder.setVisibility(View.GONE);
         presenter.requestUserLocation(this);
 
+    }
+    private void test(){
+        RestApi.getXmlApi().getRss("https://medium.com/feed/@playmarket2.0").enqueue(new Callback<RssFeed>() {
+            @Override
+            public void onResponse(Call<RssFeed> call, Response<RssFeed> response) {
+                Log.d(TAG, "onResponse: ");
+            }
+
+            @Override
+            public void onFailure(Call<RssFeed> call, Throwable t) {
+                Log.d(TAG, "onFailure: ");
+            }
+        });
     }
 
 }

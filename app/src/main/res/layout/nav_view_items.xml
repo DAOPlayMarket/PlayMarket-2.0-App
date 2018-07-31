@@ -2,8 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_marginTop="30dp"
+    android:gravity="clip_vertical"
     android:orientation="vertical">
 
     <LinearLayout
@@ -11,13 +10,15 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/nav_drawer_menu_height"
         android:layout_marginBottom="@dimen/navigation_view_indents"
-        android:gravity="center"
+        android:gravity="center|left"
         android:orientation="horizontal">
 
         <ImageView
             style="@style/navViewImageItem"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:src="@drawable/book"
+            android:tint="@color/library_color"
             app:srcCompat="@drawable/book" />
 
         <TextView
@@ -36,6 +37,7 @@
 
         <ImageView
             style="@style/navViewImageItem"
+            android:tint="@color/account_color"
             app:srcCompat="@drawable/ic_person_black_24dp" />
 
         <TextView
@@ -53,6 +55,7 @@
 
         <ImageView
             style="@style/navViewImageItem"
+            android:tint="@color/settings_color"
             app:srcCompat="@drawable/cog" />
 
         <TextView
@@ -69,6 +72,7 @@
 
         <ImageView
             style="@style/navViewImageItem"
+            android:tint="@color/about_color"
             app:srcCompat="@drawable/ask" />
 
         <TextView
@@ -134,24 +138,6 @@
             android:textColor="@color/greyBackground" />
     </LinearLayout>
 
-
-    <LinearLayout
-        android:id="@+id/ether_exchange_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/nav_drawer_menu_height"
-        android:layout_marginBottom="@dimen/navigation_view_indents"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ImageView
-            style="@style/navViewImageItem"
-            app:srcCompat="@drawable/eth" />
-
-        <TextView
-            style="@style/navViewTextItem"
-            android:text="@string/ether_exchange"
-            android:textColor="@color/greyBackground" />
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/my_ico_layout"

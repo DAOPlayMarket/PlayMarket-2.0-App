@@ -12,6 +12,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import me.toptas.rssconverter.RssConverterFactory;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -40,6 +41,7 @@ public class RestApi {
     private static String nodeUrl = "https://n";
     private static ServerApi restApi;
     private static ChangellyApi changellyApi;
+    private static ServerApi xmlApi;
     private ServerApi customApi;
 
     public static ServerApi getServerApi() {
@@ -56,10 +58,15 @@ public class RestApi {
         return changellyApi;
     }
 
+    public static ServerApi getXmlApi() {
+        if (xmlApi == null) {
+            setupWithXML();
+        }
+        return xmlApi;
+    }
+
     public ServerApi getCustomUrlApi(String url) {
         return setupWithCustomUrl(url);
-
-
     }
 
 
@@ -166,6 +173,25 @@ public class RestApi {
                 .client(client)
                 .build();
         return retrofit.create(ServerApi.class);
+    }
+
+    private static ServerApi setupWithXML() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .hostnameVerifier((hostname, session) -> true)
+                .sslSocketFactory(getSllSocketFactory()).build();
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapterFactory(new ResultAdapterFactory()).setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(RssConverterFactory.create())
+                .client(client)
+                .build();
+        xmlApi = retrofit.create(ServerApi.class);
+        return xmlApi;
     }
 
 }

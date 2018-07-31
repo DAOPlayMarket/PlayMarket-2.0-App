@@ -18,8 +18,7 @@
     <color name="mainRedColor">#f7467d</color>
     <color name="action_btn_background">#00a5a7</color>
     <color name="invest_btn_background">#00e6a7</color>
-    <color name="nav_image_tint">#e7e7e7</color>
-    <color name="nav_text_color">#5c757b</color>
+
     <color name="nav_yellow">#ffc77d</color>
 
     <color name="invest_btn_bg">#3b026d</color>
@@ -47,5 +46,21 @@
     <color name="material_color_2">#00bcd4</color>
     <color name="material_color_3">#4caf50</color>
 
+    <!--Navigation view -->
+    <color name="top_view_divider">#FDFDFD</color>
+
+    <color name="nav_image_tint">#e7e7e7</color>
+    <color name="nav_text_color">#4A666C</color>
+
+    <color name="bottom_items_bg">#E7E7E7</color>
+    <color name="item_active_bg">#CCD0D1</color>
+    <color name="wishlist_color">#FF505F</color>
+    <color name="library_color">#007A77</color>
+    <color name="news_color">#B850FF</color>
+    <color name="history_color">#3F6EFF</color>
+    <color name="settings_color">#F9B217</color>
+    <color name="my_ico_color">#00E873</color>
+    <color name="account_color">#FF2DB2</color>
+    <color name="about_color">#320451</color>
 
 </resources>

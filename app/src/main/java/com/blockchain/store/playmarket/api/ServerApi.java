@@ -14,11 +14,13 @@ import com.blockchain.store.playmarket.data.entities.UserReview;
 
 import java.util.ArrayList;
 
+import me.toptas.rssconverter.RssFeed;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -101,4 +103,7 @@ public interface ServerApi {
     @FormUrlEncoded()
     @POST("get-current-info")
     Observable<CurrentInfo> getCurrentInfo(@Field("address") String addressICO);
+
+    @GET
+    Call<RssFeed> getRss(@Url String url);
 }
