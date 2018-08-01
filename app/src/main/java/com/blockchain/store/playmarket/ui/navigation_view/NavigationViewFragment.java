@@ -94,7 +94,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
     @OnClick(R.id.nav_view_send)
     void showAddFundsDialog() {
-        startActivity(new Intent(getActivity(),TransferActivity.class));
+        startActivity(new Intent(getActivity(), TransferActivity.class));
     }
 
     @OnClick(R.id.settings_layout)
@@ -124,7 +124,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
     @OnClick(R.id.user_id_title)
     void copyAddressToClipBoard() {
-        ClipboardUtils.copyToClipboard(getActivity(), userAddress.getText().toString());
+        ClipboardUtils.copyToClipboard(getActivity(), userAddress.getText().toString().replaceAll(" ", ""));
         ToastUtil.showToast(R.string.address_copied);
     }
 

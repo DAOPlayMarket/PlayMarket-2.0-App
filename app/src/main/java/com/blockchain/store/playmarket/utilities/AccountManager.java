@@ -1,6 +1,8 @@
 package com.blockchain.store.playmarket.utilities;
 
 
+import android.util.Log;
+
 import com.blockchain.store.playmarket.Application;
 
 import org.ethereum.geth.Account;
@@ -13,6 +15,8 @@ import io.ethmobile.ethdroid.KeyManager;
  */
 
 public class AccountManager {
+    private static final String TAG = "AccountManager";
+
     private static KeyManager keyManager;
     private static AccountManager instance;
     private static String userBalance;
@@ -66,6 +70,16 @@ public class AccountManager {
 
     public static void setUserBalance(String userBalance) {
         AccountManager.userBalance = userBalance;
+    }
+
+    public static String getFormattedAddress() {
+        StringBuilder hex = new StringBuilder(getAddress().getHex());
+        Log.d(TAG, "getFormattedAddress: ");
+        for (int i = 2; i < hex.toString().length(); i += 5) {
+            hex.insert(i, " ");
+        }
+
+
     }
 
 }
