@@ -64,4 +64,7 @@
     <color name="account_color">#FF2DB2</color>
     <color name="about_color">#320451</color>
 
+    <!--User review colors-->
+    <color name="review_title_text_color">#67b7b5</color>
+    <color name="review_text_color">#686f7d</color>
 </resources>

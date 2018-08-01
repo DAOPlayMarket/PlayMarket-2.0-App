@@ -91,18 +91,11 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     class UserReviewViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.user_icon) ImageView userIcon;
         @BindView(R.id.user_name) TextView userName;
+        @BindView(R.id.user_rating_bar) MaterialRatingBar userRatingBar;
         @BindView(R.id.user_commentary) TextView userCommentary;
         @BindView(R.id.read_more) TextView readMore;
-        @BindView(R.id.reply) TextView reply;
-        @BindView(R.id.left_divider) View leftDivider;
-        @BindView(R.id.rating) TextView ratingView;
         @BindView(R.id.root_view) ConstraintLayout constraintLayout;
-        @BindView(R.id.user_replay_holder) LinearLayout userReplayHolder;
-        @BindView(R.id.action_btn) Button replyButton;
-        @BindView(R.id.rating_bar) MaterialRatingBar materialRatingBar;
-        @BindView(R.id.review_description) EditText reviewDescription;
 
         private ObjectAnimator textDescriptionAnimator;
         private View itemView;
@@ -116,28 +109,12 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         public void bind(UserReview userReview, int position) {
             userCommentary.setText(userReview.description);
-            userIcon.setImageBitmap(Blockies.createIcon(userReview.vote));
             userName.setText(userReview.voter);
-            ratingView.setVisibility(View.INVISIBLE);
-            materialRatingBar.setVisibility(View.INVISIBLE);
-            reply.setText(itemView.getContext().getString(position == expandedItem ? R.string.reply_hide : R.string.reply));
-            reply.setVisibility(userReview.isReviewOnReview ? View.INVISIBLE : View.VISIBLE);
+            try {
+                userRatingBar.setRating(Float.parseFloat(userReview.vote));
+            } catch (Exception e) {
 
-            userReplayHolder.setVisibility(position == expandedItem ? View.VISIBLE : View.GONE);
-
-            leftDivider.setVisibility(userReview.isReviewOnReview ? View.VISIBLE : View.GONE);
-
-            replyButton.setOnClickListener(view -> callback.onReplyOnReviewClicked(userReview, reviewDescription.getText().toString()));
-
-            reply.setOnClickListener(v -> {
-                if (expandedItem == position) {
-                    expandedItem = -1;
-                } else {
-                    expandedItem = position;
-                }
-                TransitionManager.beginDelayedTransition(constraintLayout);
-                notifyDataSetChanged();
-            });
+            }
         }
 
         private void setupViewAfterOnMeasure(TextView userCommentary) {
