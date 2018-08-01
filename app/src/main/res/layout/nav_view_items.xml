@@ -36,6 +36,8 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:scaleType="centerCrop"
+            android:layout_height="30dp"
             style="@style/navViewImageItem"
             android:tint="@color/account_color"
             app:srcCompat="@drawable/ic_person_black_24dp" />

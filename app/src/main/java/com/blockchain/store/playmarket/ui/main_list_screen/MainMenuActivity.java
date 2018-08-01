@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.ui.main_list_screen;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -77,6 +78,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         initViews();
         attachFragment();
         setSearchViewDebounce();
+
     }
 
     private void attachPresenter() {

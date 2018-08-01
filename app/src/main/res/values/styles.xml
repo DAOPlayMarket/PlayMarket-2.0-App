@@ -53,15 +53,15 @@
     <style name="navViewTextItem">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:layout_marginLeft">15dp</item>
         <item name="android:textColor">@color/nav_text_color</item>
     </style>
 
     <style name="navViewImageItem">
         <item name="android:layout_width">30dp</item>
-        <item name="android:layout_height">40dp</item>
-        <item name="android:scaleType">center</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:scaleType">centerCrop</item>
 
         <item name="android:tint">@color/nav_image_tint</item>
     </style>
