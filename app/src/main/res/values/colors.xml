@@ -19,7 +19,6 @@
     <color name="action_btn_background">#00a5a7</color>
     <color name="invest_btn_background">#00e6a7</color>
 
-    <color name="nav_yellow">#ffc77d</color>
 
     <color name="invest_btn_bg">#3b026d</color>
     <color name="invest_main_color">#5c757b</color>
@@ -47,10 +46,12 @@
     <color name="material_color_3">#4caf50</color>
 
     <!--Navigation view -->
+    <color name="navigation_view_bg">#e6e6e6</color>
     <color name="top_view_divider">#FDFDFD</color>
 
+    <color name="nav_yellow">#e7b131</color>
     <color name="nav_image_tint">#e7e7e7</color>
-    <color name="nav_text_color">#4A666C</color>
+    <color name="nav_text_color">#54666b</color>
 
     <color name="bottom_items_bg">#E7E7E7</color>
     <color name="item_active_bg">#CCD0D1</color>

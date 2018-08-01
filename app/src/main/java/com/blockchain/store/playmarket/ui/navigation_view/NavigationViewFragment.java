@@ -5,13 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
@@ -37,6 +42,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
     @BindView(R.id.wishlist_layout) LinearLayout wishlistLayout;
     @BindView(R.id.library_layout) LinearLayout libraryLayout;
+    @BindView(R.id.scroll_view) NestedScrollView scrollView;
     @BindView(R.id.news_layout) LinearLayout newsLayout;
     @BindView(R.id.history_layout) LinearLayout historyLayout;
     @BindView(R.id.settings_layout) LinearLayout settingsLayout;

@@ -21,4 +21,5 @@
     <dimen name="exchange_transaction_amount_large">22sp</dimen>
     <dimen name="perimeter_layout_margin">15dp</dimen>
     <dimen name="font_awesome_default_margin">4dp</dimen>
+    <dimen name="navigation_view_default_elevation">4dp</dimen>
 </resources>

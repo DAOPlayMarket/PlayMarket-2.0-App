@@ -5,15 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/navigation_view_bg">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
             android:orientation="vertical">
 
             <LinearLayout
@@ -21,7 +22,6 @@
                 android:layout_height="match_parent"
                 android:elevation="0dp"
                 android:orientation="vertical"
-                android:paddingBottom="30dp"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp"
                 android:paddingTop="20dp">
@@ -31,11 +31,10 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/close_image_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/white"
                         android:padding="6dp"
                         android:rotation="45"
                         android:tint="@color/nav_text_color"
@@ -46,9 +45,9 @@
                         android:layout_width="@dimen/QR_AVATAR_SIZE_SMALL"
                         android:layout_height="@dimen/QR_AVATAR_SIZE_SMALL"
                         android:layout_alignParentTop="true"
-                        tools:background="@drawable/account"
                         android:layout_centerHorizontal="true"
-                        android:layout_gravity="center" />
+                        android:layout_gravity="center"
+                        tools:background="@drawable/account" />
 
                 </RelativeLayout>
 
@@ -93,7 +92,7 @@
                         android:maxLength="12"
                         android:textColor="@color/nav_text_color"
                         android:textSize="22sp"
-                        tools:text="14.9" />
+                        tools:text="14.914159" />
 
                     <ImageView
                         android:layout_width="23dp"
@@ -129,52 +128,70 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/nav_view_exchange"
-                        android:layout_width="0dp"
-                        android:layout_height="38dp"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="20dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/top_up_button"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="@string/exchange"
-                        android:textColor="@color/white"
-                        android:textSize="12sp" />
-
-                    <Button
-                        android:id="@+id/nav_view_send"
-                        android:layout_width="0dp"
-                        android:layout_height="38dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="20dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/top_up_button"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="@string/nav_view_transfer"
-                        android:textColor="@color/white"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/bottom_items_bg"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="35dp"
                 android:gravity="center"
-                android:paddingTop="15dp">
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/nav_view_exchange"
+                        android:layout_width="120dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/top_up_button"
+                        android:drawableRight="@drawable/exchange"
+                        android:elevation="@dimen/navigation_view_default_elevation"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:stateListAnimator="@null"
+                        android:text="@string/exchange"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <android.support.v4.widget.Space
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/nav_view_send"
+                        android:layout_width="120dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/white_round_button"
+                        android:drawableRight="@drawable/transfer"
+                        android:elevation="@dimen/navigation_view_default_elevation"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:stateListAnimator="@null"
+                        android:text="@string/nav_view_transfer"
+                        android:textAllCaps="false"
+                        android:textColor="@color/nav_text_color"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
 
                 <include layout="@layout/nav_view_items" />
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>
