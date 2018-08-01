@@ -290,8 +290,8 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:gravity="center"
-        android:visibility="visible"
-        tools:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <include
             layout="@layout/error_view"

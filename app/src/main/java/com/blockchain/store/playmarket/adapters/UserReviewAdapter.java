@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.UserReview;
+import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Blockies;
 import com.blockchain.store.playmarket.utilities.Constants;
 
@@ -34,18 +35,21 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     ArrayList<UserReview> userReviews;
     int expandedItem = -1;
     UserReviewCallback callback;
+    String userAddress;
 
     public UserReviewAdapter(ArrayList<UserReview> userReviews, UserReviewCallback callback) {
         this.callback = callback;
         this.userReviews = userReviews;
+        userAddress = AccountManager.getAddress().getHex();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position >= userReviews.size()) {
-            return TYPE_USER_REPLY;
-        } else {
+        if (position % 2 == 0) {
+//        if (userReviews.get(position).txIndexOrigin.equalsIgnoreCase(userAddress)) {
             return TYPE_USER_REVIEW;
+        } else {
+            return TYPE_USER_REPLY;
         }
     }
 
@@ -57,7 +61,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             return new UserReviewViewHolder(view);
         } else if (viewType == TYPE_USER_REPLY) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_replay_item, parent, false);
-            return new UserReplyViewHolder(view);
+            return new UserReviewViewHolder(view);
         }
         return null;
     }
@@ -71,21 +75,15 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        return userReviews.size() + 1;
+        return userReviews.size();
     }
 
     class UserReplyViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.rating_bar) MaterialRatingBar ratingBar;
-        @BindView(R.id.rating) TextView ratingView;
-        @BindView(R.id.action_btn) Button replyButton;
-        @BindView(R.id.review_description) EditText reviewDescription;
-
         public UserReplyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            ratingBar.setOnRatingChangeListener((ratingBar, rating) -> ratingView.setText(String.valueOf(((int) rating))));
-            replyButton.setOnClickListener(view -> callback.onReplyClicked(reviewDescription.getText().toString(), ratingView.getText().toString()));
+
         }
 
     }
