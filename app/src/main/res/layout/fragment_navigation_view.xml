@@ -19,9 +19,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:elevation="0dp"
                 android:orientation="vertical"
                 android:paddingBottom="15dp"
-                android:elevation="0dp"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp"
                 android:paddingTop="20dp">
@@ -54,12 +54,17 @@
 
                 <TextView
                     android:id="@+id/user_id_title"
-                    android:layout_width="match_parent"
+                    android:layout_width="200dp"
+                    android:lineSpacingExtra="6dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="15dp"
-                    android:gravity="center"
+                    android:gravity="center_horizontal"
+                    android:lines="2"
+                    android:minLines="2"
+                    android:textAllCaps="true"
                     android:textColor="@color/black"
-                    tools:text="0xada5188f4f58ece74cc367cc606b6257554187ce" />
+                    tools:text="0x 9e1F6 01D72 bDA50 9D82e d7082 D9d3a 7E0F4 d012B" />
 
                 <LinearLayout
                     android:id="@+id/user_balance_holder"
@@ -67,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
                     <ProgressBar
@@ -86,11 +91,11 @@
                         android:gravity="center_vertical"
                         android:maxLength="12"
                         android:textColor="@color/nav_text_color"
-                        android:textSize="30sp"
+                        android:textSize="24sp"
                         tools:text="14.9" />
 
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="25dp"
                         android:layout_height="match_parent"
                         android:tint="@color/nav_text_color"
                         app:srcCompat="@drawable/eth_big" />

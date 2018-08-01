@@ -74,12 +74,12 @@ public class AccountManager {
 
     public static String getFormattedAddress() {
         StringBuilder hex = new StringBuilder(getAddress().getHex());
-        Log.d(TAG, "getFormattedAddress: ");
-        for (int i = 2; i < hex.toString().length(); i += 5) {
+        Log.d(TAG, "getFormattedAddress: " + hex);
+        for (int i = 2; i < hex.toString().length(); i += 6) {
             hex.insert(i, " ");
         }
-
-
+        Log.d(TAG, "getFormattedAddress: " + hex);
+        return hex.toString();
     }
 
 }
