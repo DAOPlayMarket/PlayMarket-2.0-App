@@ -3,25 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipe_refresh_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:outlineProvider="bounds">
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/navigation_view_bg">
+        android:background="@color/navigation_view_bg"
+        android:outlineProvider="bounds">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:outlineProvider="bounds">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:elevation="0dp"
                 android:orientation="vertical"
+                android:outlineProvider="bounds"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp"
                 android:paddingTop="20dp">
@@ -29,7 +33,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:outlineProvider="bounds">
 
                     <ImageView
                         android:id="@+id/close_image_button"
@@ -64,6 +69,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/black"
                     tools:text="0x 9e1F6 01D72 bDA50 9D82e d7082 D9d3a 7E0F4 d012B" />
+
 
                 <LinearLayout
                     android:id="@+id/user_balance_holder"
@@ -137,6 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="35dp"
                 android:layout_marginRight="35dp"
+                android:layout_marginBottom="25dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -170,7 +177,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
 
-                    <android.support.v7.widget.AppCompatButton
+                    <Button
                         android:id="@+id/nav_view_send"
                         android:layout_width="120dp"
                         android:layout_height="36dp"

@@ -59,9 +59,9 @@
     </style>
 
     <style name="navViewImageItem">
-        <item name="android:layout_width">30dp</item>
-        <item name="android:layout_height">30dp</item>
-        <item name="android:scaleType">centerCrop</item>
+        <item name="android:layout_width">45dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:scaleType">centerInside</item>
 
         <item name="android:tint">@color/nav_image_tint</item>
     </style>
