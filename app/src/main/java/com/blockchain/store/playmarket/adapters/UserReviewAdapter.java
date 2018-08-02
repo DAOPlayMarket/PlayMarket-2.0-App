@@ -109,8 +109,8 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             constraintLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(userReview.isTxIndexIsEmpty()){
-                        callback.onReplyClicked();
+                    if (userReview.isTxIndexIsEmpty()) {
+                        callback.onReplyOnReviewClicked(userReview);
                     } else {
                         callback.onReplyOnReviewClicked(userReview);
                     }

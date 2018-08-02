@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
     android:background="@android:color/transparent">
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
+                android:minHeight="100dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -131,8 +133,6 @@
                     android:backgroundTint="@color/green_color"
                     android:hint="@string/password"
                     android:inputType="textPassword"
-                    android:text="fdasadsads"
-
                     android:textColor="@color/green_color" />
 
             </android.support.design.widget.TextInputLayout>
