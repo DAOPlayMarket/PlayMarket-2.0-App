@@ -47,9 +47,11 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final InvestAdapterCallback adapterCallback;
 
     private InvestTempPojo investTempPojo;
+    private boolean isOpenFromIcoScreen;
 
-    public InvestScreenAdapter(AppInfo appInfo, InvestAdapterCallback adapterCallback) {
+    public InvestScreenAdapter(AppInfo appInfo, InvestAdapterCallback adapterCallback, boolean isOpenFromIcoScreen) {
         this.adapterCallback = adapterCallback;
+        this.isOpenFromIcoScreen = isOpenFromIcoScreen;
         investTempPojo = new InvestTempPojo(appInfo);
     }
 
@@ -146,6 +148,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private SimpleDraweeView iconView;
         private ProgressBar progressBar;
         private TextView icoCurrency;
+        private Button openAppButton;
 
         public InvestMainViewHolder(View itemView) {
             super(itemView);
@@ -157,6 +160,9 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             iconView = itemView.findViewById(R.id.invest_app_logo);
             progressBar = itemView.findViewById(R.id.invest_progress_bar);
             icoCurrency = itemView.findViewById(R.id.invest_earned_currency);
+            openAppButton = itemView.findViewById(R.id.open_app_btn);
+            openAppButton.setVisibility(isOpenFromIcoScreen ? View.VISIBLE : View.GONE);
+            openAppButton.setOnClickListener(v -> adapterCallback.onOpenAppClicked());
         }
 
         public void bind(InvestMainItem investMainItem) {
@@ -186,12 +192,12 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    private String unixTimeToDays(long unixTimeSec){
+    private String unixTimeToDays(long unixTimeSec) {
 
         long divReminder = unixTimeSec;
         String result = "";
 
-        int[] dimensionArr  = {86400000, 3600000, 60000, 1000};
+        int[] dimensionArr = {86400000, 3600000, 60000, 1000};
 
         for (int dimension : dimensionArr) {
             if (divReminder > dimension) {
@@ -199,11 +205,11 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 long timeValue = divReminder / dimension;
                 timeValue = (int) timeValue;
                 String timeValueStr = ((timeValue <= 9) ? "0" + String.valueOf(timeValue) : String.valueOf(timeValue));
-                result = result + ((dimension == dimensionArr[0])? timeValueStr + " days " : (dimension == dimensionArr[3])? timeValueStr : timeValueStr + ':');
+                result = result + ((dimension == dimensionArr[0]) ? timeValueStr + " days " : (dimension == dimensionArr[3]) ? timeValueStr : timeValueStr + ':');
 
                 divReminder = unixTimeSec % dimension;
             } else {
-                result = result + ((dimension == dimensionArr[0])? "00 days " : (dimension == dimensionArr[3])? "00" : "00:");
+                result = result + ((dimension == dimensionArr[0]) ? "00 days " : (dimension == dimensionArr[3]) ? "00" : "00:");
             }
         }
 

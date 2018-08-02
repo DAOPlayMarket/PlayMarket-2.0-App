@@ -20,9 +20,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
-        tools:text="PlayMarket 2.0"
         android:textColor="@color/invest_main_color"
-        android:textSize="32sp" />
+        android:textSize="32sp"
+        tools:text="PlayMarket 2.0" />
 
     <TextView
         android:id="@+id/invest_app_description"
@@ -30,9 +30,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
-        tools:text="A Decentralized App Store for Android \nmade with the Ethereum Blockchain"
         android:textColor="@color/invest_main_color"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        tools:text="A Decentralized App Store for Android \nmade with the Ethereum Blockchain" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -134,6 +134,7 @@
             android:text="@string/invest_earned_message"
             android:textColor="@color/invest_main_color"
             android:textSize="14sp" />
+
         <TextView
             android:id="@+id/invest_earned_currency"
             android:layout_width="wrap_content"
@@ -153,14 +154,32 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/invest_btn"
-        style="@style/ColorButton"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/round_corner_purple_button"
+        android:orientation="horizontal"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:text="@string/btn_invest" />
+        android:paddingRight="10dp">
+
+        <Button
+            android:id="@+id/open_app_btn"
+            style="@style/ColorButton"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/round_corner_purple_button"
+            android:backgroundTint="@color/colorAccent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/open_app_info" />
+
+        <Button
+            android:id="@+id/invest_btn"
+            style="@style/ColorButton"
+            android:background="@drawable/round_corner_purple_button"
+
+            android:text="@string/btn_invest" />
+    </LinearLayout>
+
 </LinearLayout>

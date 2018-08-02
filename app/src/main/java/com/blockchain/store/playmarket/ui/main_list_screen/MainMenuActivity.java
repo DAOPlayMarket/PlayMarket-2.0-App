@@ -225,8 +225,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onAppClickedWithTransition(App app, View view) {
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, "app_icon");
-        AppDetailActivity.start(this, app, options);
+        AppDetailActivity.start(this, app);
     }
 
     private void onSuggestionClicked(String query) {

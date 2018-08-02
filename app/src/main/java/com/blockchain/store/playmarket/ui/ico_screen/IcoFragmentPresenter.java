@@ -1,20 +1,19 @@
 package com.blockchain.store.playmarket.ui.ico_screen;
 
-import android.util.Log;
-
 import com.blockchain.store.playmarket.data.entities.App;
-import com.blockchain.store.playmarket.repositories.IcoAppsRepository;
+import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.repositories.IcoAppsInfoRepository;
 
 import java.util.ArrayList;
 
-public class IcoFragmentPresenter implements IcoFragmentContracts.Presenter, IcoAppsRepository.IcoAppsRepositoryCallback {
+public class IcoFragmentPresenter implements IcoFragmentContracts.Presenter, IcoAppsInfoRepository.IcoAppsRepositoryCallback {
     private IcoFragmentContracts.View view;
-    private IcoAppsRepository icoAppsRepository;
+    private IcoAppsInfoRepository icoAppsRepository;
 
     @Override
     public void init(IcoFragmentContracts.View view) {
         this.view = view;
-        icoAppsRepository = new IcoAppsRepository();
+        icoAppsRepository = new IcoAppsInfoRepository();
     }
 
     @Override
@@ -23,7 +22,7 @@ public class IcoFragmentPresenter implements IcoFragmentContracts.Presenter, Ico
     }
 
     @Override
-    public void onIcoAppsReady(ArrayList<App> apps) {
+    public void onIcoAppsReady(ArrayList<AppInfo> apps) {
         view.onIcoAppsReady(apps);
     }
 

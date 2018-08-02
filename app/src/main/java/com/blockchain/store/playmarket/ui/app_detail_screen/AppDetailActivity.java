@@ -18,6 +18,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -61,6 +62,7 @@ import static com.blockchain.store.playmarket.utilities.Constants.PLAY_MARKET_AD
 public class AppDetailActivity extends AppCompatActivity implements AppDetailContract.View, ImageListAdapterCallback, UserReviewAdapter.UserReviewCallback {
     private static final String TAG = "AppDetailActivity";
     private static final String APP_EXTRA = "app_extra";
+    private static final String APP_INFO_EXTRA = "app_info_extra";
     private static final int DEFAULT_MAX_LINES = 3;
     private static final int LIMIT_MAX_LINES = 150;
     private static final int ANIMATOR_DURATION = 400;
@@ -88,6 +90,10 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.price_progress_bar) ProgressBar priceProgressBar;
     @BindView(R.id.reviews_recycler_view) RecyclerView reviewsRecyclerView;
 
+    @BindView(R.id.test_edittext) EditText testEd;
+    @BindView(R.id.test_button) Button testBtn;
+    @BindView(R.id.test_rating_bar) MaterialRatingBar testRatingBar;
+
     private boolean isUserPurchasedApp;
 
     private ObjectAnimator textDescriptionAnimator;
@@ -104,10 +110,10 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         context.startActivity(starter);
     }
 
-    public static void start(Context context, App app, ActivityOptionsCompat options) {
+    public static void start(Context context, AppInfo app) {
         Intent starter = new Intent(context, AppDetailActivity.class);
-        starter.putExtra(APP_EXTRA, app);
-        context.startActivity(starter/*, options.toBundle()*/);
+        starter.putExtra(APP_INFO_EXTRA, app);
+        context.startActivity(starter);
     }
 
     @Override
@@ -116,7 +122,12 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         setContentView(R.layout.activity_app_detail);
         ButterKnife.bind(this);
         if (getIntent() != null) {
-            app = getIntent().getParcelableExtra(APP_EXTRA);
+            appInfo = getIntent().getParcelableExtra(APP_INFO_EXTRA);
+            if(appInfo !=null){
+                app = appInfo.convertToApp(appInfo);
+            } else {
+                app = getIntent().getParcelableExtra(APP_EXTRA);
+            }
         }
         attachPresenter();
         setViews();
@@ -126,9 +137,12 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     private void attachPresenter() {
         presenter = new AppDetailPresenter();
         presenter.init(this);
-        presenter.getDetailedInfo(app);
+        if (appInfo != null) {
+            onDetailedInfoReady(appInfo);
+        } else {
+            presenter.getDetailedInfo(app);
+        }
         presenter.getReviews(app.appId);
-        //if (app.adrICO!=null) presenter.getTokens(app);
     }
 
     @Override
@@ -191,14 +205,14 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         this.appInfo = appInfo;
         setInvestButtonVisibility(appInfo);
         mainLayoutHolder.setVisibility(View.VISIBLE);
-        if (app.description != null)
+        if (appInfo.description != null)
             appDescription.setText(Html.fromHtml(app.description));
-        if (app.rating != null) {
+        if (appInfo.rating != null) {
             noMarksTextView.setVisibility(View.GONE);
             appRating.setVisibility(View.VISIBLE);
             ratingBar.setVisibility(View.VISIBLE);
 
-            double rating = ((double) app.rating.ratingSum / app.rating.ratingCount);
+            double rating = ((double) appInfo.rating.ratingSum / appInfo.rating.ratingCount);
             rating = Math.round(rating * 10.0) / 10.0;
             appRating.setText(String.valueOf(rating));
             ratingBar.setRating(Float.valueOf(String.valueOf(rating)));
@@ -364,6 +378,14 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         }
 
 
+    }
+
+    @OnClick(R.id.test_button)
+    void onTestButtonClicked() {
+        new DialogManager().showPurchaseDialog(app, this, () -> {
+            int rating = (int) testRatingBar.getRating();
+            presenter.onSendReviewClicked(testEd.getText().toString(), String.valueOf(rating));
+        });
     }
 
     @Override

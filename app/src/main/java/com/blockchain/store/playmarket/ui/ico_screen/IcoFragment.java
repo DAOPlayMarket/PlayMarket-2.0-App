@@ -17,15 +17,18 @@ import android.widget.TextView;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.IcoListAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
+import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.interfaces.AppInfoCallback;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
+import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
 
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class IcoFragment extends Fragment implements IcoFragmentContracts.View, AppListCallbacks, SwipeRefreshLayout.OnRefreshListener {
+public class IcoFragment extends Fragment implements IcoFragmentContracts.View, SwipeRefreshLayout.OnRefreshListener, AppInfoCallback {
     private static final String TAG = "IcoFragment";
 
     private IcoFragmentPresenter presenter;
@@ -88,7 +91,7 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
 
 
     @Override
-    public void onIcoAppsReady(ArrayList<App> apps) {
+    public void onIcoAppsReady(ArrayList<AppInfo> apps) {
         errorHolder.setVisibility(View.GONE);
         if (apps.isEmpty()) {
             setEmptyViewVisible(true);
@@ -107,7 +110,7 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
 
     }
 
-    private void setupRecyclerView(ArrayList<App> apps) {
+    private void setupRecyclerView(ArrayList<AppInfo> apps) {
         adapter = new IcoListAdapter(apps, this);
         adapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -125,7 +128,8 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
     }
 
     @Override
-    public void onAppClicked(App app) {
-        AppDetailActivity.start(getActivity(), app);
+    public void onAppInfoClicked(AppInfo appinfo) {
+        InvestActivity.startFromIco(getActivity(), appinfo);
+
     }
 }

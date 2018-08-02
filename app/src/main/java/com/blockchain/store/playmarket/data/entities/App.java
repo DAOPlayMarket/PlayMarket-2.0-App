@@ -44,9 +44,7 @@ public class App implements Parcelable {
     @SerializedName("idCTG")
     public String catalogId;
     public String nameApp;
-
     public AppFiles files;
-
     @SerializedName("publish")
     public boolean isPublish;
     @SerializedName("icoRelease")

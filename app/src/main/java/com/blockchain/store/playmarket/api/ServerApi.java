@@ -32,7 +32,7 @@ public interface ServerApi {
     Observable<ArrayList<Category>> getCagories();
 
     @GET("get-apps-ico")
-    Observable<ArrayList<App>> getIcoApps();
+    Observable<ArrayList<AppInfo>> getIcoApps();
 
     @FormUrlEncoded
     @POST("get-app")

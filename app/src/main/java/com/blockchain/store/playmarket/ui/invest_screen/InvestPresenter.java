@@ -6,6 +6,7 @@ import android.util.Pair;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.CurrentInfo;
 import com.blockchain.store.playmarket.data.entities.InvestAddressResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.utilities.AccountManager;
@@ -66,13 +67,25 @@ public class InvestPresenter implements InvestContract.Presenter {
     }
 
     private void onInvestSuccessful(PurchaseAppResponse purchaseAppResponse) {
-//        view.onPurchaseSuccessful(purchaseAppResponse);
-        Log.d(TAG, "onInvestSuccessful() called with: appInfo = [" + purchaseAppResponse + "]");
     }
 
 
     private void onPurchaseError(Throwable throwable) {
-//        view.onPurchaseError(throwable);
-        Log.d(TAG, "onAccountInfoError() called with: throwable = [" + throwable + "]");
+    }
+
+    public void getCurrentInfo(AppInfo appInfo) {
+        RestApi.getServerApi().getCurrentInfo(appInfo.adrICO)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onCurrentInfoReady, this::OnCurrentInfoError);
+    }
+
+    private void onCurrentInfoReady(CurrentInfo currentInfo) {
+        view.onCurrentInfoReady(currentInfo);
+    }
+
+    private void OnCurrentInfoError(Throwable throwable) {
+        view.onCurrentInfoError(throwable);
+
     }
 }

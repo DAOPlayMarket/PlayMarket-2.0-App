@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.repositories;
 
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.App;
+import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.IcoBalance;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class IcoAppsRepository {
+public class IcoAppsInfoRepository {
     private IcoAppsRepositoryCallback callback;
 
     public void getIcoApps(IcoAppsRepositoryCallback callback) {
@@ -23,7 +24,7 @@ public class IcoAppsRepository {
                 .subscribe(this::onIcoAppsReady, this::onIcoAppsFailed);
     }
 
-    private void onIcoAppsReady(ArrayList<App> apps) {
+    private void onIcoAppsReady(ArrayList<AppInfo> apps) {
         ArrayList<String> icoAddressesArr = new ArrayList<>();
         for (int i = 0; i<apps.size(); i++) { icoAddressesArr.add(apps.get(i).adrICO); }
         String icoAddressesStr = arrayToString(icoAddressesArr);
@@ -52,7 +53,7 @@ public class IcoAppsRepository {
     }
 
     public interface IcoAppsRepositoryCallback {
-        void onIcoAppsReady(ArrayList<App> apps);
+        void onIcoAppsReady(ArrayList<AppInfo> apps);
 
         void onIcoAppsFailed(Throwable throwable);
 

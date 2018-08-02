@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.ui.invest_screen;
 
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.CurrentInfo;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 
 /**
@@ -10,6 +11,9 @@ import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 public class InvestContract {
     interface View{
 
+        void onCurrentInfoReady(CurrentInfo currentInfo);
+
+        void onCurrentInfoError(Throwable throwable);
     }
     interface Presenter{
         void init(View view);

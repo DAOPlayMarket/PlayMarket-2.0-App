@@ -69,6 +69,8 @@ public class AppInfo implements Parcelable {
     public String packageName;
     public IcoInfo infoICO = null;
     public CurrentInfo currentInfo;
+    public Rating rating;
+    public IcoBalance icoBalance;
 
     public String getIconUrl() {
         try {
@@ -112,6 +114,9 @@ public class AppInfo implements Parcelable {
         return hash + ".apk";
     }
 
+
+    public AppInfo() {
+    }
 
     @Override
     public int describeContents() {
@@ -160,9 +165,8 @@ public class AppInfo implements Parcelable {
         dest.writeString(this.packageName);
         dest.writeParcelable(this.infoICO, flags);
         dest.writeParcelable(this.currentInfo, flags);
-    }
-
-    public AppInfo() {
+        dest.writeParcelable(this.rating, flags);
+        dest.writeParcelable(this.icoBalance, flags);
     }
 
     protected AppInfo(Parcel in) {
@@ -206,9 +210,11 @@ public class AppInfo implements Parcelable {
         this.packageName = in.readString();
         this.infoICO = in.readParcelable(IcoInfo.class.getClassLoader());
         this.currentInfo = in.readParcelable(CurrentInfo.class.getClassLoader());
+        this.rating = in.readParcelable(Rating.class.getClassLoader());
+        this.icoBalance = in.readParcelable(IcoBalance.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<AppInfo> CREATOR = new Parcelable.Creator<AppInfo>() {
+    public static final Creator<AppInfo> CREATOR = new Creator<AppInfo>() {
         @Override
         public AppInfo createFromParcel(Parcel source) {
             return new AppInfo(source);
@@ -219,4 +225,50 @@ public class AppInfo implements Parcelable {
             return new AppInfo[size];
         }
     };
+
+    public App convertToApp(AppInfo appInfo) {
+        App app = new App();
+        app.appId = appInfo.appId;
+        app.adrICO = appInfo.adrICO;
+        app.price = appInfo.price;
+        app.isFree = appInfo.isFree;
+        app.adrDev = appInfo.adrDev;
+        app.hashTag = appInfo.hashTag;
+        app.hash = appInfo.hash;
+        app.description = appInfo.description;
+        app.privacyPolicy = appInfo.privacyPolicy;
+        app.urlApp = appInfo.urlApp;
+        app.isForChildren = appInfo.isForChildren;
+        app.isAdverising = appInfo.isAdverising;
+        app.ageRestrictions = appInfo.ageRestrictions;
+        app.email = appInfo.email;
+        app.youtubeID = appInfo.youtubeID;
+        app.shortDescription = appInfo.shortDescription;
+        app.slogan = appInfo.slogan;
+        app.subCategory = appInfo.subCategory;
+        app.catalogId = appInfo.catalogId;
+        app.nameApp = appInfo.nameApp;
+        app.files = appInfo.files;
+        app.isPublish = appInfo.isPublish;
+        app.isIco = appInfo.isIco;
+        app.icoUrl = appInfo.icoUrl;
+        app.locale = appInfo.locale;
+        app.pP = appInfo.pP;
+        app.icoSymbol = appInfo.icoSymbol;
+        app.icoName = appInfo.icoName;
+        app.icoDecimals = appInfo.icoDecimals;
+        app.icoStages = appInfo.icoStages;
+        app.icoTotalSupply = appInfo.icoTotalSupply;
+        app.icoStartDate = appInfo.icoStartDate;
+        app.icoEndDate = appInfo.icoEndDate;
+        app.icoHardCapUsd = appInfo.icoHardCapUsd;
+        app.hashICO = appInfo.hashICO;
+        app.hashTagICO = appInfo.hashTagICO;
+        app.version = appInfo.version;
+        app.packageName = appInfo.packageName;
+        app.infoICO = appInfo.infoICO;
+        app.rating = appInfo.rating;
+        app.icoBalance = appInfo.icoBalance;
+        return app;
+    }
 }

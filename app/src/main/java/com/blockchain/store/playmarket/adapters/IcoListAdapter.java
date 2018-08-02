@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.data.entities.App;
-import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
+import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.interfaces.AppInfoCallback;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -22,10 +22,10 @@ import butterknife.ButterKnife;
 public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppViewHolder> {
     private static final String TAG = "IcoListAdapter";
 
-    private ArrayList<App> appList = new ArrayList<App>();
-    private AppListCallbacks appListCallbacks;
+    private ArrayList<AppInfo> appList;
+    private AppInfoCallback appListCallbacks;
 
-    public IcoListAdapter(ArrayList<App> appList, AppListCallbacks appListCallbacks) {
+    public IcoListAdapter(ArrayList<AppInfo> appList, AppInfoCallback appListCallbacks) {
         this.appList = appList;
         this.appListCallbacks = appListCallbacks;
     }
@@ -58,18 +58,17 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
         IcoAppViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            cardView.setOnClickListener(v -> appListCallbacks.onAppClickedWithTransition(appList.get(getAdapterPosition()), itemView));
         }
 
-        public void bind(App app) {
+        public void bind(AppInfo app) {
             icon.setImageURI(Uri.parse(app.getIconUrl()));
             title.setText(app.nameApp);
             tokenBought.setText(String.valueOf(tokenTransform(app.icoBalance.balanceOf, app.icoBalance.decimals)));
-            cardView.setOnClickListener(v -> appListCallbacks.onAppClicked(app));
+            cardView.setOnClickListener(v -> appListCallbacks.onAppInfoClicked(app));
         }
     }
 
-    private String tokenTransform(String tokensStr, String decimalsStr){
+    private String tokenTransform(String tokensStr, String decimalsStr) {
         long tokensNum = Long.valueOf(tokensStr);
         short decimalsNum = Short.valueOf(decimalsStr);
         double transformedTokensNum = tokensNum * Math.pow(10, -decimalsNum);

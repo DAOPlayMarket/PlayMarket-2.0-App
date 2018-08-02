@@ -170,5 +170,6 @@
 
     <string name="review_dialog_title">Enter password to proceed.</string>
     <string name="or_user_your_fingerprint">Or user your fingerprint</string>
+    <string name="open_app_info">open app info</string>
 
 </resources>

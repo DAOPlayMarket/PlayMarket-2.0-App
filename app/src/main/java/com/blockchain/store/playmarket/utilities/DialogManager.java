@@ -117,11 +117,15 @@ public class DialogManager {
         dialog.show();
     }
 
-    public void showInvestDialog(AppInfo appinfo, Context context, InvestDialogCallback callback) {
+    public void showReviewDialog(AppInfo appinfo, Context context, InvestDialogCallback callback) {
         String accountBalanceInWei = AccountManager.getUserBalance();
 
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.invest_amount_dialog);
+
+
+
+
 
         EditText passwordText = dialog.findViewById(R.id.password_editText);
         EditText investmentAmountText = dialog.findViewById(R.id.investmentAmountText);
