@@ -106,6 +106,16 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         public void bind(UserReview userReview, int position) {
+            constraintLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(userReview.isTxIndexIsEmpty()){
+                        callback.onReplyClicked();
+                    } else {
+                        callback.onReplyOnReviewClicked(userReview);
+                    }
+                }
+            });
             userCommentary.setText(userReview.description);
             userName.setText(userReview.voter);
             try {
@@ -146,8 +156,8 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public interface UserReviewCallback {
-        void onReplyClicked(String message, String vote);
+        void onReplyClicked();
 
-        void onReplyOnReviewClicked(UserReview userReview, String message);
+        void onReplyOnReviewClicked(UserReview userReview);
     }
 }

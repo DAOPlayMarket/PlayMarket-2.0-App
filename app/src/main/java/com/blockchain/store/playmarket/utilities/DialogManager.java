@@ -1,36 +1,42 @@
 package com.blockchain.store.playmarket.utilities;
 
+import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
-import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.mtramin.rxfingerprint.RxFingerprint;
 import com.orhanobut.hawk.Hawk;
 
 import java.math.BigDecimal;
 
+import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class DialogManager {
+    private static final String TAG = "DialogManager";
 
     private EditText folderNamedText;
     private EditText passwordText;
-
-    private static final String TAG = "DialogManager";
 
     public void showPurchaseDialog(App app, Context context, PurchaseDialogCallback callback) {
         String accountBalanceInWei = AccountManager.getUserBalance();
@@ -117,46 +123,120 @@ public class DialogManager {
         dialog.show();
     }
 
-    public void showReviewDialog(AppInfo appinfo, Context context, InvestDialogCallback callback) {
+    public void showReviewDialog(AppInfo appinfo, Context context, PurchaseDialogCallback callback, UserReview userReview) {
         String accountBalanceInWei = AccountManager.getUserBalance();
-
+        String accountBalanceAsString = new EthereumPrice(accountBalanceInWei).inEther().toString();
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.invest_amount_dialog);
-
-
-
-
-
-        EditText passwordText = dialog.findViewById(R.id.password_editText);
-        EditText investmentAmountText = dialog.findViewById(R.id.investmentAmountText);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        if (dialog != null) {
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            dialog.getWindow().setLayout(width, height);
+        }
+        TextView userName = dialog.findViewById(R.id.user_name);
+        TextView userCommentary = dialog.findViewById(R.id.user_commentary);
+        TextView readMore = dialog.findViewById(R.id.read_more);
+        LinearLayout replayReviewHolder = dialog.findViewById(R.id.replay_review_holder);
+        EditText commentary = dialog.findViewById(R.id.commentary);
+        MaterialRatingBar ratingBar = dialog.findViewById(R.id.user_rating_bar);
+        TextView yourBalanceText = dialog.findViewById(R.id.your_balance);
+        EditText passwordField = dialog.findViewById(R.id.password_field);
+        TextView fingerPrintTitle = dialog.findViewById(R.id.fingerprint_info_textView);
         Button continueButton = dialog.findViewById(R.id.continue_button);
         Button closeButton = dialog.findViewById(R.id.cancelButton);
-        TextView balanceText = dialog.findViewById(R.id.balanceText);
+
+
+        Disposable fingerprintDisposable = Disposables.empty();
+
+        if (userReview == null) {
+            replayReviewHolder.setVisibility(View.GONE);
+        } else {
+
+            userName.setText(userReview.voter);
+            userCommentary.setText(userReview.description);
+            ratingBar.setRating(Float.parseFloat(userReview.vote));
+
+        }
+
+        yourBalanceText.setText(String.format(context.getString(R.string.your_balance_is), accountBalanceAsString));
+
+        if (FingerprintUtils.isFingerprintAvailibility(context)) {
+            fingerPrintTitle.setVisibility(View.VISIBLE);
+            fingerprintDisposable = RxFingerprint.decrypt(context, Hawk.get(Constants.ENCRYPTED_PASSWORD))
+                    .subscribe(fingerprintDecryptionResult -> {
+                        switch (fingerprintDecryptionResult.getResult()) {
+                            case FAILED:
+                                passwordText.setError(context.getResources().getString(R.string.fingerprint_not_recognized));
+                                passwordText.requestFocus();
+                                break;
+                            case HELP:
+                                break;
+                            case AUTHENTICATED:
+                                //todo add check if comment isn't empty
+                                if (new BigDecimal(accountBalanceInWei).compareTo(new BigDecimal("0")) == 1) {
+                                    try {
+                                        passwordText.setText(fingerprintDecryptionResult.getDecrypted());
+                                        Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordText.getText().toString());
+                                        dialog.dismiss();
+                                        callback.onPurchaseClicked();
+                                    } catch (Exception e) {
+                                        passwordText.setError(context.getString(R.string.wrong_password));
+                                    }
+
+                                } else {
+                                    passwordText.setError(context.getString(R.string.not_enought_balance));
+                                    passwordText.requestFocus();
+                                }
+                                break;
+                        }
+                    }, throwable -> {
+                        //noinspection StatementWithEmptyBody
+                        if (RxFingerprint.keyInvalidated(throwable)) {
+                            // The keys you wanted to use are invalidated because the user has turned off his
+                            // secure lock screen or changed the fingerprints stored on the device
+                            // You have to re-encrypt the data to access it
+                        }
+                        Log.e("ERROR", "decrypt", throwable);
+                    });
+        }
+
+
         closeButton.setOnClickListener(v -> dialog.dismiss());
-        balanceText.setText(new EthereumPrice(accountBalanceInWei).inEther().toString());
+
         continueButton.setOnClickListener(v -> {
-            if (investmentAmountText.getText().toString().trim().isEmpty()) {
-                investmentAmountText.setError(context.getString(R.string.wrong_invest_amout));
-                investmentAmountText.requestFocus();
-                return;
-            }
-            if (new BigDecimal(accountBalanceInWei).compareTo(new EthereumPrice(investmentAmountText.getText().toString()).inWei()) == 1) {
+
+            if (new BigDecimal(accountBalanceInWei).compareTo(new BigDecimal("0")) == 1) {
                 try {
                     Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordText.getText().toString());
                     dialog.dismiss();
-                    callback.onInvestClicked(investmentAmountText.getText().toString());
+                    callback.onPurchaseClicked();
                 } catch (Exception e) {
                     passwordText.setError(context.getString(R.string.wrong_password));
                 }
 
             } else {
-                balanceText.setError(context.getString(R.string.not_enought_balance));
-                balanceText.requestFocus();
+                passwordText.setError(context.getString(R.string.not_enought_balance));
+                passwordText.requestFocus();
             }
 
         });
         dialog.show();
     }
+
+//    private void setReadMoreLogic(TextView userCommentary) {
+//        if (userCommentary.getMaxLines() == 2) {
+//            textDescriptionAnimator = ObjectAnimator.ofInt(userCommentary, "maxLines", 10);
+//            readMore.setText(itemView.getContext().getString(R.string.read_less));
+//        } else if (userCommentary.getMaxLines() == 10) {
+//            textDescriptionAnimator = ObjectAnimator.ofInt(userCommentary, "maxLines", 2);
+//            readMore.setText(itemView.getContext().getString(R.string.read_more));
+//        }
+//
+//        if (textDescriptionAnimator != null && !textDescriptionAnimator.isStarted()) {
+//            textDescriptionAnimator.setDuration(Constants.USER_REVIEW_EXPAND_ANIMATION_MILLIS).start();
+//        }
+//    }
 
     public AlertDialog showCreateFolderDialog(Context context, String folderName, CreateFolderDialogCallback callback) {
 

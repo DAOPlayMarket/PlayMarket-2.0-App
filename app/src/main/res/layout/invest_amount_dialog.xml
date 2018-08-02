@@ -1,108 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    app:cardCornerRadius="8dp">
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
 
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        app:cardCornerRadius="8dp">
 
-        <LinearLayout
-            android:id="@+id/replay_review_holder"
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/user_name"
-                style="@style/default_black_title"
-                android:layout_width="match_parent"
-                android:layout_height="17dp"
-                android:layout_marginEnd="16dp"
-                android:ellipsize="middle"
-                android:singleLine="true"
-                android:textColor="@color/review_title_text_color"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                tools:text="Some Random  Name " />
-
-            <TextView
-                android:id="@+id/user_commentary"
+            <LinearLayout
+                android:id="@+id/replay_review_holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_margin="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/user_name"
+                    style="@style/default_black_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="17dp"
+                    android:layout_marginEnd="16dp"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
+                    android:textColor="@color/review_title_text_color"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:text="Some Random  Name " />
+
+                <TextView
+                    android:id="@+id/user_commentary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="8dp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textColor="@color/review_text_color"
+                    android:textSize="16sp"
+                    tools:text="TextViewT extVfsdafd sfd fd fdfddffd fdfs df dsasdfa fasdffasdf TextViewT extVfsdafd sfd fd fdfddffd fdfs df dsasdfa fasdffasdf  d assf sd fsdf f saf asdfsa fsd f sdaf dfd s f fsdaeie wTextVie wTextVi fs fsdfas dfd dsf sdf ew TextView TextVieasd s s s s s s s s  s s d   dadsa  d wTextView fdas asfd dfTextViewT extVfsdafd sfd fd fdfddffd fdfs df dsasdfa fasdffasdf  d assf sd fsdf f saf asdfsa fsd f sdaf dfd s f fsdaeie wTextVie wTextVi fs fsdfas dfd dsf sdf ew TextView TextVieasd s s s s s s s s  s s d   dadsa  d wTextView fdas asfd dfTextViewT extVfsdafd sfd fd fdfddffd fdfs df dsasdfa fasdffasdf  d assf sd fsdf f saf asdfsa fsd f sdaf dfd s f fsdaeie wTextVie wTextVi fs fsdfas dfd dsf sdf ew TextView TextVieasd s s s s s s s s  s s d   dadsa  d wTextView fdas asfd df d assf sd fsdf f saf asdfsa fsd f sdaf dfd s f fsdaeie wTextVie wTextVi fs fsdfas dfd dsf sdf ew TextView TextVieasd s s s s s s s s  s s d   dadsa  d wTextView fdas asfd df" />
+
+                <TextView
+                    android:id="@+id/read_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingBottom="4dp"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="12dp"
+                    android:text="@string/read_more"
+                    android:textColor="@color/review_title_text_color"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/user_commentary"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/commentary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/dialog_edittext_bg"
+                android:gravity="top|center_vertical"
+                android:minHeight="140dp"
+                android:padding="10dp"
+                android:textColor="@android:color/white"
+                tools:text="Test test ..." />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="8dp"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="TextViewT extVfsdafd sfd fd fdfddffd fdfs df dsasdfa fasdf d assf sd fsdf f saf asdfsa fsd f sdaf dfd s f fsdaeie wTextVie wTextVi fs fsdfas dfd dsf sdf ew TextView TextVieasd s s s s s s s s  s s d   dadsa  d wTextView fdas asfd df"
-                android:textColor="@color/review_text_color"
-                android:textSize="16sp" />
+                android:orientation="horizontal">
+
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:id="@+id/user_rating_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:maxHeight="23dp"
+                    android:minHeight="23dp"
+                    android:numStars="5"
+                    android:progressTint="#67b7b5"
+                    android:rating="4"
+                    android:secondaryProgressTint="#686f7d"
+                    android:stepSize="1"
+                    app:layout_constraintStart_toStartOf="@+id/user_name"
+                    app:layout_constraintTop_toBottomOf="@+id/user_name"
+                    app:mrb_fillBackgroundStars="true" />
+
+                <TextView
+                    android:id="@+id/your_balance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="@string/your_balance_is"
+                    android:textColor="@color/dialog_text_field" />
+
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:textColorHint="@color/green_color"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/green_color">
+
+                <EditText
+                    android:id="@+id/password_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/green_color"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:text="fdasadsads"
+
+                    android:textColor="@color/green_color" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
-                android:id="@+id/read_more"
+                android:id="@+id/fingerprint_info_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:paddingBottom="4dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="12dp"
-                android:text="@string/read_more"
-                android:textColor="@color/review_title_text_color"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/user_commentary"
-                tools:visibility="visible" />
+                android:layout_gravity="center"
+                android:text="@string/or_user_your_fingerprint"
+                android:textColor="@color/green_color"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/cancelButton"
+                    style="@style/ColorButton"
+                    android:layout_width="0dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:text="@string/cancel_btn"
+                    android:textColor="@color/green_color"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/continue_button"
+                    style="@style/ColorButton"
+                    android:layout_width="0dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_green_button"
+                    android:text="@string/send_message"
+                    android:textColor="@android:color/background_light"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
 
         </LinearLayout>
+    </android.support.v7.widget.CardView>
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/dialog_edittext_bg"
-            android:gravity="top|center_vertical"
-            android:minHeight="140dp"
-            android:padding="10dp"
-            tools:text="Test test ..."
-            android:textColor="@android:color/white" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/cancelButton"
-                style="@style/ColorButton"
-                android:layout_width="0dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_dialog_button"
-                android:text="@string/cancel_btn"
-                android:textColor="@android:color/background_light"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/continue_button"
-                style="@style/ColorButton"
-                android:layout_width="0dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_dialog_button"
-                android:text="@string/continue_btn"
-                android:textColor="@android:color/background_light"
-                android:textStyle="bold" />
-
-
-        </LinearLayout>
-
-    </LinearLayout>
-</android.support.v7.widget.CardView>
+</android.support.v4.widget.NestedScrollView>

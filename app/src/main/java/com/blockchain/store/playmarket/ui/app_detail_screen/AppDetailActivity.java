@@ -123,7 +123,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         ButterKnife.bind(this);
         if (getIntent() != null) {
             appInfo = getIntent().getParcelableExtra(APP_INFO_EXTRA);
-            if(appInfo !=null){
+            if (appInfo != null) {
                 app = appInfo.convertToApp(appInfo);
             } else {
                 app = getIntent().getParcelableExtra(APP_EXTRA);
@@ -382,24 +382,24 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @OnClick(R.id.test_button)
     void onTestButtonClicked() {
-        new DialogManager().showPurchaseDialog(app, this, () -> {
+        new DialogManager().showReviewDialog(appInfo, this, () -> {
             int rating = (int) testRatingBar.getRating();
             presenter.onSendReviewClicked(testEd.getText().toString(), String.valueOf(rating));
-        });
+        }, null);
     }
 
     @Override
-    public void onReplyClicked(String message, String vote) {
-        new DialogManager().showPurchaseDialog(app, this, () -> {
-            presenter.onSendReviewClicked(message, vote);
-        });
+    public void onReplyClicked() {
+        new DialogManager().showReviewDialog(appInfo, this, () -> {
+            presenter.onSendReviewClicked("", "5");
+        }, null);
     }
 
     @Override
-    public void onReplyOnReviewClicked(UserReview userReview, String message) {
-        new DialogManager().showPurchaseDialog(app, this, () -> {
-            presenter.onSendReviewClicked(message, "5", userReview.txIndexOrigin);
-        });
+    public void onReplyOnReviewClicked(UserReview userReview) {
+        new DialogManager().showReviewDialog(appInfo, this, () -> {
+            presenter.onSendReviewClicked("", "5", userReview.txIndexOrigin);
+        }, userReview);
     }
 
     @Override

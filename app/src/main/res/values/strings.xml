@@ -148,9 +148,6 @@
     <string name="invest_earned_message">Earned, </string>
     <string name="invest_hardcap">HardCap</string>
 
-    <!--Unlock account -->
-
-
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_ico_title">ICO</string>
     <string name="tokens_bought">Tokens bought</string>
@@ -171,5 +168,7 @@
     <string name="review_dialog_title">Enter password to proceed.</string>
     <string name="or_user_your_fingerprint">Or user your fingerprint</string>
     <string name="open_app_info">open app info</string>
+    <string name="your_balance_is">Your balance:\n%1$s  ETH</string>
+    <string name="send_message">Send message</string>
 
 </resources>

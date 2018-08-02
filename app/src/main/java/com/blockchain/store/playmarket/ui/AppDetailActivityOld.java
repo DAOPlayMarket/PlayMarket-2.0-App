@@ -194,29 +194,7 @@ public class AppDetailActivityOld extends AppCompatActivity {
     //    });
     //}
 
-    public void promptForAmountToInvest() {
-        final Dialog d = new Dialog(this);
-        d.setContentView(R.layout.invest_amount_dialog);
 
-        final EditText investmentAmountText = (EditText) d.findViewById(R.id.investmentAmountText);
-
-        d.show();
-
-        TextView addFundsBtn = (TextView) d.findViewById(R.id.continue_button);
-        addFundsBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //promptForPasswordInvest(investmentAmountText.getText().toString());
-                d.dismiss();
-            }
-        });
-
-        Button close_btn = (Button) d.findViewById(R.id.continue_button);
-        close_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                d.dismiss();
-            }
-        });
-    }
 
     //public void promptForPasswordInvest(final String amountToInvest) {
     //    final Dialog d = new Dialog(this);
@@ -419,13 +397,11 @@ public class AppDetailActivityOld extends AppCompatActivity {
         Button close_btn = (Button) d.findViewById(R.id.continue_button);
         close_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                promptForAmountToInvest();
                 d.dismiss();
             }
         });
 
     }
-
     public void goBackToList(View view) {
         finish();
     }
