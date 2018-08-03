@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.ui.activity_screen;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -21,7 +22,7 @@ public class NewsActivity extends AppCompatActivity implements NewsActivityContr
     private static final String TAG = "NewsActivity";
 
     @BindView(R.id.top_layout_app_name) TextView toolbarTitle;
-    @BindView(R.id.recyclerView2) RecyclerView recyclerView2;
+    @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
     private NewsAdapter adapter;
     private NewsActivityContract.Presenter presenter;
@@ -59,6 +60,9 @@ public class NewsActivity extends AppCompatActivity implements NewsActivityContr
     @Override
     public void onNewsReady(PlaymarketFeed feed) {
         errorHolder.setVisibility(View.GONE);
+        adapter = new NewsAdapter(feed);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

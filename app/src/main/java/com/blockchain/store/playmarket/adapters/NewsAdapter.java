@@ -1,7 +1,12 @@
 package com.blockchain.store.playmarket.adapters;
 
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.Html;
+import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +15,8 @@ import android.widget.TextView;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.PlaymarketFeed;
 import com.blockchain.store.playmarket.data.entities.PlaymarketFeedItem;
+
+import org.xml.sax.XMLReader;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,6 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
+    private static final String TAG = "NewsAdapter";
     private PlaymarketFeed playmarketFeed;
 
     public NewsAdapter(PlaymarketFeed playmarketFeed) {
@@ -59,7 +67,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         public void bind(PlaymarketFeedItem playmarketFeedItem) {
             title.setText(playmarketFeedItem.title);
-            body.setText(playmarketFeedItem.content);
+            body.setText(Html.fromHtml(playmarketFeedItem.content, new Html.ImageGetter() {
+                @Override
+                public Drawable getDrawable(String source) {
+                    Log.d(TAG, "getDrawable() called with: source = [" + source + "]");
+                    return null;
+                }
+            }, null));
             try {
                 Date dateWithOldFormat = inputFormat.parse(playmarketFeedItem.pubDate);
                 publicationDate.setText(outputFormat.format(dateWithOldFormat));

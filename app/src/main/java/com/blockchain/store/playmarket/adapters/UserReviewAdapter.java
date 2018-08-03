@@ -39,8 +39,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        if (position % 2 == 0) {
-//        if (userReviews.get(position).txIndexOrigin.equalsIgnoreCase(userAddress)) {
+        if (!userReviews.get(position).voter.equalsIgnoreCase(userAddress)) {
             return TYPE_USER_REVIEW;
         } else {
             return TYPE_USER_REPLY;
