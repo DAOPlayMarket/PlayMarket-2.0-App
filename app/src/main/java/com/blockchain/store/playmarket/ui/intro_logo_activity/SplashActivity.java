@@ -19,6 +19,7 @@ import android.widget.VideoView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.data.entities.PlaymarketFeed;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
@@ -182,19 +183,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         presenter.requestUserLocation(this);
 
     }
-    private void test(){
-        RestApi.getXmlApi().getRss("https://medium.com/feed/@playmarket2.0").enqueue(new Callback<RssFeed>() {
-            @Override
-            public void onResponse(Call<RssFeed> call, Response<RssFeed> response) {
-                Log.d(TAG, "onResponse: ");
-            }
 
-            @Override
-            public void onFailure(Call<RssFeed> call, Throwable t) {
-                Log.d(TAG, "onFailure: ");
-            }
-        });
-    }
 
 }
 

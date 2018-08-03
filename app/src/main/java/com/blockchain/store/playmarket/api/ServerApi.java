@@ -9,6 +9,7 @@ import com.blockchain.store.playmarket.data.entities.IcoBalance;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.data.entities.InvestAddressResponse;
 import com.blockchain.store.playmarket.data.entities.NonceResponce;
+import com.blockchain.store.playmarket.data.entities.PlaymarketFeed;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 
@@ -104,6 +105,6 @@ public interface ServerApi {
     @POST("get-current-info")
     Observable<CurrentInfo> getCurrentInfo(@Field("address") String addressICO);
 
-    @GET
-    Call<RssFeed> getRss(@Url String url);
+    @GET("https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40playmarket2.0%3Fposts%3D1")
+    Call<PlaymarketFeed> getPlaymarketNews();
 }

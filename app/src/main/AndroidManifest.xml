@@ -110,7 +110,8 @@
             android:exported="true" />
 
         <activity android:name=".ui.fingerprint_screen.FingerprintConfiguringActivity" />
-        <activity android:name=".ui.unlock_account_screen.UnlockAccountActivity"></activity>
+        <activity android:name=".ui.unlock_account_screen.UnlockAccountActivity" />
+        <activity android:name=".ui.activity_screen.NewsActivity"></activity>
     </application>
 
 </manifest>

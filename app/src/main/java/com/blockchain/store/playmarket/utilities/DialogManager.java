@@ -123,7 +123,7 @@ public class DialogManager {
         dialog.show();
     }
 
-    public void showReviewDialog(AppInfo appinfo, Context context, PurchaseDialogCallback callback, UserReview userReview) {
+    public void showReviewDialog(UserReview userReview, Context context, CreateReviewCallback callback) {
         String accountBalanceInWei = AccountManager.getUserBalance();
         String accountBalanceAsString = new EthereumPrice(accountBalanceInWei).inEther().toString();
         final Dialog dialog = new Dialog(context);
@@ -167,8 +167,8 @@ public class DialogManager {
                     .subscribe(fingerprintDecryptionResult -> {
                         switch (fingerprintDecryptionResult.getResult()) {
                             case FAILED:
-                                passwordText.setError(context.getResources().getString(R.string.fingerprint_not_recognized));
-                                passwordText.requestFocus();
+                                passwordField.setError(context.getResources().getString(R.string.fingerprint_not_recognized));
+                                passwordField.requestFocus();
                                 break;
                             case HELP:
                                 break;
@@ -176,17 +176,17 @@ public class DialogManager {
                                 //todo add check if comment isn't empty
                                 if (new BigDecimal(accountBalanceInWei).compareTo(new BigDecimal("0")) == 1) {
                                     try {
-                                        passwordText.setText(fingerprintDecryptionResult.getDecrypted());
-                                        Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordText.getText().toString());
+                                        passwordField.setText(fingerprintDecryptionResult.getDecrypted());
+                                        Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordField.getText().toString());
                                         dialog.dismiss();
-                                        callback.onPurchaseClicked();
+                                        callback.onReviewInfoReady(commentary.getText().toString(), String.valueOf(ratingBar.getRating()));
                                     } catch (Exception e) {
-                                        passwordText.setError(context.getString(R.string.wrong_password));
+                                        passwordField.setError(context.getString(R.string.wrong_password));
                                     }
 
                                 } else {
-                                    passwordText.setError(context.getString(R.string.not_enought_balance));
-                                    passwordText.requestFocus();
+                                    passwordField.setError(context.getString(R.string.not_enought_balance));
+                                    passwordField.requestFocus();
                                 }
                                 break;
                         }
@@ -208,16 +208,16 @@ public class DialogManager {
 
             if (new BigDecimal(accountBalanceInWei).compareTo(new BigDecimal("0")) == 1) {
                 try {
-                    Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordText.getText().toString());
+                    Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordField.getText().toString());
                     dialog.dismiss();
-                    callback.onPurchaseClicked();
+                    callback.onReviewInfoReady(commentary.getText().toString(), String.valueOf(ratingBar.getRating()));
                 } catch (Exception e) {
-                    passwordText.setError(context.getString(R.string.wrong_password));
+                    passwordField.setError(context.getString(R.string.wrong_password));
                 }
 
             } else {
-                passwordText.setError(context.getString(R.string.not_enought_balance));
-                passwordText.requestFocus();
+                passwordField.setError(context.getString(R.string.not_enought_balance));
+                passwordField.requestFocus();
             }
 
         });
@@ -273,32 +273,6 @@ public class DialogManager {
         return folderNamedText.getText().toString();
     }
 
-//    public AlertDialog showUnlockAccountDialog(Context context, String fileData, ConfirmImportDialogCallback callback, String password) {
-//        AlertDialog confirmImportDialog = new AlertDialog.Builder(context)
-//                .setView(R.layout.password_prompt_dialog)
-//                .setCancelable(false)
-//                .create();
-//        confirmImportDialog.show();
-//        passwordText = (EditText) confirmImportDialog.findViewById(R.id.passwordText);
-//        Button importButton = (Button) confirmImportDialog.findViewById(R.id.continue_button);
-//        Button closeButton = (Button) confirmImportDialog.findViewById(R.id.close_button);
-//        EditText passwordEditText = (EditText) confirmImportDialog.findViewById(R.id.passwordText);
-//
-//        passwordText.setText(password);
-//
-//        importButton.setOnClickListener(v -> {
-//            if (new FileUtils().importJsonKeystoreFile(fileData, passwordText.getText().toString())) {
-//                callback.onImportSuccessful();
-//                confirmImportDialog.dismiss();
-//            } else {
-//                passwordEditText.setError(context.getResources().getString(R.string.wrong_password));
-//            }
-//        });
-//        closeButton.setOnClickListener(v -> {
-//            confirmImportDialog.dismiss();
-//        });
-//        return confirmImportDialog;
-//    }
 
     public String getPasswordText() {
         return passwordText.getText().toString();
@@ -319,6 +293,10 @@ public class DialogManager {
 
     public interface ConfirmImportDialogCallback {
         void onImportSuccessful();
+    }
+
+    public interface CreateReviewCallback {
+        void onReviewInfoReady(String review, String rating);
     }
 
     public enum DialogNames {

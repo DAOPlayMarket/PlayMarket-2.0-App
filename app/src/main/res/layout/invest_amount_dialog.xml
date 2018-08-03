@@ -78,7 +78,7 @@
                 android:background="@color/dialog_edittext_bg"
                 android:gravity="top|center_vertical"
                 android:minHeight="140dp"
-                android:padding="10dp"
+                android:padding="15dp"
                 android:textColor="@android:color/white"
                 tools:text="Test test ..." />
 
@@ -150,7 +150,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -159,6 +162,7 @@
                     android:layout_width="0dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
+                    android:paddingRight="40dp"
                     android:text="@string/cancel_btn"
                     android:textColor="@color/green_color"
                     android:textStyle="bold" />

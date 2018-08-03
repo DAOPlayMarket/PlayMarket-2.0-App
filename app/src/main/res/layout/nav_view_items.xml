@@ -57,6 +57,24 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/my_ico_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/nav_drawer_menu_height"
+            android:layout_marginBottom="@dimen/navigation_view_indents"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                style="@style/navViewImageItem"
+                app:srcCompat="@drawable/leaf" />
+
+            <TextView
+                style="@style/navViewTextItem"
+                android:text="@string/my_ico"
+                android:textColor="@color/greyBackground" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/settings_layout"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/nav_drawer_menu_height"
@@ -72,6 +90,25 @@
             <TextView
                 style="@style/navViewTextItem"
                 android:text="@string/settings" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/news_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/nav_drawer_menu_height"
+            android:layout_marginBottom="@dimen/navigation_view_indents"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                style="@style/navViewImageItem"
+                android:tint="@color/news_color"
+                app:srcCompat="@drawable/speak" />
+
+            <TextView
+                style="@style/navViewTextItem"
+                android:text="@string/news"
+                 />
         </LinearLayout>
 
         <LinearLayout
@@ -113,23 +150,6 @@
                 android:textColor="@color/greyBackground" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/news_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_drawer_menu_height"
-            android:layout_marginBottom="@dimen/navigation_view_indents"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                style="@style/navViewImageItem"
-                app:srcCompat="@drawable/speak" />
-
-            <TextView
-                style="@style/navViewTextItem"
-                android:text="@string/news"
-                android:textColor="@color/greyBackground" />
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/history_layout"
@@ -149,24 +169,6 @@
                 android:textColor="@color/greyBackground" />
         </LinearLayout>
 
-
-        <LinearLayout
-            android:id="@+id/my_ico_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_drawer_menu_height"
-            android:layout_marginBottom="@dimen/navigation_view_indents"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                style="@style/navViewImageItem"
-                app:srcCompat="@drawable/leaf" />
-
-            <TextView
-                style="@style/navViewTextItem"
-                android:text="@string/my_ico"
-                android:textColor="@color/greyBackground" />
-        </LinearLayout>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

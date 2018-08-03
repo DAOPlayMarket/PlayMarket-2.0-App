@@ -183,11 +183,13 @@ public class RestApi {
                 .hostnameVerifier((hostname, session) -> true)
                 .sslSocketFactory(getSllSocketFactory()).build();
 
+
         Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(new ResultAdapterFactory()).setLenient().create();
+                .setLenient().create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(RssConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(client)
                 .build();
         xmlApi = retrofit.create(ServerApi.class);

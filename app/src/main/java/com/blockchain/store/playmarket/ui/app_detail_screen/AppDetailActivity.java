@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
@@ -89,10 +90,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.price_progress_bar) ProgressBar priceProgressBar;
     @BindView(R.id.reviews_recycler_view) RecyclerView reviewsRecyclerView;
-
-    @BindView(R.id.test_edittext) EditText testEd;
-    @BindView(R.id.test_button) Button testBtn;
-    @BindView(R.id.test_rating_bar) MaterialRatingBar testRatingBar;
+    @BindView(R.id.fab) FloatingActionButton mFab;
 
     private boolean isUserPurchasedApp;
 
@@ -380,26 +378,18 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     }
 
-    @OnClick(R.id.test_button)
-    void onTestButtonClicked() {
-        new DialogManager().showReviewDialog(appInfo, this, () -> {
-            int rating = (int) testRatingBar.getRating();
-            presenter.onSendReviewClicked(testEd.getText().toString(), String.valueOf(rating));
-        }, null);
-    }
-
     @Override
     public void onReplyClicked() {
-        new DialogManager().showReviewDialog(appInfo, this, () -> {
-            presenter.onSendReviewClicked("", "5");
-        }, null);
+        new DialogManager().showReviewDialog(null, this, (review, rating) -> {
+            presenter.onSendReviewClicked(review, rating);
+        });
     }
 
     @Override
     public void onReplyOnReviewClicked(UserReview userReview) {
-        new DialogManager().showReviewDialog(appInfo, this, () -> {
-            presenter.onSendReviewClicked("", "5", userReview.txIndexOrigin);
-        }, userReview);
+        new DialogManager().showReviewDialog(userReview, this, (review, rating) -> {
+            presenter.onSendReviewClicked(review, userReview.vote, userReview.txIndexOrigin);
+        });
     }
 
     @Override
