@@ -3,8 +3,6 @@ package com.blockchain.store.playmarket.utilities;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -38,36 +36,13 @@ public class URLImageParser implements ImageGetter {
 
     @Override
     public Drawable getDrawable(String url) {
-        if (url.contains(".gif")) {
-            return new Drawable() {
-                @Override
-                public void draw(@NonNull Canvas canvas) {
-
-                }
-
-                @Override
-                public void setAlpha(int alpha) {
-
-                }
-
-                @Override
-                public void setColorFilter(@Nullable ColorFilter colorFilter) {
-
-                }
-
-                @Override
-                public int getOpacity() {
-                    return PixelFormat.TRANSPARENT;
-                }
-            };
-        }
         final UrlDrawable urlDrawable = new UrlDrawable();
-        RequestBuilder<Drawable> load1 = Glide.with(mContext).load(url);
+        RequestBuilder<Bitmap> load = Glide.with(mContext).asBitmap().load(url);
         Target target;
         try {
             target = new BitmapTarget(urlDrawable);
             targets.add(target);
-            load1.into(target);
+            load.into(target);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -87,23 +62,28 @@ public class URLImageParser implements ImageGetter {
 
         @Override
         public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-            drawable = new BitmapDrawable(mContext.getResources(), resource);
-//todo
-            mTextView.post(new Runnable() {
-                @Override
-                public void run() {
-                    int w = mTextView.getWidth();
-                    int hh = drawable.getIntrinsicHeight();
-                    int ww = drawable.getIntrinsicWidth();
-                    int newHeight = hh * (w) / ww;
-                    Rect rect = new Rect(0, 0, w, newHeight);
-                    drawable.setBounds(rect);
-                    urlDrawable.setBounds(rect);
-                    urlDrawable.setDrawable(drawable);
-                    mTextView.setText(mTextView.getText());
-                    mTextView.invalidate();
-                }
-            });
+            try {
+                drawable = new BitmapDrawable(mContext.getResources(), resource);
+                mTextView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        int w = mTextView.getWidth();
+                        int hh = drawable.getIntrinsicHeight();
+                        int ww = drawable.getIntrinsicWidth();
+                        if (hh == 1 && ww == 1) return;
+                        int newHeight = hh * (w) / ww;
+                        Rect rect = new Rect(0, 0, w, newHeight);
+                        drawable.setBounds(rect);
+                        urlDrawable.setBounds(rect);
+                        urlDrawable.setDrawable(drawable);
+                        mTextView.setText(mTextView.getText());
+                        mTextView.invalidate();
+                    }
+                });
+            } catch (Exception e) {
+
+            }
+
         }
     }
 

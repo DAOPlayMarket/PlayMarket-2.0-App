@@ -2,15 +2,9 @@ package com.blockchain.store.playmarket.adapters;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.PixelFormat;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,18 +15,11 @@ import com.blockchain.store.playmarket.data.entities.PlaymarketFeed;
 import com.blockchain.store.playmarket.data.entities.PlaymarketFeedItem;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.URLImageParser;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.FutureTarget;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -98,34 +85,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             title.setText(playmarketFeedItem.title);
             readMore.setOnClickListener(v -> setReadMoreLogic(body));
             body.setText(Html.fromHtml(playmarketFeedItem.content, new URLImageParser(context, body), null));
-//            body.setText(Html.fromHtml(playmarketFeedItem.content, new Html.ImageGetter() {
-//                @Override
-//                public Drawable getDrawable(String source) {
-//                    Drawable drawable = new Drawable() {
-//                        @Override
-//                        public void draw(@NonNull Canvas canvas) {
-//
-//                        }
-//
-//                        @Override
-//                        public void setAlpha(int alpha) {
-//
-//                        }
-//
-//                        @Override
-//                        public void setColorFilter(@Nullable ColorFilter colorFilter) {
-//
-//                        }
-//
-//                        @Override
-//                        public int getOpacity() {
-//                            return PixelFormat.TRANSPARENT;
-//                        }
-//                    };
-//                    FutureTarget<Drawable> into = Glide.with(context).load(source).into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
-//                    return drawable;
-//                }
-//            }, null));
             try {
                 Date dateWithOldFormat = inputFormat.parse(playmarketFeedItem.pubDate);
                 publicationDate.setText(outputFormat.format(dateWithOldFormat));
