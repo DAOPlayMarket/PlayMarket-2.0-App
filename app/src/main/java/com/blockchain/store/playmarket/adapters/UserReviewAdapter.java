@@ -3,23 +3,17 @@ package com.blockchain.store.playmarket.adapters;
 import android.animation.ObjectAnimator;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.support.transition.TransitionManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.utilities.AccountManager;
-import com.blockchain.store.playmarket.utilities.Blockies;
 import com.blockchain.store.playmarket.utilities.Constants;
 
 import java.util.ArrayList;
@@ -144,7 +138,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 readMore.setText(itemView.getContext().getString(R.string.read_less));
             } else if (userCommentary.getMaxLines() == 10) {
                 textDescriptionAnimator = ObjectAnimator.ofInt(userCommentary, "maxLines", 2);
-                readMore.setText(itemView.getContext().getString(R.string.read_more));
+                readMore.setText(itemView.getContext().getString(R.string.more));
             }
 
             if (textDescriptionAnimator != null && !textDescriptionAnimator.isStarted()) {

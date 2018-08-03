@@ -3,7 +3,7 @@ package com.blockchain.store.playmarket.data.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-class PlaymarketFeedItem implements Parcelable {
+public class PlaymarketFeedItem implements Parcelable {
     public String title;
     public String pubDate;
     public String link;
