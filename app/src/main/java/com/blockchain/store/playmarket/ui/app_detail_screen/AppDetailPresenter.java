@@ -199,7 +199,8 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 break;
 
         }
-        if (newState == Constants.APP_STATE.STATE_INSTALLED) {
+        if (newState == Constants.APP_STATE.STATE_INSTALLED && !app.packageName.equalsIgnoreCase("com.blockchain.store.playmarket")) {
+
             view.setDeleteButtonVisibility(true);
         } else {
             view.setDeleteButtonVisibility(false);

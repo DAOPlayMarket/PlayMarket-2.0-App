@@ -20,6 +20,7 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.PlaymarketFeed;
 import com.blockchain.store.playmarket.data.entities.PlaymarketFeedItem;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.blockchain.store.playmarket.utilities.URLImageParser;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -80,50 +81,51 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         }
 
         private void setReadMoreLogic(TextView userCommentary) {
-            if (userCommentary.getMaxLines() == 5) {
-                textDescriptionAnimator = ObjectAnimator.ofInt(userCommentary, "maxLines", Integer.MAX_VALUE);
-                readMore.setText(itemView.getContext().getString(R.string.read_less));
-            } else if (userCommentary.getMaxLines() == Integer.MAX_VALUE) {
-                textDescriptionAnimator = ObjectAnimator.ofInt(userCommentary, "maxLines", 5);
-                readMore.setText(itemView.getContext().getString(R.string.more));
+            if (userCommentary.getMaxLines() == 4) {
+                textDescriptionAnimator = ObjectAnimator.ofInt(userCommentary, "maxLines", 1000);
+                readMore.setText(context.getString(R.string.read_less));
+            } else if (userCommentary.getMaxLines() == 1000) {
+                textDescriptionAnimator = ObjectAnimator.ofInt(userCommentary, "maxLines", 4);
+                readMore.setText(context.getString(R.string.read_more));
             }
 
             if (textDescriptionAnimator != null && !textDescriptionAnimator.isStarted()) {
-                textDescriptionAnimator.setDuration(Constants.USER_REVIEW_EXPAND_ANIMATION_MILLIS).start();
+                textDescriptionAnimator.setDuration(Constants.USER_REVIEW_EXPAND_ANIMATION_MILLIS * 3).start();
             }
         }
 
         public void bind(PlaymarketFeedItem playmarketFeedItem) {
             title.setText(playmarketFeedItem.title);
             readMore.setOnClickListener(v -> setReadMoreLogic(body));
-            body.setText(Html.fromHtml(playmarketFeedItem.content, new Html.ImageGetter() {
-                @Override
-                public Drawable getDrawable(String source) {
-                    Drawable drawable = new Drawable() {
-                        @Override
-                        public void draw(@NonNull Canvas canvas) {
-
-                        }
-
-                        @Override
-                        public void setAlpha(int alpha) {
-
-                        }
-
-                        @Override
-                        public void setColorFilter(@Nullable ColorFilter colorFilter) {
-
-                        }
-
-                        @Override
-                        public int getOpacity() {
-                            return PixelFormat.TRANSPARENT;
-                        }
-                    };
-                    FutureTarget<Drawable> into = Glide.with(context).load(source).into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
-                    return drawable;
-                }
-            }, null));
+            body.setText(Html.fromHtml(playmarketFeedItem.content, new URLImageParser(context, body), null));
+//            body.setText(Html.fromHtml(playmarketFeedItem.content, new Html.ImageGetter() {
+//                @Override
+//                public Drawable getDrawable(String source) {
+//                    Drawable drawable = new Drawable() {
+//                        @Override
+//                        public void draw(@NonNull Canvas canvas) {
+//
+//                        }
+//
+//                        @Override
+//                        public void setAlpha(int alpha) {
+//
+//                        }
+//
+//                        @Override
+//                        public void setColorFilter(@Nullable ColorFilter colorFilter) {
+//
+//                        }
+//
+//                        @Override
+//                        public int getOpacity() {
+//                            return PixelFormat.TRANSPARENT;
+//                        }
+//                    };
+//                    FutureTarget<Drawable> into = Glide.with(context).load(source).into(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
+//                    return drawable;
+//                }
+//            }, null));
             try {
                 Date dateWithOldFormat = inputFormat.parse(playmarketFeedItem.pubDate);
                 publicationDate.setText(outputFormat.format(dateWithOldFormat));

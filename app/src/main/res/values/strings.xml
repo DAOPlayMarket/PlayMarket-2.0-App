@@ -167,7 +167,7 @@
 
     <string name="review_dialog_title">Enter password to proceed.</string>
     <string name="or_user_your_fingerprint">Or user your fingerprint</string>
-    <string name="open_app_info">open app info</string>
+    <string name="open_app_info">to app</string>
     <string name="your_balance_is">Your balance:\n%1$s  ETH</string>
     <string name="send_message">Send message</string>
     <string name="read_more">Read more</string>
