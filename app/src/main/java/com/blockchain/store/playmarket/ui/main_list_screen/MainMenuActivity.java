@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -225,7 +226,10 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onAppClickedWithTransition(App app, View view) {
-        AppDetailActivity.start(this, app);
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this, view, ViewCompat.getTransitionName(view)
+        );
+        AppDetailActivity.start(this, app, optionsCompat,ViewCompat.getTransitionName(view));
     }
 
     private void onSuggestionClicked(String query) {

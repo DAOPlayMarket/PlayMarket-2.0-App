@@ -33,17 +33,12 @@
                 android:orientation="horizontal"
                 android:padding="@dimen/app_detaild_top_layout_padding">
 
-                <com.facebook.drawee.view.SimpleDraweeView
+                <ImageView
                     android:id="@+id/image_icon"
                     android:layout_width="@dimen/application_icon_width"
                     android:layout_height="@dimen/application_icon_height"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
-                    android:transitionName="app_icon"
-                    fresco:roundBottomLeft="true"
-                    fresco:roundBottomRight="true"
-                    fresco:roundTopRight="true"
-                    fresco:roundedCornerRadius="15sp"
                     tools:background="@android:color/black" />
 
                 <LinearLayout

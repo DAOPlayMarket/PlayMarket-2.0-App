@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
@@ -64,6 +65,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     private static final String TAG = "AppDetailActivity";
     private static final String APP_EXTRA = "app_extra";
     private static final String APP_INFO_EXTRA = "app_info_extra";
+    private static final String EXTRA_TRANSITION_NAME = "transition_name_extra";
+
     private static final int DEFAULT_MAX_LINES = 3;
     private static final int LIMIT_MAX_LINES = 150;
     private static final int ANIMATOR_DURATION = 400;
@@ -76,7 +79,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.main_layout_holder) View mainLayoutHolder;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
-    @BindView(R.id.image_icon) SimpleDraweeView imageIcon;
+    @BindView(R.id.image_icon) ImageView imageIcon;
     @BindView(R.id.app_name) TextView appName;
     @BindView(R.id.app_description) TextView appDescription;
     @BindView(R.id.rating_textView) TextView appRating;
@@ -101,6 +104,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     private AppDetailPresenter presenter;
     private AppInfo appInfo;
     private App app;
+    private String appTransitionName;
 
     public static void start(Context context, App app) {
         Intent starter = new Intent(context, AppDetailActivity.class);
@@ -114,6 +118,13 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         context.startActivity(starter);
     }
 
+    public static void start(Context context, App app, ActivityOptionsCompat options, String viewTransitionName) {
+        Intent starter = new Intent(context, AppDetailActivity.class);
+        starter.putExtra(APP_EXTRA, app);
+        starter.putExtra(EXTRA_TRANSITION_NAME, viewTransitionName);
+        context.startActivity(starter/*, options.toBundle()*/);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +136,10 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
                 app = appInfo.convertToApp(appInfo);
             } else {
                 app = getIntent().getParcelableExtra(APP_EXTRA);
+            }
+            appTransitionName = getIntent().getStringExtra(EXTRA_TRANSITION_NAME);
+            if (appTransitionName != null) {
+                imageIcon.setTransitionName(appTransitionName);
             }
         }
         attachPresenter();
@@ -150,8 +165,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     private void setViews() {
-        imageIcon.setImageURI(Uri.parse(app.getIconUrl()));
-        startPostponedEnterTransition();
+//        imageIcon.setImageURI(Uri.parse(app.getIconUrl()));
         toolbarAppName.setText(app.nameApp);
         appName.setText(app.nameApp);
 
@@ -179,8 +193,11 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
                     return;
                 }
 
+
                 Palette p = Palette.from(bitmap).generate();
                 runOnUiThread(() -> {
+                    imageIcon.setImageBitmap(bitmap);
+                    supportStartPostponedEnterTransition();
                     int lightVibrantColor = p.getLightVibrantColor(getResources().getColor(android.R.color.white));
                     int darkMutedColor = p.getDarkMutedColor(getResources().getColor(android.R.color.black));
                     topLayoutHolder.setBackgroundColor(lightVibrantColor);
@@ -354,7 +371,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @OnClick(R.id.top_layout_back_arrow)
     void onBackArrowClicked() {
-        this.finish();
+        this.onBackPressed();
     }
 
 
@@ -375,7 +392,11 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
             textDescriptionAnimator.setDuration(ANIMATOR_DURATION).start();
         }
 
+    }
 
+    @OnClick(R.id.fab)
+    void onFabClicked() {
+        onReplyClicked();
     }
 
     @Override
