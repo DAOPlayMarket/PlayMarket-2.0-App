@@ -72,6 +72,17 @@ public class AppInfo implements Parcelable {
     public Rating rating;
     public IcoBalance icoBalance;
 
+    public String getRating() {
+        try {
+            double rating = ((double) this.rating.ratingSum / this.rating.ratingCount);
+            rating = Math.round(rating * 10.0) / 10.0;
+            return String.valueOf(rating);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+
     public String getIconUrl() {
         try {
             String iconUrl = RestApi.ICON_URL + hashTag + "/" + hash + "/" + files.images.logo;

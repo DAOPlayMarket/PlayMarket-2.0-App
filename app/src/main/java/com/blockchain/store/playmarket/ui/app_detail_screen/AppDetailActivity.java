@@ -226,11 +226,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
             noMarksTextView.setVisibility(View.GONE);
             appRating.setVisibility(View.VISIBLE);
             ratingBar.setVisibility(View.VISIBLE);
-
-            double rating = ((double) appInfo.rating.ratingSum / appInfo.rating.ratingCount);
-            rating = Math.round(rating * 10.0) / 10.0;
-            appRating.setText(String.valueOf(rating));
-            ratingBar.setRating(Float.valueOf(String.valueOf(rating)));
+            appRating.setText(String.valueOf(appInfo.getRating()));
+            ratingBar.setRating(Float.valueOf(String.valueOf(appInfo.getRating())));
         } else {
             noMarksTextView.setVisibility(View.VISIBLE);
             ratingBar.setVisibility(View.GONE);
