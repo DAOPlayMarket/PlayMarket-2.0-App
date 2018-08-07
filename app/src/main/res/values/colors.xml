@@ -72,5 +72,8 @@
     <color name="dialog_edittext_bg">#2f2e2d</color>
     <color name="dialog_text_field">#808080</color>
 
+    <!-- Drawable nine patch create in http://inloop.github.io/shadow4android/-->
+    <!-- Navigation card layout var's are: width,height 200. Shadow 10. Radius 4-->
+    <!-- Button var's: width 120, height 36, shadow 10, round 18-->
 
 </resources>
