@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import me.toptas.rssconverter.RssFeed;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -89,6 +90,14 @@ public interface ServerApi {
     @FormUrlEncoded
     @POST("search")
     Observable<ArrayList<App>> getSearchResult(@Field("query") String query);
+
+    @FormUrlEncoded
+    @POST("get-apps-by-id")
+    Observable<ArrayList<App>> testGetLibraryRequest(@Field("idArr") String arrayOfInt);
+
+//    @FormUrlEncoded
+//    @POST("get-apps-by-package")
+//    Observable<ArrayList<App>> testGetLibraryRequest(@Field("idArr") String arrayOfInt);
 
     @GET("api/availability")
     Call<AvailabilityResponse> checkAvailability();

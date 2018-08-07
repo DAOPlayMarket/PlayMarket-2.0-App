@@ -26,6 +26,9 @@ import com.blockchain.store.playmarket.ui.permissions_prompt_activity.Permission
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
@@ -74,6 +77,20 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         setLogoTextFont();
         setupAndPlayVideo();
         checkLocationPermission();
+    }
+
+    private void test() {
+        ArrayList<String> ars = new ArrayList<>();
+        ars.add("a");
+        ars.add("b");
+        ars.add("c");
+        ars.add("d");
+        ars.add("e");
+        JsonObject object = new JsonObject();
+        JsonArray arra = new JsonArray();
+        Gson gson = new Gson();
+        String s = gson.toJson(ars);
+        Log.d(TAG, "test: ");
     }
 
     private void checkLocationPermission() {
