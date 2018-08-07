@@ -179,7 +179,7 @@ public class DialogManager {
                                         passwordField.setText(fingerprintDecryptionResult.getDecrypted());
                                         Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordField.getText().toString());
                                         dialog.dismiss();
-                                        callback.onReviewInfoReady(commentary.getText().toString(), String.valueOf(ratingBar.getRating()));
+                                        callback.onReviewInfoReady(commentary.getText().toString(), String.valueOf((int) ratingBar.getRating()));
                                     } catch (Exception e) {
                                         passwordField.setError(context.getString(R.string.wrong_password));
                                     }
@@ -210,7 +210,7 @@ public class DialogManager {
                 try {
                     Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordField.getText().toString());
                     dialog.dismiss();
-                    callback.onReviewInfoReady(commentary.getText().toString(), String.valueOf(ratingBar.getRating()));
+                    callback.onReviewInfoReady(commentary.getText().toString(), String.valueOf((int) ratingBar.getRating()));
                 } catch (Exception e) {
                     passwordField.setError(context.getString(R.string.wrong_password));
                 }
