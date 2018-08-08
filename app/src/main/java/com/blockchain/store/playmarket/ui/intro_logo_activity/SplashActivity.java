@@ -76,12 +76,12 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro_logo);
         ButterKnife.bind(this);
-        test();
-//        presenter = new SplashPresenter();
-//        presenter.init(this);
-//        setLogoTextFont();
-//        setupAndPlayVideo();
-//        checkLocationPermission();
+//        test();
+        presenter = new SplashPresenter();
+        presenter.init(this);
+        setLogoTextFont();
+        setupAndPlayVideo();
+        checkLocationPermission();
     }
 
     private void test() {
