@@ -19,6 +19,7 @@ import android.widget.VideoView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.PlaymarketFeed;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
@@ -42,6 +43,7 @@ import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -51,6 +53,9 @@ import me.toptas.rssconverter.RssFeed;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
     private static final String TAG = "SplashActivity";
@@ -71,26 +76,43 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro_logo);
         ButterKnife.bind(this);
-//        test();
-        presenter = new SplashPresenter();
-        presenter.init(this);
-        setLogoTextFont();
-        setupAndPlayVideo();
-        checkLocationPermission();
+        test();
+//        presenter = new SplashPresenter();
+//        presenter.init(this);
+//        setLogoTextFont();
+//        setupAndPlayVideo();
+//        checkLocationPermission();
     }
 
     private void test() {
-        ArrayList<String> ars = new ArrayList<>();
-        ars.add("a");
-        ars.add("b");
-        ars.add("c");
-        ars.add("d");
-        ars.add("e");
-        JsonObject object = new JsonObject();
-        JsonArray arra = new JsonArray();
-        Gson gson = new Gson();
-        String s = gson.toJson(ars);
-        Log.d(TAG, "test: ");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("com.blockchain.store.playmarket").append(",").append("ru.dublgis.dgismobile");
+        ArrayList<String> list = new ArrayList<>();
+        list.add("com.blockchain.store.playmarket");
+        list.add("ru.dublgis.dgismobile");
+        RestApi.getServerApi().getAppsByPackage(stringBuilder.toString()).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onOk, this::onError);
+        ArrayList<Integer> listOfInts = new ArrayList<>();
+        listOfInts.add(666);
+        listOfInts.add(452);
+        RestApi.getServerApi().getAppsById(listOfInts.toString()).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onOk2, this::onError);
+
+        ;
+    }
+
+    private void onOk2(ArrayList<App> apps) {
+        Log.d(TAG, "onOk2() called with: apps = [" + apps + "]");
+    }
+
+    private void onOk(ArrayList<App> apps) {
+        Log.d(TAG, "onOk() called with: apps = [" + apps + "]");
+
+    }
+
+    private void onError(Throwable throwable) {
+        Log.d(TAG, "onError() called with: throwable = [" + throwable + "]");
+
     }
 
     private void checkLocationPermission() {

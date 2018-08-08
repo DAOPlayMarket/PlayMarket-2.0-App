@@ -93,11 +93,12 @@ public interface ServerApi {
 
     @FormUrlEncoded
     @POST("get-apps-by-id")
-    Observable<ArrayList<App>> testGetLibraryRequest(@Field("idArr") String arrayOfInt);
+    Observable<ArrayList<App>> getAppsById(@Field("idAppArr") String arrayOfInt);
 
-//    @FormUrlEncoded
-//    @POST("get-apps-by-package")
-//    Observable<ArrayList<App>> testGetLibraryRequest(@Field("idArr") String arrayOfInt);
+    @FormUrlEncoded
+    @POST("get-apps-by-package-name")
+    Observable<ArrayList<App>> getAppsByPackage(@Field("packageNameArr") String arrayOfString);
+
 
     @GET("api/availability")
     Call<AvailabilityResponse> checkAvailability();
