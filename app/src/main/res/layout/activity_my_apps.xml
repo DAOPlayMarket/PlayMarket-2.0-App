@@ -6,6 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".ui.my_apps_screen.MyAppsActivity">
 
-    <include layout="@layout/detail_app_toolbar"/>
+    <include
+        android:id="@+id/top_layout_holder"
+        layout="@layout/detail_app_toolbar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/top_layout_holder" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+
+    <include
+        android:id="@+id/error_holder"
+        layout="@layout/error_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
 
 </RelativeLayout>
