@@ -3,12 +3,13 @@ package com.blockchain.store.playmarket.utilities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -16,6 +17,8 @@ import com.blockchain.store.playmarket.services.DownloadService;
 import com.blockchain.store.playmarket.utilities.device.BuildUtils;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Crypton04 on 31.01.2018.
@@ -125,4 +128,26 @@ public class MyPackageManager {
         }
     }
 
+    public static List<ApplicationInfo> getAllInstalledApps() {
+        Context applicationContext = Application.getInstance().getApplicationContext();
+        PackageManager pm = applicationContext.getPackageManager();
+        List<ApplicationInfo> packages = pm.getInstalledApplications(0);
+        Log.d(TAG, "getAllInstalledApps: " + packages);
+        List<ApplicationInfo> installedApps = new ArrayList<ApplicationInfo>();
+
+        for (ApplicationInfo app : packages) {
+            //checks for flags; if flagged, check if updated system app
+            if ((app.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
+                installedApps.add(app);
+                //it's a system app, not interested
+            } else if ((app.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
+                //Discard this one
+                //in this case, it should be a user-installed app
+            } else {
+                installedApps.add(app);
+            }
+        }
+        Log.d(TAG, "getAllInstalledApps: " + installedApps);
+        return installedApps;
+    }
 }
