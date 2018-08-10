@@ -10,6 +10,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.data.entities.AppLibrary;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,9 +42,19 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
         presenter.getApps();
     }
 
+    @Override
+    public void onAppsReady(ArrayList<AppLibrary> appLibraries) {
+
+    }
+
+    @Override
+    public void onAppsFailed(Throwable throwable) {
+
+    }
+
     @OnClick(R.id.error_view_repeat_btn)
-    public void error_view_repeat_btn() {
-        // TODO
+    public void onErrorRepeatClicked() {
+        presenter.getApps();
     }
 
     @OnClick(R.id.top_layout_back_arrow)
@@ -49,4 +62,8 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
         this.onBackPressed();
     }
 
+    @Override
+    public void showLoading(boolean isShow) {
+
+    }
 }

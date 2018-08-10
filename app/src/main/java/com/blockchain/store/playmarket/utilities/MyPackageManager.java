@@ -150,4 +150,23 @@ public class MyPackageManager {
         Log.d(TAG, "getAllInstalledApps: " + installedApps);
         return installedApps;
     }
+
+    public static String prepareApplicationInfoForRequest() {
+        List<ApplicationInfo> allInstalledApps = getAllInstalledApps();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (ApplicationInfo allInstalledApp : allInstalledApps) {
+            stringBuilder.append(allInstalledApp.packageName).append(",");
+        }
+        return stringBuilder.toString();
+    }
+
+    public static int getVersionNameByPackageName(String packageName) {
+        Context applicationContext = Application.getInstance().getApplicationContext();
+        try {
+            PackageInfo packageInfo = applicationContext.getPackageManager().getPackageInfo(packageName, 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            return 0;
+        }
+    }
 }
