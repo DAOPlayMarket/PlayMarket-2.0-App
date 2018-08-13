@@ -2,7 +2,9 @@ package com.blockchain.store.playmarket.ui.my_apps_screen;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -10,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.adapters.MyAppsAdapter;
 import com.blockchain.store.playmarket.data.entities.AppLibrary;
 
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
     @BindView(R.id.error_holder) LinearLayout errorHolder;
 
     private MyAppsPresenter presenter;
+    private MyAppsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +48,18 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
 
     @Override
     public void onAppsReady(ArrayList<AppLibrary> appLibraries) {
+        for (AppLibrary appLibrary : appLibraries) {
+            Log.d(TAG, "onAppsReady: " + appLibrary.isHasUpdate());
 
+        }
+        adapter = new MyAppsAdapter(appLibraries);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onAppsFailed(Throwable throwable) {
-
+        Log.d(TAG, "onAppsFailed() called with: throwable = [" + throwable + "]");
     }
 
     @OnClick(R.id.error_view_repeat_btn)

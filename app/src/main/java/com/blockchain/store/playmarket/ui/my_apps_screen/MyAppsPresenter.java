@@ -40,12 +40,20 @@ public class MyAppsPresenter implements MyAppsContract.Presenter {
         for (ApplicationInfo applicationInfo : allInstalledApps) {
             AppLibrary appLibrary = new AppLibrary();
             appLibrary.applicationInfo = applicationInfo;
+            boolean isHasLocalCopy = false;
             for (App app : apps) {
                 if (applicationInfo.packageName.equalsIgnoreCase(app.packageName)) {
                     appLibrary.app = app;
+                    isHasLocalCopy = true;
                 }
 
             }
+            if (isHasLocalCopy) {
+                appLibraries.add(0, appLibrary);
+            } else {
+                appLibraries.add(appLibrary);
+            }
+
         }
 
 

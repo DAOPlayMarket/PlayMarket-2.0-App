@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.activity_screen.NewsActivity;
+import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.about_screen.AboutAppActivity;
@@ -97,7 +98,8 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     @OnClick(R.id.library_layout)
     void onLibraryItemClicked() {
         closeDrawers();
-        startActivity(new Intent(getActivity(), LibraryActivity.class));
+        startActivity(new Intent(getActivity(), MyAppsActivity.class));
+//        startActivity(new Intent(getActivity(), LibraryActivity.class));
     }
 
     @OnClick(R.id.news_layout)

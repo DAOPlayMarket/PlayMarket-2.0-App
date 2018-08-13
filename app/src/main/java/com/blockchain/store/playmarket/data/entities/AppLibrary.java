@@ -12,11 +12,12 @@ public class AppLibrary {
         try {
             String version = app.version;
             int versionNameByPackageName = MyPackageManager.getVersionNameByPackageName(app.packageName);
-            return versionNameByPackageName == Integer.parseInt(app.version);
+            return versionNameByPackageName < Integer.parseInt(app.version);
         } catch (Exception e) {
 
         }
 
         return false;
     }
+
 }

@@ -169,4 +169,10 @@ public class MyPackageManager {
             return 0;
         }
     }
+
+    public static PackageManager get() {
+        Context applicationContext = Application.getInstance().getApplicationContext();
+        PackageManager pm = applicationContext.getPackageManager();
+        return pm;
+    }
 }

@@ -77,7 +77,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro_logo);
         ButterKnife.bind(this);
-        test();
+//        test();
         presenter = new SplashPresenter();
         presenter.init(this);
         setLogoTextFont();
@@ -85,23 +85,23 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         checkLocationPermission();
     }
 
-    private void test() {
-        MyPackageManager.getAllInstalledApps();
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("com.blockchain.store.playmarket").append(",").append("ru.dublgis.dgismobile");
-        ArrayList<String> list = new ArrayList<>();
-        list.add("com.blockchain.store.playmarket");
-        list.add("ru.dublgis.dgismobile");
-        RestApi.getServerApi().getAppsByPackage(stringBuilder.toString()).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onOk, this::onError);
-        ArrayList<Integer> listOfInts = new ArrayList<>();
-        listOfInts.add(666);
-        listOfInts.add(452);
-        RestApi.getServerApi().getAppsById(listOfInts.toString()).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onOk2, this::onError);
-
-        ;
-    }
+//    private void test() {
+//        MyPackageManager.getAllInstalledApps();
+//        StringBuilder stringBuilder = new StringBuilder();
+//        stringBuilder.append("com.blockchain.store.playmarket").append(",").append("ru.dublgis.dgismobile");
+//        ArrayList<String> list = new ArrayList<>();
+//        list.add("com.blockchain.store.playmarket");
+//        list.add("ru.dublgis.dgismobile");
+//        RestApi.getServerApi().getAppsByPackage(stringBuilder.toString()).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(this::onOk, this::onError);
+//        ArrayList<Integer> listOfInts = new ArrayList<>();
+//        listOfInts.add(666);
+//        listOfInts.add(452);
+//        RestApi.getServerApi().getAppsById(listOfInts.toString()).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(this::onOk2, this::onError);
+//
+//        ;
+//    }
 
     private void onOk2(ArrayList<App> apps) {
         Log.d(TAG, "onOk2() called with: apps = [" + apps + "]");
