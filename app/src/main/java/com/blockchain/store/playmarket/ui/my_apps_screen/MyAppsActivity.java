@@ -7,8 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -49,10 +47,10 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
                 isGlobalLayoutListenerTriggered = true;
             }
         });
-        setTitlte();
+        setTitle();
     }
 
-    private void setTitlte() {
+    private void setTitle() {
         toolbarTitle.setText(R.string.my_apps);
     }
 

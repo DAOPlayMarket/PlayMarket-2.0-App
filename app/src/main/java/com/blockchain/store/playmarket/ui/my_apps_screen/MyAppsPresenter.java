@@ -1,7 +1,7 @@
 package com.blockchain.store.playmarket.ui.my_apps_screen;
 
 import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
+import android.util.Log;
 
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -10,7 +10,6 @@ import com.blockchain.store.playmarket.utilities.MyPackageManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -18,6 +17,7 @@ import rx.schedulers.Schedulers;
 public class MyAppsPresenter implements MyAppsContract.Presenter {
     private MyAppsContract.View view;
     private String arrayOfInstalledApps;
+    private ArrayList<App> appList = new ArrayList<>();
 
     @Override
     public void init(MyAppsContract.View view) {
@@ -52,6 +52,7 @@ public class MyAppsPresenter implements MyAppsContract.Presenter {
             appLibrary.isHasUpdate = MyPackageManager.isAppHasUpdate(appLibrary.app);
             appLibrary.versionName = MyPackageManager.getVersionNameByPackageName(appLibrary.applicationInfo.packageName);
             if (isHasLocalCopy && appLibrary.isHasUpdate) {
+                appList.add(appLibrary.app);
                 appLibraries.add(0, appLibrary);
             } else {
                 appLibraries.add(appLibrary);
@@ -70,8 +71,10 @@ public class MyAppsPresenter implements MyAppsContract.Presenter {
     }
 
     private void onAppsReady(ArrayList<AppLibrary> appLibraries) {
+        Log.d("testtt", "onAppsReady: " + appList.size());
         view.onAppsReady(appLibraries);
     }
+
 
     private void onAppsFailed(Throwable throwable) {
         view.onAppsFailed(throwable);
