@@ -59,7 +59,7 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
 
         public void bind(AppLibrary appLibrary) {
             title.setText(appLibrary.title);
-            StringBuilder stringBuilder = new StringBuilder(String.valueOf(MyPackageManager.getVersionNameByPackageName(appLibrary.applicationInfo.packageName)));
+            StringBuilder stringBuilder = new StringBuilder(String.valueOf(appLibrary.versionName));
             if (appLibrary.app != null && appLibrary.isHasUpdate) {
                 stringBuilder.append(" | ");
                 stringBuilder.append(appLibrary.app.version);

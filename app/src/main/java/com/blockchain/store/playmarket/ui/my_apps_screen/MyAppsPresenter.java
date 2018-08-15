@@ -10,6 +10,7 @@ import com.blockchain.store.playmarket.utilities.MyPackageManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -26,9 +27,9 @@ public class MyAppsPresenter implements MyAppsContract.Presenter {
 
     public void getApps() {
         RestApi.getServerApi().getAppsByPackage(arrayOfInstalledApps)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.newThread())
                 .map(this::mapWithLocalApps)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> view.showLoading(true))
                 .doOnTerminate(() -> view.showLoading(false))
                 .subscribe(this::onAppsReady, this::onAppsFailed);
@@ -49,6 +50,7 @@ public class MyAppsPresenter implements MyAppsContract.Presenter {
 
             }
             appLibrary.isHasUpdate = MyPackageManager.isAppHasUpdate(appLibrary.app);
+            appLibrary.versionName = MyPackageManager.getVersionNameByPackageName(appLibrary.applicationInfo.packageName);
             if (isHasLocalCopy && appLibrary.isHasUpdate) {
                 appLibraries.add(0, appLibrary);
             } else {

@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,9 +30,11 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
+    @BindView(R.id.layout_holder) View layoutHolder;
 
     private MyAppsPresenter presenter;
     private MyAppsAdapter adapter;
+    private boolean isGlobalLayoutListenerTriggered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,13 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
         setContentView(R.layout.activity_my_apps);
         ButterKnife.bind(this);
         attachPresenter();
+        ViewTreeObserver viewTreeObserver = layoutHolder.getViewTreeObserver();
+        viewTreeObserver.addOnGlobalLayoutListener(() -> {
+            if (!isGlobalLayoutListenerTriggered) {
+                presenter.getApps();
+                isGlobalLayoutListenerTriggered = true;
+            }
+        });
         setTitlte();
     }
 
@@ -49,7 +59,7 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
     private void attachPresenter() {
         presenter = new MyAppsPresenter();
         presenter.init(this);
-        presenter.getApps();
+
     }
 
     @Override
