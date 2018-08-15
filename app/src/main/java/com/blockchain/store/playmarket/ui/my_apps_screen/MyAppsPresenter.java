@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.ui.my_apps_screen;
 
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -24,7 +25,6 @@ public class MyAppsPresenter implements MyAppsContract.Presenter {
     }
 
     public void getApps() {
-
         RestApi.getServerApi().getAppsByPackage(arrayOfInstalledApps)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
@@ -48,16 +48,23 @@ public class MyAppsPresenter implements MyAppsContract.Presenter {
                 }
 
             }
-            if (isHasLocalCopy) {
+            appLibrary.isHasUpdate = MyPackageManager.isAppHasUpdate(appLibrary.app);
+            if (isHasLocalCopy && appLibrary.isHasUpdate) {
                 appLibraries.add(0, appLibrary);
             } else {
                 appLibraries.add(appLibrary);
             }
 
         }
-
-
+        addIconAndTitle(appLibraries);
         return appLibraries;
+    }
+
+    private void addIconAndTitle(ArrayList<AppLibrary> appLibraries) {
+        for (AppLibrary library : appLibraries) {
+            library.title = (String) MyPackageManager.get().getApplicationLabel(library.applicationInfo);
+            library.icon = library.applicationInfo.loadIcon(MyPackageManager.get());
+        }
     }
 
     private void onAppsReady(ArrayList<AppLibrary> appLibraries) {

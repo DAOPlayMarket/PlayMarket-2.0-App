@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,6 +39,11 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
         setContentView(R.layout.activity_my_apps);
         ButterKnife.bind(this);
         attachPresenter();
+        setTitlte();
+    }
+
+    private void setTitlte() {
+        toolbarTitle.setText(R.string.my_apps);
     }
 
     private void attachPresenter() {
@@ -48,10 +54,6 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
 
     @Override
     public void onAppsReady(ArrayList<AppLibrary> appLibraries) {
-        for (AppLibrary appLibrary : appLibraries) {
-            Log.d(TAG, "onAppsReady: " + appLibrary.isHasUpdate());
-
-        }
         adapter = new MyAppsAdapter(appLibraries);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -59,11 +61,13 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
 
     @Override
     public void onAppsFailed(Throwable throwable) {
+        errorHolder.setVisibility(View.VISIBLE);
         Log.d(TAG, "onAppsFailed() called with: throwable = [" + throwable + "]");
     }
 
     @OnClick(R.id.error_view_repeat_btn)
     public void onErrorRepeatClicked() {
+        errorHolder.setVisibility(View.GONE);
         presenter.getApps();
     }
 
@@ -74,6 +78,6 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
 
     @Override
     public void showLoading(boolean isShow) {
-
+        progressBar.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 }

@@ -175,4 +175,14 @@ public class MyPackageManager {
         PackageManager pm = applicationContext.getPackageManager();
         return pm;
     }
+
+    public static boolean isAppHasUpdate(App app) {
+        try {
+            int versionNameByPackageName = MyPackageManager.getVersionNameByPackageName(app.packageName);
+            return versionNameByPackageName < Integer.parseInt(app.version);
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
 }

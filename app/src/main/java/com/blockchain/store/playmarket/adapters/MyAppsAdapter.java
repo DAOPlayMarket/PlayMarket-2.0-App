@@ -58,14 +58,14 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
         }
 
         public void bind(AppLibrary appLibrary) {
-            title.setText(MyPackageManager.get().getApplicationLabel(appLibrary.applicationInfo));
+            title.setText(appLibrary.title);
             StringBuilder stringBuilder = new StringBuilder(String.valueOf(MyPackageManager.getVersionNameByPackageName(appLibrary.applicationInfo.packageName)));
-            if (appLibrary.app != null && appLibrary.isHasUpdate()) {
+            if (appLibrary.app != null && appLibrary.isHasUpdate) {
                 stringBuilder.append(" | ");
                 stringBuilder.append(appLibrary.app.version);
             }
             version.setText(stringBuilder.toString());
-            Glide.with(context).load(appLibrary.applicationInfo.loadIcon(MyPackageManager.get())).into(icon);
+            Glide.with(context).load(appLibrary.icon).into(icon);
         }
     }
 }
