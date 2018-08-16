@@ -58,7 +58,7 @@
                         android:textSize="@dimen/title_text_size"
                         tools:text="Daily Deals: Prime Day Editiondsasas" />
 
-                    <TextView
+                    <com.blockchain.store.playmarket.views.FadingTextView
                         android:id="@+id/app_description"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
@@ -71,6 +71,19 @@
                         android:gravity="bottom"
                         android:maxLines="3"
                         tools:text="Daily Deals: Prime Day Edition" />
+                    <!--<TextView-->
+                        <!--android:id="@+id/app_description"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="0dp"-->
+                        <!--android:layout_gravity="bottom"-->
+                        <!--android:layout_margin="6dp"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:layout_marginRight="10dp"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:ellipsize="end"-->
+                        <!--android:gravity="bottom"-->
+                        <!--android:maxLines="3"-->
+                        <!--tools:text="Daily Deals: Prime Day Edition" />-->
 
                 </LinearLayout>
 
