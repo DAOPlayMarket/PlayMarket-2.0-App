@@ -1,6 +1,8 @@
 package com.blockchain.store.playmarket.ui.my_apps_screen;
 
+import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppLibrary;
+import com.blockchain.store.playmarket.utilities.Constants;
 
 import java.util.ArrayList;
 
@@ -13,6 +15,8 @@ public class MyAppsContract {
         void onAppsReady(ArrayList<AppLibrary> appLibraries);
 
         void onAppsFailed(Throwable throwable);
+
+        void updateApp(App app, int progress, Constants.APP_STATE stateDownloading);
     }
 
     public interface Presenter {

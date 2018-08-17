@@ -1,7 +1,6 @@
 package com.blockchain.store.playmarket.ui.app_detail_screen;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.Pair;
 
@@ -158,7 +157,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                     changeState(Constants.APP_STATE.STATE_INSTALLED);
                 }
 
-            } else if (NotificationManager.getManager().isCallbackAlreadyRegistered(app, this)) {
+            } else if (NotificationManager.getManager().isCallbackAlreadyRegistered(app)) {
                 NotificationManager.getManager().registerCallback(app, this);
                 changeState(Constants.APP_STATE.STATE_DOWNLOADING);
             } else if (new MyPackageManager().isAppFileExists(app)) {
@@ -208,23 +207,23 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
     @Override
-    public void onAppDownloadStarted() {
+    public void onAppDownloadStarted(App app) {
         changeState(Constants.APP_STATE.STATE_DOWNLOAD_STARTED);
     }
 
     @Override
-    public void onAppDownloadProgressChanged(int progress) {
+    public void onAppDownloadProgressChanged(App app, int progress) {
         changeState(Constants.APP_STATE.STATE_DOWNLOADING);
         view.setActionButtonText(String.valueOf(progress) + " %");
     }
 
     @Override
-    public void onAppDownloadSuccessful() {
+    public void onAppDownloadSuccessful(App app) {
         changeState(Constants.APP_STATE.STATE_DOWNLOADED_NOT_INSTALLED);
     }
 
     @Override
-    public void onAppDownloadError() {
+    public void onAppDownloadError(App app, String message) {
         changeState(Constants.APP_STATE.STATE_DOWNLOAD_ERROR);
     }
 
@@ -298,8 +297,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
         }
         for (SortedUserReview sortedUserReview : newUserReviews) {
             for (UserReview review : userReviews) {
-                Log.d(TAG, "sortUserReviews: " + sortedUserReview.userReview.txIndexOrigin);
-                Log.d(TAG, "review: " + review.txIndex);
                 if (sortedUserReview.userReview.txIndexOrigin.equalsIgnoreCase(review.txIndex)) {
                     sortedUserReview.reviewOnUserReview.add(review);
                 }

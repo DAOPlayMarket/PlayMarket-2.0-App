@@ -54,7 +54,7 @@ public class NotificationManager {
         }
     }
 
-    public boolean isCallbackAlreadyRegistered(App app, NotificationManagerCallbacks callbacks) {
+    public boolean isCallbackAlreadyRegistered(App app) {
         Log.d(TAG, "isCallbackAlreadyRegistered: " + notificationObjects);
         for (NotificationObject notificationObject : notificationObjects) {
             if (notificationObject.getApp().appId.equals(app.appId)) {
@@ -69,9 +69,9 @@ public class NotificationManager {
         NotificationObject notificationObject = getNotificationObjectByApp(app);
         if (notificationObject != null) {
             notificationObject.setCurrentState(Constants.APP_STATE.STATE_DOWNLOAD_ERROR);
-            reportDownloadFailUpdate(notificationObject);
+            reportDownloadFailUpdate(notificationObject,exception.getMessage());
             cancelNotification(app);
-            updateText(app,exception.getMessage());
+            updateText(app, exception.getMessage());
             removeNotificationObject(notificationObject);
         }
     }
@@ -139,6 +139,7 @@ public class NotificationManager {
                 .setContentTitle(app.nameApp)
                 .setSmallIcon(android.R.mipmap.sym_def_app_icon);
         notificationBuilder.setProgress(100, 0, false); // show progress
+        notificationBuilder.setGroup(Constants.NOTIFICATION_UPDATE_GROUP);
         return notificationBuilder;
     }
 
@@ -161,7 +162,7 @@ public class NotificationManager {
     private void reportUpdateProgress(NotificationObject notificationObject) {
         for (Pair<String, NotificationManagerCallbacks> object : this.callbacks) {
             if (object.first.equalsIgnoreCase(notificationObject.getApp().appId)) {
-                object.second.onAppDownloadProgressChanged(notificationObject.getProgress());
+                object.second.onAppDownloadProgressChanged(notificationObject.getApp(), notificationObject.getProgress());
             }
         }
     }
@@ -169,7 +170,7 @@ public class NotificationManager {
     private void reportStartUpdate(NotificationObject notificationObject) {
         for (Pair<String, NotificationManagerCallbacks> object : this.callbacks) {
             if (object.first.equalsIgnoreCase(notificationObject.getApp().appId)) {
-                object.second.onAppDownloadStarted();
+                object.second.onAppDownloadStarted(notificationObject.getApp());
             }
         }
     }
@@ -177,15 +178,15 @@ public class NotificationManager {
     private void reportCompleteUpdate(NotificationObject notificationObject) {
         for (Pair<String, NotificationManagerCallbacks> object : this.callbacks) {
             if (object.first.equalsIgnoreCase(notificationObject.getApp().appId)) {
-                object.second.onAppDownloadSuccessful();
+                object.second.onAppDownloadSuccessful(notificationObject.getApp());
             }
         }
     }
 
-    private void reportDownloadFailUpdate(NotificationObject notificationObject) {
+    private void reportDownloadFailUpdate(NotificationObject notificationObject, String message) {
         for (Pair<String, NotificationManagerCallbacks> object : this.callbacks) {
             if (object.first.equalsIgnoreCase(notificationObject.getApp().appId)) {
-                object.second.onAppDownloadError();
+                object.second.onAppDownloadError(notificationObject.getApp(),message);
             }
         }
     }

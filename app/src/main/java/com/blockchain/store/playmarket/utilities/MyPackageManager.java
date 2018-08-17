@@ -28,10 +28,15 @@ public class MyPackageManager {
     private static final String TAG = "MyPackageManager";
 
     public void startDownloadApkService(App app) {
+        startDownloadApkService(app, false);
+    }
+
+    public void startDownloadApkService(App app, boolean isForceInstallFlag) {
         Context applicationContext = Application.getInstance().getApplicationContext();
         Intent intent = new Intent(applicationContext, DownloadService.class);
         intent.putExtra(Constants.DOWNLOAD_SERVICE_APP_EXTRA, app);
         intent.putExtra(Constants.DOWNLOAD_SERVICE_URL_EXTRA, app.getDownloadLink());
+        intent.putExtra(Constants.DOWNLOAD_SERVICE_FORCE_INSTALL, isForceInstallFlag);
         applicationContext.startService(intent);
     }
 
@@ -178,8 +183,9 @@ public class MyPackageManager {
 
     public static boolean isAppHasUpdate(App app) {
         try {
-            int versionNameByPackageName = MyPackageManager.getVersionNameByPackageName(app.packageName);
-            return versionNameByPackageName < Integer.parseInt(app.version);
+            int appVersionLocal = MyPackageManager.getVersionNameByPackageName(app.packageName);
+            int appVersionWeb = Integer.parseInt(app.version);
+            return appVersionWeb > appVersionLocal;
         } catch (Exception e) {
             return false;
         }

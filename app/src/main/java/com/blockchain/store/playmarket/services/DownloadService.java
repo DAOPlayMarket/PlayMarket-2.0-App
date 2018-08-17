@@ -31,6 +31,7 @@ public class DownloadService extends IntentService {
         if (intent == null) return;
         App app = intent.getParcelableExtra(Constants.DOWNLOAD_SERVICE_APP_EXTRA);
         String url = intent.getStringExtra(Constants.DOWNLOAD_SERVICE_URL_EXTRA);
+        boolean isNeedForceInstall = intent.getBooleanExtra(Constants.DOWNLOAD_SERVICE_FORCE_INSTALL, false);
 
         File file = new MyPackageManager().getFileFromApp(app);
         if (file.exists()) {
@@ -48,12 +49,14 @@ public class DownloadService extends IntentService {
             Log.d(TAG, "onCompleted() called with: e = [" + exception + "], result = [" + result + "]");
             if (exception == null) {
                 NotificationManager.getManager().downloadCompleteWithoutError(app);
-                if (Hawk.contains(Constants.SETTINGS_AUTOINSTALL_FLAG) && (boolean) Hawk.get(Constants.SETTINGS_AUTOINSTALL_FLAG)) {
+                if (isNeedForceInstall) {
                     installApk(result);
+                } else if (Hawk.contains(Constants.SETTINGS_AUTOINSTALL_FLAG) && (boolean) Hawk.get(Constants.SETTINGS_AUTOINSTALL_FLAG)) {
+
                 }
 
             } else {
-                NotificationManager.getManager().downloadCompleteWithError(app,exception);
+                NotificationManager.getManager().downloadCompleteWithError(app, exception);
             }
         });
 

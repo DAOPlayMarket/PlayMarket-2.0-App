@@ -46,7 +46,10 @@ public class Constants {
 
     public static final String DOWNLOAD_SERVICE_APP_EXTRA = "download_service_app_extra";
     public static final String DOWNLOAD_SERVICE_URL_EXTRA = "download_service_url_extra";
+    public static final String DOWNLOAD_SERVICE_FORCE_INSTALL = "download_service_force_install";
     public static final String DOWNLOAD_SERVICE_BITMAP_EXTRA = "download_service_bitmap_extra";
+
+    public static final String NOTIFICATION_UPDATE_GROUP = "notification_update_group";
 
     public static final String SEARCH_ACTIVITY_QUERY_EXTRA = "search_activity_query_extra";
 

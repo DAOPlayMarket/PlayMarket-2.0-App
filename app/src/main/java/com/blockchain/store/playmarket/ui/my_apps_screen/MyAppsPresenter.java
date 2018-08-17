@@ -1,11 +1,13 @@
 package com.blockchain.store.playmarket.ui.my_apps_screen;
 
 import android.content.pm.ApplicationInfo;
-import android.util.Log;
 
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppLibrary;
+import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
+import com.blockchain.store.playmarket.notification.NotificationManager;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
 
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ import java.util.List;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class MyAppsPresenter implements MyAppsContract.Presenter {
+public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationManagerCallbacks {
     private MyAppsContract.View view;
     private String arrayOfInstalledApps;
     private ArrayList<App> appList = new ArrayList<>();
@@ -52,15 +54,22 @@ public class MyAppsPresenter implements MyAppsContract.Presenter {
             appLibrary.isHasUpdate = MyPackageManager.isAppHasUpdate(appLibrary.app);
             appLibrary.versionName = MyPackageManager.getVersionNameByPackageName(appLibrary.applicationInfo.packageName);
             if (isHasLocalCopy && appLibrary.isHasUpdate) {
-                appList.add(appLibrary.app);
+                loadState(appLibrary);
                 appLibraries.add(0, appLibrary);
             } else {
                 appLibraries.add(appLibrary);
             }
 
         }
+
         addIconAndTitle(appLibraries);
         return appLibraries;
+    }
+
+    private void loadState(AppLibrary appLibrary) {
+        if (NotificationManager.getManager().isCallbackAlreadyRegistered(appLibrary.app)) {
+            NotificationManager.getManager().registerCallback(appLibrary.app, this);
+        }
     }
 
     private void addIconAndTitle(ArrayList<AppLibrary> appLibraries) {
@@ -71,7 +80,6 @@ public class MyAppsPresenter implements MyAppsContract.Presenter {
     }
 
     private void onAppsReady(ArrayList<AppLibrary> appLibraries) {
-        Log.d("testtt", "onAppsReady: " + appList.size());
         view.onAppsReady(appLibraries);
     }
 
@@ -80,4 +88,34 @@ public class MyAppsPresenter implements MyAppsContract.Presenter {
         view.onAppsFailed(throwable);
     }
 
+    public void onActionItemClicked(AppLibrary appLibrary, int position) {
+        NotificationManager.getManager().registerCallback(appLibrary.app, this);
+        new MyPackageManager().startDownloadApkService(appLibrary.app, true);
+    }
+
+    @Override
+    public void onAppDownloadStarted(App app) {
+        view.updateApp(app, 0, Constants.APP_STATE.STATE_DOWNLOAD_STARTED);
+    }
+
+    @Override
+    public void onAppDownloadProgressChanged(App app, int progress) {
+        view.updateApp(app, progress, Constants.APP_STATE.STATE_DOWNLOADING);
+    }
+
+    @Override
+    public void onAppDownloadSuccessful(App app) {
+        view.updateApp(app, 0, Constants.APP_STATE.STATE_DOWNLOADING);
+    }
+
+    @Override
+    public void onAppDownloadError(App app, String message) {
+        view.updateApp(app, 0, Constants.APP_STATE.STATE_DOWNLOAD_ERROR);
+    }
+
+    public void onDestroy(ArrayList<AppLibrary> allItems) {
+        for (AppLibrary library : allItems) {
+            NotificationManager.getManager().removeCallback(library.app, this);
+        }
+    }
 }

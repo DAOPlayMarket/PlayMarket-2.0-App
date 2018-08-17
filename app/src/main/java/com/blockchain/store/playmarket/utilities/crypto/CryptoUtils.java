@@ -17,6 +17,7 @@ import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Bytes32;
+import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.utils.Numeric;
 
 import java.math.BigInteger;
@@ -157,6 +158,31 @@ public class CryptoUtils {
         if (encode.startsWith("0x")) {
             encode = encode.replaceFirst("0x", "");
         }
+        return hexStringToByteArray(encode);
+    }
+
+    public static byte[] createSentTokenTransactionBytes(String address, String tokenNumber, String... abc) {
+        // function transfer (address,uint256)
+        if (address.startsWith("0x")) {
+            address = address.replaceFirst("0x", "");
+        }
+        ArrayList<Type> valueList = new ArrayList<>();
+        valueList.add(new org.web3j.abi.datatypes.Address(address));
+        valueList.add(new Uint256(new BigInteger(tokenNumber)));
+
+        List<TypeReference<?>> typeReferences = Arrays.asList(
+                new TypeReference<org.web3j.abi.datatypes.Address>() {
+                }, new TypeReference<org.web3j.abi.datatypes.Uint>() {
+                });
+        Function function = new Function("buyApp",
+                valueList, typeReferences);
+
+        String encode = FunctionEncoder.encode(function);
+
+        if (encode.startsWith("0x")) {
+            encode = encode.replaceFirst("0x", "");
+        }
+        Log.d("newMethod", "result = " + encode);
         return hexStringToByteArray(encode);
     }
 
