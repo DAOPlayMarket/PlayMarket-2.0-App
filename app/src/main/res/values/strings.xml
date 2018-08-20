@@ -172,5 +172,6 @@
     <string name="send_message">Send message</string>
     <string name="read_more">Read more</string>
     <string name="my_apps">My applications</string>
+    <string name="update_all_apps">Update all apps</string>
 
 </resources>

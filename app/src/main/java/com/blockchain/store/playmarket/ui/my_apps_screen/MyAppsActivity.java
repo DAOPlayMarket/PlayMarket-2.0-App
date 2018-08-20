@@ -1,11 +1,13 @@
 package com.blockchain.store.playmarket.ui.my_apps_screen;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,10 +33,12 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
     @BindView(R.id.layout_holder) View layoutHolder;
+    @BindView(R.id.update_all_btn) Button updateAllBtn;
 
     private MyAppsPresenter presenter;
     private MyAppsAdapter adapter;
     private boolean isGlobalLayoutListenerTriggered;
+    private Snackbar snackbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,17 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
             }
         });
         setTitle();
+        initSnackBar();
+    }
+
+    private void initSnackBar() {
+        snackbar = Snackbar.make(layoutHolder, "", Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("Update", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void setTitle() {
@@ -63,7 +78,8 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
     }
 
     @Override
-    public void onAppsReady(ArrayList<AppLibrary> appLibraries) {
+    public void onAppsReady(ArrayList<AppLibrary> appLibraries, Boolean isHasAnyUpdates) {
+        updateAllBtn.setVisibility(isHasAnyUpdates ? View.VISIBLE : View.GONE);
         adapter = new MyAppsAdapter(appLibraries, this);
         adapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -79,7 +95,7 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
     public void updateApp(App app, int progress, Constants.APP_STATE appState) {
         runOnUiThread(() -> {
             if (adapter != null)
-                adapter.reportAppStateChanged(app, progress,appState);
+                adapter.reportAppStateChanged(app, progress, appState);
         });
 
     }

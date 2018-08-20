@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,10 +63,13 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
     }
 
     public void reportAppStateChanged(App app, int progress, Constants.APP_STATE appState) {
-        getItemByApp(app).downloadProgress = String.valueOf(progress);
-        getItemByApp(app).appState = appState;
-        notifyDataSetChanged();
+        if (getItemByApp(app) != null) {
+            getItemByApp(app).downloadProgress = String.valueOf(progress);
+            getItemByApp(app).appState = appState;
+            notifyDataSetChanged();
+        }
     }
+
 
     private AppLibrary getItemByApp(App app) {
         for (int i = 0; i < appLibraries.size(); i++) {
@@ -74,15 +78,6 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
             }
         }
         return null;
-    }
-
-    private void reportProgressChanged(App app, int progress) {
-        for (int i = 0; i < appLibraries.size(); i++) {
-            if (appLibraries.get(i).app != null && appLibraries.get(i).app.appId.equals(app.appId)) {
-                appLibraries.get(i).downloadProgress = String.valueOf(progress);
-                notifyDataSetChanged();
-            }
-        }
     }
 
     public ArrayList<AppLibrary> getAllItems() {
@@ -97,7 +92,7 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
         @BindView(R.id.my_apps_icon) ImageView icon;
         @BindView(R.id.my_apps_title) TextView title;
         @BindView(R.id.my_apps_version) TextView version;
-        @BindView(R.id.my_apps_action_btn) Button actionBtn;
+        @BindView(R.id.my_apps_action_btn) ImageView actionBtn;
         @BindView(R.id.my_apps_status) TextView status;
         @BindView(R.id.my_apps_holder) View layoutHolder;
 
@@ -111,18 +106,35 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
         }
 
         public void bind(AppLibrary appLibrary) {
+            setUiByAppState(appLibrary);
             title.setText(appLibrary.title);
-            StringBuilder stringBuilder = new StringBuilder(String.valueOf(appLibrary.versionName));
-            if (appLibrary.app != null && appLibrary.isHasUpdate) {
-                stringBuilder.append(" | ");
-                stringBuilder.append(appLibrary.app.version);
+            status.setText(appLibrary.downloadProgress);
+            version.setText(appLibrary.getVersionsAsString());
+            Glide.with(context).load(appLibrary.icon).into(icon);
+
+        }
+
+        private void setUiByAppState(AppLibrary appLibrary) {
+            Log.d(TAG, "setUiByAppState() called with: appLibrary = [" + appLibrary.appState + "]");
+            switch (appLibrary.appState) {
+                case STATE_DOWNLOAD_STARTED:
+                case STATE_DOWNLOADING:
+                    status.setTextColor(context.getResources().getColor(R.color.action_btn_bg));
+                    actionBtn.setVisibility(View.GONE);
+                    status.setVisibility(View.VISIBLE);
+                    break;
+                case STATE_DOWNLOAD_ERROR:
+                    actionBtn.setVisibility(View.VISIBLE);
+                    status.setVisibility(View.GONE);
+                    break;
+                case STATE_UNKOWN:
+                    actionBtn.setVisibility(appLibrary.isHasUpdate ? View.VISIBLE : View.GONE);
+                    status.setVisibility(appLibrary.isHasUpdate ? View.VISIBLE : View.GONE);
+                    break;
+                case STATE_DOWNLOADED_NOT_INSTALLED:
+                    break;
 
             }
-            actionBtn.setVisibility(appLibrary.isHasUpdate ? View.VISIBLE : View.GONE);
-            status.setVisibility(appLibrary.isHasUpdate ? View.VISIBLE : View.GONE);
-            status.setText(appLibrary.downloadProgress);
-            version.setText(stringBuilder.toString());
-            Glide.with(context).load(appLibrary.icon).into(icon);
         }
     }
 }

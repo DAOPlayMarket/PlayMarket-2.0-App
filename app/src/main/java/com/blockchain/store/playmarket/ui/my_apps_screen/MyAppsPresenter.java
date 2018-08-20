@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.ui.my_apps_screen;
 
 import android.content.pm.ApplicationInfo;
 import android.util.Log;
+import android.util.Pair;
 
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -22,7 +23,6 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
 
     private MyAppsContract.View view;
     private String arrayOfInstalledApps;
-    private ArrayList<App> appList = new ArrayList<>();
 
     @Override
     public void init(MyAppsContract.View view) {
@@ -40,7 +40,9 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
                 .subscribe(this::onAppsReady, this::onAppsFailed);
     }
 
-    private ArrayList<AppLibrary> mapWithLocalApps(ArrayList<App> apps) {
+
+    private Pair<ArrayList<AppLibrary>, Boolean> mapWithLocalApps(ArrayList<App> apps) {
+        boolean isThereHasAnUpdate = false;
         ArrayList<AppLibrary> appLibraries = new ArrayList<>();
         List<ApplicationInfo> allInstalledApps = MyPackageManager.getAllInstalledApps();
         for (ApplicationInfo applicationInfo : allInstalledApps) {
@@ -57,6 +59,7 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
             appLibrary.isHasUpdate = MyPackageManager.isAppHasUpdate(appLibrary.app);
             appLibrary.versionName = MyPackageManager.getVersionNameByPackageName(appLibrary.applicationInfo.packageName);
             if (isHasLocalCopy && appLibrary.isHasUpdate) {
+                isThereHasAnUpdate = true;
                 loadState(appLibrary);
                 appLibraries.add(0, appLibrary);
             } else {
@@ -64,9 +67,8 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
             }
 
         }
-
         addIconAndTitle(appLibraries);
-        return appLibraries;
+        return new Pair<>(appLibraries, isThereHasAnUpdate);
     }
 
     private void loadState(AppLibrary appLibrary) {
@@ -82,8 +84,8 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
         }
     }
 
-    private void onAppsReady(ArrayList<AppLibrary> appLibraries) {
-        view.onAppsReady(appLibraries);
+    private void onAppsReady(Pair<ArrayList<AppLibrary>,Boolean> pair) {
+        view.onAppsReady(pair.first,pair.second);
     }
 
 
@@ -94,6 +96,7 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
     public void onActionItemClicked(AppLibrary appLibrary, int position) {
         NotificationManager.getManager().registerCallback(appLibrary.app, this);
         new MyPackageManager().startDownloadApkService(appLibrary.app, true);
+        view.updateApp(appLibrary.app, 0, Constants.APP_STATE.STATE_DOWNLOADING);
     }
 
     @Override
@@ -108,7 +111,7 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
 
     @Override
     public void onAppDownloadSuccessful(App app) {
-        view.updateApp(app, 0, Constants.APP_STATE.STATE_DOWNLOADING);
+        view.updateApp(app, 0, Constants.APP_STATE.STATE_DOWNLOADED_NOT_INSTALLED);
     }
 
     @Override

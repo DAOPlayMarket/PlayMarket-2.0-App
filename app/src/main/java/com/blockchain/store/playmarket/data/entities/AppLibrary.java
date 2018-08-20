@@ -16,5 +16,15 @@ public class AppLibrary {
     public String downloadProgress = "";
     public boolean isSelected = false;
 
+    public String getVersionsAsString(){
+        StringBuilder stringBuilder = new StringBuilder(String.valueOf(versionName));
+        if (app != null && isHasUpdate) {
+            stringBuilder.append(" | ");
+            stringBuilder.append(app.version);
+
+        }
+        return stringBuilder.toString();
+    }
+
 
 }
