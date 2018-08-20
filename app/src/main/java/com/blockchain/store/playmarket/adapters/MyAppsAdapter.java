@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.measite.minidns.record.UNKNOWN;
 
 public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsViewHolder> {
     private static final String TAG = "MyAppsAdapter";
@@ -129,6 +130,7 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
 
         private void setUiByAppState(AppLibrary appLibrary) {
             Log.d(TAG, "setUiByAppState() called with: appLibrary = [" + appLibrary.appState + "]");
+            layoutHolder.setClickable(appLibrary.isHasUpdate && appLibrary.appState == Constants.APP_STATE.STATE_UNKOWN);
             switch (appLibrary.appState) {
                 case STATE_DOWNLOAD_STARTED:
                 case STATE_DOWNLOADING:
@@ -143,7 +145,7 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
                 case STATE_UNKOWN:
                     actionBtn.setVisibility(appLibrary.isHasUpdate ? View.VISIBLE : View.GONE);
                     status.setVisibility(appLibrary.isHasUpdate ? View.VISIBLE : View.GONE);
-                    layoutHolder.setClickable(appLibrary.isHasUpdate);
+
                     break;
                 case STATE_DOWNLOADED_NOT_INSTALLED:
                     break;
