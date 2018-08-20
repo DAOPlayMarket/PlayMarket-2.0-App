@@ -14,6 +14,7 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppLibrary;
 import com.blockchain.store.playmarket.interfaces.AppsAdapterCallback;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -38,7 +39,9 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
                 .inflate(R.layout.my_apps_item, parent, false);
         MyAppsViewHolder myAppsViewHolder = new MyAppsViewHolder(view);
         myAppsViewHolder.actionBtn.setOnClickListener(v ->
-                callback.onActionItemClicked(appLibraries.get(myAppsViewHolder.getAdapterPosition()), myAppsViewHolder.getAdapterPosition()));
+                callback.onActionButtonClicked(appLibraries.get(myAppsViewHolder.getAdapterPosition()), myAppsViewHolder.getAdapterPosition()));
+        myAppsViewHolder.layoutHolder.setOnClickListener(v ->
+                callback.onLayoutClicked(appLibraries.get(myAppsViewHolder.getAdapterPosition()), myAppsViewHolder.getAdapterPosition()));
         return myAppsViewHolder;
     }
 
@@ -58,18 +61,36 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
         return appLibraries.get(position).hashCode();
     }
 
-    public void reportProgressChanged(App app, int progress) {
+    public void reportAppStateChanged(App app, int progress, Constants.APP_STATE appState) {
+        getItemByApp(app).downloadProgress = String.valueOf(progress);
+        getItemByApp(app).appState = appState;
+        notifyDataSetChanged();
+    }
+
+    private AppLibrary getItemByApp(App app) {
+        for (int i = 0; i < appLibraries.size(); i++) {
+            if (appLibraries.get(i).app != null && appLibraries.get(i).app.appId.equals(app.appId)) {
+                return appLibraries.get(i);
+            }
+        }
+        return null;
+    }
+
+    private void reportProgressChanged(App app, int progress) {
         for (int i = 0; i < appLibraries.size(); i++) {
             if (appLibraries.get(i).app != null && appLibraries.get(i).app.appId.equals(app.appId)) {
                 appLibraries.get(i).downloadProgress = String.valueOf(progress);
                 notifyDataSetChanged();
             }
         }
-
     }
 
     public ArrayList<AppLibrary> getAllItems() {
         return appLibraries;
+    }
+
+    public void selectItem(int position) {
+        appLibraries.get(position).isHasUpdate = !appLibraries.get(position).isHasUpdate;
     }
 
     public class MyAppsViewHolder extends RecyclerView.ViewHolder {
@@ -78,6 +99,7 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
         @BindView(R.id.my_apps_version) TextView version;
         @BindView(R.id.my_apps_action_btn) Button actionBtn;
         @BindView(R.id.my_apps_status) TextView status;
+        @BindView(R.id.my_apps_holder) View layoutHolder;
 
         private Context context;
 

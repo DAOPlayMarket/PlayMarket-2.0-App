@@ -14,6 +14,7 @@ public class AppLibrary {
     public int versionName;
     public Constants.APP_STATE appState = Constants.APP_STATE.STATE_UNKOWN;
     public String downloadProgress = "";
+    public boolean isSelected = false;
 
 
 }

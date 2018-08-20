@@ -76,10 +76,10 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
     }
 
     @Override
-    public void updateApp(App app, int progress, Constants.APP_STATE stateDownloading) {
+    public void updateApp(App app, int progress, Constants.APP_STATE appState) {
         runOnUiThread(() -> {
             if (adapter != null)
-                adapter.reportProgressChanged(app, progress);
+                adapter.reportAppStateChanged(app, progress,appState);
         });
 
     }
@@ -101,8 +101,13 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
     }
 
     @Override
-    public void onActionItemClicked(AppLibrary app, int position) {
+    public void onActionButtonClicked(AppLibrary app, int position) {
         presenter.onActionItemClicked(app, position);
+    }
+
+    @Override
+    public void onLayoutClicked(AppLibrary app, int position) {
+        adapter.selectItem(position);
     }
 
     @Override

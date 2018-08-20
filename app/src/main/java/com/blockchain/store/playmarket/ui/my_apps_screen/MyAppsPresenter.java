@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.ui.my_apps_screen;
 
 import android.content.pm.ApplicationInfo;
+import android.util.Log;
 
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -17,6 +18,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationManagerCallbacks {
+    private static final String TAG = "MyAppsPresenter";
+
     private MyAppsContract.View view;
     private String arrayOfInstalledApps;
     private ArrayList<App> appList = new ArrayList<>();
@@ -110,7 +113,8 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
 
     @Override
     public void onAppDownloadError(App app, String message) {
-        view.updateApp(app, 0, Constants.APP_STATE.STATE_DOWNLOAD_ERROR);
+        Log.d(TAG, "onAppDownloadError() called with: app = [" + app + "], message = [" + message + "]");
+        view.updateApp(app, 0, Constants.APP_STATE.STATE_DOWNLOADING);
     }
 
     public void onDestroy(ArrayList<AppLibrary> allItems) {

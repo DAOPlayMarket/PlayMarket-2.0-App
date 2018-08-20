@@ -90,9 +90,7 @@ public class NotificationManager {
 
     private void removeNotificationObject(NotificationObject notificationObject) {
         if (notificationObjects.isEmpty()) return;
-        Log.d(TAG, "removeNotificationObject: was  " + notificationObjects.size());
         notificationObjects.remove(notificationObject);
-        Log.d(TAG, "removeNotificationObject: now  " + notificationObjects.size());
     }
 
     public void updateProgress(App app, int progress) {
