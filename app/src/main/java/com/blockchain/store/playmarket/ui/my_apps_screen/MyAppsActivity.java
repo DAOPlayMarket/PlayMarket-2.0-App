@@ -122,9 +122,20 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
     }
 
     @Override
-    public void onLayoutClicked(AppLibrary app, int position) {
-        adapter.selectItem(position);
+    public void onLayoutClicked(int numberOfSelectedItem) {
+        updateSnackBar(numberOfSelectedItem);
+
     }
+
+    private void updateSnackBar(int numberOfSelectedItem) {
+        snackbar.setText("" + numberOfSelectedItem);
+        if (numberOfSelectedItem == 0) {
+            snackbar.dismiss();
+        } else {
+            snackbar.show();
+        }
+    }
+
 
     @Override
     protected void onDestroy() {

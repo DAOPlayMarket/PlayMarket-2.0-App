@@ -41,9 +41,22 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
         MyAppsViewHolder myAppsViewHolder = new MyAppsViewHolder(view);
         myAppsViewHolder.actionBtn.setOnClickListener(v ->
                 callback.onActionButtonClicked(appLibraries.get(myAppsViewHolder.getAdapterPosition()), myAppsViewHolder.getAdapterPosition()));
-        myAppsViewHolder.layoutHolder.setOnClickListener(v ->
-                callback.onLayoutClicked(appLibraries.get(myAppsViewHolder.getAdapterPosition()), myAppsViewHolder.getAdapterPosition()));
+        myAppsViewHolder.layoutHolder.setOnClickListener(v -> {
+            int clickPosition = myAppsViewHolder.getAdapterPosition();
+            appLibraries.get(clickPosition).isSelected = !appLibraries.get(clickPosition).isSelected;
+            callback.onLayoutClicked(getSelectedItems().size());
+        });
         return myAppsViewHolder;
+    }
+
+    private ArrayList<AppLibrary> getSelectedItems() {
+        ArrayList<AppLibrary> selectedItems = new ArrayList<>();
+        for (AppLibrary library : appLibraries) {
+            if (library.isSelected) {
+                selectedItems.add(library);
+            }
+        }
+        return selectedItems;
     }
 
     @Override
