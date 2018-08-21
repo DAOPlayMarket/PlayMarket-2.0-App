@@ -23,7 +23,7 @@
     <color name="invest_btn_bg">#3b026d</color>
     <color name="invest_main_color">#5c757b</color>
     <color name="invest_text_color">#67777b</color>
-    <color name="transfer_color">#009c85</color>
+    <color name="transfer_color_bg">#009c85</color>
 
     <color name="exchange_main_title_text_color">#009c85</color>
     <color name="exchange_main_field_text_color">#309f90</color>
@@ -47,22 +47,22 @@
 
     <!--Navigation view -->
     <color name="navigation_view_bg">#e6e6e6</color>
-    <color name="top_view_divider">#FDFDFD</color>
+    <color name="top_view_divider">#E3E3E3</color>
 
     <color name="nav_yellow">#e7b131</color>
     <color name="nav_image_tint">#e7e7e7</color>
-    <color name="nav_text_color">#54666b</color>
+    <color name="nav_text_color">#61717d</color>
 
-    <color name="bottom_items_bg">#E7E7E7</color>
+    <color name="exchange_color">#FFE19C</color>
+    <color name="transfer_color">#F1CBDB</color>
+    <color name="library_color">#91CCCB</color>
+    <color name="news_color">#E8BBFD</color>
+    <color name="settings_color">#FDE3AB</color>
+    <color name="my_ico_color">#8EF2C6</color>
+    <color name="account_color">#FFB9C1</color>
+    <color name="about_color">#FEB3E5</color>
     <color name="item_active_bg">#CCD0D1</color>
-    <color name="wishlist_color">#FF505F</color>
-    <color name="library_color">#007A77</color>
-    <color name="news_color">#B850FF</color>
-    <color name="history_color">#3F6EFF</color>
-    <color name="settings_color">#F9B217</color>
-    <color name="my_ico_color">#00E873</color>
-    <color name="account_color">#FF2DB2</color>
-    <color name="about_color">#320451</color>
+    <color name="bottom_items_bg">#E7E7E7</color>
 
     <!--User review colors-->
     <color name="review_title_text_color">#67b7b5</color>

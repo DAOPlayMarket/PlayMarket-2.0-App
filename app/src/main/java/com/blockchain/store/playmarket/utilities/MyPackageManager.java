@@ -102,7 +102,7 @@ public class MyPackageManager {
 
     public void installApkByFile(File file) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        if (BuildUtils.shouldUseContentUri()) {
+        if (BuildUtils.shouldUseContentUri() ) {
             intent.setDataAndType(FileProvider.getUriForFile(Application.getInstance().getApplicationContext(),
                     "com.blockchain.store.playmarket.fileprovider", file), "application/vnd.android.package-archive");
         } else {

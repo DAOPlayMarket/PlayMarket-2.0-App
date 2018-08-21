@@ -93,7 +93,7 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
         view.onAppsFailed(throwable);
     }
 
-    public void onActionItemClicked(AppLibrary appLibrary, int position) {
+    public void onActionItemClicked(AppLibrary appLibrary) {
         NotificationManager.getManager().registerCallback(appLibrary.app, this);
         new MyPackageManager().startDownloadApkService(appLibrary.app, true);
         view.updateApp(appLibrary.app, 0, Constants.APP_STATE.STATE_DOWNLOADING);
@@ -124,5 +124,13 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
         for (AppLibrary library : allItems) {
             NotificationManager.getManager().removeCallback(library.app, this);
         }
+    }
+
+    public void updateAppStatuses(ArrayList<AppLibrary> allItemsWithUpdate) {
+        for (AppLibrary library : allItemsWithUpdate) {
+            library.isHasUpdate = MyPackageManager.isAppHasUpdate(library.app);
+            library.appState = Constants.APP_STATE.STATE_UNKOWN;
+        }
+        view.onCheckForUpdatesReady(allItemsWithUpdate);
     }
 }

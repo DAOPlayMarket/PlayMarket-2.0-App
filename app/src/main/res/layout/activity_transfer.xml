@@ -25,7 +25,7 @@
             android:layout_weight="1"
             android:background="@color/Clear"
             android:text="@string/cancel_btn"
-            android:textColor="@color/transfer_color"
+            android:textColor="@color/transfer_color_bg"
             android:textSize="12sp" />
 
         <Button

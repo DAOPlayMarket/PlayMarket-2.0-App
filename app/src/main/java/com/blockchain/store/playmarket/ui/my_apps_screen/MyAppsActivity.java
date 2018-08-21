@@ -58,14 +58,18 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
         initSnackBar();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adapter != null) {
+            presenter.updateAppStatuses(adapter.getAllItemsWithUpdate());
+            //todo update status of installed apps in adapter
+        }
+    }
+
     private void initSnackBar() {
         snackbar = Snackbar.make(layoutHolder, "", Snackbar.LENGTH_INDEFINITE);
-        snackbar.setAction("Update", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        snackbar.setAction(R.string.update, v -> adapter.performActionOnSelectedItems());
     }
 
     private void setTitle() {
@@ -86,6 +90,7 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
 
         adapter = new MyAppsAdapter(appLibraries, this);
         adapter.setHasStableIds(true);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
@@ -102,6 +107,13 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
                 adapter.reportAppStateChanged(app, progress, appState);
         });
 
+    }
+
+    @Override
+    public void onCheckForUpdatesReady(ArrayList<AppLibrary> allItemsWithUpdate) {
+        if (adapter != null) {
+            adapter.refreshItemStatus(allItemsWithUpdate);
+        }
     }
 
     @OnClick(R.id.error_view_repeat_btn)
@@ -121,8 +133,13 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
     }
 
     @Override
-    public void onActionButtonClicked(AppLibrary app, int position) {
-        presenter.onActionItemClicked(app, position);
+    public void onActionButtonClicked(AppLibrary app) {
+        presenter.onActionItemClicked(app);
+    }
+
+    @OnClick(R.id.update_all_btn)
+    void onUpdateAllClicked() {
+        adapter.performUpdateAll();
     }
 
     @Override

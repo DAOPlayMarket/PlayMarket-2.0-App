@@ -42,11 +42,9 @@ import butterknife.OnClick;
 public class NavigationViewFragment extends Fragment implements NavigationViewContract.View, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "NavigationViewFragment";
 
-    @BindView(R.id.wishlist_layout) LinearLayout wishlistLayout;
     @BindView(R.id.library_layout) LinearLayout libraryLayout;
     @BindView(R.id.scroll_view) NestedScrollView scrollView;
     @BindView(R.id.news_layout) LinearLayout newsLayout;
-    @BindView(R.id.history_layout) LinearLayout historyLayout;
     @BindView(R.id.settings_layout) LinearLayout settingsLayout;
     @BindView(R.id.my_ico_layout) LinearLayout myIcoLayout;
     @BindView(R.id.about_layout) LinearLayout aboutLayout;

@@ -17,6 +17,8 @@ public class MyAppsContract {
         void onAppsFailed(Throwable throwable);
 
         void updateApp(App app, int progress, Constants.APP_STATE stateDownloading);
+
+        void onCheckForUpdatesReady(ArrayList<AppLibrary> allItemsWithUpdate);
     }
 
     public interface Presenter {

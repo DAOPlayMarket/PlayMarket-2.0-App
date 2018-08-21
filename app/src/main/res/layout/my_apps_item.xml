@@ -52,32 +52,44 @@
             app:layout_constraintStart_toEndOf="@+id/my_apps_icon"
             app:layout_constraintTop_toBottomOf="@+id/my_apps_title" />
 
-        <ImageView
-            android:id="@+id/my_apps_action_btn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/update"
-            android:visibility="gone"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/my_apps_action_btn_area"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/my_apps_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:textColor="@android:color/black"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/my_apps_action_btn"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Has update"
-            tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/my_apps_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:textColor="@android:color/black"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/my_apps_action_btn"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Has update"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/my_apps_action_btn"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/update"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
 
     </android.support.constraint.ConstraintLayout>
 
