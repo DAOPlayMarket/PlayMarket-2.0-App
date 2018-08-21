@@ -39,6 +39,7 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
     private MyAppsAdapter adapter;
     private boolean isGlobalLayoutListenerTriggered;
     private Snackbar snackbar;
+    private Integer howManyAppsNeedUpdate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +79,11 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
     }
 
     @Override
-    public void onAppsReady(ArrayList<AppLibrary> appLibraries, Boolean isHasAnyUpdates) {
-        updateAllBtn.setVisibility(isHasAnyUpdates ? View.VISIBLE : View.GONE);
+    public void onAppsReady(ArrayList<AppLibrary> appLibraries, Integer howManyAppsNeedUpdate) {
+        updateAllBtn.setVisibility(howManyAppsNeedUpdate > 0 ? View.VISIBLE : View.GONE);
+
+        this.howManyAppsNeedUpdate = howManyAppsNeedUpdate;
+
         adapter = new MyAppsAdapter(appLibraries, this);
         adapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -128,7 +132,8 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
     }
 
     private void updateSnackBar(int numberOfSelectedItem) {
-        snackbar.setText("" + numberOfSelectedItem);
+        String snackbarText = String.format(getString(R.string.my_apps_update_snackbar_text), numberOfSelectedItem, howManyAppsNeedUpdate);
+        snackbar.setText(snackbarText);
         if (numberOfSelectedItem == 0) {
             snackbar.dismiss();
         } else {

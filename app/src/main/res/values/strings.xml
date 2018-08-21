@@ -171,7 +171,13 @@
     <string name="your_balance_is">Your balance:\n%1$s  ETH</string>
     <string name="send_message">Send message</string>
     <string name="read_more">Read more</string>
+
+    <!--My apps screen-->
     <string name="my_apps">My applications</string>
     <string name="update_all_apps">Update all apps</string>
+    <string name="has_update">Has update</string>
+
+    <string name="my_apps_update_snackbar_text">%1$d/%2$d apps selected.</string>
+    <string name="chosed">Chosed</string>
 
 </resources>

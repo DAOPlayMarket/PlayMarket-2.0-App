@@ -12,7 +12,7 @@ public class MyAppsContract {
 
         void showLoading(boolean isShow);
 
-        void onAppsReady(ArrayList<AppLibrary> appLibraries, Boolean second);
+        void onAppsReady(ArrayList<AppLibrary> appLibraries, Integer second);
 
         void onAppsFailed(Throwable throwable);
 

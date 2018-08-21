@@ -41,8 +41,8 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
     }
 
 
-    private Pair<ArrayList<AppLibrary>, Boolean> mapWithLocalApps(ArrayList<App> apps) {
-        boolean isThereHasAnUpdate = false;
+    private Pair<ArrayList<AppLibrary>, Integer> mapWithLocalApps(ArrayList<App> apps) {
+        Integer howManyAppsNeedUpdate = 0;
         ArrayList<AppLibrary> appLibraries = new ArrayList<>();
         List<ApplicationInfo> allInstalledApps = MyPackageManager.getAllInstalledApps();
         for (ApplicationInfo applicationInfo : allInstalledApps) {
@@ -59,7 +59,7 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
             appLibrary.isHasUpdate = MyPackageManager.isAppHasUpdate(appLibrary.app);
             appLibrary.versionName = MyPackageManager.getVersionNameByPackageName(appLibrary.applicationInfo.packageName);
             if (isHasLocalCopy && appLibrary.isHasUpdate) {
-                isThereHasAnUpdate = true;
+                howManyAppsNeedUpdate++;
                 loadState(appLibrary);
                 appLibraries.add(0, appLibrary);
             } else {
@@ -68,7 +68,7 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
 
         }
         addIconAndTitle(appLibraries);
-        return new Pair<>(appLibraries, isThereHasAnUpdate);
+        return new Pair<>(appLibraries, howManyAppsNeedUpdate);
     }
 
     private void loadState(AppLibrary appLibrary) {
@@ -84,8 +84,8 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
         }
     }
 
-    private void onAppsReady(Pair<ArrayList<AppLibrary>,Boolean> pair) {
-        view.onAppsReady(pair.first,pair.second);
+    private void onAppsReady(Pair<ArrayList<AppLibrary>, Integer> pair) {
+        view.onAppsReady(pair.first, pair.second);
     }
 
 

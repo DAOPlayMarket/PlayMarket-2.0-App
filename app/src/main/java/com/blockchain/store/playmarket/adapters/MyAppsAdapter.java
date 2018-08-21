@@ -1,7 +1,11 @@
 package com.blockchain.store.playmarket.adapters;
 
+import android.animation.LayoutTransition;
+import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,8 +48,16 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
                 callback.onActionButtonClicked(appLibraries.get(myAppsViewHolder.getAdapterPosition()), myAppsViewHolder.getAdapterPosition()));
         myAppsViewHolder.layoutHolder.setOnClickListener(v -> {
             int clickPosition = myAppsViewHolder.getAdapterPosition();
-            appLibraries.get(clickPosition).isSelected = !appLibraries.get(clickPosition).isSelected;
+            boolean isWasSelected = appLibraries.get(clickPosition).isSelected;
+            appLibraries.get(clickPosition).isSelected = !isWasSelected;
             callback.onLayoutClicked(getSelectedItems().size());
+            ObjectAnimator.ofInt(myAppsViewHolder.layoutHolder
+                    , "backgroundColor"
+                    , (!isWasSelected) ? R.color.my_apps_layout_color_selected : R.color.action_btn_bg
+                    , (!isWasSelected) ? R.color.action_btn_bg : R.color.my_apps_layout_color_selected)
+                    .setDuration(200)
+                    .start();
+            notifyDataSetChanged();
         });
         return myAppsViewHolder;
     }
@@ -100,6 +112,7 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
 
     public void selectItem(int position) {
         appLibraries.get(position).isHasUpdate = !appLibraries.get(position).isHasUpdate;
+        notifyDataSetChanged();
     }
 
     public class MyAppsViewHolder extends RecyclerView.ViewHolder {
@@ -108,7 +121,7 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
         @BindView(R.id.my_apps_version) TextView version;
         @BindView(R.id.my_apps_action_btn) ImageView actionBtn;
         @BindView(R.id.my_apps_status) TextView status;
-        @BindView(R.id.my_apps_holder) View layoutHolder;
+        @BindView(R.id.my_apps_holder) CardView layoutHolder;
 
         private Context context;
 
@@ -116,13 +129,21 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
             super(itemView);
             this.context = itemView.getContext();
             ButterKnife.bind(this, itemView);
+//            layoutHolder.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
 
         }
 
         public void bind(AppLibrary appLibrary) {
             setUiByAppState(appLibrary);
+            if (appLibrary.isSelected) {
+                layoutHolder.setBackgroundColor(context.getResources().getColor(R.color.my_apps_layout_color_selected));
+                status.setText(R.string.chosed);
+                status.setTextColor(context.getResources().getColor(R.color.action_btn_bg));
+            } else {
+                status.setTextColor(Color.BLACK);
+                layoutHolder.setBackgroundColor(context.getResources().getColor(R.color.my_apps_layout_color));
+            }
             title.setText(appLibrary.title);
-            status.setText(appLibrary.downloadProgress);
             version.setText(appLibrary.getVersionsAsString());
             Glide.with(context).load(appLibrary.icon).into(icon);
 
@@ -137,6 +158,8 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
                     status.setTextColor(context.getResources().getColor(R.color.action_btn_bg));
                     actionBtn.setVisibility(View.GONE);
                     status.setVisibility(View.VISIBLE);
+
+                    status.setText(appLibrary.downloadProgress + "%");
                     break;
                 case STATE_DOWNLOAD_ERROR:
                     actionBtn.setVisibility(View.VISIBLE);
@@ -145,7 +168,7 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
                 case STATE_UNKOWN:
                     actionBtn.setVisibility(appLibrary.isHasUpdate ? View.VISIBLE : View.GONE);
                     status.setVisibility(appLibrary.isHasUpdate ? View.VISIBLE : View.GONE);
-
+                    status.setText(context.getString(R.string.has_update));
                     break;
                 case STATE_DOWNLOADED_NOT_INSTALLED:
                     break;
