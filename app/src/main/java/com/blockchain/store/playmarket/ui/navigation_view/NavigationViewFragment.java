@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -51,10 +52,11 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     @BindView(R.id.user_id_title) TextView userAddress;
     @BindView(R.id.ether_count) TextView balanceView;
     @BindView(R.id.avatar_image) ImageView avatarImage;
-    @BindView(R.id.user_balance_holder) LinearLayout userBalanceHolder;
-    @BindView(R.id.balance_error_holder) LinearLayout userBalanceErrorHolder;
     @BindView(R.id.user_balance_progress_bar) ProgressBar progressBar;
+    @BindView(R.id.error_view_title) TextView errorViewTitle;
     @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.error_view_repeat_btn) Button errorBtn;
+    @BindView(R.id.balance_icon) ImageView balanceIcon;
 
     NavigationViewPresenter presenter;
 
@@ -142,12 +144,22 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
         ToastUtil.showToast(R.string.address_copied);
     }
 
+    @OnClick(R.id.my_ico_layout)
+    void onMyIcoClicked() {
+        closeDrawers();
+//        startActivity(new Intent(getActivity(), AboutAppActivity.class));
+    }
+
 
     @Override
     public void onBalanceReady(String balance) {
         swipeRefreshLayout.setRefreshing(false);
-        userBalanceErrorHolder.setVisibility(View.GONE);
-        userBalanceHolder.setVisibility(View.VISIBLE);
+        errorViewTitle.setVisibility(View.GONE);
+        errorBtn.setVisibility(View.GONE);
+
+        balanceView.setVisibility(View.VISIBLE);
+        balanceIcon.setVisibility(View.VISIBLE);
+
         AccountManager.setUserBalance(balance);
         balanceView.setText(new EthereumPrice(balance).inEther().toString());
     }
@@ -155,8 +167,11 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     @Override
     public void onBalanceFail(Throwable throwable) {
         swipeRefreshLayout.setRefreshing(false);
-        userBalanceErrorHolder.setVisibility(View.VISIBLE);
-        userBalanceHolder.setVisibility(View.GONE);
+        errorViewTitle.setVisibility(View.VISIBLE);
+        errorBtn.setVisibility(View.VISIBLE);
+
+        balanceView.setVisibility(View.INVISIBLE);
+        balanceIcon.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -171,6 +186,8 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
     @OnClick(R.id.error_view_repeat_btn)
     void onRepeatButtonClicked() {
+        errorViewTitle.setVisibility(View.GONE);
+        errorBtn.setVisibility(View.GONE);
         presenter.loadUserBalance();
     }
 
