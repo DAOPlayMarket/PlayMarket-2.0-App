@@ -77,39 +77,47 @@
         <receiver android:name=".broadcasts.InstallPackageReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_INSTALL" />
-                <data android:scheme="package" />
 
+                <data android:scheme="package" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
+
                 <data android:scheme="package" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
                 <data android:scheme="package" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_CHANGED" />
+
                 <data android:scheme="package" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+
                 <data android:scheme="package" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_NEEDS_VERIFICATION" />
+
                 <data android:scheme="package" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_RESTARTED" />
+
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
@@ -143,7 +151,8 @@
         <activity android:name=".ui.fingerprint_screen.FingerprintConfiguringActivity" />
         <activity android:name=".ui.unlock_account_screen.UnlockAccountActivity" />
         <activity android:name=".ui.activity_screen.NewsActivity" />
-        <activity android:name=".ui.my_apps_screen.MyAppsActivity"></activity>
+        <activity android:name=".ui.my_apps_screen.MyAppsActivity" />
+        <activity android:name=".ui.my_ico_screen.MyIcoActivity"></activity>
     </application>
 
 </manifest>

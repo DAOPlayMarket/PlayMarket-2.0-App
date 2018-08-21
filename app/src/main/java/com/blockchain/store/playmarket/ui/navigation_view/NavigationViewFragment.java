@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.activity_screen.NewsActivity;
 import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
+import com.blockchain.store.playmarket.ui.my_ico_screen.MyIcoActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.about_screen.AboutAppActivity;
@@ -99,7 +100,6 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     void onLibraryItemClicked() {
         closeDrawers();
         startActivity(new Intent(getActivity(), MyAppsActivity.class));
-//        startActivity(new Intent(getActivity(), LibraryActivity.class));
     }
 
     @OnClick(R.id.news_layout)
@@ -147,7 +147,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     @OnClick(R.id.my_ico_layout)
     void onMyIcoClicked() {
         closeDrawers();
-//        startActivity(new Intent(getActivity(), AboutAppActivity.class));
+        startActivity(new Intent(getActivity(), MyIcoActivity.class));
     }
 
 
