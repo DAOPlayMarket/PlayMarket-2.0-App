@@ -1,13 +1,15 @@
 package com.blockchain.store.playmarket.repositories;
 
+import android.util.Pair;
+
 import com.blockchain.store.playmarket.api.RestApi;
-import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.IcoBalance;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
 import java.util.ArrayList;
 
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -17,11 +19,25 @@ public class IcoAppsInfoRepository {
     public void getIcoApps(IcoAppsRepositoryCallback callback) {
         this.callback = callback;
         RestApi.getServerApi().getIcoApps()
+                .flatMap(this::mapWithGetIcoBalance, Pair::new)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .doOnSubscribe(() -> this.callback.onIcoAppsSubscribed())
                 .doOnTerminate(() -> this.callback.onIcoAppsTerminated())
-                .subscribe(this::onIcoAppsReady, this::onIcoAppsFailed);
+                .subscribe(this::onIcoAppsReady2, this::onIcoAppsFailed);
+    }
+
+    private Observable<ArrayList<IcoBalance>> mapWithGetIcoBalance(ArrayList<AppInfo> apps) {
+        ArrayList<String> icoAddressesArr = new ArrayList<>();
+        for (int i = 0; i < apps.size(); i++) {
+            icoAddressesArr.add(apps.get(i).adrICO);
+        }
+        String icoAddressesStr = arrayToString(icoAddressesArr);
+        return RestApi.getServerApi().getBalanceOf(icoAddressesStr, AccountManager.getAddress().getHex());
+    }
+
+    private ArrayList<AppInfo> mapWithCombineResult() {
+        return null
     }
 
     private void onIcoAppsReady(ArrayList<AppInfo> apps) {
