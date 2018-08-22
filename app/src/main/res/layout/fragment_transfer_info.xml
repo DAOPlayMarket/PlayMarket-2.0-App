@@ -172,6 +172,21 @@
             android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
+
+
+            <TextView
+                android:id="@+id/custom_token"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/round_corners"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                tools:text="PMT" />
+
             <TextView
                 android:id="@+id/wei_textView"
                 android:layout_width="wrap_content"
