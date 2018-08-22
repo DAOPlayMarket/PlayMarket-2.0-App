@@ -84,12 +84,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         checkLocationPermission();
     }
 
-
-    private void onError(Throwable throwable) {
-        Log.d(TAG, "onError() called with: throwable = [" + throwable + "]");
-
-    }
-
     private void checkLocationPermission() {
         if (PermissionUtils.isLocationPermissionGranted(this)) {
             presenter.requestUserLocation(this);

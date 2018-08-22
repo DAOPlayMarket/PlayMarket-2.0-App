@@ -28,7 +28,7 @@ public class RestApi {
     public static final String CHANGELLY_ENDPOINT = "https://api.changelly.com";
 
 
-    public static String SERVER_ENDPOINT = "https://192.168.11.186:3000";
+    public static String SERVER_ENDPOINT = "";
     public static String BASE_URL = SERVER_ENDPOINT + "/api/";
     public static String ICON_URL = SERVER_ENDPOINT + "/data/";
 
