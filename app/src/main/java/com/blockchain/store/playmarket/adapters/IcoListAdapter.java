@@ -1,12 +1,12 @@
 package com.blockchain.store.playmarket.adapters;
 
 import android.net.Uri;
+import android.os.CountDownTimer;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
@@ -34,7 +34,8 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
     public IcoAppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.ico_app_list_item, parent, false);
-        return new IcoAppViewHolder(view);
+        IcoAppViewHolder icoAppViewHolder = new IcoAppViewHolder(view);
+        return icoAppViewHolder;
     }
 
     @Override
@@ -53,6 +54,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
         @BindView(R.id.tokens_bought) TextView tokenBought;
         @BindView(R.id.time_remains) TextView timeRemains;
         @BindView(R.id.cardView) CardView cardView;
+        private CountDownTimer countDownTimer;
 
         IcoAppViewHolder(View itemView) {
             super(itemView);
@@ -64,6 +66,21 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
             title.setText(app.nameApp);
             tokenBought.setText(String.valueOf(tokenTransform(app.icoBalance.balanceOf, app.icoBalance.decimals)));
             cardView.setOnClickListener(v -> appListCallbacks.onAppInfoClicked(app));
+            if (countDownTimer == null) {
+                countDownTimer = new CountDownTimer(app.icoBalance..totalTime * 1000, 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        String formattedString = unixTimeToDays(millisUntilFinished);
+                        timeRemains.setText(formattedString);
+                    }
+
+                    @Override
+                    public void onFinish() {
+//                        timeRemains.setText("00:00:00:00");
+                    }
+                }.start();
+
+            }
         }
     }
 
