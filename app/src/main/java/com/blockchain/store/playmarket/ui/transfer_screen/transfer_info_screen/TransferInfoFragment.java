@@ -54,6 +54,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     @BindView(R.id.amount_textInputLayout) TextInputLayout amountTextInputLayout;
     @BindView(R.id.qr_scanner_button) ImageButton qrCodeImage;
     @BindView(R.id.dimension_linearLayout) View dimensionHolder;
+    @BindView(R.id.dimension_textView) TextView dimensionView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -142,6 +143,11 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         errorViewHolder.setVisibility(View.VISIBLE);
     }
 
+    private void setTokenName(String tokenName) {
+        dimensionView.setText(tokenName);
+
+    }
+
     private void ethSelect() {
         ethTextView.setBackgroundResource(R.drawable.round_corner_green_button);
         ethTextView.setTextColor(getResources().getColor(R.color.white));
@@ -217,5 +223,9 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     private void getDataFromTransferViewModel() {
         transferViewModel.recipientAddress.observe(getActivity(), s -> recipientAddress = s);
         transferViewModel.transferAmount.observe(getActivity(), s -> transferAmount = s);
+
+        transferViewModel.tokenName.observe(getActivity(), this::setTokenName);
     }
+
+
 }

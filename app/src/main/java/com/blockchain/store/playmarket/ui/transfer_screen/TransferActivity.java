@@ -33,7 +33,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     public static String REVIEW_ARG = "review_arg";
     public static String VOTE_ARG = "vote_arg";
     public static String TX_INDEX_ARG = "tx_index_arg";
-
+    public static String TOKEN_NAME_ARG = "token_name_arg";
 
     private TransferViewModel transferViewModel;
 
@@ -50,6 +50,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     @BindView(R.id.transfer_viewPager) NonSwipeableViewPager transferViewPager;
     @BindView(R.id.continue_transfer_button) Button continueButton;
     ViewPagerAdapter transferAdapter;
+    String tokenName;
 
     public static void startWithResult(Activity activity, String review, String vote, String txIndex, Constants.TransactionTypes transactionType, int resultCode) {
         Intent starter = new Intent(activity.getBaseContext(), TransferActivity.class);
@@ -68,6 +69,15 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
         activity.startActivityForResult(starter, resultCode);
     }
 
+    public static void startAsTokenTransfer(Activity activity, String recipientAddress, App app, String tokenName) {
+        Intent starter = new Intent(activity.getBaseContext(), TransferActivity.class);
+        starter.putExtra(RECIPIENT_ARG, recipientAddress);
+        starter.putExtra(APP_ARG, app);
+        starter.putExtra(TRANSACTION_ARG, Constants.TransactionTypes.TRANSFER_TOKEN);
+        starter.putExtra(TOKEN_NAME_ARG, tokenName);
+        activity.startActivity(starter);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +90,12 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
         if (recipientAddress != null) {
             transferViewModel.recipientAddress.setValue(recipientAddress);
         }
+
+        tokenName = getIntent().getStringExtra(TOKEN_NAME_ARG);
+        if (tokenName != null) {
+            transferViewModel.tokenName.setValue(tokenName);
+        }
+
         app = getIntent().getParcelableExtra(APP_ARG);
         if (app != null) {
             transferViewModel.isBlockEthIcon.setValue(true);
