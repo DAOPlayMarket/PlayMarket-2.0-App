@@ -11,7 +11,8 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="600dp">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp">
 
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -79,36 +80,42 @@
             android:id="@+id/invest_clock_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="8dp"
             android:src="@drawable/clock"
             android:tint="@color/ico_tokens_bought"
-            app:layout_constraintBottom_toBottomOf="@+id/transfer_token"
-            app:layout_constraintEnd_toStartOf="@+id/transfer_token"
-            app:layout_constraintTop_toTopOf="@+id/transfer_token" />
+            app:layout_constraintBottom_toBottomOf="@+id/time_remains"
+            app:layout_constraintStart_toEndOf="@+id/time_remains"
+            app:layout_constraintTop_toTopOf="@+id/time_remains" />
 
         <TextView
             android:id="@+id/time_remains"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:text="164:22:34:21"
             android:textColor="@color/ico_tokens_bought"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/transfer_token"
-            app:layout_constraintEnd_toStartOf="@+id/invest_clock_image"
-            app:layout_constraintTop_toTopOf="@+id/transfer_token" />
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/icon"
+            app:layout_constraintTop_toBottomOf="@+id/tokens_bought_field" />
 
         <Button
             android:id="@+id/transfer_token"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="22dp"
-            android:text="Button"
+            android:layout_width="110dp"
+            android:layout_height="26dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/rounded_ico_btn"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/transfer_tokens"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/time_remains"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tokens_bought_field" />
+            app:layout_constraintStart_toEndOf="@+id/invest_clock_image"
+            app:layout_constraintTop_toTopOf="@+id/time_remains" />
 
     </android.support.constraint.ConstraintLayout>
 
