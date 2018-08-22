@@ -34,7 +34,7 @@
     <color name="light_green_background_color">#1405b297</color>
     <color name="light_gray_background_color">#49828786</color>
     <color name="red_error_color">#FFDD2C00</color>
-    <color name="ico_tokens_bought">#5e9091</color>
+    <color name="ico_tokens_bought">#00CAB6</color>
 
     <color name="playmarket_logo_bg">#e2efed</color>
     <color name="drawer_toggle_color">#536a69</color>
@@ -78,6 +78,9 @@
     <color name="action_btn_bg_disabled">#b8b8b8</color>
     <color name="my_apps_layout_color">#ffffff</color>
     <color name="my_apps_layout_color_selected">#fafafa</color>
+
+    <color name="ico_item_title">#767676</color>
+    <color name="ico_item_button">#0EB9BC</color>
 
     <!-- Drawable nine patch create in http://inloop.github.io/shadow4android/-->
     <!-- Navigation card layout var's are: width,height 200. Shadow 10. Radius 4-->

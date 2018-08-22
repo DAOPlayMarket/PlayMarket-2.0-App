@@ -24,7 +24,7 @@
         android:visibility="visible" />
 
     <include
-        android:id="@+id/error_view"
+        android:id="@+id/error_holder"
         layout="@layout/error_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -20,11 +20,20 @@ public class IcoAppsInfoRepository {
         this.callback = callback;
         RestApi.getServerApi().getIcoApps()
                 .flatMap(this::mapWithGetIcoBalance, Pair::new)
+                .map(this::mapWithCombineResult)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .doOnSubscribe(() -> this.callback.onIcoAppsSubscribed())
                 .doOnTerminate(() -> this.callback.onIcoAppsTerminated())
-                .subscribe(this::onIcoAppsReady2, this::onIcoAppsFailed);
+                .subscribe(callback::onIcoAppsReady, callback::onIcoAppsFailed);
+    }
+
+    public Observable<ArrayList<AppInfo>> getIcoApps() {
+        return RestApi.getServerApi().getIcoApps()
+                .flatMap(this::mapWithGetIcoBalance, Pair::new)
+                .map(this::mapWithCombineResult)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread());
     }
 
     private Observable<ArrayList<IcoBalance>> mapWithGetIcoBalance(ArrayList<AppInfo> apps) {
@@ -36,26 +45,12 @@ public class IcoAppsInfoRepository {
         return RestApi.getServerApi().getBalanceOf(icoAddressesStr, AccountManager.getAddress().getHex());
     }
 
-    private ArrayList<AppInfo> mapWithCombineResult() {
-        return null
-    }
-
-    private void onIcoAppsReady(ArrayList<AppInfo> apps) {
-        ArrayList<String> icoAddressesArr = new ArrayList<>();
-        for (int i = 0; i < apps.size(); i++) {
-            icoAddressesArr.add(apps.get(i).adrICO);
+    private ArrayList<AppInfo> mapWithCombineResult(Pair<ArrayList<AppInfo>, ArrayList<IcoBalance>> arrayOfPairs) {
+        for (int i = 0; i < arrayOfPairs.first.size(); i++) {
+            arrayOfPairs.first.get(i).icoBalance = arrayOfPairs.second.get(i);
         }
-        String icoAddressesStr = arrayToString(icoAddressesArr);
-        RestApi.getServerApi().getBalanceOf(icoAddressesStr, AccountManager.getAddress().getHex())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe((ArrayList<IcoBalance> result) -> {
-                            for (int i = 0; i < apps.size(); i++) {
-                                apps.get(i).icoBalance = result.get(i);
-                            }
-                            callback.onIcoAppsReady(apps);
-                        },
-                        error -> callback.onIcoAppsFailed(error));
+
+        return arrayOfPairs.first;
     }
 
     private String arrayToString(ArrayList<String> arr) {
@@ -68,9 +63,18 @@ public class IcoAppsInfoRepository {
         return result;
     }
 
-    private void onIcoAppsFailed(Throwable throwable) {
-        callback.onIcoAppsFailed(throwable);
+    public static ArrayList<AppInfo> filterWithEmptyBalanc(ArrayList<AppInfo> apps) {
+        ArrayList<AppInfo> resultList = new ArrayList<>();
+        for (AppInfo app : apps) {
+            if (app.icoBalance != null
+                    && !app.icoBalance.balanceOf.isEmpty()
+                    && !app.icoBalance.balanceOf.equalsIgnoreCase("0")) {
+                resultList.add(app);
+            }
+        }
+        return resultList;
     }
+
 
     public interface IcoAppsRepositoryCallback {
         void onIcoAppsReady(ArrayList<AppInfo> apps);

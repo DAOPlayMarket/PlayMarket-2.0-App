@@ -1,137 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="6dp"
     app:cardElevation="6dp">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="600dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/application_icon_width"
+            android:layout_height="@dimen/application_icon_height"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/transfer_color_bg"
+            tools:srcCompat="@drawable/account" />
+
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:orientation="horizontal"
-            android:paddingBottom="8dp"
-            android:paddingLeft="8dp"
-            android:paddingTop="8dp">
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textColor="@color/ico_item_title"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Daily Deals: Prime Day Edition" />
 
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/icon"
-                android:layout_width="@dimen/application_icon_width"
-                android:layout_height="@dimen/application_icon_height"
-                tools:background="@color/transfer_color_bg"
-                tools:srcCompat="@drawable/account" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="12dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:paddingRight="8dp">
-
-                    <TextView
-                        android:id="@+id/title"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/text_margin"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="3"
-                        android:textSize="16sp"
-                        tools:text="Daily Deals: Prime Day Edition" />
-
-                    <ImageView
-                        android:id="@+id/dots"
-                        android:layout_width="6dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="2dp"
-                        android:gravity="top"
-                        android:scaleType="fitCenter"
-                        android:visibility="gone"
-                        app:srcCompat="@drawable/dots" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tokens_bought"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:paddingRight="8dp"
-                    android:text="0"
-                    android:textColor="@color/ico_tokens_bought"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/tokens_bought_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="3"
-                    android:paddingRight="8dp"
-                    android:text="@string/tokens_bought"
-                    android:textAllCaps="true"
-                    android:textColor="@color/ico_tokens_bought"
-                    android:textSize="16sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="3dp"
-                    android:background="@color/exchange_gray_text_color" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tokens_bought"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp">
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:paddingRight="8dp"
+            android:text="0"
+            android:textColor="@color/ico_tokens_bought"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/icon"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
-            <ImageView
-                android:id="@+id/invest_clock_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingRight="10dp"
-                android:src="@drawable/clock"
-                android:tint="@color/invest_main_color"
-                android:visibility="gone" />
+        <TextView
+            android:id="@+id/tokens_bought_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:paddingRight="8dp"
+            android:text="@string/tokens_bought"
+            android:textColor="@color/ico_tokens_bought"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/icon"
+            app:layout_constraintTop_toBottomOf="@+id/tokens_bought" />
 
-            <TextView
-                android:id="@+id/time_remains"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="--:--:--:--"
-                android:textColor="@color/invest_main_color"
-                android:textSize="24sp"
-                android:visibility="gone" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="3dp"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="@string/more"
-                android:textAllCaps="true"
-                android:textColor="@color/ico_tokens_bought" />
-        </LinearLayout>
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/invest_clock_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/clock"
+            android:tint="@color/ico_tokens_bought"
+            app:layout_constraintBottom_toBottomOf="@+id/transfer_token"
+            app:layout_constraintEnd_toStartOf="@+id/transfer_token"
+            app:layout_constraintTop_toTopOf="@+id/transfer_token" />
+
+        <TextView
+            android:id="@+id/time_remains"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="164:22:34:21"
+            android:textColor="@color/ico_tokens_bought"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/transfer_token"
+            app:layout_constraintEnd_toStartOf="@+id/invest_clock_image"
+            app:layout_constraintTop_toTopOf="@+id/transfer_token" />
+
+        <Button
+            android:id="@+id/transfer_token"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="22dp"
+            android:text="Button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tokens_bought_field" />
+
+    </android.support.constraint.ConstraintLayout>
+
 </android.support.v7.widget.CardView>

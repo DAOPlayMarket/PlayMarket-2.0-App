@@ -18,20 +18,24 @@ public class MyIcoPresenter implements Presenter, IcoAppsInfoRepository.IcoAppsR
     }
 
     @Override
-    public void getMyIco() {
-        icoAppsRepository.getIcoApps(this);
+    public void getMyIcoApps() {
+        icoAppsRepository.getIcoApps()
+                .map(IcoAppsInfoRepository::filterWithEmptyBalanc)
+                .doOnSubscribe(() -> view.showProgress(true))
+                .doOnTerminate(() -> view.showProgress(false))
+                .subscribe(this::onIcoAppsReady, this::onIcoAppsFailed);
 
     }
 
     @Override
     public void onIcoAppsReady(ArrayList<AppInfo> apps) {
-
+        view.onIcoAppsReady(apps);
 
     }
 
     @Override
     public void onIcoAppsFailed(Throwable throwable) {
-
+        view.onIcoAppsFailed(throwable);
     }
 
     @Override
