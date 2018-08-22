@@ -125,6 +125,25 @@ public class AppInfo implements Parcelable {
         return hash + ".apk";
     }
 
+    public long getUnixTimeToFirstStageEnding() {
+        long currentTimeUnix = System.currentTimeMillis() / 1000;
+        for (IcoStages stage : icoStages) {
+            if (currentTimeUnix > Long.parseLong(stage.startDate) && currentTimeUnix < Long.parseLong(stage.time)) {
+                return Long.parseLong(stage.time) - currentTimeUnix;
+            }
+        }
+        return 0;
+    }
+    public int getCurrentStage() {
+        long currentTimeUnix = System.currentTimeMillis() / 1000;
+        for (int i = 0; i < icoStages.size(); i++) {
+            IcoStages stage = icoStages.get(i);
+            if (currentTimeUnix > Long.parseLong(stage.startDate) && currentTimeUnix < Long.parseLong(stage.time)) {
+                return i;
+            }
+        }
+        return 0;
+    }
 
     public AppInfo() {
     }

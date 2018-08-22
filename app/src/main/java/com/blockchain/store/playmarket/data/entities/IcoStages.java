@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-class IcoStages implements Parcelable {
+public class IcoStages implements Parcelable {
     public String startDate;
     @SerializedName("endDate")
     public String time;

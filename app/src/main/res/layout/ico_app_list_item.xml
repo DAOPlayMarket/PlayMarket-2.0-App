@@ -28,7 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:background="@color/transfer_color_bg"
-            tools:srcCompat="@drawable/account" />
+            />
 
 
         <TextView

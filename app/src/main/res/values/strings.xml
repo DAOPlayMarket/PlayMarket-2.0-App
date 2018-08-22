@@ -174,7 +174,7 @@
 
     <!--My apps screen-->
     <string name="my_apps">My applications</string>
-    <string name="update_all_apps">Update all apps</string>
+    <string name="update_all_apps">Update all</string>
     <string name="has_update">Has update</string>
 
     <string name="my_apps_update_snackbar_text">%1$d/%2$d apps selected.</string>

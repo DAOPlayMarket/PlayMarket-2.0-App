@@ -34,12 +34,8 @@ public class InvestPresenter implements InvestContract.Presenter {
     @Override
     public void onInvestClicked(AppInfo appInfo, String investAmount) {
         String account = AccountManager.getAddress().getHex();
-//        RestApi.getServerApi().getInvestAddress()
-//                .subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(this::onOK, this::onError);
         RestApi.getServerApi().getAccountInfo(account)
-//                .zipWith(RestApi.getServerApi().getInvestAddress(), Pair::new)
+
                 .flatMap(accountInfo -> {
                     Log.d(TAG, "onInvestClicked() called with: appInfo = [" + appInfo + "], investCount = [" + investAmount + "]");
                     return mapInvestTransaction(accountInfo, investAmount);
