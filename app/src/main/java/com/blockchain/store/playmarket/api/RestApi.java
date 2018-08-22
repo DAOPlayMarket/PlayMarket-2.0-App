@@ -32,7 +32,6 @@ public class RestApi {
     public static String BASE_URL = SERVER_ENDPOINT + "/api/";
     public static String ICON_URL = SERVER_ENDPOINT + "/data/";
 
-    private static String DEBUG_SERVER_ENDPOINT = "https://192.168.11.186:3000";
     private static final String PLAYMARKET_BASE_URL = ".playmarket.io";
     private static final String TAG = "RestApi";
     private static final String AVAILABILITY_REQUEST_NAME = "/api/availability";
@@ -113,12 +112,6 @@ public class RestApi {
         Log.d(TAG, "setServerEndpoint: " + SERVER_ENDPOINT);
     }
 
-    public static void setDebugEndpoint() {
-        SERVER_ENDPOINT = DEBUG_SERVER_ENDPOINT;
-        BASE_URL = SERVER_ENDPOINT + "/api/";
-        ICON_URL = SERVER_ENDPOINT + "/data/";
-        Log.d(TAG, "setServerEndpoint: " + SERVER_ENDPOINT);
-    }
 
     public static String getCheckUrlEndpointByNode(String nodeAddress) {
         String resultUrl = nodeUrl + nodeAddress + PLAYMARKET_BASE_URL + PORT_SUFFIX + "/";

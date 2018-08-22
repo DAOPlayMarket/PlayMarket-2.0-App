@@ -88,7 +88,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
                 }.start();
             }
 //            timeRemains.setText("0");
-            clockIcon.setColorFilter(timeToFirstStageEnding == 0 ? R.color.ico_tokens_bought : Color.GRAY);
+//            clockIcon.setColorFilter(timeToFirstStageEnding == 0 ? Color.GRAY : R.color.ico_tokens_bought);
             setTransferButtonEnable();
         }
 
