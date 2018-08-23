@@ -165,7 +165,7 @@
                                 android:gravity="center"
                                 android:textSize="11sp"
                                 tools:ignore="SmallSp"
-                                tools:text="23412 marks" />
+                                tools:text="10 marks" />
 
                         </LinearLayout>
 
@@ -219,13 +219,14 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingBottom="8dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:paddingTop="8dp">
+                android:paddingTop="8dp"
+                android:weightSum="2">
 
 
                 <Button
@@ -242,14 +243,15 @@
                     android:textAllCaps="false"
                     android:textColor="@color/uninstall_green_btn"
                     android:visibility="gone"
-                    tools:visibility="gone" />
+                    tools:visibility="visible" />
 
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="4">
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1">
 
                     <android.support.v7.widget.AppCompatButton
                         android:id="@+id/action_btn"
@@ -265,7 +267,7 @@
                         android:id="@+id/price_progress_bar"
                         style="@style/ColorButton"
                         android:layout_width="match_parent"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
                 </FrameLayout>
 
 
