@@ -13,6 +13,14 @@
         android:id="@+id/top_layout_holder"
         layout="@layout/detail_app_toolbar" />
 
+    <Button
+        android:id="@+id/invest_btn"
+        style="@style/ColorButton"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/round_corner_purple_button"
+        android:text="@string/btn_invest"
+        android:visibility="invisible" />
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -44,6 +52,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:minHeight="100dp"
                     android:orientation="vertical">
 
@@ -51,8 +61,7 @@
                         android:id="@+id/app_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
+
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/title_text_size"
                         tools:text="Ecalit Wallet" />
@@ -62,8 +71,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
                         android:ellipsize="end"
                         android:maxLines="2"
                         android:textSize="12sp"
@@ -72,74 +79,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="30dp"
-                        android:layout_marginStart="30dp"
-                        android:baselineAligned="false"
-                        android:gravity="center_vertical"
+                        android:layout_marginTop="6dp"
                         android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical"
-                                tools:ignore="UselessParent">
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content">
-
-                                    <TextView
-                                        android:id="@+id/no_marks_textView"
-                                        android:layout_width="100dp"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="@string/no_marks"
-                                        android:textColor="@color/black"
-                                        android:textSize="14sp"
-                                        android:visibility="gone" />
-
-                                    <TextView
-                                        android:id="@+id/rating_textView"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@android:color/black"
-                                        android:textSize="18sp"
-                                        android:textStyle="bold"
-                                        tools:text="4.5" />
-
-                                    <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                                        android:id="@+id/rating_materialRatingBar"
-                                        style="@style/Widget.AppCompat.RatingBar.Small"
-                                        android:layout_width="100dp"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginLeft="6dp"
-                                        android:layout_marginRight="6dp"
-                                        android:rating="5"
-                                        android:stepSize="0.1"
-                                        android:visibility="visible"
-                                        app:mrb_progressBackgroundTint="@android:color/transparent"
-                                        app:mrb_progressTint="@color/ratingBarStarColor" />
-
-                                </LinearLayout>
-
-                                <TextView
-                                    android:id="@+id/marks_count_textView"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:textSize="11sp"
-                                    tools:ignore="SmallSp"
-                                    tools:text="23412 marks" />
-
-                            </LinearLayout>
-
-                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -147,26 +88,79 @@
                             android:orientation="vertical">
 
                             <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
 
                                 <TextView
-                                    android:id="@+id/age_restrictions_textView"
-                                    android:layout_width="wrap_content"
+                                    android:id="@+id/no_marks_textView"
+                                    android:layout_width="100dp"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
+                                    android:text="@string/no_marks"
                                     android:textColor="@color/black"
-                                    android:textSize="18sp"
-                                    tools:text="12 +" />
+                                    android:textSize="14sp"
+                                    android:visibility="gone" />
 
+                                <TextView
+                                    android:id="@+id/rating_textView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    tools:text="4.5" />
+
+                                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                                    android:id="@+id/rating_materialRatingBar"
+                                    style="@style/Widget.AppCompat.RatingBar.Small"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="6dp"
+                                    android:layout_marginRight="6dp"
+                                    android:rating="5"
+                                    android:stepSize="0.1"
+                                    android:visibility="visible"
+                                    app:mrb_progressBackgroundTint="@android:color/transparent"
+                                    app:mrb_progressTint="@color/ratingBarStarColor" />
 
                             </LinearLayout>
 
+
                             <TextView
+                                android:id="@+id/marks_count_textView"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
                                 android:gravity="center"
+                                android:textSize="11sp"
+                                tools:ignore="SmallSp"
+                                tools:text="23412 marks" />
+
+                        </LinearLayout>
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/age_restrictions_textView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                tools:text="12 +" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
                                 android:text="@string/age"
                                 android:textSize="11sp"
                                 tools:ignore="SmallSp" />
@@ -181,6 +175,17 @@
             </LinearLayout>
 
 
+            <com.blockchain.store.playmarket.views.FadingTextView
+                android:id="@+id/app_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_margin="6dp"
+                android:maxLines="3"
+                android:padding="12dp"
+                tools:text="Daily Deals: Prime Day Edition " />
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -190,17 +195,26 @@
                 android:paddingRight="15dp"
                 android:paddingTop="8dp">
 
-                <Button
-                    android:id="@+id/invest_btn"
-                    style="@style/ColorButton"
-                    android:layout_marginEnd="8dp"
+
+                <TextView
+                    android:id="@+id/delete_view"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:background="@drawable/round_corner_purple_button"
-                    android:text="@string/btn_invest"
-                    android:visibility="invisible" />
+                    android:background="@drawable/round_corner_red_button"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/delete_with_underscore"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
 
                 <FrameLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1">
@@ -222,37 +236,8 @@
                 </FrameLayout>
 
 
-                <TextView
-                    android:id="@+id/delete_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_gravity="end"
-                    android:layout_marginLeft="30dp"
-                    android:background="@drawable/round_corner_red_button"
-                    android:gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/delete_with_underscore"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
-
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/app_description"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="bottom"
-                android:layout_margin="6dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="bottom"
-                android:maxLines="3"
-                tools:text="Daily Deals: Prime Day Edition" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"

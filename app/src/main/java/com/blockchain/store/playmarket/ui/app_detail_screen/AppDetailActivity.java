@@ -39,6 +39,7 @@ import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
+import com.blockchain.store.playmarket.views.FadingTextView;
 import com.facebook.common.executors.CallerThreadExecutor;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.datasource.DataSource;
@@ -81,7 +82,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.error_holder) LinearLayout errorHolder;
     @BindView(R.id.image_icon) ImageView imageIcon;
     @BindView(R.id.app_name) TextView appName;
-    @BindView(R.id.app_description) TextView appDescription;
+    @BindView(R.id.app_description) FadingTextView appDescription;
+    @BindView(R.id.app_description_short) TextView appDescriptionShort;
     @BindView(R.id.rating_textView) TextView appRating;
     @BindView(R.id.marks_count_textView) TextView marksCountTextView;
     @BindView(R.id.age_restrictions_textView) TextView ageRestrictionsTextView;
@@ -165,15 +167,17 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     private void setViews() {
-//        imageIcon.setImageURI(Uri.parse(app.getIconUrl()));
         toolbarAppName.setText(app.nameApp);
         appName.setText(app.nameApp);
 
         String ageRestrictions = app.ageRestrictions + " +";
         ageRestrictionsTextView.setText(ageRestrictions);
 
-        String ratingCount = (app.rating == null) ? "0 marks" : app.rating.ratingCount + " marks";
-        marksCountTextView.setText(ratingCount);
+        if (app.rating == null || app.rating.ratingCount == 0) {
+            marksCountTextView.setVisibility(View.GONE);
+        } else {
+            marksCountTextView.setText(app.rating.ratingCount + " marks");
+        }
     }
 
     private void generateToolbarColor() {
@@ -222,6 +226,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         mainLayoutHolder.setVisibility(View.VISIBLE);
         if (appInfo.description != null)
             appDescription.setText(Html.fromHtml(app.description));
+        if (appInfo.shortDescription != null)
+            appDescriptionShort.setText(Html.fromHtml(app.shortDescription));
         if (appInfo.rating != null) {
             noMarksTextView.setVisibility(View.GONE);
             appRating.setVisibility(View.VISIBLE);
@@ -381,8 +387,10 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     void onDescriptionClicked() {
         if (appDescription.getMaxLines() == DEFAULT_MAX_LINES) {
             textDescriptionAnimator = ObjectAnimator.ofInt(appDescription, "maxLines", LIMIT_MAX_LINES);
+            appDescription.setNeedToDrawFading(true);
         } else if (appDescription.getMaxLines() == LIMIT_MAX_LINES) {
             textDescriptionAnimator = ObjectAnimator.ofInt(appDescription, "maxLines", DEFAULT_MAX_LINES);
+            appDescription.setNeedToDrawFading(false);
         }
 
         if (textDescriptionAnimator != null && !textDescriptionAnimator.isStarted()) {

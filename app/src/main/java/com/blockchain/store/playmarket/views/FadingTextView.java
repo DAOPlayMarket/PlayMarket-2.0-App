@@ -45,6 +45,11 @@ public class FadingTextView extends AppCompatTextView {
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
     }
 
+
+    public void setNeedToDrawFading(boolean needToDrawFading) {
+        isNeedToDrawFading = needToDrawFading;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         // Locals

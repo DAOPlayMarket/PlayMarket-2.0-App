@@ -82,6 +82,11 @@
     <color name="ico_item_title">#767676</color>
     <color name="ico_item_button">#0EB9BC</color>
 
+    <!--App detailed screen-->
+
+    <color name="download_green_btn">#07A87E</color>
+    <color name="uninstall_green_btn">#43A58A</color>
+
     <!-- Drawable nine patch create in http://inloop.github.io/shadow4android/-->
     <!-- Navigation card layout var's are: width,height 200. Shadow 10. Radius 4-->
     <!-- Button var's: width 120, height 36, shadow 10, round 18-->
