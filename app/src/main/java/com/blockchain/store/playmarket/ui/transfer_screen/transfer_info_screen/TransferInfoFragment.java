@@ -32,13 +32,6 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     private static final String ETH = "ETH";
     private static final String WEI = "WEI";
 
-    private TransferInfoPresenter presenter;
-    private String recipientAddress;
-    private String transferAmount;
-    private BigDecimal accountBalanceInEther;
-    private TransferViewModel transferViewModel;
-    private boolean isEth;
-
     @BindView(R.id.sender_address_textView) TextView senderAddressTextView;
     @BindView(R.id.recipient_address_editText) EditText recipientAddressEditText;
     @BindView(R.id.amount_editText) EditText amountEditText;
@@ -49,12 +42,22 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     @BindView(R.id.amount_info_textView) TextView amountInfoTextView;
     @BindView(R.id.wei_textView) TextView weiTextView;
     @BindView(R.id.eth_textView) TextView ethTextView;
+    @BindView(R.id.custom_token) TextView customTokenTextView;
     @BindView(R.id.error_view_holder) LinearLayout errorViewHolder;
     @BindView(R.id.recipient_address_textInputLayout) TextInputLayout recipientAddressTextInputLayout;
     @BindView(R.id.amount_textInputLayout) TextInputLayout amountTextInputLayout;
     @BindView(R.id.qr_scanner_button) ImageButton qrCodeImage;
     @BindView(R.id.dimension_linearLayout) View dimensionHolder;
     @BindView(R.id.dimension_textView) TextView dimensionView;
+
+    private TransferInfoPresenter presenter;
+    private String recipientAddress;
+    private String transferAmount;
+    private BigDecimal accountBalanceInEther;
+    private TransferViewModel transferViewModel;
+    private boolean isEth;
+    private String tokenName;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,13 +75,18 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         presenter.init(this, getContext());
         presenter.getAccountBalance();
 
-        ethSelect();
 
         String senderAddress = presenter.getSenderAddress();
         senderAddressTextView.setText(senderAddress);
         transferViewModel.senderAddress.setValue(senderAddressTextView.getText().toString());
 
         getDataFromTransferViewModel();
+
+        if (tokenName != null) {
+            customTokenSelect();
+        } else {
+            ethSelect();
+        }
 
         if (recipientAddress == null) {
             recipientAddressEditText.setEnabled(true);
@@ -98,6 +106,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
 
         return view;
     }
+
 
     @OnClick(R.id.dimension_linearLayout)
     void dimensionClicked() {
@@ -146,6 +155,12 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     private void setTokenName(String tokenName) {
         dimensionView.setText(tokenName);
 
+    }
+
+    private void customTokenSelect() {
+        customTokenTextView.setVisibility(View.VISIBLE);
+        ethTextView.setVisibility(View.GONE);
+        weiTextView.setVisibility(View.GONE);
     }
 
     private void ethSelect() {
