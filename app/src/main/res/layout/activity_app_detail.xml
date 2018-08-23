@@ -9,17 +9,48 @@
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <include
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/top_layout_holder"
-        layout="@layout/detail_app_toolbar" />
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:minHeight="48dp"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/invest_btn"
-        style="@style/ColorButton"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/round_corner_purple_button"
-        android:text="@string/btn_invest"
-        android:visibility="invisible" />
+        <ImageView
+            android:id="@+id/top_layout_back_arrow"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/detail_app_arrow_margins"
+            android:paddingRight="@dimen/detail_app_arrow_margins"
+            android:scaleType="center"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/top_layout_app_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:textSize="18sp"
+            tools:text="Daily Deals: Prime Day Edition" />
+
+        <Button
+            android:id="@+id/invest_btn"
+            style="@style/ColorButton"
+            android:layout_height="30dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/round_corner_orange_button"
+            android:text="@string/btn_invest"
+            android:textAllCaps="false"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+    </LinearLayout>
+
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -188,7 +219,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="horizontal"
                 android:paddingBottom="8dp"
                 android:paddingLeft="15dp"
@@ -196,34 +228,35 @@
                 android:paddingTop="8dp">
 
 
-                <TextView
+                <Button
                     android:id="@+id/delete_view"
                     android:layout_width="0dp"
                     android:layout_height="35dp"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:background="@drawable/round_corner_red_button"
+                    android:background="@drawable/delete_bg_btn"
                     android:gravity="center"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:text="@string/delete_with_underscore"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
+                    android:text="@string/uninstall"
+                    android:textAllCaps="false"
+                    android:textColor="@color/uninstall_green_btn"
                     android:visibility="gone"
-                    tools:visibility="visible" />
+                    tools:visibility="gone" />
 
 
                 <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1">
+                    android:layout_gravity="center"
+                    android:layout_weight="4">
 
                     <android.support.v7.widget.AppCompatButton
                         android:id="@+id/action_btn"
                         style="@style/ColorButton"
                         android:layout_width="match_parent"
-                        android:background="@drawable/round_corner_green_button"
+                        android:background="@drawable/download_btn_bg"
+                        android:textAllCaps="false"
                         android:visibility="visible"
                         tools:text="@string/btn_download"
                         tools:visibility="visible" />
@@ -232,7 +265,7 @@
                         android:id="@+id/price_progress_bar"
                         style="@style/ColorButton"
                         android:layout_width="match_parent"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
                 </FrameLayout>
 
 

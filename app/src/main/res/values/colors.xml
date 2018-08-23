@@ -86,6 +86,7 @@
 
     <color name="download_green_btn">#07A87E</color>
     <color name="uninstall_green_btn">#43A58A</color>
+    <color name="invest_orange_color">#F9B218</color>
 
     <!-- Drawable nine patch create in http://inloop.github.io/shadow4android/-->
     <!-- Navigation card layout var's are: width,height 200. Shadow 10. Radius 4-->

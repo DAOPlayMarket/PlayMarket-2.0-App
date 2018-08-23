@@ -168,7 +168,7 @@
             android:id="@+id/open_app_btn"
             style="@style/ColorButton"
             android:layout_marginRight="40dp"
-            android:background="@drawable/round_corner_purple_button"
+            android:background="@drawable/round_corner_orange_button"
             android:backgroundTint="@color/colorAccent"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -177,7 +177,7 @@
         <Button
             android:id="@+id/invest_btn"
             style="@style/ColorButton"
-            android:background="@drawable/round_corner_purple_button"
+            android:background="@drawable/round_corner_orange_button"
 
             android:text="@string/btn_invest" />
     </LinearLayout>
