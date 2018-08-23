@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
+import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.transfer_screen.transfer_confirm_screen.TransferConfirmFragment;
 import com.blockchain.store.playmarket.ui.transfer_screen.transfer_info_screen.TransferInfoFragment;
@@ -28,6 +29,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
 
     public static String RECIPIENT_ARG = "recipient_address";
     public static String APP_ARG = "app_address";
+    public static String APP_INFO_ARG = "app_info_address";
     public static String TRANSACTION_ARG = "transaction_arg";
 
     public static String REVIEW_ARG = "review_arg";
@@ -46,6 +48,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
 
     private boolean isBlockEth;
     private App app;
+    private AppInfo appInfo;
 
     @BindView(R.id.transfer_viewPager) NonSwipeableViewPager transferViewPager;
     @BindView(R.id.continue_transfer_button) Button continueButton;
@@ -69,12 +72,10 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
         activity.startActivityForResult(starter, resultCode);
     }
 
-    public static void startAsTokenTransfer(Activity activity, String recipientAddress, App app, String tokenName) {
+    public static void startAsTokenTransfer(Activity activity, AppInfo appInfo) {
         Intent starter = new Intent(activity.getBaseContext(), TransferActivity.class);
-        starter.putExtra(RECIPIENT_ARG, recipientAddress);
-        starter.putExtra(APP_ARG, app);
+        starter.putExtra(APP_INFO_ARG, appInfo);
         starter.putExtra(TRANSACTION_ARG, Constants.TransactionTypes.TRANSFER_TOKEN);
-        starter.putExtra(TOKEN_NAME_ARG, tokenName);
         activity.startActivity(starter);
     }
 
@@ -91,18 +92,20 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
             transferViewModel.recipientAddress.setValue(recipientAddress);
         }
 
-        tokenName = getIntent().getStringExtra(TOKEN_NAME_ARG);
-        if (tokenName != null) {
-            transferViewModel.tokenName.setValue(tokenName);
-        }
-
         app = getIntent().getParcelableExtra(APP_ARG);
+        appInfo = getIntent().getParcelableExtra(APP_INFO_ARG);
+
         if (app != null) {
             transferViewModel.isBlockEthIcon.setValue(true);
             String totalPrice = new EthereumPrice(app.price, EthereumPrice.Currency.WEI).inEther().toString();
             transferViewModel.transferAmount.setValue(totalPrice);
+        } else if (appInfo != null) {
+            transferViewModel.isBlockEthIcon.setValue(false);
+            transferViewModel.totalBalance.setValue(Long.valueOf(appInfo.icoBalance.balanceOf));
+            transferViewModel.tokenName.setValue(appInfo.icoSymbol);
         } else {
             transferViewModel.isBlockEthIcon.setValue(false);
+
         }
 
         presenter = new TransferPresenter();
@@ -132,6 +135,10 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
         } else if (transferViewPager.getCurrentItem() == 1) {
             getDataFromViewModel();
             if (presenter.passwordCheck(password)) {
+                if (appInfo != null) {
+                    presenter.createTransferTokenTransaction(transferAmount, recipientAddress, appInfo.adrICO);
+                    return;
+                }
                 if (isEth)
                     transferAmount = new EthereumPrice(transferAmount, EthereumPrice.Currency.ETHER).inLongToString();
                 else

@@ -94,7 +94,7 @@ public class TransferPresenter implements TransferContract.Presenter {
             rawTransaction = CryptoUtils.generateAppBuyTransaction(
                     accountInfo.first.count,
                     new BigInt(Long.parseLong(accountInfo.second)),
-                    app,accountInfo.first.adrNode);
+                    app, accountInfo.first.adrNode);
             Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,5 +102,32 @@ public class TransferPresenter implements TransferContract.Presenter {
         }
         return RestApi.getServerApi().purchaseApp(rawTransaction);
 
+    }
+
+    public void createTransferTokenTransaction(String transferAmount, String recipientAddress, String icoAddress) {
+        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
+                .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
+                .flatMap(result -> mapTokenTransfer(result, transferAmount, recipientAddress, icoAddress))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::transferSuccess, this::transferFailed);
+
+    }
+
+    private Observable<PurchaseAppResponse> mapTokenTransfer(Pair<AccountInfoResponse, String> accountInfo, String transferAmount, String recipientAddress, String icoAddress) {
+        String rawTransaction = "";
+        try {
+            rawTransaction = CryptoUtils.generateSendTokenTransaction(
+                    accountInfo.first.count,
+                    new BigInt(Long.parseLong(accountInfo.second)),
+                    transferAmount,
+                    recipientAddress,
+                    icoAddress);
+            Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return RestApi.getServerApi().deployTransaction(rawTransaction, null);
     }
 }

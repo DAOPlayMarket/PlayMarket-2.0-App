@@ -22,6 +22,7 @@ import com.blockchain.store.playmarket.interfaces.AppInfoCallback;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
+import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 
 import java.util.ArrayList;
 
@@ -131,5 +132,10 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
     public void onAppInfoClicked(AppInfo appinfo) {
         InvestActivity.startFromIco(getActivity(), appinfo);
 
+    }
+
+    @Override
+    public void onAppTransferTokenClicked(AppInfo appinfo) {
+        TransferActivity.startAsTokenTransfer(getActivity(), appinfo);
     }
 }

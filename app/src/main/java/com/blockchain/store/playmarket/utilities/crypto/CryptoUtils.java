@@ -161,7 +161,7 @@ public class CryptoUtils {
         return hexStringToByteArray(encode);
     }
 
-    public static byte[] createSentTokenTransactionBytes(String address, String tokenNumber, String... abc) {
+    public static byte[] createSentTokenTransactionBytes(String address, String tokenNumber) {
         // function transfer (address,uint256)
         if (address.startsWith("0x")) {
             address = address.replaceFirst("0x", "");
@@ -174,7 +174,7 @@ public class CryptoUtils {
                 new TypeReference<org.web3j.abi.datatypes.Address>() {
                 }, new TypeReference<org.web3j.abi.datatypes.Uint>() {
                 });
-        Function function = new Function("buyApp",
+        Function function = new Function("transfer",
                 valueList, typeReferences);
 
         String encode = FunctionEncoder.encode(function);
@@ -182,7 +182,7 @@ public class CryptoUtils {
         if (encode.startsWith("0x")) {
             encode = encode.replaceFirst("0x", "");
         }
-        Log.d("newMethod", "result = " + encode);
+        Log.d("token transfer", "result = " + encode);
         return hexStringToByteArray(encode);
     }
 
@@ -243,6 +243,20 @@ public class CryptoUtils {
                 getDataForReviewAnApp(app.appId, account.getAddress().getHex(), vote, description, txIndex));
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
         return getRawTransaction(signedTransaction);
+    }
+
+    public static String generateSendTokenTransaction(int nonce, BigInt gasPrice, String transferAmount, String recipientAddress, String icoAddress) throws Exception {
+        KeyManager keyManager = Application.keyManager;
+        Account account = keyManager.getAccounts().get(0);
+
+        BigInt price = new BigInt(0);
+        Transaction transaction = new Transaction(nonce, new Address(icoAddress),
+                price, GAS_LIMIT, gasPrice,
+                createSentTokenTransactionBytes(recipientAddress, transferAmount));
+
+        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
+        return getRawTransaction(signedTransaction);
+
     }
 
 

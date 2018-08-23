@@ -73,7 +73,11 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
 
         presenter = new TransferInfoPresenter();
         presenter.init(this, getContext());
-        presenter.getAccountBalance();
+        if (transferViewModel.totalBalance.getValue() != null) {
+            balanceTextView.setText(String.valueOf(transferViewModel.totalBalance.getValue()));
+        } else {
+            presenter.getAccountBalance();
+        }
 
 
         String senderAddress = presenter.getSenderAddress();
@@ -82,11 +86,6 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
 
         getDataFromTransferViewModel();
 
-        if (tokenName != null) {
-            customTokenSelect();
-        } else {
-            ethSelect();
-        }
 
         if (recipientAddress == null) {
             recipientAddressEditText.setEnabled(true);
@@ -101,6 +100,12 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         if (transferViewModel.isBlockEthIcon != null && transferViewModel.isBlockEthIcon.getValue()) {
             dimensionHolder.setEnabled(false);
             amountEditText.setEnabled(false);
+            ethSelect();
+        }
+
+        if (tokenName != null) {
+            customTokenSelect();
+        } else {
             ethSelect();
         }
 
@@ -153,14 +158,27 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     }
 
     private void setTokenName(String tokenName) {
+        this.tokenName = tokenName;
         dimensionView.setText(tokenName);
 
     }
 
     private void customTokenSelect() {
+        dimensionHolder.setClickable(false);
+
+        dimensionView.setText(tokenName);
+        dimensionInfoTextView.setText(tokenName);
+        transferViewModel.dimension.setValue(tokenName);
+        customTokenTextView.setText(tokenName);
+
         customTokenTextView.setVisibility(View.VISIBLE);
+        customTokenTextView.setBackgroundResource(R.drawable.round_corner_green_button);
+        customTokenTextView.setTextColor(getResources().getColor(R.color.white));
+
+
         ethTextView.setVisibility(View.GONE);
         weiTextView.setVisibility(View.GONE);
+
     }
 
     private void ethSelect() {
@@ -211,7 +229,16 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
             isHasNoError = false;
         } else amountTextInputLayout.setError("");
 
-        if (emptyAmountCheck) {
+        if (tokenName != null) {
+            String transferAmount = amountEditText.getText().toString();
+            String totalBalance = balanceTextView.getText().toString();
+            if (Long.parseLong(transferAmount) < Long.parseLong(totalBalance)) {
+                return true;
+            } else {
+                amountTextInputLayout.setError(getResources().getString(R.string.insufficient_funds));
+                return false;
+            }
+        } else if (emptyAmountCheck) {
             String transferAmount = amountEditText.getText().toString();
             String balanceAmountInEther = accountBalanceInEther.toString();
 

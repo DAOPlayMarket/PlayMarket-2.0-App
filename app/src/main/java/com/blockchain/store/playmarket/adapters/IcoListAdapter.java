@@ -72,6 +72,8 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
             title.setText(app.nameApp);
             tokenBought.setText(String.valueOf(tokenTransform(app.icoBalance.balanceOf, app.icoBalance.decimals)));
             cardView.setOnClickListener(v -> appListCallbacks.onAppInfoClicked(app));
+            transferBtn.setOnClickListener(v -> appListCallbacks.onAppTransferTokenClicked(app));
+
             long timeToFirstStageEnding = app.getUnixTimeToFirstStageEnding();
             if (countDownTimer == null && timeToFirstStageEnding > 0) {
                 countDownTimer = new CountDownTimer(timeToFirstStageEnding * 1000, 1000) {
@@ -87,7 +89,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
                     }
                 }.start();
             }
-//            timeRemains.setText("0");
+
 //            clockIcon.setColorFilter(timeToFirstStageEnding == 0 ? Color.GRAY : R.color.ico_tokens_bought);
             setTransferButtonEnable();
         }

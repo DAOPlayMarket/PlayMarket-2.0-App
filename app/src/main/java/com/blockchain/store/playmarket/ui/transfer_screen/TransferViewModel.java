@@ -23,5 +23,7 @@ public class TransferViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> isBlockEthIcon = new MutableLiveData<>();
 
+    public MutableLiveData<Long> totalBalance = new MutableLiveData<>();
+
 
 }
