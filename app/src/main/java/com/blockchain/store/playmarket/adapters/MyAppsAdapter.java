@@ -40,8 +40,10 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.my_apps_item, parent, false);
         MyAppsViewHolder myAppsViewHolder = new MyAppsViewHolder(view);
-        myAppsViewHolder.actionAreaHolder.setOnClickListener(v ->
-                callback.onActionButtonClicked(appLibraries.get(myAppsViewHolder.getAdapterPosition())));
+        myAppsViewHolder.actionAreaHolder.setOnClickListener(v -> {
+            appLibraries.get(myAppsViewHolder.getAdapterPosition()).isSelected = false;
+            callback.onActionButtonClicked(appLibraries.get(myAppsViewHolder.getAdapterPosition()));
+        });
         myAppsViewHolder.layoutHolder.setOnClickListener(v -> {
             int clickPosition = myAppsViewHolder.getAdapterPosition();
             boolean isWasSelected = appLibraries.get(clickPosition).isSelected;

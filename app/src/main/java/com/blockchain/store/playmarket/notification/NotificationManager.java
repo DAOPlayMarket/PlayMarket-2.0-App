@@ -69,7 +69,7 @@ public class NotificationManager {
         NotificationObject notificationObject = getNotificationObjectByApp(app);
         if (notificationObject != null) {
             notificationObject.setCurrentState(Constants.APP_STATE.STATE_DOWNLOAD_ERROR);
-            reportDownloadFailUpdate(notificationObject,exception.getMessage());
+            reportDownloadFailUpdate(notificationObject, exception.getMessage());
             cancelNotification(app);
             updateText(app, exception.getMessage());
             removeNotificationObject(notificationObject);
@@ -133,11 +133,12 @@ public class NotificationManager {
     private NotificationCompat.Builder createNotification(App app) {
         Context context = Application.getInstance().getApplicationContext();
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
+
         notificationBuilder
                 .setContentTitle(app.nameApp)
-                .setSmallIcon(android.R.mipmap.sym_def_app_icon);
+                .setSmallIcon(android.R.drawable.stat_sys_download)
+                .setTicker("");
         notificationBuilder.setProgress(100, 0, false); // show progress
-        notificationBuilder.setGroup(Constants.NOTIFICATION_UPDATE_GROUP);
         return notificationBuilder;
     }
 
@@ -184,7 +185,7 @@ public class NotificationManager {
     private void reportDownloadFailUpdate(NotificationObject notificationObject, String message) {
         for (Pair<String, NotificationManagerCallbacks> object : this.callbacks) {
             if (object.first.equalsIgnoreCase(notificationObject.getApp().appId)) {
-                object.second.onAppDownloadError(notificationObject.getApp(),message);
+                object.second.onAppDownloadError(notificationObject.getApp(), message);
             }
         }
     }

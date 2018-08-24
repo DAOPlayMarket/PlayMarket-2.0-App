@@ -232,7 +232,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         if (tokenName != null) {
             String transferAmount = amountEditText.getText().toString();
             String totalBalance = balanceTextView.getText().toString();
-            if (Long.parseLong(transferAmount) < Long.parseLong(totalBalance)) {
+            if (Double.parseDouble(transferAmount) < Double.parseDouble(totalBalance)) {
                 return true;
             } else {
                 amountTextInputLayout.setError(getResources().getString(R.string.insufficient_funds));

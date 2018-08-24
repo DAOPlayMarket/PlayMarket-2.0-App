@@ -101,7 +101,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
             transferViewModel.transferAmount.setValue(totalPrice);
         } else if (appInfo != null) {
             transferViewModel.isBlockEthIcon.setValue(false);
-            transferViewModel.totalBalance.setValue(Long.valueOf(appInfo.icoBalance.getTokenCount()));
+            transferViewModel.totalBalance.setValue(Double.valueOf(appInfo.icoBalance.getTokenCount()));
             transferViewModel.tokenName.setValue(appInfo.icoSymbol);
         } else {
             transferViewModel.isBlockEthIcon.setValue(false);
@@ -136,7 +136,9 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
             getDataFromViewModel();
             if (presenter.passwordCheck(password)) {
                 if (appInfo != null) {
-                    String transformedAmount = (Float.parseFloat(transferAmount) * (Integer.parseInt(appInfo.icoBalance.decimals));
+                    double pow = Math.pow(10, Double.parseDouble(appInfo.icoBalance.decimals));
+                    Long totalTokens = (long) (Double.parseDouble(transferAmount) * pow);
+                    String transformedAmount = totalTokens.toString();
                     presenter.createTransferTokenTransaction(transformedAmount, recipientAddress, appInfo.adrICO);
                     return;
                 }

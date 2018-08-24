@@ -128,6 +128,6 @@ public class TransferPresenter implements TransferContract.Presenter {
             e.printStackTrace();
 
         }
-        return RestApi.getServerApi().deployTransaction(rawTransaction, null);
+        return  RestApi.getServerApi().deployTransaction(rawTransaction,null);
     }
 }
