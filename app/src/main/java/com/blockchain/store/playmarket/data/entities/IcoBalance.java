@@ -16,6 +16,14 @@ public class IcoBalance implements Parcelable {
         this.decimals = in.readString();
     }
 
+    public String getTokenCount() {
+        long tokensNum = Long.valueOf(balanceOf);
+        short decimalsNum = Short.valueOf(decimals);
+        double transformedTokensNum = tokensNum * Math.pow(10, -decimalsNum);
+        transformedTokensNum = Math.round(transformedTokensNum * 10000.0) / 10000.0;
+        return String.valueOf(transformedTokensNum);
+    }
+
     public IcoBalance() {
     }
 

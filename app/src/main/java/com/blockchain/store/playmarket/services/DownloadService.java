@@ -52,7 +52,7 @@ public class DownloadService extends IntentService {
                 if (isNeedForceInstall) {
                     installApk(result);
                 } else if (Hawk.contains(Constants.SETTINGS_AUTOINSTALL_FLAG) && (boolean) Hawk.get(Constants.SETTINGS_AUTOINSTALL_FLAG)) {
-
+                    installApk(result);
                 }
 
             } else {

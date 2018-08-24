@@ -70,7 +70,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
         public void bind(AppInfo app) {
             icon.setImageURI(Uri.parse(app.getIconUrl()));
             title.setText(app.nameApp);
-            tokenBought.setText(String.valueOf(tokenTransform(app.icoBalance.balanceOf, app.icoBalance.decimals)));
+            tokenBought.setText(app.icoBalance.getTokenCount());
             cardView.setOnClickListener(v -> appListCallbacks.onAppInfoClicked(app));
             transferBtn.setOnClickListener(v -> appListCallbacks.onAppTransferTokenClicked(app));
 
