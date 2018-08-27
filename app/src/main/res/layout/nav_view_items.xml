@@ -71,7 +71,7 @@
             <TextView
                 style="@style/navViewTextItem"
                 android:gravity="center_vertical"
-                android:text="@string/library" />
+                android:text="@string/library_screen_title" />
         </LinearLayout>
 
         <LinearLayout

@@ -152,7 +152,8 @@
         <activity android:name=".ui.unlock_account_screen.UnlockAccountActivity" />
         <activity android:name=".ui.activity_screen.NewsActivity" />
         <activity android:name=".ui.my_apps_screen.MyAppsActivity" />
-        <activity android:name=".ui.my_ico_screen.MyIcoActivity"></activity>
+        <activity android:name=".ui.my_ico_screen.MyIcoActivity" />
+        <activity android:name=".ui.webview_screen.WebViewActivity"></activity>
     </application>
 
 </manifest>

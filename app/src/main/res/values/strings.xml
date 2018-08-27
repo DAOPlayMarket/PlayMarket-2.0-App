@@ -182,4 +182,15 @@
     <string name="transfer_tokens">Transfer tokens</string>
     <string name="uninstall">Uninstall</string>
 
+    <!--About app screen-->
+    <string name="about_playmarket_2_0">© 2017 DAO PlayMarket 2.0</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="investment_declaration">Investment declaration</string>
+    <string name="organizational_structure">Organizational structure</string>
+    <string name="browser_version">Browser version</string>
+    <string name="our_site">Our site</string>
+    <string name="ver">ver.</string>
+
+
 </resources>

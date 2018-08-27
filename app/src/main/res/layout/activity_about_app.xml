@@ -1,16 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.blockchain.store.playmarket.ui.about_screen.AboutAppActivity">
 
-    <WebView
-        android:id="@+id/web_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp" />
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_logo" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/ver"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <TextView
+        android:id="@+id/our_site"
+        style="@style/about_text"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/our_site"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/version" />
+
+    <TextView
+        android:id="@+id/browser_version"
+        style="@style/about_text"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/browser_version"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/our_site" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/about_playmarket_2_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/organizational_structure"
+        style="@style/about_text"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/organizational_structure"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/investment_declaration"
+        style="@style/about_text"
+        android:layout_marginBottom="16dp"
+        android:text="@string/investment_declaration"
+        app:layout_constraintBottom_toTopOf="@+id/organizational_structure"
+        app:layout_constraintEnd_toEndOf="@+id/organizational_structure"
+        app:layout_constraintStart_toStartOf="@+id/organizational_structure" />
+
+    <TextView
+        android:id="@+id/terms_and_conditions"
+        style="@style/about_text"
+        android:layout_marginBottom="16dp"
+        android:text="@string/terms_and_conditions"
+        app:layout_constraintBottom_toTopOf="@+id/investment_declaration"
+        app:layout_constraintEnd_toEndOf="@+id/investment_declaration"
+        app:layout_constraintStart_toStartOf="@+id/investment_declaration" />
+
+    <TextView
+        android:id="@+id/privacy_policy"
+        style="@style/about_text"
+        android:layout_marginBottom="16dp"
+        android:text="@string/privacy_policy"
+        app:layout_constraintBottom_toTopOf="@+id/terms_and_conditions"
+        app:layout_constraintEnd_toEndOf="@+id/terms_and_conditions"
+        app:layout_constraintStart_toStartOf="@+id/terms_and_conditions" />
+</android.support.constraint.ConstraintLayout>
