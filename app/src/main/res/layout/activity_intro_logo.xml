@@ -6,36 +6,36 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     tools:context="com.blockchain.store.playmarket.ui.intro_logo_activity.SplashActivity"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="81dp">
+    tools:layout_editor_absoluteY="25dp">
 
 
     <VideoView
         android:id="@+id/LogoVideoView"
         android:layout_width="270dp"
         android:layout_height="267dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.255" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/LogoTextView"
         android:layout_width="302dp"
         android:layout_height="49dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/app_name"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold"
         android:typeface="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LogoVideoView"
-        app:layout_constraintVertical_bias="0.09" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LogoVideoView" />
 
     <TextView
         android:id="@+id/network_status"
@@ -44,8 +44,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text=""
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/gif"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -56,9 +55,24 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/network_status"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LogoTextView" />
+
+    <ImageView
+
+        android:id="@+id/gif"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 </android.support.constraint.ConstraintLayout>

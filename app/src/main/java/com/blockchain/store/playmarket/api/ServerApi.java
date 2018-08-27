@@ -115,6 +115,6 @@ public interface ServerApi {
     @POST("get-current-info")
     Observable<CurrentInfo> getCurrentInfo(@Field("address") String addressICO);
 
-    @GET("https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40playmarket2.0")
+    @GET("https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40playmarket2.0&api_key=bxtxvdt126inutffjskughyxigwfdb1er03qhvsk")
     Observable<PlaymarketFeed> getPlaymarketNews();
 }

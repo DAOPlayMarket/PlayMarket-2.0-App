@@ -7,16 +7,26 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.PurchaseHistoryResponseListener;
+import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.SkuDetails;
+import com.android.billingclient.api.SkuDetailsParams;
+import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -28,6 +38,7 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -68,9 +79,11 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     @BindView(R.id.LogoVideoView) VideoView logoVideoView;
     @BindView(R.id.network_status) TextView networkStatus;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
+    @BindView(R.id.gif) ImageView gif;
 
     private SplashPresenter presenter;
     private String errorString = null;
+    private BillingClient billingClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +95,46 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         setLogoTextFont();
         setupAndPlayVideo();
         checkLocationPermission();
+        showGif();
+//        testBilling();
+    }
+
+    private void testBilling() {
+        billingClient = BillingClient.newBuilder(this).setListener(new PurchasesUpdatedListener() {
+            @Override
+            public void onPurchasesUpdated(int responseCode, @Nullable List<Purchase> purchases) {
+                Log.d(TAG, "onPurchasesUpdated() called with: responseCode = [" + responseCode + "], purchases = [" + purchases + "]");
+            }
+        }).build();
+
+        billingClient.startConnection(new BillingClientStateListener() {
+            @Override
+            public void onBillingSetupFinished(int responseCode) {
+                Log.d(TAG, "onBillingSetupFinished() called with: responseCode = [" + responseCode + "]");
+                List skyList = new ArrayList();
+                skyList.add("test_identificator");
+                SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
+                params.setSkusList(skyList).setType(BillingClient.SkuType.INAPP);
+
+                billingClient.querySkuDetailsAsync(params.build(), new SkuDetailsResponseListener() {
+                    @Override
+                    public void onSkuDetailsResponse(int responseCode, List<SkuDetails> skuDetailsList) {
+                        Log.d(TAG, "onSkuDetailsResponse() called with: responseCode = [" + responseCode + "], skuDetailsList = [" + skuDetailsList + "]");
+                    }
+                });
+                billingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, new PurchaseHistoryResponseListener() {
+                    @Override
+                    public void onPurchaseHistoryResponse(int responseCode, List<Purchase> purchasesList) {
+                        Log.d(TAG, "onPurchaseHistoryResponse() called with: responseCode = [" + responseCode + "], purchasesList = [" + purchasesList + "]");
+                    }
+                });
+            }
+
+            @Override
+            public void onBillingServiceDisconnected() {
+                Log.d(TAG, "onBillingServiceDisconnected() called");
+            }
+        });
     }
 
     private void checkLocationPermission() {
@@ -119,6 +172,13 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/roboto.ttf");
         logoTextView.setTypeface(tf);
     }
+
+
+    private void showGif() {
+        String path = "android.resource://" + getPackageName() + "/" + R.raw.loading_gif;
+        Glide.with(this).load(path).into(gif);
+    }
+
 
     protected void setupAndPlayVideo() {
         String path = "android.resource://" + getPackageName() + "/" + R.raw.image;
