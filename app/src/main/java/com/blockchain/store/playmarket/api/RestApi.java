@@ -28,6 +28,7 @@ public class RestApi {
     public static final String CHANGELLY_ENDPOINT = "https://api.changelly.com";
 
 
+    public static String SERVER_ENDPOINT_WITHOUT_POST;
     public static String SERVER_ENDPOINT = "";
     public static String BASE_URL = SERVER_ENDPOINT + "/api/";
     public static String ICON_URL = SERVER_ENDPOINT + "/data/";
@@ -107,6 +108,7 @@ public class RestApi {
 
     public static void setServerEndpoint(String serverEndpoint) {
         SERVER_ENDPOINT = nodeUrl + serverEndpoint + PLAYMARKET_BASE_URL + PORT_SUFFIX;
+        SERVER_ENDPOINT_WITHOUT_POST = nodeUrl + serverEndpoint + PLAYMARKET_BASE_URL;
         BASE_URL = SERVER_ENDPOINT + "/api/";
         ICON_URL = SERVER_ENDPOINT + "/data/";
         Log.d(TAG, "setServerEndpoint: " + SERVER_ENDPOINT);

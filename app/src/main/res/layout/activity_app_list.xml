@@ -94,11 +94,12 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:layout_alignParentBottom="true"
         android:background="@android:color/white"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/colorAccent"
+        app:tabTextAppearance="@style/tabTextAppearance"
         app:tabTextColor="@android:color/darker_gray" />
 
     <include
@@ -113,7 +114,8 @@
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        tools:visibility="gone" />
 
 
 </RelativeLayout>

@@ -21,6 +21,7 @@ import android.widget.VideoView;
 
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchaseHistoryResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
@@ -111,10 +112,10 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
             @Override
             public void onBillingSetupFinished(int responseCode) {
                 Log.d(TAG, "onBillingSetupFinished() called with: responseCode = [" + responseCode + "]");
-                List skyList = new ArrayList();
-                skyList.add("test_identificator");
+                List skuList = new ArrayList();
+                skuList.add("test_identificator");
                 SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
-                params.setSkusList(skyList).setType(BillingClient.SkuType.INAPP);
+                params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP);
 
                 billingClient.querySkuDetailsAsync(params.build(), new SkuDetailsResponseListener() {
                     @Override
@@ -128,6 +129,8 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
                         Log.d(TAG, "onPurchaseHistoryResponse() called with: responseCode = [" + responseCode + "], purchasesList = [" + purchasesList + "]");
                     }
                 });
+                BillingFlowParams test_identificator = BillingFlowParams.newBuilder().setType(BillingClient.SkuType.INAPP).setSku("test_identificator").build();
+                billingClient.launchBillingFlow(SplashActivity.this, test_identificator);
             }
 
             @Override

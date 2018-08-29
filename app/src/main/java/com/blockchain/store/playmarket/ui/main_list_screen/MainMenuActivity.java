@@ -12,10 +12,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.blockchain.store.playmarket.Application;
@@ -156,7 +159,8 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     private void initViewPager(ArrayList<Category> categories) {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         for (Category category : categories) {
-            viewPagerAdapter.addFragment(MainMenuFragment.newInstance(category), category.name);
+            String capitalizeCategoryName = category.name.substring(0, 1).toUpperCase() + category.name.substring(1);
+            viewPagerAdapter.addFragment(MainMenuFragment.newInstance(category), capitalizeCategoryName);
         }
         viewPagerAdapter.addFragment(new IcoFragment(), getString(R.string.fragment_ico_title));
 
@@ -166,6 +170,25 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         tabLayout.getTabAt(0).setIcon(getResources().getDrawable(R.drawable.apps_icon));
         tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.games_icon));
         tabLayout.getTabAt(2).setIcon(getResources().getDrawable(R.drawable.ico_icon));
+        removeIconMargin(tabLayout);
+    }
+
+    private void removeIconMargin(TabLayout tabLayout) {
+        for (int tabCount = 0; tabCount < tabLayout.getTabCount(); tabCount++) {
+            for (int firstChildIterator = 0; firstChildIterator < tabLayout.getChildCount(); firstChildIterator++) {
+                int childCount = ((ViewGroup) tabLayout.getChildAt(firstChildIterator)).getChildCount();
+                for (int secondChildIterator = 0; secondChildIterator < childCount; secondChildIterator++) {
+                    int childCount1 = ((ViewGroup) ((ViewGroup) tabLayout.getChildAt(firstChildIterator)).getChildAt(secondChildIterator)).getChildCount();
+                    for (int thirdChildIterator = 0; thirdChildIterator < childCount1; thirdChildIterator++) {
+                        View childAt = ((ViewGroup) ((ViewGroup) tabLayout.getChildAt(firstChildIterator)).getChildAt(secondChildIterator)).getChildAt(thirdChildIterator);
+                        if (childAt instanceof AppCompatImageView) {
+                            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) childAt.getLayoutParams();
+                            layoutParams.setMargins(0, 0, 0, 0);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -229,7 +252,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 this, view, ViewCompat.getTransitionName(view)
         );
-        AppDetailActivity.start(this, app, optionsCompat,ViewCompat.getTransitionName(view));
+        AppDetailActivity.start(this, app, optionsCompat, ViewCompat.getTransitionName(view));
     }
 
     private void onSuggestionClicked(String query) {
