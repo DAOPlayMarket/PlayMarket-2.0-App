@@ -31,7 +31,6 @@ import io.ethmobile.ethdroid.EthDroid;
 import io.ethmobile.ethdroid.KeyManager;
 
 import static com.blockchain.store.playmarket.utilities.Constants.GAS_LIMIT;
-import static com.blockchain.store.playmarket.utilities.Constants.NON_LOCAL_NODE_ADDRESS;
 import static com.blockchain.store.playmarket.utilities.Constants.RINKEBY_ID;
 import static org.web3j.crypto.Hash.sha3;
 

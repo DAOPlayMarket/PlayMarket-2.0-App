@@ -36,6 +36,7 @@ import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
@@ -50,14 +51,19 @@ import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.Web3jFactory;
+import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.methods.response.EthTransaction;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
+import org.web3j.protocol.http.HttpService;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,6 +75,8 @@ import retrofit2.Response;
 import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA;
 
 public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
     private static final String TAG = "SplashActivity";
@@ -98,6 +106,26 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         checkLocationPermission();
         showGif();
 //        testBilling();
+//        testTransactionStatus();
+    }
+
+    private void testTransactionStatus() {
+        Locale[] availableLocales = Locale.getAvailableLocales();
+        Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
+        Request<?, EthTransaction> ethTransactionRequest = build.ethGetTransactionByHash("0xa062245903f93135fdeb238bb42387691c395cda34ec68384b294db0f2ed75bf");
+        ethTransactionRequest.observable()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onOk, this::onError);
+
+    }
+
+    private void onOk(EthTransaction ethTransaction) {
+        Log.d(TAG, "onOk() called with: ethTransaction = [" + ethTransaction + "]");
+    }
+
+    private void onError(Throwable throwable) {
+        Log.d(TAG, "onError() called with: throwable = [" + throwable + "]");
     }
 
     private void testBilling() {
