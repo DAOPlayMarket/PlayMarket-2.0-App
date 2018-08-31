@@ -122,9 +122,7 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
             content.setText(app.nameApp);
             if (app.rating != null){
                 noRating.setVisibility(View.GONE);
-                double rating = ((double) app.rating.ratingSum / app.rating.ratingCount);
-                rating = Math.round(rating * 10.0) / 10.0;
-                ratingText.setText(String.valueOf(rating));
+                ratingText.setText(app.getRating());
             } else {
                 noRating.setVisibility(View.VISIBLE);
                 ratingText.setVisibility(View.GONE);
@@ -134,8 +132,7 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (app.isFree) {
                 price.setText(R.string.app_free);
             } else {
-                String priceInEther = new EthereumPrice(app.price).inEther().toString();
-                price.setText(priceInEther);
+                price.setText(app.getPrice());
             }
             cardView.setOnClickListener(v -> mainCallback.onAppClickedWithTransition(app, imageView));
 //            cardView.setOnClickListener(v -> mainCallback.onAppClicked(app));

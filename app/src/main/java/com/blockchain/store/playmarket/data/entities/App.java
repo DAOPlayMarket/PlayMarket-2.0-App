@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -111,6 +112,10 @@ public class App implements Parcelable {
         }
     }
 
+    public String getPrice() {
+        String priceInEther = new EthereumPrice(price).inEther().toString();
+        return priceInEther;
+    }
     public String getImageByPath(String path) {
         String url = RestApi.ICON_URL + hashTag + "/" + hash + "/";
         return url;
