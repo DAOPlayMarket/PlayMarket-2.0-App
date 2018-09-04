@@ -58,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/our_site" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/about_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -77,7 +77,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/organizational_structure"
-        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/about_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -86,6 +87,7 @@
         style="@style/about_text"
         android:layout_marginBottom="16dp"
         android:text="@string/investment_declaration"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/organizational_structure"
         app:layout_constraintEnd_toEndOf="@+id/organizational_structure"
         app:layout_constraintStart_toStartOf="@+id/organizational_structure" />
@@ -95,6 +97,7 @@
         style="@style/about_text"
         android:layout_marginBottom="16dp"
         android:text="@string/terms_and_conditions"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/investment_declaration"
         app:layout_constraintEnd_toEndOf="@+id/investment_declaration"
         app:layout_constraintStart_toStartOf="@+id/investment_declaration" />
@@ -104,6 +107,7 @@
         style="@style/about_text"
         android:layout_marginBottom="16dp"
         android:text="@string/privacy_policy"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/terms_and_conditions"
         app:layout_constraintEnd_toEndOf="@+id/terms_and_conditions"
         app:layout_constraintStart_toStartOf="@+id/terms_and_conditions" />

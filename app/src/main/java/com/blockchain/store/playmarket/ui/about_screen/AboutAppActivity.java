@@ -2,11 +2,8 @@ package com.blockchain.store.playmarket.ui.about_screen;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.BuildConfig;
@@ -14,8 +11,7 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.ui.webview_screen.WebViewActivity;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,28 +21,26 @@ public class AboutAppActivity extends AppCompatActivity {
 
     private static final String TAG = "AboutAppActivity";
 
-    private static final String URL_PLAYMARKET = "https://ico.playmarket.io/";
+    private static final String URL_PLAYMARKET = "http://playmarket.io/";
     private static final String URL_PRIVACY = "https://ico.playmarket.io/privacy-policy";
     private static final String URL_CONDITIONS = "https://ico.playmarket.io/conditions";
     private static final String URL_INVEST_DECLARATION = "https://ico.playmarket.io/invest_declaration";
     private static final String URL_ORGANIZATIONAL_STRUCTURE = "https://ico.playmarket.io/org_legal_struct";
 
-
     @BindView(R.id.version) TextView version;
-    @BindView(R.id.our_site) TextView outSite;
-    @BindView(R.id.browser_version) TextView browserVerstion;
-    @BindView(R.id.organizational_structure) TextView organizational_structure;
-    @BindView(R.id.investment_declaration) TextView investment_declaration;
-    @BindView(R.id.terms_and_conditions) TextView terms_and_conditions;
-    @BindView(R.id.privacy_policy) TextView privacy_policy;
-
+    @BindView(R.id.about_text) TextView aboutText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_app);
         ButterKnife.bind(this);
+        initFields();
         setVersion();
+    }
+
+    private void initFields() {
+        aboutText.setText(String.format(getString(R.string.about_playmarket_2_0), Calendar.getInstance().get(Calendar.YEAR)));
     }
 
     private void setVersion() {

@@ -183,7 +183,7 @@
     <string name="uninstall">Uninstall</string>
 
     <!--About app screen-->
-    <string name="about_playmarket_2_0">© 2017 DAO PlayMarket 2.0</string>
+    <string name="about_playmarket_2_0">© %1$d DAO PlayMarket 2.0</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="investment_declaration">Investment declaration</string>

@@ -3,11 +3,13 @@ package com.blockchain.store.playmarket.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.repositories.BalanceRepository;
 import com.blockchain.store.playmarket.repositories.TransferRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
 import java.net.ConnectException;
 import java.net.UnknownHostException;
