@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.Application;
+import com.blockchain.store.playmarket.utilities.MyPackageManager;
+
+import java.io.File;
 
 /**
  * Created by Crypton04 on 31.01.2018.
@@ -18,6 +21,10 @@ public class InstallPackageReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String packageName = intent.getData().getEncodedSchemeSpecificPart();
         Log.d(TAG, "onReceive() called with: PackageName: " + packageName);
-        Log.d(TAG, "onReceive: is Application in foreground: " + Application.isForeground());
+
+        File file = new MyPackageManager().findFileByPackageName(packageName, context);
+        if (file != null && file.exists()) {
+            file.delete();
+        }
     }
 }

@@ -62,6 +62,26 @@ public class MyPackageManager {
         return file;
     }
 
+    public File findFileByPackageName(String packageName, Context context) {
+        Log.d(TAG, "findFileByPackageName() called with: packageName = [" + packageName + "]");
+        File directory;
+        if (BuildUtils.shouldUseContentUri()) {
+            directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        } else {
+            directory = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+        }
+        File[] files = directory.listFiles();
+        Log.d(TAG, "findFileByPackageName: Total files found: " + files.length);
+        for (File file : files) {
+            Log.d(TAG, "findFileByPackageName: current file " + file.getName());
+            if (file.getName().contains(packageName)) {
+                Log.d(TAG, "findFileByPackageName: file is found!");
+                return file;
+            }
+        }
+        return null;
+    }
+
     public boolean isAppFileExists(App app) {
         return getFileFromApp(app).exists();
     }
@@ -102,7 +122,7 @@ public class MyPackageManager {
 
     public void installApkByFile(File file) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        if (BuildUtils.shouldUseContentUri() ) {
+        if (BuildUtils.shouldUseContentUri()) {
             intent.setDataAndType(FileProvider.getUriForFile(Application.getInstance().getApplicationContext(),
                     "com.blockchain.store.playmarket.fileprovider", file), "application/vnd.android.package-archive");
         } else {

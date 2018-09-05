@@ -116,24 +116,19 @@ public class App implements Parcelable {
         String priceInEther = new EthereumPrice(price).inEther().toString();
         return priceInEther;
     }
+
     public String getImageByPath(String path) {
         String url = RestApi.ICON_URL + hashTag + "/" + hash + "/";
         return url;
     }
 
     public String getFileName() {
-        return hash + ".apk";
+        return packageName + ".apk";
     }
 
 
     public App() {
     }
-
-    //    public long getStageTimeRemaining(){
-//        long totalTimeInUnix = Long.parseLong(icoStages.get(Integer.parseInt(currentStage) - 1).time);
-//        long totalTimeFromUnix = ((totalTimeInUnix*1000)-System.currentTimeMillis());
-//        return totalTimeFromUnix;
-//    }
 
     @Override
     public int describeContents() {
