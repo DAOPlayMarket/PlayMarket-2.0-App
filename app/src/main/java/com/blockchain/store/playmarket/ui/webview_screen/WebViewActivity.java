@@ -6,7 +6,10 @@ import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.webkit.GeolocationPermissions;
+import android.webkit.PermissionRequest;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -16,6 +19,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,16 +50,30 @@ public class WebViewActivity extends AppCompatActivity {
             this.finish();
         }
 
-        webView.getSettings().setAppCacheMaxSize(15 * 1024 * 1024); // 10MB
+        webView.getSettings().setAppCacheMaxSize(50 * 1024 * 1024); // 10MB
         webView.getSettings().setAppCachePath(getApplicationContext().getCacheDir().getAbsolutePath());
         webView.getSettings().setAllowFileAccess(true);
         webView.getSettings().setAppCacheEnabled(true);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        webView.setWebChromeClient(new WebChromeClient() {
+
+            @Override
+            public void onPermissionRequest(PermissionRequest request) {
+//                super.onPermissionRequest(request);
+                request.grant(PermissionUtils.getPermissionsLocation());
+            }
+
+            @Override
+            public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
+//                super.onGeolocationPermissionsShowPrompt(origin, callback);
+                callback.invoke(origin, true, false);
+            }
+        });
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                super.onReceivedSslError(view, handler, error);
+                handler.proceed();
             }
 
             @Override

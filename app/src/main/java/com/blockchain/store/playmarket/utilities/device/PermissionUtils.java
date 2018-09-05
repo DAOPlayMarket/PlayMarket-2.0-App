@@ -25,6 +25,10 @@ public class PermissionUtils {
             Manifest.permission.ACCESS_FINE_LOCATION
     };
 
+    public static String[] getPermissionsLocation() {
+        return PERMISSIONS_LOCATION;
+    }
+
     public static boolean storagePermissionGranted(Activity activity) {
         boolean isPermissionGranted = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
         return isPermissionGranted;
