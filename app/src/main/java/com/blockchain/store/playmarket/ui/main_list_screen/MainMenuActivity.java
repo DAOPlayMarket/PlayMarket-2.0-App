@@ -209,27 +209,12 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onSearchSuggestionReady(String[] strings) {
-//        searchView.setSuggestions(strings);
-
     }
 
     @OnClick(R.id.error_view_repeat_btn)
     void onRepeatBtnClicked() {
         errorHolder.setVisibility(View.GONE);
         presenter.loadCategories();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.activity_main_menu_drawer, menu);
-//        MenuItem item = menu.findItem(R.id.action_search);
-//        Drawable iconDrawable = item.getIcon();
-//        iconDrawable = DrawableCompat.wrap(iconDrawable);
-//        DrawableCompat.setTint(iconDrawable, ContextCompat.getColor(this, R.color.drawer_toggle_color));
-//        item.setIcon(iconDrawable);
-//        searchView.setMenuItem(item);
-//        searchView.setBackgroundColor(getResources().getColor(R.color.playmarket_logo_bg));
-        return true;
     }
 
     @Override

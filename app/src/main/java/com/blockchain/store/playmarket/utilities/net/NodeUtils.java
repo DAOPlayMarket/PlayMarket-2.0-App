@@ -5,7 +5,10 @@ import android.util.Log;
 
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AvailabilityResponse;
+import com.blockchain.store.playmarket.data.entities.ExchangeRate;
 import com.blockchain.store.playmarket.data.entities.Node;
+import com.blockchain.store.playmarket.utilities.Constants;
+import com.orhanobut.hawk.Hawk;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -17,6 +20,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Currency;
+import java.util.Locale;
 import java.util.Set;
 
 import de.measite.minidns.hla.ResolverApi;
@@ -116,13 +121,15 @@ public class NodeUtils {
     public Observable<Node> getNearestNode(Location location) {
         return Observable.create(subscriber -> {
             try {
+                String currencyCode = Currency.getInstance(Locale.getDefault()).getCurrencyCode();
                 ArrayList<Node> nodes = NodeUtils.getNodesList(NodeUtils.NODES_DNS_SERVER);
                 ArrayList<Node> nearestNodeIP = NodeUtils.sortNodesByNearest(nodes, location);
                 for (Node node : nearestNodeIP) {
                     //if (node.address.contains("1")) continue;
-                    Response<AvailabilityResponse> execute = null;
+                    Response<ExchangeRate> execute = null;
                     try {
-                        execute = new RestApi().getCustomUrlApi(RestApi.getCheckUrlEndpointByNode(node.address)).checkAvailability().execute();
+                        execute = new RestApi().getCustomUrlApi(RestApi.getCheckUrlEndpointByNode(node.address)).getExchangeRate(currencyCode).execute();
+                        Hawk.put(Constants.CURRENT_CURRENCY, execute.body());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

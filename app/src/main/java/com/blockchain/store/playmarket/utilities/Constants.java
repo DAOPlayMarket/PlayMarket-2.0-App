@@ -6,6 +6,8 @@ package com.blockchain.store.playmarket.utilities;
 
 public class Constants {
 
+
+
     public enum APP_STATE {
         STATE_DOWNLOAD_STARTED, STATE_DOWNLOADING, STATE_DOWNLOADED_NOT_INSTALLED,
         STATE_DOWNLOAD_ERROR, STATE_INSTALLING, STATE_INSTALLED,
@@ -66,7 +68,10 @@ public class Constants {
 
 
     /*Settings prefs*/
+    public static final String CURRENT_CURRENCY = "current_currency";
     public static final String SETTINGS_AUTOINSTALL_FLAG = "settings_autoinstall_flag";
+
+    public static final String BASE_URL = "base_url_extra";
 
     /* Library prefs*/
     public static final String DOWNLOADED_APPS_LIST = "downloaded_apps_list";

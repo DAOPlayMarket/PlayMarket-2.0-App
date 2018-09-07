@@ -5,6 +5,7 @@ import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.AvailabilityResponse;
 import com.blockchain.store.playmarket.data.entities.CurrentInfo;
+import com.blockchain.store.playmarket.data.entities.ExchangeRate;
 import com.blockchain.store.playmarket.data.entities.IcoBalance;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.data.entities.InvestAddressResponse;
@@ -104,6 +105,10 @@ public interface ServerApi {
     Call<AvailabilityResponse> checkAvailability();
 
     @FormUrlEncoded()
+    @POST("get-exchange-rate")
+    Call<ExchangeRate> getExchangeRate(@Field("currency") String currency);
+
+    @FormUrlEncoded()
     @POST("get-reviews")
     Observable<ArrayList<UserReview>> getReviews(@Field("idApp") int appId);
 
@@ -114,6 +119,9 @@ public interface ServerApi {
     @FormUrlEncoded()
     @POST("get-current-info")
     Observable<CurrentInfo> getCurrentInfo(@Field("address") String addressICO);
+
+
+
 
     @GET("https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40playmarket2.0&api_key=bxtxvdt126inutffjskughyxigwfdb1er03qhvsk")
     Observable<PlaymarketFeed> getPlaymarketNews();

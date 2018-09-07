@@ -2,8 +2,10 @@ package com.blockchain.store.playmarket.api;
 
 import android.util.Log;
 
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.orhanobut.hawk.Hawk;
 
 import java.security.cert.CertificateException;
 
@@ -35,7 +37,6 @@ public class RestApi {
 
     private static final String PLAYMARKET_BASE_URL = ".playmarket.io";
     private static final String TAG = "RestApi";
-    private static final String AVAILABILITY_REQUEST_NAME = "/api/availability";
 
     private static String PORT_SUFFIX = ":3000";
     private static String nodeUrl = "https://n";
@@ -71,6 +72,7 @@ public class RestApi {
 
 
     private static void setupWithRest() {
+        checkIfBaseUrlIsEmptyAndSetup(SERVER_ENDPOINT);
         Log.d(TAG, "setupWithRest: " + BASE_URL);
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -90,6 +92,17 @@ public class RestApi {
         restApi = retrofit.create(ServerApi.class);
     }
 
+    private static void checkIfBaseUrlIsEmptyAndSetup(String baseUrl) {
+        if (baseUrl.isEmpty()) {
+            setUpBaseUrl();
+        }
+    }
+
+    private static void setUpBaseUrl() {
+        String lastKnownBaseUrl = Hawk.get(Constants.BASE_URL, "");
+        setServerEndpoint(lastKnownBaseUrl);
+    }
+
     private static void setupWithChangelly() {
         OkHttpClient client = new OkHttpClient.Builder()
                 .sslSocketFactory(getSllSocketFactory())
@@ -107,6 +120,8 @@ public class RestApi {
     }
 
     public static void setServerEndpoint(String serverEndpoint) {
+        Hawk.put(Constants.BASE_URL, serverEndpoint);
+
         SERVER_ENDPOINT = nodeUrl + serverEndpoint + PLAYMARKET_BASE_URL + PORT_SUFFIX;
         SERVER_ENDPOINT_WITHOUT_POST = nodeUrl + serverEndpoint + PLAYMARKET_BASE_URL;
         BASE_URL = SERVER_ENDPOINT + "/api/";
@@ -116,7 +131,7 @@ public class RestApi {
 
 
     public static String getCheckUrlEndpointByNode(String nodeAddress) {
-        String resultUrl = nodeUrl + nodeAddress + PLAYMARKET_BASE_URL + PORT_SUFFIX + "/";
+        String resultUrl = nodeUrl + nodeAddress + PLAYMARKET_BASE_URL + PORT_SUFFIX + "/api/";
         Log.d(TAG, "getCheckUrlEndpointByNode() called with: nodeAddress = [" + resultUrl + "]");
         return resultUrl;
     }
