@@ -20,6 +20,7 @@ import java.util.Iterator;
 
 public class NotificationManager {
     private static final String TAG = "NotificationManager";
+
     private static ArrayList<NotificationObject> notificationObjects;
     private static NotificationManager instance;
     private ArrayList<Pair<String, NotificationManagerCallbacks>> callbacks = new ArrayList<>();

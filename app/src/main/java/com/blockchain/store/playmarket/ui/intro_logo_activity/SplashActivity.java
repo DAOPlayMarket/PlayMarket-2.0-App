@@ -39,6 +39,7 @@ import com.bumptech.glide.Glide;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.Request;
+import org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;
 import org.web3j.protocol.core.methods.response.EthTransaction;
 import org.web3j.protocol.http.HttpService;
 
@@ -88,7 +89,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     private void testTransactionStatus() {
         Locale[] availableLocales = Locale.getAvailableLocales();
         Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
-        Request<?, EthTransaction> ethTransactionRequest = build.ethGetTransactionByHash("0xa062245903f93135fdeb238bb42387691c395cda34ec68384b294db0f2ed75bf");
+        Request<?, EthGetTransactionReceipt> ethTransactionRequest = build.ethGetTransactionReceipt("0xa062245903f93135fdeb238bb42387691c395cda34ec68384b294db0f2ed75bf");
         ethTransactionRequest.observable()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -96,8 +97,8 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
 
     }
 
-    private void onOk(EthTransaction ethTransaction) {
-        Log.d(TAG, "onOk() called with: ethTransaction = [" + ethTransaction + "]");
+    private void onOk(EthGetTransactionReceipt ethGetTransactionReceipt) {
+        Log.d(TAG, "onOk: ");
     }
 
     private void onError(Throwable throwable) {

@@ -6,7 +6,8 @@ package com.blockchain.store.playmarket.utilities;
 
 public class Constants {
 
-
+    /* Job service extra*/
+    public static String JOB_HASH_EXTRA = "job_hash_extra";
 
     public enum APP_STATE {
         STATE_DOWNLOAD_STARTED, STATE_DOWNLOADING, STATE_DOWNLOADED_NOT_INSTALLED,
