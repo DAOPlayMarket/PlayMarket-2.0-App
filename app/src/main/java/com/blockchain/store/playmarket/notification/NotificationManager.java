@@ -81,7 +81,6 @@ public class NotificationManager {
         NotificationObject notificationObject = getNotificationObjectByApp(app);
         if (notificationObject != null) {
             notificationObject.setCurrentState(Constants.APP_STATE.STATE_DOWNLOADED_NOT_INSTALLED);
-//            notificationObject.setNotificationBuilder(createInstallNotification(app));
             showNotification(notificationObject);
             reportCompleteUpdate(notificationObject);
             cancelNotification(app);

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
+import com.blockchain.store.playmarket.interfaces.NotificationObject;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.google.gson.annotations.SerializedName;
 import com.orhanobut.hawk.Hawk;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  * Created by Crypton04 on 26.01.2018.
  */
 
-public class App implements Parcelable {
+public class App implements Parcelable, NotificationObject {
     private static final String TAG = "App";
 
     @SerializedName("idApp")
@@ -84,7 +85,6 @@ public class App implements Parcelable {
     public String getIconUrl() {
         try {
             String iconUrl = RestApi.ICON_URL + hashTag + "/" + hash + "/" + files.images.logo;
-            Log.d(TAG, "Icon Url: " + iconUrl);
             return iconUrl;
         } catch (Exception e) {
             return "";
@@ -94,7 +94,6 @@ public class App implements Parcelable {
     public String getDownloadLink() {
         try {
             String downloadLink = RestApi.ICON_URL + hashTag + "/" + hash + "/" + files.apk;
-            Log.d(TAG, "getDownloadLink: " + downloadLink);
             return downloadLink;
         } catch (Exception e) {
             return "";
@@ -239,4 +238,13 @@ public class App implements Parcelable {
             return new App[size];
         }
     };
+
+    @Override
+    public int getId() {
+        try {
+            return Integer.parseInt(appId);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 }

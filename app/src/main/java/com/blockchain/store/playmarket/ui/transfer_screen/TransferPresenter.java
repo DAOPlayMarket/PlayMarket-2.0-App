@@ -7,6 +7,7 @@ import android.util.Pair;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.check_transation_status_beta.JobUtils;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
@@ -79,6 +80,7 @@ public class TransferPresenter implements TransferContract.Presenter {
 
     private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
         Log.d("transfer", purchaseAppResponse.hash);
+        JobUtils.schduleJob(context, purchaseAppResponse.hash);
         view.closeTransferActivity();
     }
 
@@ -128,6 +130,6 @@ public class TransferPresenter implements TransferContract.Presenter {
             e.printStackTrace();
 
         }
-        return  RestApi.getServerApi().deployTransaction(rawTransaction,null);
+        return RestApi.getServerApi().deployTransaction(rawTransaction, null);
     }
 }

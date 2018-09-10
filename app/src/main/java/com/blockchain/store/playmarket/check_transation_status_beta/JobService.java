@@ -13,6 +13,9 @@ import org.web3j.protocol.http.HttpService;
 
 import java.io.IOException;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA;
 
 public class JobService extends android.app.job.JobService {
@@ -24,19 +27,27 @@ public class JobService extends android.app.job.JobService {
         PersistableBundle extras = params.getExtras();
         String transactionHash = extras.getString(Constants.JOB_HASH_EXTRA);
         Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
-        EthGetTransactionReceipt send = null;
-        try {
-            send = build.ethGetTransactionReceipt(transactionHash).send();
-            Log.d(TAG, "onStartJob: transaction status :" + send.getTransactionReceipt().getStatus());
-            if (send.getTransactionReceipt().getStatus().contains("1")) {
-                jobFinished(params, false);
-                return false;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        jobFinished(params, true);
+        build.ethGetTransactionReceipt(transactionHash).observable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> onTransactionReady(result, params),
+                        throwable -> onTransactionError(throwable, params));
         return true;
+    }
+
+    private void onTransactionReady(EthGetTransactionReceipt result, JobParameters params) {
+        if (result.getTransactionReceipt() != null && result.getTransactionReceipt().getStatus().contains("1")) {
+            //todo remove notification
+            jobFinished(params, false);
+        } else {
+            // todo create or update notification.
+            jobFinished(params, true);
+        }
+    }
+
+    private void onTransactionError(Throwable throwable, JobParameters params) {
+        jobFinished(params, true);
+        Log.d(TAG, "onTransactionError() called with: throwable = [" + throwable + "], params = [" + params + "]");
     }
 
     @Override
