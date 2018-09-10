@@ -106,7 +106,8 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
 
     @Override
     public void onAppDownloadProgressChanged(App app, int progress) {
-        view.updateApp(app, progress, Constants.APP_STATE.STATE_DOWNLOADING);
+        view.updateApp((App) app, progress, Constants.APP_STATE.STATE_DOWNLOADING);
+
     }
 
     @Override

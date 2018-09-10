@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.notification;
 import android.support.v4.app.NotificationCompat;
 
 import com.blockchain.store.playmarket.data.entities.App;
+import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
 import com.blockchain.store.playmarket.utilities.Constants;
 
@@ -12,7 +13,7 @@ import com.blockchain.store.playmarket.utilities.Constants;
 
 public class NotificationObject {
     private Constants.APP_STATE currentState;
-    private App app;
+    private NotificationImpl item;
     private NotificationCompat.Builder notificationBuilder;
     private NotificationManagerCallbacks callback;
     private int progress;
@@ -20,18 +21,18 @@ public class NotificationObject {
     public NotificationObject() {
     }
 
-    public NotificationObject(App app, Constants.APP_STATE currentState, NotificationCompat.Builder notificationBuilder) {
+    public NotificationObject(NotificationImpl item, Constants.APP_STATE currentState, NotificationCompat.Builder notificationBuilder) {
         this.currentState = currentState;
-        this.app = app;
+        this.item = item;
         this.notificationBuilder = notificationBuilder;
     }
 
-    public App getApp() {
-        return app;
+    public NotificationImpl getItem() {
+        return item;
     }
 
-    public void setApp(App app) {
-        this.app = app;
+    public void setItem(NotificationImpl item) {
+        this.item = item;
     }
 
     public NotificationCompat.Builder getNotificationBuilder() {

@@ -5,8 +5,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.api.RestApi;
-import com.blockchain.store.playmarket.data.types.EthereumPrice;
-import com.blockchain.store.playmarket.interfaces.NotificationObject;
+import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.google.gson.annotations.SerializedName;
 import com.orhanobut.hawk.Hawk;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
  * Created by Crypton04 on 26.01.2018.
  */
 
-public class App implements Parcelable, NotificationObject {
+public class App implements Parcelable, NotificationImpl {
     private static final String TAG = "App";
 
     @SerializedName("idApp")
@@ -246,5 +245,10 @@ public class App implements Parcelable, NotificationObject {
         } catch (Exception e) {
             return 0;
         }
+    }
+
+    @Override
+    public String getTitleName() {
+        return nameApp;
     }
 }

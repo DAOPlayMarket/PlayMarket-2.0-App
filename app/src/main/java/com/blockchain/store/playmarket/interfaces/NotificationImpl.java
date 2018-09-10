@@ -1,7 +1,8 @@
 package com.blockchain.store.playmarket.interfaces;
 
-public interface NotificationObject {
+public interface NotificationImpl {
 
     int getId();
+    String getTitleName();
 
 }

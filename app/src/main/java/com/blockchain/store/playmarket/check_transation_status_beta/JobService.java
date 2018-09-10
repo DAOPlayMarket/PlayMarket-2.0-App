@@ -4,14 +4,13 @@ import android.app.job.JobParameters;
 import android.os.PersistableBundle;
 import android.util.Log;
 
+import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;
 import org.web3j.protocol.http.HttpService;
-
-import java.io.IOException;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -38,6 +37,7 @@ public class JobService extends android.app.job.JobService {
     private void onTransactionReady(EthGetTransactionReceipt result, JobParameters params) {
         if (result.getTransactionReceipt() != null && result.getTransactionReceipt().getStatus().contains("1")) {
             //todo remove notification
+//            NotificationManager.getManager().registerNewNotification();
             jobFinished(params, false);
         } else {
             // todo create or update notification.

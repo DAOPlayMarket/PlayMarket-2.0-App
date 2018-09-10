@@ -8,6 +8,7 @@ import android.util.Pair;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
+import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
 import com.blockchain.store.playmarket.utilities.Constants;
 
@@ -23,7 +24,7 @@ public class NotificationManager {
 
     private static ArrayList<NotificationObject> notificationObjects;
     private static NotificationManager instance;
-    private ArrayList<Pair<String, NotificationManagerCallbacks>> callbacks = new ArrayList<>();
+    private ArrayList<Pair<Integer, NotificationManagerCallbacks>> callbacks = new ArrayList<>();
 
     private NotificationManager() {
         notificationObjects = new ArrayList<>();
@@ -36,54 +37,63 @@ public class NotificationManager {
         return instance;
     }
 
-    public void registerNewNotification(App app) {
-        NotificationObject newObject = new NotificationObject(app, Constants.APP_STATE.STATE_DOWNLOADING, createNotification(app));
+    public void registerNewNotification(NotificationImpl item) {
+        NotificationObject newObject = new NotificationObject(item, Constants.APP_STATE.STATE_DOWNLOADING, createNotification(item));
         showNotification(newObject);
         notificationObjects.add(newObject);
     }
 
-    public void registerCallback(App app, NotificationManagerCallbacks callbacks) {
-        this.callbacks.add(Pair.create(app.appId, callbacks));
-        for (Pair<String, NotificationManagerCallbacks> callback : this.callbacks) {
-            if (callback.first.equalsIgnoreCase(app.appId)) {
-                NotificationObject notificationObject = getNotificationObjectByApp(app);
-                if (notificationObject != null) {
-                    Log.d(TAG, "notification object with progress: " + notificationObject.getProgress());
-                    reportUpdateProgress(notificationObject);
-                }
-            }
+    public void registerCallback(NotificationImpl item, NotificationManagerCallbacks callbacks) {
+        this.callbacks.add(Pair.create(item.getId(), callbacks));
+        NotificationObject notificationObject = findNotificationObjectByItem(item);
+        if (notificationObject != null) {
+            Log.d(TAG, "notification object with progress: " + notificationObject.getProgress());
+            reportUpdateProgress(notificationObject);
         }
     }
 
-    public boolean isCallbackAlreadyRegistered(App app) {
-        Log.d(TAG, "isCallbackAlreadyRegistered: " + notificationObjects);
-        for (NotificationObject notificationObject : notificationObjects) {
-            if (notificationObject.getApp().appId.equals(app.appId)) {
-                return true;
+    public NotificationObject findNotificationObjectByItem(NotificationImpl item) {
+        for (Pair<Integer, NotificationManagerCallbacks> callback : this.callbacks) {
+            if (callback.first == item.getId()) {
+                return getNotificationObjectByApp(item);
             }
         }
-        return false;
+        return null;
     }
 
-    public void downloadCompleteWithError(App app, Exception exception) {
+    public boolean isCallbackAlreadyRegistered(NotificationImpl item) {
+        NotificationObject notificationObjectByApp = getNotificationObjectByApp(item);
+        return notificationObjectByApp != null;
+    }
 
-        NotificationObject notificationObject = getNotificationObjectByApp(app);
+    private NotificationObject getNotificationObjectByApp(NotificationImpl item) {
+        for (NotificationObject object : notificationObjects) {
+            if (object.getItem().getId() == item.getId()) {
+                return object;
+            }
+        }
+        return null;
+    }
+
+    public void downloadCompleteWithError(NotificationImpl item, Exception exception) {
+
+        NotificationObject notificationObject = getNotificationObjectByApp(item);
         if (notificationObject != null) {
             notificationObject.setCurrentState(Constants.APP_STATE.STATE_DOWNLOAD_ERROR);
             reportDownloadFailUpdate(notificationObject, exception.getMessage());
-            cancelNotification(app);
-            updateText(app, exception.getMessage());
+            cancelNotification(item);
+            updateText(item, exception.getMessage());
             removeNotificationObject(notificationObject);
         }
     }
 
-    public void downloadCompleteWithoutError(App app) {
-        NotificationObject notificationObject = getNotificationObjectByApp(app);
+    public void downloadCompleteWithoutError(NotificationImpl item) {
+        NotificationObject notificationObject = getNotificationObjectByApp(item);
         if (notificationObject != null) {
             notificationObject.setCurrentState(Constants.APP_STATE.STATE_DOWNLOADED_NOT_INSTALLED);
             showNotification(notificationObject);
             reportCompleteUpdate(notificationObject);
-            cancelNotification(app);
+            cancelNotification(item);
             removeNotificationObject(notificationObject);
         }
     }
@@ -103,8 +113,8 @@ public class NotificationManager {
         reportUpdateProgress(notificationObject);
     }
 
-    public void updateText(App app, String text) {
-        NotificationObject notificationObject = getNotificationObjectByApp(app);
+    public void updateText(NotificationImpl item, String text) {
+        NotificationObject notificationObject = getNotificationObjectByApp(item);
         if (notificationObject == null) return;
         notificationObject.getNotificationBuilder().setContentText(text);
         showNotification(notificationObject);
@@ -120,22 +130,21 @@ public class NotificationManager {
         return notificationBuilder;
     }
 
-    private void cancelNotification(App app) {
-        NotificationObject notificationObject = getNotificationObjectByApp(app);
+    private void cancelNotification(NotificationImpl item) {
+        NotificationObject notificationObject = getNotificationObjectByApp(item);
         if (notificationObject == null) return;
 
         Context context = Application.getInstance().getApplicationContext();
         android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationObject.getNotificationBuilder().setProgress(0, 0, false);
-        notificationManager.notify(Integer.parseInt(app.appId), notificationObject.getNotificationBuilder().build());
+        notificationManager.notify(item.getId(), notificationObject.getNotificationBuilder().build());
     }
 
-    private NotificationCompat.Builder createNotification(App app) {
+    private NotificationCompat.Builder createNotification(NotificationImpl item) {
         Context context = Application.getInstance().getApplicationContext();
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
-
         notificationBuilder
-                .setContentTitle(app.nameApp)
+                .setContentTitle(item.getTitleName())
                 .setSmallIcon(android.R.drawable.stat_sys_download)
                 .setTicker("");
         notificationBuilder.setProgress(100, 0, false); // show progress
@@ -145,47 +154,38 @@ public class NotificationManager {
     private void showNotification(NotificationObject notificationObject) {
         Context context = Application.getInstance().getApplicationContext();
         android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(Integer.parseInt(notificationObject.getApp().appId), notificationObject.getNotificationBuilder().build());
-    }
-
-    private NotificationObject getNotificationObjectByApp(App app) {
-        for (NotificationObject object : notificationObjects) {
-            if (object.getApp().appId.equalsIgnoreCase(app.appId)) {
-                return object;
-            }
-        }
-        return null;
+        notificationManager.notify(notificationObject.getItem().getId(), notificationObject.getNotificationBuilder().build());
     }
 
 
     private void reportUpdateProgress(NotificationObject notificationObject) {
-        for (Pair<String, NotificationManagerCallbacks> object : this.callbacks) {
-            if (object.first.equalsIgnoreCase(notificationObject.getApp().appId)) {
-                object.second.onAppDownloadProgressChanged(notificationObject.getApp(), notificationObject.getProgress());
+        for (Pair<Integer, NotificationManagerCallbacks> object : this.callbacks) {
+            if (object.first == notificationObject.getItem().getId()) {
+                object.second.onAppDownloadProgressChanged((App) notificationObject.getItem(), notificationObject.getProgress());
             }
         }
     }
 
     private void reportStartUpdate(NotificationObject notificationObject) {
-        for (Pair<String, NotificationManagerCallbacks> object : this.callbacks) {
-            if (object.first.equalsIgnoreCase(notificationObject.getApp().appId)) {
-                object.second.onAppDownloadStarted(notificationObject.getApp());
+        for (Pair<Integer, NotificationManagerCallbacks> object : this.callbacks) {
+            if (object.first == notificationObject.getItem().getId()) {
+                object.second.onAppDownloadStarted((App) notificationObject.getItem());
             }
         }
     }
 
     private void reportCompleteUpdate(NotificationObject notificationObject) {
-        for (Pair<String, NotificationManagerCallbacks> object : this.callbacks) {
-            if (object.first.equalsIgnoreCase(notificationObject.getApp().appId)) {
-                object.second.onAppDownloadSuccessful(notificationObject.getApp());
+        for (Pair<Integer, NotificationManagerCallbacks> object : this.callbacks) {
+            if (object.first == notificationObject.getItem().getId()) {
+                object.second.onAppDownloadSuccessful((App) notificationObject.getItem());
             }
         }
     }
 
     private void reportDownloadFailUpdate(NotificationObject notificationObject, String message) {
-        for (Pair<String, NotificationManagerCallbacks> object : this.callbacks) {
-            if (object.first.equalsIgnoreCase(notificationObject.getApp().appId)) {
-                object.second.onAppDownloadError(notificationObject.getApp(), message);
+        for (Pair<Integer, NotificationManagerCallbacks> object : this.callbacks) {
+            if (object.first == notificationObject.getItem().getId()) {
+                object.second.onAppDownloadError((App) notificationObject.getItem(), message);
             }
         }
     }
@@ -194,8 +194,8 @@ public class NotificationManager {
     public void removeCallback(App app, NotificationManagerCallbacks callback) {
         if (this.callbacks.isEmpty()) return;
         Log.d(TAG, "removeCallback: was callbacks " + this.callbacks.size());
-        for (Iterator<Pair<String, NotificationManagerCallbacks>> iterator = this.callbacks.iterator(); iterator.hasNext(); ) {
-            Pair<String, NotificationManagerCallbacks> object = iterator.next();
+        for (Iterator<Pair<Integer, NotificationManagerCallbacks>> iterator = this.callbacks.iterator(); iterator.hasNext(); ) {
+            Pair<Integer, NotificationManagerCallbacks> object = iterator.next();
             if (object.second != null && object.second.equals(callback)) {
                 iterator.remove();
             }
