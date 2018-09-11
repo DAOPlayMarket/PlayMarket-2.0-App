@@ -43,6 +43,15 @@ public class NotificationManager {
         notificationObjects.add(newObject);
     }
 
+    public void registerNewNotificationRemoveIfDuplicate(NotificationImpl item) {
+        NotificationObject notificationObjectByItem = findNotificationObjectByItem(item);
+        if (notificationObjectByItem == null) {
+            NotificationObject newObject = new NotificationObject(item, Constants.APP_STATE.STATE_DOWNLOADING, createNotification(item));
+            showNotification(newObject);
+            notificationObjects.add(newObject);
+        }
+    }
+
     public void registerCallback(NotificationImpl item, NotificationManagerCallbacks callbacks) {
         this.callbacks.add(Pair.create(item.getId(), callbacks));
         NotificationObject notificationObject = findNotificationObjectByItem(item);
@@ -55,18 +64,18 @@ public class NotificationManager {
     public NotificationObject findNotificationObjectByItem(NotificationImpl item) {
         for (Pair<Integer, NotificationManagerCallbacks> callback : this.callbacks) {
             if (callback.first == item.getId()) {
-                return getNotificationObjectByApp(item);
+                return getNotificationObjectByItem(item);
             }
         }
         return null;
     }
 
     public boolean isCallbackAlreadyRegistered(NotificationImpl item) {
-        NotificationObject notificationObjectByApp = getNotificationObjectByApp(item);
+        NotificationObject notificationObjectByApp = getNotificationObjectByItem(item);
         return notificationObjectByApp != null;
     }
 
-    private NotificationObject getNotificationObjectByApp(NotificationImpl item) {
+    private NotificationObject getNotificationObjectByItem(NotificationImpl item) {
         for (NotificationObject object : notificationObjects) {
             if (object.getItem().getId() == item.getId()) {
                 return object;
@@ -77,7 +86,7 @@ public class NotificationManager {
 
     public void downloadCompleteWithError(NotificationImpl item, Exception exception) {
 
-        NotificationObject notificationObject = getNotificationObjectByApp(item);
+        NotificationObject notificationObject = getNotificationObjectByItem(item);
         if (notificationObject != null) {
             notificationObject.setCurrentState(Constants.APP_STATE.STATE_DOWNLOAD_ERROR);
             reportDownloadFailUpdate(notificationObject, exception.getMessage());
@@ -88,7 +97,7 @@ public class NotificationManager {
     }
 
     public void downloadCompleteWithoutError(NotificationImpl item) {
-        NotificationObject notificationObject = getNotificationObjectByApp(item);
+        NotificationObject notificationObject = getNotificationObjectByItem(item);
         if (notificationObject != null) {
             notificationObject.setCurrentState(Constants.APP_STATE.STATE_DOWNLOADED_NOT_INSTALLED);
             showNotification(notificationObject);
@@ -104,7 +113,7 @@ public class NotificationManager {
     }
 
     public void updateProgress(App app, int progress) {
-        NotificationObject notificationObject = getNotificationObjectByApp(app);
+        NotificationObject notificationObject = getNotificationObjectByItem(app);
         if (notificationObject == null) return;
         if (notificationObject.getProgress() == progress) return;
         notificationObject.setProgress(progress);
@@ -114,7 +123,7 @@ public class NotificationManager {
     }
 
     public void updateText(NotificationImpl item, String text) {
-        NotificationObject notificationObject = getNotificationObjectByApp(item);
+        NotificationObject notificationObject = getNotificationObjectByItem(item);
         if (notificationObject == null) return;
         notificationObject.getNotificationBuilder().setContentText(text);
         showNotification(notificationObject);
@@ -130,8 +139,8 @@ public class NotificationManager {
         return notificationBuilder;
     }
 
-    private void cancelNotification(NotificationImpl item) {
-        NotificationObject notificationObject = getNotificationObjectByApp(item);
+    public void cancelNotification(NotificationImpl item) {
+        NotificationObject notificationObject = getNotificationObjectByItem(item);
         if (notificationObject == null) return;
 
         Context context = Application.getInstance().getApplicationContext();
@@ -142,13 +151,23 @@ public class NotificationManager {
 
     private NotificationCompat.Builder createNotification(NotificationImpl item) {
         Context context = Application.getInstance().getApplicationContext();
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
-        notificationBuilder
-                .setContentTitle(item.getTitleName())
-                .setSmallIcon(android.R.drawable.stat_sys_download)
-                .setTicker("");
-        notificationBuilder.setProgress(100, 0, false); // show progress
-        return notificationBuilder;
+        if (item instanceof App) {
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "app_channel");
+            notificationBuilder
+                    .setContentTitle(item.getTitleName())
+                    .setSmallIcon(android.R.drawable.stat_sys_download)
+                    .setTicker("");
+            notificationBuilder.setProgress(100, 0, false); // show progress
+            return notificationBuilder;
+        } else {
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "transaction_channel");
+            notificationBuilder
+                    .setContentTitle(item.getTitleName())
+                    .setSmallIcon(android.R.drawable.stat_sys_download)
+                    .setTicker("");
+            notificationBuilder.setProgress(100, 0, true); // show progress
+            return notificationBuilder;
+        }
     }
 
     private void showNotification(NotificationObject notificationObject) {

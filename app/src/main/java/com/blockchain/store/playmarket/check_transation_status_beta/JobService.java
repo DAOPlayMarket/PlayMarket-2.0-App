@@ -4,6 +4,7 @@ import android.app.job.JobParameters;
 import android.os.PersistableBundle;
 import android.util.Log;
 
+import com.blockchain.store.playmarket.data.entities.TransactionNotification;
 import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 
@@ -23,6 +24,7 @@ public class JobService extends android.app.job.JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         Log.d(TAG, "onStartJob: ");
+        NotificationManager.getManager().registerNewNotification(new TransactionNotification(params.getJobId()));
         PersistableBundle extras = params.getExtras();
         String transactionHash = extras.getString(Constants.JOB_HASH_EXTRA);
         Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
@@ -35,12 +37,11 @@ public class JobService extends android.app.job.JobService {
     }
 
     private void onTransactionReady(EthGetTransactionReceipt result, JobParameters params) {
+        Log.d(TAG, "onTransactionReady: " + params.getJobId());
         if (result.getTransactionReceipt() != null && result.getTransactionReceipt().getStatus().contains("1")) {
-            //todo remove notification
-//            NotificationManager.getManager().registerNewNotification();
+            NotificationManager.getManager().cancelNotification(new TransactionNotification(params.getJobId()));
             jobFinished(params, false);
         } else {
-            // todo create or update notification.
             jobFinished(params, true);
         }
     }

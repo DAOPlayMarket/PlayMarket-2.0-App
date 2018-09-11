@@ -17,10 +17,13 @@ public class JobUtils {
     public static void schduleJob(Context context, String transactionHash) {
         ComponentName jobService = new ComponentName(context, JobService.class);
         JobInfo.Builder exerciseJobBuilder = new JobInfo.Builder(jobId++, jobService);
+        exerciseJobBuilder.setMinimumLatency(TimeUnit.SECONDS.toMillis(1));
+        exerciseJobBuilder.setOverrideDeadline(TimeUnit.SECONDS.toMillis(5));
         exerciseJobBuilder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED);
         exerciseJobBuilder.setRequiresDeviceIdle(false);
         exerciseJobBuilder.setRequiresCharging(false);
         exerciseJobBuilder.setBackoffCriteria(TimeUnit.SECONDS.toMillis(5), JobInfo.BACKOFF_POLICY_LINEAR);
+
 
         addExtras(exerciseJobBuilder, transactionHash);
 

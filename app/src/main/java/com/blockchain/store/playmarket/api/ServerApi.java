@@ -100,10 +100,6 @@ public interface ServerApi {
     @POST("get-apps-by-package-name")
     Observable<ArrayList<App>> getAppsByPackage(@Field("packageNameArr") String arrayOfString);
 
-
-    @GET("api/availability")
-    Call<AvailabilityResponse> checkAvailability();
-
     @FormUrlEncoded()
     @POST("get-exchange-rate")
     Call<ExchangeRate> getExchangeRate(@Field("currency") String currency);
@@ -119,9 +115,6 @@ public interface ServerApi {
     @FormUrlEncoded()
     @POST("get-current-info")
     Observable<CurrentInfo> getCurrentInfo(@Field("address") String addressICO);
-
-
-
 
     @GET("https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40playmarket2.0&api_key=bxtxvdt126inutffjskughyxigwfdb1er03qhvsk")
     Observable<PlaymarketFeed> getPlaymarketNews();
