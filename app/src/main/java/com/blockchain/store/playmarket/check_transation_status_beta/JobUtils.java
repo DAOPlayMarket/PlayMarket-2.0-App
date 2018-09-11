@@ -14,8 +14,8 @@ public class JobUtils {
     private static final String TAG = "JobUtils";
     private static int jobId = 0;
 
-    public static void schduleJob(Context context, String transactionHash) {
-        ComponentName jobService = new ComponentName(context, JobService.class);
+    public static void scheduleJob(Context context, String transactionHash) {
+        ComponentName jobService = new ComponentName(context, GetTransactionStatusJobService.class);
         JobInfo.Builder exerciseJobBuilder = new JobInfo.Builder(jobId++, jobService);
         exerciseJobBuilder.setMinimumLatency(TimeUnit.SECONDS.toMillis(1));
         exerciseJobBuilder.setOverrideDeadline(TimeUnit.SECONDS.toMillis(5));

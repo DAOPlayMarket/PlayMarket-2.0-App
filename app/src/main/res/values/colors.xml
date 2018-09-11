@@ -63,6 +63,7 @@
     <color name="about_color">#FEB3E5</color>
     <color name="item_active_bg">#CCD0D1</color>
     <color name="bottom_items_bg">#E7E7E7</color>
+    <color name="history_items_bg">#AFC5FD</color>
 
     <!--User review colors-->
     <color name="review_title_text_color">#67b7b5</color>

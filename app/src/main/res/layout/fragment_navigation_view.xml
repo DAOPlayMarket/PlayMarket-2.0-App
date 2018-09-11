@@ -155,7 +155,7 @@
                 android:id="@+id/include2"
                 layout="@layout/nav_view_items"
                 android:layout_width="wrap_content"
-                android:layout_height="518dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@+id/balance_icon"
                 app:layout_constraintTop_toBottomOf="@id/view_divider" />
 

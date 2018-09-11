@@ -186,7 +186,7 @@
             android:screenOrientation="portrait" />
 
         <service
-            android:name=".check_transation_status_beta.JobService"
+            android:name=".check_transation_status_beta.GetTransactionStatusJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
     </application>

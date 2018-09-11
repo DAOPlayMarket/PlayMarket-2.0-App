@@ -40,6 +40,12 @@ public class Constants {
             public String toString() {
                 return "transfer token";
             }
+        },
+        SEND_REVIEW {
+            @Override
+            public String toString() {
+                return "send review";
+            }
         }
 
     }

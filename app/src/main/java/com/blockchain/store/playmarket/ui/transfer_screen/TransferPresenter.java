@@ -78,12 +78,10 @@ public class TransferPresenter implements TransferContract.Presenter {
     }
 
     private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
-        Log.d("transfer", purchaseAppResponse.hash);
         view.closeTransferActivity();
     }
 
     private void transferFailed(Throwable throwable) {
-        Log.d("transfer", throwable.getMessage());
         view.showToast(throwable.getMessage());
     }
 
@@ -95,7 +93,6 @@ public class TransferPresenter implements TransferContract.Presenter {
                     accountInfo.first.count,
                     new BigInt(Long.parseLong(accountInfo.second)),
                     app, accountInfo.first.adrNode);
-            Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -124,7 +121,6 @@ public class TransferPresenter implements TransferContract.Presenter {
                     transferAmount,
                     recipientAddress,
                     icoAddress);
-            Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
         } catch (Exception e) {
             e.printStackTrace();
 

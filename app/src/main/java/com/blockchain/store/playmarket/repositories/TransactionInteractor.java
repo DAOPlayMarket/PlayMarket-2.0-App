@@ -7,7 +7,7 @@ import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 public class TransactionInteractor {
 
     public static PurchaseAppResponse mapWithJobSchedule(PurchaseAppResponse response) {
-        JobUtils.schduleJob(Application.getInstance().getApplicationContext(), response.hash);
+        JobUtils.scheduleJob(Application.getInstance().getApplicationContext(), response.hash);
         return response;
 
     }

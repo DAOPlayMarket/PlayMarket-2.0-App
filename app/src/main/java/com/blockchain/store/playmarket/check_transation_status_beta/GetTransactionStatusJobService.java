@@ -18,7 +18,7 @@ import rx.schedulers.Schedulers;
 
 import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA;
 
-public class JobService extends android.app.job.JobService {
+public class GetTransactionStatusJobService extends android.app.job.JobService {
     private static final String TAG = "JobService";
 
     @Override
