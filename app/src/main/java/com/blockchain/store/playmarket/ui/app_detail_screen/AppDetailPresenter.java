@@ -334,7 +334,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
             e.printStackTrace();
 
         }
-        return RestApi.getServerApi().purchaseApp(rawTransaction);
+        return RestApi.getServerApi().deployTransaction(rawTransaction);
 
     }
 
@@ -351,7 +351,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
             e.printStackTrace();
 
         }
-        return RestApi.getServerApi().deployTransaction(rawTransaction, null);
+        return RestApi.getServerApi().deployTransaction(rawTransaction);
 
     }
 

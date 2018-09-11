@@ -50,7 +50,7 @@ public class TransferPresenter implements TransferContract.Presenter {
         accountInfoResponseObservable
                 .flatMap(accountInfoResponse -> {
                     String transaction = generateTransaction(accountInfoResponse, transferAmount, recipientAddress);
-                    return RestApi.getServerApi().transferTheAmount(transaction);
+                    return RestApi.getServerApi().deployTransaction(transaction);
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -102,7 +102,7 @@ public class TransferPresenter implements TransferContract.Presenter {
             e.printStackTrace();
 
         }
-        return RestApi.getServerApi().purchaseApp(rawTransaction);
+        return RestApi.getServerApi().deployTransaction(rawTransaction);
 
     }
 
@@ -130,6 +130,6 @@ public class TransferPresenter implements TransferContract.Presenter {
             e.printStackTrace();
 
         }
-        return RestApi.getServerApi().deployTransaction(rawTransaction, null);
+        return RestApi.getServerApi().deployTransaction(rawTransaction);
     }
 }

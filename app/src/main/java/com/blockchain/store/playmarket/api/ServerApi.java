@@ -66,6 +66,10 @@ public interface ServerApi {
     Observable<PurchaseAppResponse> deployTransaction(@Field("signedTransactionData") String transactionData, @Field("type") String transactionType);
 
     @FormUrlEncoded
+    @POST("deploy")
+    Observable<PurchaseAppResponse> deployTransaction(@Field("signedTransactionData") String transactionData);
+
+    @FormUrlEncoded
     @POST("check-buy")
     Observable<Boolean> checkPurchase(@Field("idApp") String appId, @Field("address") String address);
 

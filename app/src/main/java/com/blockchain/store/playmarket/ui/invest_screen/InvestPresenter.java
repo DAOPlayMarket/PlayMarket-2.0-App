@@ -58,7 +58,7 @@ public class InvestPresenter implements InvestContract.Presenter {
             e.printStackTrace();
 
         }
-        return RestApi.getServerApi().investApp(rawTransaction);
+        return RestApi.getServerApi().deployTransaction(rawTransaction);
 
     }
 

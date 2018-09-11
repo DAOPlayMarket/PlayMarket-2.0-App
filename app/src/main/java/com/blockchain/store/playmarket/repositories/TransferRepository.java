@@ -23,7 +23,7 @@ public class TransferRepository {
                 .flatMap(accountInfoResponse -> {
                     if (unlockAccount(password)) {
                         String transaction = generateTransaction(accountInfoResponse, transferAmountInWei, recipientAddress);
-                        return RestApi.getServerApi().transferTheAmount(transaction);
+                        return RestApi.getServerApi().deployTransaction(transaction);
                     } else {
                         throw new IllegalArgumentException(RemoteService.WRONG_PASSWORD_ERROR);
                     }
