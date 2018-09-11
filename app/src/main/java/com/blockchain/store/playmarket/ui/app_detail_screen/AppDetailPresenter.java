@@ -16,8 +16,8 @@ import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
 import com.blockchain.store.playmarket.notification.NotificationManager;
-import com.blockchain.store.playmarket.repositories.TransactionRepository;
-import com.blockchain.store.playmarket.repositories.TransactionRepository.TransactionRepositoryCallback;
+import com.blockchain.store.playmarket.repositories.TransactionInteractor;
+import com.blockchain.store.playmarket.repositories.TransactionInteractor.TransactionRepositoryCallback;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
@@ -241,24 +241,12 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     @Override
     public void onPurchasedClicked(AppInfo appInfo) {
-
-        Observable<PurchaseAppResponse> purchaseAppResponseObservable = RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
+        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
                 .flatMap(this::mapAppBuyTransaction)
+                .map(TransactionInteractor::mapWithJobSchedule)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
-        TransactionRepository transactionRepository = new TransactionRepository();
-        transactionRepository.proceedSubscription(purchaseAppResponseObservable, new TransactionRepositoryCallback() {
-            @Override
-            public void onTransactionReady(PurchaseAppResponse purchaseAppResponse) {
-                onPurchaseSuccessful(purchaseAppResponse);
-            }
-
-            @Override
-            public void onTransactionError(Throwable throwable) {
-                onPurchaseError(throwable);
-            }
-        });
     }
 
     public void onSendReviewClicked(String review, String vote) {
@@ -270,16 +258,13 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
     private void sendReview(String review, String vote, String txIndex) {
-        Observable<PurchaseAppResponse> purchaseAppResponseObservable = RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
+        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
-//                .flatMap(pair -> mapReviewCreationTransaction(pair, review, vote, txIndex))
-                .flatMap(pair -> RestApi.getServerApi().deployTransaction(null))
+                .flatMap(pair -> mapReviewCreationTransaction(pair, review, vote, txIndex))
+                .map(TransactionInteractor::mapWithJobSchedule)
                 .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
-        purchaseAppResponseObservable
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onReviewSendSuccessfully, this::onReviewSendFailed);
-
-
     }
 
     private void onReviewSendSuccessfully(PurchaseAppResponse purchaseAppResponse) {

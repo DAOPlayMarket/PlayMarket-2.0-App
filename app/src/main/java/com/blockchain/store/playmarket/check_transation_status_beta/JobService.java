@@ -39,7 +39,7 @@ public class JobService extends android.app.job.JobService {
     private void onTransactionReady(EthGetTransactionReceipt result, JobParameters params) {
         Log.d(TAG, "onTransactionReady: " + params.getJobId());
         if (result.getTransactionReceipt() != null && result.getTransactionReceipt().getStatus().contains("1")) {
-            NotificationManager.getManager().cancelNotification(new TransactionNotification(params.getJobId()));
+            NotificationManager.getManager().downloadCompleteWithoutError(new TransactionNotification(params.getJobId()));
             jobFinished(params, false);
         } else {
             jobFinished(params, true);

@@ -28,6 +28,7 @@ public class TransferRepository {
                         throw new IllegalArgumentException(RemoteService.WRONG_PASSWORD_ERROR);
                     }
                 })
+                .map(TransactionInteractor::mapWithJobSchedule)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
 

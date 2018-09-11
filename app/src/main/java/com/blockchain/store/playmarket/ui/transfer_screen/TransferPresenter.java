@@ -5,19 +5,16 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.blockchain.store.playmarket.Application;
-import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
-import com.blockchain.store.playmarket.check_transation_status_beta.JobUtils;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.repositories.TransactionInteractor;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
-import org.ethereum.geth.Account;
 import org.ethereum.geth.BigInt;
 
-import io.ethmobile.ethdroid.KeyManager;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -52,6 +49,7 @@ public class TransferPresenter implements TransferContract.Presenter {
                     String transaction = generateTransaction(accountInfoResponse, transferAmount, recipientAddress);
                     return RestApi.getServerApi().deployTransaction(transaction);
                 })
+                .map(TransactionInteractor::mapWithJobSchedule)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::transferSuccess, this::transferFailed);
@@ -73,6 +71,7 @@ public class TransferPresenter implements TransferContract.Presenter {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
                 .flatMap(result -> mapAppBuyTransaction(result, app))
+                .map(TransactionInteractor::mapWithJobSchedule)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::transferSuccess, this::transferFailed);
@@ -80,7 +79,6 @@ public class TransferPresenter implements TransferContract.Presenter {
 
     private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
         Log.d("transfer", purchaseAppResponse.hash);
-        JobUtils.schduleJob(context, purchaseAppResponse.hash);
         view.closeTransferActivity();
     }
 
@@ -110,6 +108,7 @@ public class TransferPresenter implements TransferContract.Presenter {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
                 .flatMap(result -> mapTokenTransfer(result, transferAmount, recipientAddress, icoAddress))
+                .map(TransactionInteractor::mapWithJobSchedule)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::transferSuccess, this::transferFailed);

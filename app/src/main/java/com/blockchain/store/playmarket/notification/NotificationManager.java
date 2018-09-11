@@ -102,10 +102,12 @@ public class NotificationManager {
             notificationObject.setCurrentState(Constants.APP_STATE.STATE_DOWNLOADED_NOT_INSTALLED);
             showNotification(notificationObject);
             reportCompleteUpdate(notificationObject);
-            cancelNotification(item);
+//            cancelNotification(item);
+            updateNotificationWithSuccess(item);
             removeNotificationObject(notificationObject);
         }
     }
+
 
     private void removeNotificationObject(NotificationObject notificationObject) {
         if (notificationObjects.isEmpty()) return;
@@ -147,6 +149,17 @@ public class NotificationManager {
         android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationObject.getNotificationBuilder().setProgress(0, 0, false);
         notificationManager.notify(item.getId(), notificationObject.getNotificationBuilder().build());
+
+    }
+
+    private void updateNotificationWithSuccess(NotificationImpl item) {
+        NotificationObject notificationObject = getNotificationObjectByItem(item);
+        if (notificationObject == null) return;
+        Context context = Application.getInstance().getApplicationContext();
+        android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationObject.getNotificationBuilder().setProgress(0, 0, false);
+
+        notificationManager.notify(item.getId(), notificationObject.getNotificationBuilder().setSmallIcon(android.R.drawable.stat_sys_download_done).build());
     }
 
     private NotificationCompat.Builder createNotification(NotificationImpl item) {
@@ -196,6 +209,7 @@ public class NotificationManager {
     private void reportCompleteUpdate(NotificationObject notificationObject) {
         for (Pair<Integer, NotificationManagerCallbacks> object : this.callbacks) {
             if (object.first == notificationObject.getItem().getId()) {
+
                 object.second.onAppDownloadSuccessful((App) notificationObject.getItem());
             }
         }

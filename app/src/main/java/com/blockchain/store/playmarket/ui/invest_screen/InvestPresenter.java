@@ -9,6 +9,7 @@ import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.CurrentInfo;
 import com.blockchain.store.playmarket.data.entities.InvestAddressResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.repositories.TransactionInteractor;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
@@ -36,6 +37,7 @@ public class InvestPresenter implements InvestContract.Presenter {
         String account = AccountManager.getAddress().getHex();
         RestApi.getServerApi().getAccountInfo(account)
                 .flatMap(accountInfo -> mapInvestTransaction(accountInfo, investAmount))
+                .map(TransactionInteractor::mapWithJobSchedule)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onInvestSuccessful, this::onPurchaseError);
