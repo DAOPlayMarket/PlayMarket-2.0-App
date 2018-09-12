@@ -99,6 +99,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         public void bind(UserReview userReview, int position) {
+            ViewGroup.MarginLayoutParams contraintParmas = (ViewGroup.MarginLayoutParams) constraintLayout.getLayoutParams();
             constraintLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -109,6 +110,12 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     }
                 }
             });
+
+            if (userReview.isTxIndexIsEmpty()) {
+//                contraintParmas.setMargins();
+            } else {
+
+            }
             userCommentary.setText(userReview.description);
             userName.setText(userReview.voter);
             try {

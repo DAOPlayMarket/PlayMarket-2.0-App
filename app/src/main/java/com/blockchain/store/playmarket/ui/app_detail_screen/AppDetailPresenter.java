@@ -290,7 +290,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     private void sortUserReviews(ArrayList<UserReview> userReviews) {
         ArrayList<SortedUserReview> newUserReviews = new ArrayList<>();
-
+        Log.d(TAG, "sortUserReviews: " + userReviews);
         for (UserReview review : userReviews) {
             if (review.isTxIndexIsEmpty()) {
                 SortedUserReview sortedUserReview = new SortedUserReview();
@@ -298,6 +298,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 newUserReviews.add(sortedUserReview);
             }
         }
+        Log.d(TAG, "1st step: " + newUserReviews);
         for (SortedUserReview sortedUserReview : newUserReviews) {
             for (UserReview review : userReviews) {
                 if (sortedUserReview.userReview.txIndexOrigin.equalsIgnoreCase(review.txIndex)) {
@@ -305,7 +306,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 }
             }
         }
-
+        Log.d(TAG, "2nd step: " + newUserReviews);
 
         ArrayList<UserReview> sortedUserReview = new ArrayList<>();
         for (SortedUserReview review : newUserReviews) {
@@ -315,6 +316,8 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 sortedUserReview.add(userReview);
             }
         }
+
+        Log.d(TAG, "3nd step: " + sortedUserReview);
         view.onReviewsReady(sortedUserReview);
 
     }

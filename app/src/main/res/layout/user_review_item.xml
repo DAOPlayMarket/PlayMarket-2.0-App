@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="6dp"
-    android:layout_marginLeft="6dp"
+    android:layout_marginLeft="@dimen/USER_REVIEW_LEFT_MARGIN_BASIC"
     android:layout_marginRight="40dp"
     android:layout_marginTop="6dp"
     android:animateLayoutChanges="true"
