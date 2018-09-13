@@ -6,6 +6,7 @@ package com.blockchain.store.playmarket.utilities;
 
 public class Constants {
 
+
     /* Job service extra*/
     public static String JOB_HASH_EXTRA = "job_hash_extra";
 
@@ -77,6 +78,7 @@ public class Constants {
 
     public static final String LOCAL_NODE_ADDRESS = "0xa10e1b2255d3ec6d0fc379518c579a5f3caa9c42";
 
+    public static final String TRANSACTION_MODEL_KEY = "transaction_model_key";
 
     /*Settings prefs*/
     public static final String CURRENT_CURRENCY = "current_currency";

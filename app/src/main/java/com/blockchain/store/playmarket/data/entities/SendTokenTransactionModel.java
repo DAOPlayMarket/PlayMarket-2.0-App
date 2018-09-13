@@ -5,8 +5,8 @@ public class SendTokenTransactionModel extends TransactionModel {
     public String addressFrom;
     public String addressTo;
     public String tokenCurrency;
-    public Long timeStamp;
 
     public String wasTokenBeforeTransaction;
+
 
 }
