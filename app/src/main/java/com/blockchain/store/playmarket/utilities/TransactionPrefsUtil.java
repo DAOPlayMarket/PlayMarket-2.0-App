@@ -1,5 +1,7 @@
 package com.blockchain.store.playmarket.utilities;
 
+import android.util.Log;
+
 import com.blockchain.store.playmarket.data.entities.TransactionModel;
 import com.orhanobut.hawk.Hawk;
 
@@ -15,8 +17,12 @@ public class TransactionPrefsUtil {
             return;
         }
         ArrayList<TransactionModel> storedTransactionModels = getStoredTransactionModels();
-        storedTransactionModels.add(transactionModel);
+        storedTransactionModels.add(0, transactionModel);
         saveModels(storedTransactionModels);
+
+
+        ArrayList<TransactionModel> storedTransactionModels2 = getStoredTransactionModels();
+        Log.d("", "addToSharePrefs: ");
     }
 
 
