@@ -8,7 +8,7 @@ public class SendEthereumTransactionModel extends TransactionModel {
     public String addressTo;
 
     @Override
-    public Constants.TransactionTypes getTransactionStatus() {
+    public Constants.TransactionTypes getTransactionType() {
         return Constants.TransactionTypes.TRANSFER;
     }
 }

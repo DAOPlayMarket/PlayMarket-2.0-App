@@ -6,7 +6,7 @@ import com.blockchain.store.playmarket.utilities.Constants.TransactionStatus;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 public abstract class TransactionModel {
-    public abstract Constants.TransactionTypes getTransactionStatus();
+    public abstract Constants.TransactionTypes getTransactionType();
 
     public TransactionStatus transactionStatus = TransactionStatus.PENDING;
     public TransactionReceipt transactionReceipt;

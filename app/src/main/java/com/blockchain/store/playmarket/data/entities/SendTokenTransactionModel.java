@@ -10,7 +10,7 @@ public class SendTokenTransactionModel extends TransactionModel {
     public String addressTo;
 
     @Override
-    public Constants.TransactionTypes getTransactionStatus() {
+    public Constants.TransactionTypes getTransactionType() {
         return Constants.TransactionTypes.TRANSFER_TOKEN;
     }
 }

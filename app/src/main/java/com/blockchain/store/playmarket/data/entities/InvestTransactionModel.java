@@ -7,7 +7,7 @@ public class InvestTransactionModel extends TransactionModel {
     public String price;
 
     @Override
-    public Constants.TransactionTypes getTransactionStatus() {
+    public Constants.TransactionTypes getTransactionType() {
         return Constants.TransactionTypes.INVEST;
     }
 }

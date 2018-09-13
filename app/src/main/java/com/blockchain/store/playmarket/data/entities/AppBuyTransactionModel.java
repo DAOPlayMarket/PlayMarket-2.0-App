@@ -7,7 +7,7 @@ public class AppBuyTransactionModel extends TransactionModel {
     public App boughtApp;
 
     @Override
-    public Constants.TransactionTypes getTransactionStatus() {
+    public Constants.TransactionTypes getTransactionType() {
         return Constants.TransactionTypes.BUY_APP;
     }
 }

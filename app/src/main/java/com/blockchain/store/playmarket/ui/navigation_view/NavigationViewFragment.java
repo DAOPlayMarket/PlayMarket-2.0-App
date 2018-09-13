@@ -24,6 +24,7 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.activity_screen.NewsActivity;
 import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
 import com.blockchain.store.playmarket.ui.my_ico_screen.MyIcoActivity;
+import com.blockchain.store.playmarket.ui.transaction_history_screen.TransactionHistoryActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.about_screen.AboutAppActivity;
@@ -148,6 +149,12 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     void onMyIcoClicked() {
         closeDrawers();
         startActivity(new Intent(getActivity(), MyIcoActivity.class));
+    }
+
+    @OnClick(R.id.nav_view_history)
+    void onHistoryClicked() {
+        closeDrawers();
+        startActivity(new Intent(getActivity(), TransactionHistoryActivity.class));
     }
 
 

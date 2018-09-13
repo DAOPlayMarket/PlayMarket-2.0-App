@@ -6,7 +6,7 @@ public class SendReviewTransactionModel extends TransactionModel {
     public AppInfo app;
 
     @Override
-    public Constants.TransactionTypes getTransactionStatus() {
+    public Constants.TransactionTypes getTransactionType() {
         return Constants.TransactionTypes.SEND_REVIEW;
     }
 }
