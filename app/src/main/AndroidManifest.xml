@@ -189,6 +189,7 @@
             android:name=".check_transation_status_beta.GetTransactionStatusJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
+        <activity android:name=".ui.transaction_history_screen.TransactionHistoryActivity"></activity>
     </application>
 
 </manifest>

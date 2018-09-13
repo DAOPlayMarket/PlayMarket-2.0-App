@@ -3,12 +3,11 @@ package com.blockchain.store.playmarket.check_transation_status_beta;
 import android.app.job.JobParameters;
 import android.os.PersistableBundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.blockchain.store.playmarket.data.entities.TransactionNotification;
 import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.utilities.Constants;
-import com.blockchain.store.playmarket.utilities.SharedPrefsUtils;
+import com.blockchain.store.playmarket.utilities.TransactionPrefsUtil;
 
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
@@ -39,17 +38,10 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
     }
 
     private void onTransactionReady(EthGetTransactionReceipt result, JobParameters params) {
-        Log.d(TAG, "onTransactionReady: " + params.getJobId());
         if (result.getTransactionReceipt() != null) {
             jobFinished(params, false);
             NotificationManager.getManager().downloadCompleteWithoutError(new TransactionNotification(params.getJobId()));
-            SharedPrefsUtils.updateModel(result.getTransactionReceipt());
-            /*
-            unused. Shows the results of transaction. 0x1 - succeed. 0x0 - fails.
-            if (result.getTransactionReceipt().getStatus().contains("1")) {
-            } else {
-            }
-            */
+            TransactionPrefsUtil.updateModel(result.getTransactionReceipt());
         } else {
             jobFinished(params, true);
         }

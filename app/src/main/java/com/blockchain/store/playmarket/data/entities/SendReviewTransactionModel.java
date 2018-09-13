@@ -3,7 +3,6 @@ package com.blockchain.store.playmarket.data.entities;
 import com.blockchain.store.playmarket.utilities.Constants;
 
 public class SendReviewTransactionModel extends TransactionModel {
-    public String reviewText;
     public AppInfo app;
 
     @Override

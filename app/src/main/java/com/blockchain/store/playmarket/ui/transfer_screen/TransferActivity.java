@@ -12,6 +12,7 @@ import android.widget.Button;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.SendTokenTransactionModel;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.transfer_screen.transfer_confirm_screen.TransferConfirmFragment;
 import com.blockchain.store.playmarket.ui.transfer_screen.transfer_info_screen.TransferInfoFragment;
@@ -139,7 +140,8 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
                     double pow = Math.pow(10, Double.parseDouble(appInfo.icoBalance.decimals));
                     Long totalTokens = (long) (Double.parseDouble(transferAmount) * pow);
                     String transformedAmount = totalTokens.toString();
-                    presenter.createTransferTokenTransaction(transformedAmount, recipientAddress, appInfo.adrICO);
+                    presenter.createTransferTokenTransaction(transformedAmount, recipientAddress, appInfo.adrICO,
+                            createTokenTransactionModel(transformedAmount));
                     return;
                 }
                 if (isEth)
@@ -155,6 +157,14 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
                 transferConfirmFragment.showError();
             }
         }
+    }
+
+    private SendTokenTransactionModel createTokenTransactionModel(String transformedAmount) {
+        SendTokenTransactionModel transactionModel = new SendTokenTransactionModel();
+        transactionModel.tokenCount = transformedAmount;
+        transactionModel.tokenCurrency = transferViewModel.tokenName.getValue();
+        transactionModel.wasTokenBeforeTransaction = appInfo.icoBalance.getTokenCount();
+        return transactionModel;
     }
 
     @OnClick(R.id.cancel_transfer_button)

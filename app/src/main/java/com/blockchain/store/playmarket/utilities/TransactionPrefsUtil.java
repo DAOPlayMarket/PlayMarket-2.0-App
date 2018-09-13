@@ -7,7 +7,7 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.util.ArrayList;
 
-public class SharedPrefsUtils {
+public class TransactionPrefsUtil {
 
 
     public static void addToSharePrefs(TransactionModel transactionModel) {
@@ -24,11 +24,21 @@ public class SharedPrefsUtils {
         TransactionModel transactionModel = findTransactionModel(transactionReceipt.getTransactionHash());
         if (transactionModel != null) {
             transactionModel.transactionReceipt = transactionReceipt;
+            transactionModel.transactionStatus = (transactionReceipt.getStatus().contains("1")
+                    ? Constants.TransactionStatus.SUCCEES : Constants.TransactionStatus.FAILED);
         }
         saveModels(transactionModel);
     }
 
-    private static ArrayList<TransactionModel> getStoredTransactionModels() {
+    public static void updateTransactionStatus(String transactionHash, Constants.TransactionStatus status) {
+        TransactionModel transactionModel = findTransactionModel(transactionHash);
+        if (transactionModel != null) {
+            transactionModel.transactionStatus = status;
+        }
+        saveModels(transactionModel);
+    }
+
+    public static ArrayList<TransactionModel> getStoredTransactionModels() {
         if (Hawk.contains(Constants.TRANSACTION_MODEL_KEY)) {
             return Hawk.get(Constants.TRANSACTION_MODEL_KEY);
         } else {

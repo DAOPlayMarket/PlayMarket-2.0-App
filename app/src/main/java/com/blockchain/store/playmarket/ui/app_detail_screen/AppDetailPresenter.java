@@ -9,8 +9,10 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
+import com.blockchain.store.playmarket.data.entities.AppBuyTransactionModel;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.data.entities.SendReviewTransactionModel;
 import com.blockchain.store.playmarket.data.entities.SortedUserReview;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
@@ -44,6 +46,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     private Constants.APP_STATE appState = Constants.APP_STATE.STATE_UNKOWN;
     private View view;
     private App app;
+    private AppInfo appInfo;
 
     @Override
     public void init(View view) {
@@ -67,6 +70,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
 
     private void onDetailedInfoReady(Pair<AppInfo, Boolean> pair) {
+        this.appInfo = pair.first;
         if (app.adrICO != null) {
             RestApi.getServerApi().getCurrentInfo(app.adrICO)
                     .subscribeOn(Schedulers.newThread())
@@ -240,12 +244,15 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     @Override
     public void onPurchasedClicked(AppInfo appInfo) {
-        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-                .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
-                .flatMap(this::mapAppBuyTransaction)
-                .map(TransactionInteractor::mapWithJobSchedule)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+//        AppBuyTransactionModel transactionModel = new AppBuyTransactionModel();
+//        transactionModel.boughtApp = appInfo;
+//
+//        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
+//                .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
+//                .flatMap(this::mapAppBuyTransaction)
+//                .map(result -> TransactionInteractor.mapWithJobService(result, transactionModel))
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public void onSendReviewClicked(String review, String vote) {
@@ -257,10 +264,12 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
     private void sendReview(String review, String vote, String txIndex) {
+        SendReviewTransactionModel transactionModel = new SendReviewTransactionModel();
+        transactionModel.app = appInfo;
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
                 .flatMap(pair -> mapReviewCreationTransaction(pair, review, vote, txIndex))
-                .map(TransactionInteractor::mapWithJobSchedule)
+                .map(result -> TransactionInteractor.mapWithJobService(result, transactionModel))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onReviewSendSuccessfully, this::onReviewSendFailed);

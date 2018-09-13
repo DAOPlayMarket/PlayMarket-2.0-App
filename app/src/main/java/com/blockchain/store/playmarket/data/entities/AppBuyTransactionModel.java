@@ -4,7 +4,7 @@ import com.blockchain.store.playmarket.utilities.Constants;
 
 public class AppBuyTransactionModel extends TransactionModel {
     public String priceInWei;
-    public AppInfo boughtApp;
+    public App boughtApp;
 
     @Override
     public Constants.TransactionTypes getTransactionStatus() {

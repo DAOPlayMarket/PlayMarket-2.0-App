@@ -8,7 +8,10 @@ import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
+import com.blockchain.store.playmarket.data.entities.AppBuyTransactionModel;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.data.entities.SendEthereumTransactionModel;
+import com.blockchain.store.playmarket.data.entities.SendTokenTransactionModel;
 import com.blockchain.store.playmarket.repositories.TransactionInteractor;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
@@ -43,13 +46,17 @@ public class TransferPresenter implements TransferContract.Presenter {
 
     @Override
     public void createTransaction(String transferAmount, String recipientAddress) {
+        SendEthereumTransactionModel transactionModel = new SendEthereumTransactionModel();
+        transactionModel.priceInWei = transferAmount;
+        transactionModel.addressTo = recipientAddress;
+
         Observable<AccountInfoResponse> accountInfoResponseObservable = RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex());
         accountInfoResponseObservable
                 .flatMap(accountInfoResponse -> {
                     String transaction = generateTransaction(accountInfoResponse, transferAmount, recipientAddress);
                     return RestApi.getServerApi().deployTransaction(transaction);
                 })
-                .map(TransactionInteractor::mapWithJobSchedule)
+                .map(result -> TransactionInteractor.mapWithJobService(result, transactionModel))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::transferSuccess, this::transferFailed);
@@ -68,10 +75,12 @@ public class TransferPresenter implements TransferContract.Presenter {
 
 
     public void createBuyTransaction(App app) {
+        AppBuyTransactionModel transactionModel = new AppBuyTransactionModel();
+        transactionModel.boughtApp = app;
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
                 .flatMap(result -> mapAppBuyTransaction(result, app))
-                .map(TransactionInteractor::mapWithJobSchedule)
+                .map(result -> TransactionInteractor.mapWithJobService(result, transactionModel))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::transferSuccess, this::transferFailed);
@@ -101,11 +110,12 @@ public class TransferPresenter implements TransferContract.Presenter {
 
     }
 
-    public void createTransferTokenTransaction(String transferAmount, String recipientAddress, String icoAddress) {
+    public void createTransferTokenTransaction(String transferAmount, String recipientAddress, String icoAddress, SendTokenTransactionModel tokenTransactionModel) {
+
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
                 .flatMap(result -> mapTokenTransfer(result, transferAmount, recipientAddress, icoAddress))
-                .map(TransactionInteractor::mapWithJobSchedule)
+                .map(result -> TransactionInteractor.mapWithJobService(result, tokenTransactionModel))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::transferSuccess, this::transferFailed);

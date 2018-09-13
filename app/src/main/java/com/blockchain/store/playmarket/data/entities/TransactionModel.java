@@ -9,12 +9,12 @@ public abstract class TransactionModel {
     public abstract Constants.TransactionTypes getTransactionStatus();
 
     public TransactionStatus transactionStatus = TransactionStatus.PENDING;
-
     public TransactionReceipt transactionReceipt;
+
     public String transactionHash;
     public String transactionFee;
-
     public String transactionLink;
 
-    public Long timeStamp;
+    public Long timeStamp = System.currentTimeMillis();
+
 }
