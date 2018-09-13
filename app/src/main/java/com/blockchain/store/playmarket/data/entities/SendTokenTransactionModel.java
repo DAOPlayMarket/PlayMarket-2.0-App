@@ -1,12 +1,16 @@
 package com.blockchain.store.playmarket.data.entities;
 
+import com.blockchain.store.playmarket.utilities.Constants;
+
 public class SendTokenTransactionModel extends TransactionModel {
-    public String tokenCount;
-    public String addressFrom;
-    public String addressTo;
-    public String tokenCurrency;
-
     public String wasTokenBeforeTransaction;
+    public String tokenCurrency;
+    public String addressFrom;
+    public String tokenCount;
+    public String addressTo;
 
-
+    @Override
+    public Constants.TransactionTypes getTransactionStatus() {
+        return Constants.TransactionTypes.TRANSFER_TOKEN;
+    }
 }

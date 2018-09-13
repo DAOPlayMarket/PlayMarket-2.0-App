@@ -20,9 +20,9 @@ public class SharedPrefsUtils {
     }
 
 
-    public static void updateModel(String transactionHash, TransactionReceipt transactionReceipt) {
-        TransactionModel transactionModel = findTransactionModel(transactionHash);
-        if (transactionHash != null) {
+    public static void updateModel(TransactionReceipt transactionReceipt) {
+        TransactionModel transactionModel = findTransactionModel(transactionReceipt.getTransactionHash());
+        if (transactionModel != null) {
             transactionModel.transactionReceipt = transactionReceipt;
         }
         saveModels(transactionModel);

@@ -2,12 +2,12 @@ package com.blockchain.store.playmarket.data.entities;
 
 import com.blockchain.store.playmarket.utilities.Constants;
 
-public class SendReviewTransactionModel extends TransactionModel {
-    public String reviewText;
-    public AppInfo app;
+public class InvestTransactionModel extends TransactionModel {
+    public AppInfo appInfo;
+    public String price;
 
     @Override
     public Constants.TransactionTypes getTransactionStatus() {
-        return Constants.TransactionTypes.SEND_REVIEW;
+        return Constants.TransactionTypes.INVEST;
     }
 }
