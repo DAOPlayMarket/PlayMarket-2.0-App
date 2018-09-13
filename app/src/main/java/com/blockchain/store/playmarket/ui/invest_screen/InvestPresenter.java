@@ -34,37 +34,7 @@ public class InvestPresenter implements InvestContract.Presenter {
 
     @Override
     public void onInvestClicked(AppInfo appInfo, String investAmount) {
-        String account = AccountManager.getAddress().getHex();
-        RestApi.getServerApi().getAccountInfo(account)
-                .flatMap(accountInfo -> mapInvestTransaction(accountInfo, investAmount))
-                .map(TransactionInteractor::mapWithJobSchedule)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onInvestSuccessful, this::onPurchaseError);
-    }
 
-    private Observable<PurchaseAppResponse> mapInvestTransaction(AccountInfoResponse accountInfo, String investCount) {
-        Log.d(TAG, "mapInvestTransaction() called with: accountInfo = [" + accountInfo + "], investCount = [" + investCount + "]");
-        String rawTransaction = "";
-        try {
-//            rawTransaction = CryptoUtils.generateInvestTransactionWithAddress(
-//                    accountInfo.count,
-//                    new BigInt(Long.parseLong(accountInfo.gasPrice)),
-//                    investCount, "0xB268d40843224B539068606Fb9F0dbAFb430D765");
-            Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        return RestApi.getServerApi().deployTransaction(rawTransaction);
-
-    }
-
-    private void onInvestSuccessful(PurchaseAppResponse purchaseAppResponse) {
-    }
-
-
-    private void onPurchaseError(Throwable throwable) {
     }
 
     public void getCurrentInfo(AppInfo appInfo) {

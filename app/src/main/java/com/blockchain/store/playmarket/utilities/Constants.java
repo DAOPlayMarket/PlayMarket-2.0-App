@@ -50,6 +50,10 @@ public class Constants {
 
     }
 
+    public enum TransactionStatus{
+        SUCCEES,FAILED,PENDING
+    }
+
     public static final String WELCOME_ACTIVITY_ADDRESS_EXTRA = "welcome_activity_address_extra";
     public static final String WELCOME_ACTIVITY_IS_LUANCHED_FROM_SETTINGS_EXTRA = "welcome_activity_is_launched_from_settings_extra";
 

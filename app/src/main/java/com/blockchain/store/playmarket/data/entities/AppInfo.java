@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
+import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
  * Created by Crypton04 on 26.01.2018.
  */
 
-public class AppInfo implements Parcelable {
+public class AppInfo implements Parcelable, NotificationImpl {
     private static final String TAG = "App";
 
     @SerializedName("idApp")
@@ -134,6 +135,7 @@ public class AppInfo implements Parcelable {
         }
         return 0;
     }
+
     public int getCurrentStage() {
         long currentTimeUnix = System.currentTimeMillis() / 1000;
         for (int i = 0; i < icoStages.size(); i++) {
@@ -300,5 +302,15 @@ public class AppInfo implements Parcelable {
         app.rating = appInfo.rating;
         app.icoBalance = appInfo.icoBalance;
         return app;
+    }
+
+    @Override
+    public int getId() {
+        return Integer.valueOf(this.appId);
+    }
+
+    @Override
+    public String getTitleName() {
+        return this.nameApp;
     }
 }

@@ -1,30 +1,28 @@
 package com.blockchain.store.playmarket.repositories;
 
+import android.content.Context;
+
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.check_transation_status_beta.JobUtils;
+import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.orhanobut.hawk.Hawk;
 
 public class TransactionInteractor {
 
     public static PurchaseAppResponse mapWithJobSchedule(PurchaseAppResponse response) {
-        JobUtils.scheduleJob(Application.getInstance().getApplicationContext(), response.hash);
+        addToJobSchedule(Application.getInstance().getApplicationContext(), response.hash);
         return response;
 
     }
 
-    private void onTransactionError(Throwable throwable, TransactionRepositoryCallback callback) {
-        callback.onTransactionError(throwable);
+    public static PurchaseAppResponse mapWithJobService(PurchaseAppResponse response, AppInfo appInfo) {
+        addToJobSchedule(Application.getInstance().getApplicationContext(), response.hash);
+        return response;
     }
 
-    private void onTransactionReady(PurchaseAppResponse purchaseAppResponse, TransactionRepositoryCallback callback) {
-        callback.onTransactionReady(purchaseAppResponse);
+    private static void addToJobSchedule(Context applicationContext, String hash) {
+        JobUtils.scheduleJob(Application.getInstance().getApplicationContext(), hash);
     }
 
-
-    public interface TransactionRepositoryCallback {
-
-        void onTransactionReady(PurchaseAppResponse purchaseAppResponse);
-
-        void onTransactionError(Throwable throwable);
-    }
 }

@@ -17,7 +17,6 @@ import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
 import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.repositories.TransactionInteractor;
-import com.blockchain.store.playmarket.repositories.TransactionInteractor.TransactionRepositoryCallback;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;

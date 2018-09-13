@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.UserReview;
@@ -110,6 +111,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     }
                 }
             });
+
 
             if (userReview.isTxIndexIsEmpty()) {
 //                contraintParmas.setMargins();

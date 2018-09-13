@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.check_transation_status_beta;
 import android.app.job.JobParameters;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.blockchain.store.playmarket.data.entities.TransactionNotification;
 import com.blockchain.store.playmarket.notification.NotificationManager;
@@ -38,6 +39,7 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
 
     private void onTransactionReady(EthGetTransactionReceipt result, JobParameters params) {
         Log.d(TAG, "onTransactionReady: " + params.getJobId());
+
         if (result.getTransactionReceipt() != null && result.getTransactionReceipt().getStatus().contains("1")) {
             NotificationManager.getManager().downloadCompleteWithoutError(new TransactionNotification(params.getJobId()));
             jobFinished(params, false);
@@ -48,12 +50,10 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
 
     private void onTransactionError(Throwable throwable, JobParameters params) {
         jobFinished(params, true);
-        Log.d(TAG, "onTransactionError() called with: throwable = [" + throwable + "], params = [" + params + "]");
     }
 
     @Override
     public boolean onStopJob(JobParameters params) {
-        Log.d(TAG, "onStopJob: ");
         return false;
     }
 }
