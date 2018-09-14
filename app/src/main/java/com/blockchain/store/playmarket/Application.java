@@ -1,41 +1,45 @@
 package com.blockchain.store.playmarket;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
-import com.amazonaws.mobile.client.AWSStartupHandler;
-import com.amazonaws.mobile.client.AWSStartupResult;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
 import com.blockchain.store.playmarket.data.content.AppsDispatcher;
 import com.blockchain.store.playmarket.data.content.AppsManager;
+import com.blockchain.store.playmarket.data.entities.AppBuyTransactionModel;
+import com.blockchain.store.playmarket.data.entities.InvestTransactionModel;
+import com.blockchain.store.playmarket.data.entities.SendEthereumTransactionModel;
+import com.blockchain.store.playmarket.data.entities.SendReviewTransactionModel;
+import com.blockchain.store.playmarket.data.entities.SendTokenTransactionModel;
+import com.blockchain.store.playmarket.data.entities.TransactionModel;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.koushikdutta.async.http.AsyncSSLSocketMiddleware;
-import com.koushikdutta.async.http.spdy.SpdyMiddleware;
 import com.koushikdutta.ion.Ion;
 import com.orhanobut.hawk.Hawk;
+import com.orhanobut.hawk.Parser;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.security.KeyStore;
-import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
@@ -51,6 +55,8 @@ import static com.blockchain.store.playmarket.api.RestApi.getSllSocketFactory;
  */
 
 public class Application extends MultiDexApplication {
+    private static final String TAG = "Application";
+
     public static KeyManager keyManager;
     private static AppsDispatcher appsDispatcher;
     private static AppsManager appsManager;
@@ -66,7 +72,47 @@ public class Application extends MultiDexApplication {
         ToastUtil.setContext(this);
         keyManager = KeyManager.newKeyManager(getFilesDir().getAbsolutePath());
         AccountManager.setKeyManager(keyManager);
-        Hawk.init(this).build();
+        Hawk.init(this).setParser(new Parser() {
+            @Override
+            public <T> T fromJson(String content, Type type) throws Exception {
+                if (TextUtils.isEmpty(content)) {
+                    return null;
+                }
+                try {
+                    JsonObject object = new Gson().fromJson(content, JsonObject.class);
+                    Log.d(TAG, "fromJson: ");
+                    if (object.has("TransactionType")) {
+                        int viewType = object.get("TransactionType").getAsInt();
+
+                        if (viewType == Constants.TransactionTypes.BUY_APP.ordinal()) {
+                            return new Gson().fromJson(content, (Class<T>) AppBuyTransactionModel.class);
+                        }
+                        if (viewType == Constants.TransactionTypes.INVEST.ordinal()) {
+                            return new Gson().fromJson(content, (Class<T>) InvestTransactionModel.class);
+                        }
+                        if (viewType == Constants.TransactionTypes.TRANSFER.ordinal()) {
+                            return new Gson().fromJson(content, (Class<T>) SendEthereumTransactionModel.class);
+                        }
+                        if (viewType == Constants.TransactionTypes.TRANSFER_TOKEN.ordinal()) {
+                            return new Gson().fromJson(content, (Class<T>) SendTokenTransactionModel.class);
+                        }
+                        if (viewType == Constants.TransactionTypes.SEND_REVIEW.ordinal()) {
+                            return new Gson().fromJson(content, (Class<T>) SendReviewTransactionModel.class);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return new Gson().fromJson(content, type);
+            }
+
+            @Override
+            public String toJson(Object body) {
+                return new Gson().toJson(body);
+            }
+        }).build();
+
         setUntrustedManager();
         setUpAWS();
     }

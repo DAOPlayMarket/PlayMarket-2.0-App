@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.data.entities;
 import com.blockchain.store.playmarket.utilities.Constants;
 
 public class SendReviewTransactionModel extends TransactionModel {
+    public final int TransactionType = Constants.TransactionTypes.SEND_REVIEW.ordinal();
     public AppInfo app;
 
     @Override

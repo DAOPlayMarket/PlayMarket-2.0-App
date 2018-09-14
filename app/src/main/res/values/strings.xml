@@ -11,13 +11,13 @@
     <string name="fa_icon_git" translatable="false">&#xf1d3;</string>
     <string name="fa_share_icon" translatable="false">&#xf064;</string>
 
-    <string name="app_name">PlayMarket 2.0</string>
+    <string name="app_name">DAO PlayMarket 2.0</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="title_activity_main_menu">MainMenuActivity</string>
-    <string name="playmarket">PLAYMARKET 2.0</string>
-    <string name="activity_permission_msg">For PlayMarket 2.0 to work on your version of Android, we need permission to save files on your phone.\n\nThis is only used for saving your wallet info and installers for purchased apps.</string>
+    <string name="playmarket">DAO PLAYMARKET 2.0</string>
+    <string name="activity_permission_msg">For DAO PlayMarket 2.0 to work on your version of Android, we need permission to save files on your phone.\n\nThis is only used for saving your wallet info and installers for purchased apps.</string>
     <string name="got_it_btn">Got it!</string>
     <string name="import_successful">Import Successful!</string>
     <string name="address_copied">Address Copied!</string>

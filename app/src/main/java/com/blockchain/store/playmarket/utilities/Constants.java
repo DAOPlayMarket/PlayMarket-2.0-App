@@ -9,6 +9,7 @@ public class Constants {
 
     /* Job service extra*/
     public static String JOB_HASH_EXTRA = "job_hash_extra";
+    public static String JOB_TRANSACTION_TYPE_ORDINAL ="transaction_type_ordinal";
 
     public enum APP_STATE {
         STATE_DOWNLOAD_STARTED, STATE_DOWNLOADING, STATE_DOWNLOADED_NOT_INSTALLED,

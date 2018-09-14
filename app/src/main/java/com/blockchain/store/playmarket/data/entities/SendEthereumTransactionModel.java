@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.data.entities;
 import com.blockchain.store.playmarket.utilities.Constants;
 
 public class SendEthereumTransactionModel extends TransactionModel {
+    public final int TransactionType = Constants.TransactionTypes.TRANSFER.ordinal();
     public String priceInWei;
     public String addressFrom;
     public String addressTo;

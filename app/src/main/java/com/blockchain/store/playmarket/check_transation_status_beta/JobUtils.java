@@ -14,7 +14,7 @@ public class JobUtils {
     private static final String TAG = "JobUtils";
     private static int jobId = 0;
 
-    public static void scheduleJob(Context context, String transactionHash) {
+    public static void scheduleJob(Context context, String transactionHash, Constants.TransactionTypes transactionType) {
         ComponentName jobService = new ComponentName(context, GetTransactionStatusJobService.class);
         JobInfo.Builder exerciseJobBuilder = new JobInfo.Builder(jobId++, jobService);
         exerciseJobBuilder.setMinimumLatency(TimeUnit.SECONDS.toMillis(1));
@@ -24,16 +24,18 @@ public class JobUtils {
         exerciseJobBuilder.setRequiresCharging(false);
         exerciseJobBuilder.setBackoffCriteria(TimeUnit.SECONDS.toMillis(5), JobInfo.BACKOFF_POLICY_LINEAR);
 
-
-        addExtras(exerciseJobBuilder, transactionHash);
+        addExtras(exerciseJobBuilder, transactionHash, transactionType);
 
         JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         jobScheduler.schedule(exerciseJobBuilder.build());
     }
 
-    private static void addExtras(JobInfo.Builder exerciseJobBuilder, String transactionHash) {
+    private static void addExtras(JobInfo.Builder exerciseJobBuilder, String transactionHash, Constants.TransactionTypes transactionType) {
         PersistableBundle bundle = new PersistableBundle();
         bundle.putString(Constants.JOB_HASH_EXTRA, transactionHash);
+        if (transactionType != null) {
+            bundle.putInt(Constants.JOB_TRANSACTION_TYPE_ORDINAL, transactionType.ordinal());
+        }
         exerciseJobBuilder.setExtras(bundle);
     }
 }

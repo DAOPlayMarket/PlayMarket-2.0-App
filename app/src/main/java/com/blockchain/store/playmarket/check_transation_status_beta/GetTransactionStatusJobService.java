@@ -25,7 +25,7 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         Log.d(TAG, "onStartJob: ");
-        NotificationManager.getManager().registerNewNotification(new TransactionNotification(params.getJobId()));
+        NotificationManager.getManager().registerNewNotification(getNotification(params));
         PersistableBundle extras = params.getExtras();
         String transactionHash = extras.getString(Constants.JOB_HASH_EXTRA);
         Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
@@ -40,12 +40,18 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
     private void onTransactionReady(EthGetTransactionReceipt result, JobParameters params) {
         if (result.getTransactionReceipt() != null) {
             jobFinished(params, false);
-            NotificationManager.getManager().downloadCompleteWithoutError(new TransactionNotification(params.getJobId()));
+            NotificationManager.getManager().downloadCompleteWithoutError(getNotification(params));
             TransactionPrefsUtil.updateModel(result.getTransactionReceipt());
         } else {
             jobFinished(params, true);
         }
 
+    }
+
+    private TransactionNotification getNotification(JobParameters params) {
+        PersistableBundle extras = params.getExtras();
+        int transactionType = extras.getInt(Constants.JOB_TRANSACTION_TYPE_ORDINAL);
+        return new TransactionNotification(params.getJobId(), transactionType);
     }
 
     private void onTransactionError(Throwable throwable, JobParameters params) {

@@ -147,7 +147,8 @@ public class NotificationManager {
 
         Context context = Application.getInstance().getApplicationContext();
         android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationObject.getNotificationBuilder().setProgress(0, 0, false);
+        notificationObject.getNotificationBuilder().setProgress(0, 0, false)
+                .setContentTitle(item.getFailedResultName());
         notificationManager.notify(item.getId(), notificationObject.getNotificationBuilder().build());
 
     }
@@ -157,8 +158,8 @@ public class NotificationManager {
         if (notificationObject == null) return;
         Context context = Application.getInstance().getApplicationContext();
         android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationObject.getNotificationBuilder().setProgress(0, 0, false);
-
+        notificationObject.getNotificationBuilder().setProgress(0, 0, false)
+                .setContentTitle(item.getSuccessResultName());
         notificationManager.notify(item.getId(), notificationObject.getNotificationBuilder().setSmallIcon(android.R.drawable.stat_sys_download_done).build());
     }
 

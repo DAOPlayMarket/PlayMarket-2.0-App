@@ -141,7 +141,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
                     Long totalTokens = (long) (Double.parseDouble(transferAmount) * pow);
                     String transformedAmount = totalTokens.toString();
                     presenter.createTransferTokenTransaction(transformedAmount, recipientAddress, appInfo.adrICO,
-                            createTokenTransactionModel(transformedAmount));
+                            createTokenTransactionModel(transferAmount));
                     return;
                 }
                 if (isEth)

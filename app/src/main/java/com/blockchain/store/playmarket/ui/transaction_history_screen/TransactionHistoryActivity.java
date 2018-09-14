@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.TransactionHistoryAdapter;
@@ -32,6 +33,9 @@ public class TransactionHistoryActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         ArrayList<TransactionModel> storedTransactionModels = TransactionPrefsUtil.getStoredTransactionModels();
+        for (TransactionModel model : storedTransactionModels) {
+            Log.d(TAG, "initRecyclerView: " + model.getTransactionType().ordinal());
+        }
         adapter = new TransactionHistoryAdapter(storedTransactionModels);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);

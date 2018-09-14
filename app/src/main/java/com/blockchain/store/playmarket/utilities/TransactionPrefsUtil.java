@@ -1,7 +1,5 @@
 package com.blockchain.store.playmarket.utilities;
 
-import android.util.Log;
-
 import com.blockchain.store.playmarket.data.entities.TransactionModel;
 import com.orhanobut.hawk.Hawk;
 
@@ -10,7 +8,7 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import java.util.ArrayList;
 
 public class TransactionPrefsUtil {
-
+    private static final String TAG = "TransactionPrefsUtil";
 
     public static void addToSharePrefs(TransactionModel transactionModel) {
         if (isDuplicate(transactionModel)) {
@@ -19,10 +17,6 @@ public class TransactionPrefsUtil {
         ArrayList<TransactionModel> storedTransactionModels = getStoredTransactionModels();
         storedTransactionModels.add(0, transactionModel);
         saveModels(storedTransactionModels);
-
-
-        ArrayList<TransactionModel> storedTransactionModels2 = getStoredTransactionModels();
-        Log.d("", "addToSharePrefs: ");
     }
 
 
