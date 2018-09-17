@@ -63,19 +63,18 @@ public class MyPackageManager {
     }
 
     public File findFileByPackageName(String packageName, Context context) {
-        Log.d(TAG, "findFileByPackageName() called with: packageName = [" + packageName + "]");
         File directory;
         if (BuildUtils.shouldUseContentUri()) {
             directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         } else {
             directory = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
         }
+        if (directory == null) {
+            return null;
+        }
         File[] files = directory.listFiles();
-        Log.d(TAG, "findFileByPackageName: Total files found: " + files.length);
         for (File file : files) {
-            Log.d(TAG, "findFileByPackageName: current file " + file.getName());
             if (file.getName().contains(packageName)) {
-                Log.d(TAG, "findFileByPackageName: file is found!");
                 return file;
             }
         }

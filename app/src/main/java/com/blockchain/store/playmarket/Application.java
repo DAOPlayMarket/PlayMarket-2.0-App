@@ -74,13 +74,12 @@ public class Application extends MultiDexApplication {
         AccountManager.setKeyManager(keyManager);
         Hawk.init(this).setParser(new Parser() {
             @Override
-            public <T> T fromJson(String content, Type type) throws Exception {
+            public <T> T fromJson(String content, Type type) {
                 if (TextUtils.isEmpty(content)) {
                     return null;
                 }
                 try {
                     JsonObject object = new Gson().fromJson(content, JsonObject.class);
-                    Log.d(TAG, "fromJson: ");
                     if (object.has("TransactionType")) {
                         int viewType = object.get("TransactionType").getAsInt();
 

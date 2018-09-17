@@ -41,18 +41,10 @@ public class FingerprintConfiguringPresenter implements FingerprintConfiguringCo
                         case AUTHENTICATED:
                             String encrypted = fingerprintEncryptionResult.getEncrypted();
                             Hawk.put(Constants.ENCRYPTED_PASSWORD, encrypted);
-                            //view.showToast(context.getResources().getString(R.string.fingerprint_success));
                             view.closeFingerprintActivity(context.getResources().getString(R.string.fingerprint_success));
                             break;
                     }
                 }, throwable -> {
-                    //noinspection StatementWithEmptyBody
-                    if (RxFingerprint.keyInvalidated(throwable)) {
-                        // The keys you wanted to use are invalidated because the user has turned off his
-                        // secure lock screen or changed the fingerprints stored on the device
-                        // You have to re-encrypt the data to access it
-                    }
-                    Log.e("ERROR", "encrypt", throwable);
                     view.showToast(throwable.getMessage());
                     ToastUtil.showToast(throwable.getMessage());
                 });

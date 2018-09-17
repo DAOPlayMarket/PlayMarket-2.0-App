@@ -30,14 +30,6 @@ public class TransactionPrefsUtil {
         saveModels(transactionModel);
     }
 
-    public static void updateTransactionStatus(String transactionHash, Constants.TransactionStatus status) {
-        TransactionModel transactionModel = findTransactionModel(transactionHash);
-        if (transactionModel != null) {
-            transactionModel.transactionStatus = status;
-        }
-        saveModels(transactionModel);
-    }
-
     public static ArrayList<TransactionModel> getStoredTransactionModels() {
         if (Hawk.contains(Constants.TRANSACTION_MODEL_KEY)) {
             return Hawk.get(Constants.TRANSACTION_MODEL_KEY);

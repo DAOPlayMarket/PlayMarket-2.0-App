@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.google.gson.annotations.SerializedName;
@@ -112,11 +113,17 @@ public class App implements Parcelable, NotificationImpl {
         }
     }
 
+//    public String getPrice() {
+//        Long priceInteger = Long.parseLong(price);
+//        ExchangeRate exchangeRate = Hawk.get(Constants.CURRENT_CURRENCY);
+//        double totalPrice = priceInteger * Double.parseDouble(exchangeRate.rate);
+//        return String.valueOf(totalPrice);
+//    }
+
+
     public String getPrice() {
-        Long priceInteger = Long.parseLong(price);
-        ExchangeRate exchangeRate = Hawk.get(Constants.CURRENT_CURRENCY);
-        double totalPrice = priceInteger * Double.parseDouble(exchangeRate.rate);
-        return String.valueOf(totalPrice);
+        String priceInEther = new EthereumPrice(price).inEther().toString();
+        return priceInEther;
     }
 
     public String getImageByPath(String path) {
