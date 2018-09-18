@@ -75,7 +75,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @BindView(R.id.top_layout_app_name) TextView toolbarAppName;
     @BindView(R.id.top_layout_holder) LinearLayout topLayoutHolder;
-    @BindView(R.id.top_layout_back_arrow) ImageView topLayoutBackArrow;
+    @BindView(R.id.top_layout_back_arrow) TextView topLayoutBackArrow;
     @BindView(R.id.action_btn) Button actionBtn;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.main_layout_holder) View mainLayoutHolder;
@@ -206,7 +206,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
                     int darkMutedColor = p.getDarkMutedColor(getResources().getColor(android.R.color.black));
                     topLayoutHolder.setBackgroundColor(lightVibrantColor);
                     toolbarAppName.setTextColor(darkMutedColor);
-                    topLayoutBackArrow.setColorFilter(darkMutedColor);
+                    topLayoutBackArrow.setTextColor(darkMutedColor);
                 });
             }
 

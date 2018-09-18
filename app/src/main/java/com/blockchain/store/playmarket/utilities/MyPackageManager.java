@@ -155,7 +155,7 @@ public class MyPackageManager {
     public static List<ApplicationInfo> getAllInstalledApps() {
         Context applicationContext = Application.getInstance().getApplicationContext();
         PackageManager pm = applicationContext.getPackageManager();
-        List<ApplicationInfo> packages = pm.getInstalledApplications(0);
+        List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_SIGNATURES);
         Log.d(TAG, "getAllInstalledApps: " + packages);
         List<ApplicationInfo> installedApps = new ArrayList<ApplicationInfo>();
 

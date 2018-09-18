@@ -16,14 +16,17 @@
         android:minHeight="48dp"
         android:orientation="horizontal">
 
-        <ImageView
+        <com.blockchain.store.playmarket.views.FonAwesomeTextViewSolid
             android:id="@+id/top_layout_back_arrow"
             android:layout_width="70dp"
             android:layout_height="match_parent"
-            android:paddingLeft="@dimen/detail_app_arrow_margins"
-            android:paddingRight="@dimen/detail_app_arrow_margins"
-            android:scaleType="center"
-            android:src="@drawable/back" />
+            android:gravity="center"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:text="@string/fa_back_arrow"
+            android:textColor="#7a8784"
+            android:textSize="20sp"
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/top_layout_app_name"
@@ -40,14 +43,14 @@
             android:id="@+id/update_all_btn"
             android:layout_width="115dp"
             android:layout_height="30dp"
-            android:visibility="gone"
-            tools:visibility="visible"
             android:layout_marginRight="15dp"
             android:background="@drawable/rounded_blue_button"
             android:gravity="center"
             android:text="@string/update_all_apps"
             android:textAllCaps="false"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
     </LinearLayout>
 

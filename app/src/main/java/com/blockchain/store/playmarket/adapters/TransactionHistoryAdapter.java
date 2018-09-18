@@ -36,19 +36,19 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
         View view = null;
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_history_item_default, parent, false);
         if (viewType == Constants.TransactionTypes.BUY_APP.ordinal()) {
-
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_history_item_default, parent, false);
         }
         if (viewType == Constants.TransactionTypes.INVEST.ordinal()) {
-
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_history_item_default, parent, false);
         }
         if (viewType == Constants.TransactionTypes.TRANSFER.ordinal()) {
-
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_history_item_default, parent, false);
         }
         if (viewType == Constants.TransactionTypes.TRANSFER_TOKEN.ordinal()) {
-
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_history_item_default, parent, false);
         }
         if (viewType == Constants.TransactionTypes.SEND_REVIEW.ordinal()) {
-
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_history_item_default, parent, false);
         }
 
 

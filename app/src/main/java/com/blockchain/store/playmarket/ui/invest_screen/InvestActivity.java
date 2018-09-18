@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.InvestScreenAdapter;
@@ -39,7 +40,7 @@ public class InvestActivity extends YouTubeBaseActivity implements InvestContrac
     private InvestPresenter presenter;
     private InvestScreenAdapter adapter;
     private RecyclerView recyclerView;
-    private ImageView backArrow;
+    private TextView backArrow;
     private AppCompatDelegate appCompatDelegate;
     private ProgressBar progressBar;
     private View errorHolder;
