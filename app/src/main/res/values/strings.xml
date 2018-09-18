@@ -10,6 +10,7 @@
     <string name="fa_icon_telegram" translatable="false">&#xf2c6;</string>
     <string name="fa_icon_git" translatable="false">&#xf1d3;</string>
     <string name="fa_share_icon" translatable="false">&#xf064;</string>
+    <string name="fa_back_arrow" translatable="false">&#xf104;</string>
 
     <string name="app_name">DAO PlayMarket 2.0</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
