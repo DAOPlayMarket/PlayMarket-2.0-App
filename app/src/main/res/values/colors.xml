@@ -89,6 +89,24 @@
     <color name="uninstall_green_btn">#43A58A</color>
     <color name="invest_orange_color">#F9B218</color>
 
+    <!-- Transaction history screen-->
+
+    <color name="time">#a0a0a0</color>
+    <color name="title">#59696a</color>
+
+    <color name="positive_value">#69b8ba</color>
+    <color name="positive_value_line">#D7E7E7</color>
+
+    <color name="negative_value">#fe694c</color>
+    <color name="negative_value_line">#F4D7D1</color>
+
+    <color name="pending_value">#808080</color>
+    <color name="pending_value_line">#B7B7B7</color>
+
+    <color name="gray_bg">#f1f1f1</color>
+
+    <color name="default_value">#FFFFFF</color>
+
     <!-- Drawable nine patch create in http://inloop.github.io/shadow4android/-->
     <!-- Navigation card layout var's are: width,height 200. Shadow 10. Radius 4-->
     <!-- Button var's: width 120, height 36, shadow 10, round 18-->

@@ -192,6 +192,11 @@
     <string name="browser_version">Browser version</string>
     <string name="our_site">Our site</string>
     <string name="ver">ver.</string>
+    <string name="transaction_history_title">Transactions</string>
+    <string name="no_items_found">No items found!</string>
+    <string name="status">Status:</string>
+    <string name="hash">Hash:</string>
+    <string name="details">Details:</string>
 
 
 </resources>

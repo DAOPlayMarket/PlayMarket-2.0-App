@@ -10,24 +10,50 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="52dp"
+        android:layout_marginStart="8dp"
         android:background="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tabMode="fixed"
+        app:layout_constraintStart_toEndOf="@+id/title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/colorAccent"
         app:tabTextAppearance="@style/tabTextAppearance"
         app:tabTextColor="@android:color/darker_gray" />
 
+
     <com.blockchain.store.playmarket.views.FonAwesomeTextViewSolid
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/top_layout_back_arrow"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
         android:text="@string/fa_back_arrow"
         android:textColor="#7a8784"
-        android:textSize="40sp"
-        tools:layout_editor_absoluteX="102dp"
-        tools:layout_editor_absoluteY="205dp" />
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/top_layout_back_arrow"
+        app:layout_constraintStart_toEndOf="@+id/top_layout_back_arrow"
+        app:layout_constraintTop_toTopOf="@+id/top_layout_back_arrow"
+        app:layout_constraintVertical_bias="0.666"
+        tools:text="Transactions" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tab_layout" />
 
 </android.support.constraint.ConstraintLayout>

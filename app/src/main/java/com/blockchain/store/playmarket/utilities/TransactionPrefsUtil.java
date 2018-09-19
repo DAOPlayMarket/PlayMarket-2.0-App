@@ -38,6 +38,18 @@ public class TransactionPrefsUtil {
         }
     }
 
+    public static ArrayList<TransactionModel> getTransactionByStatus(Constants.TransactionStatus status) {
+        ArrayList<TransactionModel> storedTransactionModels = getStoredTransactionModels();
+        ArrayList<TransactionModel> transactionByStatus = new ArrayList<>();
+
+        for (TransactionModel storedTransactionModel : storedTransactionModels) {
+            if (storedTransactionModel.transactionStatus == status) {
+                transactionByStatus.add(storedTransactionModel);
+            }
+        }
+        return transactionByStatus;
+    }
+
     private static TransactionModel findTransactionModel(String transactionHash) {
         for (TransactionModel model : getStoredTransactionModels()) {
             if (model.transactionHash.equalsIgnoreCase(transactionHash)) {
