@@ -100,7 +100,6 @@ public class Application extends MultiDexApplication {
                         }
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
                 }
 
                 return new Gson().fromJson(content, type);

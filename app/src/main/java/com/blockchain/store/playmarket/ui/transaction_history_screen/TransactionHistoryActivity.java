@@ -27,7 +27,6 @@ public class TransactionHistoryActivity extends AppCompatActivity {
 
     private static final String TAG = "TransactionHistoryActiv";
 
-    @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.tab_layout) TabLayout tabLayout;
     @BindView(R.id.view_pager) ViewPager viewPager;
     @BindView(R.id.title) TextView title;
@@ -61,16 +60,6 @@ public class TransactionHistoryActivity extends AppCompatActivity {
     void onBackArrowClicked() {
         this.onBackPressed();
     }
-
-//    private void initRecyclerView() {
-//        ArrayList<TransactionModel> storedTransactionModels = TransactionPrefsUtil.getStoredTransactionModels();
-//        for (TransactionModel model : storedTransactionModels) {
-//            Log.d(TAG, "initRecyclerView: " + model.getTransactionType().ordinal());
-//        }
-//        adapter = new TransactionHistoryAdapter(storedTransactionModels);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(adapter);
-//    }
 
 
 }

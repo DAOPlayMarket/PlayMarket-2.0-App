@@ -60,8 +60,7 @@
             android:layout_height="@dimen/nav_drawer_menu_height"
             android:layout_marginBottom="@dimen/navigation_view_indents"
             android:gravity="center|left"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:orientation="horizontal">
 
             <ImageView
                 style="@style/navViewImageItem"

@@ -31,7 +31,7 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
     private static final String SHOW_ALL_KEY = "show_all_transcation";
 
     private boolean isShowAllTransactions;
-    private Constants.TransactionTypes showTransactionType;
+    private Constants.TransactionStatus showTransactionType;
     private TransactionHistoryFragmentPresenter presenter;
     private TransactionHistoryAdapter adapter;
 
@@ -40,7 +40,7 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
     }
 
     public static TransactionHistoryFragment instance(boolean showAllTransactions) {
-        return instance(null, true);
+        return instance(null, showAllTransactions);
     }
 
     private static TransactionHistoryFragment instance(Constants.TransactionStatus statusToShow, boolean showAllTransaction) {
@@ -62,7 +62,7 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
         View view = inflater.inflate(R.layout.fragment_transaction_history, container, false);
         ButterKnife.bind(this, view);
         isShowAllTransactions = getArguments().getBoolean(SHOW_ALL_KEY, false);
-        showTransactionType = (Constants.TransactionTypes) getArguments().getSerializable(STATUS_KEY);
+        showTransactionType = (Constants.TransactionStatus) getArguments().getSerializable(STATUS_KEY);
         initPresenter();
         return view;
     }
@@ -75,9 +75,9 @@ public class TransactionHistoryFragment extends Fragment implements TransactionH
 
     private void loadData() {
         if (isShowAllTransactions) {
-
+            populateRecyclerView(presenter.getAllTransaction());
         } else {
-
+            populateRecyclerView(presenter.getTransactionsByStatus(this.showTransactionType));
         }
     }
 

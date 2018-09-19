@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical"
     tools:context=".ui.transaction_history_screen.TransactionHistoryActivity">
 
@@ -13,13 +14,11 @@
         android:layout_width="0dp"
         android:layout_height="52dp"
         android:layout_marginStart="8dp"
-        android:background="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/title"
         app:layout_constraintTop_toTopOf="parent"
         app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/colorAccent"
-        app:tabTextAppearance="@style/tabTextAppearance"
         app:tabTextColor="@android:color/darker_gray" />
 
 
