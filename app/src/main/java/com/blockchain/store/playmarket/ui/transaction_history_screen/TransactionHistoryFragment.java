@@ -72,7 +72,6 @@ public class TransactionHistoryFragment extends Fragment {
                 adapter.reloadItems(transactionModels);
             } else {
                 adapter = new TransactionHistoryAdapter(transactionModels);
-                adapter.setHasStableIds(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 recyclerView.setAdapter(adapter);
             }

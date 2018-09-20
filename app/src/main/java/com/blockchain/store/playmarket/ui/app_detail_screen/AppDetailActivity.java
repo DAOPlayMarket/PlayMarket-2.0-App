@@ -422,7 +422,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PURCHASE_RESULT_CODE && resultCode == RESULT_OK) {
-//            presenter.onPurchasedClicked(appInfo);
+            presenter.getDetailedInfo(app);
         }
     }
 }

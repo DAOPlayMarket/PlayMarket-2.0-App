@@ -31,7 +31,7 @@
         android:paddingRight="18dp"
         android:text="@string/fa_back_arrow"
         android:textColor="#7a8784"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

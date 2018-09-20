@@ -47,7 +47,6 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
 
     public void reloadItems(ArrayList<TransactionModel> transactionModels) {
         this.transactionModels = transactionModels;
-        this.isExpandedArray = new boolean[transactionModels.size()];
         notifyDataSetChanged();
     }
 
@@ -81,12 +80,6 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
     @Override
     public int getItemCount() {
         return transactionModels.size();
-    }
-
-
-    @Override
-    public long getItemId(int position) {
-        return transactionModels.get(position).hashCode();
     }
 
     public class DefaultViewHolder extends RecyclerView.ViewHolder {
@@ -167,10 +160,10 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
                     : ContextCompat.getColor(context, R.color.negative_value));
             arrowHolder.setBackground(
                     new ColorDrawable(isExpanded
-                            ? ContextCompat.getColor(context, R.color.positive_value)
+                            ? ContextCompat.getColor(context, R.color.negative_value)
                             : ContextCompat.getColor(context, R.color.white)));
             rightLine.setBackground(new ColorDrawable(isExpanded
-                    ? ContextCompat.getColor(context, R.color.positive_value)
+                    ? ContextCompat.getColor(context, R.color.negative_value_line)
                     : ContextCompat.getColor(context, R.color.white)));
         }
 
