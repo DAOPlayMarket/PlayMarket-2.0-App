@@ -11,4 +11,19 @@ public class AppBuyTransactionModel extends TransactionModel {
     public Constants.TransactionTypes getTransactionType() {
         return Constants.TransactionTypes.BUY_APP;
     }
+
+    @Override
+    public boolean isPositive() {
+        return false;
+    }
+
+    @Override
+    public String getTransactionFormattedResult() {
+        return "- " + priceInWei + " WEI";
+    }
+
+    @Override
+    public String getFormattedTitle() {
+        return "'" + boughtApp.getTitleName() + "' Buy";
+    }
 }

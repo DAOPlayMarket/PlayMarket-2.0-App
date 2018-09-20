@@ -14,4 +14,9 @@ public class SendTokenTransactionModel extends TransactionModel {
     public Constants.TransactionTypes getTransactionType() {
         return Constants.TransactionTypes.TRANSFER_TOKEN;
     }
+
+    @Override
+    public boolean isPositive() {
+        return true;
+    }
 }

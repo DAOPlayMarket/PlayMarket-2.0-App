@@ -11,4 +11,19 @@ public class InvestTransactionModel extends TransactionModel {
     public Constants.TransactionTypes getTransactionType() {
         return Constants.TransactionTypes.INVEST;
     }
+
+    @Override
+    public String getTransactionFormattedResult() {
+        return null;
+    }
+
+    @Override
+    public String getFormattedTitle() {
+        return null;
+    }
+
+    @Override
+    public boolean isPositive() {
+        return false;
+    }
 }

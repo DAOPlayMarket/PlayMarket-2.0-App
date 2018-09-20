@@ -8,13 +8,19 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 public abstract class TransactionModel {
     public abstract Constants.TransactionTypes getTransactionType();
 
-    public TransactionStatus transactionStatus = TransactionStatus.PENDING;
-    public TransactionReceipt transactionReceipt;
+    public abstract String getTransactionFormattedResult();
 
+    public abstract String getFormattedTitle();
+
+    public abstract boolean isPositive();
+
+    public TransactionStatus transactionStatus = TransactionStatus.PENDING;
+    public Long timeStamp = System.currentTimeMillis();
+
+    public TransactionReceipt transactionReceipt;
     public String transactionHash;
     public String transactionFee;
     public String transactionLink;
 
-    public Long timeStamp = System.currentTimeMillis();
 
 }

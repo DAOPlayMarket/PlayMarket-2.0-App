@@ -12,4 +12,9 @@ public class SendEthereumTransactionModel extends TransactionModel {
     public Constants.TransactionTypes getTransactionType() {
         return Constants.TransactionTypes.TRANSFER;
     }
+
+    @Override
+    public boolean isPositive() {
+        return false;
+    }
 }

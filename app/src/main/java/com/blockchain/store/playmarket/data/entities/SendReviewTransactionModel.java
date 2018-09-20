@@ -10,4 +10,9 @@ public class SendReviewTransactionModel extends TransactionModel {
     public Constants.TransactionTypes getTransactionType() {
         return Constants.TransactionTypes.SEND_REVIEW;
     }
+
+    @Override
+    public boolean isPositive() {
+        return false;
+    }
 }

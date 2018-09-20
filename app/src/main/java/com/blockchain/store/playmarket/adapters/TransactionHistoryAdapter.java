@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.transition.AutoTransition;
 import android.support.transition.ChangeTransform;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.TransactionModel;
+import com.blockchain.store.playmarket.utilities.transitions.Recolor;
 import com.blockchain.store.playmarket.views.FonAwesomeTextViewSolid;
 
 import java.text.DateFormat;
@@ -55,29 +57,35 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof DefaultViewHolder) {
-            ((DefaultViewHolder) holder).bind(transactionModels.get(position));
-            ((DefaultViewHolder) holder).detailHolder.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-            ((DefaultViewHolder) holder).arrow.setRotation(isExpanded ? 270 : 180);
-            ((DefaultViewHolder) holder).arrowHolder.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    isExpanded = !isExpanded;
-                    TransitionSet transitionSet = new TransitionSet();
+            DefaultViewHolder viewholder = (DefaultViewHolder) holder;
+            viewholder.bind(transactionModels.get(position));
+            viewholder.detailHolder.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+            viewholder.arrow.setRotation(isExpanded ? 270 : 180);
+            viewholder.arrowHolder.setBackground(new ColorDrawable(
+                    isExpanded ?
+                            ContextCompat.getColor(viewholder.context, R.color.positive_value)
+                            : ContextCompat.getColor(viewholder.context, R.color.white)));
+            viewholder.arrowHolder.setOnClickListener(v -> {
+                isExpanded = !isExpanded;
+                TransitionSet transitionSet = new TransitionSet();
 
-                    ChangeTransform changeTransform = new ChangeTransform();
-                    changeTransform.setDuration(200);
-                    changeTransform.setInterpolator(new AccelerateInterpolator());
+                ChangeTransform changeTransform = new ChangeTransform();
+                changeTransform.setDuration(200);
+                changeTransform.setInterpolator(new AccelerateInterpolator());
 
-                    AutoTransition autoTransition = new AutoTransition();
-                    autoTransition.setOrdering(TransitionSet.ORDERING_TOGETHER);
-                    autoTransition.setDuration(200);
+                AutoTransition autoTransition = new AutoTransition();
+                autoTransition.setOrdering(TransitionSet.ORDERING_TOGETHER);
+                autoTransition.setDuration(200);
 
-                    transitionSet.addTransition(autoTransition);
-                    transitionSet.addTransition(changeTransform);
-                    TransitionManager.beginDelayedTransition(recyclerView, transitionSet);
+                Recolor recolor = new Recolor();
+                recolor.setDuration(200);
 
-                    notifyDataSetChanged();
-                }
+                transitionSet.addTransition(autoTransition);
+                transitionSet.addTransition(changeTransform);
+                transitionSet.addTransition(recolor);
+                TransitionManager.beginDelayedTransition(recyclerView, transitionSet);
+
+                notifyDataSetChanged();
             });
         }
     }

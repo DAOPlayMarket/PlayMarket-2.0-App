@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -19,20 +18,12 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.data.entities.AppBuyTransactionModel;
-import com.blockchain.store.playmarket.data.entities.InvestTransactionModel;
-import com.blockchain.store.playmarket.data.entities.SendEthereumTransactionModel;
-import com.blockchain.store.playmarket.data.entities.SendReviewTransactionModel;
-import com.blockchain.store.playmarket.data.entities.SendTokenTransactionModel;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
