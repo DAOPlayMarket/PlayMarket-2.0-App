@@ -112,7 +112,7 @@
                 android:text="@string/details" />
 
             <TextView
-                android:id="@+id/detail123s"
+                android:id="@+id/details_additional_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
@@ -135,4 +135,15 @@
             tools:background="@color/positive_value_line" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/item_border"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/item_border"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </android.support.constraint.ConstraintLayout>

@@ -36,12 +36,13 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
     private static final String TAG = "TransactionHistoryAdapt";
 
     private ArrayList<TransactionModel> transactionModels;
-    private boolean isExpanded = false;
+    private boolean[] isExpandedArray;
     private RecyclerView recyclerView;
 
 
     public TransactionHistoryAdapter(ArrayList<TransactionModel> transactionModels) {
         this.transactionModels = transactionModels;
+        this.isExpandedArray = new boolean[transactionModels.size()];
     }
 
     @Override
@@ -60,7 +61,7 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof DefaultViewHolder) {
             DefaultViewHolder viewholder = (DefaultViewHolder) holder;
-            viewholder.bind(transactionModels.get(position));
+            viewholder.bind(transactionModels.get(position), position);
 
         }
     }
@@ -88,6 +89,7 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
         @BindView(R.id.details_etherlink) TextView etherlink;
         @BindView(R.id.right_line) View rightLine;
         @BindView(R.id.detail_holder) LinearLayout detailHolder;
+        @BindView(R.id.details_additional_info) TextView detailAdditionalInfo;
 
         private Context context;
 
@@ -97,17 +99,13 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(TransactionModel model) {
-            DateFormat format = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT, Locale.getDefault());
-            date.setText(format.format(new Date(model.timeStamp)));
+        public void bind(TransactionModel model, int position) {
+            boolean isExpanded = isExpandedArray[position];
 
-            result.setText(model.getTransactionFormattedResult());
-            status.setText(model.getTransactionType().toString());
-            title.setText(model.getFormattedTitle());
-            hash.setText(model.transactionHash);
-
-            result.setTextColor(model.isPositive() ? ContextCompat.getColor(context, R.color.positive_value)
-                    : ContextCompat.getColor(context, R.color.negative_value));
+            setViewsText(model);
+            setViewsVisibility(model, isExpanded);
+            setViewsColor(model, isExpanded);
+            arrow.setRotation(isExpanded ? 270 : 180);
 
             switch (model.transactionStatus) {
                 case SUCCEES:
@@ -121,14 +119,9 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
                     break;
             }
 
-            detailHolder.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-            arrow.setRotation(isExpanded ? 270 : 180);
-            arrowHolder.setBackground(new ColorDrawable(
-                    isExpanded ?
-                            ContextCompat.getColor(context, R.color.positive_value)
-                            : ContextCompat.getColor(context, R.color.white)));
             arrowHolder.setOnClickListener(v -> {
-                isExpanded = !isExpanded;
+                isExpandedArray[position] = !isExpandedArray[position];
+
                 TransitionSet transitionSet = new TransitionSet();
 
                 ChangeTransform changeTransform = new ChangeTransform();
@@ -155,6 +148,35 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
                 context.startActivity(i);
             });
 
+        }
+
+        private void setViewsColor(TransactionModel model, boolean isExpanded) {
+            result.setTextColor(model.isPositive() ? ContextCompat.getColor(context, R.color.positive_value)
+                    : ContextCompat.getColor(context, R.color.negative_value));
+            arrowHolder.setBackground(
+                    new ColorDrawable(isExpanded
+                            ? ContextCompat.getColor(context, R.color.positive_value)
+                            : ContextCompat.getColor(context, R.color.white)));
+            rightLine.setBackground(new ColorDrawable(isExpanded
+                    ? ContextCompat.getColor(context, R.color.positive_value)
+                    : ContextCompat.getColor(context, R.color.white)));
+        }
+
+        private void setViewsVisibility(TransactionModel model, boolean isExpanded) {
+            detailAdditionalInfo.setVisibility(model.getDetailedInfo().isEmpty() ? View.GONE : View.VISIBLE);
+            detailHolder.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        }
+
+        private void setViewsText(TransactionModel model) {
+
+            DateFormat format = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT, Locale.getDefault());
+            date.setText(format.format(new Date(model.timeStamp)));
+
+            result.setText(model.getTransactionFormattedResult());
+            status.setText(model.transactionStatus.toString());
+            title.setText(model.getFormattedTitle());
+            hash.setText(model.transactionHash);
+            detailAdditionalInfo.setText(model.getDetailedInfo());
         }
 
 

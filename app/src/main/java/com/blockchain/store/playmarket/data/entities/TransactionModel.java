@@ -23,4 +23,8 @@ public abstract class TransactionModel {
     public String transactionLink;
 
 
+    public String getDetailedInfo() {
+        return "";
+    }
+
 }
