@@ -164,6 +164,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
         transactionModel.tokenCount = transformedAmount;
         transactionModel.tokenCurrency = transferViewModel.tokenName.getValue();
         transactionModel.wasTokenBeforeTransaction = appInfo.icoBalance.getTokenCount();
+        transactionModel.appInfo = this.appInfo;
         return transactionModel;
     }
 

@@ -197,6 +197,7 @@
     <string name="status">Status:</string>
     <string name="hash">Hash:</string>
     <string name="details">Details:</string>
+    <string name="etherscan_link"><u>Etherscan link</u></string>
 
 
 </resources>

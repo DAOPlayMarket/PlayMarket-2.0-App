@@ -1,7 +1,9 @@
 package com.blockchain.store.playmarket.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.transition.AutoTransition;
 import android.support.transition.ChangeTransform;
@@ -59,34 +61,7 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
         if (holder instanceof DefaultViewHolder) {
             DefaultViewHolder viewholder = (DefaultViewHolder) holder;
             viewholder.bind(transactionModels.get(position));
-            viewholder.detailHolder.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-            viewholder.arrow.setRotation(isExpanded ? 270 : 180);
-            viewholder.arrowHolder.setBackground(new ColorDrawable(
-                    isExpanded ?
-                            ContextCompat.getColor(viewholder.context, R.color.positive_value)
-                            : ContextCompat.getColor(viewholder.context, R.color.white)));
-            viewholder.arrowHolder.setOnClickListener(v -> {
-                isExpanded = !isExpanded;
-                TransitionSet transitionSet = new TransitionSet();
 
-                ChangeTransform changeTransform = new ChangeTransform();
-                changeTransform.setDuration(200);
-                changeTransform.setInterpolator(new AccelerateInterpolator());
-
-                AutoTransition autoTransition = new AutoTransition();
-                autoTransition.setOrdering(TransitionSet.ORDERING_TOGETHER);
-                autoTransition.setDuration(200);
-
-                Recolor recolor = new Recolor();
-                recolor.setDuration(200);
-
-                transitionSet.addTransition(autoTransition);
-                transitionSet.addTransition(changeTransform);
-                transitionSet.addTransition(recolor);
-                TransitionManager.beginDelayedTransition(recyclerView, transitionSet);
-
-                notifyDataSetChanged();
-            });
         }
     }
 
@@ -110,7 +85,7 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
         @BindView(R.id.result) TextView result;
         @BindView(R.id.status) TextView status;
         @BindView(R.id.hash) TextView hash;
-        @BindView(R.id.details) TextView details;
+        @BindView(R.id.details_etherlink) TextView etherlink;
         @BindView(R.id.right_line) View rightLine;
         @BindView(R.id.detail_holder) LinearLayout detailHolder;
 
@@ -124,13 +99,16 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
 
         public void bind(TransactionModel model) {
             DateFormat format = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT, Locale.getDefault());
-
             date.setText(format.format(new Date(model.timeStamp)));
-            title.setText(model.getTransactionType().toString());
+
+            result.setText(model.getTransactionFormattedResult());
+            status.setText(model.getTransactionType().toString());
+            title.setText(model.getFormattedTitle());
             hash.setText(model.transactionHash);
 
+            result.setTextColor(model.isPositive() ? ContextCompat.getColor(context, R.color.positive_value)
+                    : ContextCompat.getColor(context, R.color.negative_value));
 
-            status.setText(model.getTransactionType().toString());
             switch (model.transactionStatus) {
                 case SUCCEES:
                     status.setTextColor(ContextCompat.getColor(context, R.color.positive_value));
@@ -143,7 +121,40 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
                     break;
             }
 
-            //todo dont forget about etherscan link
+            detailHolder.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+            arrow.setRotation(isExpanded ? 270 : 180);
+            arrowHolder.setBackground(new ColorDrawable(
+                    isExpanded ?
+                            ContextCompat.getColor(context, R.color.positive_value)
+                            : ContextCompat.getColor(context, R.color.white)));
+            arrowHolder.setOnClickListener(v -> {
+                isExpanded = !isExpanded;
+                TransitionSet transitionSet = new TransitionSet();
+
+                ChangeTransform changeTransform = new ChangeTransform();
+                changeTransform.setDuration(200);
+                changeTransform.setInterpolator(new AccelerateInterpolator());
+
+                AutoTransition autoTransition = new AutoTransition();
+                autoTransition.setOrdering(TransitionSet.ORDERING_TOGETHER);
+                autoTransition.setDuration(200);
+
+                Recolor recolor = new Recolor();
+                recolor.setDuration(200);
+
+                transitionSet.addTransition(autoTransition);
+                transitionSet.addTransition(changeTransform);
+                transitionSet.addTransition(recolor);
+                TransitionManager.beginDelayedTransition(recyclerView, transitionSet);
+
+                notifyDataSetChanged();
+            });
+            etherlink.setOnClickListener(v -> {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(model.transactionLink));
+                context.startActivity(i);
+            });
+
         }
 
 

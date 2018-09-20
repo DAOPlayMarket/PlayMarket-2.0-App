@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.data.entities;
 
+import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.utilities.Constants;
 
 public class AppBuyTransactionModel extends TransactionModel {
@@ -19,7 +20,7 @@ public class AppBuyTransactionModel extends TransactionModel {
 
     @Override
     public String getTransactionFormattedResult() {
-        return "- " + priceInWei + " WEI";
+        return "- " + new EthereumPrice(priceInWei).getDisplayPrice(false);
     }
 
     @Override

@@ -15,4 +15,14 @@ public class SendReviewTransactionModel extends TransactionModel {
     public boolean isPositive() {
         return false;
     }
+
+    @Override
+    public String getTransactionFormattedResult() {
+        return "work in progress";
+    }
+
+    @Override
+    public String getFormattedTitle() {
+        return "'" + app.getTitleName() + "' Comment";
+    }
 }

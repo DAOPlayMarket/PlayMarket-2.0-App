@@ -13,8 +13,8 @@ public class EthereumPrice {
 
     public static String ETH = "ETH";
     public static String ETHER = "Ether";
-    public static String GWEI = "Gwei";
-    public static String WEI = "Wei";
+    public static String GWEI = "GWEI";
+    public static String WEI = "WEI";
 
     private DecimalFormat df;
 

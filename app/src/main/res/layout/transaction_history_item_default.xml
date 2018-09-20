@@ -66,8 +66,9 @@
     <LinearLayout
         android:id="@+id/detail_holder"
         android:layout_width="wrap_content"
-        android:layout_height="190dp"
+        android:layout_height="wrap_content"
         android:background="@color/gray_bg"
+        android:minHeight="180dp"
         android:orientation="horizontal"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/arrow_holder"
@@ -111,17 +112,26 @@
                 android:text="@string/details" />
 
             <TextView
-                android:id="@+id/details"
+                android:id="@+id/detail123s"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Etherscan link" />
+                android:visibility="gone"
+                tools:text="Etherscan link"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/details_etherlink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/etherscan_link"
+                android:textColor="#006f9b" />
 
         </LinearLayout>
 
         <View
             android:id="@+id/right_line"
             android:layout_width="8dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             tools:background="@color/positive_value_line" />
     </LinearLayout>
 
