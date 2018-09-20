@@ -6,9 +6,9 @@ import com.blockchain.store.playmarket.utilities.TransactionPrefsUtil;
 
 import java.util.ArrayList;
 
-import static com.blockchain.store.playmarket.ui.transaction_history_screen.TransactionHistoryFragmentContract.*;
+import static com.blockchain.store.playmarket.ui.transaction_history_screen.TransactionHistoryActivityContract.*;
 
-public class TransactionHistoryFragmentPresenter implements Presenter {
+public class TransactionHistoryActivityPresenter implements Presenter {
 
     private View view;
 
@@ -17,10 +17,6 @@ public class TransactionHistoryFragmentPresenter implements Presenter {
         this.view = view;
     }
 
-    @Override
-    public ArrayList<TransactionModel> getTransactionsByStatus(Constants.TransactionStatus status) {
-        return TransactionPrefsUtil.getTransactionByStatus(status);
-    }
 
     @Override
     public ArrayList<TransactionModel> getAllTransaction() {

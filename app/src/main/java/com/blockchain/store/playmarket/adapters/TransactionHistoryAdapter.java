@@ -45,6 +45,12 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
         this.isExpandedArray = new boolean[transactionModels.size()];
     }
 
+    public void reloadItems(ArrayList<TransactionModel> transactionModels) {
+        this.transactionModels = transactionModels;
+        this.isExpandedArray = new boolean[transactionModels.size()];
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemViewType(int position) {
         return transactionModels.get(position).getTransactionType().ordinal();
@@ -75,6 +81,12 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
     @Override
     public int getItemCount() {
         return transactionModels.size();
+    }
+
+
+    @Override
+    public long getItemId(int position) {
+        return transactionModels.get(position).hashCode();
     }
 
     public class DefaultViewHolder extends RecyclerView.ViewHolder {

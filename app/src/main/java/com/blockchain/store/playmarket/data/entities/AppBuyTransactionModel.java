@@ -1,13 +1,10 @@
 package com.blockchain.store.playmarket.data.entities;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.utilities.Constants;
 
-public class AppBuyTransactionModel extends TransactionModel implements Parcelable {
-    public int TransactionType = Constants.TransactionTypes.BUY_APP.ordinal();
+public class AppBuyTransactionModel extends TransactionModel {
+    public final int TransactionType = Constants.TransactionTypes.BUY_APP.ordinal();
     public String priceInWei;
     public App boughtApp;
 
@@ -31,36 +28,4 @@ public class AppBuyTransactionModel extends TransactionModel implements Parcelab
         return "'" + boughtApp.getTitleName() + "' Buy";
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.TransactionType);
-        dest.writeString(this.priceInWei);
-        dest.writeParcelable(this.boughtApp, flags);
-    }
-
-    public AppBuyTransactionModel() {
-    }
-
-    protected AppBuyTransactionModel(Parcel in) {
-        this.TransactionType = in.readInt();
-        this.priceInWei = in.readString();
-        this.boughtApp = in.readParcelable(App.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<AppBuyTransactionModel> CREATOR = new Parcelable.Creator<AppBuyTransactionModel>() {
-        @Override
-        public AppBuyTransactionModel createFromParcel(Parcel source) {
-            return new AppBuyTransactionModel(source);
-        }
-
-        @Override
-        public AppBuyTransactionModel[] newArray(int size) {
-            return new AppBuyTransactionModel[size];
-        }
-    };
 }

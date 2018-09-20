@@ -38,8 +38,11 @@ public class TransactionPrefsUtil {
         }
     }
 
-    public static ArrayList<TransactionModel> getTransactionByStatus(Constants.TransactionStatus status) {
-        ArrayList<TransactionModel> storedTransactionModels = getStoredTransactionModels();
+    public static ArrayList<TransactionModel> getTransactionByStatus(ArrayList<TransactionModel> originalList, Constants.TransactionStatus status) {
+        if (status == Constants.TransactionStatus.ALL) {
+            return originalList;
+        }
+        ArrayList<TransactionModel> storedTransactionModels = originalList;
         ArrayList<TransactionModel> transactionByStatus = new ArrayList<>();
 
         for (TransactionModel storedTransactionModel : storedTransactionModels) {

@@ -25,4 +25,6 @@ public class SendReviewTransactionModel extends TransactionModel {
     public String getFormattedTitle() {
         return "'" + app.getTitleName() + "' Comment";
     }
+
+
 }

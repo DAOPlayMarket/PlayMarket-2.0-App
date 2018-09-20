@@ -54,7 +54,7 @@ public class Constants {
 
 
     public enum TransactionStatus {
-        SUCCEES, FAILED, PENDING
+        SUCCEES, FAILED, PENDING, ALL
     }
 
     public static final String WELCOME_ACTIVITY_ADDRESS_EXTRA = "welcome_activity_address_extra";
