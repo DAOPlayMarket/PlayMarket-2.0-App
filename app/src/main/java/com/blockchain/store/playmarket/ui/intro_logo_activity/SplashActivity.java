@@ -1,5 +1,7 @@
 package com.blockchain.store.playmarket.ui.intro_logo_activity;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -8,6 +10,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -55,10 +59,23 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         setupAndPlayVideo();
         checkLocationPermission();
         showGif();
-        test();
+//        test();
     }
 
     private void test() {
+        NotificationCompat.Builder app = new NotificationCompat.Builder(this, "app");
+        app.setContentTitle("test Title")
+                .setContentText("test Text")
+                .setSmallIcon(android.R.drawable.stat_sys_download);
+
+        NotificationCompat.Builder appCompat = new NotificationCompat.Builder(this, "app_compat");
+        appCompat.setContentTitle("test Title compat")
+                .setContentText("test Text compat")
+                .setSmallIcon(android.R.drawable.stat_sys_download);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(0, app.build());
+        NotificationManagerCompat.from(this).notify(1, appCompat.build());
+
     }
 
     private void checkLocationPermission() {

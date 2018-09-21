@@ -33,7 +33,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/date"
-        tools:text="fasd asfd  fsadf asdf fsad" />
+        tools:text="fasd asfd  fsadf asdf fsadf asdf fsad" />
 
     <FrameLayout
         android:id="@+id/arrow_holder"
@@ -54,7 +54,6 @@
             android:textSize="22sp" />
 
     </FrameLayout>
-
 
     <TextView
         android:id="@+id/result"
@@ -139,12 +138,6 @@
             android:layout_height="match_parent"
             tools:background="@color/positive_value_line" />
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/item_border"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:layout_width="match_parent"

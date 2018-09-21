@@ -1,8 +1,6 @@
 package com.blockchain.store.playmarket.notification;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.util.Pair;
@@ -12,8 +10,6 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
-import com.blockchain.store.playmarket.services.DownloadService;
-import com.blockchain.store.playmarket.services.NotificationService;
 import com.blockchain.store.playmarket.utilities.Constants;
 
 import java.util.ArrayList;
@@ -170,12 +166,7 @@ public class NotificationManager {
     private void showNotification(NotificationObject notificationObject) {
         Context context = Application.getInstance().getApplicationContext();
         android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-//        notificationManager.notify(notificationObject.getItem().getId(), notificationObject.getNotificationBuilder().build());
-
-        Intent intent = new Intent(context, NotificationService.class);
-        intent.putExtra(Constants.DOWNLOAD_SERVICE_APP_EXTRA, notificationObject.getItem().getId());
-        intent.putExtra(Constants.DOWNLOAD_SERVICE_URL_EXTRA, notificationObject.getNotificationBuilder().build());
-        context.startService(intent);
+        notificationManager.notify(notificationObject.getItem().getId(), notificationObject.getNotificationBuilder().build());
     }
 
     private NotificationCompat.Builder createNotification(NotificationImpl item) {
@@ -184,17 +175,19 @@ public class NotificationManager {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "app_channel");
             notificationBuilder
                     .setContentTitle(item.getTitleName())
+                    .setContentText("")
                     .setSmallIcon(android.R.drawable.stat_sys_download)
                     .setTicker("");
-            notificationBuilder.setProgress(100, 0, false); // show progress
+            notificationBuilder.setProgress(100, 0, false);
             return notificationBuilder;
         } else {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "transaction_channel");
             notificationBuilder
                     .setContentTitle(item.getTitleName())
                     .setSmallIcon(android.R.drawable.stat_sys_download)
+                    .setContentText("")
                     .setTicker("");
-            notificationBuilder.setProgress(100, 0, true); // show progress
+            notificationBuilder.setProgress(100, 0, true);
             return notificationBuilder;
         }
     }
