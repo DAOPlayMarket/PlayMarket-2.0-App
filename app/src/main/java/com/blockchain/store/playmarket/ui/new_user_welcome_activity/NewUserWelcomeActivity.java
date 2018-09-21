@@ -3,14 +3,12 @@ package com.blockchain.store.playmarket.ui.new_user_welcome_activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
@@ -22,14 +20,10 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.FingerprintUtils;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
-import com.mtramin.rxfingerprint.RxFingerprint;
-import com.orhanobut.hawk.Hawk;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,9 +34,6 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     private static final String LAUNCHED_FROM_SETTINGS_PARAM = "launched_from_settings";
     private NewUserWelcomePresenter presenter;
     private static final int FINGERPRINT_RESULT_CODE = 99;
-
-    private ArrayList<File> fileList = new ArrayList<File>();
-    private String currentPath = "";
 
     @BindView(R.id.address_text_view) TextView addressTextView;
     @BindView(R.id.NewUserWelcomeTextView) TextView newUserWelcomeNext;
@@ -65,7 +56,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
         presenter.init(this, getApplicationContext());
         ButterKnife.bind(this);
         if (getIntent() != null) {
-//            if (!checkFingerprint()) fingerPrintButton.setVisibility(View.VISIBLE);
+            if (!checkFingerprint()) fingerPrintButton.setVisibility(View.VISIBLE);
             setFingerprintButtonVisibility();
             isLaunchedFromSettings = getIntent().getBooleanExtra(Constants.WELCOME_ACTIVITY_IS_LUANCHED_FROM_SETTINGS_EXTRA, false);
         }
@@ -135,28 +126,6 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
         startActivityForResult(intent, 1);
     }
 
-    private void RebuildFiles(ArrayAdapter<File> adapter) {
-        try {
-            fileList.clear();
-            fileList.addAll(getFiles(currentPath));
-            adapter.notifyDataSetChanged();
-        } catch (NullPointerException e) {
-            Toast.makeText(getApplicationContext(), android.R.string.unknownName, Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    private ArrayList<File> getFiles(String directoryPath) {
-        File directory = new File(directoryPath);
-        ArrayList<File> folderList = new ArrayList<>();
-
-        for (int i = 0; i < directory.listFiles().length; i++) {
-            if (directory.listFiles()[i].isDirectory()) folderList.add(directory.listFiles()[i]);
-        }
-
-        return folderList;
-    }
-
     /*
     Метод перехода на главный экран приложения "MainMenuActivity".
     Вызывается после нажатия на кнопку "continue_button" пользователем.
@@ -183,39 +152,6 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
         showCopiedAlert();
     }
 
-    public void copyKeyJsonToClipboard(String password) {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            for (byte b : Application.keyManager.getKeystore().exportKey(Application.keyManager.getAccounts().get(0), password, password)) {
-                baos.write(b);
-            }
-            ClipboardUtils.copyToClipboard(getApplicationContext(), baos.toString("UTF-8"));
-            showBackupAlert();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    //public void promptForPassword(View view) {
-    //    final Dialog d = new Dialog(this);
-//
-    //    d.setContentView(R.layout.password_prompt_dialog);
-//
-    //    final EditText passwordText = d.findViewById(R.id.passwordText);
-//
-    //    d.show();
-//
-    //    TextView addFundsBtn = d.findViewById(R.id.continue_button);
-    //    addFundsBtn.setOnClickListener(v -> {
-    //        copyKeyJsonToClipboard(passwordText.getText().toString());
-    //        d.dismiss();
-    //    });
-//
-//
-    //    Button close_btn = d.findViewById(R.id.close_button);
-    //    close_btn.setOnClickListener(v -> d.dismiss());
-    //}
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -228,10 +164,6 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
 
     private void showCopiedAlert() {
         ToastUtil.showToast(R.string.address_copied);
-    }
-
-    private void showBackupAlert() {
-        ToastUtil.showToast(R.string.wallet_backup_copied);
     }
 
     private boolean checkFingerprint() {
