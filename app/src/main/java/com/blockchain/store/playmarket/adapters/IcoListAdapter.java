@@ -28,16 +28,30 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
 
     private ArrayList<AppInfo> appList;
     private AppInfoCallback appListCallbacks;
+    private boolean isUsedAlternativeDesign = false;
 
     public IcoListAdapter(ArrayList<AppInfo> appList, AppInfoCallback appListCallbacks) {
         this.appList = appList;
         this.appListCallbacks = appListCallbacks;
     }
 
+    public IcoListAdapter(ArrayList<AppInfo> appList, AppInfoCallback appListCallbacks, boolean isUsedAlternativeDesign) {
+        this.appList = appList;
+        this.appListCallbacks = appListCallbacks;
+        this.isUsedAlternativeDesign = isUsedAlternativeDesign;
+    }
+
+
     @Override
     public IcoAppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.ico_app_list_item, parent, false);
+        View view;
+        if (isUsedAlternativeDesign) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.ico_app_list_item_new, parent, false);
+        } else {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.ico_app_list_item, parent, false);
+        }
         IcoAppViewHolder icoAppViewHolder = new IcoAppViewHolder(view);
         return icoAppViewHolder;
     }
