@@ -50,14 +50,14 @@ public class FrescoUtils {
         };
     }
 
-    public static Observable<Integer> getPalleteFromBitemap(Bitmap bitmap) {
-        return new Observable<Integer>() {
+    public static Observable<Palette> getPalleteFromBitemap(Bitmap bitmap) {
+        return new Observable<Palette>() {
             @Override
-            protected void subscribeActual(Observer<? super Integer> observer) {
+            protected void subscribeActual(Observer<? super Palette> observer) {
                 Palette generate = Palette.from(bitmap).generate();
-                observer.onNext(generate.getDominantColor(Color.WHITE));
+                observer.onNext(generate);
             }
-        }.observeOn(Androis);
+        };
     }
 
 }

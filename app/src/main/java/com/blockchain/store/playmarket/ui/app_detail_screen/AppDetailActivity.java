@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.ui.app_detail_screen;
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -43,9 +45,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
-import rx.android.schedulers.AndroidSchedulers;
 
 import static com.blockchain.store.playmarket.utilities.Constants.PLAY_MARKET_ADDRESS;
 
@@ -167,15 +169,31 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         }
     }
 
+    @SuppressLint("CheckResult")
     private void generateToolbarColor() {
         FrescoUtils.getBitmapDataSource(this, app.getIconUrl())
                 .flatMap(FrescoUtils::getPalleteFromBitemap, Pair::new)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onBitmapAndPaletteLoaded, this::onBitmapAndPalleteFailed);
     }
 
-    private void onOk(Pair<Bitmap, Integer> bitmapIntegerPair) {
+    private void onBitmapAndPalleteFailed(Throwable throwable) {
+
     }
+
+    private void onBitmapAndPaletteLoaded(Pair<Bitmap, Palette> bitmapPalettePair) {
+        Bitmap bitmap = bitmapPalettePair.first;
+        Palette p = bitmapPalettePair.second;
+        imageIcon.setImageBitmap(bitmap);
+        supportStartPostponedEnterTransition();
+        int lightVibrantColor = p.getLightVibrantColor(getResources().getColor(android.R.color.white));
+        int darkMutedColor = p.getDarkMutedColor(getResources().getColor(android.R.color.black));
+        topLayoutHolder.setBackgroundColor(lightVibrantColor);
+        toolbarAppName.setTextColor(darkMutedColor);
+        topLayoutBackArrow.setTextColor(darkMutedColor);
+    }
+
 
     @Override
     public void onDetailedInfoReady(AppInfo appInfo) {
