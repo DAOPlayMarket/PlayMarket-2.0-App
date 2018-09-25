@@ -1,7 +1,10 @@
 package com.blockchain.store.playmarket.notification;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.content.Context;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.util.Pair;
 
@@ -149,7 +152,7 @@ public class NotificationManager {
         android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationObject.getNotificationBuilder().setProgress(0, 0, false)
                 .setContentTitle(item.getFailedResultName());
-        notificationManager.notify(item.getId(), notificationObject.getNotificationBuilder().build());
+        notificationManager.notify(item.getId(), notificationObject.getNotificationBuilder().setSmallIcon(android.R.drawable.stat_notify_error).build());
 
     }
 
@@ -171,25 +174,44 @@ public class NotificationManager {
 
     private NotificationCompat.Builder createNotification(NotificationImpl item) {
         Context context = Application.getInstance().getApplicationContext();
+        android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder notificationBuilder = null;
+        NotificationChannel notificationChannel = null;
         if (item instanceof App) {
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "app_channel");
+            notificationBuilder = new NotificationCompat.Builder(context, "channel_id_1");
             notificationBuilder
                     .setContentTitle(item.getTitleName())
                     .setContentText("")
+                    .setPriority(Notification.PRIORITY_HIGH)
                     .setSmallIcon(android.R.drawable.stat_sys_download)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setAutoCancel(true)
                     .setTicker("");
             notificationBuilder.setProgress(100, 0, false);
-            return notificationBuilder;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                notificationChannel = new NotificationChannel("channel_id_1", "App installation channel", android.app.NotificationManager.IMPORTANCE_DEFAULT);
+
+            }
         } else {
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "transaction_channel");
+            notificationBuilder = new NotificationCompat.Builder(context, "channel_id_2");
             notificationBuilder
                     .setContentTitle(item.getTitleName())
+                    .setAutoCancel(true)
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setPriority(Notification.PRIORITY_HIGH)
                     .setSmallIcon(android.R.drawable.stat_sys_download)
                     .setContentText("")
                     .setTicker("");
             notificationBuilder.setProgress(100, 0, true);
-            return notificationBuilder;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                notificationChannel = new NotificationChannel("channel_id_2", "Transaction result channel", android.app.NotificationManager.IMPORTANCE_DEFAULT);
+            }
         }
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+        return notificationBuilder;
     }
 
 
