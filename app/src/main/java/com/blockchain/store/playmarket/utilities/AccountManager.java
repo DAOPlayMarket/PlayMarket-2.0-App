@@ -1,14 +1,14 @@
 package com.blockchain.store.playmarket.utilities;
 
 
-import android.util.Log;
-
 import com.blockchain.store.playmarket.Application;
 
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
 
 import io.ethmobile.ethdroid.KeyManager;
+
+import static com.blockchain.store.playmarket.utilities.NumberUtils.ADDRESS_NUMBER_OF_CHARACTER;
 
 /**
  * Created by Igor.Sakovich on 25.01.2018.
@@ -73,13 +73,7 @@ public class AccountManager {
     }
 
     public static String getFormattedAddress() {
-        StringBuilder hex = new StringBuilder(getAddress().getHex());
-        Log.d(TAG, "getFormattedAddress: " + hex);
-        for (int i = 2; i < hex.toString().length(); i += 6) {
-            hex.insert(i, " ");
-        }
-        Log.d(TAG, "getFormattedAddress: " + hex);
-        return hex.toString();
+        return NumberUtils.formatStringToSpacedNumber(getAddress().getHex(), ADDRESS_NUMBER_OF_CHARACTER);
     }
 
 }
