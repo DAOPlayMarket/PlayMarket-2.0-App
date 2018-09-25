@@ -4,23 +4,18 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.text.Html;
-import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -38,19 +33,9 @@ import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
+import com.blockchain.store.playmarket.utilities.FrescoUtils;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.views.FadingTextView;
-import com.facebook.common.executors.CallerThreadExecutor;
-import com.facebook.common.references.CloseableReference;
-import com.facebook.datasource.DataSource;
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.common.Priority;
-import com.facebook.imagepipeline.core.ImagePipeline;
-import com.facebook.imagepipeline.datasource.BaseBitmapDataSubscriber;
-import com.facebook.imagepipeline.image.CloseableImage;
-import com.facebook.imagepipeline.request.ImageRequest;
-import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import java.util.ArrayList;
@@ -58,7 +43,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.schedulers.Schedulers;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
+import rx.android.schedulers.AndroidSchedulers;
 
 import static com.blockchain.store.playmarket.utilities.Constants.PLAY_MARKET_ADDRESS;
 
@@ -181,42 +168,13 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     private void generateToolbarColor() {
-        ImagePipeline imagePipeline = Fresco.getImagePipeline();
+        FrescoUtils.getBitmapDataSource(this, app.getIconUrl())
+                .flatMap(FrescoUtils::getPalleteFromBitemap, Pair::new)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 
-        ImageRequest imageRequest = ImageRequestBuilder
-                .newBuilderWithSource(Uri.parse(app.getIconUrl()))
-                .setRequestPriority(Priority.HIGH)
-                .setLowestPermittedRequestLevel(ImageRequest.RequestLevel.FULL_FETCH)
-                .build();
-        DataSource<CloseableReference<CloseableImage>> closeableReferenceDataSource = imagePipeline.fetchDecodedImage(imageRequest, this);
-        closeableReferenceDataSource.subscribe(new BaseBitmapDataSubscriber() {
-            @Override
-            public void onNewResultImpl(@Nullable Bitmap bitmap) {
-                if (bitmap == null) {
-                    Log.d(TAG, "Bitmap data source returned success, but bitmap null.");
-                    return;
-                }
-
-
-                Palette p = Palette.from(bitmap).generate();
-                runOnUiThread(() -> {
-                    imageIcon.setImageBitmap(bitmap);
-                    supportStartPostponedEnterTransition();
-                    int lightVibrantColor = p.getLightVibrantColor(getResources().getColor(android.R.color.white));
-                    int darkMutedColor = p.getDarkMutedColor(getResources().getColor(android.R.color.black));
-                    topLayoutHolder.setBackgroundColor(lightVibrantColor);
-                    toolbarAppName.setTextColor(darkMutedColor);
-                    topLayoutBackArrow.setTextColor(darkMutedColor);
-                });
-            }
-
-            @Override
-            public void onFailureImpl(DataSource dataSource) {
-                // No cleanup required here
-            }
-        }, CallerThreadExecutor.getInstance());
-
-
+    private void onOk(Pair<Bitmap, Integer> bitmapIntegerPair) {
     }
 
     @Override
