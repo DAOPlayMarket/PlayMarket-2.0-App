@@ -109,6 +109,10 @@
 
     <color name="item_border">#b8b8b8</color>
 
+    <!--Ico Screen-->
+
+    <color name="time_remains">#79b841</color>
+
     <!-- Drawable nine patch create in http://inloop.github.io/shadow4android/-->
     <!-- Navigation card layout var's are: width,height 200. Shadow 10. Radius 4-->
     <!-- Button var's: width 120, height 36, shadow 10, round 18-->

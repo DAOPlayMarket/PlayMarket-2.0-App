@@ -168,8 +168,9 @@ public class NotificationManager {
 
     private void showNotification(NotificationObject notificationObject) {
         Context context = Application.getInstance().getApplicationContext();
-        android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(notificationObject.getItem().getId(), notificationObject.getNotificationBuilder().build());
+//        android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//        notificationManager.notify(notificationObject.getItem().getId(), notificationObject.getNotificationBuilder().build());
+        NotificationManagerCompat.from(context).notify(notificationObject.getItem().getId(), notificationObject.getNotificationBuilder().build());
     }
 
     private NotificationCompat.Builder createNotification(NotificationImpl item) {
@@ -210,6 +211,7 @@ public class NotificationManager {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             notificationManager.createNotificationChannel(notificationChannel);
+            notificationBuilder.setOnlyAlertOnce(true);
         }
         return notificationBuilder;
     }
