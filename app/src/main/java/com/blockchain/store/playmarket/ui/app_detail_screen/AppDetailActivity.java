@@ -175,10 +175,10 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
                 .flatMap(FrescoUtils::getPalleteFromBitemap, Pair::new)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onBitmapAndPaletteLoaded, this::onBitmapAndPalleteFailed);
+                .subscribe(this::onBitmapAndPaletteLoaded, this::onBitmapAndPaletteFailed);
     }
 
-    private void onBitmapAndPalleteFailed(Throwable throwable) {
+    private void onBitmapAndPaletteFailed(Throwable throwable) {
 
     }
 

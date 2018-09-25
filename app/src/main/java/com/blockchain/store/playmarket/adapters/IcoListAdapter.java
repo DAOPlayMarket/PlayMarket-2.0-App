@@ -1,29 +1,37 @@
 package com.blockchain.store.playmarket.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.CountDownTimer;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.view;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.interfaces.AppInfoCallback;
-import com.blockchain.store.playmarket.utilities.TimeUtils;
+import com.blockchain.store.playmarket.utilities.FrescoUtils;
 import com.blockchain.store.playmarket.utilities.NumberUtils;
+import com.blockchain.store.playmarket.utilities.TimeUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppViewHolder> {
     private static final String TAG = "IcoListAdapter";
@@ -79,7 +87,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
 
         private CountDownTimer countDownTimer;
         private Context context;
-
+        private Disposable imageDisposable;
         @BindView(R.id.view3) View backImageView;
         @BindView(R.id.small_description) TextView smallDescription;
         @BindView(R.id.goal) TextView goal;
@@ -92,6 +100,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
             context = itemView.getContext();
         }
 
+        @SuppressLint("CheckResult")
         public void bind(AppInfo app) {
             icon.setImageURI(Uri.parse(app.getIconUrl()));
             title.setText(app.nameApp);
@@ -102,8 +111,12 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
             if (smallDescription != null) {
                 smallDescription.setText(app.shortDescription);
             }
-            if (backImageView != null) {
-//                Palette p = Palette.from(bitmap).generate();
+            if (backImageView != null && imageDisposable == null) {
+                imageDisposable = FrescoUtils.getBitmapDataSource(context, app.getIconUrl())
+                        .flatMap(FrescoUtils::getPalleteFromBitemap, Pair::new)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::onBitmapAndPaletteLoaded, this::onBitmapAndPaletteFailed);
             }
             if (goal != null) {
                 goal.setText(String.format(context.getString(R.string.token_goal),
@@ -121,6 +134,16 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
                 countDownTimer = initCountDownTimer(timeToFirstStageEnding);
             }
             setTransferButtonEnable();
+        }
+
+        private void onBitmapAndPaletteLoaded(Pair<Bitmap, Palette> bitmapPalettePair) {
+            icon.setImageBitmap(bitmapPalettePair.first);
+            Palette palette = bitmapPalettePair.second;
+            backImageView.setBackgroundColor(palette.getDominantColor(Color.WHITE));
+        }
+
+        private void onBitmapAndPaletteFailed(Throwable throwable) {
+
         }
 
         private void setTransferButtonEnable() {
