@@ -175,7 +175,6 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             iconView.setImageURI(investMainItem.iconUrl);
             investButton.setOnClickListener(v -> adapterCallback.onInvestBtnClicked(investMainItem.adrIco));
             if (countDownTimer == null) {
-//                countDownTimer = new CountDownTimer(85800000, 1000) {
                 countDownTimer = new CountDownTimer(investMainItem.totalTime * 1000, 1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
@@ -185,7 +184,6 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     @Override
                     public void onFinish() {
-//                        timeRemains.setText("00:00:00:00");
                     }
                 }.start();
             }

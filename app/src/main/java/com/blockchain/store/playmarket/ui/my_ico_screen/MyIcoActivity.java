@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.ui.my_ico_screen;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.RECIPIENT_ARG;
 
 public class MyIcoActivity extends AppCompatActivity implements MyIcoContract.View, AppInfoCallback {
     private static final String TAG = "MyIcoActivity";
@@ -55,7 +58,7 @@ public class MyIcoActivity extends AppCompatActivity implements MyIcoContract.Vi
 
     @Override
     public void onIcoAppsReady(ArrayList<AppInfo> apps) {
-        adapter = new IcoListAdapter(apps, this);
+        adapter = new IcoListAdapter(apps, this, true);
         adapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -87,5 +90,13 @@ public class MyIcoActivity extends AppCompatActivity implements MyIcoContract.Vi
     public void onAppTransferTokenClicked(AppInfo appinfo) {
         TransferActivity.startAsTokenTransfer(this, appinfo);
     }
+
+    @Override
+    public void onAppInvestClicked(String address) {
+        Intent intent = new Intent(this, TransferActivity.class);
+        intent.putExtra(RECIPIENT_ARG, address);
+        startActivity(intent);
+    }
+
 
 }

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.CountDownTimer;
+import android.support.annotation.Nullable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -88,10 +89,10 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
         private CountDownTimer countDownTimer;
         private Context context;
         private Disposable imageDisposable;
-        @BindView(R.id.view3) View backImageView;
-        @BindView(R.id.small_description) TextView smallDescription;
-        @BindView(R.id.goal) TextView goal;
-        @BindView(R.id.start_buying) Button startBuyingBtn;
+        @BindView(R.id.view3) @Nullable View backImageView;
+        @BindView(R.id.small_description) @Nullable TextView smallDescription;
+        @BindView(R.id.goal) @Nullable TextView goal;
+        @BindView(R.id.start_buying) @Nullable Button startBuyingBtn;
 
 
         IcoAppViewHolder(View itemView) {
@@ -124,9 +125,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
                         app.icoSymbol));
             }
             if (startBuyingBtn != null) {
-                startBuyingBtn.setOnClickListener(v -> {
-
-                });
+                startBuyingBtn.setOnClickListener(v -> appListCallbacks.onAppInvestClicked(app.adrICO));
             }
 
             long timeToFirstStageEnding = app.getUnixTimeToFirstStageEnding();
