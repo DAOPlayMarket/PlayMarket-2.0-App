@@ -32,12 +32,28 @@ import org.ethereum.geth.BoundContract;
 import org.ethereum.geth.CallOpts;
 import org.ethereum.geth.EthereumClient;
 import org.ethereum.geth.Geth;
+import org.web3j.abi.FunctionEncoder;
+import org.web3j.abi.datatypes.Function;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.Web3jFactory;
+import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.Request;
+import org.web3j.protocol.core.methods.response.EthCall;
 import org.web3j.protocol.core.methods.response.EthCompileSolidity;
+import org.web3j.protocol.core.methods.response.Web3ClientVersion;
+import org.web3j.protocol.http.HttpService;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.ethmobile.ethdroid.EthDroid;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA;
+import static org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction;
 
 public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
     private static final String TAG = "SplashActivity";
@@ -68,26 +84,25 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     }
 
     private void test() throws Exception {
-        EthDroid ethdroid = new EthDroid.Builder(getFilesDir().getAbsolutePath())
-                .onTestnet()
-                .withDatadirPath(getFilesDir().getAbsolutePath())
-                .withDefaultContext()
-                .build();
-        ethdroid.start();
-        EthereumClient ethereumClient = new EthereumClient(RestApi.BASE_URL_INFURA);
-        BoundContract contract = Geth.bindContract(new Address("0xdD483256d16DA1F043C2f16ed10a9F8EBcD64C77"), getAbi(), ethereumClient);
-        contract.call(new CallOpts(), Geth.newInterfaces(1), "get_s", Geth.newInterfaces(0));
-
-
+        Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
+        Function function = new Function("Name", new ArrayList<>(), new ArrayList<>());
+        String encode = FunctionEncoder.encode(function);
+        build.ethCall(
+                createEthCallTransaction("0x9e1F601D72bDA509D82ed7082D9d3a7E0F4d012B", "0x3EeC38cA1Bc24F7A1531307f76118A2F57e69d01", encode), DefaultBlockParameterName.LATEST)
+                .observable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onOk, this::onError);
     }
 
-    private void onTransactionError(Throwable throwable) {
-        Log.d(TAG, "onTransactionError: ");
+    private void onOk(EthCall ethCall) {
+        Log.d(TAG, "onOk: ");
     }
 
-    private void onTransactionReady(EthCompileSolidity ethCompileSolidity) {
-        Log.d(TAG, "onTransactionReady: ");
+    private void onError(Throwable throwable) {
+        Log.d(TAG, "onError: ");
     }
+
 
     private void checkLocationPermission() {
         if (PermissionUtils.isLocationPermissionGranted(this)) {
@@ -205,7 +220,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     }
 
 
-    public String getAbi(){
+    public String getAbi() {
         return "[\n" +
                 "\t{\n" +
                 "\t\t\"constant\": false,\n" +
