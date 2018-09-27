@@ -1,7 +1,5 @@
 package com.blockchain.store.playmarket.ui.intro_logo_activity;
 
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -10,10 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -22,6 +19,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
@@ -29,9 +27,17 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 import com.bumptech.glide.Glide;
 
+import org.ethereum.geth.Address;
+import org.ethereum.geth.BoundContract;
+import org.ethereum.geth.CallOpts;
+import org.ethereum.geth.EthereumClient;
+import org.ethereum.geth.Geth;
+import org.web3j.protocol.core.methods.response.EthCompileSolidity;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.ethmobile.ethdroid.EthDroid;
 
 public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
     private static final String TAG = "SplashActivity";
@@ -59,23 +65,28 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         setupAndPlayVideo();
         checkLocationPermission();
         showGif();
-//        test();
     }
 
-    private void test() {
-        NotificationCompat.Builder app = new NotificationCompat.Builder(this, "app");
-        app.setContentTitle("test Title")
-                .setContentText("test Text")
-                .setSmallIcon(android.R.drawable.stat_sys_download);
+    private void test() throws Exception {
+        EthDroid ethdroid = new EthDroid.Builder(getFilesDir().getAbsolutePath())
+                .onTestnet()
+                .withDatadirPath(getFilesDir().getAbsolutePath())
+                .withDefaultContext()
+                .build();
+        ethdroid.start();
+        EthereumClient ethereumClient = new EthereumClient(RestApi.BASE_URL_INFURA);
+        BoundContract contract = Geth.bindContract(new Address("0xdD483256d16DA1F043C2f16ed10a9F8EBcD64C77"), getAbi(), ethereumClient);
+        contract.call(new CallOpts(), Geth.newInterfaces(1), "get_s", Geth.newInterfaces(0));
 
-        NotificationCompat.Builder appCompat = new NotificationCompat.Builder(this, "app_compat");
-        appCompat.setContentTitle("test Title compat")
-                .setContentText("test Text compat")
-                .setSmallIcon(android.R.drawable.stat_sys_download);
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, app.build());
-        NotificationManagerCompat.from(this).notify(1, appCompat.build());
 
+    }
+
+    private void onTransactionError(Throwable throwable) {
+        Log.d(TAG, "onTransactionError: ");
+    }
+
+    private void onTransactionReady(EthCompileSolidity ethCompileSolidity) {
+        Log.d(TAG, "onTransactionReady: ");
     }
 
     private void checkLocationPermission() {
@@ -194,5 +205,1381 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     }
 
 
+    public String getAbi(){
+        return "[\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_name\",\n" +
+                "\t\t\t\t\"type\": \"bytes32\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_info\",\n" +
+                "\t\t\t\t\"type\": \"bytes32\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"changeNameDev\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_dev\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"getRatingDev\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"int256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [],\n" +
+                "\t\t\"name\": \"NodeStorage\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_hashType\",\n" +
+                "\t\t\t\t\"type\": \"uint32\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_appType\",\n" +
+                "\t\t\t\t\"type\": \"uint32\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_price\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_publish\",\n" +
+                "\t\t\t\t\"type\": \"bool\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_hash\",\n" +
+                "\t\t\t\t\"type\": \"string\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"addApp\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [],\n" +
+                "\t\t\"name\": \"requestCollectNode\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_state\",\n" +
+                "\t\t\t\t\"type\": \"bool\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_hashType\",\n" +
+                "\t\t\t\t\"type\": \"uint32\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_hash\",\n" +
+                "\t\t\t\t\"type\": \"string\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setAppConfirmation\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_node\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_obj\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"buy\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": true,\n" +
+                "\t\t\"stateMutability\": \"payable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_arrObj\",\n" +
+                "\t\t\t\t\"type\": \"uint256[]\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_price\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setDuration\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_node\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_obj\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_price\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"buyAppSub\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": true,\n" +
+                "\t\t\"stateMutability\": \"payable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_name\",\n" +
+                "\t\t\t\t\"type\": \"bytes32\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_info\",\n" +
+                "\t\t\t\t\"type\": \"bytes32\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"addDev\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"getInfoApp\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"uint32\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"uint32\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"bool\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"bool\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"string\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_dev\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"getRevenueDev\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_contract\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setNodeStorageContract\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [],\n" +
+                "\t\t\"name\": \"collectNode\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_node\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"makeDepositETH\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": true,\n" +
+                "\t\t\"stateMutability\": \"payable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [],\n" +
+                "\t\t\"name\": \"percNode\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"uint32\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_obj\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_duration\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setDuration\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [],\n" +
+                "\t\t\"name\": \"version\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"bytes32\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_hash\",\n" +
+                "\t\t\t\t\"type\": \"string\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_hashType\",\n" +
+                "\t\t\t\t\"type\": \"uint32\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"changeHashApp\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [],\n" +
+                "\t\t\"name\": \"refund\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_user\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_obj\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"getBuyObject\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"success\",\n" +
+                "\t\t\t\t\"type\": \"bool\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"getInfoAppICO\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"uint32\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"bool\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"string\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_hash\",\n" +
+                "\t\t\t\t\"type\": \"string\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_hashType\",\n" +
+                "\t\t\t\t\"type\": \"uint32\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_ip\",\n" +
+                "\t\t\t\t\"type\": \"string\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_coordinates\",\n" +
+                "\t\t\t\t\"type\": \"string\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"changeInfoNode\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [],\n" +
+                "\t\t\"name\": \"AppStorage\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"Agents\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"bool\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_defRating\",\n" +
+                "\t\t\t\t\"type\": \"int256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"changeDefRating\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_node\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_ETH\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_PMT\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setDepositLimitsNode\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [],\n" +
+                "\t\t\"name\": \"acceptOwnership\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"getDeveloper\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_node\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"getRevenueNode\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_contract\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setAppStorageContract\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_dev\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_rating\",\n" +
+                "\t\t\t\t\"type\": \"int256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setRatingDev\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [],\n" +
+                "\t\t\"name\": \"owner\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_hashType\",\n" +
+                "\t\t\t\t\"type\": \"uint32\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_hash\",\n" +
+                "\t\t\t\t\"type\": \"string\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_ip\",\n" +
+                "\t\t\t\t\"type\": \"string\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_coordinates\",\n" +
+                "\t\t\t\t\"type\": \"string\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"addNode\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [],\n" +
+                "\t\t\"name\": \"DevStorage\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_dev\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"getStateDev\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"bool\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_proc\",\n" +
+                "\t\t\t\t\"type\": \"uint32\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setPercNode\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [],\n" +
+                "\t\t\"name\": \"defAgent\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_node\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_obj\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"buyAppObj\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": true,\n" +
+                "\t\t\"stateMutability\": \"payable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_arrObj\",\n" +
+                "\t\t\t\t\"type\": \"uint256[]\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_arrPrice\",\n" +
+                "\t\t\t\t\"type\": \"uint256[]\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setPrice\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_node\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"getConfirmationNode\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"bool\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_node\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_obj\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_price\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"buyAppObj\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": true,\n" +
+                "\t\t\"stateMutability\": \"payable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_obj\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_price\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setPrice\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_node\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"getDepositNode\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"bool\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_publish\",\n" +
+                "\t\t\t\t\"type\": \"bool\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"changePublish\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_node\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_state\",\n" +
+                "\t\t\t\t\"type\": \"bool\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setConfirmationNode\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_arrObj\",\n" +
+                "\t\t\t\t\"type\": \"uint256[]\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_price\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setPrice\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [],\n" +
+                "\t\t\"name\": \"defRating\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"int256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_arrObj\",\n" +
+                "\t\t\t\t\"type\": \"uint256[]\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_arrPrice\",\n" +
+                "\t\t\t\t\"type\": \"uint256[]\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setDuration\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_contract\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setLogStorageContract\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_node\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_value\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"makeDeposit\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": true,\n" +
+                "\t\t\"stateMutability\": \"payable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_dev\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"getInfoDev\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"bytes32\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_contract\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setDevStorageContract\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [],\n" +
+                "\t\t\"name\": \"newOwner\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [],\n" +
+                "\t\t\"name\": \"requestRefund\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_node\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_value\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"makeDepositPMT\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": true,\n" +
+                "\t\t\"stateMutability\": \"payable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [],\n" +
+                "\t\t\"name\": \"collectDev\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_dev\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_state\",\n" +
+                "\t\t\t\t\"type\": \"bool\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setStoreBlockedDev\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_dev\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"getNameDev\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"bytes32\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_user\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_obj\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"getTimeSubscription\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_endTime\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [],\n" +
+                "\t\t\"name\": \"LogStorage\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"vote\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"description\",\n" +
+                "\t\t\t\t\"type\": \"string\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"txIndex\",\n" +
+                "\t\t\t\t\"type\": \"bytes32\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"feedbackRating\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_newOwner\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"transferOwnership\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_dev\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"getStoreBlockedDev\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"bool\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": true,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_node\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"getInfoNode\",\n" +
+                "\t\t\"outputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"uint32\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"bool\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"string\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"string\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"\",\n" +
+                "\t\t\t\t\"type\": \"string\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"view\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_app\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_node\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_obj\",\n" +
+                "\t\t\t\t\"type\": \"uint256\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"buyAppSub\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": true,\n" +
+                "\t\t\"stateMutability\": \"payable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"constant\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_agent\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_status\",\n" +
+                "\t\t\t\t\"type\": \"bool\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"updateAgent\",\n" +
+                "\t\t\"outputs\": [],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"function\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_appStorage\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_devStorage\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_nodeStorage\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"name\": \"_logStorage\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"payable\": false,\n" +
+                "\t\t\"stateMutability\": \"nonpayable\",\n" +
+                "\t\t\"type\": \"constructor\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"anonymous\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"indexed\": false,\n" +
+                "\t\t\t\t\"name\": \"_contract\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setStorageContractEvent\",\n" +
+                "\t\t\"type\": \"event\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"anonymous\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"indexed\": false,\n" +
+                "\t\t\t\t\"name\": \"_contract\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setDevStorageContractEvent\",\n" +
+                "\t\t\"type\": \"event\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"anonymous\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"indexed\": false,\n" +
+                "\t\t\t\t\"name\": \"_contract\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setAppStorageContractEvent\",\n" +
+                "\t\t\"type\": \"event\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"anonymous\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"indexed\": false,\n" +
+                "\t\t\t\t\"name\": \"_contract\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"setLogStorageContractEvent\",\n" +
+                "\t\t\"type\": \"event\"\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"anonymous\": false,\n" +
+                "\t\t\"inputs\": [\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"indexed\": true,\n" +
+                "\t\t\t\t\"name\": \"_from\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t},\n" +
+                "\t\t\t{\n" +
+                "\t\t\t\t\"indexed\": true,\n" +
+                "\t\t\t\t\"name\": \"_to\",\n" +
+                "\t\t\t\t\"type\": \"address\"\n" +
+                "\t\t\t}\n" +
+                "\t\t],\n" +
+                "\t\t\"name\": \"OwnershipTransferred\",\n" +
+                "\t\t\"type\": \"event\"\n" +
+                "\t}\n" +
+                "]";
+    }
 }
 

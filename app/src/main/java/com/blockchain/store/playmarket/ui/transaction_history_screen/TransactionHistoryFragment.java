@@ -67,7 +67,7 @@ public class TransactionHistoryFragment extends Fragment {
         transactionModels = TransactionPrefsUtil.getTransactionByStatus(transactionModels, showTransactionType);
         if (!transactionModels.isEmpty()) {
             emptyView.setVisibility(View.GONE);
-
+            recyclerView.setVisibility(View.VISIBLE);
             if (adapter != null) {
                 adapter.reloadItems(transactionModels);
             } else {
@@ -78,6 +78,7 @@ public class TransactionHistoryFragment extends Fragment {
 
 
         } else {
+            recyclerView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
         }
 

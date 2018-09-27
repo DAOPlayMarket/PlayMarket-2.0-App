@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.constraint.Group;
 import android.support.transition.AutoTransition;
 import android.support.transition.ChangeTransform;
 import android.support.transition.TransitionManager;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.TransactionModel;
+import com.blockchain.store.playmarket.utilities.TransactionUtils;
 import com.blockchain.store.playmarket.utilities.transitions.Recolor;
 import com.blockchain.store.playmarket.views.FonAwesomeTextViewSolid;
 
@@ -46,6 +48,9 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     public void reloadItems(ArrayList<TransactionModel> transactionModels) {
+        if (this.transactionModels.size() != transactionModels.size()) {
+            this.isExpandedArray = new boolean[transactionModels.size()];
+        }
         this.transactionModels = transactionModels;
         notifyDataSetChanged();
     }
@@ -95,6 +100,7 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
         @BindView(R.id.right_line) View rightLine;
         @BindView(R.id.detail_holder) LinearLayout detailHolder;
         @BindView(R.id.details_additional_info) TextView detailAdditionalInfo;
+        @BindView(R.id.group) Group group;
 
         private Context context;
 
@@ -124,25 +130,10 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
                     break;
             }
 
-            arrowHolder.setOnClickListener(v -> {
+            group.setOnClickListener(v -> {
                 isExpandedArray[position] = !isExpandedArray[position];
 
-                TransitionSet transitionSet = new TransitionSet();
-
-                ChangeTransform changeTransform = new ChangeTransform();
-                changeTransform.setDuration(200);
-                changeTransform.setInterpolator(new AccelerateInterpolator());
-
-                AutoTransition autoTransition = new AutoTransition();
-                autoTransition.setOrdering(TransitionSet.ORDERING_TOGETHER);
-                autoTransition.setDuration(200);
-
-                Recolor recolor = new Recolor();
-                recolor.setDuration(200);
-
-                transitionSet.addTransition(autoTransition);
-                transitionSet.addTransition(changeTransform);
-                transitionSet.addTransition(recolor);
+                TransitionSet transitionSet = TransactionUtils.getTransactionSetForHistoryAdapter();
                 TransitionManager.beginDelayedTransition(recyclerView, transitionSet);
 
                 notifyDataSetChanged();

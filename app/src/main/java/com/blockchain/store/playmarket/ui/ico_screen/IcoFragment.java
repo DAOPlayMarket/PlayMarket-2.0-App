@@ -112,7 +112,7 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
     }
 
     private void setupRecyclerView(ArrayList<AppInfo> apps) {
-        adapter = new IcoListAdapter(apps, this);
+        adapter = new IcoListAdapter(apps, this, true);
         adapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);

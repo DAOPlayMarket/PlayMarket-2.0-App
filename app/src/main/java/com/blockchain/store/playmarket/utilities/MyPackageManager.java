@@ -73,6 +73,9 @@ public class MyPackageManager {
             return null;
         }
         File[] files = directory.listFiles();
+        if (files == null) {
+            return null;
+        }
         for (File file : files) {
             if (file.getName().contains(packageName)) {
                 return file;
