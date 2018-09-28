@@ -94,6 +94,7 @@ public class App implements Parcelable, NotificationImpl {
     public String getDownloadLink() {
         try {
             String downloadLink = RestApi.ICON_URL + hashTag + "/" + hash + "/" + files.apk;
+            downloadLink = downloadLink.replaceAll("\\\\", "/");
             return downloadLink;
         } catch (Exception e) {
             return "";

@@ -183,7 +183,7 @@ public class NotificationManager {
             notificationBuilder
                     .setContentTitle(item.getTitleName())
                     .setContentText("")
-                    .setPriority(Notification.PRIORITY_HIGH)
+                    .setPriority(Notification.PRIORITY_DEFAULT)
                     .setSmallIcon(android.R.drawable.stat_sys_download)
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setAutoCancel(true)
@@ -199,7 +199,7 @@ public class NotificationManager {
                     .setContentTitle(item.getTitleName())
                     .setAutoCancel(true)
                     .setDefaults(Notification.DEFAULT_ALL)
-                    .setPriority(Notification.PRIORITY_HIGH)
+                    .setPriority(Notification.PRIORITY_DEFAULT)
                     .setSmallIcon(android.R.drawable.stat_sys_download)
                     .setContentText("")
                     .setTicker("");
@@ -211,8 +211,9 @@ public class NotificationManager {
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             notificationManager.createNotificationChannel(notificationChannel);
-            notificationBuilder.setOnlyAlertOnce(true);
         }
+        notificationBuilder.setVibrate(new long[0]);
+        notificationBuilder.setOnlyAlertOnce(true);
         return notificationBuilder;
     }
 

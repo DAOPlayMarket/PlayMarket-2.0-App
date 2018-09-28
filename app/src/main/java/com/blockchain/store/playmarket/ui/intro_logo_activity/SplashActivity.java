@@ -24,8 +24,10 @@ import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 import com.bumptech.glide.Glide;
+import com.mtramin.rxfingerprint.RxFingerprint;
 
 import org.ethereum.geth.Address;
 import org.ethereum.geth.BoundContract;
@@ -33,7 +35,12 @@ import org.ethereum.geth.CallOpts;
 import org.ethereum.geth.EthereumClient;
 import org.ethereum.geth.Geth;
 import org.web3j.abi.FunctionEncoder;
+import org.web3j.abi.FunctionReturnDecoder;
+import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Function;
+import org.web3j.abi.datatypes.Type;
+import org.web3j.abi.datatypes.Utf8String;
+import org.web3j.abi.datatypes.generated.Bytes32;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.DefaultBlockParameterName;
@@ -42,17 +49,23 @@ import org.web3j.protocol.core.methods.response.EthCall;
 import org.web3j.protocol.core.methods.response.EthCompileSolidity;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
+import org.web3j.protocol.rx.Web3jRx;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.ethmobile.ethdroid.EthDroid;
+import io.ethmobile.ethdroid.solidity.element.SolidityElement;
+import okio.Utf8;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA;
+import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA_MAINNET_;
 import static org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction;
 
 public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
@@ -69,6 +82,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
 
     private SplashPresenter presenter;
     private String errorString = null;
+    Function function;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,14 +95,26 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         setupAndPlayVideo();
         checkLocationPermission();
         showGif();
+        try {
+            test();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void test() throws Exception {
-        Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
-        Function function = new Function("Name", new ArrayList<>(), new ArrayList<>());
+
+        Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA_MAINNET_));
+
+        List<TypeReference<?>> typeReferences = Arrays.asList(new TypeReference<Utf8String>() {
+        });
+        //
+//        function = new Function("name", new ArrayList<>(), typeReferences);
+        function = new Function("symbol", new ArrayList<>(), typeReferences);
+//        function = new Function("decimals", new ArrayList<>(), typeReferences);
         String encode = FunctionEncoder.encode(function);
         build.ethCall(
-                createEthCallTransaction("0x9e1F601D72bDA509D82ed7082D9d3a7E0F4d012B", "0x3EeC38cA1Bc24F7A1531307f76118A2F57e69d01", encode), DefaultBlockParameterName.LATEST)
+                createEthCallTransaction("0x9e1F601D72bDA509D82ed7082D9d3a7E0F4d012B", "0x0af44e2784637218dd1d32a322d44e603a8f0c6a", encode), DefaultBlockParameterName.LATEST)
                 .observable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -96,7 +122,14 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     }
 
     private void onOk(EthCall ethCall) {
+        Log.d(TAG, "onOk: " + ethCall.getValue());
+
+        List<TypeReference<?>> outputParameters = new ArrayList<>();
+        outputParameters.add(new TypeReference<Utf8String>() {
+        });
+        List<Type> decode = FunctionReturnDecoder.decode(ethCall.getValue(), function.getOutputParameters());
         Log.d(TAG, "onOk: ");
+
     }
 
     private void onError(Throwable throwable) {

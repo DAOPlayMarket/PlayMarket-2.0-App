@@ -7,7 +7,7 @@ import android.view.animation.AccelerateInterpolator;
 
 import com.blockchain.store.playmarket.utilities.transitions.Recolor;
 
-public class TransactionUtils {
+public class TransictionUtils {
     private static final int TRANSACTION_DURATION = 200;
 
     public static TransitionSet getTransactionSetForHistoryAdapter() {

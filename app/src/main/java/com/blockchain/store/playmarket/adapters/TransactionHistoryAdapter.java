@@ -6,8 +6,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.constraint.Group;
-import android.support.transition.AutoTransition;
-import android.support.transition.ChangeTransform;
 import android.support.transition.TransitionManager;
 import android.support.transition.TransitionSet;
 import android.support.v4.content.ContextCompat;
@@ -15,15 +13,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.TransactionModel;
-import com.blockchain.store.playmarket.utilities.TransactionUtils;
-import com.blockchain.store.playmarket.utilities.transitions.Recolor;
+import com.blockchain.store.playmarket.utilities.TransictionUtils;
 import com.blockchain.store.playmarket.views.FonAwesomeTextViewSolid;
 
 import java.text.DateFormat;
@@ -133,7 +129,7 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
             group.setOnClickListener(v -> {
                 isExpandedArray[position] = !isExpandedArray[position];
 
-                TransitionSet transitionSet = TransactionUtils.getTransactionSetForHistoryAdapter();
+                TransitionSet transitionSet = TransictionUtils.getTransactionSetForHistoryAdapter();
                 TransitionManager.beginDelayedTransition(recyclerView, transitionSet);
 
                 notifyDataSetChanged();
