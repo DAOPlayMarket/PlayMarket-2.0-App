@@ -95,11 +95,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         setupAndPlayVideo();
         checkLocationPermission();
         showGif();
-        try {
-            test();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void test() throws Exception {

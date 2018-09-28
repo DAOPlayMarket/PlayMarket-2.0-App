@@ -43,7 +43,7 @@ public class RestApi {
     private static ServerApi restApi;
     private static ChangellyApi changellyApi;
     private static ServerApi xmlApi;
-    private ServerApi customApi;
+
 
     public static ServerApi getServerApi() {
         if (restApi == null) {
