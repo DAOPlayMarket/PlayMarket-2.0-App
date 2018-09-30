@@ -93,6 +93,28 @@
                 android:text="@string/library_screen_title" />
         </LinearLayout>
 
+
+        <LinearLayout
+            android:id="@+id/token_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/nav_drawer_menu_height"
+            android:layout_marginBottom="@dimen/navigation_view_indents"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:visibility="invisible"
+                style="@style/navViewImageItem"
+                android:src="@drawable/book"
+                android:tint="@color/library_color"
+                app:srcCompat="@drawable/book" />
+
+            <TextView
+                style="@style/navViewTextItem"
+                android:gravity="center_vertical"
+                android:text="@string/token_activity_title" />
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/account_layout"
             android:layout_width="wrap_content"

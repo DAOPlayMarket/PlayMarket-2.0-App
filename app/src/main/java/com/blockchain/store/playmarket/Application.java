@@ -16,7 +16,6 @@ import com.blockchain.store.playmarket.data.entities.InvestTransactionModel;
 import com.blockchain.store.playmarket.data.entities.SendEthereumTransactionModel;
 import com.blockchain.store.playmarket.data.entities.SendReviewTransactionModel;
 import com.blockchain.store.playmarket.data.entities.SendTokenTransactionModel;
-import com.blockchain.store.playmarket.data.entities.TransactionModel;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
@@ -25,7 +24,6 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.http.AsyncSSLSocketMiddleware;
 import com.koushikdutta.ion.Ion;
@@ -112,7 +110,7 @@ public class Application extends MultiDexApplication {
         }).build();
 
         setUntrustedManager();
-        setUpAWS();
+//        setUpAWS();
     }
 
     private void setUntrustedManager() {

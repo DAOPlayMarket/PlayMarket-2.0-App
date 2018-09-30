@@ -13,6 +13,7 @@ import com.blockchain.store.playmarket.data.entities.Token;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHolder> {
     private ArrayList<Token> tokensList;
@@ -48,6 +49,7 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
 
         public TokenViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this,itemView);
         }
 
         public void bind(Token token) {

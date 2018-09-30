@@ -21,6 +21,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -119,6 +120,10 @@ public interface ServerApi {
 
     @GET("https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40playmarket2.0&api_key=bxtxvdt126inutffjskughyxigwfdb1er03qhvsk")
     Observable<PlaymarketFeed> getPlaymarketNews();
-    @GET("")
+
+    @GET("https://tokens.playmarket.io/")
     Observable<TokenResponse> getAllTokens();
+
+    @GET("https://tokens.playmarket.io/")
+    Observable<TokenResponse> getCustomToken(@Query("contract") String contract);
 }

@@ -7,31 +7,27 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.ui.activity_screen.NewsActivity;
-import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
-import com.blockchain.store.playmarket.ui.my_ico_screen.MyIcoActivity;
-import com.blockchain.store.playmarket.ui.transaction_history_screen.TransactionHistoryActivity;
-import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.about_screen.AboutAppActivity;
+import com.blockchain.store.playmarket.ui.activity_screen.NewsActivity;
 import com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivity;
-import com.blockchain.store.playmarket.ui.library_screen.LibraryActivity;
+import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
+import com.blockchain.store.playmarket.ui.my_ico_screen.MyIcoActivity;
 import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
 import com.blockchain.store.playmarket.ui.settings_screen.SettingsActivity;
+import com.blockchain.store.playmarket.ui.tokens_screen.TokenListActivity;
+import com.blockchain.store.playmarket.ui.transaction_history_screen.TransactionHistoryActivity;
+import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.QrUtils;
@@ -51,6 +47,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     @BindView(R.id.settings_layout) LinearLayout settingsLayout;
     @BindView(R.id.my_ico_layout) LinearLayout myIcoLayout;
     @BindView(R.id.about_layout) LinearLayout aboutLayout;
+    @BindView(R.id.token_layout) LinearLayout tokenLayout;
     @BindView(R.id.user_id_title) TextView userAddress;
     @BindView(R.id.ether_count) TextView balanceView;
     @BindView(R.id.avatar_image) ImageView avatarImage;
@@ -155,6 +152,11 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     void onHistoryClicked() {
         closeDrawers();
         startActivity(new Intent(getActivity(), TransactionHistoryActivity.class));
+    }
+    @OnClick(R.id.token_layout)
+    void onTokenClicked() {
+        closeDrawers();
+        startActivity(new Intent(getActivity(), TokenListActivity.class));
     }
 
 

@@ -203,6 +203,7 @@
 
 
     <string name="token_goal">Goal: %1$s %2$s Token</string>
+    <string name="token_activity_title">Tokens</string>
 
 
 </resources>
