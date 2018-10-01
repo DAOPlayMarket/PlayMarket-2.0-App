@@ -31,7 +31,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:background="@color/black" />
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <ImageView
             android:id="@+id/icon"
             android:layout_width="98dp"
             android:layout_height="98dp"

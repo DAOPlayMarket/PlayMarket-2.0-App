@@ -108,29 +108,13 @@ public class Application extends MultiDexApplication {
                 return new Gson().toJson(body);
             }
         }).build();
-
-        setUntrustedManager();
-//        setUpAWS();
-    }
-
-    private void setUntrustedManager() {
         setUpFresco();
-        setUpIon();
-
+        setUpAWS();
     }
 
-    private void setUpIon() {
-        setSelfSignedSSL(this);
-    }
 
     private void setUpFresco() {
-        ImagePipelineConfig config = OkHttpImagePipelineConfigFactory
-                .newBuilder(this,
-                        new OkHttpClient.Builder()
-                                .sslSocketFactory(getSllSocketFactory())
-                                .hostnameVerifier((hostname, session) -> true)
-                                .build()).build();
-        Fresco.initialize(this, config);
+        Fresco.initialize(this);
     }
 
     public static AppsDispatcher getAppsDispatcher() {
@@ -154,72 +138,6 @@ public class Application extends MultiDexApplication {
     public static boolean isForeground() {
         return instance == null;
     }
-
-
-    public void setSelfSignedSSL(Context mContext) {
-        try {
-            CertificateFactory cf = CertificateFactory.getInstance("X.509");
-
-            KeyStore keyStore = KeyStore.getInstance("BKS");
-            keyStore.load(null, null);
-
-            String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
-            TrustManagerFactory tmf = TrustManagerFactory.getInstance(tmfAlgorithm);
-            tmf.init(keyStore);
-
-            TrustManager[] wrappedTrustManagers = getWrappedTrustManagers(tmf.getTrustManagers());
-
-            SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(null, wrappedTrustManagers, null);
-            AsyncSSLSocketMiddleware sslMiddleWare;
-            sslMiddleWare = Ion.getDefault(mContext).getHttpClient().getSSLSocketMiddleware();
-            sslMiddleWare.setTrustManagers(wrappedTrustManagers);
-            sslMiddleWare.setHostnameVerifier(getHostnameVerifier());
-            sslMiddleWare.setSSLContext(sslContext);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private HostnameVerifier getHostnameVerifier() {
-        return (hostname, session) -> true;
-    }
-
-    private TrustManager[] getWrappedTrustManagers(TrustManager[] trustManagers) {
-        final X509TrustManager originalTrustManager = (X509TrustManager) trustManagers[0];
-        return new TrustManager[]{
-                new X509TrustManager() {
-                    public X509Certificate[] getAcceptedIssuers() {
-                        return originalTrustManager.getAcceptedIssuers();
-                    }
-
-                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
-                        try {
-                            if (certs != null && certs.length > 0) {
-                                certs[0].checkValidity();
-                            } else {
-                                originalTrustManager.checkClientTrusted(certs, authType);
-                            }
-                        } catch (CertificateException e) {
-                            Log.w("checkClientTrusted", e.toString());
-                        }
-                    }
-
-                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
-                        try {
-                            if (certs != null && certs.length > 0) {
-                                certs[0].checkValidity();
-                            } else {
-                                originalTrustManager.checkServerTrusted(certs, authType);
-                            }
-                        } catch (CertificateException e) {
-                            Log.w("checkServerTrusted", e.toString());
-                        }
-                    }
-                }
-        };
-    }
-
 
     private void setUpAWS() {
         AWSMobileClient.getInstance().initialize(this).execute();

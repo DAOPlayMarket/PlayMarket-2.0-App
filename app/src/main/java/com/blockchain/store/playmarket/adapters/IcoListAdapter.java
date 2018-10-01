@@ -78,7 +78,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
     }
 
     public class IcoAppViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.icon) SimpleDraweeView icon;
+        @BindView(R.id.icon) ImageView icon;
         @BindView(R.id.title) TextView title;
         @BindView(R.id.tokens_bought) TextView tokenBought;
         @BindView(R.id.time_remains) TextView timeRemains;

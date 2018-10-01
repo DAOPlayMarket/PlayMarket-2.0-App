@@ -79,7 +79,7 @@ public class RestApi {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .hostnameVerifier((hostname, session) -> true)
-                .sslSocketFactory(getSllSocketFactory()).build();
+                .build();
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(new ResultAdapterFactory()).setLenient().create();
@@ -105,7 +105,6 @@ public class RestApi {
 
     private static void setupWithChangelly() {
         OkHttpClient client = new OkHttpClient.Builder()
-                .sslSocketFactory(getSllSocketFactory())
                 .addInterceptor(new ChangellyInterceptor())
                 .build();
         Gson gson = new GsonBuilder()
@@ -172,7 +171,7 @@ public class RestApi {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .hostnameVerifier((hostname, session) -> true)
-                .sslSocketFactory(getSllSocketFactory()).build();
+                .build();
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(new ResultAdapterFactory()).setLenient().create();
@@ -191,7 +190,7 @@ public class RestApi {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .hostnameVerifier((hostname, session) -> true)
-                .sslSocketFactory(getSllSocketFactory()).build();
+                .build();
 
 
         Gson gson = new GsonBuilder()
