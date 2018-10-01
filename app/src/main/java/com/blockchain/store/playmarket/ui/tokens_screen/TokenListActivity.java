@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.ui.tokens_screen;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.TokenAdapter;
 import com.blockchain.store.playmarket.data.entities.TokenResponse;
+import com.blockchain.store.playmarket.ui.add_token_screen.AddTokenActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,6 +61,7 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
 
     @OnClick(R.id.floatingActionButton)
     void onFabClicked() {
+        startActivity(new Intent(this, AddTokenActivity.class));
     }
 
     @Override

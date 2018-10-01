@@ -32,7 +32,6 @@ public class TransactionRepository {
     private static Web3j web3j;
 
     public static Observable<Token> test(String contractAddress, String userAddress) {
-        contractAddress = "0x538106e553f5ba3298199c1998ba061922815a6c";
         TransactionRepository.contractAddress = contractAddress;
         TransactionRepository.userAddress = userAddress;
         TransactionRepository.web3j = Web3jFactory.build(new HttpService(BASE_URL_INFURA));

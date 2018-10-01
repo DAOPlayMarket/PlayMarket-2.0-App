@@ -1,6 +1,5 @@
 package com.blockchain.store.playmarket.utilities;
 
-import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -17,17 +16,13 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.data.entities.App;
-import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.mtramin.rxfingerprint.RxFingerprint;
 import com.orhanobut.hawk.Hawk;
 
 import java.math.BigDecimal;
 
-import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
@@ -44,11 +39,11 @@ public class DialogManager {
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.invest_amount_dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        if (dialog != null) {
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            dialog.getWindow().setLayout(width, height);
-        }
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setLayout(width, height);
+
         TextView userName = dialog.findViewById(R.id.user_name);
         TextView userCommentary = dialog.findViewById(R.id.user_commentary);
         TextView readMore = dialog.findViewById(R.id.read_more);
@@ -105,22 +100,12 @@ public class DialogManager {
                                 }
                                 break;
                         }
-                    }, throwable -> {
-                        //noinspection StatementWithEmptyBody
-                        if (RxFingerprint.keyInvalidated(throwable)) {
-                            // The keys you wanted to use are invalidated because the user has turned off his
-                            // secure lock screen or changed the fingerprints stored on the device
-                            // You have to re-encrypt the data to access it
-                        }
-                        Log.e("ERROR", "decrypt", throwable);
-                    });
+                    }, throwable -> Log.e("ERROR", "decrypt", throwable));
         }
 
 
         closeButton.setOnClickListener(v -> dialog.dismiss());
-
         continueButton.setOnClickListener(v -> {
-
             if (new BigDecimal(accountBalanceInWei).compareTo(new BigDecimal("0")) == 1) {
                 try {
                     Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordField.getText().toString());
@@ -139,19 +124,6 @@ public class DialogManager {
         dialog.show();
     }
 
-//    private void setReadMoreLogic(TextView userCommentary) {
-//        if (userCommentary.getMaxLines() == 2) {
-//            textDescriptionAnimator = ObjectAnimator.ofInt(userCommentary, "maxLines", 10);
-//            readMore.setText(itemView.getContext().getString(R.string.read_less));
-//        } else if (userCommentary.getMaxLines() == 10) {
-//            textDescriptionAnimator = ObjectAnimator.ofInt(userCommentary, "maxLines", 2);
-//            readMore.setText(itemView.getContext().getString(R.string.read_more));
-//        }
-//
-//        if (textDescriptionAnimator != null && !textDescriptionAnimator.isStarted()) {
-//            textDescriptionAnimator.setDuration(Constants.USER_REVIEW_EXPAND_ANIMATION_MILLIS).start();
-//        }
-//    }
 
     public AlertDialog showCreateFolderDialog(Context context, String folderName, CreateFolderDialogCallback callback) {
 
@@ -191,15 +163,6 @@ public class DialogManager {
 
     public String getPasswordText() {
         return passwordText.getText().toString();
-    }
-
-
-    public interface PurchaseDialogCallback {
-        void onPurchaseClicked();
-    }
-
-    public interface InvestDialogCallback {
-        void onInvestClicked(String investAmount);
     }
 
     public interface CreateFolderDialogCallback {

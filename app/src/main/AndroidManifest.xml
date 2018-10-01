@@ -195,7 +195,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.tokens_screen.TokenListActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.add_token_screen.AddTokenActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
