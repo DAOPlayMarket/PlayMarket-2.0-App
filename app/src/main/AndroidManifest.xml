@@ -190,8 +190,12 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service android:name=".services.NotificationService" />
 
-        <activity android:name=".ui.transaction_history_screen.TransactionHistoryActivity" />
-        <activity android:name=".ui.tokens_screen.TokenListActivity"></activity>
+        <activity
+            android:name=".ui.transaction_history_screen.TransactionHistoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.tokens_screen.TokenListActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

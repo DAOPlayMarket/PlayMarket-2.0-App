@@ -99,13 +99,17 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
 
     private void test() throws Exception {
 
-        Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA_MAINNET_));
+        Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
 
         List<TypeReference<?>> typeReferences = Arrays.asList(new TypeReference<Utf8String>() {
         });
+
+        ArrayList<Type> valueList = new ArrayList<>();
+        valueList.add(new org.web3j.abi.datatypes.Address(""));
         //
 //        function = new Function("name", new ArrayList<>(), typeReferences);
-        function = new Function("symbol", new ArrayList<>(), typeReferences);
+//        function = new Function("symbol", new ArrayList<>(), typeReferences);
+//        function = new Function("balanceOf", valueList, typeReferences);
 //        function = new Function("decimals", new ArrayList<>(), typeReferences);
         String encode = FunctionEncoder.encode(function);
         build.ethCall(
@@ -117,13 +121,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     }
 
     private void onOk(EthCall ethCall) {
-        Log.d(TAG, "onOk: " + ethCall.getValue());
-
-        List<TypeReference<?>> outputParameters = new ArrayList<>();
-        outputParameters.add(new TypeReference<Utf8String>() {
-        });
         List<Type> decode = FunctionReturnDecoder.decode(ethCall.getValue(), function.getOutputParameters());
-        Log.d(TAG, "onOk: ");
 
     }
 

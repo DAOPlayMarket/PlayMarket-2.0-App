@@ -185,7 +185,7 @@ public class CryptoUtils {
         return hexStringToByteArray(encode);
     }
 
-    public static String bytesToHexString(byte[] bytes) {
+    private static String bytesToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
         for (byte b : bytes) {
             sb.append(String.format("%02x", b & 0xff));
@@ -194,7 +194,7 @@ public class CryptoUtils {
         return sb.toString();
     }
 
-    public static byte[] hexStringToByteArray(String s) {
+    private static byte[] hexStringToByteArray(String s) {
         byte[] b = new byte[s.length() / 2];
         for (int i = 0; i < b.length; i++) {
             int index = i * 2;

@@ -5,6 +5,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,11 +20,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class TokenListActivity extends AppCompatActivity implements TokenListContract.View {
+
     private static final String TAG = "TokenListActivity";
 
     @BindView(R.id.top_layout_app_name) TextView toolbarTitle;
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @BindView(R.id.floatingActionButton) FloatingActionButton floatingActionButton;
+    @BindView(R.id.error_holder) LinearLayout errorHolder;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
 
     private TokenAdapter adapter;
     private TokenListPresenter presenter;
@@ -53,20 +59,30 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
 
     @OnClick(R.id.floatingActionButton)
     void onFabClicked() {
-        Toast.makeText(this, "fab", Toast.LENGTH_SHORT).show();
     }
 
-    @Override public void showProgress(boolean b) {
-
+    @Override
+    public void showProgress(boolean isShown) {
+        progressBar.setVisibility(isShown ? View.VISIBLE : View.GONE);
     }
 
-    @Override public void onTokensReady(TokenResponse tokenResponse) {
+    @Override
+    public void onTokensReady(TokenResponse tokenResponse) {
+        errorHolder.setVisibility(View.GONE);
         adapter = new TokenAdapter(tokenResponse.tokens);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
 
-    @Override public void onTokensError(Throwable throwable) {
-
+    @Override
+    public void onTokensError(Throwable throwable) {
+        errorHolder.setVisibility(View.VISIBLE);
     }
+
+    @OnClick(R.id.error_view_repeat_btn)
+    public void onErrorViewClicked() {
+        errorHolder.setVisibility(View.GONE);
+        presenter.getAllTokens();
+    }
+
 }
