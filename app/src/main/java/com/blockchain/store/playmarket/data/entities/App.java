@@ -85,6 +85,7 @@ public class App implements Parcelable, NotificationImpl {
     public String getIconUrl() {
         try {
             String iconUrl = RestApi.ICON_URL + hashTag + "/" + hash + "/" + files.images.logo;
+            iconUrl = iconUrl.replaceAll("\\\\", "/");
             return iconUrl;
         } catch (Exception e) {
             return "";
@@ -105,6 +106,7 @@ public class App implements Parcelable, NotificationImpl {
         try {
             ArrayList<String> images = new ArrayList<>();
             for (String s : files.images.gallery) {
+                s = s.replaceAll("\\\\", "/");
                 images.add(RestApi.ICON_URL + hashTag + "/" + hash + "/" + s);
             }
             Log.d(TAG, "getImages: " + images);
