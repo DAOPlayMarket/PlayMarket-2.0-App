@@ -20,6 +20,8 @@ import android.widget.VideoView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.data.entities.Token;
+import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
@@ -95,40 +97,21 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         setupAndPlayVideo();
         checkLocationPermission();
         showGif();
+//        test();
     }
 
-    private void test() throws Exception {
+    private void test() {
+        TransactionRepository.test("","0x9e1F601D72bDA509D82ed7082D9d3a7E0F4d012B").subscribe(this::onOk,this::onError);
 
-        Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
-
-        List<TypeReference<?>> typeReferences = Arrays.asList(new TypeReference<Utf8String>() {
-        });
-
-        ArrayList<Type> valueList = new ArrayList<>();
-        valueList.add(new org.web3j.abi.datatypes.Address(""));
-        //
-//        function = new Function("name", new ArrayList<>(), typeReferences);
-//        function = new Function("symbol", new ArrayList<>(), typeReferences);
-//        function = new Function("balanceOf", valueList, typeReferences);
-//        function = new Function("decimals", new ArrayList<>(), typeReferences);
-        String encode = FunctionEncoder.encode(function);
-        build.ethCall(
-                createEthCallTransaction("0x9e1F601D72bDA509D82ed7082D9d3a7E0F4d012B", "0x0af44e2784637218dd1d32a322d44e603a8f0c6a", encode), DefaultBlockParameterName.LATEST)
-                .observable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onOk, this::onError);
     }
 
-    private void onOk(EthCall ethCall) {
-        List<Type> decode = FunctionReturnDecoder.decode(ethCall.getValue(), function.getOutputParameters());
-
+    private void onOk(Token token) {
+        Log.d(TAG, "onOk: ");
     }
 
     private void onError(Throwable throwable) {
         Log.d(TAG, "onError: ");
     }
-
 
     private void checkLocationPermission() {
         if (PermissionUtils.isLocationPermissionGranted(this)) {

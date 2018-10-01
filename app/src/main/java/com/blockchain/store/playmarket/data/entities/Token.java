@@ -7,4 +7,5 @@ public class Token {
     public String contract;
     public String site;
     public String price;
+    public String balanceOf;
 }

@@ -1,11 +1,12 @@
 package com.blockchain.store.playmarket.repositories;
 
+import com.blockchain.store.playmarket.data.entities.Token;
+
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Function;
-import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Uint8;
@@ -16,10 +17,9 @@ import org.web3j.protocol.core.methods.response.EthCall;
 import org.web3j.protocol.http.HttpService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -27,33 +27,50 @@ import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA;
 import static org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction;
 
 public class TransactionRepository {
+    private static String contractAddress;
+    private static String userAddress;
+    private static Web3j web3j;
 
+    public static Observable<Token> test(String contractAddress, String userAddress) {
+        contractAddress = "0x538106e553f5ba3298199c1998ba061922815a6c";
+        TransactionRepository.contractAddress = contractAddress;
+        TransactionRepository.userAddress = userAddress;
+        TransactionRepository.web3j = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
 
-    public static void test(String contractAddress, String userAddress) {
-        contractAddress = "0x0af44e2784637218dd1d32a322d44e603a8f0c6a";
-        Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
-
-        List<TypeReference<?>> typeReferences = Arrays.asList(new TypeReference<Utf8String>() {
-        });
-
-        ArrayList<Type> valueList = new ArrayList<>();
-        valueList.add(new org.web3j.abi.datatypes.Address(""));
-        //
-        Function function = new Function("name", new ArrayList<>(), typeReferences);
-//        List<Type> decode = FunctionReturnDecoder.decode(ethCall.getVale(), function.getOutputParameters());
-
-        String encode = FunctionEncoder.encode(function);
-        build.ethCall(
-                createEthCallTransaction("", contractAddress, encode), DefaultBlockParameterName.LATEST).observable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-
+        return Observable.zip(getNameObservable(), getSymbolObservable(), getDecimalsObservable(), getBalanceOfObservable(),
+                (nameCall, symbolCall, decimalsCall, balanceOfCall) -> {
+                    Token token = new Token();
+                    token.name = decodeFunction(nameCall, getNameFunction()).toString();
+                    token.symbol = decodeFunction(symbolCall, getSymbolFunction()).toString();
+                    token.decimals = decodeFunction(decimalsCall, getDecimalsFunction()).toString();
+                    token.contract = TransactionRepository.contractAddress;
+                    token.balanceOf = decodeFunction(balanceOfCall, getBalanceOfFunction(TransactionRepository.userAddress)).toString();
+                    return token;
+                }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread());
     }
 
-    private static void mapWithGetSymbol(EthCall ethCall) {
-        List<Type> decode = FunctionReturnDecoder.decode(ethCall.getValue(), function.getOutputParameters());
-        String name = (String) decode.get(0).getValue();
+    private static Observable<EthCall> getNameObservable() {
+        return getEthCallObservable(getNameFunction());
+    }
 
+    private static Observable<EthCall> getSymbolObservable() {
+        return getEthCallObservable(getSymbolFunction());
+    }
+
+    private static Observable<EthCall> getDecimalsObservable() {
+        return getEthCallObservable(getDecimalsFunction());
+    }
+
+    private static Observable<EthCall> getBalanceOfObservable() {
+        return getEthCallObservable(getBalanceOfFunction(userAddress));
+    }
+
+    private static Observable<EthCall> getEthCallObservable(Function dataFunction) {
+        return web3j.ethCall(createEthCallTransaction(TransactionRepository.userAddress, contractAddress, FunctionEncoder.encode(dataFunction)), DefaultBlockParameterName.LATEST).observable();
+    }
+
+    private static Object decodeFunction(EthCall ethCall, Function function) {
+        return FunctionReturnDecoder.decode(ethCall.getValue(), function.getOutputParameters()).get(0).getValue();
     }
 
     private static Function getSymbolFunction() {
