@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 
 import com.blockchain.store.PurchaseSDK.repository.TransferRepository;
+import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.repositories.BalanceRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
 import java.net.ConnectException;
 import java.net.UnknownHostException;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.EXTRA_METHOD_ERROR;
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.EXTRA_METHOD_NAME;
@@ -68,6 +72,10 @@ public class RemoteService extends IntentService {
                             .subscribe(this::onTransactionCreate, this::onTransactionFailed);
                     break;
             }
+
+            RestApi.getServerApi().getAppsByPackage(AccountManager.getAddress().getHex())
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread());
         }
     }
 

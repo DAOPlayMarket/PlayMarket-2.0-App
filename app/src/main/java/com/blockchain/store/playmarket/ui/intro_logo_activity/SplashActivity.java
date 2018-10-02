@@ -27,6 +27,7 @@ import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
+import com.blockchain.store.playmarket.utilities.crypto.GenerateTransactionData;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 import com.bumptech.glide.Glide;
 import com.mtramin.rxfingerprint.RxFingerprint;
@@ -101,6 +102,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     }
 
     private void test() {
+        byte[] build = new GenerateTransactionData().build();
 //        TransactionRepository.test("","0x9e1F601D72bDA509D82ed7082D9d3a7E0F4d012B").subscribe(this::onOk,this::onError);
 
     }

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.data.entities.App;
+import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 
 import org.ethereum.geth.Account;
@@ -259,16 +260,37 @@ public class CryptoUtils {
     }
 
 
+    public static String generateRemoteBuyTransaction(int nonce, BigInt gasPrice, String transferAmount, String recipientAddress, String icoAddress) throws Exception {
+        KeyManager keyManager = Application.keyManager;
+        Account account = AccountManager.getAccount();
+        BigInt price = new BigInt(0);
+        price.setString("", 10);
 
+        byte[] buys = new GenerateTransactionData()
+                .setMethod("buy")
+                .putTypeData(new Uint256(10)) //App data
+                .putTypeData(new org.web3j.abi.datatypes.Address("")) // node address
+                .putTypeData(new Uint256(0))
+                .build();
 
+        Transaction transaction = new Transaction(nonce, new Address(icoAddress), price, GAS_LIMIT, gasPrice, buys);
+        transaction = Application.keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
+        return getRawTransaction(transaction);
+
+    }
     /*Transactions need to add:
-    * buyAppSub(unit256 _app, address _node, uint256, obj, unit256, price)
-    * buy(uint256 app. address node, uint256 obj )
-    * buyAppObj(uint245 app, address node, uint256 obj)
-    * buyAppObj(uint256 app. address node, uint256 obj, _price)
-    * buyAppSub(uint256 app, address node, uint256 obj)
-    * obj = 0 - если купить
-    * obg = 1 - если подписка. ,Вроде как
+
+    По цене:
+    Сама транзакция платная.
+    в дата - цену в УЕ.
+
+     * buy(uint256 app. address node, uint256 obj )
+     * buyAppObj(uint245 app, address node, uint256 obj)
+     * buyAppObj(uint256 app. address node, uint256 obj,unit256  _price)
+     * buyAppSub(unit256 _app, address _node, uint256 obj, unit256 _price)
+     * buyAppSub(uint256 app, address node, uint256 obj)
+    * obj = 0 - если приложение
+    * obg = 1 - идентификатор
     * */
 
 }
