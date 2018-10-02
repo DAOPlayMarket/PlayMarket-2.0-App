@@ -1,7 +1,5 @@
 package com.blockchain.store.playmarket.repositories;
 
-import android.content.Context;
-
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.check_transation_status_beta.JobUtils;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;

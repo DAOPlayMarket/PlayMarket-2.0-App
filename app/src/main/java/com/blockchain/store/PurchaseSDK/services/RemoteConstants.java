@@ -1,7 +1,6 @@
 package com.blockchain.store.PurchaseSDK.services;
 
-public class RemoteConstants {
-   static final String EXTRA_METHOD_NAME = "method_name";
+public class RemoteConstants { static final String EXTRA_METHOD_NAME = "method_name";
    static final String METHOD_GET_BALANCE = "method_get_balance";
    static final String METHOD_GET_ACCOUNT = "method_get_account";
    static final String METHOD_TRANSACTION = "method_get_transaction";
@@ -15,5 +14,5 @@ public class RemoteConstants {
    static final String VALUE_RECIPIENT_ADDRESS = "recipient_address";
    static final String VALUE_PASSWORD = "user_password";
 
-   static final String WRONG_PASSWORD_ERROR = "password_wrong_error";
+    public static final String WRONG_PASSWORD_ERROR = "password_wrong_error";
 }

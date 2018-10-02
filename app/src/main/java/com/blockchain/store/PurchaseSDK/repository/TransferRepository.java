@@ -1,10 +1,11 @@
-package com.blockchain.store.playmarket.repositories;
+package com.blockchain.store.PurchaseSDK.repository;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.PurchaseSDK.services.RemoteService;
+import com.blockchain.store.playmarket.repositories.TransactionInteractor;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
@@ -15,16 +16,18 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.WRONG_PASSWORD_ERROR;
+
 public class TransferRepository {
 
-    public Observable<PurchaseAppResponse> createTransaction(String transferAmountInWei, String recipientAddress,String password) {
+    public Observable<PurchaseAppResponse> createTransaction(String transferAmountInWei, String recipientAddress, String password) {
         return RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .flatMap(accountInfoResponse -> {
                     if (unlockAccount(password)) {
                         String transaction = generateTransaction(accountInfoResponse, transferAmountInWei, recipientAddress);
                         return RestApi.getServerApi().deployTransaction(transaction);
                     } else {
-                        throw new IllegalArgumentException(RemoteService.WRONG_PASSWORD_ERROR);
+                        throw new IllegalArgumentException(WRONG_PASSWORD_ERROR);
                     }
                 })
                 .map(TransactionInteractor::mapWithJobSchedule)

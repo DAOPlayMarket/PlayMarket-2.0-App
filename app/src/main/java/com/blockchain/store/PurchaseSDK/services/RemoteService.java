@@ -4,9 +4,9 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 
+import com.blockchain.store.PurchaseSDK.repository.TransferRepository;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.repositories.BalanceRepository;
-import com.blockchain.store.playmarket.repositories.TransferRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
 import java.net.ConnectException;
@@ -40,6 +40,7 @@ public class RemoteService extends IntentService {
                 sendNoUserIntent(USER_NOT_PROVIDED_ERROR);
                 return;
             }
+
             switch (intent.getStringExtra(EXTRA_METHOD_NAME)) {
                 case METHOD_GET_ACCOUNT:
                     sendUserAddress(AccountManager.getAccount().getAddress().getHex());
