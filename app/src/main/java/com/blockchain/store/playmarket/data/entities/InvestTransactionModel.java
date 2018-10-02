@@ -7,6 +7,10 @@ public class InvestTransactionModel extends TransactionModel {
     public final int TransactionType = Constants.TransactionTypes.INVEST.ordinal();
     public AppInfo appInfo;
     public String price;
+    public String wasTokenBeforeTransaction;
+    public String tokenCurrency;
+    public String tokenCount
+            ;
 
     @Override
     public Constants.TransactionTypes getTransactionType() {

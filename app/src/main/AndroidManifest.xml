@@ -163,7 +163,7 @@
             android:screenOrientation="portrait" />
 
         <service
-            android:name=".services.RemoteService"
+            android:name="com.blockchain.store.PurchaseSDK.services.RemoteService"
             android:exported="true" />
 
         <activity

@@ -5,7 +5,7 @@ import com.blockchain.store.playmarket.utilities.Constants;
 
 public class AppBuyTransactionModel extends TransactionModel {
     public final int TransactionType = Constants.TransactionTypes.BUY_APP.ordinal();
-    ;
+
     public App boughtApp;
 
     @Override

@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
@@ -16,10 +17,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHolder> {
+    private final TokenAdapterListener callback;
     private ArrayList<Token> tokensList;
 
-    public TokenAdapter(ArrayList<Token> tokensList) {
+    public TokenAdapter(ArrayList<Token> tokensList, TokenAdapterListener callback) {
         this.tokensList = tokensList;
+        this.callback = callback;
     }
 
     @NonNull
@@ -39,6 +42,11 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
         return tokensList.size();
     }
 
+    public void addNewToken(Token token) {
+        this.tokensList.add(0, token);
+        notifyDataSetChanged();
+    }
+
     class TokenViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.name) TextView name;
@@ -46,18 +54,24 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
         @BindView(R.id.decimals) TextView decimals;
         @BindView(R.id.site) TextView site;
         @BindView(R.id.price) TextView price;
+        @BindView(R.id.button) Button button;
 
         public TokenViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
 
         public void bind(Token token) {
             name.setText(token.name);
-            symbol.setText(token.site);
+            symbol.setText(token.symbol);
             decimals.setText(token.decimals);
             site.setText(token.site);
             price.setText(token.price);
+            button.setOnClickListener(v -> callback.onTokenClicked(token));
         }
+    }
+
+    public interface TokenAdapterListener {
+        void onTokenClicked(Token token);
     }
 }

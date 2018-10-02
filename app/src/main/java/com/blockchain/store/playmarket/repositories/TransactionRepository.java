@@ -31,11 +31,16 @@ public class TransactionRepository {
     private static String userAddress;
     private static Web3j web3j;
 
-    public static Observable<Token> test(String contractAddress, String userAddress) {
+    private static void init(String contractAddress, String userAddress) {
+        if (web3j == null) {
+            TransactionRepository.web3j = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
+        }
         TransactionRepository.contractAddress = contractAddress;
         TransactionRepository.userAddress = userAddress;
-        TransactionRepository.web3j = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
+    }
 
+    public static Observable<Token> getTokenFullInfo(String contractAddress, String userAddress) {
+        init(contractAddress, userAddress);
         return Observable.zip(getNameObservable(), getSymbolObservable(), getDecimalsObservable(), getBalanceOfObservable(),
                 (nameCall, symbolCall, decimalsCall, balanceOfCall) -> {
                     Token token = new Token();
@@ -46,6 +51,11 @@ public class TransactionRepository {
                     token.balanceOf = decodeFunction(balanceOfCall, getBalanceOfFunction(TransactionRepository.userAddress)).toString();
                     return token;
                 }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread());
+    }
+
+    public static Observable<EthCall> getTokenBalanceOf(String contractAddress, String userAddress) {
+        init(contractAddress, userAddress);
+        return getBalanceOfObservable().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread());
     }
 
     private static Observable<EthCall> getNameObservable() {

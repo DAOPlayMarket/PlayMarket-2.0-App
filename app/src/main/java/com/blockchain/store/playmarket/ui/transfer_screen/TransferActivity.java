@@ -12,7 +12,9 @@ import android.widget.Button;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.InvestTransactionModel;
 import com.blockchain.store.playmarket.data.entities.SendTokenTransactionModel;
+import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.transfer_screen.transfer_confirm_screen.TransferConfirmFragment;
 import com.blockchain.store.playmarket.ui.transfer_screen.transfer_info_screen.TransferInfoFragment;
@@ -31,6 +33,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     public static String RECIPIENT_ARG = "recipient_address";
     public static String APP_ARG = "app_address";
     public static String APP_INFO_ARG = "app_info_address";
+    public static String TOKEN_INFO_ARG = "token_info_address";
     public static String TRANSACTION_ARG = "transaction_arg";
 
     public static String REVIEW_ARG = "review_arg";
@@ -50,20 +53,12 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     private boolean isBlockEth;
     private App app;
     private AppInfo appInfo;
+    private Token token;
 
     @BindView(R.id.transfer_viewPager) NonSwipeableViewPager transferViewPager;
     @BindView(R.id.continue_transfer_button) Button continueButton;
     ViewPagerAdapter transferAdapter;
     String tokenName;
-
-    public static void startWithResult(Activity activity, String review, String vote, String txIndex, Constants.TransactionTypes transactionType, int resultCode) {
-        Intent starter = new Intent(activity.getBaseContext(), TransferActivity.class);
-        starter.putExtra(REVIEW_ARG, review);
-        starter.putExtra(VOTE_ARG, vote);
-        starter.putExtra(TX_INDEX_ARG, txIndex);
-        starter.putExtra(TRANSACTION_ARG, transactionType);
-        activity.startActivityForResult(starter, resultCode);
-    }
 
     public static void startWithResult(Activity activity, String recipientAddress, App app, Constants.TransactionTypes transactionType, int resultCode) {
         Intent starter = new Intent(activity.getBaseContext(), TransferActivity.class);
@@ -76,6 +71,13 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     public static void startAsTokenTransfer(Activity activity, AppInfo appInfo) {
         Intent starter = new Intent(activity.getBaseContext(), TransferActivity.class);
         starter.putExtra(APP_INFO_ARG, appInfo);
+        starter.putExtra(TRANSACTION_ARG, Constants.TransactionTypes.TRANSFER_TOKEN);
+        activity.startActivity(starter);
+    }
+
+    public static void startAsTokenTransfer(Activity activity, Token token) {
+        Intent starter = new Intent(activity.getBaseContext(), TransferActivity.class);
+        starter.putExtra(TOKEN_INFO_ARG, token);
         starter.putExtra(TRANSACTION_ARG, Constants.TransactionTypes.TRANSFER_TOKEN);
         activity.startActivity(starter);
     }
@@ -95,6 +97,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
 
         app = getIntent().getParcelableExtra(APP_ARG);
         appInfo = getIntent().getParcelableExtra(APP_INFO_ARG);
+        token = getIntent().getParcelableExtra(TOKEN_INFO_ARG);
 
         if (app != null) {
             transferViewModel.isBlockEthIcon.setValue(true);
@@ -104,9 +107,12 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
             transferViewModel.isBlockEthIcon.setValue(false);
             transferViewModel.totalBalance.setValue(Double.valueOf(appInfo.icoBalance.getTokenCount()));
             transferViewModel.tokenName.setValue(appInfo.icoSymbol);
+        } else if (token != null) {
+            transferViewModel.isBlockEthIcon.setValue(false);
+            transferViewModel.totalBalance.setValue(Double.valueOf(token.getTokenCount()));
+            transferViewModel.tokenName.setValue(token.symbol);
         } else {
             transferViewModel.isBlockEthIcon.setValue(false);
-
         }
 
         presenter = new TransferPresenter();
@@ -141,7 +147,15 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
                     Long totalTokens = (long) (Double.parseDouble(transferAmount) * pow);
                     String transformedAmount = totalTokens.toString();
                     presenter.createTransferTokenTransaction(transformedAmount, recipientAddress, appInfo.adrICO,
-                            createTokenTransactionModel(transferAmount));
+                            createInvestTransactionModel(transferAmount, appInfo.icoBalance.getTokenCount()));
+                    return;
+                }
+                if (token != null) {
+                    double pow = Math.pow(10, Double.parseDouble(token.decimals));
+                    Long totalTokens = (long) (Double.parseDouble(transferAmount) * pow);
+                    String transformedAmount = totalTokens.toString();
+                    presenter.createTransferTokenTransaction(transformedAmount, recipientAddress, token.contract,
+                            createTokenTransactionModel(transferAmount, token.balanceOf));
                     return;
                 }
                 if (isEth)
@@ -159,11 +173,20 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
         }
     }
 
-    private SendTokenTransactionModel createTokenTransactionModel(String transformedAmount) {
+    private SendTokenTransactionModel createTokenTransactionModel(String transformedAmount, String wasTokenBefore) {
         SendTokenTransactionModel transactionModel = new SendTokenTransactionModel();
         transactionModel.tokenCount = transformedAmount;
         transactionModel.tokenCurrency = transferViewModel.tokenName.getValue();
-        transactionModel.wasTokenBeforeTransaction = appInfo.icoBalance.getTokenCount();
+        transactionModel.wasTokenBeforeTransaction = wasTokenBefore;
+        transactionModel.appInfo = this.appInfo;
+        return transactionModel;
+    }
+
+    private InvestTransactionModel createInvestTransactionModel(String transformedAmount, String wasTokenBefore) {
+        InvestTransactionModel transactionModel = new InvestTransactionModel();
+        transactionModel.tokenCount = transformedAmount;
+        transactionModel.tokenCurrency = transferViewModel.tokenName.getValue();
+        transactionModel.wasTokenBeforeTransaction = wasTokenBefore;
         transactionModel.appInfo = this.appInfo;
         return transactionModel;
     }

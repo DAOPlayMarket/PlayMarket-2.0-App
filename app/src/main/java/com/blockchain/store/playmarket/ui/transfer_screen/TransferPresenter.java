@@ -12,6 +12,7 @@ import com.blockchain.store.playmarket.data.entities.AppBuyTransactionModel;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.SendEthereumTransactionModel;
 import com.blockchain.store.playmarket.data.entities.SendTokenTransactionModel;
+import com.blockchain.store.playmarket.data.entities.TransactionModel;
 import com.blockchain.store.playmarket.repositories.TransactionInteractor;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
@@ -110,12 +111,12 @@ public class TransferPresenter implements TransferContract.Presenter {
 
     }
 
-    public void createTransferTokenTransaction(String transferAmount, String recipientAddress, String icoAddress, SendTokenTransactionModel tokenTransactionModel) {
+    public void createTransferTokenTransaction(String transferAmount, String recipientAddress, String icoAddress, TransactionModel transactionModel) {
 
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
                 .flatMap(result -> mapTokenTransfer(result, transferAmount, recipientAddress, icoAddress))
-                .map(result -> TransactionInteractor.mapWithJobService(result, tokenTransactionModel))
+                .map(result -> TransactionInteractor.mapWithJobService(result, transactionModel))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::transferSuccess, this::transferFailed);

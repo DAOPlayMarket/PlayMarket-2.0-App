@@ -1,36 +1,33 @@
-package com.blockchain.store.playmarket.services;
+package com.blockchain.store.PurchaseSDK.services;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.repositories.BalanceRepository;
 import com.blockchain.store.playmarket.repositories.TransferRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
-import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.EXTRA_METHOD_ERROR;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.EXTRA_METHOD_NAME;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.EXTRA_METHOD_RESULT;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.METHOD_GET_ACCOUNT;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.METHOD_GET_BALANCE;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.METHOD_TRANSACTION;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.REMOTE_INTENT_NAME;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.UNKNOWN_HOST_EXCEPTION;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.USER_NOT_PROVIDED_ERROR;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.VALUE_PASSWORD;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.VALUE_RECIPIENT_ADDRESS;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.VALUE_TRANSFER_AMOUNT;
+
 public class RemoteService extends IntentService {
     private static final String TAG = "RemoteService";
-    private static final String EXTRA_METHOD_NAME = "method_name";
-    private static final String METHOD_GET_BALANCE = "method_get_balance";
-    private static final String METHOD_GET_ACCOUNT = "method_get_account";
-    private static final String METHOD_TRANSACTION = "method_get_transaction";
-    private static final String EXTRA_METHOD_RESULT = "method_extra_result";
-    private static final String EXTRA_METHOD_ERROR = "method_extra_error";
-    private static final String REMOTE_INTENT_NAME = "RemoteService";
-    private static final String USER_NOT_PROVIDED_ERROR = "user_not_provided_error";
-    private static final String UNKNOWN_HOST_EXCEPTION = "unknown_host_exception";
 
-    private static final String VALUE_TRANSFER_AMOUNT = "transfer_amount";
-    private static final String VALUE_RECIPIENT_ADDRESS = "recipient_address";
-    private static final String VALUE_PASSWORD = "user_password";
-
-    public static final String WRONG_PASSWORD_ERROR = "password_wrong_error";
 
     public RemoteService() {
         super("RemoteService");

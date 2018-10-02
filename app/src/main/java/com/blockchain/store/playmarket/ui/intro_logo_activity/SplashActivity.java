@@ -101,7 +101,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     }
 
     private void test() {
-        TransactionRepository.test("","0x9e1F601D72bDA509D82ed7082D9d3a7E0F4d012B").subscribe(this::onOk,this::onError);
+//        TransactionRepository.test("","0x9e1F601D72bDA509D82ed7082D9d3a7E0F4d012B").subscribe(this::onOk,this::onError);
 
     }
 

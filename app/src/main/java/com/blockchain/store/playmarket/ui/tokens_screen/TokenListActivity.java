@@ -10,20 +10,23 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.TokenAdapter;
+import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.data.entities.TokenResponse;
 import com.blockchain.store.playmarket.ui.add_token_screen.AddTokenActivity;
+import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
+import com.blockchain.store.playmarket.utilities.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TokenListActivity extends AppCompatActivity implements TokenListContract.View {
+public class TokenListActivity extends AppCompatActivity implements TokenListContract.View, TokenAdapter.TokenAdapterListener {
 
     private static final String TAG = "TokenListActivity";
+    private static final int ADD_TOKEN_RESPONSE = 10;
 
     @BindView(R.id.top_layout_app_name) TextView toolbarTitle;
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
@@ -61,7 +64,7 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
 
     @OnClick(R.id.floatingActionButton)
     void onFabClicked() {
-        startActivity(new Intent(this, AddTokenActivity.class));
+        startActivityForResult(new Intent(this, AddTokenActivity.class), ADD_TOKEN_RESPONSE);
     }
 
     @Override
@@ -72,7 +75,7 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
     @Override
     public void onTokensReady(TokenResponse tokenResponse) {
         errorHolder.setVisibility(View.GONE);
-        adapter = new TokenAdapter(tokenResponse.tokens);
+        adapter = new TokenAdapter(tokenResponse.tokens, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
@@ -88,4 +91,17 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
         presenter.getAllTokens();
     }
 
+    @Override
+    public void onTokenClicked(Token token) {
+        TransferActivity.startAsTokenTransfer(this, token);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_TOKEN_RESPONSE && resultCode == RESULT_OK) {
+            Token token = data.getParcelableExtra(Constants.TOKEN_ARGS);
+            adapter.addNewToken(token);
+        }
+    }
 }

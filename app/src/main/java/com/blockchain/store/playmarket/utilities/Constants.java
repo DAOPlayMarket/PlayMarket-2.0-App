@@ -112,4 +112,8 @@ public class Constants {
     public static final int USER_REVIEW_EXPAND_ANIMATION_MILLIS = 120;
     public static final String INFURA_TOKEN = "mS4OSWU5XZxDi9R75Dc7";
 
+
+    /*Token list activity*/
+    public static final String TOKEN_ARGS = "token_args";
+
 }

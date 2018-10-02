@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.ui.add_token_screen;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,10 +48,17 @@ public class AddTokenActivity extends AppCompatActivity {
         tokenSymbol.setText(token.symbol);
         tokenDecimals.setText(token.decimals);
         tokenBalanceof.setText(token.balanceOf);
+        notifyResult(token);
+    }
+
+    private void notifyResult(Token token) {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(Constants.TOKEN_ARGS, token);
+        setResult(RESULT_OK, resultIntent);
     }
 
     @OnClick(R.id.sent_action)
     void OnSentClicked() {
-        TransactionRepository.test(addressText.getText().toString(), AccountManager.getAddress().getHex()).subscribe(this::onOk, this::onError);
+        TransactionRepository.getTokenFullInfo(addressText.getText().toString(), AccountManager.getAddress().getHex()).subscribe(this::onOk, this::onError);
     }
 }

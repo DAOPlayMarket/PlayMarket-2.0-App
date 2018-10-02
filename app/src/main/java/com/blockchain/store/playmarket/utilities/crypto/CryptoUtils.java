@@ -259,5 +259,15 @@ public class CryptoUtils {
     }
 
 
+    /*Transactions need to add:
+    * buyAppSub(unit256 _app, address _node, uint256, obj, unit256, price)
+    * buy(uint256 app. address node, uint256 obj )
+    * buyAppObj(uint245 app, address node, uint256 obj)
+    * buyAppObj(uint256 app. address node, uint256 obj, _price)
+    * buyAppSub(uint256 app, address node, uint256 obj)
+    * obj = 0 - если купить
+    * obg = 1 - если подписка. ,Вроде как
+    * */
+
 }
 

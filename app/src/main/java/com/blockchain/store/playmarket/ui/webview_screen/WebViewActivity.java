@@ -60,22 +60,15 @@ public class WebViewActivity extends AppCompatActivity {
 
             @Override
             public void onPermissionRequest(PermissionRequest request) {
-//                super.onPermissionRequest(request);
                 request.grant(PermissionUtils.getPermissionsLocation());
             }
 
             @Override
             public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
-//                super.onGeolocationPermissionsShowPrompt(origin, callback);
                 callback.invoke(origin, true, false);
             }
         });
         webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                handler.proceed();
-            }
-
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
