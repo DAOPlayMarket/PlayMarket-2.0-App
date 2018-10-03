@@ -12,5 +12,5 @@ public class AccountInfoResponse {
     public int count;
     public String gasPrice;
     public String adrNode;
-    public String todo; //todo
+    public String currencyStock; //todo
 }

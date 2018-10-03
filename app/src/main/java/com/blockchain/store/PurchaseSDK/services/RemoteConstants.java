@@ -14,9 +14,10 @@ public class RemoteConstants {
     static final String VALUE_TRANSFER_AMOUNT = "transfer_amount";
     static final String VALUE_RECIPIENT_ADDRESS = "recipient_address";
     static final String VALUE_PASSWORD = "user_password";
+    static final String VALUE_TRANSACTION_TYPE_BUY = "transcation_type_buy";
 
-    enum TransactionTypes {
-        BUY, BUY_OBJ, BUY_OBJ_WITH_PRICE, BUY_SUB, BUY_SUB_WITH_PRICE
+    public enum TransactionTypes {
+        BUY, BUY_OBJECT, BUY_OBJECT_WITH_PRICE, BUY_SUB, BUY_SUB_WITH_PRICE
 
     }
 

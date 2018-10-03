@@ -10,6 +10,7 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
 import org.ethereum.geth.BigInt;
+import org.ethereum.geth.KeyStore;
 import org.ethereum.geth.Transaction;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
@@ -261,7 +262,7 @@ public class CryptoUtils {
 
 
     public static String generateRemoteBuyTransaction(int nonce, BigInt gasPrice, String transferAmount, String recipientAddress, String icoAddress) throws Exception {
-        KeyManager keyManager = Application.keyManager;
+        KeyStore keystore = Application.keyManager.getKeystore();
         Account account = AccountManager.getAccount();
         BigInt price = new BigInt(0);
         price.setString("", 10);
@@ -274,10 +275,11 @@ public class CryptoUtils {
                 .build();
 
         Transaction transaction = new Transaction(nonce, new Address(icoAddress), price, GAS_LIMIT, gasPrice, buys);
-        transaction = Application.keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
+        transaction = keystore.signTx(account, transaction, new BigInt(RINKEBY_ID));
         return getRawTransaction(transaction);
 
     }
+
     /*Transactions need to add:
 
     По цене:

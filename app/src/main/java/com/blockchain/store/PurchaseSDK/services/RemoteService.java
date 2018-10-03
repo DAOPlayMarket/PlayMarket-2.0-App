@@ -3,7 +3,9 @@ package com.blockchain.store.PurchaseSDK.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
+import com.blockchain.store.PurchaseSDK.repository.TestOBject;
 import com.blockchain.store.PurchaseSDK.repository.TransferRepository;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
@@ -39,44 +41,71 @@ public class RemoteService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        if (intent != null && intent.hasExtra(EXTRA_METHOD_NAME)) {
-            if (AccountManager.getAccount() == null) {
-                sendNoUserIntent(USER_NOT_PROVIDED_ERROR);
-                return;
-            }
-
-            switch (intent.getStringExtra(EXTRA_METHOD_NAME)) {
-                case METHOD_GET_ACCOUNT:
-                    sendUserAddress(AccountManager.getAccount().getAddress().getHex());
-                case METHOD_GET_BALANCE:
-                    new BalanceRepository().getAccountBalance().subscribe(this::onUserBalanceReady, this::onUserBalanceError);
-                    sendUserAddress(AccountManager.getAccount().getAddress().getHex());
-                    break;
-                case METHOD_TRANSACTION:
-                    String transferAmount = intent.getStringExtra(VALUE_TRANSFER_AMOUNT);
-                    if (transferAmount == null) {
-                        sendEmptyLineIntent(METHOD_TRANSACTION, VALUE_TRANSFER_AMOUNT);
-                        return;
-                    }
-                    String recipientAddress = intent.getStringExtra(VALUE_RECIPIENT_ADDRESS);
-                    if (recipientAddress == null) {
-                        sendEmptyLineIntent(METHOD_TRANSACTION, VALUE_RECIPIENT_ADDRESS);
-                        return;
-                    }
-                    String password = intent.getStringExtra(VALUE_PASSWORD);
-                    if (password == null) {
-                        sendEmptyLineIntent(METHOD_TRANSACTION, VALUE_PASSWORD);
-                        return;
-                    }
-                    new TransferRepository().createTransaction(transferAmount, recipientAddress, password)
-                            .subscribe(this::onTransactionCreate, this::onTransactionFailed);
-                    break;
-            }
-
-            RestApi.getServerApi().getAppsByPackage(AccountManager.getAddress().getHex())
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread());
+        if (!isIntentForErrors(intent)) {
+            return;
         }
+
+        switch (intent.getStringExtra(EXTRA_METHOD_NAME)) {
+            case METHOD_GET_ACCOUNT:
+                sendUserAddress(AccountManager.getAccount().getAddress().getHex());
+            case METHOD_GET_BALANCE:
+                new BalanceRepository().getAccountBalance().subscribe(this::onUserBalanceReady, this::onUserBalanceError);
+                sendUserAddress(AccountManager.getAccount().getAddress().getHex());
+                break;
+            case METHOD_TRANSACTION:
+                if (!isHasAllParameters(intent)) {
+                    return;
+                }
+                String transferAmount = intent.getStringExtra(VALUE_TRANSFER_AMOUNT);
+                String recipientAddress = intent.getStringExtra(VALUE_RECIPIENT_ADDRESS);
+                String password = intent.getStringExtra(VALUE_PASSWORD);
+
+                break;
+        }
+
+        RestApi.getServerApi().getAppsByPackage(AccountManager.getAddress().getHex())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+
+    }
+
+    private boolean isHasAllParameters(Intent intent) {
+
+        if (intent.hasExtra(VALUE_TRANSFER_AMOUNT)) {
+            sendEmptyLineIntent(METHOD_TRANSACTION, VALUE_TRANSFER_AMOUNT);
+            return false;
+        }
+
+        if (intent.hasExtra(VALUE_RECIPIENT_ADDRESS)) {
+            sendEmptyLineIntent(METHOD_TRANSACTION, VALUE_RECIPIENT_ADDRESS);
+            return false;
+        }
+        if (intent.hasExtra(VALUE_PASSWORD)) {
+            sendEmptyLineIntent(METHOD_TRANSACTION, VALUE_PASSWORD);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isIntentForErrors(Intent intent) {
+        if (intent != null && intent.hasExtra(EXTRA_METHOD_NAME)) {
+            checkHasAccount();
+        }
+        sendNoMethodName();
+
+        return false;
+    }
+
+    private void sendNoMethodName() {
+
+    }
+
+    private boolean checkHasAccount() {
+        if (AccountManager.getAccount() == null) {
+            sendNoUserIntent(USER_NOT_PROVIDED_ERROR);
+            return true;
+        }
+        return false;
     }
 
     private void sendUserAddress(String addressHex) {
