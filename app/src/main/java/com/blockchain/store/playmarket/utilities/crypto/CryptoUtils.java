@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.utilities.crypto;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.Application;
+import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -260,12 +261,17 @@ public class CryptoUtils {
 
     }
 
-
-    public static String generateRemoteBuyTransaction(int nonce, BigInt gasPrice, String transferAmount, String recipientAddress, String icoAddress) throws Exception {
+    //     * buy(uint256 app. address node, uint256 obj )
+    public static String generateRemoteBuyTransaction(AccountInfoResponse accountInfo, String priceInConditionalUnit, String recipientAddress, String icoAddress) throws Exception {
         KeyStore keystore = Application.keyManager.getKeystore();
         Account account = AccountManager.getAccount();
+        double priceDouble = Double.parseDouble(priceInConditionalUnit);
+        double priceInWei = priceDouble * accountInfo.getCurrentStock();
         BigInt price = new BigInt(0);
-        price.setString("", 10);
+        price.setString("" + priceInWei, 10);
+
+        BigInt gasPrice = new BigInt(Long.parseLong(accountInfo.gasPrice));
+        int nonce = accountInfo.count;
 
         byte[] buys = new GenerateTransactionData()
                 .setMethod("buy")
@@ -279,6 +285,9 @@ public class CryptoUtils {
         return getRawTransaction(transaction);
 
     }
+
+    //     * buyAppObj(uint245 app, address node, uint256 obj)
+
 
     /*Transactions need to add:
 

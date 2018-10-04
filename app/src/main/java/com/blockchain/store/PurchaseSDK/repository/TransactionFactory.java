@@ -1,5 +1,6 @@
 package com.blockchain.store.PurchaseSDK.repository;
 
+import com.blockchain.store.PurchaseSDK.services.RemoteConstants;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -14,6 +15,8 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static android.drm.DrmStore.Action.TRANSFER;
+
 public class TransactionFactory {
     /* What needed to create transaction:
      * 1. App Id.
@@ -21,23 +24,38 @@ public class TransactionFactory {
      * 3. Nonce, Gas Price, Gas Limit, Node Address (this can get with 'get-user-tx' request)
      * 4.
      * */
-    public static Observable<PurchaseAppResponse> get(Constants.TransactionTypes types, String transferAmount, String recipientAddress, String icoAddress, String packageName) {
-        Observable<App> appByPackageName = findAppByPackageName(packageName);
+    public static Observable<PurchaseAppResponse> get(int transactionType, String transferAmount, String recipientAddress, String icoAddress, String packageName) {
+        final Observable<App> appByPackageName = findAppByPackageName(packageName);
 
 
-        switch (types) {
-            case BUY_APP:
-                generateAppPurchase(transferAmount, recipientAddress, icoAddress);
-            case INVEST:
+
+        getMethodByTransactionType(transactionType);
+
+
+
+        return appByPackageName.flatMap(result -> getMethodByTransactionType(transactionType)).
+                observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread());
+    }
+
+    private static Observable<PurchaseAppResponse> getMethodByTransactionType(int transactionType) {
+        switch (transactionType) {
+            case RemoteConstants.TRANSACTION_BUY:
+//                createdTranscation = generateAppPurchase(transferAmount, recipientAddress, icoAddress);
+//                break;
+            case RemoteConstants.TRANSACTION_BUY_OBJECT:
+//                return generateAppPurchase(transferAmount, recipientAddress, icoAddress);
                 break;
-            case TRANSFER:
-                break;
-            case TRANSFER_TOKEN:
-                break;
-            case SEND_REVIEW:
-                break;
+//            case RemoteConstants.TRANSACTION_BUY_OBJECT_WITH_PRICE_CHECK:
+//                break;
+//            case RemoteConstants.TRANSACTION_BUY_SUB:
+//                break;
+//            case RemoteConstants.TRANSACTION_BUY_SUB_WITH_PRICE:
+//                break;
+            default:
+//                createdTranscation = null;
+
         }
-
         return null;
     }
 
@@ -58,9 +76,8 @@ public class TransactionFactory {
     private static Observable<PurchaseAppResponse> mapTokenTransfer(AccountInfoResponse accountInfo, String transferAmount, String recipientAddress, String icoAddress) {
         String rawTransaction = "";
         try {
-            rawTransaction = CryptoUtils.generateSendTokenTransaction(
-                    accountInfo.count,
-                    new BigInt(Long.parseLong(accountInfo.gasPrice)),
+            rawTransaction = CryptoUtils.generateRemoteBuyTransaction(
+                    accountInfo,
                     transferAmount,
                     recipientAddress,
                     icoAddress);

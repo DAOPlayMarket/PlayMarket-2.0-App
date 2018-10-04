@@ -4,7 +4,6 @@ import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
-import com.blockchain.store.PurchaseSDK.services.RemoteService;
 import com.blockchain.store.playmarket.repositories.TransactionInteractor;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;

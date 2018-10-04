@@ -3,10 +3,8 @@ package com.blockchain.store.PurchaseSDK.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
-import com.blockchain.store.PurchaseSDK.repository.TestOBject;
-import com.blockchain.store.PurchaseSDK.repository.TransferRepository;
+import com.blockchain.store.PurchaseSDK.repository.TransactionFactory;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.repositories.BalanceRepository;
@@ -25,11 +23,14 @@ import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.METHOD_G
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.METHOD_GET_BALANCE;
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.METHOD_TRANSACTION;
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.REMOTE_INTENT_NAME;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.TRANSFER_OBJECT_ID;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.TRANSFER_PACKAGE_NAME;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.TRANSFER_PASSWORD;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.TRANSFER_PRICE;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.TRANSFER_RECIPIENT_ADDRESS;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.TRANSFER_TRANSACTION_TYPE;
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.UNKNOWN_HOST_EXCEPTION;
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.USER_NOT_PROVIDED_ERROR;
-import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.VALUE_PASSWORD;
-import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.VALUE_RECIPIENT_ADDRESS;
-import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.VALUE_TRANSFER_AMOUNT;
 
 public class RemoteService extends IntentService {
     private static final String TAG = "RemoteService";
@@ -41,9 +42,9 @@ public class RemoteService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        if (!isIntentForErrors(intent)) {
-            return;
-        }
+//        if (!isIntentForErrors(intent)) {
+//            return;
+//        }
 
         switch (intent.getStringExtra(EXTRA_METHOD_NAME)) {
             case METHOD_GET_ACCOUNT:
@@ -53,35 +54,36 @@ public class RemoteService extends IntentService {
                 sendUserAddress(AccountManager.getAccount().getAddress().getHex());
                 break;
             case METHOD_TRANSACTION:
-                if (!isHasAllParameters(intent)) {
-                    return;
-                }
-                String transferAmount = intent.getStringExtra(VALUE_TRANSFER_AMOUNT);
-                String recipientAddress = intent.getStringExtra(VALUE_RECIPIENT_ADDRESS);
-                String password = intent.getStringExtra(VALUE_PASSWORD);
-
+//                if (!isHasAllParameters(intent)) {
+//                    return;
+//                }
+                String transferAmount = intent.getStringExtra(TRANSFER_PRICE);
+                String packageName = intent.getStringExtra(TRANSFER_PACKAGE_NAME);
+                String password = intent.getStringExtra(TRANSFER_PASSWORD);
+                String objectId = intent.getStringExtra(TRANSFER_OBJECT_ID);
+                int transactionType = intent.getIntExtra(TRANSFER_TRANSACTION_TYPE,-1);
+                TransactionFactory.get(transactionType,transferAmount,"0xb1215133D580Ac70811323aBbc3D87e2F6B39BD1","0xb1215133D580Ac70811323aBbc3D87e2F6B39BD1",packageName)
+                        .subscribe(this::onTransactionCreate,this::onUserBalanceError);
                 break;
         }
 
-        RestApi.getServerApi().getAppsByPackage(AccountManager.getAddress().getHex())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+
 
     }
 
     private boolean isHasAllParameters(Intent intent) {
 
-        if (intent.hasExtra(VALUE_TRANSFER_AMOUNT)) {
-            sendEmptyLineIntent(METHOD_TRANSACTION, VALUE_TRANSFER_AMOUNT);
+        if (intent.hasExtra(TRANSFER_PRICE)) {
+            sendEmptyLineIntent(METHOD_TRANSACTION, TRANSFER_PRICE);
             return false;
         }
 
-        if (intent.hasExtra(VALUE_RECIPIENT_ADDRESS)) {
-            sendEmptyLineIntent(METHOD_TRANSACTION, VALUE_RECIPIENT_ADDRESS);
+        if (intent.hasExtra(TRANSFER_RECIPIENT_ADDRESS)) {
+            sendEmptyLineIntent(METHOD_TRANSACTION, TRANSFER_RECIPIENT_ADDRESS);
             return false;
         }
-        if (intent.hasExtra(VALUE_PASSWORD)) {
-            sendEmptyLineIntent(METHOD_TRANSACTION, VALUE_PASSWORD);
+        if (intent.hasExtra(TRANSFER_PASSWORD)) {
+            sendEmptyLineIntent(METHOD_TRANSACTION, TRANSFER_PASSWORD);
             return false;
         }
         return true;

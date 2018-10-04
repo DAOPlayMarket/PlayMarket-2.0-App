@@ -13,4 +13,8 @@ public class AccountInfoResponse {
     public String gasPrice;
     public String adrNode;
     public String currencyStock; //todo
+
+    public double getCurrentStock() {
+        return Double.parseDouble(currencyStock);
+    }
 }
