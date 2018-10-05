@@ -15,6 +15,11 @@ public class AccountInfoResponse {
     public String currencyStock; //todo
 
     public double getCurrentStock() {
-        return Double.parseDouble(currencyStock);
+        try {
+            return Double.parseDouble(currencyStock);
+        } catch (Exception e) {
+            return 1f;
+        }
+
     }
 }

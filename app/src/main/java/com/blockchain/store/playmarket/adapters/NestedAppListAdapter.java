@@ -75,6 +75,9 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.app_list_content, parent, false);
             NestedAppListViewHolder nestedAppListViewHolder = new NestedAppListViewHolder(view);
+
+            nestedAppListViewHolder.imageView.setImageURI(
+                    Uri.parse(dispatcherType.apps.get(nestedAppListViewHolder.getAdapterPosition() + 1).getIconUrl()));
             return nestedAppListViewHolder;
         }
         if (viewType == TYPE_LOADING) {
@@ -101,6 +104,14 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
         return dispatcherType.apps.size() + 1;
     }
 
+    @Override
+    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewRecycled(holder);
+        if (holder instanceof NestedAppListViewHolder) {
+            ((NestedAppListViewHolder) holder).imageView.setImageURI("");
+        }
+    }
+
     class NestedAppListViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.imageView) SimpleDraweeView imageView;
         @BindView(R.id.cardView) CardView cardView;
@@ -121,7 +132,7 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public void bind(App app, int position) {
             content.setText(app.nameApp);
-            if (app.rating != null){
+            if (app.rating != null) {
                 noRating.setVisibility(View.GONE);
                 ratingText.setText(app.getRating());
             } else {
@@ -129,7 +140,7 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ratingText.setVisibility(View.GONE);
                 ratingStar.setVisibility(View.GONE);
             }
-            imageView.setImageURI(Uri.parse(app.getIconUrl()));
+//            imageView.setImageURI(Uri.parse(app.getIconUrl()));
             if (app.isFree) {
                 price.setText(R.string.app_free);
             } else {

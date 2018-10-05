@@ -26,8 +26,7 @@
             fresco:roundBottomLeft="true"
             fresco:roundBottomRight="true"
             fresco:roundTopRight="true"
-            fresco:roundedCornerRadius="10sp"
-            tools:srcCompat="@mipmap/ic_launcher" />
+            fresco:roundedCornerRadius="10sp" />
 
         <LinearLayout
             android:layout_width="match_parent"

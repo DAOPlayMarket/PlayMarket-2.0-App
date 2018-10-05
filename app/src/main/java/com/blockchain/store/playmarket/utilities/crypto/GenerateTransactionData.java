@@ -2,6 +2,9 @@ package com.blockchain.store.playmarket.utilities.crypto;
 
 import android.util.Log;
 
+import com.blockchain.store.PurchaseSDK.entities.TransferObject;
+import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
+
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
@@ -9,6 +12,7 @@ import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
+import org.web3j.abi.datatypes.generated.Uint256;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -78,6 +82,61 @@ public class GenerateTransactionData {
         }
         Log.d("Ether", "hexStringToByteArray: " + b);
         return b;
+    }
+
+     /*Transactions need to add:
+    По цене:
+    Сама транзакция платная.
+    в дата - цену в УЕ.
+     * buy(uint256 app. address node, uint256 obj )
+     * buyAppObj(uint245 app, address node, uint256 obj)
+     * buyAppObj(uint256 app. address node, uint256 obj,unit256  _price)
+     * buyAppSub(unit256 _app, address _node, uint256 obj, unit256 _price)
+     * buyAppSub(uint256 app, address node, uint256 obj)
+    * obj = 0 - если приложение
+    * obg = 1 - идентификатор
+    * */
+
+    public byte[] setAsBuyTransaction(TransferObject transferObject, AccountInfoResponse accountInfo) {
+        setMethod("buy");
+        putTypeData(new Uint256(transferObject.getAppId()));
+        putTypeData(new org.web3j.abi.datatypes.Address(accountInfo.adrNode));
+        putTypeData(new Uint256(Long.parseLong(transferObject.getObjectId())));
+        return build();
+    }
+
+    public byte[] setAsBuyObjTransaction(TransferObject transferObject, AccountInfoResponse accountInfo) {
+        setMethod("buyAppObj");
+        putTypeData(new Uint256(transferObject.getAppId()));
+        putTypeData(new org.web3j.abi.datatypes.Address(accountInfo.adrNode));
+        putTypeData(new Uint256(Long.parseLong(transferObject.getObjectId())));
+        return build();
+    }
+
+    public byte[] setAsBuyObjWithPriceCheckTransaction(TransferObject transferObject, AccountInfoResponse accountInfo) {
+        setMethod("buyAppObj");
+        putTypeData(new Uint256(transferObject.getAppId()));
+        putTypeData(new org.web3j.abi.datatypes.Address(accountInfo.adrNode));
+        putTypeData(new Uint256(Long.parseLong(transferObject.getObjectId())));
+        putTypeData(new Uint256(Long.parseLong(transferObject.getTransferPrice())));
+        return build();
+    }
+
+    public byte[] setAsBuySubTransaction(TransferObject transferObject, AccountInfoResponse accountInfo) {
+        setMethod("buyAppSub");
+        putTypeData(new Uint256(transferObject.getAppId()));
+        putTypeData(new org.web3j.abi.datatypes.Address(accountInfo.adrNode));
+        putTypeData(new Uint256(Long.parseLong(transferObject.getObjectId())));
+        return build();
+    }
+
+    public byte[] setAsBuySubWithPriceCheckTransaction(TransferObject transferObject, AccountInfoResponse accountInfo) {
+        setMethod("buyAppSub");
+        putTypeData(new Uint256(transferObject.getAppId()));
+        putTypeData(new org.web3j.abi.datatypes.Address(accountInfo.adrNode));
+        putTypeData(new Uint256(Long.parseLong(transferObject.getObjectId())));
+        putTypeData(new Uint256(Long.parseLong(transferObject.getTransferPrice())));
+        return build();
     }
 
 

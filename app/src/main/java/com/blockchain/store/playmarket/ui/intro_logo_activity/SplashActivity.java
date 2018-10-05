@@ -18,25 +18,31 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.Token;
+import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.crypto.GenerateTransactionData;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 import com.bumptech.glide.Glide;
 import com.mtramin.rxfingerprint.RxFingerprint;
 
+import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
+import org.ethereum.geth.BigInt;
 import org.ethereum.geth.BoundContract;
 import org.ethereum.geth.CallOpts;
 import org.ethereum.geth.EthereumClient;
 import org.ethereum.geth.Geth;
+import org.ethereum.geth.Transaction;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
@@ -44,6 +50,7 @@ import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Bytes32;
+import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.DefaultBlockParameterName;
@@ -62,6 +69,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.ethmobile.ethdroid.EthDroid;
+import io.ethmobile.ethdroid.KeyManager;
 import io.ethmobile.ethdroid.solidity.element.SolidityElement;
 import okio.Utf8;
 import rx.android.schedulers.AndroidSchedulers;
@@ -69,6 +77,9 @@ import rx.schedulers.Schedulers;
 
 import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA;
 import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA_MAINNET_;
+import static com.blockchain.store.playmarket.utilities.Constants.GAS_LIMIT;
+import static com.blockchain.store.playmarket.utilities.Constants.RINKEBY_ID;
+import static com.blockchain.store.playmarket.utilities.crypto.CryptoUtils.getRawTransaction;
 import static org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction;
 
 public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
@@ -94,16 +105,37 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         ButterKnife.bind(this);
         presenter = new SplashPresenter();
         presenter.init(this);
-        setLogoTextFont();
-        setupAndPlayVideo();
-        checkLocationPermission();
-        showGif();
-//        test();
+//        setLogoTextFont();
+//        setupAndPlayVideo();
+//        checkLocationPermission();
+//        showGif();
+        try {
+            test();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void test() {
-        byte[] build = new GenerateTransactionData().build();
-//        TransactionRepository.test("","0x9e1F601D72bDA509D82ed7082D9d3a7E0F4d012B").subscribe(this::onOk,this::onError);
+    private void test() throws Exception {
+        KeyManager keyManager = Application.keyManager;
+        Account account = keyManager.getAccounts().get(0);
+        keyManager.unlockAccount(account, "123123123");
+
+        byte[] transactionData = new GenerateTransactionData().setMethod("buyAppObj")
+                .putTypeData(new Uint256(0))// 0 сюда
+                .putTypeData(new org.web3j.abi.datatypes.Address("0x4Aa3c414a450609eF39e9154bD686A04B915E87d"))
+                .putTypeData(new Uint256(0)) // тут всегда 0 !
+                .putTypeData(new Uint256(50)) // 50 сюда
+                .build();
+
+        BigInt price = new BigInt(0);
+        price.setString("50", 10);
+        Transaction transaction = new Transaction(103, new Address("0x1EeD7bb814893FB23eb1236a9b2ccc7849C131d1"),
+                price, GAS_LIMIT, new BigInt(new EthereumPrice("2", EthereumPrice.Currency.GWEI).inWei().longValue()),
+                transactionData);
+        transaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
+        String rawTransaction = getRawTransaction(transaction);
+        Log.d(TAG, "test: ");
 
     }
 

@@ -21,7 +21,12 @@ public class SendEthereumTransactionModel extends TransactionModel {
 
     @Override
     public String getTransactionFormattedResult() {
-        return "- " + new EthereumPrice(priceInWei).getDisplayPrice(false);
+        try {
+            return "- " + new EthereumPrice(priceInWei).getDisplayPrice(false);
+        } catch (Exception e) {
+            return "-";
+        }
+
     }
 
     @Override

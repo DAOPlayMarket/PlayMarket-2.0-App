@@ -2,6 +2,8 @@ package com.blockchain.store.playmarket.utilities.crypto;
 
 import android.util.Log;
 
+import com.blockchain.store.PurchaseSDK.entities.TransferObject;
+import com.blockchain.store.PurchaseSDK.services.RemoteConstants;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -213,10 +215,22 @@ public class CryptoUtils {
         Account account = keyManager.getAccounts().get(0);
 
         BigInt price = new BigInt(0);
+        byte[] transactionData = new GenerateTransactionData().setMethod("buyAppObj")
+                .putTypeData(new Uint256(Long.parseLong(app.appId)))// 0 сюда
+                .putTypeData(new org.web3j.abi.datatypes.Address(Constants.PLAY_MARKET_ADDRESS))
+                .putTypeData(new Uint256(0)) // тут всегда 0 !
+                .putTypeData(new Uint256(Long.parseLong(app.getPrice()))) // 50 сюда
+                .build();
+
         price.setString(app.price, 10);
         Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
                 price, GAS_LIMIT, gasPrice,
-                getDataForBuyAppWithWeb3(app.appId, adrNode));
+                transactionData);
+//        Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
+//                price, GAS_LIMIT, gasPrice,
+//                getDataForBuyAppWithWeb3(app.appId, adrNode));
+        // GAS PRICE 2 GWEI
+        // сюда PM 0x1EeD7bb814893FB23eb1236a9b2ccc7849C131d1
 
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
         return getRawTransaction(signedTransaction);
@@ -261,11 +275,11 @@ public class CryptoUtils {
 
     }
 
-    //     * buy(uint256 app. address node, uint256 obj )
-    public static String generateRemoteBuyTransaction(AccountInfoResponse accountInfo, String priceInConditionalUnit, String recipientAddress, String icoAddress) throws Exception {
+    public static String generateRemoteBuyTransaction(AccountInfoResponse accountInfo, TransferObject transferObject) throws Exception {
         KeyStore keystore = Application.keyManager.getKeystore();
         Account account = AccountManager.getAccount();
-        double priceDouble = Double.parseDouble(priceInConditionalUnit);
+        keystore.timedUnlock(account, transferObject.getPassword(), 5000);
+        double priceDouble = Double.parseDouble(transferObject.getTransferPrice());
         double priceInWei = priceDouble * accountInfo.getCurrentStock();
         BigInt price = new BigInt(0);
         price.setString("" + priceInWei, 10);
@@ -273,29 +287,39 @@ public class CryptoUtils {
         BigInt gasPrice = new BigInt(Long.parseLong(accountInfo.gasPrice));
         int nonce = accountInfo.count;
 
-        byte[] buys = new GenerateTransactionData()
-                .setMethod("buy")
-                .putTypeData(new Uint256(10)) //App data
-                .putTypeData(new org.web3j.abi.datatypes.Address("")) // node address
-                .putTypeData(new Uint256(0))
-                .build();
+        byte[] transactionData = null;
+        switch (transferObject.getTransactionType()) {
+            case RemoteConstants.TRANSACTION_BUY:
+                transactionData = new GenerateTransactionData().setAsBuyTransaction(transferObject, accountInfo);
+                break;
+            case RemoteConstants.TRANSACTION_BUY_OBJECT:
+                transactionData = new GenerateTransactionData().setAsBuyObjTransaction(transferObject, accountInfo);
+                break;
+            case RemoteConstants.TRANSACTION_BUY_OBJECT_WITH_PRICE_CHECK:
+                transactionData = new GenerateTransactionData().setAsBuyObjWithPriceCheckTransaction(transferObject, accountInfo);
+                break;
+            case RemoteConstants.TRANSACTION_BUY_SUB:
+                transactionData = new GenerateTransactionData().setAsBuySubTransaction(transferObject, accountInfo);
+                break;
+            case RemoteConstants.TRANSACTION_BUY_SUB_WITH_PRICE:
+                transactionData = new GenerateTransactionData().setAsBuySubWithPriceCheckTransaction(transferObject, accountInfo);
+                break;
+            default:
+        }
 
-        Transaction transaction = new Transaction(nonce, new Address(icoAddress), price, GAS_LIMIT, gasPrice, buys);
+
+        Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS), price, GAS_LIMIT, gasPrice, transactionData);
         transaction = keystore.signTx(account, transaction, new BigInt(RINKEBY_ID));
         return getRawTransaction(transaction);
 
     }
 
     //     * buyAppObj(uint245 app, address node, uint256 obj)
-
-
-    /*Transactions need to add:
-
+   /*Transactions need to add:
     По цене:
     Сама транзакция платная.
     в дата - цену в УЕ.
-
-     * buy(uint256 app. address node, uint256 obj )
+     * buy(uint256 app. address node, uint256 obj ) // 50 цена id 0
      * buyAppObj(uint245 app, address node, uint256 obj)
      * buyAppObj(uint256 app. address node, uint256 obj,unit256  _price)
      * buyAppSub(unit256 _app, address _node, uint256 obj, unit256 _price)
@@ -303,6 +327,7 @@ public class CryptoUtils {
     * obj = 0 - если приложение
     * obg = 1 - идентификатор
     * */
+
 
 }
 

@@ -76,10 +76,6 @@ public class Constants {
     /* Transaction prefs */
     public static final String PLAY_MARKET_ADDRESS = "0x857A6198520aFd1B6Cba74a9313A57B6F07743BD";
 
-    public static final String NON_LOCAL_NODE_ADDRESS = "0x4aa3c414a450609ef39e9154bd686a04b915e87d";
-
-    public static final String LOCAL_NODE_ADDRESS = "0xa10e1b2255d3ec6d0fc379518c579a5f3caa9c42";
-
     public static final String TRANSACTION_MODEL_KEY = "transaction_model_key";
 
     /*Settings prefs*/

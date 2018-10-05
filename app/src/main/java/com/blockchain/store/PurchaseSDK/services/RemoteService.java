@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 
+import com.blockchain.store.PurchaseSDK.entities.TransferObject;
 import com.blockchain.store.PurchaseSDK.repository.TransactionFactory;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
@@ -57,16 +58,25 @@ public class RemoteService extends IntentService {
 //                if (!isHasAllParameters(intent)) {
 //                    return;
 //                }
-                String transferAmount = intent.getStringExtra(TRANSFER_PRICE);
+
+                String transferPrice = intent.getStringExtra(TRANSFER_PRICE);
                 String packageName = intent.getStringExtra(TRANSFER_PACKAGE_NAME);
                 String password = intent.getStringExtra(TRANSFER_PASSWORD);
                 String objectId = intent.getStringExtra(TRANSFER_OBJECT_ID);
-                int transactionType = intent.getIntExtra(TRANSFER_TRANSACTION_TYPE,-1);
-                TransactionFactory.get(transactionType,transferAmount,"0xb1215133D580Ac70811323aBbc3D87e2F6B39BD1","0xb1215133D580Ac70811323aBbc3D87e2F6B39BD1",packageName)
-                        .subscribe(this::onTransactionCreate,this::onUserBalanceError);
+                int transactionType = intent.getIntExtra(TRANSFER_TRANSACTION_TYPE, -1);
+
+
+                TransferObject transferObject = new TransferObject();
+                transferObject.setTransactionType(transactionType);
+                transferObject.setTransferPrice(transferPrice);
+                transferObject.setPackageName(packageName);
+                transferObject.setPassword(password);
+                transferObject.setObjectId(objectId);
+
+                TransactionFactory.get(transferObject)
+                        .subscribe(this::onTransactionCreate, this::onUserBalanceError);
                 break;
         }
-
 
 
     }
