@@ -129,7 +129,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
                 .build();
 
         BigInt price = new BigInt(0);
-        price.setString("50", 10);
+        price.setString(new EthereumPrice("1", EthereumPrice.Currency.ETHER).wei.toString(), 10);
         Transaction transaction = new Transaction(103, new Address("0x1EeD7bb814893FB23eb1236a9b2ccc7849C131d1"),
                 price, GAS_LIMIT, new BigInt(new EthereumPrice("2", EthereumPrice.Currency.GWEI).inWei().longValue()),
                 transactionData);
