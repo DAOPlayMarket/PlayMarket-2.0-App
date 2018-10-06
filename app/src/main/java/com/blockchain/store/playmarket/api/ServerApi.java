@@ -3,13 +3,11 @@ package com.blockchain.store.playmarket.api;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
-import com.blockchain.store.playmarket.data.entities.CryptoPriceReponse;
+import com.blockchain.store.playmarket.data.entities.CryptoPriceResponse;
 import com.blockchain.store.playmarket.data.entities.CurrentInfo;
 import com.blockchain.store.playmarket.data.entities.ExchangeRate;
 import com.blockchain.store.playmarket.data.entities.IcoBalance;
 import com.blockchain.store.playmarket.data.entities.Category;
-import com.blockchain.store.playmarket.data.entities.InvestAddressResponse;
-import com.blockchain.store.playmarket.data.entities.NonceResponce;
 import com.blockchain.store.playmarket.data.entities.PlaymarketFeed;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.TokenResponse;
@@ -85,12 +83,12 @@ public interface ServerApi {
 //    Call<ExchangeRate> getExchangeRate(@Field("currency") String currency);
 
     @FormUrlEncoded()
-    @POST("192.168.88.244:3003/api/get-currency")
+    @POST("get-currency")
     Call<ExchangeRate> getExchangeRate(@Field("currency") String currency);
 
     @FormUrlEncoded()
-    @POST("192.168.88.244:3003/api/get-crypto-price")
-    Call<CryptoPriceReponse> getCryptoPrice(@Field("amount") String countOfPmcTokensWithDecimals);
+    @POST("get-crypto-price")
+    Observable<CryptoPriceResponse> getCryptoPrice(@Field("amount") String countOfPmcTokensWithDecimals);
 
     @FormUrlEncoded()
     @POST("get-reviews")

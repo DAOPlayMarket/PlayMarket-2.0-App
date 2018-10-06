@@ -1,7 +1,6 @@
 package com.blockchain.store.PurchaseSDK.repository;
 
 import com.blockchain.store.PurchaseSDK.entities.TransferObject;
-import com.blockchain.store.PurchaseSDK.services.RemoteConstants;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -19,10 +18,7 @@ public class TransactionFactory {
 
     public static Observable<PurchaseAppResponse> get(TransferObject transferObject) {
         String packageName = transferObject.getPackageName();
-
-
         final Observable<App> appByPackageName = findAppByPackageName(packageName);
-
         return appByPackageName.flatMap(result -> getMethodByTransactionType(transferObject, result)).
                 observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread());
@@ -33,9 +29,8 @@ public class TransactionFactory {
         return RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .flatMap(result -> {
                     try {
-                        return generateMapTranscation(result, transferObject);
+                        return generateMapTransaction(result, transferObject);
                     } catch (Exception e) {
-                        e.printStackTrace();
                         throw new IllegalArgumentException(WRONG_PASSWORD_ERROR);
                     }
                 })
@@ -43,7 +38,7 @@ public class TransactionFactory {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    private static Observable<PurchaseAppResponse> generateMapTranscation(AccountInfoResponse accountInfo, TransferObject transferObject) throws Exception {
+    private static Observable<PurchaseAppResponse> generateMapTransaction(AccountInfoResponse accountInfo, TransferObject transferObject) throws Exception {
         String rawTransaction = CryptoUtils.generateRemoteBuyTransaction(
                 accountInfo,
                 transferObject);

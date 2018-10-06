@@ -7,7 +7,7 @@ import com.blockchain.store.PurchaseSDK.services.RemoteConstants;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
-import com.blockchain.store.playmarket.data.entities.CryptoPriceReponse;
+import com.blockchain.store.playmarket.data.entities.CryptoPriceResponse;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 
@@ -211,7 +211,7 @@ public class CryptoUtils {
         return b;
     }
 
-    public static String generateAppBuyTransaction(int nonce, BigInt gasPrice, App app, String adrNode, CryptoPriceReponse second) throws Exception {
+    public static String generateAppBuyTransaction(int nonce, BigInt gasPrice, App app, String adrNode, CryptoPriceResponse cryptoPriceResponse) throws Exception {
         KeyManager keyManager = Application.keyManager;
         Account account = keyManager.getAccounts().get(0);
 
@@ -222,7 +222,8 @@ public class CryptoUtils {
                 .putTypeData(new Uint256(0))
                 .putTypeData(new Uint256(Long.parseLong(app.getPrice())))
                 .build();
-        price.setString(app.price, 10);
+
+        price.setString(app.price /* * cryptoPriceResponse.price*/, 10);
 
         Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
                 price, GAS_LIMIT, gasPrice,
