@@ -241,19 +241,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
         new MyPackageManager().uninstallApkByApp(app);
     }
 
-    @Override
-    public void onPurchasedClicked(AppInfo appInfo) {
-//        AppBuyTransactionModel transactionModel = new AppBuyTransactionModel();
-//        transactionModel.boughtApp = appInfo;
-//
-//        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-//                .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
-//                .flatMap(this::mapAppBuyTransaction)
-//                .map(result -> TransactionInteractor.mapWithJobService(result, transactionModel))
-//                .subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread());
-    }
-
     public void onSendReviewClicked(String review, String vote) {
         sendReview(review, vote, "");
     }
@@ -297,7 +284,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     private void sortUserReviews(ArrayList<UserReview> userReviews) {
         ArrayList<SortedUserReview> newUserReviews = new ArrayList<>();
-        Log.d(TAG, "sortUserReviews: " + userReviews);
         for (UserReview review : userReviews) {
             if (review.isTxIndexIsEmpty()) {
                 SortedUserReview sortedUserReview = new SortedUserReview();
@@ -305,7 +291,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 newUserReviews.add(sortedUserReview);
             }
         }
-        Log.d(TAG, "1st step: " + newUserReviews);
         for (SortedUserReview sortedUserReview : newUserReviews) {
             for (UserReview review : userReviews) {
                 if (sortedUserReview.userReview.txIndexOrigin.equalsIgnoreCase(review.txIndex)) {
@@ -313,7 +298,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 }
             }
         }
-        Log.d(TAG, "2nd step: " + newUserReviews);
 
         ArrayList<UserReview> sortedUserReview = new ArrayList<>();
         for (SortedUserReview review : newUserReviews) {
@@ -323,8 +307,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 sortedUserReview.add(userReview);
             }
         }
-
-        Log.d(TAG, "3nd step: " + sortedUserReview);
         view.onReviewsReady(sortedUserReview);
 
     }

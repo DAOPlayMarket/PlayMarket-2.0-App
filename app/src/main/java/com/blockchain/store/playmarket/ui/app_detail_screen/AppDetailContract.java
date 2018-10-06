@@ -34,8 +34,6 @@ public class AppDetailContract {
 
         void onCheckPurchaseReady(boolean isPurchased);
 
-        void onPurchaseSuccessful(PurchaseAppResponse purchaseAppResponse);
-
         void onPurchaseError(Throwable throwable);
 
         void onReviewsReady(ArrayList<UserReview> userReviews);
@@ -56,8 +54,6 @@ public class AppDetailContract {
 
         void onDeleteButtonClicked(App app);
 
-
-        void onPurchasedClicked(AppInfo appInfo);
 
         void getReviews(String appId);
     }

@@ -295,19 +295,11 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @Override
     public void showPurchaseDialog() {
         TransferActivity.startWithResult(this, PLAY_MARKET_ADDRESS, app, Constants.TransactionTypes.BUY_APP, PURCHASE_RESULT_CODE);
-//        new DialogManager().showPurchaseDialog(app, this, () -> {
-//            presenter.onPurchasedClicked(appInfo);
-//        });
     }
 
     @Override
     public void onCheckPurchaseReady(boolean isPurchased) {
         isUserPurchasedApp = isPurchased;
-    }
-
-    @Override
-    public void onPurchaseSuccessful(PurchaseAppResponse purchaseAppResponse) {
-        ToastUtil.showToast(R.string.successfully_paid);
     }
 
     @Override
