@@ -7,6 +7,7 @@ import com.blockchain.store.PurchaseSDK.services.RemoteConstants;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
+import com.blockchain.store.playmarket.data.entities.CryptoPriceReponse;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 
@@ -210,27 +211,22 @@ public class CryptoUtils {
         return b;
     }
 
-    public static String generateAppBuyTransaction(int nonce, BigInt gasPrice, App app, String adrNode) throws Exception {
+    public static String generateAppBuyTransaction(int nonce, BigInt gasPrice, App app, String adrNode, CryptoPriceReponse second) throws Exception {
         KeyManager keyManager = Application.keyManager;
         Account account = keyManager.getAccounts().get(0);
 
         BigInt price = new BigInt(0);
         byte[] transactionData = new GenerateTransactionData().setMethod("buyAppObj")
-                .putTypeData(new Uint256(Long.parseLong(app.appId)))// 0 сюда
-                .putTypeData(new org.web3j.abi.datatypes.Address(Constants.PLAY_MARKET_ADDRESS))
-                .putTypeData(new Uint256(0)) // тут всегда 0 !
-                .putTypeData(new Uint256(Long.parseLong(app.getPrice()))) // 50 сюда
+                .putTypeData(new Uint256(Long.parseLong(app.appId)))
+                .putTypeData(new org.web3j.abi.datatypes.Address(adrNode))
+                .putTypeData(new Uint256(0))
+                .putTypeData(new Uint256(Long.parseLong(app.getPrice())))
                 .build();
-
         price.setString(app.price, 10);
+
         Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
                 price, GAS_LIMIT, gasPrice,
                 transactionData);
-//        Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
-//                price, GAS_LIMIT, gasPrice,
-//                getDataForBuyAppWithWeb3(app.appId, adrNode));
-        // GAS PRICE 2 GWEI
-        // сюда PM 0x1EeD7bb814893FB23eb1236a9b2ccc7849C131d1
 
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
         return getRawTransaction(signedTransaction);
@@ -278,7 +274,7 @@ public class CryptoUtils {
     public static String generateRemoteBuyTransaction(AccountInfoResponse accountInfo, TransferObject transferObject) throws Exception {
         KeyStore keystore = Application.keyManager.getKeystore();
         Account account = AccountManager.getAccount();
-        keystore.timedUnlock(account, transferObject.getPassword(), 5000);
+        keystore.timedUnlock(account, transferObject.getPassword(), 20_000);
         double priceDouble = Double.parseDouble(transferObject.getTransferPrice());
         double priceInWei = priceDouble * accountInfo.getCurrentStock();
         BigInt price = new BigInt(0);

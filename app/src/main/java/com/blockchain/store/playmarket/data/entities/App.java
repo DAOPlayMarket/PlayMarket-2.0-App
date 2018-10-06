@@ -116,12 +116,9 @@ public class App implements Parcelable, NotificationImpl {
         }
     }
 
-//    public String getPrice() {
-//        Long priceInteger = Long.parseLong(price);
-//        ExchangeRate exchangeRate = Hawk.get(Constants.CURRENT_CURRENCY);
-//        double totalPrice = priceInteger * Double.parseDouble(exchangeRate.rate);
-//        return String.valueOf(totalPrice);
-//    }
+    public String getCountOfPmcWithDecimals() {
+        return String.valueOf(Double.parseDouble(getPrice()) * 100);
+    }
 
 
     public String getPrice() {

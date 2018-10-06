@@ -4,8 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class ExchangeRate implements Parcelable {
-    public String currency;
+    public CurrencyRate currency;
     public String rate;
+
+    public ExchangeRate() {
+    }
 
     @Override
     public int describeContents() {
@@ -14,19 +17,16 @@ public class ExchangeRate implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.currency);
+        dest.writeParcelable(this.currency, flags);
         dest.writeString(this.rate);
     }
 
-    public ExchangeRate() {
-    }
-
     protected ExchangeRate(Parcel in) {
-        this.currency = in.readString();
+        this.currency = in.readParcelable(CurrencyRate.class.getClassLoader());
         this.rate = in.readString();
     }
 
-    public static final Parcelable.Creator<ExchangeRate> CREATOR = new Parcelable.Creator<ExchangeRate>() {
+    public static final Creator<ExchangeRate> CREATOR = new Creator<ExchangeRate>() {
         @Override
         public ExchangeRate createFromParcel(Parcel source) {
             return new ExchangeRate(source);

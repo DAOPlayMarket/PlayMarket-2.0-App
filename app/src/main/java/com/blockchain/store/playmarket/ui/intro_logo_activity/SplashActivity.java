@@ -105,10 +105,10 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         ButterKnife.bind(this);
         presenter = new SplashPresenter();
         presenter.init(this);
-//        setLogoTextFont();
-//        setupAndPlayVideo();
-//        checkLocationPermission();
-//        showGif();
+        setLogoTextFont();
+        setupAndPlayVideo();
+        checkLocationPermission();
+        showGif();
         try {
             test();
         } catch (Exception e) {
@@ -123,14 +123,14 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
 
         byte[] transactionData = new GenerateTransactionData().setMethod("buyAppObj")
                 .putTypeData(new Uint256(0))// 0 сюда
-                .putTypeData(new org.web3j.abi.datatypes.Address("0x4Aa3c414a450609eF39e9154bD686A04B915E87d"))
+                .putTypeData(new org.web3j.abi.datatypes.Address("0x4Aa3c414a450609eF39e9154bD686A04B915E87d")) //Node address
                 .putTypeData(new Uint256(0)) // тут всегда 0 !
                 .putTypeData(new Uint256(50)) // 50 сюда
                 .build();
 
         BigInt price = new BigInt(0);
-        price.setString(new EthereumPrice("1", EthereumPrice.Currency.ETHER).wei.toString(), 10);
-        Transaction transaction = new Transaction(103, new Address("0x1EeD7bb814893FB23eb1236a9b2ccc7849C131d1"),
+        price.setString(new EthereumPrice("0.5", EthereumPrice.Currency.ETHER).wei.toString(), 10);
+        Transaction transaction = new Transaction(106, new Address("0xe0059278c62116a7857df32B19DC5B8Fa3AA7336"), // PM address
                 price, GAS_LIMIT, new BigInt(new EthereumPrice("2", EthereumPrice.Currency.GWEI).inWei().longValue()),
                 transactionData);
         transaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));

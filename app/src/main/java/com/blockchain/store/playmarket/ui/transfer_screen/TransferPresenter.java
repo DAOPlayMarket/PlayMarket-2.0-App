@@ -9,6 +9,7 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppBuyTransactionModel;
+import com.blockchain.store.playmarket.data.entities.CryptoPriceReponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.SendEthereumTransactionModel;
 import com.blockchain.store.playmarket.data.entities.SendTokenTransactionModel;
@@ -79,7 +80,7 @@ public class TransferPresenter implements TransferContract.Presenter {
         AppBuyTransactionModel transactionModel = new AppBuyTransactionModel();
         transactionModel.boughtApp = app;
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-                .zipWith(RestApi.getServerApi().getGasPrice(), Pair::new)
+                .zipWith(RestApi.getServerApi().getCryptoPrice(app.getCountOfPmcWithDecimals()), Pair::new)
                 .flatMap(result -> mapAppBuyTransaction(result, app))
                 .map(result -> TransactionInteractor.mapWithJobService(result, transactionModel))
                 .subscribeOn(Schedulers.newThread())
@@ -95,14 +96,14 @@ public class TransferPresenter implements TransferContract.Presenter {
         view.showToast(throwable.getMessage());
     }
 
-    private Observable<PurchaseAppResponse> mapAppBuyTransaction(Pair<AccountInfoResponse, String> accountInfo, App app) {
+    private Observable<PurchaseAppResponse> mapAppBuyTransaction(Pair<AccountInfoResponse, CryptoPriceReponse> accountInfo, App app) {
 
         String rawTransaction = "";
         try {
             rawTransaction = CryptoUtils.generateAppBuyTransaction(
                     accountInfo.first.count,
-                    new BigInt(Long.parseLong(accountInfo.second)),
-                    app, accountInfo.first.adrNode);
+                    new BigInt(Long.parseLong(accountInfo.first.gasPrice)),
+                    app, accountInfo.first.adrNode,accountInfo.second);
         } catch (Exception e) {
             e.printStackTrace();
 

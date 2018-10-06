@@ -140,7 +140,12 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ratingText.setVisibility(View.GONE);
                 ratingStar.setVisibility(View.GONE);
             }
-//            imageView.setImageURI(Uri.parse(app.getIconUrl()));
+            try {
+                imageView.setImageURI(Uri.parse(app.getIconUrl()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             if (app.isFree) {
                 price.setText(R.string.app_free);
             } else {

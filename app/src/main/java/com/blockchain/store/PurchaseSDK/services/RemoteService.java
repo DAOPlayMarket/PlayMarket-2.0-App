@@ -8,6 +8,7 @@ import com.blockchain.store.PurchaseSDK.entities.TransferObject;
 import com.blockchain.store.PurchaseSDK.repository.TransactionFactory;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.repositories.BalanceRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
@@ -144,7 +145,7 @@ public class RemoteService extends IntentService {
 
     private void onUserBalanceReady(String balance) {
         Intent outerIntent = getOuterIntent(METHOD_GET_BALANCE);
-        outerIntent.putExtra(EXTRA_METHOD_RESULT, balance);
+        outerIntent.putExtra(EXTRA_METHOD_RESULT, new EthereumPrice(balance).inEther().toPlainString());
         sendBroadCast(outerIntent);
     }
 

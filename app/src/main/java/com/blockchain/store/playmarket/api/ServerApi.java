@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.api;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.CryptoPriceReponse;
 import com.blockchain.store.playmarket.data.entities.CurrentInfo;
 import com.blockchain.store.playmarket.data.entities.ExchangeRate;
 import com.blockchain.store.playmarket.data.entities.IcoBalance;
@@ -47,21 +48,6 @@ public interface ServerApi {
                                        @Field("subCategory") int subCategoryId,
                                        @Field("newFirst") boolean isNewFirst);
 
-    @FormUrlEncoded
-    @POST("buy-app")
-    Observable<PurchaseAppResponse> purchaseApp(@Field("signedTransactionData") String transactionData);
-
-    @FormUrlEncoded
-    @POST("invest")
-    Observable<PurchaseAppResponse> investApp(@Field("signedTransactionData") String transactionData);
-
-    @FormUrlEncoded
-    @POST("transfer")
-    Observable<PurchaseAppResponse> transferTheAmount(@Field("signedTransactionData") String transactionData);
-
-    @FormUrlEncoded
-    @POST("deploy")
-    Observable<PurchaseAppResponse> deployTransaction(@Field("signedTransactionData") String transactionData, @Field("type") String transactionType);
 
     @FormUrlEncoded
     @POST("deploy")
@@ -71,20 +57,12 @@ public interface ServerApi {
     @POST("check-buy")
     Observable<Boolean> checkPurchase(@Field("idApp") String appId, @Field("address") String address);
 
-    @FormUrlEncoded
-    @GET("get-invest-address")
-    Observable<InvestAddressResponse> getInvestAddress();
-
     @GET("get-gas-price")
     Observable<String> getGasPrice();
 
     @FormUrlEncoded
     @POST("get-address-balance")
     Observable<String> getBalance(@Field("address") String address);
-
-    @FormUrlEncoded
-    @POST("get-transaction-count")
-    Observable<NonceResponce> getNonce(@Field("address") String address);
 
     @FormUrlEncoded
     @POST("get-info-for-tx")
@@ -102,9 +80,17 @@ public interface ServerApi {
     @POST("get-apps-by-package-name")
     Observable<ArrayList<App>> getAppsByPackage(@Field("packageNameArr") String arrayOfString);
 
+//    @FormUrlEncoded()
+//    @POST("get-exchange-rate")
+//    Call<ExchangeRate> getExchangeRate(@Field("currency") String currency);
+
     @FormUrlEncoded()
-    @POST("get-exchange-rate")
+    @POST("192.168.88.244:3003/api/get-currency")
     Call<ExchangeRate> getExchangeRate(@Field("currency") String currency);
+
+    @FormUrlEncoded()
+    @POST("192.168.88.244:3003/api/get-crypto-price")
+    Call<CryptoPriceReponse> getCryptoPrice(@Field("amount") String countOfPmcTokensWithDecimals);
 
     @FormUrlEncoded()
     @POST("get-reviews")

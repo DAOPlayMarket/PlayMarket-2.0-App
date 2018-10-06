@@ -9,7 +9,6 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
-import com.blockchain.store.playmarket.data.entities.AppBuyTransactionModel;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.SendReviewTransactionModel;
@@ -335,23 +334,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
 
-    private Observable<PurchaseAppResponse> mapAppBuyTransaction(Pair<AccountInfoResponse, String> accountInfo) {
-
-        String rawTransaction = "";
-        try {
-            rawTransaction = CryptoUtils.generateAppBuyTransaction(
-                    accountInfo.first.count,
-                    new BigInt(Long.parseLong(accountInfo.second)),
-                    app, accountInfo.first.adrNode);
-            Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        return RestApi.getServerApi().deployTransaction(rawTransaction);
-
-    }
-
     private Observable<PurchaseAppResponse> mapReviewCreationTransaction(Pair<AccountInfoResponse, String> accountInfo, String review, String vote, String txIndex) {
 
         String rawTransaction = "";
@@ -369,12 +351,4 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     }
 
-    private void onPurchaseSuccessful(PurchaseAppResponse purchaseAppResponse) {
-        view.onPurchaseSuccessful(purchaseAppResponse);
-    }
-
-
-    private void onPurchaseError(Throwable throwable) {
-        view.onPurchaseError(throwable);
-    }
 }
