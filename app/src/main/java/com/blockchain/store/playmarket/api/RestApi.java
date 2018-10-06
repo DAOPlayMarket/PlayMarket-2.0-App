@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.api;
 
 import android.util.Log;
 
+import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,8 +19,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RestApi {
-    public static final String BASE_URL_INFURA = "https://rinkeby.infura.io/iYGysj5Sns7HV42MdiXi/";
+    public static final String BASE_URL_INFURA_RINKEBY = "https://rinkeby.infura.io/iYGysj5Sns7HV42MdiXi/";
     public static final String BASE_URL_INFURA_MAINNET_ = "https://mainnet.infura.io/iYGysj5Sns7HV42MdiXi/";
+    public static final String BASE_URL_INFURA = (BuildConfig.FLAVOR.contentEquals("mainnet") ? BASE_URL_INFURA_MAINNET_ : BASE_URL_INFURA_RINKEBY);
+
     public static final String CHANGELLY_ENDPOINT = "https://api.changelly.com";
 
     public static String SERVER_ENDPOINT_WITHOUT_POST;

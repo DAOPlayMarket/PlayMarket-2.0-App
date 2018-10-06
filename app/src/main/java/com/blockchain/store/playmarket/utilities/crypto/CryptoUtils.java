@@ -37,7 +37,7 @@ import io.ethmobile.ethdroid.EthDroid;
 import io.ethmobile.ethdroid.KeyManager;
 
 import static com.blockchain.store.playmarket.utilities.Constants.GAS_LIMIT;
-import static com.blockchain.store.playmarket.utilities.Constants.RINKEBY_ID;
+import static com.blockchain.store.playmarket.utilities.Constants.USER_ETHERSCAN_ID;
 import static org.web3j.crypto.Hash.sha3;
 
 /**
@@ -229,7 +229,7 @@ public class CryptoUtils {
                 price, GAS_LIMIT, gasPrice,
                 transactionData);
 
-        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
+        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
         return getRawTransaction(signedTransaction);
     }
 
@@ -242,7 +242,7 @@ public class CryptoUtils {
 
         Transaction transaction = new Transaction(nonce, new Address(recipientAddress),
                 price, GAS_LIMIT, new BigInt(Long.parseLong(gasPrice)), null);
-        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
+        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
         return getRawTransaction(signedTransaction);
     }
 
@@ -254,7 +254,7 @@ public class CryptoUtils {
         Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
                 price, GAS_LIMIT, gasPrice,
                 getDataForReviewAnApp(app.appId, account.getAddress().getHex(), vote, description, txIndex));
-        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
+        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
         return getRawTransaction(signedTransaction);
     }
 
@@ -267,7 +267,7 @@ public class CryptoUtils {
                 price, GAS_LIMIT, gasPrice,
                 createSentTokenTransactionBytes(recipientAddress, transferAmount));
 
-        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
+        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
         return getRawTransaction(signedTransaction);
 
     }
@@ -306,7 +306,7 @@ public class CryptoUtils {
 
 
         Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS), price, GAS_LIMIT, gasPrice, transactionData);
-        transaction = keystore.signTx(account, transaction, new BigInt(RINKEBY_ID));
+        transaction = keystore.signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
         return getRawTransaction(transaction);
 
     }

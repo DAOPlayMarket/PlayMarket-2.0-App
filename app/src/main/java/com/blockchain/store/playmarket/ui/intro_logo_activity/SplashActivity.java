@@ -20,67 +20,31 @@ import android.widget.VideoView;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
-import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
-import com.blockchain.store.playmarket.utilities.Constants;
-import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.crypto.GenerateTransactionData;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 import com.bumptech.glide.Glide;
-import com.mtramin.rxfingerprint.RxFingerprint;
 
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
 import org.ethereum.geth.BigInt;
-import org.ethereum.geth.BoundContract;
-import org.ethereum.geth.CallOpts;
-import org.ethereum.geth.EthereumClient;
-import org.ethereum.geth.Geth;
 import org.ethereum.geth.Transaction;
-import org.web3j.abi.FunctionEncoder;
-import org.web3j.abi.FunctionReturnDecoder;
-import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Function;
-import org.web3j.abi.datatypes.Type;
-import org.web3j.abi.datatypes.Utf8String;
-import org.web3j.abi.datatypes.generated.Bytes32;
 import org.web3j.abi.datatypes.generated.Uint256;
-import org.web3j.protocol.Web3j;
-import org.web3j.protocol.Web3jFactory;
-import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.Request;
-import org.web3j.protocol.core.methods.response.EthCall;
-import org.web3j.protocol.core.methods.response.EthCompileSolidity;
-import org.web3j.protocol.core.methods.response.Web3ClientVersion;
-import org.web3j.protocol.http.HttpService;
-import org.web3j.protocol.rx.Web3jRx;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.ethmobile.ethdroid.EthDroid;
 import io.ethmobile.ethdroid.KeyManager;
-import io.ethmobile.ethdroid.solidity.element.SolidityElement;
-import okio.Utf8;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
-import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA;
-import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA_MAINNET_;
 import static com.blockchain.store.playmarket.utilities.Constants.GAS_LIMIT;
-import static com.blockchain.store.playmarket.utilities.Constants.RINKEBY_ID;
+import static com.blockchain.store.playmarket.utilities.Constants.USER_ETHERSCAN_ID;
 import static com.blockchain.store.playmarket.utilities.crypto.CryptoUtils.getRawTransaction;
-import static org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction;
 
 public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
     private static final String TAG = "SplashActivity";
@@ -133,7 +97,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         Transaction transaction = new Transaction(106, new Address("0xe0059278c62116a7857df32B19DC5B8Fa3AA7336"), // PM address
                 price, GAS_LIMIT, new BigInt(new EthereumPrice("2", EthereumPrice.Currency.GWEI).inWei().longValue()),
                 transactionData);
-        transaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(RINKEBY_ID));
+        transaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
         String rawTransaction = getRawTransaction(transaction);
         Log.d(TAG, "test: ");
 

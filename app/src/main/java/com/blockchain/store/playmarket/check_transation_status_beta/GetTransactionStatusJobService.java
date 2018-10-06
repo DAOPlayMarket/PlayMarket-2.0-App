@@ -43,11 +43,6 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> onTransactionReady(result, params),
                         throwable -> onTransactionError(throwable, params));
-//        Function function = new Function("Name",new ArrayList<>(),new ArrayList<>());
-//        String encode = FunctionEncoder.encode(function);
-//        Request<?, EthCall> ethCallRequest = build.ethCall(
-//                createEthCallTransaction("0x9e1F601D72bDA509D82ed7082D9d3a7E0F4d012B", "0x3EeC38cA1Bc24F7A1531307f76118A2F57e69d01", encode), DefaultBlockParameterName.LATEST)
-//                .observable()
         return true;
     }
 

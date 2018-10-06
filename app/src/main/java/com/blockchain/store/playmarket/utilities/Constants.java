@@ -1,5 +1,7 @@
 package com.blockchain.store.playmarket.utilities;
 
+import com.blockchain.store.playmarket.BuildConfig;
+
 /**
  * Created by Crypton04 on 26.01.2018.
  */
@@ -9,7 +11,7 @@ public class Constants {
 
     /* Job service extra*/
     public static String JOB_HASH_EXTRA = "job_hash_extra";
-    public static String JOB_TRANSACTION_TYPE_ORDINAL ="transaction_type_ordinal";
+    public static String JOB_TRANSACTION_TYPE_ORDINAL = "transaction_type_ordinal";
 
     public enum APP_STATE {
         STATE_DOWNLOAD_STARTED, STATE_DOWNLOADING, STATE_DOWNLOADED_NOT_INSTALLED,
@@ -62,7 +64,9 @@ public class Constants {
 
     public static final int DOWNLOAD_APPS_PER_REQUEST = 40;
     public static final int GAS_LIMIT = 250000;
-    public static final int RINKEBY_ID = 4;
+
+    public static final int USER_ETHERSCAN_ID = (BuildConfig.FLAVOR.contentEquals("mainnet") ? 0 : 4);
+
 
     public static final String DOWNLOAD_SERVICE_APP_EXTRA = "download_service_app_extra";
     public static final String DOWNLOAD_SERVICE_URL_EXTRA = "download_service_url_extra";
