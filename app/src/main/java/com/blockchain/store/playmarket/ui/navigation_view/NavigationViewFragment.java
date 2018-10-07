@@ -94,7 +94,6 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
     }
 
-
     @OnClick(R.id.library_layout)
     void onLibraryItemClicked() {
         closeDrawers();

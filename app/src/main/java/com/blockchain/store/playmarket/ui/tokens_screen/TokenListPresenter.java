@@ -17,8 +17,8 @@ public class TokenListPresenter implements TokenListContract.Presenter {
 
     @Override
     public void getAllTokens() {
-
         new RestApi().getCustomUrlApi(Constants.TOKEN_URL)
+                .getAllTokens()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> view.showProgress(true))
