@@ -102,7 +102,7 @@ public class NodeUtils {
         return Observable.create(subscriber -> {
             try {
                 String currencyCode = Currency.getInstance(Locale.getDefault()).getCurrencyCode();
-                ArrayList<Node> nodes = NodeUtils.getNodesList(NodeUtils.NODES_DNS_SERVER_LEGACY);
+                ArrayList<Node> nodes = NodeUtils.getNodesList(NodeUtils.NODES_DNS_SERVER);
                 ArrayList<Node> nearestNodeIP = NodeUtils.sortNodesByNearest(nodes, location);
                 for (Node node : nearestNodeIP) {
                     Response<ExchangeRate> execute = null;
