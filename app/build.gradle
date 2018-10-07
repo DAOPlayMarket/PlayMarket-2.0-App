@@ -32,14 +32,18 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "app_name_by_gradle", "DAO PlayMarket 2.0"
+            resValue "string", "content_provider", "com.blockchain.store.playmarket.fileprovider"
+
         }
         debug {
             applicationIdSuffix '.beta'
             versionNameSuffix '-BETA'
             resValue "string", "app_name_by_gradle", "DAO PlayMarket 2.0 debug"
+            resValue "string", "content_provider", "com.blockchain.store.playmarket.beta.fileprovider"
         }
         mainnet {
             resValue "string", "app_name_by_gradle", "DAO PlayMarket 2.0"
+            resValue "string", "content_provider", "com.blockchain.store.playmarket.fileprovider"
             debuggable true
             jniDebuggable false
             renderscriptDebuggable false

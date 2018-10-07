@@ -137,4 +137,5 @@ public class Application extends MultiDexApplication {
         pinpointManager.getAnalyticsClient().submitEvents();
     }
 
+
 }

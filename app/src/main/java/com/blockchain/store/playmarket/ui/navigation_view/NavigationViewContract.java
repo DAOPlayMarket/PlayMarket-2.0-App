@@ -1,5 +1,7 @@
 package com.blockchain.store.playmarket.ui.navigation_view;
 
+import com.blockchain.store.playmarket.data.entities.UserBalance;
+
 /**
  * Created by Crypton04 on 09.02.2018.
  */
@@ -7,7 +9,7 @@ package com.blockchain.store.playmarket.ui.navigation_view;
 public class NavigationViewContract {
     interface View {
 
-        void onBalanceReady(String balance);
+        void onBalanceReady(UserBalance balance);
 
         void onBalanceFail(Throwable throwable);
 

@@ -198,7 +198,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
             case STATE_INSTALL_FAIL:
                 break;
             case STATE_NOT_PURCHASED:
-                view.setActionButtonText(new EthereumPrice(app.price).inEther().toString() + " ETH");
+                view.setActionButtonText(app.getPrice());
                 break;
 
         }

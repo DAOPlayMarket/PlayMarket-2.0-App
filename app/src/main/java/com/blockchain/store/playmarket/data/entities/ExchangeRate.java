@@ -4,8 +4,16 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class ExchangeRate implements Parcelable {
-    public CurrencyRate currency;
-    public String rate;
+    public CurrencyRate currency = new CurrencyRate();
+    public String rate = "100";
+
+    public double getRate(){
+        try{
+            return Double.parseDouble(rate);
+        }catch (Exception e){
+            return 1d;
+        }
+    }
 
     public ExchangeRate() {
     }

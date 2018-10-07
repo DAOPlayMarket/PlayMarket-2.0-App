@@ -116,4 +116,7 @@ public class Constants {
     /*Token list activity*/
     public static final String TOKEN_ARGS = "token_args";
 
+    /* URLs*/
+    public static final String TOKEN_URL = (BuildConfig.FLAVOR.contentEquals("mainnet") ? "tokens.playmarket.io" : "test.tokens.playmarket.io");
+
 }

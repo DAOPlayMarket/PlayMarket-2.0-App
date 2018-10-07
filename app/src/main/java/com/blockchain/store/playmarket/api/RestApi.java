@@ -34,7 +34,10 @@ public class RestApi {
     private static final String TAG = "RestApi";
 
     private static String PORT_SUFFIX = ":3000";
-    private static String nodeUrl = "https://n";
+//    private static String nodeUrl = "https://n";
+    private static String NODE_PREFIX_DEBUG = "https://n";
+    private static String NODE_PREFIX_MAINNET= "https://w";
+    private static String nodeUrl = (BuildConfig.FLAVOR.contentEquals("mainnet") ? NODE_PREFIX_DEBUG : NODE_PREFIX_DEBUG);
     private static ServerApi restApi;
     private static ChangellyApi changellyApi;
     private static ServerApi xmlApi;
@@ -68,7 +71,6 @@ public class RestApi {
 
     private static void setupWithRest() {
         checkIfBaseUrlIsEmptyAndSetup(SERVER_ENDPOINT);
-        Log.d(TAG, "setupWithRest: " + BASE_URL);
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
@@ -120,19 +122,15 @@ public class RestApi {
         SERVER_ENDPOINT_WITHOUT_POST = nodeUrl + serverEndpoint + PLAYMARKET_BASE_URL;
         BASE_URL = SERVER_ENDPOINT + "/api/";
         ICON_URL = SERVER_ENDPOINT + "/data/";
-        Log.d(TAG, "setServerEndpoint: " + SERVER_ENDPOINT);
     }
-
 
     public static String getCheckUrlEndpointByNode(String nodeAddress) {
         String resultUrl = nodeUrl + nodeAddress + PLAYMARKET_BASE_URL + PORT_SUFFIX + "/api/";
-        Log.d(TAG, "getCheckUrlEndpointByNode() called with: nodeAddress = [" + resultUrl + "]");
         return resultUrl;
     }
 
 
     private ServerApi setupWithCustomUrl(String url) {
-        Log.d(TAG, "setupWithRest: " + BASE_URL);
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()

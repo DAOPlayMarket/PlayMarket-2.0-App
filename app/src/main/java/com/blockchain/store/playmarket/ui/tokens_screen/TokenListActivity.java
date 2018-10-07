@@ -44,7 +44,6 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
         ButterKnife.bind(this);
         initTitle();
         attachPresenter();
-
     }
 
     private void attachPresenter() {

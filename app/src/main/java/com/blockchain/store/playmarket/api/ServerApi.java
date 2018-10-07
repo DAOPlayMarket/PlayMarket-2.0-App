@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.api;
 
+import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
@@ -21,13 +22,18 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 import rx.Observable;
+
+import static com.blockchain.store.playmarket.utilities.Constants.TOKEN_URL;
 
 /**
  * Created by Crypton04 on 25.01.2018.
  */
 
 public interface ServerApi {
+
+
     @GET("get-categories")
     Observable<ArrayList<Category>> getCagories();
 
@@ -81,7 +87,7 @@ public interface ServerApi {
 //    @FormUrlEncoded()
 //    @POST("get-exchange-rate")
 //    Call<ExchangeRate> getExchangeRate(@Field("currency") String currency);
-
+//
     @FormUrlEncoded()
     @POST("get-currency")
     Call<ExchangeRate> getExchangeRate(@Field("currency") String currency);
@@ -105,9 +111,10 @@ public interface ServerApi {
     @GET("https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40playmarket2.0&api_key=bxtxvdt126inutffjskughyxigwfdb1er03qhvsk")
     Observable<PlaymarketFeed> getPlaymarketNews();
 
-    @GET("https://tokens.playmarket.io/")
+
+    @GET("/")
     Observable<TokenResponse> getAllTokens();
 
-    @GET("https://tokens.playmarket.io/")
+    @GET("/")
     Observable<TokenResponse> getCustomToken(@Query("contract") String contract);
 }

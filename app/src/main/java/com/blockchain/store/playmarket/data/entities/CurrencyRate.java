@@ -3,11 +3,15 @@ package com.blockchain.store.playmarket.data.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-class CurrencyRate implements Parcelable {
-    public String name;
+public class CurrencyRate implements Parcelable {
+    public String name = "PMC";
     public String number3;
-    public String decimals;
+    public String decimals= "2";
 
+
+    public int getDecimals(){
+        return Integer.parseInt(decimals);
+    }
 
     @Override
     public int describeContents() {

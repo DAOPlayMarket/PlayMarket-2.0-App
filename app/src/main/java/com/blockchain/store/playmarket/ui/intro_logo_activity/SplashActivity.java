@@ -72,43 +72,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         setLogoTextFont();
         setupAndPlayVideo();
         checkLocationPermission();
-        showGif();
-        try {
-            test();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    private void test() throws Exception {
-        KeyManager keyManager = Application.keyManager;
-        Account account = keyManager.getAccounts().get(0);
-        keyManager.unlockAccount(account, "123123123");
-
-        byte[] transactionData = new GenerateTransactionData().setMethod("buyAppObj")
-                .putTypeData(new Uint256(0))// 0 сюда
-                .putTypeData(new org.web3j.abi.datatypes.Address("0x4Aa3c414a450609eF39e9154bD686A04B915E87d")) //Node address
-                .putTypeData(new Uint256(0)) // тут всегда 0 !
-                .putTypeData(new Uint256(50)) // 50 сюда
-                .build();
-
-        BigInt price = new BigInt(0);
-        price.setString(new EthereumPrice("0.5", EthereumPrice.Currency.ETHER).wei.toString(), 10);
-        Transaction transaction = new Transaction(106, new Address("0xe0059278c62116a7857df32B19DC5B8Fa3AA7336"), // PM address
-                price, GAS_LIMIT, new BigInt(new EthereumPrice("2", EthereumPrice.Currency.GWEI).inWei().longValue()),
-                transactionData);
-        transaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
-        String rawTransaction = getRawTransaction(transaction);
-        Log.d(TAG, "test: ");
-
-    }
-
-    private void onOk(Token token) {
-        Log.d(TAG, "onOk: ");
-    }
-
-    private void onError(Throwable throwable) {
-        Log.d(TAG, "onError: ");
     }
 
     private void checkLocationPermission() {

@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.data.entities.UserBalance;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.about_screen.AboutAppActivity;
 import com.blockchain.store.playmarket.ui.activity_screen.NewsActivity;
@@ -153,6 +154,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
         closeDrawers();
         startActivity(new Intent(getActivity(), TransactionHistoryActivity.class));
     }
+
     @OnClick(R.id.token_layout)
     void onTokenClicked() {
         closeDrawers();
@@ -161,7 +163,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
 
     @Override
-    public void onBalanceReady(String balance) {
+    public void onBalanceReady(UserBalance balance) {
         swipeRefreshLayout.setRefreshing(false);
         errorViewTitle.setVisibility(View.GONE);
         errorBtn.setVisibility(View.GONE);
@@ -169,8 +171,8 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
         balanceView.setVisibility(View.VISIBLE);
         balanceIcon.setVisibility(View.VISIBLE);
 
-        AccountManager.setUserBalance(balance);
-        balanceView.setText(new EthereumPrice(balance).inEther().toString());
+        AccountManager.setUserBalance(balance.balanceInWei);
+        balanceView.setText(new EthereumPrice(balance.balanceInWei).inEther().toString());
     }
 
     @Override

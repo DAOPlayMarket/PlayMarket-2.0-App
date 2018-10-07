@@ -1,0 +1,44 @@
+package com.blockchain.store.playmarket.repositories;
+
+import android.util.Pair;
+
+import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.data.entities.CryptoPriceResponse;
+import com.blockchain.store.playmarket.data.entities.ExchangeRate;
+import com.blockchain.store.playmarket.data.entities.UserBalance;
+import com.blockchain.store.playmarket.utilities.Constants;
+import com.orhanobut.hawk.Hawk;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+public class UserBalanceRepository {
+
+    public Observable<UserBalance> getUserBalance(String accountAddress) {
+        return RestApi.getServerApi().getBalance(accountAddress)
+                .flatMap(this::mapWith, Pair::new)
+                .map(this::onNext)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    private UserBalance onNext(Pair<String, CryptoPriceResponse> resultPair) {
+        ExchangeRate exchangeRate = Hawk.get(Constants.CURRENT_CURRENCY, new ExchangeRate());
+        double currentPriceOfOnePMC = resultPair.second.getPrice();
+        double convertedUserBalanceToPMC = Double.parseDouble(resultPair.first) / currentPriceOfOnePMC; //366815.66888
+        double localCurrencyDecimals = Math.pow(10, exchangeRate.currency.getDecimals());
+
+        UserBalance userBalance = new UserBalance();
+        userBalance.balanceInWei = resultPair.first;//1467262675519699950
+        userBalance.balanceInPMC = String.valueOf(convertedUserBalanceToPMC);//366815.66888
+        userBalance.balanceInLocalCurrency = String.valueOf(convertedUserBalanceToPMC * exchangeRate.getRate() / localCurrencyDecimals);
+
+        return userBalance;
+    }
+
+    private Observable<CryptoPriceResponse> mapWith(String s) {
+        return RestApi.getServerApi().getCryptoPrice("1000"); //get Price of 1 token.
+    }
+
+}

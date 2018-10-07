@@ -8,6 +8,7 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.google.android.gms.common.util.Strings;
 import com.google.gson.annotations.SerializedName;
 import com.orhanobut.hawk.Hawk;
 
@@ -122,8 +123,13 @@ public class App implements Parcelable, NotificationImpl {
 
 
     public String getPrice() {
-        String priceInEther = new EthereumPrice(price).inEther().toString();
-        return priceInEther;
+        String price = this.price;
+        ExchangeRate exchangeRate = Hawk.get(Constants.CURRENT_CURRENCY, new ExchangeRate());
+        double currentCurrencyRate = Double.parseDouble(exchangeRate.rate) * Double.parseDouble(price);
+        double rightArgument = 2 + exchangeRate.currency.getDecimals();
+        double power = Math.pow(10, rightArgument);
+        double formattedCurrency = currentCurrencyRate / power;
+        return String.valueOf(formattedCurrency);
     }
 
     public String getImageByPath(String path) {

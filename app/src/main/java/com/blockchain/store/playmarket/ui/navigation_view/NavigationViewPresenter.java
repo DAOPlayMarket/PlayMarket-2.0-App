@@ -3,6 +3,8 @@ package com.blockchain.store.playmarket.ui.navigation_view;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.data.entities.UserBalance;
+import com.blockchain.store.playmarket.repositories.UserBalanceRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -26,7 +28,7 @@ public class NavigationViewPresenter implements NavigationViewContract.Presenter
     public void loadUserBalance() {
         String accountAddress = AccountManager.getAddress().getHex();
         Log.d(TAG, "loadUserBalance: account address " + accountAddress);
-        RestApi.getServerApi().getBalance(accountAddress)
+        new UserBalanceRepository().getUserBalance(accountAddress)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> view.showUserBalanceProgress(true))
@@ -34,9 +36,10 @@ public class NavigationViewPresenter implements NavigationViewContract.Presenter
                 .subscribe(this::onBalanceReady, this::onBalanceFail);
     }
 
-    private void onBalanceReady(String userBalance) {
+    private void onBalanceReady(UserBalance userBalance) {
         view.onBalanceReady(userBalance);
     }
+
 
     private void onBalanceFail(Throwable throwable) {
         view.onBalanceFail(throwable);
