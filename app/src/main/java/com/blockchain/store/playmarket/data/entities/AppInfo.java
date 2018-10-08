@@ -273,7 +273,6 @@ public class AppInfo implements Parcelable, NotificationImpl {
         app.appId = appInfo.appId;
         app.adrICO = appInfo.adrICO;
         app.price = appInfo.price;
-        app.isFree = appInfo.isFree;
         app.adrDev = appInfo.adrDev;
         app.hashTag = appInfo.hashTag;
         app.hash = appInfo.hash;

@@ -146,7 +146,7 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 e.printStackTrace();
             }
 
-            if (app.isFree) {
+            if (app.isFree()) {
                 price.setText(R.string.app_free);
             } else {
                 price.setText(app.getPrice());

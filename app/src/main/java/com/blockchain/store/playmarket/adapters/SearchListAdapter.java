@@ -72,8 +72,8 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
             content.setText(app.nameApp);
             ratingText.setText(app.getRating());
             imageView.setImageURI(Uri.parse(app.getIconUrl()));
-            etherIcon.setVisibility(app.isFree ? View.GONE : View.VISIBLE);
-            if (app.isFree) {
+            etherIcon.setVisibility(app.isFree() ? View.GONE : View.VISIBLE);
+            if (app.isFree()) {
                 price.setText(R.string.app_free);
             } else {
                 String priceInEther = new EthereumPrice(app.price).inEther().toString();

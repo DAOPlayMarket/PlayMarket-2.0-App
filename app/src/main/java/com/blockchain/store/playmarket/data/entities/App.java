@@ -5,10 +5,8 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.api.RestApi;
-import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.blockchain.store.playmarket.utilities.Constants;
-import com.google.android.gms.common.util.Strings;
 import com.google.gson.annotations.SerializedName;
 import com.orhanobut.hawk.Hawk;
 
@@ -27,9 +25,8 @@ public class App implements Parcelable, NotificationImpl {
     public String adrICO;
     @SerializedName("price")
     public String price;
-    @SerializedName("free")
-    public boolean isFree;
     public String adrDev;
+    @SerializedName("hashType")
     public String hashTag;
     public String hash;
     @SerializedName("longDescr")
@@ -141,6 +138,9 @@ public class App implements Parcelable, NotificationImpl {
         return packageName + ".apk";
     }
 
+    public boolean isFree() {
+        return price.equals("0");
+    }
 
     public App() {
     }
@@ -155,7 +155,6 @@ public class App implements Parcelable, NotificationImpl {
         dest.writeString(this.appId);
         dest.writeString(this.adrICO);
         dest.writeString(this.price);
-        dest.writeByte(this.isFree ? (byte) 1 : (byte) 0);
         dest.writeString(this.adrDev);
         dest.writeString(this.hashTag);
         dest.writeString(this.hash);
@@ -199,7 +198,6 @@ public class App implements Parcelable, NotificationImpl {
         this.appId = in.readString();
         this.adrICO = in.readString();
         this.price = in.readString();
-        this.isFree = in.readByte() != 0;
         this.adrDev = in.readString();
         this.hashTag = in.readString();
         this.hash = in.readString();

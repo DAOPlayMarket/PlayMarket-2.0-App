@@ -152,7 +152,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     @Override
     public void loadButtonsState(App app, boolean isUserPurchasedApp) {
         this.app = app;
-        if (app.isFree || isUserPurchasedApp) {
+        if (app.isFree() || isUserPurchasedApp) {
             boolean applicationInstalled = new MyPackageManager().isApplicationInstalled(app.packageName);
             if (applicationInstalled) {
                 if (new MyPackageManager().isHasUpdate(app)) {
