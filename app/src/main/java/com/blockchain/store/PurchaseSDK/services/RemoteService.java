@@ -25,6 +25,8 @@ import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.METHOD_G
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.METHOD_GET_BALANCE;
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.METHOD_TRANSACTION;
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.REMOTE_INTENT_NAME;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.TRANSACTION_RESULT_TXHASH;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.TRANSACTION_RESULT_URL;
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.TRANSFER_OBJECT_ID;
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.TRANSFER_PACKAGE_NAME;
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.TRANSFER_PASSWORD;
@@ -129,7 +131,8 @@ public class RemoteService extends IntentService {
 
     private void onTransactionCreate(PurchaseAppResponse purchaseAppResponse) {
         Intent outerIntent = getOuterIntent(METHOD_TRANSACTION);
-        outerIntent.putExtra(EXTRA_METHOD_RESULT, purchaseAppResponse.link);
+        outerIntent.putExtra(TRANSACTION_RESULT_URL, purchaseAppResponse.link);
+        outerIntent.putExtra(TRANSACTION_RESULT_TXHASH, purchaseAppResponse.hash);
         sendBroadCast(outerIntent);
     }
 

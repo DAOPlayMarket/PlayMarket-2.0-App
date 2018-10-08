@@ -1,14 +1,13 @@
 package com.blockchain.store.playmarket.api;
 
-import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.data.entities.CryptoPriceResponse;
 import com.blockchain.store.playmarket.data.entities.CurrentInfo;
 import com.blockchain.store.playmarket.data.entities.ExchangeRate;
 import com.blockchain.store.playmarket.data.entities.IcoBalance;
-import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.data.entities.PlaymarketFeed;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.TokenResponse;
@@ -22,10 +21,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
-import retrofit2.http.Url;
 import rx.Observable;
-
-import static com.blockchain.store.playmarket.utilities.Constants.TOKEN_URL;
 
 /**
  * Created by Crypton04 on 25.01.2018.
@@ -59,7 +55,7 @@ public interface ServerApi {
 
     @FormUrlEncoded
     @POST("check-buy")
-    Observable<Boolean> checkPurchase(@Field("idApp") String appId, @Field("address") String address);
+    Observable<Boolean> checkPurchase(@Field("idApp") String appId, @Field("address") String address);  // If user bought item with  provided ObjectId(0 means an applications). By default objectid = 0,
 
     @GET("get-gas-price")
     Observable<String> getGasPrice();

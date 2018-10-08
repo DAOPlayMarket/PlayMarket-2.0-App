@@ -36,15 +36,16 @@ import rx.Observable;
 
 public class NodeUtils {
     private static final String TAG = "NodeUtils";
-    private static final String NODES_DNS_SERVER_MAINNET = "http://mainnet.playmarket.io";
-    private static final String NODES_DNS_SERVER_DEBUG = "http://testnet.playmarket.io";
+    private static final String NODES_DNS_SERVER_MAINNET = "mainnet.playmarket.io";
+    private static final String NODES_DNS_SERVER_DEBUG = "testnet.playmarket.io";
     private static final String NODES_DNS_SERVER_LEGACY = "nodes.playmarket.io";
 
-    private static final String NODES_DNS_SERVER = (BuildConfig.FLAVOR.contentEquals("mainnet") ? NODES_DNS_SERVER_MAINNET : NODES_DNS_SERVER_DEBUG);
+    private static final String NODES_DNS_SERVER = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? NODES_DNS_SERVER_MAINNET : NODES_DNS_SERVER_DEBUG);
     private static final String IP_LOOKUP_URL = "http://ip-api.com/line";
 
 
     private static ArrayList<Node> getNodesList(String domain) throws IOException {
+        String flavor = BuildConfig.FLAVOR;
         ResolverResult<TXT> result = ResolverApi.INSTANCE.resolve(domain, TXT.class);
         if (!result.wasSuccessful()) {
             throw new RuntimeException("Dns look up error. " + result.getResponseCode());
@@ -108,7 +109,7 @@ public class NodeUtils {
                     Response<ExchangeRate> execute = null;
                     try {
                         execute = new RestApi().getCustomUrlApi(RestApi.getCheckUrlEndpointByNode(node.address)).getExchangeRate(currencyCode).execute();
-                        if (execute.body().currency.name.equalsIgnoreCase("PMT")) {
+                        if (execute.body().currency.name.equalsIgnoreCase("PMC")) {
                             execute.body().currency.name = currencyCode;
                         }
                         Hawk.put(Constants.CURRENT_CURRENCY, execute.body());

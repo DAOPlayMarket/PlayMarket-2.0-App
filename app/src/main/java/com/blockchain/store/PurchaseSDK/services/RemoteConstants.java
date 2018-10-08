@@ -8,6 +8,9 @@ public class RemoteConstants {
     public static final String USER_NOT_PROVIDED_ERROR = "user_not_provided_error";
     public static final String UNKNOWN_HOST_EXCEPTION = "unknown_host_exception";
 
+    public static final String TRANSACTION_RESULT_URL = "transaction_result_url";
+    public static final String TRANSACTION_RESULT_TXHASH = "transaction_result_txhash";
+
     /* Methods constants */
     public static final String EXTRA_METHOD_NAME = "method_name";
     public static final String METHOD_GET_BALANCE = "method_get_balance";

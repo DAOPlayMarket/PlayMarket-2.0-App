@@ -65,7 +65,7 @@ public class Constants {
     public static final int DOWNLOAD_APPS_PER_REQUEST = 40;
     public static final int GAS_LIMIT = 250000;
 
-    public static final int USER_ETHERSCAN_ID = (BuildConfig.FLAVOR.contentEquals("mainnet") ? 0 : 4);
+    public static final int USER_ETHERSCAN_ID = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? 0 : 4);
 
 
     public static final String DOWNLOAD_SERVICE_APP_EXTRA = "download_service_app_extra";
@@ -117,6 +117,6 @@ public class Constants {
     public static final String TOKEN_ARGS = "token_args";
 
     /* URLs*/
-    public static final String TOKEN_URL = (BuildConfig.FLAVOR.contentEquals("mainnet") ? "http://tokens.playmarket.io" : "http://test.tokens.playmarket.io");
+    public static final String TOKEN_URL = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? "http://tokens.playmarket.io" : "http://test.tokens.playmarket.io");
 
 }

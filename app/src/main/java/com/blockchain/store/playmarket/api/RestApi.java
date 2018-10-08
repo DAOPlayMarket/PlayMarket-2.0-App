@@ -1,7 +1,5 @@
 package com.blockchain.store.playmarket.api;
 
-import android.util.Log;
-
 import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.google.gson.Gson;
@@ -21,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RestApi {
     public static final String BASE_URL_INFURA_RINKEBY = "https://rinkeby.infura.io/iYGysj5Sns7HV42MdiXi/";
     public static final String BASE_URL_INFURA_MAINNET_ = "https://mainnet.infura.io/iYGysj5Sns7HV42MdiXi/";
-    public static final String BASE_URL_INFURA = (BuildConfig.FLAVOR.contentEquals("mainnet") ? BASE_URL_INFURA_MAINNET_ : BASE_URL_INFURA_RINKEBY);
+    public static final String BASE_URL_INFURA = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? BASE_URL_INFURA_MAINNET_ : BASE_URL_INFURA_RINKEBY);
 
     public static final String CHANGELLY_ENDPOINT = "https://api.changelly.com";
 
@@ -33,11 +31,9 @@ public class RestApi {
     private static final String PLAYMARKET_BASE_URL = ".playmarket.io";
     private static final String TAG = "RestApi";
 
-    private static String PORT_SUFFIX = ":3000";
-//    private static String nodeUrl = "https://n";
-    private static String NODE_PREFIX_DEBUG = "https://n";
-    private static String NODE_PREFIX_MAINNET= "https://w";
-    private static String nodeUrl = (BuildConfig.FLAVOR.contentEquals("mainnet") ? NODE_PREFIX_DEBUG : NODE_PREFIX_DEBUG);
+    private static String NODE_PREFIX_TESTNET = "https://t";
+    private static String NODE_PREFIX_MAINNET = "https://m";
+    private static String NODE_PREFIX = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? NODE_PREFIX_MAINNET : NODE_PREFIX_TESTNET);
     private static ServerApi restApi;
     private static ChangellyApi changellyApi;
     private static ServerApi xmlApi;
@@ -118,14 +114,14 @@ public class RestApi {
     public static void setServerEndpoint(String serverEndpoint) {
         Hawk.put(Constants.BASE_URL, serverEndpoint);
 
-        SERVER_ENDPOINT = nodeUrl + serverEndpoint + PLAYMARKET_BASE_URL + PORT_SUFFIX;
-        SERVER_ENDPOINT_WITHOUT_POST = nodeUrl + serverEndpoint + PLAYMARKET_BASE_URL;
+        SERVER_ENDPOINT = NODE_PREFIX + serverEndpoint + PLAYMARKET_BASE_URL;
+        SERVER_ENDPOINT_WITHOUT_POST = NODE_PREFIX + serverEndpoint + PLAYMARKET_BASE_URL;
         BASE_URL = SERVER_ENDPOINT + "/api/";
         ICON_URL = SERVER_ENDPOINT + "/data/";
     }
 
     public static String getCheckUrlEndpointByNode(String nodeAddress) {
-        String resultUrl = nodeUrl + nodeAddress + PLAYMARKET_BASE_URL + PORT_SUFFIX + "/api/";
+        String resultUrl = NODE_PREFIX + nodeAddress + PLAYMARKET_BASE_URL + "/api/";
         return resultUrl;
     }
 

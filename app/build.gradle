@@ -36,14 +36,15 @@ android {
 
         }
         debug {
-            applicationIdSuffix '.beta'
-            versionNameSuffix '-BETA'
-            resValue "string", "app_name_by_gradle", "DAO PlayMarket 2.0 debug"
+            applicationIdSuffix '.testnet'
+            resValue "string", "app_name_by_gradle", "DAO PlayMarket 2.0 testnet"
             resValue "string", "content_provider", "com.blockchain.store.playmarket.beta.fileprovider"
         }
         mainnet {
+            initWith debug
+            applicationIdSuffix '.mainnet'
             resValue "string", "app_name_by_gradle", "DAO PlayMarket 2.0"
-            resValue "string", "content_provider", "com.blockchain.store.playmarket.fileprovider"
+            resValue "string", "content_provider", "com.blockchain.store.playmarket.mainnet.fileprovider"
             debuggable true
             jniDebuggable false
             renderscriptDebuggable false
