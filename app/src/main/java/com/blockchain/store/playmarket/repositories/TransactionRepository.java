@@ -1,5 +1,8 @@
 package com.blockchain.store.playmarket.repositories;
 
+import android.util.Pair;
+
+import com.blockchain.store.playmarket.data.entities.IcoBalance;
 import com.blockchain.store.playmarket.data.entities.Token;
 
 import org.web3j.abi.FunctionEncoder;
@@ -51,6 +54,25 @@ public class TransactionRepository {
                     token.balanceOf = decodeFunction(balanceOfCall, getBalanceOfFunction(TransactionRepository.userAddress)).toString();
                     return token;
                 }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread());
+    }
+
+    public static Observable<String> getUserTokenBalance(String contractAddress, String userAddress) {
+        init(contractAddress, userAddress);
+        return getBalanceOfObservable().map(result -> decodeFunction(result, getBalanceOfFunction(userAddress))
+                .toString())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread());
+    }
+
+    public static Observable<IcoBalance> getIcoBalance(String contractAddress, String userAddress) {
+        init(contractAddress, userAddress);
+        return Observable.zip(getBalanceOfObservable(), getDecimalsObservable(), (balance, decimals) -> {
+            IcoBalance icoBalance = new IcoBalance();
+            icoBalance.decimals = decodeFunction(decimals, getDecimalsFunction()).toString();
+            icoBalance.balanceOf = decodeFunction(balance, getBalanceOfFunction(userAddress)).toString();
+            icoBalance.address = contractAddress;
+            return icoBalance;
+        });
     }
 
     public static Observable<EthCall> getTokenBalanceOf(String contractAddress, String userAddress) {

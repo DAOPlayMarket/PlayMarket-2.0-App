@@ -14,7 +14,6 @@ import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.SendReviewTransactionModel;
 import com.blockchain.store.playmarket.data.entities.SortedUserReview;
 import com.blockchain.store.playmarket.data.entities.UserReview;
-import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
 import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.repositories.TransactionInteractor;
@@ -55,34 +54,31 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     @Override
     public void getDetailedInfo(App app) {
         String accountAddress = AccountManager.getAddress().getHex();
-        RestApi.getServerApi().getAppInfo(app.catalogId, app.appId)
-                .zipWith(RestApi.getServerApi().checkPurchase(app.appId, accountAddress), (Func2<AppInfo, Boolean, Pair>) Pair::new)
+
+        Observable<AppInfo> pairObservable = RestApi.getServerApi().getAppInfo(app.catalogId, app.appId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> {
                     view.setProgress(true);
                     view.showErrorView(false);
                 })
-                .doOnTerminate(() -> view.setProgress(false))
-                .subscribe(this::onDetailedInfoReady, this::onDetailedInfoFailed);
+                .doOnTerminate(() -> view.setProgress(false));
+        if (!app.isFree()) {
+            pairObservable.zipWith(RestApi.getServerApi().checkPurchase(app.appId, accountAddress), (Func2<AppInfo, Boolean, Pair>) Pair::new);
+        }
+        pairObservable.subscribe(this::onDetailedInfoReady, this::onDetailedInfoFailed);
+    }
+
+    private void onDetailedInfoReady(AppInfo appInfo) {
+        onDetailedInfoReady(new Pair<>(appInfo, true));
     }
 
 
     private void onDetailedInfoReady(Pair<AppInfo, Boolean> pair) {
         this.appInfo = pair.first;
-        if (app.adrICO != null) {
-            RestApi.getServerApi().getCurrentInfo(app.adrICO)
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(result -> {
-                        pair.first.currentInfo = result;
-                        view.onCheckPurchaseReady(pair.second);
-                        view.onDetailedInfoReady(pair.first);
-                    });
-        } else {
-            view.onCheckPurchaseReady(pair.second);
-            view.onDetailedInfoReady(pair.first);
-        }
+        view.onCheckPurchaseReady(pair.second);
+        view.onDetailedInfoReady(pair.first);
+
     }
 
     private void onDetailedInfoFailed(Throwable throwable) {

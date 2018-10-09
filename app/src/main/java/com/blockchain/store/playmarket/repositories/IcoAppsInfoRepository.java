@@ -8,6 +8,7 @@ import com.blockchain.store.playmarket.data.entities.IcoBalance;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -36,20 +37,23 @@ public class IcoAppsInfoRepository {
                 .subscribeOn(Schedulers.newThread());
     }
 
-    private Observable<ArrayList<IcoBalance>> mapWithGetIcoBalance(ArrayList<AppInfo> apps) {
-        ArrayList<String> icoAddressesArr = new ArrayList<>();
+    private Observable<List<IcoBalance>> mapWithGetIcoBalance(ArrayList<AppInfo> apps) {
+        ArrayList<Observable<IcoBalance>> userTokenListObs = new ArrayList<>();
         for (int i = 0; i < apps.size(); i++) {
-            icoAddressesArr.add(apps.get(i).adrICO);
+            userTokenListObs.add(TransactionRepository.getIcoBalance(apps.get(i).adrICO, AccountManager.getAddress().toString()));
         }
-        String icoAddressesStr = arrayToString(icoAddressesArr);
-        return RestApi.getServerApi().getBalanceOf(icoAddressesStr, AccountManager.getAddress().getHex());
+
+        return Observable.from(userTokenListObs).flatMap(result -> result.observeOn(Schedulers.computation())).toList();
     }
 
-    private ArrayList<AppInfo> mapWithCombineResult(Pair<ArrayList<AppInfo>, ArrayList<IcoBalance>> arrayOfPairs) {
+    private ArrayList<AppInfo> mapWithCombineResult(Pair<ArrayList<AppInfo>, List<IcoBalance>> arrayOfPairs) {
         for (int i = 0; i < arrayOfPairs.first.size(); i++) {
-            arrayOfPairs.first.get(i).icoBalance = arrayOfPairs.second.get(i);
+            for (IcoBalance icoBalance : arrayOfPairs.second) {
+                if (arrayOfPairs.first.get(i).adrICO.equalsIgnoreCase(icoBalance.address)) {
+                    arrayOfPairs.first.get(i).icoBalance = icoBalance;
+                }
+            }
         }
-
         return arrayOfPairs.first;
     }
 

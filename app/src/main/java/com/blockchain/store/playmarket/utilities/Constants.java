@@ -117,6 +117,6 @@ public class Constants {
     public static final String TOKEN_ARGS = "token_args";
 
     /* URLs*/
-    public static final String TOKEN_URL = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? "http://tokens.playmarket.io" : "http://test.tokens.playmarket.io");
+    public static final String TOKEN_URL = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? "http://tokens.playmarket.io" : "https://testtokens.playmarket.io/");
 
 }

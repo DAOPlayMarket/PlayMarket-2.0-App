@@ -150,16 +150,6 @@ public class AppInfo implements Parcelable, NotificationImpl {
     public AppInfo() {
     }
 
-    public Token transformToToken() {
-        Token token = new Token();
-        token.balanceOf = icoBalance.getTokenCount();
-        token.contract = icoBalance.address;
-        token.decimals = icoBalance.decimals;
-        token.symbol = icoSymbol;
-        token.name = icoName;
-        return token;
-    }
-
     @Override
     public int describeContents() {
         return 0;

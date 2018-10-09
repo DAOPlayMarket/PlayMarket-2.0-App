@@ -85,54 +85,7 @@ public class CryptoUtils {
         }
     }
 
-    public static byte[] getDataForBuyApp(String appId, String address) {
-        byte[] hash = sha3("buyApp(uint256,address)".getBytes());
-        appId = Integer.toHexString(Integer.valueOf(appId));
-        String hashString = bytesToHexString(hash);
-        String functionHash = hashString.substring(0, 8);
-
-        Log.d("Ether", functionHash);
-        Log.d("Ether", hashString);
-
-        String appIdEnc = String.format("%64s", appId).replace(' ', '0');
-        String catIdEnc = String.format("%64s", address).replace(' ', '0');
-
-        Log.d("Ether", appIdEnc);
-        Log.d("Ether", catIdEnc);
-
-        String data = functionHash + appIdEnc + catIdEnc;
-        Log.d("oldMethod", "result = " + data);
-
-        return hexStringToByteArray(data);
-    }
-
-    public static byte[] getDataForBuyAppWithWeb3(String appId, String address) {
-        if (address.startsWith("0x")) {
-            address = address.replaceFirst("0x", "");
-        }
-        ArrayList<Type> valueList = new ArrayList<>();
-        valueList.add(new Uint(new BigInteger(appId)));
-        valueList.add(new org.web3j.abi.datatypes.Address(address));
-
-        List<TypeReference<?>> typeReferences = Arrays.asList(
-                new TypeReference<org.web3j.abi.datatypes.Uint>() {
-                },
-                new TypeReference<org.web3j.abi.datatypes.Address>() {
-                });
-        Function function = new Function("buyApp",
-                valueList, typeReferences);
-
-        String encode = FunctionEncoder.encode(function);
-
-        if (encode.startsWith("0x")) {
-            encode = encode.replaceFirst("0x", "");
-        }
-        Log.d("newMethod", "result = " + encode);
-        return hexStringToByteArray(encode);
-    }
-
     public static byte[] getDataForReviewAnApp(String appId, String address, String vote, String description, String txIndex) {
-        // function pushFeedbackRating(uint idApp, uint vote, string description, bytes32 txIndex)
         ArrayList<Type> arrayList = new ArrayList<>();
         arrayList.add(new Uint(new BigInteger(appId)));
         arrayList.add(new Uint(new BigInteger(vote)));
@@ -167,7 +120,6 @@ public class CryptoUtils {
     }
 
     public static byte[] createSentTokenTransactionBytes(String address, String tokenNumber) {
-        // function transfer (address,uint256)
         if (address.startsWith("0x")) {
             address = address.replaceFirst("0x", "");
         }
@@ -189,15 +141,6 @@ public class CryptoUtils {
         }
         Log.d("token transfer", "result = " + encode);
         return hexStringToByteArray(encode);
-    }
-
-    private static String bytesToHexString(byte[] bytes) {
-        StringBuilder sb = new StringBuilder();
-        for (byte b : bytes) {
-            sb.append(String.format("%02x", b & 0xff));
-        }
-
-        return sb.toString();
     }
 
     private static byte[] hexStringToByteArray(String s) {
@@ -223,7 +166,7 @@ public class CryptoUtils {
                 .putTypeData(new Uint256(Long.parseLong(app.getPrice())))
                 .build();
 
-        price.setString(app.price /* * cryptoPriceResponse.price*/, 10);
+        price.setString(cryptoPriceResponse.price, 10);
 
         Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
                 price, GAS_LIMIT, gasPrice,
