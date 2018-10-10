@@ -8,7 +8,12 @@ public class UserBalance {
     public String balanceInPMC;
     public String symbol;
 
-    public String getFormattedLocalCurrency(){
-        return String.format("%.2f", balanceInLocalCurrency);
+    public String getFormattedLocalCurrency() {
+        try {
+            return String.format("%.2f", Double.parseDouble(balanceInLocalCurrency));
+        } catch (Exception e) {
+            return balanceInLocalCurrency;
+        }
+
     }
 }
