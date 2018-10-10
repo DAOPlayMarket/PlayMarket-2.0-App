@@ -57,6 +57,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.error_view_repeat_btn) Button errorBtn;
     @BindView(R.id.balance_icon) ImageView balanceIcon;
+    @BindView(R.id.balance_in_local) TextView balanceInLocal;
 
     NavigationViewPresenter presenter;
 
@@ -169,9 +170,11 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
         balanceView.setVisibility(View.VISIBLE);
         balanceIcon.setVisibility(View.VISIBLE);
+        balanceInLocal.setVisibility(View.VISIBLE);
 
         AccountManager.setUserBalance(balance.balanceInWei);
         balanceView.setText(new EthereumPrice(balance.balanceInWei).inEther().toString());
+        balanceInLocal.setText(String.format(getString(R.string.local_currency), balance.symbol, balance.getFormattedLocalCurrency()));
     }
 
     @Override

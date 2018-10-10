@@ -25,8 +25,8 @@
                 android:id="@+id/close_image_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:padding="6dp"
                 android:rotation="45"
                 android:tint="@color/nav_text_color"
@@ -50,9 +50,9 @@
                 android:id="@+id/user_id_title"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:gravity="left"
                 android:lineSpacingExtra="6dp"
                 android:lines="3"
@@ -70,8 +70,8 @@
                 android:id="@+id/user_balance_progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
                 android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/avatar_image" />
@@ -80,9 +80,9 @@
                 android:id="@+id/ether_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="35dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLength="12"
@@ -115,9 +115,9 @@
                 android:id="@+id/error_view_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
                 android:gravity="center"
                 android:text="@string/error_view_msg"
                 android:textSize="16sp"
@@ -144,11 +144,10 @@
                 android:id="@+id/view_divider"
                 android:layout_width="0dp"
                 android:layout_height="3dp"
-                android:layout_marginTop="32dp"
                 android:background="@color/top_view_divider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/ether_count"
-                app:layout_constraintTop_toBottomOf="@+id/ether_count" />
+                app:layout_constraintTop_toBottomOf="@+id/balance_in_local" />
 
 
             <include
@@ -156,8 +155,19 @@
                 layout="@layout/nav_view_items"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="@+id/balance_icon"
-                app:layout_constraintTop_toBottomOf="@id/view_divider" />
+                app:layout_constraintTop_toBottomOf="@+id/balance_in_local" />
+
+            <TextView
+                android:id="@+id/balance_in_local"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:tint="@color/nav_text_color"
+                app:layout_constraintStart_toStartOf="@+id/balance_icon"
+                app:layout_constraintTop_toBottomOf="@+id/error_view_title"
+                tools:text="PMC: 1000.12312 " />
 
 
         </android.support.constraint.ConstraintLayout>

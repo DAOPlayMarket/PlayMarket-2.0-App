@@ -109,7 +109,7 @@ public class NodeUtils {
                     Response<ExchangeRate> execute = null;
                     try {
                         execute = new RestApi().getCustomUrlApi(RestApi.getCheckUrlEndpointByNode(node.address)).getExchangeRate(currencyCode).execute();
-                        if (execute.body().currency.name.equalsIgnoreCase("PMC")) {
+                        if (!execute.body().currency.name.equalsIgnoreCase("PMC")) {
                             execute.body().currency.name = currencyCode;
                         }
                         Hawk.put(Constants.CURRENT_CURRENCY, execute.body());
@@ -117,7 +117,7 @@ public class NodeUtils {
                         e.printStackTrace();
                     }
 
-                    if (execute != null /*&& execute.isSuccessful()*/) {
+                    if (execute != null && execute.isSuccessful()) {
                         subscriber.onNext(node);
                         return;
                     }

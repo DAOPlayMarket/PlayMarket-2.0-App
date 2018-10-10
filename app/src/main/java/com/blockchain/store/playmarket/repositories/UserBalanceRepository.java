@@ -33,6 +33,7 @@ public class UserBalanceRepository {
         userBalance.balanceInWei = resultPair.first;//1467262675519699950
         userBalance.balanceInPMC = String.valueOf(convertedUserBalanceToPMC);//366815.66888
         userBalance.balanceInLocalCurrency = String.valueOf(convertedUserBalanceToPMC * exchangeRate.getRate() / localCurrencyDecimals);
+        userBalance.symbol = exchangeRate.currency.name;
 
         return userBalance;
     }
