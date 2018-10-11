@@ -85,7 +85,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical|right"
-                    android:text="4.5"
+                    tools:text="4.5"
                     android:textAppearance="?attr/textAppearanceListItem"
                     android:textSize="10sp" />
 
@@ -103,18 +103,12 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical|right"
-                    android:text="000"
+                    tools:text="000"
                     android:textAppearance="?attr/textAppearanceListItem"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:typeface="normal" />
 
-                <ImageView
-                    android:id="@+id/etherIcon"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/ether" />
             </LinearLayout>
 
         </LinearLayout>
