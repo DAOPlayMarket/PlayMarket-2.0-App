@@ -289,7 +289,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
         }
         for (SortedUserReview sortedUserReview : newUserReviews) {
             for (UserReview review : userReviews) {
-                if (sortedUserReview.userReview.txIndexOrigin.equalsIgnoreCase(review.txIndex)) {
+                if (!review.isTxIndexIsEmpty() && sortedUserReview.userReview.txIndexOrigin.equalsIgnoreCase(review.txIndex)) {
                     sortedUserReview.reviewOnUserReview.add(review);
                 }
             }

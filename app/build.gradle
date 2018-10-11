@@ -23,8 +23,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         multiDexEnabled true
-        versionCode 41
-        versionName '1.1.37'
+        versionCode 43
+        versionName '1.2.1'
     }
     buildTypes {
         release {
@@ -33,7 +33,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "app_name_by_gradle", "DAO PlayMarket 2.0"
             resValue "string", "content_provider", "com.blockchain.store.playmarket.fileprovider"
-
         }
         debug {
             applicationIdSuffix '.testnet'
@@ -49,8 +48,8 @@ android {
             jniDebuggable false
             renderscriptDebuggable false
             minifyEnabled false
-
         }
+
     }
     lintOptions {
         checkReleaseBuilds false

@@ -78,7 +78,7 @@ public class Constants {
     public static final String SEARCH_ACTIVITY_QUERY_EXTRA = "search_activity_query_extra";
 
     /* Transaction prefs */
-    public static final String PLAY_MARKET_ADDRESS = "0x857A6198520aFd1B6Cba74a9313A57B6F07743BD";
+    public static final String PLAY_MARKET_ADDRESS = "0xe0059278c62116a7857df32b19dc5b8fa3aa7336";
 
     public static final String TRANSACTION_MODEL_KEY = "transaction_model_key";
 

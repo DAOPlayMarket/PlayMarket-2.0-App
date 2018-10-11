@@ -144,6 +144,7 @@
                 android:id="@+id/view_divider"
                 android:layout_width="0dp"
                 android:layout_height="3dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/top_view_divider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/ether_count"
@@ -163,10 +164,11 @@
                 android:id="@+id/balance_in_local"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
                 android:tint="@color/nav_text_color"
-                app:layout_constraintStart_toStartOf="@+id/balance_icon"
-                app:layout_constraintTop_toBottomOf="@+id/error_view_title"
+                app:layout_constraintStart_toStartOf="@+id/ether_count"
+                app:layout_constraintTop_toBottomOf="@+id/ether_count"
                 tools:text="PMC: 1000.12312 " />
 
 

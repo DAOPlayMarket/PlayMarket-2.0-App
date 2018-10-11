@@ -185,6 +185,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
         balanceView.setVisibility(View.INVISIBLE);
         balanceIcon.setVisibility(View.INVISIBLE);
+        balanceInLocal.setVisibility(View.INVISIBLE);
     }
 
     @Override

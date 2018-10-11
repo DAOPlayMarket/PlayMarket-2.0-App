@@ -109,7 +109,7 @@ public class CryptoUtils {
                 }
         );
 
-        Function function = new Function("pushFeedbackRating",
+        Function function = new Function("feedbackRating",
                 arrayList, typeReferences);
 
         String encode = FunctionEncoder.encode(function);

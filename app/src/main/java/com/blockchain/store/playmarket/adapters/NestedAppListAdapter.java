@@ -121,7 +121,6 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
         @BindView(R.id.ratingStar) ImageView ratingStar;
         @BindView(R.id.no_rating_textView) TextView noRating;
         @BindView(R.id.Price) TextView price;
-        @BindView(R.id.etherIcon) ImageView etherIcon;
 
         public NestedAppListViewHolder(View itemView) {
             super(itemView);
