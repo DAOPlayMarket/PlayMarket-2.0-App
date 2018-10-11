@@ -31,6 +31,7 @@ public class DownloadService extends IntentService {
         if (intent == null) return;
         App app = intent.getParcelableExtra(Constants.DOWNLOAD_SERVICE_APP_EXTRA);
         String url = intent.getStringExtra(Constants.DOWNLOAD_SERVICE_URL_EXTRA);
+        Log.d(TAG, "onHandleIntent: " + url);
         boolean isNeedForceInstall = intent.getBooleanExtra(Constants.DOWNLOAD_SERVICE_FORCE_INSTALL, false);
 
         File file = new MyPackageManager().getFileFromApp(app);
