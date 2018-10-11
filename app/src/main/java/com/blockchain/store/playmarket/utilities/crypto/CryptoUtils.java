@@ -79,7 +79,8 @@ public class CryptoUtils {
         Pattern pattern = Pattern.compile("Hex:.*");
         Matcher matcher = pattern.matcher(transactionInfo);
         if (matcher.find()) {
-            return matcher.group(0).replaceAll("Hex:\\s*", "");
+            String s = matcher.group(0).replaceAll("Hex:\\s*", "");
+            return "0x" + s;
         } else {
             return "";
         }

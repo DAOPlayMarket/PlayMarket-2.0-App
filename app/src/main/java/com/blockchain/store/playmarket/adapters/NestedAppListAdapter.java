@@ -122,12 +122,10 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
         @BindView(R.id.no_rating_textView) TextView noRating;
         @BindView(R.id.Price) TextView price;
         @BindView(R.id.etherIcon) ImageView etherIcon;
-        private Context context;
 
         public NestedAppListViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            this.context = itemView.getContext();
         }
 
         public void bind(App app, int position) {
@@ -152,7 +150,6 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 price.setText(app.getPrice());
             }
             cardView.setOnClickListener(v -> mainCallback.onAppClickedWithTransition(app, imageView));
-//            cardView.setOnClickListener(v -> mainCallback.onAppClicked(app));
         }
     }
 

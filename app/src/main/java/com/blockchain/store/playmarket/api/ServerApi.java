@@ -53,10 +53,6 @@ public interface ServerApi {
     @POST("deploy")
     Observable<PurchaseAppResponse> deployTransaction(@Field("signedTransactionData") String transactionData);
 
-    @FormUrlEncoded
-    @POST("check-buy")
-    Observable<Boolean> checkPurchase(@Field("idApp") String appId, @Field("address") String address);  // If user bought item with  provided ObjectId(0 means an applications). By default objectid = 0,
-
     @GET("get-gas-price")
     Observable<String> getGasPrice();
 
@@ -65,8 +61,12 @@ public interface ServerApi {
     Observable<String> getBalance(@Field("address") String address);
 
     @FormUrlEncoded
+    @POST("check-buy")
+    Observable<Boolean> checkPurchase(@Field("idApp") String appId, @Field("address") String address);  // If user bought item with  provided ObjectId(0 means an applications). By default objectid = 0,
+
+    @FormUrlEncoded
     @POST("get-info-for-tx")
-    Observable<AccountInfoResponse> getAccountInfo(@Field("address") String address);
+    Observable<AccountInfoResponse> getAccountInfo(@Field("address") String address); // todo peredelat`
 
     @FormUrlEncoded
     @POST("search")
@@ -84,6 +84,7 @@ public interface ServerApi {
 //    @POST("get-exchange-rate")
 //    Call<ExchangeRate> getExchangeRate(@Field("currency") String currency);
 //
+
     @FormUrlEncoded()
     @POST("get-currency")
     Call<ExchangeRate> getExchangeRate(@Field("currency") String currency);
