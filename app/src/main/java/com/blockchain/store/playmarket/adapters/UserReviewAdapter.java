@@ -39,11 +39,11 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-//        if (!userReviews.get(position).author.equalsIgnoreCase(userAddress)) {
-        return TYPE_USER_REVIEW;
-//        } else {
-//            return TYPE_USER_REPLY;
-//        }
+        if (!userReviews.get(position).author.equalsIgnoreCase(userAddress)) {
+            return TYPE_USER_REVIEW;
+        } else {
+            return TYPE_USER_REPLY;
+        }
     }
 
     @NonNull
@@ -51,10 +51,10 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_USER_REVIEW) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_review_item, parent, false);
-            return new UserReviewViewHolder(view);
+            return new UserReviewViewHolder(view, viewType);
         } else if (viewType == TYPE_USER_REPLY) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_replay_item, parent, false);
-            return new UserReviewViewHolder(view);
+            return new UserReviewViewHolder(view, viewType);
         }
         return null;
     }
@@ -71,16 +71,6 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return userReviews.size();
     }
 
-    class UserReplyViewHolder extends RecyclerView.ViewHolder {
-
-        public UserReplyViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-
-        }
-
-    }
-
     class UserReviewViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.user_name) TextView userName;
         @BindView(R.id.user_rating_bar) MaterialRatingBar userRatingBar;
@@ -90,24 +80,32 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         private ObjectAnimator textDescriptionAnimator;
         private View itemView;
+        private int viewType;
 
-        public UserReviewViewHolder(View itemView) {
+        public UserReviewViewHolder(View itemView, int viewType) {
             super(itemView);
             this.itemView = itemView;
             ButterKnife.bind(this, itemView);
+            this.viewType = viewType;
             userCommentary.post(() -> setupViewAfterOnMeasure(userCommentary));
         }
 
         public void bind(UserReview userReview, int position) {
+            ViewGroup.MarginLayoutParams contraintParmas = (ViewGroup.MarginLayoutParams) constraintLayout.getLayoutParams();
             constraintLayout.setOnClickListener(v -> callback.onReplyOnReviewClicked(userReview));
 
-
-            if (userReview.isTxIndexIsEmpty()) {
+//            if (viewType == TYPE_USER_REVIEW) {
 //                contraintParmas.setMargins();
-            } else {
-
-            }
-            userCommentary.setText(userReview.description);
+//            } else {
+//
+//            }
+//
+//            if (userReview.isReviewOnReview) {
+//
+//            } else {
+//
+//            }
+            userCommentary.setText(userReview.text);
             userName.setText(userReview.author);
             try {
                 userRatingBar.setRating(Float.parseFloat(userReview.rating));

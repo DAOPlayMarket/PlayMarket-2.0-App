@@ -114,6 +114,7 @@
 
     <color name="time_remains">#79b841</color>
     <color name="goal_color">#adadad</color>
+    <color name="goal_color2">#E60C0C</color>
 
     <!-- Drawable nine patch create in http://inloop.github.io/shadow4android/-->
     <!-- Navigation card layout var's are: width,height 200. Shadow 10. Radius 4-->

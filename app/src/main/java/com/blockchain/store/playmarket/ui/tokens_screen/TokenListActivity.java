@@ -19,6 +19,8 @@ import com.blockchain.store.playmarket.ui.add_token_screen.AddTokenActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -31,8 +33,7 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
     @BindView(R.id.top_layout_app_name) TextView toolbarTitle;
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @BindView(R.id.floatingActionButton) FloatingActionButton floatingActionButton;
-    @BindView(R.id.error_holder) LinearLayout errorHolder;
-    @BindView(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.empty_view) TextView emptyView;
 
     private TokenAdapter adapter;
     private TokenListPresenter presenter;
@@ -52,6 +53,7 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
         presenter.getAllTokens();
     }
 
+
     private void initTitle() {
         toolbarTitle.setText(R.string.token_activity_title);
     }
@@ -61,33 +63,30 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
         this.onBackPressed();
     }
 
+    @OnClick(R.id.empty_view)
+    void onEmptyViewClicked() {
+        presenter.getAllTokens();
+    }
+
     @OnClick(R.id.floatingActionButton)
     void onFabClicked() {
         startActivityForResult(new Intent(this, AddTokenActivity.class), ADD_TOKEN_RESPONSE);
     }
 
-    @Override
-    public void showProgress(boolean isShown) {
-        progressBar.setVisibility(isShown ? View.VISIBLE : View.GONE);
-    }
 
     @Override
-    public void onTokensReady(TokenResponse tokenResponse) {
-        errorHolder.setVisibility(View.GONE);
-        adapter = new TokenAdapter(tokenResponse.tokens, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-    }
+    public void onTokensReady(ArrayList<Token> tokenResponse) {
+        if (!tokenResponse.isEmpty()) {
+            emptyView.setVisibility(View.GONE);
 
-    @Override
-    public void onTokensError(Throwable throwable) {
-        errorHolder.setVisibility(View.VISIBLE);
-    }
+            adapter = new TokenAdapter(tokenResponse, this);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(adapter);
+        } else {
+            emptyView.setVisibility(View.VISIBLE);
 
-    @OnClick(R.id.error_view_repeat_btn)
-    public void onErrorViewClicked() {
-        errorHolder.setVisibility(View.GONE);
-        presenter.getAllTokens();
+        }
+
     }
 
     @Override

@@ -5,10 +5,10 @@
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="6dp"
     android:layout_marginLeft="@dimen/USER_REVIEW_LEFT_MARGIN_BASIC"
-    android:layout_marginRight="40dp"
     android:layout_marginTop="6dp"
+    android:layout_marginRight="40dp"
+    android:layout_marginBottom="6dp"
     android:animateLayoutChanges="true"
     android:background="@drawable/review_theirs">
 
@@ -63,8 +63,8 @@
         android:id="@+id/user_commentary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="TextViewT extVfsdafd sfd fd fdfddffd fdfs df dsasdfa fasdf d assf sd fsdf f saf asdfsa fsd f sdaf dfd s f fsdaeie wTextVie wTextVi fs fsdfas dfd dsf sdf ew TextView TextVieasd s s s s s s s s  s s d   dadsa  d wTextView fdas asfd df"
@@ -79,14 +79,15 @@
         android:id="@+id/read_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingEnd="16dp"
         android:paddingTop="12dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="4dp"
         android:text="@string/more"
         android:textColor="@color/review_title_text_color"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_commentary"
         tools:visibility="visible" />
+
 
 </android.support.constraint.ConstraintLayout>

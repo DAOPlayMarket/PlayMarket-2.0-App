@@ -115,9 +115,8 @@ public class App implements Parcelable, NotificationImpl {
     }
 
     public String getCountOfPmcWithDecimals() {
-        return String.valueOf(Double.parseDouble(getPrice()) * 100);
+        return String.valueOf(Long.parseLong(this.price));
     }
-
 
     public String getPrice() {
         String price = this.price;

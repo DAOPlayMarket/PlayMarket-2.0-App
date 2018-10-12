@@ -34,9 +34,6 @@ public class AddTokenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_token);
         ButterKnife.bind(this);
-        addressText.setText("0x538106e553f5ba3298199c1998ba061922815a6c");
-
-
     }
 
     private void onError(Throwable throwable) {

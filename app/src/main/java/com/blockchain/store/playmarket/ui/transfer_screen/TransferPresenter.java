@@ -78,7 +78,7 @@ public class TransferPresenter implements TransferContract.Presenter {
         AppBuyTransactionModel transactionModel = new AppBuyTransactionModel();
         transactionModel.boughtApp = app;
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-//                .zipWith(RestApi.getServerApi().getCryptoPrice(app.getCountOfPmcWithDecimals()), Pair::new)
+                .zipWith(RestApi.getServerApi().getCryptoPrice(app.getCountOfPmcWithDecimals()), Pair::new)
                 .flatMap(result -> mapAppBuyTransaction(result, app))
                 .map(result -> TransactionInteractor.mapWithJobService(result, transactionModel))
                 .subscribeOn(Schedulers.newThread())
@@ -94,15 +94,13 @@ public class TransferPresenter implements TransferContract.Presenter {
         view.showToast(throwable.getMessage());
     }
 
-    private Observable<PurchaseAppResponse> mapAppBuyTransaction(AccountInfoResponse accountInfo, App app) {
-//    private Observable<PurchaseAppResponse> mapAppBuyTransaction(Pair<AccountInfoResponse, CryptoPriceResponse> accountInfo, App app) {
-
+    private Observable<PurchaseAppResponse> mapAppBuyTransaction(Pair<AccountInfoResponse, CryptoPriceResponse> accountInfo, App app) {
         String rawTransaction = "";
         try {
             rawTransaction = CryptoUtils.generateAppBuyTransaction(
-                    accountInfo.count,
-                    new BigInt(Long.parseLong(accountInfo.gasPrice)),
-                    app, accountInfo.adrNode, null);
+                    accountInfo.first.count,
+                    new BigInt(Long.parseLong(accountInfo.first.gasPrice)),
+                    app, accountInfo.first.adrNode, accountInfo.second);
         } catch (Exception e) {
             e.printStackTrace();
 

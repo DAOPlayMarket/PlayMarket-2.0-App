@@ -65,13 +65,17 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 })
                 .doOnTerminate(() -> view.setProgress(false));
         if (!app.isFree()) {
-            pairObservable.zipWith(RestApi.getServerApi().checkPurchase(app.appId, accountAddress), (Func2<AppInfo, Boolean, Pair>) Pair::new);
+            pairObservable.zipWith(RestApi.getServerApi().checkPurchase(app.appId, accountAddress), (Func2<AppInfo, Boolean, Pair>) Pair::new)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::onDetailedInfoReady, this::onDetailedInfoFailed);
+        } else {
+            pairObservable.subscribe(this::onDetailedInfoReady, this::onDetailedInfoFailed);
         }
-        pairObservable.subscribe(this::onDetailedInfoReady, this::onDetailedInfoFailed);
     }
 
     private void onDetailedInfoReady(AppInfo appInfo) {
-        onDetailedInfoReady(new Pair<>(appInfo, true));
+        onDetailedInfoReady(new Pair<>(appInfo, false));
     }
 
 

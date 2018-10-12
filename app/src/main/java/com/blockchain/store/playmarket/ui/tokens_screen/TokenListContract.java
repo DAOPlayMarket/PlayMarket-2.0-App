@@ -1,16 +1,15 @@
 package com.blockchain.store.playmarket.ui.tokens_screen;
 
+import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.data.entities.TokenResponse;
+
+import java.util.ArrayList;
 
 public class TokenListContract {
 
     interface View {
 
-        void showProgress(boolean b);
-
-        void onTokensReady(TokenResponse tokenResponse);
-
-        void onTokensError(Throwable throwable);
+        void onTokensReady(ArrayList<Token> tokenResponse);
     }
 
     interface Presenter {

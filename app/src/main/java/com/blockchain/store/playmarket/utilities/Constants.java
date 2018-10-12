@@ -78,9 +78,11 @@ public class Constants {
     public static final String SEARCH_ACTIVITY_QUERY_EXTRA = "search_activity_query_extra";
 
     /* Transaction prefs */
-    public static final String PLAY_MARKET_ADDRESS = "0xe0059278c62116a7857df32b19dc5b8fa3aa7336";
+    public static final String PLAY_MARKET_ADDRESS = "0xe1af56fbfdcc941bf23df938d374c814d683200f";
 
     public static final String TRANSACTION_MODEL_KEY = "transaction_model_key";
+
+    public static final String LOCAL_TOKEN_KEYS = "local_token_keys";
 
     /*Settings prefs*/
     public static final String CURRENT_CURRENCY = "current_currency";

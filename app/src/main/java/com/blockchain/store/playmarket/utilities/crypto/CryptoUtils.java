@@ -164,7 +164,7 @@ public class CryptoUtils {
                 .putTypeData(new Uint256(Long.parseLong(app.appId)))
                 .putTypeData(new org.web3j.abi.datatypes.Address(adrNode))
                 .putTypeData(new Uint256(0))
-                .putTypeData(new Uint256(Long.parseLong(app.getPrice())))
+                .putTypeData(new Uint256(Long.parseLong(app.getCountOfPmcWithDecimals())))
                 .build();
 
         price.setString(cryptoPriceResponse.price, 10);
