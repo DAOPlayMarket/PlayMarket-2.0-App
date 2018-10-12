@@ -1347,7 +1347,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
                 "\t\t\t\t\"type\": \"uint256\"\n" +
                 "\t\t\t},\n" +
                 "\t\t\t{\n" +
-                "\t\t\t\t\"name\": \"vote\",\n" +
+                "\t\t\t\t\"name\": \"rating\",\n" +
                 "\t\t\t\t\"type\": \"uint256\"\n" +
                 "\t\t\t},\n" +
                 "\t\t\t{\n" +

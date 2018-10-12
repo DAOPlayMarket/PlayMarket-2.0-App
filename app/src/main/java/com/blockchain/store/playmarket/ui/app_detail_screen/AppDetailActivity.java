@@ -28,7 +28,6 @@ import com.blockchain.store.playmarket.adapters.ImageListAdapter;
 import com.blockchain.store.playmarket.adapters.UserReviewAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
-import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
@@ -382,7 +381,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @Override
     public void onReplyOnReviewClicked(UserReview userReview) {
         new DialogManager().showReviewDialog(userReview, this, (review, rating) -> {
-            presenter.onSendReviewClicked(review, userReview.vote, userReview.txIndexOrigin);
+            presenter.onSendReviewClicked(review, userReview.rating, userReview.hashTx);
         });
     }
 

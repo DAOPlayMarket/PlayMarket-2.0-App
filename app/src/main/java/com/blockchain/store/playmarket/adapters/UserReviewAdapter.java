@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.UserReview;
@@ -40,11 +39,11 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        if (!userReviews.get(position).voter.equalsIgnoreCase(userAddress)) {
-            return TYPE_USER_REVIEW;
-        } else {
-            return TYPE_USER_REPLY;
-        }
+//        if (!userReviews.get(position).author.equalsIgnoreCase(userAddress)) {
+        return TYPE_USER_REVIEW;
+//        } else {
+//            return TYPE_USER_REPLY;
+//        }
     }
 
     @NonNull
@@ -100,17 +99,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         public void bind(UserReview userReview, int position) {
-            ViewGroup.MarginLayoutParams contraintParmas = (ViewGroup.MarginLayoutParams) constraintLayout.getLayoutParams();
-            constraintLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (userReview.isTxIndexIsEmpty()) {
-                        callback.onReplyOnReviewClicked(userReview);
-                    } else {
-                        callback.onReplyOnReviewClicked(userReview);
-                    }
-                }
-            });
+            constraintLayout.setOnClickListener(v -> callback.onReplyOnReviewClicked(userReview));
 
 
             if (userReview.isTxIndexIsEmpty()) {
@@ -119,9 +108,9 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             }
             userCommentary.setText(userReview.description);
-            userName.setText(userReview.voter);
+            userName.setText(userReview.author);
             try {
-                userRatingBar.setRating(Float.parseFloat(userReview.vote));
+                userRatingBar.setRating(Float.parseFloat(userReview.rating));
             } catch (Exception e) {
 
             }

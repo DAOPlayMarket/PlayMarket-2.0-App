@@ -21,6 +21,7 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
+import com.google.android.gms.common.UserRecoverableException;
 import com.orhanobut.hawk.Hawk;
 
 import org.ethereum.geth.BigInt;
@@ -279,31 +280,17 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
     private void sortUserReviews(ArrayList<UserReview> userReviews) {
-        ArrayList<SortedUserReview> newUserReviews = new ArrayList<>();
-        for (UserReview review : userReviews) {
-            if (review.isTxIndexIsEmpty()) {
-                SortedUserReview sortedUserReview = new SortedUserReview();
-                sortedUserReview.userReview = review;
-                newUserReviews.add(sortedUserReview);
-            }
-        }
-        for (SortedUserReview sortedUserReview : newUserReviews) {
-            for (UserReview review : userReviews) {
-                if (!review.isTxIndexIsEmpty() && sortedUserReview.userReview.txIndexOrigin.equalsIgnoreCase(review.txIndex)) {
-                    sortedUserReview.reviewOnUserReview.add(review);
-                }
-            }
-        }
+        ArrayList<UserReview> flattedArrayOfReviews = new ArrayList<>();
 
-        ArrayList<UserReview> sortedUserReview = new ArrayList<>();
-        for (SortedUserReview review : newUserReviews) {
-            sortedUserReview.add(review.userReview);
-            for (UserReview userReview : review.reviewOnUserReview) {
+
+        for (UserReview review : userReviews) {
+            flattedArrayOfReviews.add(review);
+            for (UserReview userReview : review.responses) {
                 userReview.isReviewOnReview = true;
-                sortedUserReview.add(userReview);
+                flattedArrayOfReviews.add(userReview);
             }
         }
-        view.onReviewsReady(sortedUserReview);
+        view.onReviewsReady(flattedArrayOfReviews);
 
     }
 

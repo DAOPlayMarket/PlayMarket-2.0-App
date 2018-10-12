@@ -63,9 +63,9 @@ public class DialogManager {
             replayReviewHolder.setVisibility(View.GONE);
         } else {
 
-            userName.setText(userReview.voter);
+            userName.setText(userReview.author);
             userCommentary.setText(userReview.description);
-            ratingBar.setRating(Float.parseFloat(userReview.vote));
+            ratingBar.setRating(Float.parseFloat(userReview.rating));
 
         }
 

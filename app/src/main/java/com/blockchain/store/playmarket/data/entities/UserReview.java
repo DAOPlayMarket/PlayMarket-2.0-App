@@ -2,25 +2,23 @@ package com.blockchain.store.playmarket.data.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
+
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 
 public class UserReview implements Parcelable {
     private static final String TAG = "UserReview";
-    public String txIndexOrigin;
-    public int blockNumber;
-    public String txIndex;
-    public String description;
-    public String vote;
+    public String hashTx;
+    public String author;
     public String idApp;
-    public String voter;
+    public String rating;
+    public String text;
+    @SerializedName("timestamp")
+    public String timeStamp;
+    public int blockNumber;
+    public ArrayList<UserReview> responses = new ArrayList<>();
     public boolean isReviewOnReview = false;
-
-
-    public boolean isTxIndexIsEmpty() {
-        String tempString = txIndex.replaceFirst("0x", "").replaceAll("0", "");
-        Log.d(TAG, "isTxIndexIsEmpty: " + tempString);
-        return tempString.isEmpty();
-    }
 
     public UserReview() {
     }
@@ -32,24 +30,26 @@ public class UserReview implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.txIndexOrigin);
-        dest.writeInt(this.blockNumber);
-        dest.writeString(this.txIndex);
-        dest.writeString(this.description);
-        dest.writeString(this.vote);
+        dest.writeString(this.hashTx);
+        dest.writeString(this.author);
         dest.writeString(this.idApp);
-        dest.writeString(this.voter);
+        dest.writeString(this.rating);
+        dest.writeString(this.text);
+        dest.writeString(this.timeStamp);
+        dest.writeInt(this.blockNumber);
+        dest.writeTypedList(this.responses);
         dest.writeByte(this.isReviewOnReview ? (byte) 1 : (byte) 0);
     }
 
     protected UserReview(Parcel in) {
-        this.txIndexOrigin = in.readString();
-        this.blockNumber = in.readInt();
-        this.txIndex = in.readString();
-        this.description = in.readString();
-        this.vote = in.readString();
+        this.hashTx = in.readString();
+        this.author = in.readString();
         this.idApp = in.readString();
-        this.voter = in.readString();
+        this.rating = in.readString();
+        this.text = in.readString();
+        this.timeStamp = in.readString();
+        this.blockNumber = in.readInt();
+        this.responses = in.createTypedArrayList(UserReview.CREATOR);
         this.isReviewOnReview = in.readByte() != 0;
     }
 
