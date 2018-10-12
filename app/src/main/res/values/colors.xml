@@ -59,6 +59,7 @@
     <color name="news_color">#E8BBFD</color>
     <color name="settings_color">#FDE3AB</color>
     <color name="my_ico_color">#8EF2C6</color>
+    <color name="tokens_color">#9ca7d3</color>
     <color name="account_color">#FFB9C1</color>
     <color name="about_color">#FEB3E5</color>
     <color name="item_active_bg">#CCD0D1</color>

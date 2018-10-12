@@ -12,6 +12,7 @@ import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.Application;
+import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.services.DownloadService;
 import com.blockchain.store.playmarket.utilities.device.BuildUtils;
@@ -123,10 +124,13 @@ public class MyPackageManager {
     }
 
     public void installApkByFile(File file) {
+        Context applicationContext = Application.getInstance().getApplicationContext();
         Intent intent = new Intent(Intent.ACTION_VIEW);
         if (BuildUtils.shouldUseContentUri()) {
-            intent.setDataAndType(FileProvider.getUriForFile(Application.getInstance().getApplicationContext(),
-                    "com.blockchain.store.playmarket.fileprovider", file), "application/vnd.android.package-archive");
+//            intent.setDataAndType(FileProvider.getUriForFile(Application.getInstance().getApplicationContext(),
+//                    "com.blockchain.store.playmarket.fileprovider", file), "application/vnd.android.package-archive");
+            intent.setDataAndType(FileProvider.getUriForFile(applicationContext,
+                    applicationContext.getString(R.string.content_provider), file), "application/vnd.android.package-archive");
         } else {
             intent.setDataAndType(Uri.parse("file://" + file), "application/vnd.android.package-archive");
         }

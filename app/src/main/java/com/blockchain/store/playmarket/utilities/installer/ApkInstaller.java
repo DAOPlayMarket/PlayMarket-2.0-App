@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 
+import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.utilities.net.HttpDownloadUtility;
 import com.blockchain.store.playmarket.utilities.device.BuildUtils;
 
@@ -20,9 +21,10 @@ import java.net.URL;
  * Created by samsheff on 23/08/2017.
  */
 
-public class ApkInstaller extends AsyncTask<String,Void,Void> {
+public class ApkInstaller extends AsyncTask<String, Void, Void> {
     private Context context;
-    public void setContext(Context contextf){
+
+    public void setContext(Context contextf) {
         context = contextf;
     }
 
@@ -55,7 +57,7 @@ public class ApkInstaller extends AsyncTask<String,Void,Void> {
 //            file.mkdirs();
 //            outputFile = new File(file, APK_FILENAME);
 
-            if(outputFile.exists()){
+            if (outputFile.exists()) {
                 outputFile.delete();
             }
 
@@ -70,7 +72,7 @@ public class ApkInstaller extends AsyncTask<String,Void,Void> {
 
             Intent intent = new Intent(Intent.ACTION_VIEW);
             if (BuildUtils.shouldUseContentUri()) {
-                intent.setDataAndType(FileProvider.getUriForFile(context, "com.blockchain.store.playmarket.fileprovider", outputFile), APK_MIME_TYPE);
+                intent.setDataAndType(FileProvider.getUriForFile(context, context.getString(R.string.content_provider), outputFile), APK_MIME_TYPE);
             } else {
                 intent.setDataAndType(Uri.parse("file://" + outputFile), APK_MIME_TYPE);
             }

@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="25dp"
-        android:paddingTop="25dp">
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp">
 
 
         <LinearLayout
@@ -103,11 +103,11 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:visibility="invisible"
                 style="@style/navViewImageItem"
-                android:src="@drawable/book"
-                android:tint="@color/library_color"
-                app:srcCompat="@drawable/book" />
+                android:scaleX="1.2"
+                android:scaleY="1.2"
+                android:src="@drawable/erctokenicon"
+                android:tint="@color/tokens_color" />
 
             <TextView
                 style="@style/navViewTextItem"

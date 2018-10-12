@@ -129,7 +129,8 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
 
     public void performUpdateAll() {
         for (AppLibrary appLibrary : appLibraries) {
-            callback.onActionButtonClicked(appLibrary);
+            if (appLibrary.isHasUpdate && appLibrary.app != null)
+                callback.onActionButtonClicked(appLibrary);
         }
     }
 
@@ -159,8 +160,6 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
             super(itemView);
             this.context = itemView.getContext();
             ButterKnife.bind(this, itemView);
-//            layoutHolder.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-
         }
 
         public void bind(AppLibrary appLibrary) {
