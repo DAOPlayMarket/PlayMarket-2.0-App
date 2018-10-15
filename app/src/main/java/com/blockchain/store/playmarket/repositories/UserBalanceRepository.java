@@ -26,12 +26,12 @@ public class UserBalanceRepository {
     private UserBalance onNext(Pair<String, CryptoPriceResponse> resultPair) {
         ExchangeRate exchangeRate = Hawk.get(Constants.CURRENT_CURRENCY, new ExchangeRate());
         double currentPriceOfOnePMC = resultPair.second.getPrice();
-        double convertedUserBalanceToPMC = Double.parseDouble(resultPair.first) / currentPriceOfOnePMC; //366815.66888
+        double convertedUserBalanceToPMC = Double.parseDouble(resultPair.first) / currentPriceOfOnePMC;
         double localCurrencyDecimals = Math.pow(10, exchangeRate.currency.getDecimals());
 
         UserBalance userBalance = new UserBalance();
-        userBalance.balanceInWei = resultPair.first;//1467262675519699950
-        userBalance.balanceInPMC = String.valueOf(convertedUserBalanceToPMC);//366815.66888
+        userBalance.balanceInWei = resultPair.first;
+        userBalance.balanceInPMC = String.valueOf(convertedUserBalanceToPMC);
         userBalance.balanceInLocalCurrency = String.valueOf(convertedUserBalanceToPMC * exchangeRate.getRate() / localCurrencyDecimals);
         userBalance.symbol = exchangeRate.currency.name;
 
@@ -39,7 +39,7 @@ public class UserBalanceRepository {
     }
 
     private Observable<CryptoPriceResponse> mapWith(String s) {
-        return RestApi.getServerApi().getCryptoPrice("1000"); //get Price of 1 token.
+        return RestApi.getServerApi().getCryptoPrice("100"); // PMC always has decimals = 2
     }
 
 }

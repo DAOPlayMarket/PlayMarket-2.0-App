@@ -2,20 +2,21 @@ package com.blockchain.store.playmarket.ui.tokens_screen;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.TokenAdapter;
 import com.blockchain.store.playmarket.data.entities.Token;
-import com.blockchain.store.playmarket.data.entities.TokenResponse;
-import com.blockchain.store.playmarket.ui.add_token_screen.AddTokenActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 
@@ -37,6 +38,8 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
 
     private TokenAdapter adapter;
     private TokenListPresenter presenter;
+    private BottomSheetBehavior bottomSheetBehavior;
+    private BottomSheetDialog bottomSheetDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,13 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
         setContentView(R.layout.activity_token_list);
         ButterKnife.bind(this);
         initTitle();
+        setUpBottomDialog();
         attachPresenter();
+    }
+
+    private void setUpBottomDialog() {
+        bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(R.layout.token_bottom_sheet);
     }
 
     private void attachPresenter() {
@@ -70,7 +79,8 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
 
     @OnClick(R.id.floatingActionButton)
     void onFabClicked() {
-        startActivityForResult(new Intent(this, AddTokenActivity.class), ADD_TOKEN_RESPONSE);
+        bottomSheetDialog.show();
+//        startActivityForResult(new Intent(this, AddTokenActivity.class), ADD_TOKEN_RESPONSE);
     }
 
 

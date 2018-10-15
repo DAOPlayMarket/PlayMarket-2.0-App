@@ -76,8 +76,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
             if (app.isFree()) {
                 price.setText(R.string.app_free);
             } else {
-                String priceInEther = new EthereumPrice(app.price).inEther().toString();
-                price.setText(priceInEther);
+                price.setText(app.getPrice());
 
             }
             cardView.setOnClickListener(v -> appListCallbacks.onAppClicked(app));

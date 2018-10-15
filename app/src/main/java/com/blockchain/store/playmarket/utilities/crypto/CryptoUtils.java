@@ -80,7 +80,7 @@ public class CryptoUtils {
         Matcher matcher = pattern.matcher(transactionInfo);
         if (matcher.find()) {
             String s = matcher.group(0).replaceAll("Hex:\\s*", "");
-            return "0x" + s;
+            return s;
         } else {
             return "";
         }
