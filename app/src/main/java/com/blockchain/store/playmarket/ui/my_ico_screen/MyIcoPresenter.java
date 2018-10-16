@@ -20,7 +20,7 @@ public class MyIcoPresenter implements Presenter, IcoAppsInfoRepository.IcoAppsR
     @Override
     public void getMyIcoApps() {
         icoAppsRepository.getIcoApps()
-                .map(IcoAppsInfoRepository::filterWithEmptyBalanc)
+                .map(IcoAppsInfoRepository::filterWithEmptyBalance)
                 .doOnSubscribe(() -> view.showProgress(true))
                 .doOnTerminate(() -> view.showProgress(false))
                 .subscribe(this::onIcoAppsReady, this::onIcoAppsFailed);

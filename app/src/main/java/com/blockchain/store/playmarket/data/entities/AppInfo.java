@@ -20,13 +20,16 @@ public class AppInfo implements Parcelable, NotificationImpl {
 
     @SerializedName("idApp")
     public String appId;
-    @SerializedName("adrICO")
+    @SerializedName("icoTokenAddress")
     public String adrICO;
+    @SerializedName("icoCrowdsaleAddress")
+    public String icoCrowdSaleAddress;
     @SerializedName("price")
     public String price;
     @SerializedName("free")
     public boolean isFree;
     public String adrDev;
+    @SerializedName("hashType")
     public String hashTag;
     public String hash;
     @SerializedName("longDescr")
@@ -150,114 +153,6 @@ public class AppInfo implements Parcelable, NotificationImpl {
     public AppInfo() {
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.appId);
-        dest.writeString(this.adrICO);
-        dest.writeString(this.price);
-        dest.writeByte(this.isFree ? (byte) 1 : (byte) 0);
-        dest.writeString(this.adrDev);
-        dest.writeString(this.hashTag);
-        dest.writeString(this.hash);
-        dest.writeString(this.description);
-        dest.writeString(this.privacyPolicy);
-        dest.writeString(this.urlApp);
-        dest.writeByte(this.isForChildren ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.isAdverising ? (byte) 1 : (byte) 0);
-        dest.writeString(this.ageRestrictions);
-        dest.writeString(this.email);
-        dest.writeString(this.youtubeID);
-        dest.writeString(this.shortDescription);
-        dest.writeString(this.slogan);
-        dest.writeString(this.subCategory);
-        dest.writeString(this.catalogId);
-        dest.writeString(this.nameApp);
-        dest.writeParcelable(this.files, flags);
-        dest.writeByte(this.isPublish ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.isIco ? (byte) 1 : (byte) 0);
-        dest.writeString(this.icoUrl);
-        dest.writeString(this.locale);
-        dest.writeByte(this.pP ? (byte) 1 : (byte) 0);
-        dest.writeString(this.icoSymbol);
-        dest.writeString(this.icoName);
-        dest.writeString(this.icoDecimals);
-        dest.writeTypedList(this.icoStages);
-        dest.writeString(this.icoTotalSupply);
-        dest.writeString(this.icoStartDate);
-        dest.writeString(this.icoEndDate);
-        dest.writeString(this.icoHardCapUsd);
-        dest.writeString(this.hashICO);
-        dest.writeString(this.hashTagICO);
-        dest.writeString(this.version);
-        dest.writeString(this.packageName);
-        dest.writeParcelable(this.infoICO, flags);
-        dest.writeParcelable(this.currentInfo, flags);
-        dest.writeParcelable(this.rating, flags);
-        dest.writeParcelable(this.icoBalance, flags);
-    }
-
-    protected AppInfo(Parcel in) {
-        this.appId = in.readString();
-        this.adrICO = in.readString();
-        this.price = in.readString();
-        this.isFree = in.readByte() != 0;
-        this.adrDev = in.readString();
-        this.hashTag = in.readString();
-        this.hash = in.readString();
-        this.description = in.readString();
-        this.privacyPolicy = in.readString();
-        this.urlApp = in.readString();
-        this.isForChildren = in.readByte() != 0;
-        this.isAdverising = in.readByte() != 0;
-        this.ageRestrictions = in.readString();
-        this.email = in.readString();
-        this.youtubeID = in.readString();
-        this.shortDescription = in.readString();
-        this.slogan = in.readString();
-        this.subCategory = in.readString();
-        this.catalogId = in.readString();
-        this.nameApp = in.readString();
-        this.files = in.readParcelable(AppFiles.class.getClassLoader());
-        this.isPublish = in.readByte() != 0;
-        this.isIco = in.readByte() != 0;
-        this.icoUrl = in.readString();
-        this.locale = in.readString();
-        this.pP = in.readByte() != 0;
-        this.icoSymbol = in.readString();
-        this.icoName = in.readString();
-        this.icoDecimals = in.readString();
-        this.icoStages = in.createTypedArrayList(IcoStages.CREATOR);
-        this.icoTotalSupply = in.readString();
-        this.icoStartDate = in.readString();
-        this.icoEndDate = in.readString();
-        this.icoHardCapUsd = in.readString();
-        this.hashICO = in.readString();
-        this.hashTagICO = in.readString();
-        this.version = in.readString();
-        this.packageName = in.readString();
-        this.infoICO = in.readParcelable(IcoInfo.class.getClassLoader());
-        this.currentInfo = in.readParcelable(CurrentInfo.class.getClassLoader());
-        this.rating = in.readParcelable(Rating.class.getClassLoader());
-        this.icoBalance = in.readParcelable(IcoBalance.class.getClassLoader());
-    }
-
-    public static final Creator<AppInfo> CREATOR = new Creator<AppInfo>() {
-        @Override
-        public AppInfo createFromParcel(Parcel source) {
-            return new AppInfo(source);
-        }
-
-        @Override
-        public AppInfo[] newArray(int size) {
-            return new AppInfo[size];
-        }
-    };
-
     public App convertToApp(AppInfo appInfo) {
         App app = new App();
         app.appId = appInfo.appId;
@@ -312,4 +207,114 @@ public class AppInfo implements Parcelable, NotificationImpl {
     public String getTitleName() {
         return this.nameApp;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.appId);
+        dest.writeString(this.adrICO);
+        dest.writeString(this.icoCrowdSaleAddress);
+        dest.writeString(this.price);
+        dest.writeByte(this.isFree ? (byte) 1 : (byte) 0);
+        dest.writeString(this.adrDev);
+        dest.writeString(this.hashTag);
+        dest.writeString(this.hash);
+        dest.writeString(this.description);
+        dest.writeString(this.privacyPolicy);
+        dest.writeString(this.urlApp);
+        dest.writeByte(this.isForChildren ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isAdverising ? (byte) 1 : (byte) 0);
+        dest.writeString(this.ageRestrictions);
+        dest.writeString(this.email);
+        dest.writeString(this.youtubeID);
+        dest.writeString(this.shortDescription);
+        dest.writeString(this.slogan);
+        dest.writeString(this.subCategory);
+        dest.writeString(this.catalogId);
+        dest.writeString(this.nameApp);
+        dest.writeParcelable(this.files, flags);
+        dest.writeByte(this.isPublish ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isIco ? (byte) 1 : (byte) 0);
+        dest.writeString(this.icoUrl);
+        dest.writeString(this.locale);
+        dest.writeByte(this.pP ? (byte) 1 : (byte) 0);
+        dest.writeString(this.icoSymbol);
+        dest.writeString(this.icoName);
+        dest.writeString(this.icoDecimals);
+        dest.writeTypedList(this.icoStages);
+        dest.writeString(this.icoTotalSupply);
+        dest.writeString(this.icoStartDate);
+        dest.writeString(this.icoEndDate);
+        dest.writeString(this.icoHardCapUsd);
+        dest.writeString(this.hashICO);
+        dest.writeString(this.hashTagICO);
+        dest.writeString(this.version);
+        dest.writeString(this.packageName);
+        dest.writeParcelable(this.infoICO, flags);
+        dest.writeParcelable(this.currentInfo, flags);
+        dest.writeParcelable(this.rating, flags);
+        dest.writeParcelable(this.icoBalance, flags);
+    }
+
+    protected AppInfo(Parcel in) {
+        this.appId = in.readString();
+        this.adrICO = in.readString();
+        this.icoCrowdSaleAddress = in.readString();
+        this.price = in.readString();
+        this.isFree = in.readByte() != 0;
+        this.adrDev = in.readString();
+        this.hashTag = in.readString();
+        this.hash = in.readString();
+        this.description = in.readString();
+        this.privacyPolicy = in.readString();
+        this.urlApp = in.readString();
+        this.isForChildren = in.readByte() != 0;
+        this.isAdverising = in.readByte() != 0;
+        this.ageRestrictions = in.readString();
+        this.email = in.readString();
+        this.youtubeID = in.readString();
+        this.shortDescription = in.readString();
+        this.slogan = in.readString();
+        this.subCategory = in.readString();
+        this.catalogId = in.readString();
+        this.nameApp = in.readString();
+        this.files = in.readParcelable(AppFiles.class.getClassLoader());
+        this.isPublish = in.readByte() != 0;
+        this.isIco = in.readByte() != 0;
+        this.icoUrl = in.readString();
+        this.locale = in.readString();
+        this.pP = in.readByte() != 0;
+        this.icoSymbol = in.readString();
+        this.icoName = in.readString();
+        this.icoDecimals = in.readString();
+        this.icoStages = in.createTypedArrayList(IcoStages.CREATOR);
+        this.icoTotalSupply = in.readString();
+        this.icoStartDate = in.readString();
+        this.icoEndDate = in.readString();
+        this.icoHardCapUsd = in.readString();
+        this.hashICO = in.readString();
+        this.hashTagICO = in.readString();
+        this.version = in.readString();
+        this.packageName = in.readString();
+        this.infoICO = in.readParcelable(IcoInfo.class.getClassLoader());
+        this.currentInfo = in.readParcelable(CurrentInfo.class.getClassLoader());
+        this.rating = in.readParcelable(Rating.class.getClassLoader());
+        this.icoBalance = in.readParcelable(IcoBalance.class.getClassLoader());
+    }
+
+    public static final Creator<AppInfo> CREATOR = new Creator<AppInfo>() {
+        @Override
+        public AppInfo createFromParcel(Parcel source) {
+            return new AppInfo(source);
+        }
+
+        @Override
+        public AppInfo[] newArray(int size) {
+            return new AppInfo[size];
+        }
+    };
 }

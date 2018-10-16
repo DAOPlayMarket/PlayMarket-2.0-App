@@ -102,12 +102,15 @@ public interface ServerApi {
     Observable<ArrayList<IcoBalance>> getBalanceOf(@Field("addressPull") String arrayAddress, @Field("addressUser") String addressUser);
 
     @FormUrlEncoded()
-    @POST("get-current-info")
-    Observable<CurrentInfo> getCurrentInfo(@Field("address") String addressICO);
+    @POST("get-ico-info")
+    Observable<CurrentInfo> getCurrentInfo(@Field("crowdsaleAddress") String addressICO, @Field("tokenAddress") String tokenAddress);
+
+    @FormUrlEncoded()
+    @POST("get-address-ico-info")
+    Observable<CurrentInfo> getIcoInfo(@Field("tokenAddress") String tokenAddress, @Field("address") String userAddress);
 
     @GET("https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40playmarket2.0&api_key=bxtxvdt126inutffjskughyxigwfdb1er03qhvsk")
     Observable<PlaymarketFeed> getPlaymarketNews();
-
 
     @GET("/")
     Observable<TokenResponse> getAllTokens();

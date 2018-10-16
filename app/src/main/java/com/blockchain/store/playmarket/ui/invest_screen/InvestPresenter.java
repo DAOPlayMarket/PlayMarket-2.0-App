@@ -38,7 +38,7 @@ public class InvestPresenter implements InvestContract.Presenter {
     }
 
     public void getCurrentInfo(AppInfo appInfo) {
-        RestApi.getServerApi().getCurrentInfo(appInfo.adrICO)
+        RestApi.getServerApi().getCurrentInfo(appInfo.icoCrowdSaleAddress,appInfo.adrICO)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onCurrentInfoReady, this::OnCurrentInfoError);

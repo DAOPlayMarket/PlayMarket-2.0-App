@@ -3,6 +3,8 @@ package com.blockchain.store.playmarket.data.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.DecimalFormat;
+
 
 public class IcoBalance implements Parcelable {
 
@@ -20,8 +22,12 @@ public class IcoBalance implements Parcelable {
         long tokensNum = Long.valueOf(balanceOf);
         short decimalsNum = Short.valueOf(decimals);
         double transformedTokensNum = tokensNum * Math.pow(10, -decimalsNum);
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(3);
+        df.setMinimumFractionDigits(0);
+        df.setGroupingUsed(false);
         transformedTokensNum = Math.round(transformedTokensNum * 10000.0) / 10000.0;
-        return String.valueOf(transformedTokensNum);
+        return String.valueOf(df.format(transformedTokensNum));
     }
 
     public IcoBalance() {

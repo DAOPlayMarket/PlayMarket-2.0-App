@@ -1,12 +1,12 @@
 package com.blockchain.store.playmarket.ui.ico_screen;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +16,14 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.IcoListAdapter;
-import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.interfaces.AppInfoCallback;
-import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
-import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 
 import java.util.ArrayList;
+
+import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.RECIPIENT_ARG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,7 +38,7 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
     private Button errorRepeatButton;
     private ProgressBar progressBar;
     private TextView emptyView;
-    private SwipeRefreshLayout icoRefrashLayout;
+    private SwipeRefreshLayout icoRefreshLayout;
 
     public IcoFragment() {
         // Required empty public constructor
@@ -51,7 +50,7 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ico, container, false);
         bindViews(view);
-        icoRefrashLayout.setOnRefreshListener(this);
+        icoRefreshLayout.setOnRefreshListener(this);
         attachPresenter();
         getIcoApps();
         return view;
@@ -61,7 +60,7 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
     public void onRefresh() {
         attachPresenter();
         getIcoApps();
-        icoRefrashLayout.setRefreshing(false);
+        icoRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -75,7 +74,7 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
         errorRepeatButton = view.findViewById(R.id.error_view_repeat_btn);
         progressBar = view.findViewById(R.id.progress_bar);
         emptyView = view.findViewById(R.id.empty_view);
-        icoRefrashLayout = view.findViewById(R.id.ico_refresh_layout);
+        icoRefreshLayout = view.findViewById(R.id.ico_refresh_layout);
 
         errorRepeatButton.setOnClickListener(v -> presenter.getIcoApps());
     }
@@ -131,11 +130,17 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
     @Override
     public void onAppInfoClicked(AppInfo appinfo) {
         InvestActivity.startFromIco(getActivity(), appinfo);
-
     }
 
     @Override
     public void onAppTransferTokenClicked(AppInfo appinfo) {
         TransferActivity.startAsTokenTransfer(getActivity(), appinfo);
+    }
+
+    @Override
+    public void onAppInvestClicked(String address) {
+        Intent intent = new Intent(getActivity(), TransferActivity.class);
+        intent.putExtra(RECIPIENT_ARG, address);
+        startActivity(intent);
     }
 }

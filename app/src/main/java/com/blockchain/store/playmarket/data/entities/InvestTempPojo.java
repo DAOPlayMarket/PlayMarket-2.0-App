@@ -9,9 +9,10 @@ public class InvestTempPojo {
     public ArrayList<Integer> objectViewType = new ArrayList<>();
 
     public InvestTempPojo(AppInfo app) {
-        String tokenSold = String.valueOf(Double.parseDouble(app.currentInfo.tokensSold) / (double) Math.pow(10, Double.parseDouble(app.icoDecimals)));
+//        String tokenSold = String.valueOf(Double.parseDouble(app.currentInfo.tokensSold) / (double) Math.pow(10, Double.parseDouble(app.icoDecimals)));
+        String tokenSold = "0";
         tokenSold = String.valueOf((double) Math.round(Double.parseDouble(tokenSold) * 1000d) / 1000d);
-        String totalTokens = String.valueOf(Long.parseLong(app.icoTotalSupply) / (long) Math.pow(10, Long.parseLong(app.icoDecimals)) * 45 / 100);
+        String totalTokens = String.valueOf(Long.parseLong(app.icoTotalSupply))/* / (long) Math.pow(10, Long.parseLong(app.icoDecimals)) * 45 / 100)*/;
         objects.add(new InvestMainItem(
                 app.nameApp,
                 "",
@@ -21,7 +22,7 @@ public class InvestTempPojo {
                 3,
                 app.getUnixTimeToFirstStageEnding(),
                 "",
-                app.adrICO,
+                app.icoCrowdSaleAddress,
                 app.getIconUrl(),
                 app.icoSymbol
         ));

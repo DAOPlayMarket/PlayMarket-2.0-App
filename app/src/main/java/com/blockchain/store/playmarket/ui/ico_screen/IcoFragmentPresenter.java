@@ -38,6 +38,7 @@ public class IcoFragmentPresenter implements IcoFragmentContracts.Presenter, Ico
 
     @Override
     public void onIcoAppsFailed(Throwable throwable) {
+        throwable.printStackTrace();
         view.onIcoAppsFailed(throwable);
     }
 }

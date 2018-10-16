@@ -40,7 +40,7 @@ public class IcoAppsInfoRepository {
     private Observable<List<IcoBalance>> mapWithGetIcoBalance(ArrayList<AppInfo> apps) {
         ArrayList<Observable<IcoBalance>> userTokenListObs = new ArrayList<>();
         for (int i = 0; i < apps.size(); i++) {
-            userTokenListObs.add(TransactionRepository.getIcoBalance(apps.get(i).adrICO, AccountManager.getAddress().toString()));
+            userTokenListObs.add(TransactionRepository.getIcoBalance(apps.get(i).adrICO, AccountManager.getAddress().getHex()));
         }
 
         return Observable.from(userTokenListObs).flatMap(result -> result.observeOn(Schedulers.computation())).toList();
@@ -67,7 +67,7 @@ public class IcoAppsInfoRepository {
         return result;
     }
 
-    public static ArrayList<AppInfo> filterWithEmptyBalanc(ArrayList<AppInfo> apps) {
+    public static ArrayList<AppInfo> filterWithEmptyBalance(ArrayList<AppInfo> apps) {
         ArrayList<AppInfo> resultList = new ArrayList<>();
         for (AppInfo app : apps) {
             if (app.icoBalance != null

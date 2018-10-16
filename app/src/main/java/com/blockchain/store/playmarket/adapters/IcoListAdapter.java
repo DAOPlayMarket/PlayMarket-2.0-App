@@ -127,7 +127,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
                         app.icoSymbol));
             }
             if (startBuyingBtn != null) {
-                startBuyingBtn.setOnClickListener(v -> appListCallbacks.onAppInvestClicked(app.adrICO));
+                startBuyingBtn.setOnClickListener(v -> appListCallbacks.onAppInvestClicked(app.icoCrowdSaleAddress));
             }
 
             long timeToFirstStageEnding = app.getUnixTimeToFirstStageEnding();

@@ -10,6 +10,7 @@ import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Function;
+import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Uint8;
@@ -21,6 +22,7 @@ import org.web3j.protocol.http.HttpService;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -101,7 +103,12 @@ public class TransactionRepository {
     }
 
     private static Object decodeFunction(EthCall ethCall, Function function) {
-        return FunctionReturnDecoder.decode(ethCall.getValue(), function.getOutputParameters()).get(0).getValue();
+        List<Type> decode = FunctionReturnDecoder.decode(ethCall.getValue(), function.getOutputParameters());
+        if(decode.size()>0){
+            return decode.get(0).getValue();
+        } else {
+            return "0";
+        }
     }
 
     private static Function getSymbolFunction() {

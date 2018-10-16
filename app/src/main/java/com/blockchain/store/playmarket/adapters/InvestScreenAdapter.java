@@ -168,7 +168,8 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public void bind(InvestMainItem investMainItem) {
             icoCurrency.setText(investMainItem.icoSymbol);
             currentStage.setText(String.valueOf(investMainItem.stageCurrent));
-            progressBar.setMax(Integer.parseInt(investMainItem.icoTotalSupply));
+            progressBar.setMax(1000000000);
+//            progressBar.setMax(Integer.parseInt(investMainItem.icoTotalSupply));
             progressBar.setProgress((int) Double.parseDouble(investMainItem.soldTokens));
             currentEarned.setText(investMainItem.soldTokens);
             totalEarned.setText(investMainItem.icoTotalSupply);

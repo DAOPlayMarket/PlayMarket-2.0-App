@@ -146,7 +146,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
                     double pow = Math.pow(10, Double.parseDouble(appInfo.icoBalance.decimals));
                     Long totalTokens = (long) (Double.parseDouble(transferAmount) * pow);
                     String transformedAmount = totalTokens.toString();
-                    presenter.createTransferTokenTransaction(transformedAmount, recipientAddress, appInfo.adrICO,
+                    presenter.createTransferTokenTransaction(transformedAmount, recipientAddress, appInfo.icoCrowdSaleAddress,
                             createInvestTransactionModel(transferAmount, appInfo.icoBalance.getTokenCount()));
                     return;
                 }

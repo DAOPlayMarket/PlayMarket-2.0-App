@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
@@ -54,6 +56,14 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
     private void setUpBottomDialog() {
         bottomSheetDialog = new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(R.layout.token_bottom_sheet);
+        EditText dialogEditText = bottomSheetDialog.findViewById(R.id.editText);
+        Button dialogBtn = bottomSheetDialog.findViewById(R.id.find_btn);
+        dialogBtn.setOnClickListener(v -> addTokenClicked(dialogEditText.toString()));
+    }
+
+    private void addTokenClicked(String s) {
+
+
     }
 
     private void attachPresenter() {
@@ -86,15 +96,12 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
     public void onTokensReady(ArrayList<Token> tokenResponse) {
         if (!tokenResponse.isEmpty()) {
             emptyView.setVisibility(View.GONE);
-
             adapter = new TokenAdapter(tokenResponse, this);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(adapter);
         } else {
             emptyView.setVisibility(View.VISIBLE);
-
         }
-
     }
 
     @Override

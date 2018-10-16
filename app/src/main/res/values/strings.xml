@@ -206,6 +206,8 @@
     <string name="local_currency">%1$s: %2$s</string>
     <string name="token_activity_title">Tokens</string>
     <string name="token_empty_view">List is empty tap to add new Token.</string>
+    <string name="token_dialog_enter_address">Enter address</string>
+    <string name="token_dialog_find">Find</string>
 
 
 </resources>
