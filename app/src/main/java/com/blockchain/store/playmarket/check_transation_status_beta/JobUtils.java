@@ -14,7 +14,9 @@ public class JobUtils {
     private static final String TAG = "JobUtils";
     private static int jobId = 0;
 
-    public static void scheduleJob(Context context, String transactionHash, Constants.TransactionTypes transactionType) {
+    private static final long ONE_DAY_INTERVAL = 24 * 60 * 60 * 1000L;
+
+    public static void scheduleCheckTransactionJob(Context context, String transactionHash, Constants.TransactionTypes transactionType) {
         ComponentName jobService = new ComponentName(context, GetTransactionStatusJobService.class);
         JobInfo.Builder exerciseJobBuilder = new JobInfo.Builder(jobId++, jobService);
         exerciseJobBuilder.setMinimumLatency(TimeUnit.SECONDS.toMillis(1));
@@ -30,6 +32,18 @@ public class JobUtils {
         jobScheduler.schedule(exerciseJobBuilder.build());
     }
 
+    public static void scheduleCheckUpdateJob(Context context) {
+        ComponentName jobService = new ComponentName(context, CheckUpdateJobService.class);
+        JobInfo.Builder exerciseJobBuilder = new JobInfo.Builder(jobId++, jobService);
+        exerciseJobBuilder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+        exerciseJobBuilder.setRequiresDeviceIdle(true);
+        exerciseJobBuilder.setRequiresCharging(true);
+        exerciseJobBuilder.setPeriodic(ONE_DAY_INTERVAL);
+        exerciseJobBuilder.setBackoffCriteria(TimeUnit.HOURS.toMillis(1), JobInfo.BACKOFF_POLICY_EXPONENTIAL);
+        JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        jobScheduler.schedule(exerciseJobBuilder.build());
+    }
+
     private static void addExtras(JobInfo.Builder exerciseJobBuilder, String transactionHash, Constants.TransactionTypes transactionType) {
         PersistableBundle bundle = new PersistableBundle();
         bundle.putString(Constants.JOB_HASH_EXTRA, transactionHash);
@@ -38,4 +52,5 @@ public class JobUtils {
         }
         exerciseJobBuilder.setExtras(bundle);
     }
+
 }

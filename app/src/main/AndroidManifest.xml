@@ -191,6 +191,9 @@
         <service
             android:name=".check_transation_status_beta.GetTransactionStatusJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name=".check_transation_status_beta.CheckUpdateJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
         <service android:name=".services.NotificationService" />
 
         <activity

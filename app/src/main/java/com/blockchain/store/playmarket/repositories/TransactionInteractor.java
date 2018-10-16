@@ -24,11 +24,11 @@ public class TransactionInteractor {
 
 
     private static void addToJobSchedule(String hash) {
-        JobUtils.scheduleJob(Application.getInstance().getApplicationContext(), hash, null);
+        JobUtils.scheduleCheckTransactionJob(Application.getInstance().getApplicationContext(), hash, null);
     }
 
     private static void addToJobSchedule(String hash, TransactionModel transactionModel) {
-        JobUtils.scheduleJob(Application.getInstance().getApplicationContext(), hash,transactionModel.getTransactionType());
+        JobUtils.scheduleCheckTransactionJob(Application.getInstance().getApplicationContext(), hash,transactionModel.getTransactionType());
     }
 
 }
