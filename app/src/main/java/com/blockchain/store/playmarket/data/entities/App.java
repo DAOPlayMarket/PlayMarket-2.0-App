@@ -21,8 +21,10 @@ public class App implements Parcelable, NotificationImpl {
 
     @SerializedName("idApp")
     public String appId;
-    @SerializedName("adrICO")
+    @SerializedName("icoTokenAddress")
     public String adrICO;
+    @SerializedName("icoCrowdsaleAddress")
+    public String icoCrowdSaleAddress;
     @SerializedName("price")
     public String price;
     public String adrDev;
@@ -145,6 +147,20 @@ public class App implements Parcelable, NotificationImpl {
     }
 
     @Override
+    public int getId() {
+        try {
+            return Integer.parseInt(appId);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    @Override
+    public String getTitleName() {
+        return nameApp;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -153,6 +169,7 @@ public class App implements Parcelable, NotificationImpl {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.appId);
         dest.writeString(this.adrICO);
+        dest.writeString(this.icoCrowdSaleAddress);
         dest.writeString(this.price);
         dest.writeString(this.adrDev);
         dest.writeString(this.hashTag);
@@ -196,6 +213,7 @@ public class App implements Parcelable, NotificationImpl {
     protected App(Parcel in) {
         this.appId = in.readString();
         this.adrICO = in.readString();
+        this.icoCrowdSaleAddress = in.readString();
         this.price = in.readString();
         this.adrDev = in.readString();
         this.hashTag = in.readString();
@@ -247,18 +265,4 @@ public class App implements Parcelable, NotificationImpl {
             return new App[size];
         }
     };
-
-    @Override
-    public int getId() {
-        try {
-            return Integer.parseInt(appId);
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-
-    @Override
-    public String getTitleName() {
-        return nameApp;
-    }
 }

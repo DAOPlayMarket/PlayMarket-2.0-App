@@ -80,9 +80,7 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
     @OnClick(R.id.floatingActionButton)
     void onFabClicked() {
         bottomSheetDialog.show();
-//        startActivityForResult(new Intent(this, AddTokenActivity.class), ADD_TOKEN_RESPONSE);
     }
-
 
     @Override
     public void onTokensReady(ArrayList<Token> tokenResponse) {
