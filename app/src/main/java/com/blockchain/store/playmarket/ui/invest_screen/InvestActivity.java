@@ -12,14 +12,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.InvestScreenAdapter;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
-import com.blockchain.store.playmarket.data.entities.CurrentInfo;
+import com.blockchain.store.playmarket.data.entities.IcoInfoResponse;
 import com.blockchain.store.playmarket.interfaces.InvestAdapterCallback;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
@@ -82,7 +81,7 @@ public class InvestActivity extends YouTubeBaseActivity implements InvestContrac
             throw new RuntimeException("App must be provided!");
         }
         attachPresenter();
-        if (appInfo.currentInfo == null) {
+        if (appInfo.icoInfoResponse == null) {
             getCurrentInfo();
         } else {
             setUpRecycler(appInfo);
@@ -107,10 +106,10 @@ public class InvestActivity extends YouTubeBaseActivity implements InvestContrac
     }
 
     @Override
-    public void onCurrentInfoReady(CurrentInfo currentInfo) {
+    public void onCurrentInfoReady(IcoInfoResponse icoInfoResponse) {
         progressBar.setVisibility(View.GONE);
         errorHolder.setVisibility(View.GONE);
-        appInfo.currentInfo = currentInfo;
+        appInfo.icoInfoResponse = icoInfoResponse;
         setUpRecycler(appInfo);
     }
 

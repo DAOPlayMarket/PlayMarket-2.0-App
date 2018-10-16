@@ -74,18 +74,16 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         presenter = new TransferInfoPresenter();
         presenter.init(this, getContext());
         if (transferViewModel.totalBalance.getValue() != null) {
-            balanceTextView.setText(String.valueOf(transferViewModel.totalBalance.getValue()));
+            balanceTextView.setText(transferViewModel.totalBalance.getValue());
         } else {
             presenter.getAccountBalance();
         }
-
 
         String senderAddress = presenter.getSenderAddress();
         senderAddressTextView.setText(senderAddress);
         transferViewModel.senderAddress.setValue(senderAddressTextView.getText().toString());
 
         getDataFromTransferViewModel();
-
 
         if (recipientAddress == null) {
             recipientAddressEditText.setEnabled(true);

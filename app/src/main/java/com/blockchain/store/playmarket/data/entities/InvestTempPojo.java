@@ -9,17 +9,18 @@ public class InvestTempPojo {
     public ArrayList<Integer> objectViewType = new ArrayList<>();
 
     public InvestTempPojo(AppInfo app) {
-//        String tokenSold = String.valueOf(Double.parseDouble(app.currentInfo.tokensSold) / (double) Math.pow(10, Double.parseDouble(app.icoDecimals)));
-        String tokenSold = "0";
+        IcoInfoResponse icoInfoResponse = app.icoInfoResponse;
+        String tokenSold = String.valueOf(Double.parseDouble(icoInfoResponse.tokensSold) / (double) Math.pow(10, Double.parseDouble(icoInfoResponse.decimals)));
         tokenSold = String.valueOf((double) Math.round(Double.parseDouble(tokenSold) * 1000d) / 1000d);
-        String totalTokens = String.valueOf(Long.parseLong(app.icoTotalSupply))/* / (long) Math.pow(10, Long.parseLong(app.icoDecimals)) * 45 / 100)*/;
+        String totalTokens = String.valueOf(Long.parseLong(app.icoTotalSupply) / ((long) Math.pow(10, Long.parseLong(icoInfoResponse.decimals))));
+
         objects.add(new InvestMainItem(
                 app.nameApp,
-                "",
+                app.description,
                 tokenSold,
                 totalTokens,
-                app.getCurrentStage() + 1,
-                3,
+                Integer.parseInt(icoInfoResponse.stage) + 1,
+                icoInfoResponse.stages.size(),
                 app.getUnixTimeToFirstStageEnding(),
                 "",
                 app.icoCrowdSaleAddress,
@@ -50,7 +51,6 @@ public class InvestTempPojo {
 
         objects.add(new ScreenShotBody(app.getImages()));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWETYPE_IMAGE_GALLERY);
-
         if (app.infoICO.advisors != null && !app.infoICO.advisors.isEmpty()) {
 
             objects.add(new InvestTitle("Advisors"));

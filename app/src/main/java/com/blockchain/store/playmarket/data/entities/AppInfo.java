@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.api.RestApi;
-import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.google.gson.annotations.SerializedName;
 
@@ -72,9 +71,9 @@ public class AppInfo implements Parcelable, NotificationImpl {
     public String version;
     public String packageName;
     public IcoInfo infoICO = null;
-    public CurrentInfo currentInfo;
     public Rating rating;
     public IcoBalance icoBalance;
+    public IcoInfoResponse icoInfoResponse;
 
     public String getRating() {
         try {
@@ -132,8 +131,8 @@ public class AppInfo implements Parcelable, NotificationImpl {
     public long getUnixTimeToFirstStageEnding() {
         long currentTimeUnix = System.currentTimeMillis() / 1000;
         for (IcoStages stage : icoStages) {
-            if (currentTimeUnix > Long.parseLong(stage.startDate) && currentTimeUnix < Long.parseLong(stage.time)) {
-                return Long.parseLong(stage.time) - currentTimeUnix;
+            if (currentTimeUnix > Long.parseLong(stage.startsAt) && currentTimeUnix < Long.parseLong(stage.endsAt)) {
+                return Long.parseLong(stage.endsAt) - currentTimeUnix;
             }
         }
         return 0;
@@ -143,7 +142,7 @@ public class AppInfo implements Parcelable, NotificationImpl {
         long currentTimeUnix = System.currentTimeMillis() / 1000;
         for (int i = 0; i < icoStages.size(); i++) {
             IcoStages stage = icoStages.get(i);
-            if (currentTimeUnix > Long.parseLong(stage.startDate) && currentTimeUnix < Long.parseLong(stage.time)) {
+            if (currentTimeUnix > Long.parseLong(stage.startsAt) && currentTimeUnix < Long.parseLong(stage.endsAt)) {
                 return i;
             }
         }
@@ -255,9 +254,9 @@ public class AppInfo implements Parcelable, NotificationImpl {
         dest.writeString(this.version);
         dest.writeString(this.packageName);
         dest.writeParcelable(this.infoICO, flags);
-        dest.writeParcelable(this.currentInfo, flags);
         dest.writeParcelable(this.rating, flags);
         dest.writeParcelable(this.icoBalance, flags);
+        dest.writeParcelable(this.icoInfoResponse, flags);
     }
 
     protected AppInfo(Parcel in) {
@@ -301,9 +300,9 @@ public class AppInfo implements Parcelable, NotificationImpl {
         this.version = in.readString();
         this.packageName = in.readString();
         this.infoICO = in.readParcelable(IcoInfo.class.getClassLoader());
-        this.currentInfo = in.readParcelable(CurrentInfo.class.getClassLoader());
         this.rating = in.readParcelable(Rating.class.getClassLoader());
         this.icoBalance = in.readParcelable(IcoBalance.class.getClassLoader());
+        this.icoInfoResponse = in.readParcelable(IcoInfoResponse.class.getClassLoader());
     }
 
     public static final Creator<AppInfo> CREATOR = new Creator<AppInfo>() {

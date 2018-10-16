@@ -2,6 +2,8 @@ package com.blockchain.store.playmarket.ui.tokens_screen;
 
 import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.repositories.TokenRepository;
+import com.blockchain.store.playmarket.repositories.TransactionRepository;
+import com.blockchain.store.playmarket.utilities.AccountManager;
 
 import java.util.ArrayList;
 
@@ -21,5 +23,22 @@ public class TokenListPresenter implements TokenListContract.Presenter {
 
     private void onTokensReady(ArrayList<Token> tokenResponse) {
         view.onTokensReady(tokenResponse);
+    }
+
+    @Override
+    public void findToken(String address) {
+        TransactionRepository.getTokenFullInfo(address, AccountManager.getAddress().getHex())
+                .doOnSubscribe(() -> view.showProgress(true))
+                .doOnTerminate(() -> view.showProgress(false))
+                .subscribe(this::onNewTokenReady, this::onNewTokenFailed);
+    }
+
+    private void onNewTokenReady(Token token) {
+        new TokenRepository().addToken(token);
+        view.onNewTokenReady(token);
+    }
+
+    private void onNewTokenFailed(Throwable throwable) {
+        view.onNewTokenFailed(throwable);
     }
 }

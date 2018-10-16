@@ -1,12 +1,8 @@
 package com.blockchain.store.playmarket.ui.tokens_screen;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,13 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.TokenAdapter;
 import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
-import com.blockchain.store.playmarket.utilities.Constants;
 
 import java.util.ArrayList;
 
@@ -37,6 +34,7 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @BindView(R.id.floatingActionButton) FloatingActionButton floatingActionButton;
     @BindView(R.id.empty_view) TextView emptyView;
+    @BindView(R.id.token_progress_bar) ProgressBar progressBar;
 
     private TokenAdapter adapter;
     private TokenListPresenter presenter;
@@ -58,11 +56,18 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
         bottomSheetDialog.setContentView(R.layout.token_bottom_sheet);
         EditText dialogEditText = bottomSheetDialog.findViewById(R.id.editText);
         Button dialogBtn = bottomSheetDialog.findViewById(R.id.find_btn);
-        dialogBtn.setOnClickListener(v -> addTokenClicked(dialogEditText.toString()));
+        dialogBtn.setOnClickListener(v -> addTokenClicked(dialogEditText.getText().toString(), dialogEditText));
     }
 
-    private void addTokenClicked(String s) {
-
+    private void addTokenClicked(String tokenAddress, EditText dialogEditText) {
+        if (tokenAddress.isEmpty()) {
+            dialogEditText.setError("Address is empty!");
+            return;
+        }
+        if (bottomSheetDialog != null && bottomSheetDialog.isShowing()) {
+            bottomSheetDialog.dismiss();
+        }
+        presenter.findToken(tokenAddress);
 
     }
 
@@ -96,12 +101,28 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
     public void onTokensReady(ArrayList<Token> tokenResponse) {
         if (!tokenResponse.isEmpty()) {
             emptyView.setVisibility(View.GONE);
-            adapter = new TokenAdapter(tokenResponse, this);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(adapter);
         } else {
             emptyView.setVisibility(View.VISIBLE);
         }
+        adapter = new TokenAdapter(tokenResponse, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onNewTokenFailed(Throwable throwable) {
+        Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNewTokenReady(Token token) {
+        adapter.addNewToken(token);
+    }
+
+    @Override
+    public void showProgress(boolean isShown) {
+        progressBar.setVisibility(isShown ? View.VISIBLE : View.GONE);
+        floatingActionButton.setVisibility(isShown ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -109,12 +130,4 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
         TransferActivity.startAsTokenTransfer(this, token);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ADD_TOKEN_RESPONSE && resultCode == RESULT_OK) {
-            Token token = data.getParcelableExtra(Constants.TOKEN_ARGS);
-            adapter.addNewToken(token);
-        }
-    }
 }

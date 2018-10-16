@@ -8,6 +8,7 @@ import com.blockchain.store.playmarket.data.entities.CryptoPriceResponse;
 import com.blockchain.store.playmarket.data.entities.CurrentInfo;
 import com.blockchain.store.playmarket.data.entities.ExchangeRate;
 import com.blockchain.store.playmarket.data.entities.IcoBalance;
+import com.blockchain.store.playmarket.data.entities.IcoInfoResponse;
 import com.blockchain.store.playmarket.data.entities.PlaymarketFeed;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.TokenResponse;
@@ -102,12 +103,13 @@ public interface ServerApi {
     Observable<ArrayList<IcoBalance>> getBalanceOf(@Field("addressPull") String arrayAddress, @Field("addressUser") String addressUser);
 
     @FormUrlEncoded()
-    @POST("get-ico-info")
-    Observable<CurrentInfo> getCurrentInfo(@Field("crowdsaleAddress") String addressICO, @Field("tokenAddress") String tokenAddress);
+    @POST("get-address-ico-info")
+    Observable<IcoInfoResponse> getCurrentInfo(@Field("tokenAddress") String tokenAddress, @Field("address") String userAddress);
+
 
     @FormUrlEncoded()
-    @POST("get-address-ico-info")
-    Observable<CurrentInfo> getIcoInfo(@Field("tokenAddress") String tokenAddress, @Field("address") String userAddress);
+    @POST("get-ico-info")
+    Observable<IcoInfoResponse> getIcoInfo(@Field("crowdsaleAddress") String addressICO, @Field("tokenAddress") String tokenAddress);
 
     @GET("https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fmedium.com%2Ffeed%2F%40playmarket2.0&api_key=bxtxvdt126inutffjskughyxigwfdb1er03qhvsk")
     Observable<PlaymarketFeed> getPlaymarketNews();

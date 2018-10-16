@@ -1,8 +1,7 @@
 package com.blockchain.store.playmarket.ui.invest_screen;
 
 import com.blockchain.store.playmarket.data.entities.AppInfo;
-import com.blockchain.store.playmarket.data.entities.CurrentInfo;
-import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.data.entities.IcoInfoResponse;
 
 /**
  * Created by Crypton04 on 19.02.2018.
@@ -11,7 +10,7 @@ import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 public class InvestContract {
     interface View{
 
-        void onCurrentInfoReady(CurrentInfo currentInfo);
+        void onCurrentInfoReady(IcoInfoResponse currentInfo);
 
         void onCurrentInfoError(Throwable throwable);
     }

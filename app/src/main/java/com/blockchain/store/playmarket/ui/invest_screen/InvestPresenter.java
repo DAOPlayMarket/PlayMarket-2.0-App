@@ -7,6 +7,7 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.CurrentInfo;
+import com.blockchain.store.playmarket.data.entities.IcoInfoResponse;
 import com.blockchain.store.playmarket.data.entities.InvestAddressResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.repositories.TransactionInteractor;
@@ -38,14 +39,14 @@ public class InvestPresenter implements InvestContract.Presenter {
     }
 
     public void getCurrentInfo(AppInfo appInfo) {
-        RestApi.getServerApi().getCurrentInfo(appInfo.icoCrowdSaleAddress,appInfo.adrICO)
+        RestApi.getServerApi().getIcoInfo(appInfo.icoCrowdSaleAddress,appInfo.adrICO)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onCurrentInfoReady, this::OnCurrentInfoError);
     }
 
-    private void onCurrentInfoReady(CurrentInfo currentInfo) {
-        view.onCurrentInfoReady(currentInfo);
+    private void onCurrentInfoReady(IcoInfoResponse icoInfoResponse) {
+        view.onCurrentInfoReady(icoInfoResponse);
     }
 
     private void OnCurrentInfoError(Throwable throwable) {

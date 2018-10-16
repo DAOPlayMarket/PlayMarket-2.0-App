@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.IcoInfoResponse;
 import com.blockchain.store.playmarket.data.entities.InvestBody;
 import com.blockchain.store.playmarket.data.entities.InvestMainItem;
 import com.blockchain.store.playmarket.data.entities.InvestMember;

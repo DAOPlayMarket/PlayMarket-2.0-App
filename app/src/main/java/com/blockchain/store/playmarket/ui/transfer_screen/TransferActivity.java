@@ -105,11 +105,11 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
             transferViewModel.transferAmount.setValue(totalPrice);
         } else if (appInfo != null) {
             transferViewModel.isBlockEthIcon.setValue(false);
-            transferViewModel.totalBalance.setValue(Double.valueOf(appInfo.icoBalance.getTokenCount()));
+            transferViewModel.totalBalance.setValue(appInfo.icoBalance.getTokenCount());
             transferViewModel.tokenName.setValue(appInfo.icoSymbol);
         } else if (token != null) {
             transferViewModel.isBlockEthIcon.setValue(false);
-            transferViewModel.totalBalance.setValue(Double.valueOf(token.getTokenCount()));
+            transferViewModel.totalBalance.setValue(token.getTokenCount());
             transferViewModel.tokenName.setValue(token.symbol);
         } else {
             transferViewModel.isBlockEthIcon.setValue(false);
@@ -146,7 +146,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
                     double pow = Math.pow(10, Double.parseDouble(appInfo.icoBalance.decimals));
                     Long totalTokens = (long) (Double.parseDouble(transferAmount) * pow);
                     String transformedAmount = totalTokens.toString();
-                    presenter.createTransferTokenTransaction(transformedAmount, recipientAddress, appInfo.icoCrowdSaleAddress,
+                    presenter.createTransferTokenTransaction(transformedAmount, recipientAddress, appInfo.adrICO,
                             createInvestTransactionModel(transferAmount, appInfo.icoBalance.getTokenCount()));
                     return;
                 }

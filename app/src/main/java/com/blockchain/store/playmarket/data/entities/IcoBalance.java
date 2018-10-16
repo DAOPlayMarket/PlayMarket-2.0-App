@@ -17,6 +17,9 @@ public class IcoBalance implements Parcelable {
         this.balanceOf = in.readString();
         this.decimals = in.readString();
     }
+    public String getTokenCountWithoutDecimals(){
+        return balanceOf;
+    }
 
     public String getTokenCount() {
         long tokensNum = Long.valueOf(balanceOf);
@@ -27,7 +30,7 @@ public class IcoBalance implements Parcelable {
         df.setMinimumFractionDigits(0);
         df.setGroupingUsed(false);
         transformedTokensNum = Math.round(transformedTokensNum * 10000.0) / 10000.0;
-        return String.valueOf(df.format(transformedTokensNum));
+        return String.valueOf(df.format(transformedTokensNum)).replaceAll(",", ".");
     }
 
     public IcoBalance() {

@@ -6,9 +6,9 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 public class IcoStages implements Parcelable {
-    public String startDate;
+    public String startsAt;
     @SerializedName("endDate")
-    public String time;
+    public String endsAt;
     public String price;
 
     public IcoStages() {
@@ -21,14 +21,14 @@ public class IcoStages implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.startDate);
-        dest.writeString(this.time);
+        dest.writeString(this.startsAt);
+        dest.writeString(this.endsAt);
         dest.writeString(this.price);
     }
 
     protected IcoStages(Parcel in) {
-        this.startDate = in.readString();
-        this.time = in.readString();
+        this.startsAt = in.readString();
+        this.endsAt = in.readString();
         this.price = in.readString();
     }
 

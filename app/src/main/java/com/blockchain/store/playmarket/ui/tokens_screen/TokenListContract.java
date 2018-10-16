@@ -10,11 +10,19 @@ public class TokenListContract {
     interface View {
 
         void onTokensReady(ArrayList<Token> tokenResponse);
+
+        void onNewTokenFailed(Throwable throwable);
+
+        void onNewTokenReady(Token token);
+
+        void showProgress(boolean isShown);
     }
 
     interface Presenter {
         void init(View view);
 
         void getAllTokens();
+
+        void findToken(String address);
     }
 }
