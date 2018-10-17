@@ -1,10 +1,8 @@
 package com.blockchain.store.playmarket.check_transation_status_beta;
 
-import android.app.DownloadManager;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.util.Log;
-import android.webkit.DownloadListener;
 
 import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.api.RestApi;
