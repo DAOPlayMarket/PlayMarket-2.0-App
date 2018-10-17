@@ -5,8 +5,11 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
+
+import java.math.BigInteger;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -22,6 +25,19 @@ public class PlayMarketSdkTransactionFactory {
         return appByPackageName.flatMap(result -> getMethodByTransactionType(transferObject, result)).
                 observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread());
+    }
+
+
+    public static Observable<Boolean> checkBuy(String packageName, String objectId) {
+        Observable<App> appByPackageName = findAppByPackageName(packageName);
+        return appByPackageName.flatMap(
+                result -> TransactionRepository.getCheckBuy(Integer.parseInt(result.appId), objectId));
+    }
+
+    public static Observable<BigInteger> checkSubscription(String packageName, String objectId) {
+        Observable<App> appByPackageName = findAppByPackageName(packageName);
+        return appByPackageName.flatMap(
+                result -> TransactionRepository.getSubscriptionTime(Integer.parseInt(result.appId), objectId));
     }
 
     private static Observable<PurchaseAppResponse> getMethodByTransactionType(TransferObject transferObject, App app) {

@@ -17,7 +17,7 @@ repositories {
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    buildToolsVersion '28.0.2'
     defaultConfig {
         applicationId "com.blockchain.store.playmarket"
         minSdkVersion 21
@@ -37,12 +37,14 @@ android {
         debug {
             applicationIdSuffix '.testnet'
             resValue "string", "app_name_by_gradle", "DAO PlayMarket 2.0 testnet"
-            resValue "string", "content_provider", "com.blockchain.store.playmarket.beta.fileprovider"
+            resValue "string", "content_provider", "com.blockchain.store.playmarket.testnet.fileprovider"
+            resValue "string", "package_name", "com.blockchain.store.PurchaseSDK.services.PlayMarketSDK"
         }
         mainnet {
             initWith debug
             resValue "string", "app_name_by_gradle", "DAO PlayMarket 2.0"
             resValue "string", "content_provider", "com.blockchain.store.playmarket.fileprovider"
+            resValue "string", "package_name", "com.blockchain.store.PurchaseSDK.services.PlayMarketSDK"
             debuggable true
             jniDebuggable false
             renderscriptDebuggable false

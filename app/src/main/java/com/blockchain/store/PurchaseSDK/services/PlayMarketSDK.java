@@ -12,6 +12,7 @@ import com.blockchain.store.playmarket.repositories.BalanceRepository;
 import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
+import java.math.BigInteger;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 
@@ -80,25 +81,25 @@ public class PlayMarketSDK extends IntentService {
                 transferObject.setUserAddress(AccountManager.getAccount().getAddress().getHex());
 
                 PlayMarketSdkTransactionFactory.get(transferObject)
-                        .subscribe(this::onTransactionCreate, this::onUserBalanceError);
+                        .subscribe(this::onTransactionCreate, this::onTransactionFailed);
                 break;
             case METHOD_CHECK_BUY:
-                intent.getStringExtra(TRANSFER_OBJECT_ID);
-                TransactionRepository.getCheckBuy(0, "0")
+                PlayMarketSdkTransactionFactory.checkBuy(intent.getStringExtra(TRANSFER_PACKAGE_NAME), intent.getStringExtra(TRANSFER_OBJECT_ID))
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.newThread())
-                        .subscribe(this::onOk, this::onFail);
+                        .subscribe(this::onCheckBuyReady, this::onCheckBuyError);
                 break;
             case METHOD_CHECK_SUBSCRIPTION:
-                TransactionRepository.getSubscriptionTime(50, "1")
+                PlayMarketSdkTransactionFactory.checkSubscription(intent.getStringExtra(TRANSFER_PACKAGE_NAME), intent.getStringExtra(TRANSFER_OBJECT_ID))
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.newThread())
-                        .subscribe(this::onOk, this::onFail);
+                        .subscribe(this::onCheckSubscriptionReady, this::onCheckSubscriptionError);
                 break;
         }
 
 
     }
+
 
     private boolean isHasAllParameters(Intent intent) {
 
@@ -149,6 +150,30 @@ public class PlayMarketSDK extends IntentService {
         Intent outerIntent = getOuterIntent(METHOD_TRANSACTION);
         outerIntent.putExtra(TRANSACTION_RESULT_URL, purchaseAppResponse.link);
         outerIntent.putExtra(TRANSACTION_RESULT_TXHASH, purchaseAppResponse.hash);
+        sendBroadCast(outerIntent);
+    }
+
+    private void onCheckBuyReady(Boolean isBought) {
+        Intent outerIntent = getOuterIntent(METHOD_CHECK_BUY);
+        outerIntent.putExtra(EXTRA_METHOD_RESULT, isBought);
+        sendBroadCast(outerIntent);
+    }
+
+    private void onCheckBuyError(Throwable throwable) {
+        Intent outerIntent = getOuterIntent(METHOD_CHECK_BUY);
+        outerIntent.putExtra(EXTRA_METHOD_ERROR, throwable);
+        sendBroadCast(outerIntent);
+    }
+
+    private void onCheckSubscriptionReady(BigInteger timeElapsed) {
+        Intent outerIntent = getOuterIntent(METHOD_CHECK_SUBSCRIPTION);
+        outerIntent.putExtra(EXTRA_METHOD_RESULT, timeElapsed);
+        sendBroadCast(outerIntent);
+    }
+
+    private void onCheckSubscriptionError(Throwable throwable) {
+        Intent outerIntent = getOuterIntent(METHOD_CHECK_SUBSCRIPTION);
+        outerIntent.putExtra(EXTRA_METHOD_ERROR, throwable);
         sendBroadCast(outerIntent);
     }
 

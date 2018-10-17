@@ -42,7 +42,6 @@ public class JobUtils {
         }
         ComponentName jobService = new ComponentName(context, CheckUpdateJobService.class);
         JobInfo.Builder exerciseJobBuilder = new JobInfo.Builder(AUTO_UPDATE_JOB_ID, jobService)
-                .setRequiresDeviceIdle(true)
                 .setRequiresCharging(true)
                 .setPeriodic(ONE_DAY_INTERVAL)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
