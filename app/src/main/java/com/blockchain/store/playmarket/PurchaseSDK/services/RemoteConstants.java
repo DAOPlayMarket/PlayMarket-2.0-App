@@ -1,4 +1,4 @@
-package com.blockchain.store.PurchaseSDK.services;
+package com.blockchain.store.playmarket.PurchaseSDK.services;
 
 public class RemoteConstants {
     /* PlayMarket results*/

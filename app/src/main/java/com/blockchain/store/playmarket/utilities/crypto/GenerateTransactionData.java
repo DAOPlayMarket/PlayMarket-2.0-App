@@ -2,7 +2,7 @@ package com.blockchain.store.playmarket.utilities.crypto;
 
 import android.util.Log;
 
-import com.blockchain.store.PurchaseSDK.entities.TransferObject;
+import com.blockchain.store.playmarket.PurchaseSDK.entities.TransferObject;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 
 import org.web3j.abi.FunctionEncoder;

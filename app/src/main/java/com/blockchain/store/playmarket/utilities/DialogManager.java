@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.mtramin.rxfingerprint.RxFingerprint;
@@ -23,6 +24,7 @@ import com.orhanobut.hawk.Hawk;
 
 import java.math.BigDecimal;
 
+import butterknife.BindView;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
@@ -153,6 +155,22 @@ public class DialogManager {
             createFolderDialog.dismiss();
         });
         return createFolderDialog;
+    }
+
+    public void showAutoUpdateDialog(Context context, App app) {
+        AlertDialog autoUpdateDialog = new AlertDialog.Builder(context)
+                .setView(R.layout.auto_update_dialog)
+                .setCancelable(false)
+                .create();
+        autoUpdateDialog.show();
+        autoUpdateDialog.findViewById(R.id.btn_later).setOnClickListener(
+                v -> autoUpdateDialog.dismiss());
+        Button btnUpdate = autoUpdateDialog.findViewById(R.id.btn_update);
+        btnUpdate.setOnClickListener(v -> {
+            new MyPackageManager().startDownloadApkService(app, true);
+            autoUpdateDialog.dismiss();
+        });
+
     }
 
     public String getFolderNameText() {

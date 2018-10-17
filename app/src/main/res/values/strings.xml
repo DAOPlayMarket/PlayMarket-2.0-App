@@ -211,9 +211,8 @@
 
 
     <!--Auto Update-->
-    <string name="auto_update_title">Update available</string>
-    <string name="auto_update_body">There is a new version available\n Do you want to update?</string>
-
+    <string name="auto_update_title">Update available!</string>
+    <string name="auto_update_body">There is a new version available\nDo you want to update?</string>
 
 
 </resources>

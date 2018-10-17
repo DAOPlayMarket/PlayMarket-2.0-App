@@ -57,6 +57,7 @@ public class CheckUpdateJobService extends JobService {
     }
 
     private void onNewVersionAvailable(App app) {
+        Log.d(TAG, "onNewVersionAvailable() called with: app = [" + app + "]");
         if (Hawk.get(DOWNLOAD_NEW_VERSION_WITHOUT_PROMPT, false)) {
 
         } else {

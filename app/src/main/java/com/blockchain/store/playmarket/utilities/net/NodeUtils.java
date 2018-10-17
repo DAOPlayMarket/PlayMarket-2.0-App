@@ -45,7 +45,6 @@ public class NodeUtils {
 
 
     private static ArrayList<Node> getNodesList(String domain) throws IOException {
-        String flavor = BuildConfig.FLAVOR;
         ResolverResult<TXT> result = ResolverApi.INSTANCE.resolve(domain, TXT.class);
         if (!result.wasSuccessful()) {
             throw new RuntimeException("Dns look up error. " + result.getResponseCode());

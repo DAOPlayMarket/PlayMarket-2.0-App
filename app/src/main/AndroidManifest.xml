@@ -25,8 +25,8 @@
         android:supportsRtl="true"
         android:testOnly="false"
         android:theme="@style/AppTheme"
-        tools:replace="android:label"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:label">
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -167,7 +167,7 @@
             android:screenOrientation="portrait" />
 
         <service
-            android:name="com.blockchain.store.PurchaseSDK.services.PlayMarketSDK"
+            android:name=".PurchaseSDK.services.PlayMarketSDK"
             android:exported="true" />
 
         <activity

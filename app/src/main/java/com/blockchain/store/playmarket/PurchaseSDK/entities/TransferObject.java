@@ -1,4 +1,4 @@
-package com.blockchain.store.PurchaseSDK.entities;
+package com.blockchain.store.playmarket.PurchaseSDK.entities;
 
 public class TransferObject {
     private int transactionType;

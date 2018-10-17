@@ -1,4 +1,4 @@
-package com.blockchain.store.PurchaseSDK.repository;
+package com.blockchain.store.playmarket.PurchaseSDK.repository;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.api.RestApi;
@@ -15,7 +15,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.WRONG_PASSWORD_ERROR;
+import static com.blockchain.store.playmarket.PurchaseSDK.services.RemoteConstants.WRONG_PASSWORD_ERROR;
 
 public class TransferRepository {
 

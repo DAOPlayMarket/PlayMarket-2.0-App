@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.blockchain.store.playmarket.Application;
+import com.blockchain.store.playmarket.PurchaseSDK.services.PlayMarketSDK;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
@@ -77,6 +78,8 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         setLogoTextFont();
         setupAndPlayVideo();
         checkLocationPermission();
+        String name = PlayMarketSDK.class.getName();
+        Log.d(TAG, "onCreate:1111 " + name);
 //        test();
     }
 

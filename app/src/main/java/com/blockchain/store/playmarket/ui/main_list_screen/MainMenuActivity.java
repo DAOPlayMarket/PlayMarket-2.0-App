@@ -83,7 +83,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     private void attachPresenter() {
         presenter = new MainMenuPresenter();
         presenter.init(this);
-//        presenter.requestUpdateListener(this);
+        presenter.requestUpdateListener(this);
         presenter.loadCategories();
 
     }

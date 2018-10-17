@@ -38,13 +38,14 @@ android {
             applicationIdSuffix '.testnet'
             resValue "string", "app_name_by_gradle", "DAO PlayMarket 2.0 testnet"
             resValue "string", "content_provider", "com.blockchain.store.playmarket.testnet.fileprovider"
-            resValue "string", "package_name", "com.blockchain.store.PurchaseSDK.services.PlayMarketSDK"
+            resValue "string", "package_name", "com.blockchain.store.playmarket.testnet.PurchaseSDK.services.PlayMarketSDK"
         }
         mainnet {
             initWith debug
+            applicationIdSuffix ''
             resValue "string", "app_name_by_gradle", "DAO PlayMarket 2.0"
             resValue "string", "content_provider", "com.blockchain.store.playmarket.fileprovider"
-            resValue "string", "package_name", "com.blockchain.store.PurchaseSDK.services.PlayMarketSDK"
+            resValue "string", "package_name", "com.blockchain.store.playmarket.PurchaseSDK.services.PlayMarketSDK"
             debuggable true
             jniDebuggable false
             renderscriptDebuggable false
