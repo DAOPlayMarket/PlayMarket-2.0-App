@@ -1,5 +1,7 @@
 package com.blockchain.store.playmarket.ui.main_list_screen;
 
+import android.content.Context;
+
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
 
@@ -30,6 +32,8 @@ public class MainMenuContract {
         void loadCategories();
 
         void searchQuery(String text);
+
+        void requestUpdateListener(Context context);
 
     }
 }

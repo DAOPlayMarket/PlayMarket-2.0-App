@@ -184,5 +184,16 @@ public class RemoteService extends IntentService {
         sendBroadcast(intent);
     }
 
+/*
+*   // check objects buy
+  function getBuyObject(uint _app, address _user, uint _obj) external view returns (bool) {
+    return AppStorage.getBuyObject(_app, _user, _obj);
+  }
 
+  // check objects buy
+  function getTimeSubscription(uint _app, address _user, uint _obj) external view returns (uint) {
+    return AppStorage.getTimeSubscription(_app, _user, _obj);
+  }
+*
+* */
 }

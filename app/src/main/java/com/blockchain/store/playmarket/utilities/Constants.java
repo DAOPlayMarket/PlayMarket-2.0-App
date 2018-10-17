@@ -87,8 +87,8 @@ public class Constants {
     /*Settings prefs*/
     public static final String CURRENT_CURRENCY = "current_currency";
     public static final String SETTINGS_AUTOINSTALL_FLAG = "settings_autoinstall_flag";
-
     public static final String BASE_URL = "base_url_extra";
+    public static final String DOWNLOAD_NEW_VERSION_WITHOUT_PROMPT = "download_new_version_without_prompt";
 
     /* Library prefs*/
     public static final String DOWNLOADED_APPS_LIST = "downloaded_apps_list";

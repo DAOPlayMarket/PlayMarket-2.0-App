@@ -38,7 +38,6 @@ import io.ethmobile.ethdroid.KeyManager;
 
 import static com.blockchain.store.playmarket.utilities.Constants.GAS_LIMIT;
 import static com.blockchain.store.playmarket.utilities.Constants.USER_ETHERSCAN_ID;
-import static org.web3j.crypto.Hash.sha3;
 
 /**
  * Created by samsheff on 24/08/2017.
@@ -49,29 +48,8 @@ public class CryptoUtils {
     public static KeyManager keyManager;
     public static EthDroid ethdroid;
 
-    public static String CONTRACT_ADDRESS = "0xf18418d6dc1a2278c69968b8b8a2d84b553fba51";
-    public static final String TEST_ADDRESS = "0x5e5c1c8e03472666e0b9e218153869dcbc9c1e65";
-    public static final String ICO_CONTRACT_ADDRESS = "0xEDC64A365e12054928dAC9bF32F1C1552EE9679F";
-
-
     public static KeyManager setupKeyManager(String dataDir) {
         return KeyManager.newKeyManager(dataDir);
-    }
-
-    public static void buildEtherNodeTestnet(String datadir) {
-        try {
-            keyManager = KeyManager.newKeyManager(datadir);
-
-            ethdroid = new EthDroid.Builder(datadir)
-                    .onTestnet()
-                    .withDatadirPath(datadir)
-                    .withKeyManager(KeyManager.newKeyManager(datadir))
-                    .withDefaultContext()
-                    .build();
-            ethdroid.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public static String getRawTransaction(Transaction transaction) {

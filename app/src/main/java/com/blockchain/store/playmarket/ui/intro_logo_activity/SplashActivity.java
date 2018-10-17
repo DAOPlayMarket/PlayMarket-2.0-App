@@ -72,6 +72,10 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         setLogoTextFont();
         setupAndPlayVideo();
         checkLocationPermission();
+        test();
+    }
+
+    private void test() {
 
     }
 

@@ -1,8 +1,11 @@
 package com.blockchain.store.playmarket.ui.main_list_screen;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.check_transation_status_beta.JobUtils;
 import com.blockchain.store.playmarket.data.entities.ChangellyCurrenciesResponse;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.data.entities.SearchResponse;
@@ -44,6 +47,11 @@ public class MainMenuPresenter implements Presenter {
 //                .subscribeOn(Schedulers.newThread())
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribe(this::onSearchResultReady, this::onSearchResultFail);
+    }
+
+    @Override
+    public void requestUpdateListener(Context context) {
+        JobUtils.scheduleCheckUpdateJob(context);
     }
 
     private void onSearchResultReady(SearchResponse searchResponse) {
