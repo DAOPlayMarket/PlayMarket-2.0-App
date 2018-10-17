@@ -223,6 +223,7 @@ public class CryptoUtils {
             case RemoteConstants.TRANSACTION_BUY_SUB_WITH_PRICE:
                 transactionData = new GenerateTransactionData().setAsBuySubWithPriceCheckTransaction(transferObject, accountInfo);
                 break;
+
             default:
         }
 

@@ -14,7 +14,7 @@ import rx.schedulers.Schedulers;
 
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.WRONG_PASSWORD_ERROR;
 
-public class TransactionFactory {
+public class PlayMarketSdkTransactionFactory {
 
     public static Observable<PurchaseAppResponse> get(TransferObject transferObject) {
         String packageName = transferObject.getPackageName();

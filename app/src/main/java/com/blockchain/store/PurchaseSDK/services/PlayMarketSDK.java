@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 
 import com.blockchain.store.PurchaseSDK.entities.TransferObject;
-import com.blockchain.store.PurchaseSDK.repository.TransactionFactory;
-import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.PurchaseSDK.repository.PlayMarketSdkTransactionFactory;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.repositories.BalanceRepository;
+import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
 import java.net.ConnectException;
@@ -21,6 +21,8 @@ import rx.schedulers.Schedulers;
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.EXTRA_METHOD_ERROR;
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.EXTRA_METHOD_NAME;
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.EXTRA_METHOD_RESULT;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.METHOD_CHECK_BUY;
+import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.METHOD_CHECK_SUBSCRIPTION;
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.METHOD_GET_ACCOUNT;
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.METHOD_GET_BALANCE;
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.METHOD_TRANSACTION;
@@ -36,12 +38,12 @@ import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.TRANSFER
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.UNKNOWN_HOST_EXCEPTION;
 import static com.blockchain.store.PurchaseSDK.services.RemoteConstants.USER_NOT_PROVIDED_ERROR;
 
-public class RemoteService extends IntentService {
-    private static final String TAG = "RemoteService";
+public class PlayMarketSDK extends IntentService {
+    private static final String TAG = "PlayMarketSDK";
 
 
-    public RemoteService() {
-        super("RemoteService");
+    public PlayMarketSDK() {
+        super("PlayMarketSDK");
     }
 
     @Override
@@ -75,9 +77,23 @@ public class RemoteService extends IntentService {
                 transferObject.setPackageName(packageName);
                 transferObject.setPassword(password);
                 transferObject.setObjectId(objectId);
+                transferObject.setUserAddress(AccountManager.getAccount().getAddress().getHex());
 
-                TransactionFactory.get(transferObject)
+                PlayMarketSdkTransactionFactory.get(transferObject)
                         .subscribe(this::onTransactionCreate, this::onUserBalanceError);
+                break;
+            case METHOD_CHECK_BUY:
+                intent.getStringExtra(TRANSFER_OBJECT_ID);
+                TransactionRepository.getCheckBuy(0, "0")
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.newThread())
+                        .subscribe(this::onOk, this::onFail);
+                break;
+            case METHOD_CHECK_SUBSCRIPTION:
+                TransactionRepository.getSubscriptionTime(50, "1")
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.newThread())
+                        .subscribe(this::onOk, this::onFail);
                 break;
         }
 
@@ -184,16 +200,4 @@ public class RemoteService extends IntentService {
         sendBroadcast(intent);
     }
 
-/*
-*   // check objects buy
-  function getBuyObject(uint _app, address _user, uint _obj) external view returns (bool) {
-    return AppStorage.getBuyObject(_app, _user, _obj);
-  }
-
-  // check objects buy
-  function getTimeSubscription(uint _app, address _user, uint _obj) external view returns (uint) {
-    return AppStorage.getTimeSubscription(_app, _user, _obj);
-  }
-*
-* */
 }

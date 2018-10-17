@@ -9,6 +9,15 @@ public class TransferObject {
     private String objectId;
     private String password;
     private int appId;
+    private String userAddress;
+
+    public String getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
+    }
 
     public int getAppId() {
         return appId;

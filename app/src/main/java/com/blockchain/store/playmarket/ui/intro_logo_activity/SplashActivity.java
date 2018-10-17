@@ -22,6 +22,7 @@ import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
+import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
@@ -37,10 +38,14 @@ import org.ethereum.geth.Transaction;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.generated.Uint256;
 
+import java.math.BigInteger;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.ethmobile.ethdroid.KeyManager;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static com.blockchain.store.playmarket.utilities.Constants.GAS_LIMIT;
 import static com.blockchain.store.playmarket.utilities.Constants.USER_ETHERSCAN_ID;
@@ -72,11 +77,30 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         setLogoTextFont();
         setupAndPlayVideo();
         checkLocationPermission();
-        test();
+//        test();
     }
 
     private void test() {
+        TransactionRepository.getSubscriptionTime(50, "1")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(this::onOk, this::onFail);
+        TransactionRepository.getCheckBuy(0, "0")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(this::onOk, this::onFail);
+    }
 
+    private void onOk(BigInteger bigInteger) {
+        Log.d(TAG, "onOk: ");
+    }
+
+    private void onOk(Boolean aBoolean) {
+        Log.d(TAG, "onOk: ");
+    }
+
+    private void onFail(Throwable throwable) {
+        Log.d(TAG, "onFail: ");
     }
 
     private void checkLocationPermission() {

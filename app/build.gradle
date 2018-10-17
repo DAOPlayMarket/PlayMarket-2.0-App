@@ -41,9 +41,8 @@ android {
         }
         mainnet {
             initWith debug
-            applicationIdSuffix '.mainnet'
             resValue "string", "app_name_by_gradle", "DAO PlayMarket 2.0"
-            resValue "string", "content_provider", "com.blockchain.store.playmarket.mainnet.fileprovider"
+            resValue "string", "content_provider", "com.blockchain.store.playmarket.fileprovider"
             debuggable true
             jniDebuggable false
             renderscriptDebuggable false
