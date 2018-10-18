@@ -18,6 +18,7 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.UserBalance;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferViewModel;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.QRCodeScannerActivity;
 
 import java.math.BigDecimal;
@@ -58,7 +59,8 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     private TransferViewModel transferViewModel;
     private boolean isEth;
     private String tokenName;
-
+    private Constants.TransactionTypes transactionTypes;
+    private UserBalance accountBalance;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,6 +114,10 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     }
 
 
+    private void setTransactionType(Constants.TransactionTypes transactionTypes) {
+        this.transactionTypes = transactionTypes;
+    }
+
     @OnClick(R.id.dimension_linearLayout)
     void dimensionClicked() {
         if (isEth) weiSelect();
@@ -145,6 +151,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
 
     @Override
     public void getAccountBalanceSuccessful(UserBalance accountBalance) {
+        this.accountBalance = accountBalance;
         errorViewHolder.setVisibility(View.GONE);
         accountBalanceInEther = new EthereumPrice(accountBalance.balanceInWei).inEther();
         balanceTextView.setText(accountBalanceInEther.toString());
@@ -232,6 +239,9 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         if (tokenName != null) {
             String transferAmount = amountEditText.getText().toString();
             String totalBalance = balanceTextView.getText().toString();
+            if (transactionTypes == Constants.TransactionTypes.BUY_APP) {
+                totalBalance = accountBalance.balanceInLocalCurrency;
+            }
             if (!totalBalance.isEmpty() & Double.parseDouble(transferAmount) < Double.parseDouble(totalBalance)) {
                 return true;
             } else {
@@ -265,9 +275,8 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     private void getDataFromTransferViewModel() {
         transferViewModel.recipientAddress.observe(getActivity(), s -> recipientAddress = s);
         transferViewModel.transferAmount.observe(getActivity(), s -> transferAmount = s);
-
         transferViewModel.tokenName.observe(getActivity(), this::setTokenName);
+        transferViewModel.transactionType.observe(getActivity(), this::setTransactionType);
     }
-
 
 }

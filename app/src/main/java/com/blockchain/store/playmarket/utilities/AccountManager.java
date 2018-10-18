@@ -73,7 +73,7 @@ public class AccountManager {
     }
 
     public static String getFormattedAddress() {
-        return NumberUtils.formatStringToSpacedNumber(getAddress().getHex(), ADDRESS_NUMBER_OF_CHARACTER);
+        return NumberUtils.formatStringToSpacedNumber(getAddress().getHex());
     }
 
 }

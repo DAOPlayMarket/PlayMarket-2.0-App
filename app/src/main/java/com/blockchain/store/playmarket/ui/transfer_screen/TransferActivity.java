@@ -13,10 +13,12 @@ import android.widget.ProgressBar;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.ExchangeRate;
 import com.blockchain.store.playmarket.data.entities.InvestTransactionModel;
 import com.blockchain.store.playmarket.data.entities.SendTokenTransactionModel;
 import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
+import com.blockchain.store.playmarket.repositories.UserBalanceRepository;
 import com.blockchain.store.playmarket.ui.transfer_screen.transfer_confirm_screen.TransferConfirmFragment;
 import com.blockchain.store.playmarket.ui.transfer_screen.transfer_info_screen.TransferInfoFragment;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -57,8 +59,9 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     private AppInfo appInfo;
     private Token token;
 
-    ViewPagerAdapter transferAdapter;
-    String tokenName;
+    private ViewPagerAdapter transferAdapter;
+    private String tokenName;
+    private Constants.TransactionTypes transactionTypes;
 
     public static void startWithResult(Activity activity, String recipientAddress, App app, Constants.TransactionTypes transactionType, int resultCode) {
         Intent starter = new Intent(activity.getBaseContext(), TransferActivity.class);
@@ -89,25 +92,27 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
         ButterKnife.bind(this);
 
         getDataFromViewModel();
-
+        transactionTypes = getIntent().getParcelableExtra(TRANSACTION_ARG);
         recipientAddress = getIntent().getStringExtra(RECIPIENT_ARG);
         if (recipientAddress != null) {
             transferViewModel.recipientAddress.setValue(recipientAddress);
         }
+
 
         app = getIntent().getParcelableExtra(APP_ARG);
         appInfo = getIntent().getParcelableExtra(APP_INFO_ARG);
         token = getIntent().getParcelableExtra(TOKEN_INFO_ARG);
 
         if (app != null) {
+            ExchangeRate userCurrency = UserBalanceRepository.getUserCurrency();
+            transferViewModel.tokenName.setValue(userCurrency.currency.name);
             transferViewModel.isBlockEthIcon.setValue(true);
             transferViewModel.transferAmount.setValue(app.getPrice());
+            transferViewModel.transactionType.setValue(Constants.TransactionTypes.BUY_APP);
         } else if (appInfo != null) {
-
             transferViewModel.isBlockEthIcon.setValue(false);
             transferViewModel.totalBalance.setValue(appInfo.icoBalance.getTokenCount());
             transferViewModel.tokenName.setValue(appInfo.icoSymbol);
-            transferViewModel.tokenName.setValue(token.symbol);
         } else if (token != null) {
             transferViewModel.isBlockEthIcon.setValue(false);
             transferViewModel.totalBalance.setValue(token.getTokenCount());

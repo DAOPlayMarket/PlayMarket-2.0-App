@@ -93,6 +93,7 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
     @Override
     public void onIcoAppsReady(ArrayList<AppInfo> apps) {
         errorHolder.setVisibility(View.GONE);
+        emptyView.setVisibility(View.GONE);
         if (apps.isEmpty()) {
             setEmptyViewVisible(true);
         } else {

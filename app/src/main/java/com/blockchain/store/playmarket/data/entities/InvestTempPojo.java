@@ -12,7 +12,7 @@ public class InvestTempPojo {
         IcoInfoResponse icoInfoResponse = app.icoInfoResponse;
         String tokenSold = String.valueOf(Double.parseDouble(icoInfoResponse.tokensSold) / (double) Math.pow(10, Double.parseDouble(icoInfoResponse.decimals)));
         tokenSold = String.valueOf((double) Math.round(Double.parseDouble(tokenSold) * 1000d) / 1000d);
-        String totalTokens = String.valueOf(Long.parseLong(app.icoTotalSupply) / ((long) Math.pow(10, Long.parseLong(icoInfoResponse.decimals))));
+        String totalTokens = String.valueOf(Long.parseLong(app.icoTotalForSale) / ((long) Math.pow(10, Long.parseLong(icoInfoResponse.decimals))));
 
         objects.add(new InvestMainItem(
                 app.nameApp,
@@ -21,11 +21,12 @@ public class InvestTempPojo {
                 totalTokens,
                 Integer.parseInt(icoInfoResponse.stage) + 1,
                 icoInfoResponse.stages.size(),
-                app.getUnixTimeToFirstStageEnding(),
+                app.getUnixTimeToStageEnding(),
                 "",
                 app.icoCrowdSaleAddress,
                 app.getIconUrl(),
-                app.icoSymbol
+                app.icoSymbol,
+                app.isIcoAlreadyStarts()
         ));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MAIN);
 

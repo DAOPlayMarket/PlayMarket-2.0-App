@@ -7,7 +7,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class IcoStages implements Parcelable {
     public String startsAt;
-    @SerializedName("endDate")
     public String endsAt;
     public String price;
 

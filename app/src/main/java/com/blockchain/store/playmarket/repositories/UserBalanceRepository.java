@@ -42,4 +42,14 @@ public class UserBalanceRepository {
         return RestApi.getServerApi().getCryptoPrice("100"); // PMC always has decimals = 2
     }
 
+    public static ExchangeRate getUserCurrency() {
+        return Hawk.get(Constants.CURRENT_CURRENCY, new ExchangeRate());
+    }
+
+    public static void putUserCurrency(ExchangeRate exchangeRate) {
+        Hawk.put(Constants.CURRENT_CURRENCY, exchangeRate);
+
+    }
+
+
 }

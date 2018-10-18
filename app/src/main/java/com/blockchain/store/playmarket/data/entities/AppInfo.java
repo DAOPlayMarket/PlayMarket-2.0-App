@@ -74,6 +74,8 @@ public class AppInfo implements Parcelable, NotificationImpl {
     public Rating rating;
     public IcoBalance icoBalance;
     public IcoInfoResponse icoInfoResponse;
+    public String icoTotalForSale;
+    public String icoSoftCap;
 
     public String getRating() {
         try {
@@ -128,9 +130,10 @@ public class AppInfo implements Parcelable, NotificationImpl {
         return hash + ".apk";
     }
 
-    public long getUnixTimeToFirstStageEnding() {
+    public long getUnixTimeToStageEnding() {
+        if (icoInfoResponse == null) return 0;
         long currentTimeUnix = System.currentTimeMillis() / 1000;
-        for (IcoStages stage : icoStages) {
+        for (IcoStages stage : icoInfoResponse.stages) {
             if (currentTimeUnix > Long.parseLong(stage.startsAt) && currentTimeUnix < Long.parseLong(stage.endsAt)) {
                 return Long.parseLong(stage.endsAt) - currentTimeUnix;
             }
@@ -138,15 +141,13 @@ public class AppInfo implements Parcelable, NotificationImpl {
         return 0;
     }
 
-    public int getCurrentStage() {
+    public boolean isIcoAlreadyStarts() {
         long currentTimeUnix = System.currentTimeMillis() / 1000;
-        for (int i = 0; i < icoStages.size(); i++) {
-            IcoStages stage = icoStages.get(i);
-            if (currentTimeUnix > Long.parseLong(stage.startsAt) && currentTimeUnix < Long.parseLong(stage.endsAt)) {
-                return i;
-            }
+        if (icoInfoResponse != null) {
+            return currentTimeUnix > Long.parseLong(icoStartDate) && currentTimeUnix < Long.parseLong(icoInfoResponse.stages.get(icoInfoResponse.stages.size()-1).endsAt);
         }
-        return 0;
+        return currentTimeUnix > Long.parseLong(icoStartDate);
+
     }
 
     public AppInfo() {
@@ -257,6 +258,8 @@ public class AppInfo implements Parcelable, NotificationImpl {
         dest.writeParcelable(this.rating, flags);
         dest.writeParcelable(this.icoBalance, flags);
         dest.writeParcelable(this.icoInfoResponse, flags);
+        dest.writeString(this.icoTotalForSale);
+        dest.writeString(this.icoSoftCap);
     }
 
     protected AppInfo(Parcel in) {
@@ -303,6 +306,8 @@ public class AppInfo implements Parcelable, NotificationImpl {
         this.rating = in.readParcelable(Rating.class.getClassLoader());
         this.icoBalance = in.readParcelable(IcoBalance.class.getClassLoader());
         this.icoInfoResponse = in.readParcelable(IcoInfoResponse.class.getClassLoader());
+        this.icoTotalForSale = in.readString();
+        this.icoSoftCap = in.readString();
     }
 
     public static final Creator<AppInfo> CREATOR = new Creator<AppInfo>() {

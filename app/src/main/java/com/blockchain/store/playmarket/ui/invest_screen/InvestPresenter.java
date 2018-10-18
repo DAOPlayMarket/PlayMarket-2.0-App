@@ -50,6 +50,7 @@ public class InvestPresenter implements InvestContract.Presenter {
     }
 
     private void OnCurrentInfoError(Throwable throwable) {
+        throwable.printStackTrace();
         view.onCurrentInfoError(throwable);
 
     }

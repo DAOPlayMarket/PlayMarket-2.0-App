@@ -41,7 +41,7 @@
             android:id="@+id/sender_address_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="8dp"
             android:textColor="@color/white"
             android:textSize="13sp"
             tools:text="0xdB2301db944a59680619F86017418EBb10b9DE4b" />
@@ -85,7 +85,7 @@
             android:id="@+id/balance_in_local"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:textColor="@color/white"
             android:tint="@color/nav_text_color"
             app:layout_constraintStart_toStartOf="@+id/ether_count"

@@ -7,6 +7,7 @@ import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.ExchangeRate;
 import com.blockchain.store.playmarket.data.entities.Node;
+import com.blockchain.store.playmarket.repositories.UserBalanceRepository;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.orhanobut.hawk.Hawk;
 
@@ -111,7 +112,7 @@ public class NodeUtils {
                         if (!execute.body().currency.name.equalsIgnoreCase("PMC")) {
                             execute.body().currency.name = currencyCode;
                         }
-                        Hawk.put(Constants.CURRENT_CURRENCY, execute.body());
+                        UserBalanceRepository.putUserCurrency(execute.body());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

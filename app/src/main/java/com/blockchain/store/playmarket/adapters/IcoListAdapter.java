@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.CountDownTimer;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
@@ -25,7 +24,6 @@ import com.blockchain.store.playmarket.interfaces.AppInfoCallback;
 import com.blockchain.store.playmarket.utilities.FrescoUtils;
 import com.blockchain.store.playmarket.utilities.NumberUtils;
 import com.blockchain.store.playmarket.utilities.TimeUtils;
-import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 
@@ -122,15 +120,16 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
                         .subscribe(this::onBitmapAndPaletteLoaded, this::onBitmapAndPaletteFailed);
             }
             if (goal != null) {
+                String totalTokens = String.valueOf(Long.parseLong(app.icoSoftCap) / ((long) Math.pow(10, Long.parseLong(app.icoBalance.decimals))));
                 goal.setText(String.format(context.getString(R.string.token_goal),
-                        NumberUtils.formatStringToSpacedNumber(app.icoTotalSupply, NumberUtils.TOKEN_NUMBER_OF_CHARACTER),
+                        NumberUtils.formatTokenToSpacedNumber(totalTokens),
                         app.icoSymbol));
             }
             if (startBuyingBtn != null) {
                 startBuyingBtn.setOnClickListener(v -> appListCallbacks.onAppInvestClicked(app.icoCrowdSaleAddress));
             }
 
-            long timeToFirstStageEnding = app.getUnixTimeToFirstStageEnding();
+            long timeToFirstStageEnding = app.getUnixTimeToStageEnding();
             if (countDownTimer == null && timeToFirstStageEnding > 0) {
                 countDownTimer = initCountDownTimer(timeToFirstStageEnding);
             }
