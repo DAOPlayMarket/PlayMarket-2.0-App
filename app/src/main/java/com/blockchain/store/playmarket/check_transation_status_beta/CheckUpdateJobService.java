@@ -7,6 +7,8 @@ import android.util.Log;
 import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.App;
+import com.blockchain.store.playmarket.data.entities.UpdateNotification;
+import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class CheckUpdateJobService extends JobService {
         Log.d(TAG, "onGetAppsReady() called with: result = [" + result + "], params = [" + params + "]");
         if (!result.isEmpty()) {
             App app = result.get(0);
-            if (Integer.parseInt(app.version) < BuildConfig.VERSION_CODE) {
+            if (Integer.parseInt(app.version) > BuildConfig.VERSION_CODE) {
                 onNewVersionAvailable(app);
             }
 
@@ -56,6 +58,8 @@ public class CheckUpdateJobService extends JobService {
 
     private void onNewVersionAvailable(App app) {
         Log.d(TAG, "onNewVersionAvailable() called with: app = [" + app + "]");
+        UpdateNotification updateNotification = new UpdateNotification(app);
+        NotificationManager.getManager().registerNewNotification(updateNotification);
         if (Hawk.get(DOWNLOAD_NEW_VERSION_WITHOUT_PROMPT, false)) {
 
         } else {

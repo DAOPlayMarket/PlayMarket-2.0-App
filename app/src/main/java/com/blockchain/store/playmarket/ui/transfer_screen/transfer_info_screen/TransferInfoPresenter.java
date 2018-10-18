@@ -3,6 +3,8 @@ package com.blockchain.store.playmarket.ui.transfer_screen.transfer_info_screen;
 import android.content.Context;
 
 import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.data.entities.UserBalance;
+import com.blockchain.store.playmarket.repositories.UserBalanceRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
 import rx.Observable;
@@ -25,22 +27,23 @@ public class TransferInfoPresenter implements TransferInfoContract.Presenter {
 
     @Override
     public void getAccountBalance() {
-
-        Observable<String> accountBalanceObservable = RestApi.getServerApi().getBalance(AccountManager.getAddress().getHex());
-        accountBalanceObservable
+        String accountAddress = AccountManager.getAddress().getHex();
+        new UserBalanceRepository().getUserBalance(accountAddress)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
+//                .doOnSubscribe(() -> view.showUserBalanceProgress(true))
+//                .doOnTerminate(() -> view.showUserBalanceProgress(false))
                 .subscribe(this::getAccountInfoSuccessful, this::getAccountInfoBalance);
+    }
+
+    private void getAccountInfoSuccessful(UserBalance userBalance) {
+        view.getAccountBalanceSuccessful(userBalance);
     }
 
 
     @Override
     public String getSenderAddress() {
         return AccountManager.getAddress().getHex();
-    }
-
-    private void getAccountInfoSuccessful(String accountBalance) {
-        view.getAccountBalanceSuccessful(accountBalance);
     }
 
     private void getAccountInfoBalance(Throwable throwable) {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -24,6 +25,8 @@ import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 
+import java.util.Currency;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,10 +39,9 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     public static String TOKEN_INFO_ARG = "token_info_address";
     public static String TRANSACTION_ARG = "transaction_arg";
 
-    public static String REVIEW_ARG = "review_arg";
-    public static String VOTE_ARG = "vote_arg";
-    public static String TX_INDEX_ARG = "tx_index_arg";
-    public static String TOKEN_NAME_ARG = "token_name_arg";
+    @BindView(R.id.transfer_viewPager) NonSwipeableViewPager transferViewPager;
+    @BindView(R.id.continue_transfer_button) Button continueButton;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
 
     private TransferViewModel transferViewModel;
 
@@ -55,8 +57,6 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     private AppInfo appInfo;
     private Token token;
 
-    @BindView(R.id.transfer_viewPager) NonSwipeableViewPager transferViewPager;
-    @BindView(R.id.continue_transfer_button) Button continueButton;
     ViewPagerAdapter transferAdapter;
     String tokenName;
 
@@ -101,12 +101,13 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
 
         if (app != null) {
             transferViewModel.isBlockEthIcon.setValue(true);
-            String totalPrice = new EthereumPrice(app.price, EthereumPrice.Currency.WEI).inEther().toString();
-            transferViewModel.transferAmount.setValue(totalPrice);
+            transferViewModel.transferAmount.setValue(app.getPrice());
         } else if (appInfo != null) {
+
             transferViewModel.isBlockEthIcon.setValue(false);
             transferViewModel.totalBalance.setValue(appInfo.icoBalance.getTokenCount());
             transferViewModel.tokenName.setValue(appInfo.icoSymbol);
+            transferViewModel.tokenName.setValue(token.symbol);
         } else if (token != null) {
             transferViewModel.isBlockEthIcon.setValue(false);
             transferViewModel.totalBalance.setValue(token.getTokenCount());
@@ -167,10 +168,21 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
                 } else {
                     presenter.createBuyTransaction(app);
                 }
+                showProgress();
             } else {
                 transferConfirmFragment.showError();
             }
         }
+    }
+
+    private void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+        continueButton.setEnabled(false);
+    }
+
+    private void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+        continueButton.setEnabled(true);
     }
 
     private SendTokenTransactionModel createTokenTransactionModel(String transformedAmount, String wasTokenBefore) {
@@ -222,12 +234,14 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
 
     @Override
     public void closeTransferActivity() {
+        hideProgress();
         setResult(RESULT_OK);
         finish();
     }
 
     @Override
     public void showToast(String message) {
+        hideProgress();
         ToastUtil.showToast(message);
     }
 

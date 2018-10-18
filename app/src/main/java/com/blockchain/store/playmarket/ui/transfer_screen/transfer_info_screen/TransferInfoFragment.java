@@ -11,11 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.data.entities.UserBalance;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferViewModel;
 import com.blockchain.store.playmarket.utilities.QRCodeScannerActivity;
@@ -49,6 +49,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     @BindView(R.id.qr_scanner_button) ImageButton qrCodeImage;
     @BindView(R.id.dimension_linearLayout) View dimensionHolder;
     @BindView(R.id.dimension_textView) TextView dimensionView;
+    @BindView(R.id.balance_in_local) TextView balanceInLocalCurrency;
 
     private TransferInfoPresenter presenter;
     private String recipientAddress;
@@ -143,11 +144,12 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     }
 
     @Override
-    public void getAccountBalanceSuccessful(String accountBalance) {
+    public void getAccountBalanceSuccessful(UserBalance accountBalance) {
         errorViewHolder.setVisibility(View.GONE);
-        accountBalanceInEther = new EthereumPrice(accountBalance).inEther();
+        accountBalanceInEther = new EthereumPrice(accountBalance.balanceInWei).inEther();
         balanceTextView.setText(accountBalanceInEther.toString());
         transferViewModel.balance.setValue(balanceTextView.getText().toString());
+        balanceInLocalCurrency.setText(String.format(getString(R.string.local_currency), accountBalance.symbol, accountBalance.getFormattedLocalCurrency()));
     }
 
     @Override

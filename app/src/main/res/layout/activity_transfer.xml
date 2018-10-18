@@ -2,15 +2,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context="com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity">
 
-    <com.blockchain.store.playmarket.utilities.NonSwipeableViewPager
-        android:id="@+id/transfer_viewPager"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+
+        <com.blockchain.store.playmarket.utilities.NonSwipeableViewPager
+            android:id="@+id/transfer_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

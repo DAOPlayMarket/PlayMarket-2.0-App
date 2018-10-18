@@ -19,7 +19,10 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.blockchain.store.playmarket.Application;
+import com.blockchain.store.playmarket.PurchaseSDK.entities.TransferObject;
+import com.blockchain.store.playmarket.PurchaseSDK.repository.PlayMarketSdkTransactionFactory;
 import com.blockchain.store.playmarket.PurchaseSDK.services.PlayMarketSDK;
+import com.blockchain.store.playmarket.PurchaseSDK.services.RemoteConstants;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
@@ -84,27 +87,18 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     }
 
     private void test() {
-        TransactionRepository.getSubscriptionTime(50, "1")
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(this::onOk, this::onFail);
-        TransactionRepository.getCheckBuy(0, "0")
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(this::onOk, this::onFail);
+        TransferObject transferObject = new TransferObject();
+        transferObject.setTransactionType(RemoteConstants.TRANSACTION_BUY_OBJECT_WITH_PRICE_CHECK);
+        transferObject.setTransferPrice("10");
+        transferObject.setPackageName("com.com.com");
+        transferObject.setPassword("123123123");
+        transferObject.setObjectId("1");
+        transferObject.setUserAddress(AccountManager.getAccount().getAddress().getHex());
+
+//        PlayMarketSdkTransactionFactory.get(transferObject)
+//                .subscribe(this::onTransactionCreate, this::onTransactionFailed);
     }
 
-    private void onOk(BigInteger bigInteger) {
-        Log.d(TAG, "onOk: ");
-    }
-
-    private void onOk(Boolean aBoolean) {
-        Log.d(TAG, "onOk: ");
-    }
-
-    private void onFail(Throwable throwable) {
-        Log.d(TAG, "onFail: ");
-    }
 
     private void checkLocationPermission() {
         if (PermissionUtils.isLocationPermissionGranted(this)) {

@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.notification;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.content.Context;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.util.Pair;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
+import com.blockchain.store.playmarket.data.entities.UpdateNotification;
 import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -168,8 +170,6 @@ public class NotificationManager {
 
     private void showNotification(NotificationObject notificationObject) {
         Context context = Application.getInstance().getApplicationContext();
-//        android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-//        notificationManager.notify(notificationObject.getItem().getId(), notificationObject.getNotificationBuilder().build());
         NotificationManagerCompat.from(context).notify(notificationObject.getItem().getId(), notificationObject.getNotificationBuilder().build());
     }
 
@@ -189,9 +189,14 @@ public class NotificationManager {
                     .setAutoCancel(true)
                     .setTicker("");
             notificationBuilder.setProgress(100, 0, false);
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 notificationChannel = new NotificationChannel("channel_id_1", "App installation channel", android.app.NotificationManager.IMPORTANCE_DEFAULT);
 
+            }
+        } else if (item instanceof UpdateNotification) {
+            notificationBuilder = ((UpdateNotification) item).createNotification(context);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                notificationChannel = new NotificationChannel("channel_id_1", "App installation channel", android.app.NotificationManager.IMPORTANCE_DEFAULT);
             }
         } else {
             notificationBuilder = new NotificationCompat.Builder(context, "channel_id_2");
@@ -204,12 +209,12 @@ public class NotificationManager {
                     .setContentText("")
                     .setTicker("");
             notificationBuilder.setProgress(100, 0, true);
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 notificationChannel = new NotificationChannel("channel_id_2", "Transaction result channel", android.app.NotificationManager.IMPORTANCE_DEFAULT);
             }
         }
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager.createNotificationChannel(notificationChannel);
         }
         notificationBuilder.setVibrate(new long[0]);
