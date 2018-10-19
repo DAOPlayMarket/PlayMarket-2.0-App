@@ -132,6 +132,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
 
     @OnClick(R.id.continue_transfer_button)
     public void continueButtonClicked() {
+        showProgress();
         TransferInfoFragment transferInfoFragment = (TransferInfoFragment) transferAdapter.getItem(0);
         TransferConfirmFragment transferConfirmFragment = (TransferConfirmFragment) transferAdapter.getItem(1);
 
@@ -173,7 +174,6 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
                 } else {
                     presenter.createBuyTransaction(app);
                 }
-                showProgress();
             } else {
                 transferConfirmFragment.showError();
             }

@@ -16,6 +16,8 @@ public class TokenListContract {
         void onNewTokenReady(Token token);
 
         void showProgress(boolean isShown);
+
+        void onTokenBalanceReady(Token token);
     }
 
     interface Presenter {

@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -40,6 +42,7 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
     private TokenListPresenter presenter;
     private BottomSheetBehavior bottomSheetBehavior;
     private BottomSheetDialog bottomSheetDialog;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,16 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
         initTitle();
         setUpBottomDialog();
         attachPresenter();
+        setUpDialog();
+    }
+
+    private void setUpDialog() {
+        alertDialog = new AlertDialog.Builder(this)
+                .setMessage("Requesting token balance...")
+                .setCancelable(true)
+                .create();
+        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
     }
 
     private void setUpBottomDialog() {
@@ -116,6 +129,7 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
 
     @Override
     public void onNewTokenReady(Token token) {
+        emptyView.setVisibility(View.GONE);
         adapter.addNewToken(token);
     }
 
@@ -126,8 +140,16 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
     }
 
     @Override
-    public void onTokenClicked(Token token) {
+    public void onTokenBalanceReady(Token token) {
+        alertDialog.dismiss();
         TransferActivity.startAsTokenTransfer(this, token);
+    }
+
+    @Override
+    public void onTokenClicked(Token token) {
+        alertDialog.show();
+        presenter.getTokenBalance(token);
+
     }
 
 }

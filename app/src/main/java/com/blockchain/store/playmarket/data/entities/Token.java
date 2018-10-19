@@ -11,6 +11,7 @@ public class Token implements Parcelable {
     public String site;
     public String price;
     public String balanceOf = "0";
+    public String address;
 
     public String getTokenCount() {
         long tokensNum = Long.valueOf(balanceOf);
@@ -18,6 +19,9 @@ public class Token implements Parcelable {
         double transformedTokensNum = tokensNum * Math.pow(10, -decimalsNum);
         transformedTokensNum = Math.round(transformedTokensNum * 10000.0) / 10000.0;
         return String.valueOf(transformedTokensNum);
+    }
+
+    public Token() {
     }
 
     @Override
@@ -34,9 +38,7 @@ public class Token implements Parcelable {
         dest.writeString(this.site);
         dest.writeString(this.price);
         dest.writeString(this.balanceOf);
-    }
-
-    public Token() {
+        dest.writeString(this.address);
     }
 
     protected Token(Parcel in) {
@@ -47,9 +49,10 @@ public class Token implements Parcelable {
         this.site = in.readString();
         this.price = in.readString();
         this.balanceOf = in.readString();
+        this.address = in.readString();
     }
 
-    public static final Parcelable.Creator<Token> CREATOR = new Parcelable.Creator<Token>() {
+    public static final Creator<Token> CREATOR = new Creator<Token>() {
         @Override
         public Token createFromParcel(Parcel source) {
             return new Token(source);

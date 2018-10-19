@@ -41,4 +41,14 @@ public class TokenListPresenter implements TokenListContract.Presenter {
     private void onNewTokenFailed(Throwable throwable) {
         view.onNewTokenFailed(throwable);
     }
+
+    public void getTokenBalance(Token token) {
+        TransactionRepository.getUserTokenBalance(token.address, AccountManager.getAddress().getHex())
+                .subscribe(result -> onTokenBalanceReady(token,result), this::onNewTokenFailed);
+    }
+
+    private void onTokenBalanceReady(Token token, String result) {
+        token.balanceOf = result;
+        view.onTokenBalanceReady(token);
+    }
 }

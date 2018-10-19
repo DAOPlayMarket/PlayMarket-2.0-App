@@ -39,6 +39,7 @@ public class CheckUpdateJobService extends JobService {
         Log.d(TAG, "onGetAppsReady() called with: result = [" + result + "], params = [" + params + "]");
         if (!result.isEmpty()) {
             App app = result.get(0);
+            Log.d(TAG, "onGetAppsReady: server's app version " + app.version);
             if (Integer.parseInt(app.version) > BuildConfig.VERSION_CODE) {
                 onNewVersionAvailable(app);
             }

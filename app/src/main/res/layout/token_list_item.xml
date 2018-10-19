@@ -5,7 +5,7 @@
     android:id="@+id/linearLayout2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="3dp"
+    android:layout_margin="5dp"
     android:background="@color/white">
 
     <TextView
@@ -43,11 +43,11 @@
     <TextView
         android:id="@+id/site"
         android:layout_width="wrap_content"
-
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:autoLink="all"
         android:textColor="@color/ico_tokens_bought"
+        android:visibility="gone"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView8"
         app:layout_constraintStart_toEndOf="@+id/textView8"
         tools:text="https://matryx.ai" />
@@ -69,8 +69,8 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_ico_btn"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -78,7 +78,7 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="12sp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -120,6 +120,7 @@
         android:layout_marginTop="8dp"
         android:paddingBottom="8dp"
         android:text="Site"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 

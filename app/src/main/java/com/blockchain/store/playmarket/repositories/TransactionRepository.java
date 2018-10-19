@@ -57,6 +57,7 @@ public class TransactionRepository {
                     token.decimals = decodeFunction(decimalsCall, getDecimalsFunction()).toString();
                     token.contract = TransactionRepository.contractAddress;
                     token.balanceOf = decodeFunction(balanceOfCall, getBalanceOfFunction(TransactionRepository.userAddress)).toString();
+                    token.address = contractAddress;
 
                     return token;
                 }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread());

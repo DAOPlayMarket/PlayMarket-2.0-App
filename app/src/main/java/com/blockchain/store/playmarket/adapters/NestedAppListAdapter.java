@@ -1,10 +1,12 @@
 package com.blockchain.store.playmarket.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +21,14 @@ import com.blockchain.store.playmarket.data.entities.AppDispatcherType;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.interfaces.AppListHolderCallback;
+import com.blockchain.store.playmarket.utilities.FrescoUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Crypton04 on 25.01.2018.
@@ -76,8 +82,8 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     .inflate(R.layout.app_list_content, parent, false);
             NestedAppListViewHolder nestedAppListViewHolder = new NestedAppListViewHolder(view);
 
-            nestedAppListViewHolder.imageView.setImageURI(
-                    Uri.parse(dispatcherType.apps.get(nestedAppListViewHolder.getAdapterPosition() + 1).getIconUrl()));
+//            nestedAppListViewHolder.imageView.setImageURI(
+//                    Uri.parse(dispatcherType.apps.get(nestedAppListViewHolder.getAdapterPosition() + 1).getIconUrl()));
             return nestedAppListViewHolder;
         }
         if (viewType == TYPE_LOADING) {
@@ -122,8 +128,12 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
         @BindView(R.id.no_rating_textView) TextView noRating;
         @BindView(R.id.Price) TextView price;
 
+        private Disposable imageDisposable;
+        private Context context;
+
         public NestedAppListViewHolder(View itemView) {
             super(itemView);
+            this.context = itemView.getContext();
             ButterKnife.bind(this, itemView);
         }
 
@@ -138,6 +148,10 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ratingStar.setVisibility(View.GONE);
             }
             try {
+//                imageDisposable = FrescoUtils.getBitmapDataSource(context, app.getIconUrl())
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(this::onBitmapLoaded, this::onBitmapFailed);
                 imageView.setImageURI(Uri.parse(app.getIconUrl()));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -149,6 +163,14 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 price.setText(app.getPrice());
             }
             cardView.setOnClickListener(v -> mainCallback.onAppClickedWithTransition(app, imageView));
+        }
+
+        private void onBitmapLoaded(Bitmap bitmap) {
+            imageView.setImageBitmap(bitmap);
+        }
+
+        private void onBitmapFailed(Throwable throwable) {
+
         }
     }
 
