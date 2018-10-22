@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.ui.main_list_screen;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
@@ -14,12 +15,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
@@ -29,6 +29,7 @@ import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
+import com.blockchain.store.playmarket.ui.pax_screen.PaxActivity;
 import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
@@ -62,6 +63,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @BindView(R.id.error_holder) View errorHolder;
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.search_view) MaterialSearchView searchView;
+    @BindView(R.id.exchange_tab) TextView exchangeTab;
 
     private BehaviorSubject<String> userInputSubject = BehaviorSubject.create();
     private ArrayList<App> searchListResult = new ArrayList<>();
@@ -123,7 +125,6 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        Fragment transfer_dialog = getSupportFragmentManager().findFragmentByTag("transfer_dialog");
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (searchView.isSearchOpen()) {
@@ -210,6 +211,11 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onSearchSuggestionReady(String[] strings) {
+    }
+
+    @OnClick(R.id.exchange_tab)
+    void onExchangeTabClicked() {
+        startActivity(new Intent(this, PaxActivity.class));
     }
 
     @OnClick(R.id.error_view_repeat_btn)

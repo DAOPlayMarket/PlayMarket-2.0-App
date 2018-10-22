@@ -8,7 +8,6 @@ import com.blockchain.store.playmarket.BuildConfig;
 
 public class Constants {
 
-
     /* Job service extra*/
     public static String JOB_HASH_EXTRA = "job_hash_extra";
     public static String JOB_TRANSACTION_TYPE_ORDINAL = "transaction_type_ordinal";
@@ -123,5 +122,7 @@ public class Constants {
 
     /* URLs*/
     public static final String TOKEN_URL = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? "http://tokens.playmarket.io" : "https://testtokens.playmarket.io/");
-
+    public static final String PAX_URL_MAINNET = "https://pex.playmarket.io/";
+    public static final String PAX_URL_TESTNET = "https://testpex.playmarket.io/";
+    public static final String PAX_URL = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? PAX_URL_TESTNET : PAX_URL_TESTNET);
 }

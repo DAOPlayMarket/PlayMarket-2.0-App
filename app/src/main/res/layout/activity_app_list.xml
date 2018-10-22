@@ -31,8 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?android:actionBarSize"
                 android:background="@android:color/white"
-                android:contentInsetLeft="0dp"
                 android:contentInsetStart="0dp"
+                android:contentInsetLeft="0dp"
                 android:theme="@style/ActionBarStyle"
                 app:contentInsetStart="0dp"
                 app:contentInsetStartWithNavigation="0dp"
@@ -50,10 +50,10 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
 
-                        android:layout_marginTop="12dp"
-                        android:layout_marginBottom="12dp"
-                        android:layout_marginRight="10dp"
                         android:layout_marginLeft="6dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="12dp"
                         android:alpha="0.6"
                         android:src="@mipmap/ic_logo" />
 
@@ -99,20 +99,36 @@
         android:id="@+id/tab_layout_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_above="@+id/tab_layout"
+        android:layout_above="@+id/bottom_layout"
         android:background="#d7d7d7" />
 
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
+    <LinearLayout
+        android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/white"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/colorAccent"
-        app:tabTextAppearance="@style/tabTextAppearance"
-        app:tabTextColor="@android:color/darker_gray" />
+        android:weightSum="4">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="3"
+            android:background="@android:color/white"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabTextAppearance="@style/tabTextAppearance"
+            app:tabTextColor="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/exchange_tab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="Exchange" />
+    </LinearLayout>
 
     <include
         android:id="@+id/error_holder"

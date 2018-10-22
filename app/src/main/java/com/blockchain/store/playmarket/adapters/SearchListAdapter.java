@@ -1,23 +1,19 @@
 package com.blockchain.store.playmarket.adapters;
 
 import android.net.Uri;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
-import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -60,7 +56,6 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         @BindView(R.id.ratingStar) ImageView ratingStar;
         @BindView(R.id.ratingText) TextView ratingText;
         @BindView(R.id.Price) TextView price;
-        @BindView(R.id.etherIcon) ImageView etherIcon;
         @BindView(R.id.cardView) CardView cardView;
 
         public SearchViewHolder(View itemView) {
@@ -72,7 +67,6 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
             content.setText(app.nameApp);
             ratingText.setText(app.getRating());
             imageView.setImageURI(Uri.parse(app.getIconUrl()));
-            etherIcon.setVisibility(app.isFree() ? View.GONE : View.VISIBLE);
             if (app.isFree()) {
                 price.setText(R.string.app_free);
             } else {
