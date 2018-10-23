@@ -121,7 +121,8 @@ public class Constants {
     public static final String TOKEN_ARGS = "token_args";
 
     /* URLs*/
-    public static final String TOKEN_URL = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? "http://tokens.playmarket.io" : "https://testtokens.playmarket.io/");
+//    public static final String TOKEN_URL = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? "http://tokens.playmarket.io" : "https://testtokens.playmarket.io/");
+    public static final String TOKEN_URL = "http://tokens.playmarket.io";
     public static final String PAX_URL_MAINNET = "https://pex.playmarket.io/";
     public static final String PAX_URL_TESTNET = "https://testpex.playmarket.io/";
     public static final String PAX_URL = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? PAX_URL_TESTNET : PAX_URL_TESTNET);

@@ -70,5 +70,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/add_image" />
 
+    <include
+        android:visibility="gone"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+        layout="@layout/token_bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>

@@ -18,6 +18,10 @@ public class TokenListContract {
         void showProgress(boolean isShown);
 
         void onTokenBalanceReady(Token token);
+
+        void onBottomSheetTokensFailed(Throwable throwable);
+
+        void onBottomSheetTokensReady(ArrayList<Token> tokens);
     }
 
     interface Presenter {

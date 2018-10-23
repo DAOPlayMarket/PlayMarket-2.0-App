@@ -206,7 +206,7 @@
     <string name="local_currency">%1$s: %2$s</string>
     <string name="token_activity_title">Tokens</string>
     <string name="token_empty_view">List is empty tap to add new Token.</string>
-    <string name="token_dialog_enter_address">Enter address</string>
+    <string name="token_dialog_enter_address">Address</string>
     <string name="token_dialog_find">Find</string>
 
 
@@ -214,7 +214,6 @@
     <string name="auto_update_title">Update available!</string>
     <string name="auto_update_body">There is a new version available\nDo you want to update?</string>
     <string name="fragment_exchange_title">Exchange</string>
-    <string name="tap_here_to_choose_from_list">Tap here to choose from list</string>
 
 
 </resources>
