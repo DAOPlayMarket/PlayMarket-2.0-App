@@ -8,8 +8,6 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.ExchangeRate;
 import com.blockchain.store.playmarket.data.entities.Node;
 import com.blockchain.store.playmarket.repositories.UserBalanceRepository;
-import com.blockchain.store.playmarket.utilities.Constants;
-import com.orhanobut.hawk.Hawk;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -93,6 +91,11 @@ public class NodeUtils {
 
     public static ArrayList<Node> sortNodesByNearest(ArrayList<Node> nodes, Location location) {
         Log.d(TAG, "getNearestNodes: nodes before sorting " + nodes.toString());
+        for (int i = 0; i < nodes.size(); i++) {
+            Node node = nodes.get(i);
+            float v = location.distanceTo(node.location);
+            Log.d(TAG, "sortNodesByNearest: location to " + (i+1) + " node is = " + v);
+        }
         Collections.sort(nodes, new NodeComparator(location));
         Log.d(TAG, "getNearestNodes: nodes after sorting " + nodes.toString());
         return nodes;
