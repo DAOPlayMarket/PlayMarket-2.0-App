@@ -205,7 +205,7 @@
         <activity
             android:name=".ui.add_token_screen.AddTokenActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.pax_screen.PaxActivity"></activity>
+        <activity android:name=".ui.pax_screen.PexActivity"></activity>
     </application>
 
 </manifest>

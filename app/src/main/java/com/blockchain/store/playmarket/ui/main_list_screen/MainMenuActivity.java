@@ -29,7 +29,7 @@ import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
-import com.blockchain.store.playmarket.ui.pax_screen.PaxActivity;
+import com.blockchain.store.playmarket.ui.pax_screen.PexActivity;
 import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
@@ -215,7 +215,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @OnClick(R.id.exchange_tab)
     void onExchangeTabClicked() {
-        startActivity(new Intent(this, PaxActivity.class));
+        startActivity(new Intent(this, PexActivity.class));
     }
 
     @OnClick(R.id.error_view_repeat_btn)
