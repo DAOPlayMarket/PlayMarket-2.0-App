@@ -12,11 +12,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +27,7 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.TokenAdapter;
 import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.util.ArrayList;
 
@@ -54,6 +57,8 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
     private TokenAdapter bottomSheetAdapter;
     private View errorHolder;
     private Button errorHolderButton;
+    private ImageView searchIcon;
+    private MaterialSearchView materialSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +100,31 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
         Button dialogBtn = bottomSheetDialog.findViewById(R.id.find_btn);
         errorHolder = bottomSheetDialog.findViewById(R.id.error_holder);
         errorHolderButton = bottomSheetDialog.findViewById(R.id.error_view_repeat_btn);
+        searchIcon = bottomSheetDialog.findViewById(R.id.search_icon);
+        materialSearchView = bottomSheetDialog.findViewById(R.id.search_view);
+        materialSearchView.closeSearch();
+        searchIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                if (materialSearchView.isSearchOpen()) {
+                    materialSearchView.showSearch();
+//                }
+            }
+        });
+
+        materialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                bottomSheetAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
         errorHolderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +136,7 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
         bottomSheetAdapter = new TokenAdapter(new TokenAdapter.TokenAdapterListener() {
             @Override
             public void onTokenClicked(Token token) {
-
+                presenter.addToken(token);
             }
         });
         bottomSheetRecyclerView.setLayoutManager(new LinearLayoutManager(this));

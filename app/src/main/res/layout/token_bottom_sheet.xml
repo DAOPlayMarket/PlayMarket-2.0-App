@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/bottom_contraint"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="10dp">
 
         <TextView
@@ -46,7 +47,6 @@
             style="@style/ColorButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:background="@drawable/download_btn_bg"
             android:text="@string/token_dialog_find"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,20 +58,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             android:text="Or add token from list below"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/search_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_input_layout" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:scrollbars="vertical"
+            android:verticalScrollbarPosition="right"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/choose_from_list" />
+
+
+        <ImageView
+            android:id="@+id/search_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="8dp"
+            android:paddingRight="16dp"
+            android:src="@drawable/search"
+            android:tint="@color/drawer_toggle_color"
+            app:layout_constraintBottom_toBottomOf="@+id/choose_from_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/choose_from_list"
+            app:layout_constraintTop_toTopOf="@+id/choose_from_list" />
 
         <include
             android:id="@+id/error_holder"
@@ -83,6 +103,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/choose_from_list" />
+
+        <com.miguelcatalan.materialsearchview.MaterialSearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:elevation="2dp"
+            app:layout_constraintEnd_toEndOf="@+id/token_bottom_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_input_layout"
+            app:searchBackground="@color/nav_image_tint"
+            app:searchSuggestionIcon="@null" />
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.design.widget.CoordinatorLayout>

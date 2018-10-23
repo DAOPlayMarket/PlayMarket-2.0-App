@@ -23,7 +23,7 @@ public class TokenListPresenter implements TokenListContract.Presenter {
 
     @Override
     public void getAllTokens() {
-        ArrayList<Token> userTokens = new TokenRepository().getUserTokens();
+        ArrayList<Token> userTokens = TokenRepository.getUserTokens();
         onTokensReady(userTokens);
         getTokenForBottomSheet();
     }
@@ -61,7 +61,7 @@ public class TokenListPresenter implements TokenListContract.Presenter {
     }
 
     private void onNewTokenReady(Token token) {
-        new TokenRepository().addToken(token);
+        TokenRepository.addToken(token);
         view.onNewTokenReady(token);
     }
 
@@ -77,5 +77,10 @@ public class TokenListPresenter implements TokenListContract.Presenter {
     private void onTokenBalanceReady(Token token, String result) {
         token.balanceOf = result;
         view.onTokenBalanceReady(token);
+    }
+
+    public void addToken(Token token) {
+        new TokenRepository().addToken(token);
+        getAllTokens();
     }
 }

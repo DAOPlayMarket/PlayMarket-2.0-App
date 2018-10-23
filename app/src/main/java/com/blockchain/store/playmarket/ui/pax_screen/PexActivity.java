@@ -68,8 +68,6 @@ public class PexActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                webView.loadUrl("javascript:unlockWalletMobile({\"address\":\"9e1f601d72bda509d82ed7082d9d3a7e0f4d012b\",\"crypto\":{\"cipher\":\"aes-128-ctr\",\"ciphertext\":\"ec6ef96cad3b373817187222cfe6a3d030fe895de92cf6b454a4b56231ceb08a\",\"cipherparams\":{\"iv\":\"b6047fc897dd5a5558b70ff9fe0ab77a\"},\"kdf\":\"scrypt\",\"kdfparams\":{\"dklen\":32,\"n\":4096,\"p\":6,\"r\":8,\"salt\":\"bed366309858361441599874817a2835adf4d379539803a37148caac1830ab3c\"},\"mac\":\"5a5f317a74f06c5ed2167f4752bffcfc073da55a19918f3e03bc17e987860cc4\"},\"id\":\"a18a8ca5-b321-467b-88a1-d369223f4a07\",\"version\":3},123123123)");
-//                webView.evaluateJavascript("unlockWalletMobile({\"address\":\"9e1f601d72bda509d82ed7082d9d3a7e0f4d012b\",\"crypto\":{\"cipher\":\"aes-128-ctr\",\"ciphertext\":\"ec6ef96cad3b373817187222cfe6a3d030fe895de92cf6b454a4b56231ceb08a\",\"cipherparams\":{\"iv\":\"b6047fc897dd5a5558b70ff9fe0ab77a\"},\"kdf\":\"scrypt\",\"kdfparams\":{\"dklen\":32,\"n\":4096,\"p\":6,\"r\":8,\"salt\":\"bed366309858361441599874817a2835adf4d379539803a37148caac1830ab3c\"},\"mac\":\"5a5f317a74f06c5ed2167f4752bffcfc073da55a19918f3e03bc17e987860cc4\"},\"id\":\"a18a8ca5-b321-467b-88a1-d369223f4a07\",\"version\":3},123123123)", null);
                 progressBar.setVisibility(View.GONE);
             }
         });

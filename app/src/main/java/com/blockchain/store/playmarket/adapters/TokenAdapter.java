@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.Token;
+import com.blockchain.store.playmarket.repositories.TokenRepository;
 
 import java.util.ArrayList;
 
@@ -140,7 +141,12 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
             }
 
             if (isOpenFromBottomSheet) {
-                button.setText("Add to list");
+                if (TokenRepository.isTokenAlreadyAdded(token)) {
+                    button.setText("Added");
+                } else {
+                    button.setText("Add to list");
+                }
+
             }
 
         }
