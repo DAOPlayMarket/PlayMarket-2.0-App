@@ -122,6 +122,8 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
         @BindView(R.id.button) Button button;
         @BindView(R.id.group) Group group;
         @BindView(R.id.progress_bar) ProgressBar progressBar;
+        @BindView(R.id.token_balance) TextView balance;
+        @BindView(R.id.token_balance_field) TextView balanceField;
 
         public TokenViewHolder(View itemView) {
             super(itemView);
@@ -138,15 +140,17 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
                 name.setText(token.name);
                 symbol.setText(token.symbol);
                 button.setOnClickListener(v -> callback.onTokenClicked(token));
+                balance.setText(token.balanceOf);
             }
 
             if (isOpenFromBottomSheet) {
+                balanceField.setVisibility(View.GONE);
+                balance.setVisibility(View.GONE);
                 if (TokenRepository.isTokenAlreadyAdded(token)) {
                     button.setText("Added");
                 } else {
                     button.setText("Add to list");
                 }
-
             }
 
         }

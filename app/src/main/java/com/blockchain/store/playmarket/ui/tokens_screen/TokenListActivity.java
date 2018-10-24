@@ -45,6 +45,7 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
     @BindView(R.id.floatingActionButton) FloatingActionButton floatingActionButton;
     @BindView(R.id.empty_view) TextView emptyView;
     @BindView(R.id.token_progress_bar) ProgressBar progressBar;
+    @BindView(R.id.progress_bar) ProgressBar progressBarToken;
     @BindView(R.id.bottom_contraint) ConstraintLayout bottomLayout;
 
     private TokenAdapter adapter;
@@ -69,21 +70,10 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
         ButterKnife.bind(this);
         initTitle();
         setUpBottomDialog();
-//        setUpBottomBehaviour();
         attachPresenter();
         setUpDialog();
     }
 
-    private void setUpBottomBehaviour() {
-        Resources resources = this.getResources();
-        float pixelsFromDip = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 90, resources.getDisplayMetrics());
-
-        bottomSheetBehavior = BottomSheetBehavior.from(bottomLayout);
-        bottomSheetBehavior.setHideable(true);
-        bottomSheetBehavior.setPeekHeight((int) pixelsFromDip);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
-    }
 
     private void setUpDialog() {
         alertDialog = new AlertDialog.Builder(this)
@@ -212,9 +202,14 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
     }
 
     @Override
-    public void showProgress(boolean isShown) {
+    public void showBottomProgress(boolean isShown) {
         progressBar.setVisibility(isShown ? View.VISIBLE : View.GONE);
         floatingActionButton.setVisibility(isShown ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
+    public void showProgress(boolean isShown) {
+        progressBarToken.setVisibility(isShown ? View.VISIBLE : View.GONE);
     }
 
     @Override

@@ -23,8 +23,10 @@ public class TokenListPresenter implements TokenListContract.Presenter {
 
     @Override
     public void getAllTokens() {
-        ArrayList<Token> userTokens = TokenRepository.getUserTokens();
-        onTokensReady(userTokens);
+        TokenRepository.getUserTokens()
+                .doOnSubscribe(() -> view.showProgress(true))
+                .doOnTerminate(() -> view.showProgress(false))
+                .subscribe(this::onTokensReady);
         getTokenForBottomSheet();
     }
 
@@ -55,8 +57,8 @@ public class TokenListPresenter implements TokenListContract.Presenter {
     @Override
     public void findToken(String address) {
         TransactionRepository.getTokenFullInfo(address, AccountManager.getAddress().getHex())
-                .doOnSubscribe(() -> view.showProgress(true))
-                .doOnTerminate(() -> view.showProgress(false))
+                .doOnSubscribe(() -> view.showBottomProgress(true))
+                .doOnTerminate(() -> view.showBottomProgress(false))
                 .subscribe(this::onNewTokenReady, this::onNewTokenFailed);
     }
 

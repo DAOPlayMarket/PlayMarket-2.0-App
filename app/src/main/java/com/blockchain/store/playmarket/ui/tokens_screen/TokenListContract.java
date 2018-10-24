@@ -15,6 +15,8 @@ public class TokenListContract {
 
         void onNewTokenReady(Token token);
 
+        void showBottomProgress(boolean isShown);
+
         void showProgress(boolean isShown);
 
         void onTokenBalanceReady(Token token);

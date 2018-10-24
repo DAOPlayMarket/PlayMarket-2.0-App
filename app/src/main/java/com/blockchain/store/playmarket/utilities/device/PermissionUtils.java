@@ -61,9 +61,9 @@ public class PermissionUtils {
         return isPermissionGranted;
     }
 
-    public static void verifyLocationPermissions(Activity activity,int requestCode) {
+    public static void verifyLocationPermissions(Activity activity, int requestCode) {
         // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION);
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION);
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
             // We don't have permission so prompt the user
