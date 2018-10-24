@@ -81,24 +81,8 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         setLogoTextFont();
         setupAndPlayVideo();
         checkLocationPermission();
-        String name = PlayMarketSDK.class.getName();
-        Log.d(TAG, "onCreate:1111 " + name);
-//        test();
+//
     }
-
-    private void test() {
-        TransferObject transferObject = new TransferObject();
-        transferObject.setTransactionType(RemoteConstants.TRANSACTION_BUY_OBJECT_WITH_PRICE_CHECK);
-        transferObject.setTransferPrice("10");
-        transferObject.setPackageName("com.com.com");
-        transferObject.setPassword("123123123");
-        transferObject.setObjectId("1");
-        transferObject.setUserAddress(AccountManager.getAccount().getAddress().getHex());
-
-//        PlayMarketSdkTransactionFactory.get(transferObject)
-//                .subscribe(this::onTransactionCreate, this::onTransactionFailed);
-    }
-
 
     private void checkLocationPermission() {
         if (PermissionUtils.isLocationPermissionGranted(this)) {

@@ -94,7 +94,7 @@ public class NodeUtils {
         for (int i = 0; i < nodes.size(); i++) {
             Node node = nodes.get(i);
             float v = location.distanceTo(node.location);
-            Log.d(TAG, "sortNodesByNearest: location to " + (i+1) + " node is = " + v);
+            Log.d(TAG, "sortNodesByNearest: location to " + (i + 1) + " node is = " + v);
         }
         Collections.sort(nodes, new NodeComparator(location));
         Log.d(TAG, "getNearestNodes: nodes after sorting " + nodes.toString());
@@ -111,6 +111,9 @@ public class NodeUtils {
                 for (Node node : nearestNodeIP) {
                     Response<ExchangeRate> execute = null;
                     try {
+                        if (!node.address.contains("7")) {
+                            continue;
+                        }
                         execute = new RestApi().getCustomUrlApi(RestApi.getCheckUrlEndpointByNode(node.address)).getExchangeRate(currencyCode).execute();
                         if (!execute.body().currency.name.equalsIgnoreCase("PMC")) {
                             execute.body().currency.name = currencyCode;

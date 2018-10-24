@@ -50,8 +50,8 @@ public class SplashPresenter implements SplashContracts.Presenter, LocationManag
         view.setStatusText(R.string.network_status_location_search);
         if (isEmulator()) {
             Location location = new Location("");
-            location.setLongitude(56.476181);
-            location.setLatitude(84.950168);
+            location.setLongitude(37.22358);
+            location.setLatitude(45.2376);
             getNearestNode(location);
             //view.onLocationReady();
         } else {

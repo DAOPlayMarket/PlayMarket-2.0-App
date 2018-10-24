@@ -82,8 +82,6 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     .inflate(R.layout.app_list_content, parent, false);
             NestedAppListViewHolder nestedAppListViewHolder = new NestedAppListViewHolder(view);
 
-//            nestedAppListViewHolder.imageView.setImageURI(
-//                    Uri.parse(dispatcherType.apps.get(nestedAppListViewHolder.getAdapterPosition() + 1).getIconUrl()));
             return nestedAppListViewHolder;
         }
         if (viewType == TYPE_LOADING) {
@@ -147,30 +145,13 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ratingText.setVisibility(View.GONE);
                 ratingStar.setVisibility(View.GONE);
             }
-            try {
-//                imageDisposable = FrescoUtils.getBitmapDataSource(context, app.getIconUrl())
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe(this::onBitmapLoaded, this::onBitmapFailed);
-                imageView.setImageURI(Uri.parse(app.getIconUrl()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+            imageView.setImageURI(Uri.parse(app.getIconUrl()));
             if (app.isFree()) {
                 price.setText(R.string.app_free);
             } else {
                 price.setText(app.getPrice());
             }
             cardView.setOnClickListener(v -> mainCallback.onAppClickedWithTransition(app, imageView));
-        }
-
-        private void onBitmapLoaded(Bitmap bitmap) {
-            imageView.setImageBitmap(bitmap);
-        }
-
-        private void onBitmapFailed(Throwable throwable) {
-
         }
     }
 
