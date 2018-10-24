@@ -111,9 +111,6 @@ public class NodeUtils {
                 for (Node node : nearestNodeIP) {
                     Response<ExchangeRate> execute = null;
                     try {
-                        if (!node.address.contains("7")) {
-                            continue;
-                        }
                         execute = new RestApi().getCustomUrlApi(RestApi.getCheckUrlEndpointByNode(node.address)).getExchangeRate(currencyCode).execute();
                         if (!execute.body().currency.name.equalsIgnoreCase("PMC")) {
                             execute.body().currency.name = currencyCode;

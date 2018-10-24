@@ -105,7 +105,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
             Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
             emailIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-            Uri uri = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() + ".fileprovider", copyJsonFile.getAbsoluteFile());
+            Uri uri = FileProvider.getUriForFile(getApplicationContext(), getApplicationContext().getPackageName() + ".contentprovider", copyJsonFile.getAbsoluteFile());
 
             emailIntent.setType("text/plain");
             emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "JSON Keystore File");

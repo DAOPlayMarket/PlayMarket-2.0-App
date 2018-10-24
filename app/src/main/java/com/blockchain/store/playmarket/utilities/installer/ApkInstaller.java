@@ -73,6 +73,7 @@ public class ApkInstaller extends AsyncTask<String, Void, Void> {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             if (BuildUtils.shouldUseContentUri()) {
                 intent.setDataAndType(FileProvider.getUriForFile(context, context.getString(R.string.content_provider), outputFile), APK_MIME_TYPE);
+//                intent.setDataAndType(FileProvider.getUriForFile(context, context.getPackageName() + ".contentprovider", outputFile), APK_MIME_TYPE);
             } else {
                 intent.setDataAndType(Uri.parse("file://" + outputFile), APK_MIME_TYPE);
             }
