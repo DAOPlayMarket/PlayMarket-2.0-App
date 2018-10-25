@@ -311,7 +311,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                     accountInfo.first.count,
                     new BigInt(Long.parseLong(accountInfo.second)),
                     app, vote, review, txIndex);
-            Log.d(TAG, "handleAccountInfoResult: " + rawTransaction);
         } catch (Exception e) {
             e.printStackTrace();
 

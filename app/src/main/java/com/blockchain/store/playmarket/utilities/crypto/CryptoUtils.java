@@ -24,6 +24,9 @@ import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Bytes32;
 import org.web3j.abi.datatypes.generated.Uint256;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.Request;
+import org.web3j.protocol.core.methods.response.EthEstimateGas;
 import org.web3j.utils.Numeric;
 
 import java.math.BigInteger;
@@ -165,6 +168,7 @@ public class CryptoUtils {
         Transaction transaction = new Transaction(nonce, new Address(recipientAddress),
                 price, GAS_LIMIT, new BigInt(Long.parseLong(gasPrice)), null);
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
+
         return getRawTransaction(signedTransaction);
     }
 

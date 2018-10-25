@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -18,42 +17,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import com.blockchain.store.playmarket.Application;
-import com.blockchain.store.playmarket.PurchaseSDK.entities.TransferObject;
-import com.blockchain.store.playmarket.PurchaseSDK.repository.PlayMarketSdkTransactionFactory;
-import com.blockchain.store.playmarket.PurchaseSDK.services.PlayMarketSDK;
-import com.blockchain.store.playmarket.PurchaseSDK.services.RemoteConstants;
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.data.entities.Token;
-import com.blockchain.store.playmarket.data.types.EthereumPrice;
-import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
-import com.blockchain.store.playmarket.utilities.crypto.GenerateTransactionData;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 import com.bumptech.glide.Glide;
 
-import org.ethereum.geth.Account;
-import org.ethereum.geth.Address;
-import org.ethereum.geth.BigInt;
-import org.ethereum.geth.Transaction;
-import org.web3j.abi.datatypes.Function;
-import org.web3j.abi.datatypes.generated.Uint256;
-
-import java.math.BigInteger;
+import org.web3j.protocol.core.Ethereum;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.ethmobile.ethdroid.KeyManager;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-
-import static com.blockchain.store.playmarket.utilities.Constants.GAS_LIMIT;
-import static com.blockchain.store.playmarket.utilities.Constants.USER_ETHERSCAN_ID;
-import static com.blockchain.store.playmarket.utilities.crypto.CryptoUtils.getRawTransaction;
 
 public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
     private static final String TAG = "SplashActivity";
@@ -69,7 +45,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
 
     private SplashPresenter presenter;
     private String errorString = null;
-    Function function;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +56,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         setLogoTextFont();
         setupAndPlayVideo();
         checkLocationPermission();
+
     }
 
     private void checkLocationPermission() {

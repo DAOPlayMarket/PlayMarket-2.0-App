@@ -105,9 +105,7 @@ public class NotificationManager {
         NotificationObject notificationObject = getNotificationObjectByItem(item);
         if (notificationObject != null) {
             notificationObject.setCurrentState(Constants.APP_STATE.STATE_DOWNLOADED_NOT_INSTALLED);
-            showNotification(notificationObject);
             reportCompleteUpdate(notificationObject);
-//            cancelNotification(item);
             updateNotificationWithSuccess(item);
             removeNotificationObject(notificationObject);
         }
@@ -165,7 +163,11 @@ public class NotificationManager {
         android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationObject.getNotificationBuilder().setProgress(0, 0, false)
                 .setContentTitle(item.getSuccessResultName());
-        notificationManager.notify(item.getId(), notificationObject.getNotificationBuilder().setSmallIcon(android.R.drawable.stat_sys_download_done).build());
+        if (item instanceof UpdateNotification) {
+            notificationManager.notify(item.getId(), notificationObject.getNotificationBuilder().setSmallIcon(R.mipmap.ic_logo).build());
+        } else {
+            notificationManager.notify(item.getId(), notificationObject.getNotificationBuilder().setSmallIcon(android.R.drawable.stat_sys_download_done).build());
+        }
     }
 
     private void showNotification(NotificationObject notificationObject) {

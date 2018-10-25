@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.FileUtils;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 
@@ -33,6 +34,7 @@ public class PasswordPromptPresenter implements PasswordPromptContract.Presenter
     public String createNewAccount(String accountPassword) {
         try {
             Account account = Application.keyManager.newAccount(accountPassword);
+            
             Log.d(TAG, "makeNewAccount: " + account.getURL().toString());
             String address = account.getAddress().getHex();
             autoSaveJsonKeystoreFile();

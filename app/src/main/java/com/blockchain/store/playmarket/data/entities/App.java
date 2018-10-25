@@ -265,4 +265,14 @@ public class App implements Parcelable, NotificationImpl {
             return new App[size];
         }
     };
+
+    @Override
+    public String getSuccessResultName() {
+        return nameApp + " downloaded.";
+    }
+
+    @Override
+    public String getFailedResultName() {
+        return nameApp + " download failed.";
+    }
 }
