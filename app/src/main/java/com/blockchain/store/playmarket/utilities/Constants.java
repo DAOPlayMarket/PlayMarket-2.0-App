@@ -64,7 +64,7 @@ public class Constants {
     public static final int DOWNLOAD_APPS_PER_REQUEST = 40;
     public static final int GAS_LIMIT = 200000;
 
-    public static final int USER_ETHERSCAN_ID = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? 4 : 4);
+    public static final int USER_ETHERSCAN_ID = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? 1 : 4);
 
 
     public static final String DOWNLOAD_SERVICE_APP_EXTRA = "download_service_app_extra";

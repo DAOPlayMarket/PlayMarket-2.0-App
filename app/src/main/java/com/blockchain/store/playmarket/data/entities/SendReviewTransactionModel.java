@@ -18,7 +18,7 @@ public class SendReviewTransactionModel extends TransactionModel {
 
     @Override
     public String getTransactionFormattedResult() {
-        return "work in progress";
+        return "";
     }
 
     @Override

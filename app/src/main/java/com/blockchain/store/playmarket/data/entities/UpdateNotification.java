@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.blockchain.store.playmarket.services.DownloadService;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -28,7 +29,7 @@ public class UpdateNotification implements NotificationImpl {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "channel_id_1")
                 .setContentTitle(getTitleName())
                 .setContentText("Tap here to start update")
-                .setSmallIcon(android.R.drawable.stat_sys_upload)
+                .setSmallIcon(R.mipmap.ic_logo)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true)
                 .setTicker("")

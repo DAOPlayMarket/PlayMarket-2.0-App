@@ -45,7 +45,6 @@ public class DownloadService extends IntentService {
                     Log.d(TAG, "progress: downloaded: " + downloaded + ". Total: " + total + ". progress " + progress);
                     NotificationManager.getManager().updateProgress(app, progress);
                 }).write(file).setCallback((exception, result) -> {
-            Log.d(TAG, "onCompleted() called with: e = [" + exception + "], result = [" + result + "]");
             if (exception == null) {
                 NotificationManager.getManager().downloadCompleteWithoutError(app);
                 if (isNeedForceInstall) {
@@ -53,7 +52,6 @@ public class DownloadService extends IntentService {
                 } else if (Hawk.contains(Constants.SETTINGS_AUTOINSTALL_FLAG) && (boolean) Hawk.get(Constants.SETTINGS_AUTOINSTALL_FLAG)) {
                     installApk(result);
                 }
-
             } else {
                 NotificationManager.getManager().downloadCompleteWithError(app, exception);
             }

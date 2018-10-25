@@ -85,7 +85,7 @@ public class DialogManager {
                                 break;
                             case AUTHENTICATED:
                                 //todo add check if comment isn't empty
-                                if (new BigDecimal(accountBalanceInWei).compareTo(new BigDecimal("0")) == 1 || true) {
+                                if (new BigDecimal(accountBalanceInWei).compareTo(new BigDecimal("0")) == 1) {
                                     try {
                                         passwordField.setText(fingerprintDecryptionResult.getDecrypted());
                                         Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordField.getText().toString());

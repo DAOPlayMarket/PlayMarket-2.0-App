@@ -14,6 +14,7 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
 import org.ethereum.geth.BigInt;
+import org.ethereum.geth.Hash;
 import org.ethereum.geth.KeyStore;
 import org.ethereum.geth.Transaction;
 import org.web3j.abi.FunctionEncoder;
@@ -168,7 +169,8 @@ public class CryptoUtils {
         Transaction transaction = new Transaction(nonce, new Address(recipientAddress),
                 price, GAS_LIMIT, new BigInt(Long.parseLong(gasPrice)), null);
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
-
+        String hash = signedTransaction.getHash().getHex();
+        String sigHash = signedTransaction.getSigHash().getHex();
         return getRawTransaction(signedTransaction);
     }
 
@@ -181,6 +183,8 @@ public class CryptoUtils {
                 price, GAS_LIMIT, gasPrice,
                 getDataForReviewAnApp(app.appId, account.getAddress().getHex(), vote, description, txIndex));
         Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
+        String hash = signedTransaction.getHash().getHex();
+        String sigHash = signedTransaction.getSigHash().getHex();
         return getRawTransaction(signedTransaction);
     }
 
