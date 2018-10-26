@@ -73,21 +73,18 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
         fingerprintAvailable();
     }
 
-    @OnClick(R.id.cancel_login_button)
-    void cancelLoginButtonClicked() {
+    @OnClick(R.id.cancel_login_button) void cancelLoginButtonClicked() {
         clearScreenData();
     }
 
-    @OnClick(R.id.continue_login_button)
-    void continueLoginButtonClicked() {
+    @OnClick(R.id.continue_login_button) void continueLoginButtonClicked() {
         String accountPassword = passwordEditText.getText().toString();
 
         if (jsonData == null) createNewAccount(accountPassword);
         else importExistingAccount(jsonData, accountPassword);
     }
 
-    @OnClick(R.id.configure_fingerprint_button)
-    void configureButtonClicked() {
+    @OnClick(R.id.configure_fingerprint_button) void configureButtonClicked(){
         startActivity(new Intent(Settings.ACTION_SECURITY_SETTINGS));
     }
 
@@ -110,25 +107,23 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
         startActivity(intent);
     }
 
-    private void openFingerprintActivity(String accountPassword) {
+    private void openFingerprintActivity(String accountPassword){
         Intent intent = new Intent(getContext(), FingerprintConfiguringActivity.class);
         intent.putExtra(FingerprintConfiguringActivity.PASSWORD, accountPassword);
         startActivityForResult(intent, 1);
     }
 
     private void createNewAccount(String accountPassword) {
-        if (presenter.checkPasswordForNewAccount(accountPassword) || true) {
+        if (presenter.checkPasswordForNewAccount(accountPassword)) {
             accountAddress = presenter.createNewAccount(accountPassword);
-            if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.READY))
-                openFingerprintActivity(accountPassword);
+            if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.READY)) openFingerprintActivity(accountPassword);
             else openWelcomeActivity(accountAddress);
         }
     }
 
     private void importExistingAccount(String accountData, String accountPassword) {
         if (presenter.importAccount(accountData, accountPassword)) {
-            if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.READY))
-                openFingerprintActivity(accountPassword);
+            if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.READY)) openFingerprintActivity(accountPassword);
             else {
                 openMainActivity();
                 ToastUtil.showToast(R.string.import_successful);
@@ -138,12 +133,12 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
 
 
     @Override
-    public void showPasswordError(String errorText) {
+    public void showPasswordError(String errorText){
         passwordTextInputLayout.setPasswordVisibilityToggleTintList(AppCompatResources.getColorStateList(getContext(), R.color.red_error_color));
         passwordTextInputLayout.setError(errorText);
     }
 
-    private void clearScreenData() {
+    private void clearScreenData(){
         passwordTextInputLayout.setPasswordVisibilityToggleTintList(AppCompatResources.getColorStateList(getContext(), R.color.green_color));
         passwordEditText.setText("");
         passwordTextInputLayout.setError("");
@@ -156,7 +151,9 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
         if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.NOT_SUPPORTED)) {
             configureFingerprintButton.setVisibility(View.GONE);
             fingerPrintLayout.setVisibility(View.GONE);
-        } else if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.NO_FINGERPRINTS)) {
+        }
+
+        else if (presenter.checkSensorState(getContext()).equals(PasswordPromptContract.sensorState.NO_FINGERPRINTS)) {
             fingerPrintLayout.setBackgroundColor(getResources().getColor(R.color.light_gray_background_color));
             infoTextView.setText(getResources().getString(R.string.is_not_configured));
             infoTextView.setTextColor(getResources().getColor(R.color.exchange_gray_text_color));

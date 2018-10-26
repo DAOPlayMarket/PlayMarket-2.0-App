@@ -63,7 +63,6 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @BindView(R.id.error_holder) View errorHolder;
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.search_view) MaterialSearchView searchView;
-    @BindView(R.id.exchange_tab) TextView exchangeTab;
 
     private BehaviorSubject<String> userInputSubject = BehaviorSubject.create();
     private ArrayList<App> searchListResult = new ArrayList<>();
