@@ -49,7 +49,7 @@ public class NodeUtils {
             throw new RuntimeException("Dns look up error. " + result.getResponseCode());
         }
         Set<TXT> answers = result.getAnswers();
-        StringBuilder nodesList = new StringBuilder("");
+        StringBuilder nodesList = new StringBuilder();
         for (TXT a : answers) {
             nodesList.append(a.getText());
         }
