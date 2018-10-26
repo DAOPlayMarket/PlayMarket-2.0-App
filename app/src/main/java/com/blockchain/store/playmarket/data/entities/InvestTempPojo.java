@@ -76,6 +76,72 @@ public class InvestTempPojo {
 //        objects.add(new InvestTitle("Contacts"));
 //        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
     }
+    public InvestTempPojo createTest() {
+        String tokenSold = "10000";
+        String totalTokens = "1000000000"
+
+        objects.add(new InvestMainItem(
+                "PlayMarket 2.0",
+                "PlayMarket description",
+                tokenSold,
+                totalTokens,
+                1,
+                3,
+                System.currentTimeMillis()+1000000L,
+                "",
+                "",
+                "icon url",
+                "PMT",
+                false
+        ));
+        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MAIN);
+
+        objects.add(new InvestYoutube("youtube id"));
+        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_YOUTUBE);
+
+
+        objects.add(new InvestTitle("ICO description"));
+        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
+
+        objects.add(new InvestBody(app.infoICO.description));
+        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_BODY);
+
+        objects.add(new InvestTitle("Investors advantages"));
+        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
+
+
+        objects.add(new InvestBody(app.infoICO.advantages));
+        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_BODY);
+
+        objects.add(new InvestTitle("Screenshots"));
+        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
+
+        objects.add(new ScreenShotBody(app.getImages()));
+        objectViewType.add(InvestScreenAdapter.INVEST_VIEWETYPE_IMAGE_GALLERY);
+        if (app.infoICO.advisors != null && !app.infoICO.advisors.isEmpty()) {
+
+            objects.add(new InvestTitle("Advisors"));
+            objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
+
+            for (IcoTeam advisor : app.infoICO.advisors) {
+                objects.add(new InvestMember(advisor.name, advisor.description, app.getImageByPath(advisor.photo), advisor.social));
+                objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
+            }
+        }
+
+        if (app.infoICO.team != null && !app.infoICO.team.isEmpty()) {
+
+            objects.add(new InvestTitle("Our team"));
+            objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
+
+            for (IcoTeam team : app.infoICO.team) {
+                objects.add(new InvestMember(team.name, team.description, app.getImageByPath(team.photo), team.social));
+                objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
+            }
+        }
+//        objects.add(new InvestTitle("Contacts"));
+//        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
+    }
 }
 
 
