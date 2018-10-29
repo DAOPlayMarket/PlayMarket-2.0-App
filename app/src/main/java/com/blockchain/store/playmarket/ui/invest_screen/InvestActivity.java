@@ -80,6 +80,10 @@ public class InvestActivity extends YouTubeBaseActivity implements InvestContrac
         } else {
             throw new RuntimeException("App must be provided!");
         }
+        if (appInfo == null) {
+            setUpRecycler(null);
+            return;
+        }
         attachPresenter();
         if (appInfo.icoInfoResponse == null) {
             getCurrentInfo();
@@ -94,8 +98,13 @@ public class InvestActivity extends YouTubeBaseActivity implements InvestContrac
         presenter.getCurrentInfo(appInfo);
     }
 
-    private void setUpRecycler(AppInfo appInfo) {
-        adapter = new InvestScreenAdapter(appInfo, this, isOpenFromIcoScreen);
+    private void
+    setUpRecycler(AppInfo appInfo) {
+        if (appInfo == null) {
+            adapter = new InvestScreenAdapter(this, isOpenFromIcoScreen);
+        } else {
+            adapter = new InvestScreenAdapter(appInfo, this, isOpenFromIcoScreen);
+        }
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }

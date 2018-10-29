@@ -26,7 +26,9 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 import com.bumptech.glide.Glide;
 
+import org.ethereum.geth.Geth;
 import org.web3j.crypto.WalletUtils;
+import org.web3j.protocol.Web3j;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

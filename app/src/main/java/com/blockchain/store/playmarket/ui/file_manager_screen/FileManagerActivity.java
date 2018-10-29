@@ -70,10 +70,6 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
                     && (savedInstanceState.getSerializable(DIALOG_NAME) == DialogManager.DialogNames.CREATE_FOLDER_DIALOG)) {
                 showCreateFolderDialog(savedInstanceState.getString(FOLDER_NAME));
             }
-            //if ((savedInstanceState.getBoolean(IS_DIALOG_SHOWING))
-            //        && (savedInstanceState.getSerializable(DIALOG_NAME) == DialogManager.DialogNames.CONFIRM_IMPORT_DIALOG)) {
-            //    showConfirmImportDialog(savedInstanceState.getString(JSON_DATA), savedInstanceState.getString(PASSWORD));
-            //}
         } else {
             currentDirectory = basePath;
         }

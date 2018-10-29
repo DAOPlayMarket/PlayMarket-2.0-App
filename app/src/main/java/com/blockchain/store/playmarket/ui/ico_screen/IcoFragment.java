@@ -92,6 +92,7 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
 
     @Override
     public void onIcoAppsReady(ArrayList<AppInfo> apps) {
+        apps.add(0, null);
         errorHolder.setVisibility(View.GONE);
         emptyView.setVisibility(View.GONE);
         if (apps.isEmpty()) {
@@ -113,7 +114,7 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
 
     private void setupRecyclerView(ArrayList<AppInfo> apps) {
         adapter = new IcoListAdapter(apps, this, true);
-        adapter.setHasStableIds(true);
+//        adapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
     }

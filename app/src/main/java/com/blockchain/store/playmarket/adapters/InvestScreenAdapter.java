@@ -56,6 +56,12 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         investTempPojo = new InvestTempPojo(appInfo);
     }
 
+    public InvestScreenAdapter(InvestAdapterCallback adapterCallback, boolean isOpenFromIcoScreen) {
+        this.adapterCallback = adapterCallback;
+        this.isOpenFromIcoScreen = isOpenFromIcoScreen;
+        investTempPojo = new InvestTempPojo().createTest();
+    }
+
     @Override
     public int getItemViewType(int position) {
         return investTempPojo.objectViewType.get(position);
@@ -185,8 +191,21 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             progressBar.setProgress(progressInteger);
             currentEarned.setText(investMainItem.soldTokens);
             totalEarned.setText(investMainItem.icoTotalSupply);
-            iconView.setImageURI(investMainItem.iconUrl);
-            investButton.setVisibility(investMainItem.isIcoAlreadyStarted ? View.VISIBLE : View.INVISIBLE);
+            if (investMainItem.iconResourceId != null) {
+                iconView.setImageResource(investMainItem.iconResourceId);
+            } else {
+                iconView.setImageURI(investMainItem.iconUrl);
+            }
+            if (investMainItem.isIcoAlreadyStarted) {
+                investButton.setVisibility(View.VISIBLE);
+                timeRemains.setVisibility(View.VISIBLE);
+                currentStage.setVisibility(View.VISIBLE);
+            } else {
+                investButton.setVisibility(View.INVISIBLE);
+                timeRemains.setVisibility(View.INVISIBLE);
+                currentStage.setVisibility(View.INVISIBLE);
+            }
+
             investButton.setOnClickListener(v -> adapterCallback.onInvestBtnClicked(investMainItem.adrIco));
             if (countDownTimer == null) {
                 countDownTimer = new CountDownTimer(investMainItem.totalTime * 1000, 1000) {
@@ -308,8 +327,11 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public void bind(InvestMember investMember) {
             investMemberTitle.setText(investMember.name);
             investMemberDescription.setText(investMember.description);
-            investMemberAvatar.setImageURI(investMember.imagePath);
-
+            if (investMember.imageId != null) {
+                investMemberAvatar.setImageResource(investMember.imageId);
+            } else {
+                investMemberAvatar.setImageURI(investMember.imagePath);
+            }
             gplusIcon.setVisibility(investMember.socialLinks.googlePlus != null && investMember.socialLinks.googlePlus.isEmpty() ? View.VISIBLE : View.GONE);
             facebookIcon.setVisibility(investMember.socialLinks.facebook != null && investMember.socialLinks.facebook.isEmpty() ? View.VISIBLE : View.GONE);
             linkedinIcon.setVisibility(investMember.socialLinks.linkedin != null && investMember.socialLinks.linkedin.isEmpty() ? View.VISIBLE : View.GONE);
@@ -344,7 +366,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         public void bind(InvestTitle investTitle) {
-            titleView.setText(investTitle.title);
+            titleView.setText(Html.escapeHtml(investTitle.title));
         }
     }
 
@@ -362,7 +384,12 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         public void bind(ScreenShotBody screenShotBody) {
             if (imageAdapter == null) {
-                imageAdapter = new ImageListAdapter(screenShotBody.screenShotsList, this);
+                if (screenShotBody.screenShotsIds != null && !screenShotBody.screenShotsIds.isEmpty()) {
+                    imageAdapter = new ImageListAdapter(this, screenShotBody.screenShotsIds);
+                } else {
+                    imageAdapter = new ImageListAdapter(screenShotBody.screenShotsList, this);
+                }
+
                 imageViewerBuilder = new ImageViewer.Builder(itemView.getContext(), screenShotBody.screenShotsList);
                 recyclerView.setAdapter(imageAdapter);
             }

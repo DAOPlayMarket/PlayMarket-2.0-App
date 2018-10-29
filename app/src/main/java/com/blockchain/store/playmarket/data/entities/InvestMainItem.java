@@ -14,6 +14,8 @@ public class InvestMainItem {
     public String icoSymbol;
     public boolean isIcoAlreadyStarted;
 
+    public Integer iconResourceId;
+
     public InvestMainItem(String name, String description, String soldTokens, String icoTotalSupply, int stageCurrent, int stageMax, long totalTime, String devAddr, String adrIco, String iconUrl, String icoSymbol, boolean isIcoAlreadyStarted) {
         this.name = name;
         this.description = description;

@@ -13,7 +13,9 @@ public class ScreenShotBody {
     public ScreenShotBody() {
     }
 
-    public void setIds(ArrayList<Integer> screenShotsIds) {
-        this.screenShotsIds = screenShotsIds;
+    public ScreenShotBody fromIds(ArrayList<Integer> screenShotsIds) {
+        ScreenShotBody screenShotBody = new ScreenShotBody();
+        screenShotBody.screenShotsIds = screenShotsIds;
+        return screenShotBody;
     }
 }

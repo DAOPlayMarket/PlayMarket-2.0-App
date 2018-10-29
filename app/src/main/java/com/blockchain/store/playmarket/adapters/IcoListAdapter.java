@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.CountDownTimer;
@@ -68,7 +69,11 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
 
     @Override
     public void onBindViewHolder(IcoAppViewHolder holder, int position) {
-        holder.bind(appList.get(position));
+        if (position == 0) {
+            holder.bindAsATest();
+        } else {
+            holder.bind(appList.get(position));
+        }
     }
 
     @Override
@@ -166,6 +171,37 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
             }.start();
         }
 
+        public void bindAsATest() {
+            icon.setImageResource(R.mipmap.ic_logo);
+            title.setText("PlayMarket 2.0");
+            tokenBought.setText("0");
+            cardView.setOnClickListener(v -> appListCallbacks.onAppInfoClicked(null));
+
+            if (smallDescription != null) {
+                smallDescription.setText("The DAO PlayMarket 2.0 platform implies that holders of PMT tokens automatically become co-owners of the platform-based DAO PlayMarket Foundation (PMF). One of the primary functions of the foundation is open management of its resources in conjunction with other members of DAO PlayMarket 2.0. ");
+            }
+            if (backImageView != null && imageDisposable == null) {
+                imageDisposable = FrescoUtils.getPalleteFromBitemap(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_logo))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::onPaletteLoaded, this::onBitmapAndPaletteFailed);
+            }
+//            if (goal != null) {
+//                String totalTokens = String.valueOf(Long.parseLong(app.icoSoftCap) / ((long) Math.pow(10, Long.parseLong(app.icoBalance.decimals))));
+//                goal.setText(String.format(context.getString(R.string.token_goal),
+//                        NumberUtils.formatTokenToSpacedNumber(totalTokens),
+//                        app.icoSymbol));
+//            }
+            startBuyingBtn.setVisibility(View.GONE);
+            transferBtn.setVisibility(View.GONE);
+//            setTransferButtonEnable();
+        }
+
+        private void onPaletteLoaded(Palette palette) {
+            if (backImageView != null) {
+                backImageView.setBackgroundColor(palette.getDominantColor(Color.WHITE));
+            }
+        }
     }
 
 

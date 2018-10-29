@@ -23,11 +23,17 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final String TAG = "ImageListAdapter";
 
     private ArrayList<String> imagePaths = new ArrayList<>();
+    private ArrayList<Integer> imageIds;
     private ImageListAdapterCallback callback;
 
     public ImageListAdapter(ArrayList<String> imagePaths, ImageListAdapterCallback callback) {
         this.callback = callback;
         this.imagePaths = imagePaths;
+    }
+
+    public ImageListAdapter(ImageListAdapterCallback callback, ArrayList<Integer> imagePaths) {
+        this.callback = callback;
+        this.imageIds = imagePaths;
     }
 
     @Override
@@ -39,11 +45,16 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ImageViewHolder) holder).bind(imagePaths.get(position), position);
+        if (imageIds != null) {
+            ((ImageViewHolder) holder).bind(null, position);
+        } else {
+            ((ImageViewHolder) holder).bind(imagePaths.get(position), position);
+        }
     }
 
     @Override
     public int getItemCount() {
+        if (imageIds != null) return imageIds.size();
         return imagePaths.size();
     }
 
@@ -56,7 +67,12 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void bind(String imagePath, int position) {
-            imageView.setImageURI(Uri.parse(imagePath));
+            if (imageIds != null) {
+                Integer imageId = imageIds.get(position);
+                imageView.setImageResource(imageId);
+            } else {
+                imageView.setImageURI(Uri.parse(imagePath));
+            }
             imageView.setOnClickListener(v -> callback.onImageGalleryItemClicked(position));
         }
     }
