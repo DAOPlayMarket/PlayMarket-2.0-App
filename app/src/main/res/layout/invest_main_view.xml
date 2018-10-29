@@ -35,6 +35,7 @@
         tools:text="A Decentralized App Store for Android \nmade with the Ethereum Blockchain" />
 
     <LinearLayout
+        android:id="@+id/stage_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp">
@@ -97,6 +98,7 @@
         android:progress="50000000" />
 
     <LinearLayout
+        android:id="@+id/earned_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -124,6 +126,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/hardcap_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

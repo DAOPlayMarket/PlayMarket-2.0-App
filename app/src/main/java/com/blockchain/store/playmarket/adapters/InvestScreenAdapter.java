@@ -25,6 +25,7 @@ import com.blockchain.store.playmarket.data.entities.ScreenShotBody;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.interfaces.InvestAdapterCallback;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.facebook.common.util.UriUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -32,6 +33,7 @@ import com.google.android.youtube.player.YouTubePlayerView;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int INVEST_VIEWTYPE_MAIN = 0;
@@ -156,6 +158,10 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private ProgressBar progressBar;
         private TextView icoCurrency;
         private Button openAppButton;
+        private View stageHolder;
+        private View earnedHolder;
+        private View hardcapHolder;
+        private TextView investTitle;
 
         public InvestMainViewHolder(View itemView) {
             super(itemView);
@@ -168,6 +174,11 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             progressBar = itemView.findViewById(R.id.invest_progress_bar);
             icoCurrency = itemView.findViewById(R.id.invest_earned_currency);
             openAppButton = itemView.findViewById(R.id.open_app_btn);
+            stageHolder = itemView.findViewById(R.id.stage_holder);
+            earnedHolder = itemView.findViewById(R.id.earned_holder);
+            hardcapHolder = itemView.findViewById(R.id.hardcap_holder);
+            investTitle = itemView.findViewById(R.id.invest_app_title);
+
             openAppButton.setVisibility(isOpenFromIcoScreen ? View.VISIBLE : View.GONE);
             openAppButton.setOnClickListener(v -> adapterCallback.onOpenAppClicked());
         }
@@ -191,6 +202,9 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             progressBar.setProgress(progressInteger);
             currentEarned.setText(investMainItem.soldTokens);
             totalEarned.setText(investMainItem.icoTotalSupply);
+
+            investTitle.setText(investMainItem.name);
+
             if (investMainItem.iconResourceId != null) {
                 iconView.setImageResource(investMainItem.iconResourceId);
             } else {
@@ -198,12 +212,15 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             if (investMainItem.isIcoAlreadyStarted) {
                 investButton.setVisibility(View.VISIBLE);
-                timeRemains.setVisibility(View.VISIBLE);
-                currentStage.setVisibility(View.VISIBLE);
+                stageHolder.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
             } else {
-                investButton.setVisibility(View.INVISIBLE);
-                timeRemains.setVisibility(View.INVISIBLE);
-                currentStage.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.GONE);
+                openAppButton.setVisibility(View.GONE);
+                earnedHolder.setVisibility(View.GONE);
+                hardcapHolder.setVisibility(View.GONE);
+                stageHolder.setVisibility(View.GONE);
+                investButton.setVisibility(View.GONE);
             }
 
             investButton.setOnClickListener(v -> adapterCallback.onInvestBtnClicked(investMainItem.adrIco));
@@ -290,7 +307,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         public void bind(InvestBody investBody) {
-            bodyView.setText(Html.fromHtml(investBody.body));
+            bodyView.setText((investBody.body));
         }
     }
 
@@ -386,11 +403,17 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (imageAdapter == null) {
                 if (screenShotBody.screenShotsIds != null && !screenShotBody.screenShotsIds.isEmpty()) {
                     imageAdapter = new ImageListAdapter(this, screenShotBody.screenShotsIds);
+                    ArrayList<String> uriList = new ArrayList<>();
+                    for (Integer screenShotsId : screenShotBody.screenShotsIds) {
+                        uriList.add(UriUtil.getUriForResourceId(screenShotsId).toString());
+                    }
+                    imageViewerBuilder = new ImageViewer.Builder(itemView.getContext(), uriList);
                 } else {
                     imageAdapter = new ImageListAdapter(screenShotBody.screenShotsList, this);
+                    imageViewerBuilder = new ImageViewer.Builder(itemView.getContext(), screenShotBody.screenShotsList);
                 }
 
-                imageViewerBuilder = new ImageViewer.Builder(itemView.getContext(), screenShotBody.screenShotsList);
+
                 recyclerView.setAdapter(imageAdapter);
             }
 

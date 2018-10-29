@@ -35,6 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:maxLines="8"
+        android:ellipsize="end"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/invest_member_avatar"
         app:layout_constraintTop_toBottomOf="@+id/invest_member_name"

@@ -115,12 +115,13 @@ public class InvestTempPojo {
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
 
         objects.add(new InvestBody("DAO PlayMarket 2.0 is a decentralized Android app store that accepts cryptocurrency payments. It is combined with a crowdinvesting (ICO) developer platform. The DAO PlayMarket 2.0 platform has a lot of advantages over alternative platforms and large mobile app stores, such as:\",\n" +
-                "\"• the platform is resistant to censorship: the basic information is stored in a blockchain, which ensures security and provides access to apps from anywhere in the world;\",\n" +
-                "\"• developers are given the opportunity to raise additional investments for their projects through a built-in crowdinvesting (ICO) platform. Any developer can issue tokens of their app in a few clicks;\",\n" +
-                "\"• the DAO PlayMarket 2.0 platform has an integrated decentralized cryptocurrency exchange, for which an open programming interface (API) will be developed. The API will be available to third-party developers for integration into various systems;\",\n" +
-                "\"• the platform accepts payments with cryptocurrencies to significantly expand a range of uses of the store and to make cryptocurrency closer to end users;\",\n" +
-                "\"• developers can promote their apps by setting the conditions for users to receive tokens for installing an app;\",\n" +
-                "\"• at the first stage, all apps are scanned for viruses and exploits in automatic mode, and then manual moderation is performed. Later, with the development of the platform, moderation algorithms will be determined by the community (DAO) using the latest technologies. "));
+                "    \"• the platform is resistant to censorship: the basic information is stored in a blockchain, which ensures security and provides access to apps from anywhere in the world;\",\n" +
+                "    \"• developers are given the opportunity to raise additional investments for their projects through a built-in crowdinvesting (ICO) platform. Any developer can issue tokens of their app in a few clicks;\",\n" +
+                "    \"• the DAO PlayMarket 2.0 platform has an integrated decentralized cryptocurrency exchange, for which an open programming interface (API) will be developed. The API will be available to third-party developers for integration into various systems;\",\n" +
+                "    \"• the platform accepts payments with cryptocurrencies to significantly expand a range of uses of the store and to make cryptocurrency closer to end users;\",\n" +
+                "    \"• developers can promote their apps by setting the conditions for users to receive tokens for installing an app;\",\n" +
+                "    \"• at the first stage, all apps are scanned for viruses and exploits in automatic mode, and then manual moderation is performed. Later, with the development of the platform, moderation algorithms will be determined by the community (DAO) using the latest technologies. \"],\n" +
+                "  \"advantages\": \"The DAO PlayMarket 2.0 platform implies that holders of PMT tokens automatically become co-owners of the platform-based DAO PlayMarket Foundation (PMF). One of the primary functions of the foundation is open management of its resources in conjunction with other members of DAO PlayMarket 2.0. "));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_BODY);
 
         objects.add(new InvestTitle("Investors advantages"));
@@ -193,8 +194,8 @@ public class InvestTempPojo {
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
 
 //for
-        objects.add(new InvestTitle("Contacts"));
-        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
+//        objects.add(new InvestTitle("Contacts"));
+//        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
         investTempPojo.objects = objects;
         investTempPojo.objectViewType = objectViewType;
         return investTempPojo;

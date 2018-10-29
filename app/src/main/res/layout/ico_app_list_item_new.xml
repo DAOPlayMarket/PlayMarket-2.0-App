@@ -62,6 +62,7 @@
             tools:text="Daily Deal 3: Prime Day Edition" />
 
         <LinearLayout
+            android:visibility="invisible"
             android:id="@+id/linearLayout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
