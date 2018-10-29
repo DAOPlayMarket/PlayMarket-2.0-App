@@ -12,7 +12,6 @@ import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.SendReviewTransactionModel;
-import com.blockchain.store.playmarket.data.entities.SortedUserReview;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
 import com.blockchain.store.playmarket.notification.NotificationManager;
@@ -21,7 +20,6 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
-import com.google.android.gms.common.UserRecoverableException;
 import com.orhanobut.hawk.Hawk;
 
 import org.ethereum.geth.BigInt;
@@ -42,7 +40,7 @@ import static com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailCont
 
 public class AppDetailPresenter implements Presenter, NotificationManagerCallbacks {
     private static final String TAG = "AppDetailPresenter";
-    private Constants.APP_STATE appState = Constants.APP_STATE.STATE_UNKOWN;
+    private Constants.APP_STATE appState = Constants.APP_STATE.STATE_UNKNOWN;
     private View view;
     private App app;
     private AppInfo appInfo;
@@ -121,7 +119,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
             case STATE_INSTALLING:
             case STATE_DOWNLOAD_STARTED:
             case STATE_DOWNLOADING:
-            case STATE_UNKOWN:
+            case STATE_UNKNOWN:
                 // do nothing
                 break;
             case STATE_NOT_PURCHASED:

@@ -16,7 +16,7 @@ public class Constants {
         STATE_DOWNLOAD_STARTED, STATE_DOWNLOADING, STATE_DOWNLOADED_NOT_INSTALLED,
         STATE_DOWNLOAD_ERROR, STATE_INSTALLING, STATE_INSTALLED,
         STATE_INSTALL_FAIL, STATE_NOT_DOWNLOAD, STATE_NOT_PURCHASED,
-        STATE_PURCHASE_UNDEFIEND, STATE_PURCHASE, STATE_UNKOWN, STATE_HAS_UPDATE,
+        STATE_PURCHASE_UNDEFIEND, STATE_PURCHASE, STATE_UNKNOWN, STATE_HAS_UPDATE,
     }
 
     public enum TransactionTypes {
@@ -121,7 +121,6 @@ public class Constants {
     public static final String TOKEN_ARGS = "token_args";
 
     /* URLs*/
-//    public static final String TOKEN_URL = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? "http://tokens.playmarket.io" : "https://testtokens.playmarket.io/");
     public static final String TOKEN_URL = "http://tokens.playmarket.io";
     public static final String PAX_URL_MAINNET = "https://pex.playmarket.io/";
     public static final String PAX_URL_TESTNET = "https://testpex.playmarket.io/";

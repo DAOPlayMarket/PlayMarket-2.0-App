@@ -176,7 +176,7 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
         }
 
         private void setUiByAppState(AppLibrary appLibrary) {
-            layoutHolder.setClickable(appLibrary.isHasUpdate && appLibrary.appState == Constants.APP_STATE.STATE_UNKOWN);
+            layoutHolder.setClickable(appLibrary.isHasUpdate && appLibrary.appState == Constants.APP_STATE.STATE_UNKNOWN);
             switch (appLibrary.appState) {
                 case STATE_DOWNLOAD_STARTED:
                 case STATE_DOWNLOADING:
@@ -189,7 +189,7 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
                     actionBtn.setVisibility(View.VISIBLE);
                     status.setVisibility(View.GONE);
                     break;
-                case STATE_UNKOWN:
+                case STATE_UNKNOWN:
                     actionBtn.setVisibility(appLibrary.isHasUpdate ? View.VISIBLE : View.GONE);
                     status.setVisibility(appLibrary.isHasUpdate ? View.VISIBLE : View.GONE);
                     status.setText(context.getString(R.string.has_update));

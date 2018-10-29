@@ -12,7 +12,7 @@ public class AppLibrary {
     public String title;
     public boolean isHasUpdate = false;
     public int versionName;
-    public Constants.APP_STATE appState = Constants.APP_STATE.STATE_UNKOWN;
+    public Constants.APP_STATE appState = Constants.APP_STATE.STATE_UNKNOWN;
     public String downloadProgress = "";
     public boolean isSelected = false;
 

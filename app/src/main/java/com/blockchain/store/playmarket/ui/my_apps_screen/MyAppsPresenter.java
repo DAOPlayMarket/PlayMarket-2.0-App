@@ -130,7 +130,7 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
     public void updateAppStatuses(ArrayList<AppLibrary> allItemsWithUpdate) {
         for (AppLibrary library : allItemsWithUpdate) {
             library.isHasUpdate = MyPackageManager.isAppHasUpdate(library.app);
-            library.appState = Constants.APP_STATE.STATE_UNKOWN;
+            library.appState = Constants.APP_STATE.STATE_UNKNOWN;
         }
         view.onCheckForUpdatesReady(allItemsWithUpdate);
     }
