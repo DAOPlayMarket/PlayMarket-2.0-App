@@ -174,7 +174,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
         public void bindAsATest() {
             icon.setImageResource(R.mipmap.ic_logo);
             title.setText("PlayMarket 2.0");
-            tokenBought.setText("0");
+            tokenBought.setText("100 000");
             cardView.setOnClickListener(v -> appListCallbacks.onAppInfoClicked(null));
 
             if (smallDescription != null) {
