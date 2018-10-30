@@ -1,6 +1,5 @@
 package com.blockchain.store.playmarket.PurchaseSDK.repository;
 
-import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
@@ -37,7 +36,7 @@ public class TransferRepository {
 
 
     private boolean unlockAccount(String password) {
-        KeyManager keyManager = Application.keyManager;
+        KeyManager keyManager = AccountManager.getKeyManager();
         try {
             Account account = keyManager.getAccounts().get(0);
             keyManager.unlockAccountDuring(account, password, 10);

@@ -174,7 +174,6 @@ public class CryptoUtils {
 
     public static String generateSendReviewTransaction(int nonce, BigInt gasPrice, App app, String vote, String description, String txIndex) throws Exception {
         Account account = AccountManager.getAccount();
-        0);
         BigInt price = new BigInt(0);
 
         Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),

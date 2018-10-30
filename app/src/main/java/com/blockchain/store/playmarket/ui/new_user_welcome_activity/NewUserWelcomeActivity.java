@@ -84,7 +84,7 @@ public class NewUserWelcomeActivity extends AppCompatActivity implements NewUser
     @OnClick(R.id.save_mail_imageButton)
     void sendMail() {
         try {
-            String jsonKeystoreFileURL = Application.keyManager.getAccounts().get(0).getURL();
+            String jsonKeystoreFileURL = AccountManager.getAccount().getURL();
             final String pathToJsonFile = jsonKeystoreFileURL.replace("keystore:///", "");
             // Создадим новый файл, используя созданное выше поле.
             File jsonKeystoreFile = new File(pathToJsonFile);

@@ -17,19 +17,7 @@ public class AccountManager {
     private static final String TAG = "AccountManager";
 
     private static KeyManager keyManager;
-    private static AccountManager instance;
     private static String userBalance;
-
-    private AccountManager() {
-        keyManager = Application.keyManager;
-    }
-
-    public static AccountManager instance() {
-        if (instance == null) {
-            instance = new AccountManager();
-        }
-        return instance;
-    }
 
     public static boolean isHasUsers() {
         try {
@@ -48,7 +36,7 @@ public class AccountManager {
         return keyManager;
     }
 
-    public static KeyStore getKeyStore(){
+    public static KeyStore getKeyStore() {
         return getKeyManager().getKeystore();
     }
 
@@ -81,6 +69,12 @@ public class AccountManager {
 
     public static String getFormattedAddress() {
         return NumberUtils.formatStringToSpacedNumber(getAddress().getHex());
+    }
+    private int getCurrentUserPosition(){
+        return 0;
+    }
+    private void setCurrentUserPosition(int position){
+        //set
     }
 
 }

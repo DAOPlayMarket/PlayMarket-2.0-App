@@ -36,7 +36,7 @@ public class TransferPresenter implements TransferContract.Presenter {
     @Override
     public boolean passwordCheck(String password) {
         try {
-            Application.keyManager.getKeystore().unlock(AccountManager.getAccount(), password);
+            AccountManager.getKeyManager().getKeystore().unlock(AccountManager.getAccount(), password);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

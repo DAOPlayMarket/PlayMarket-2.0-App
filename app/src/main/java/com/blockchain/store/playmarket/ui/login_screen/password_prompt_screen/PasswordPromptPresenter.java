@@ -33,8 +33,7 @@ public class PasswordPromptPresenter implements PasswordPromptContract.Presenter
     @Override
     public String createNewAccount(String accountPassword) {
         try {
-            Account account = Application.keyManager.newAccount(accountPassword);
-            
+            Account account = AccountManager.getKeyManager().newAccount(accountPassword);
             Log.d(TAG, "makeNewAccount: " + account.getURL().toString());
             String address = account.getAddress().getHex();
             autoSaveJsonKeystoreFile();

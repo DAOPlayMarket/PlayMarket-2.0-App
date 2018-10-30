@@ -36,7 +36,6 @@ import io.fabric.sdk.android.Fabric;
 public class Application extends MultiDexApplication {
     private static final String TAG = "Application";
 
-    public static KeyManager keyManager;
     private static AppsDispatcher appsDispatcher;
     private static AppsManager appsManager;
     private static Application instance;
@@ -49,8 +48,7 @@ public class Application extends MultiDexApplication {
         instance = this;
         MultiDex.install(this);
         ToastUtil.setContext(this);
-        keyManager = KeyManager.newKeyManager(getFilesDir().getAbsolutePath());
-        AccountManager.setKeyManager(keyManager);
+        AccountManager.setKeyManager(KeyManager.newKeyManager(getFilesDir().getAbsolutePath()));
         Hawk.init(this).setParser(new Parser() {
             @Override
             public <T> T fromJson(String content, Type type) {

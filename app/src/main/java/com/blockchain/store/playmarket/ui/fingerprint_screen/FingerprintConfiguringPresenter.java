@@ -58,7 +58,7 @@ public class FingerprintConfiguringPresenter implements FingerprintConfiguringCo
     @Override
     public boolean checkAccountPassword(String accountPassword) {
         try {
-            Application.keyManager.getKeystore().unlock(AccountManager.getAccount(), accountPassword);
+            AccountManager.getKeyStore().unlock(AccountManager.getAccount(), accountPassword);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
