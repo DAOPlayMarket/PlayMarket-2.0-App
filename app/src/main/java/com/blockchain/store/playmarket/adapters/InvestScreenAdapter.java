@@ -51,6 +51,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private InvestTempPojo investTempPojo;
     private boolean isOpenFromIcoScreen;
+    private boolean isTestItems = false;
 
     public InvestScreenAdapter(AppInfo appInfo, InvestAdapterCallback adapterCallback, boolean isOpenFromIcoScreen) {
         this.adapterCallback = adapterCallback;
@@ -62,6 +63,7 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.adapterCallback = adapterCallback;
         this.isOpenFromIcoScreen = isOpenFromIcoScreen;
         investTempPojo = new InvestTempPojo().createTest();
+        isTestItems = true;
     }
 
     @Override
@@ -373,12 +375,27 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private TextView youtubeIcon;
         private TextView telegramIcon;
         private TextView gitIcon;
+
         public InvestSocialMediaViewHolder(View itemView) {
             super(itemView);
+            gplusIcon = itemView.findViewById(R.id.icon_gplus);
+            facebookIcon = itemView.findViewById(R.id.icon_fb);
+            linkedinIcon = itemView.findViewById(R.id.icon_linkedin);
+            twitterIcon = itemView.findViewById(R.id.icon_twitter);
+            instagramIcon = itemView.findViewById(R.id.icon_instagram);
+            vkIcon = itemView.findViewById(R.id.icon_vk);
+            youtubeIcon = itemView.findViewById(R.id.icon_youtube);
+            telegramIcon = itemView.findViewById(R.id.icon_telegram);
+            gitIcon = itemView.findViewById(R.id.icon_git);
         }
 
         public void bind() {
-
+            if (isTestItems) {
+                facebookIcon.setVisibility(View.VISIBLE);
+                twitterIcon.setVisibility(View.VISIBLE);
+                gitIcon.setVisibility(View.VISIBLE);
+                youtubeIcon.setVisibility(View.VISIBLE);
+            }
         }
     }
 

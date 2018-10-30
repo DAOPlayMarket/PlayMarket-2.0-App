@@ -18,7 +18,7 @@
         android:layout_margin="@dimen/font_awesome_default_margin"
         android:text="@string/fa_icon_fbs"
         android:textSize="20sp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <com.blockchain.store.playmarket.views.FontAwesomeTextView
         android:id="@+id/icon_git"
@@ -28,7 +28,7 @@
         android:layout_margin="@dimen/font_awesome_default_margin"
         android:text="@string/fa_icon_git"
         android:textSize="20sp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <com.blockchain.store.playmarket.views.FontAwesomeTextView
         android:id="@+id/icon_gplus"
@@ -38,7 +38,7 @@
         android:layout_margin="@dimen/font_awesome_default_margin"
         android:text="@string/fa_icon_google_plus"
         android:textSize="20sp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <com.blockchain.store.playmarket.views.FontAwesomeTextView
         android:id="@+id/icon_instagram"
@@ -48,7 +48,7 @@
         android:layout_margin="@dimen/font_awesome_default_margin"
         android:text="@string/fa_icon_instagram"
         android:textSize="20sp"
-        android:visibility="visible" />
+        android:visibility="gone"/>
 
     <com.blockchain.store.playmarket.views.FontAwesomeTextView
         android:id="@+id/icon_linkedin"
@@ -58,7 +58,7 @@
         android:layout_margin="@dimen/font_awesome_default_margin"
         android:text="@string/fa_icon_linkedin"
         android:textSize="20sp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <com.blockchain.store.playmarket.views.FontAwesomeTextView
         android:id="@+id/icon_telegram"
@@ -68,7 +68,7 @@
         android:layout_margin="@dimen/font_awesome_default_margin"
         android:text="@string/fa_icon_telegram"
         android:textSize="20sp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <com.blockchain.store.playmarket.views.FontAwesomeTextView
         android:id="@+id/icon_twitter"
@@ -78,7 +78,7 @@
         android:layout_margin="@dimen/font_awesome_default_margin"
         android:text="@string/fa_icon_twitter"
         android:textSize="20sp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <com.blockchain.store.playmarket.views.FontAwesomeTextView
         android:id="@+id/icon_vk"
@@ -88,7 +88,7 @@
         android:layout_margin="@dimen/font_awesome_default_margin"
         android:text="@string/fa_icon_vk"
         android:textSize="20sp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <com.blockchain.store.playmarket.views.FontAwesomeTextView
         android:id="@+id/icon_youtube"
@@ -98,6 +98,6 @@
         android:layout_margin="@dimen/font_awesome_default_margin"
         android:text="@string/fa_icon_youtube"
         android:textSize="20sp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 </LinearLayout>
