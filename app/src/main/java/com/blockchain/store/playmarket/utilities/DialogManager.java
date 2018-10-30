@@ -88,7 +88,7 @@ public class DialogManager {
                                 if (new BigDecimal(accountBalanceInWei).compareTo(new BigDecimal("0")) == 1) {
                                     try {
                                         passwordField.setText(fingerprintDecryptionResult.getDecrypted());
-                                        Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordField.getText().toString());
+                                        AccountManager.getKeyStore().unlock(AccountManager.getAccount(), passwordField.getText().toString());
                                         dialog.dismiss();
                                         callback.onReviewInfoReady(commentary.getText().toString(), String.valueOf((int) ratingBar.getRating()));
                                     } catch (Exception e) {
@@ -109,7 +109,7 @@ public class DialogManager {
         continueButton.setOnClickListener(v -> {
             if (new BigDecimal(accountBalanceInWei).compareTo(new BigDecimal("0")) == 1) {
                 try {
-                    Application.keyManager.getKeystore().unlock(Application.keyManager.getAccounts().get(0), passwordField.getText().toString());
+                    AccountManager.getKeyStore().unlock(AccountManager.getAccount(), passwordField.getText().toString());
                     dialog.dismiss();
                     callback.onReviewInfoReady(commentary.getText().toString(), String.valueOf((int) ratingBar.getRating()));
                 } catch (Exception e) {

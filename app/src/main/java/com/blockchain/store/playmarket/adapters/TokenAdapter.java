@@ -88,7 +88,7 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
                     tempCurrencies = originalTokenList;
                 } else {
                     for (Token token : originalTokenList) {
-                        if (token.name.toLowerCase().contains(charString.toLowerCase())) {
+                        if (token.name.toLowerCase().contains(charString.toLowerCase()) || token.symbol.toLowerCase().contains(charString.toLowerCase())) {
                             tempCurrencies.add(token);
                         }
                     }

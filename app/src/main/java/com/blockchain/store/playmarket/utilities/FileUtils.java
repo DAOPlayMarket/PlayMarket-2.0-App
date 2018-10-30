@@ -44,7 +44,7 @@ public class FileUtils {
 
     public boolean saveJsonKeystoreFile(String currentDirectory) {
         try {
-            String jsonKeystoreFileURL = Application.keyManager.getAccounts().get(0).getURL();
+            String jsonKeystoreFileURL = AccountManager.getAccount().getURL();
             final String pathToJsonFile = jsonKeystoreFileURL.replace("keystore:///", "");
             File jsonFile = new File(pathToJsonFile);
             FileInputStream inputStream = new FileInputStream(jsonFile);
@@ -123,7 +123,7 @@ public class FileUtils {
     // Метод импортирования данных из JSON Keystore File.
     public boolean importJsonKeystoreFile(String fileString, String password) {
         try {
-            Account account = Application.keyManager.getKeystore().importKey(fileString.getBytes(), password, password);
+            Account account = AccountManager.getKeyStore().importKey(fileString.getBytes(), password, password);
             Log.d(TAG, "importJsonKeystoreFile: ");
             return true;
         } catch (Exception e) {

@@ -138,8 +138,7 @@ public class CryptoUtils {
     }
 
     public static String generateAppBuyTransaction(int nonce, BigInt gasPrice, App app, String adrNode, CryptoPriceResponse cryptoPriceResponse) throws Exception {
-        KeyManager keyManager = Application.keyManager;
-        Account account = keyManager.getAccounts().get(0);
+        Account account = AccountManager.getAccount();
 
         BigInt price = new BigInt(0);
         byte[] transactionData = new GenerateTransactionData().setMethod("buyAppObj")
@@ -163,8 +162,7 @@ public class CryptoUtils {
         BigInt price = new BigInt(0);
         price.setString(transferAmount, 10);
 
-        KeyManager keyManager = Application.keyManager;
-        Account account = keyManager.getAccounts().get(0);
+        Account account = AccountManager.getAccount();
 
         Transaction transaction = new Transaction(nonce, new Address(recipientAddress),
                 price, GAS_LIMIT, new BigInt(Long.parseLong(gasPrice)), null);
@@ -175,8 +173,8 @@ public class CryptoUtils {
     }
 
     public static String generateSendReviewTransaction(int nonce, BigInt gasPrice, App app, String vote, String description, String txIndex) throws Exception {
-        KeyManager keyManager = Application.keyManager;
-        Account account = keyManager.getAccounts().get(0);
+        Account account = AccountManager.getAccount();
+        0);
         BigInt price = new BigInt(0);
 
         Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
@@ -189,8 +187,7 @@ public class CryptoUtils {
     }
 
     public static String generateSendTokenTransaction(int nonce, BigInt gasPrice, String transferAmount, String recipientAddress, String icoAddress) throws Exception {
-        KeyManager keyManager = Application.keyManager;
-        Account account = keyManager.getAccounts().get(0);
+        Account account = AccountManager.getAccount();
 
         BigInt price = new BigInt(0);
         Transaction transaction = new Transaction(nonce, new Address(icoAddress),
@@ -203,7 +200,7 @@ public class CryptoUtils {
     }
 
     public static String generateRemoteBuyTransaction(AccountInfoResponse accountInfo, TransferObject transferObject) throws Exception {
-        KeyStore keystore = Application.keyManager.getKeystore();
+        KeyStore keystore = AccountManager.getKeyManager().getKeystore();
         Account account = AccountManager.getAccount();
         keystore.timedUnlock(account, transferObject.getPassword(), 20_000);
         double priceDouble = Double.parseDouble(transferObject.getTransferPrice());

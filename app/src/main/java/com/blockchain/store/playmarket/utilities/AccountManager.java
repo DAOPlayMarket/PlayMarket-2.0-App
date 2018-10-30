@@ -5,10 +5,9 @@ import com.blockchain.store.playmarket.Application;
 
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
+import org.ethereum.geth.KeyStore;
 
 import io.ethmobile.ethdroid.KeyManager;
-
-import static com.blockchain.store.playmarket.utilities.NumberUtils.ADDRESS_NUMBER_OF_CHARACTER;
 
 /**
  * Created by Igor.Sakovich on 25.01.2018.
@@ -43,6 +42,14 @@ public class AccountManager {
 
     public static void setKeyManager(KeyManager keyManager) {
         AccountManager.keyManager = keyManager;
+    }
+
+    public static KeyManager getKeyManager() {
+        return keyManager;
+    }
+
+    public static KeyStore getKeyStore(){
+        return getKeyManager().getKeystore();
     }
 
     public static Address getAddress() {
