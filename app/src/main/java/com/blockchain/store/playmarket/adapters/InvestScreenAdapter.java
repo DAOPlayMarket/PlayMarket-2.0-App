@@ -97,8 +97,9 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         .inflate(R.layout.invest_member_view, parent, false);
                 return new InvestMemberViewHolder(investMemberViewHolder);
             case INVEST_VIEWTYPE_SOCIAL:
-
-                break;
+                View investSocialMediaViewHolder = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.invest_social_view, parent, false);
+                return new InvestSocialMediaViewHolder(investSocialMediaViewHolder);
             case INVEST_VIEWETYPE_IMAGE_GALLERY:
                 View investGalleryViewHolder = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.invest_gallery_view, parent, false);
@@ -363,7 +364,15 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class InvestSocialMediaViewHolder extends RecyclerView.ViewHolder {
-
+        private TextView gplusIcon;
+        private TextView facebookIcon;
+        private TextView linkedinIcon;
+        private TextView twitterIcon;
+        private TextView instagramIcon;
+        private TextView vkIcon;
+        private TextView youtubeIcon;
+        private TextView telegramIcon;
+        private TextView gitIcon;
         public InvestSocialMediaViewHolder(View itemView) {
             super(itemView);
         }

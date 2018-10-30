@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginTop="16dp"
+    android:orientation="horizontal"
+    app:layout_constraintEnd_toEndOf="@+id/invest_member_description"
+    app:layout_constraintStart_toStartOf="@+id/invest_member_description"
+    app:layout_constraintTop_toBottomOf="@+id/invest_member_description">
+
+    <com.blockchain.store.playmarket.views.FontAwesomeTextView
+        android:id="@+id/icon_fb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/font_awesome_default_margin"
+        android:text="@string/fa_icon_fbs"
+        android:textSize="20sp"
+        android:visibility="visible" />
+
+    <com.blockchain.store.playmarket.views.FontAwesomeTextView
+        android:id="@+id/icon_git"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/font_awesome_default_margin"
+        android:text="@string/fa_icon_git"
+        android:textSize="20sp"
+        android:visibility="visible" />
+
+    <com.blockchain.store.playmarket.views.FontAwesomeTextView
+        android:id="@+id/icon_gplus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/font_awesome_default_margin"
+        android:text="@string/fa_icon_google_plus"
+        android:textSize="20sp"
+        android:visibility="visible" />
+
+    <com.blockchain.store.playmarket.views.FontAwesomeTextView
+        android:id="@+id/icon_instagram"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/font_awesome_default_margin"
+        android:text="@string/fa_icon_instagram"
+        android:textSize="20sp"
+        android:visibility="visible" />
+
+    <com.blockchain.store.playmarket.views.FontAwesomeTextView
+        android:id="@+id/icon_linkedin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/font_awesome_default_margin"
+        android:text="@string/fa_icon_linkedin"
+        android:textSize="20sp"
+        android:visibility="visible" />
+
+    <com.blockchain.store.playmarket.views.FontAwesomeTextView
+        android:id="@+id/icon_telegram"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/font_awesome_default_margin"
+        android:text="@string/fa_icon_telegram"
+        android:textSize="20sp"
+        android:visibility="visible" />
+
+    <com.blockchain.store.playmarket.views.FontAwesomeTextView
+        android:id="@+id/icon_twitter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/font_awesome_default_margin"
+        android:text="@string/fa_icon_twitter"
+        android:textSize="20sp"
+        android:visibility="visible" />
+
+    <com.blockchain.store.playmarket.views.FontAwesomeTextView
+        android:id="@+id/icon_vk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/font_awesome_default_margin"
+        android:text="@string/fa_icon_vk"
+        android:textSize="20sp"
+        android:visibility="visible" />
+
+    <com.blockchain.store.playmarket.views.FontAwesomeTextView
+        android:id="@+id/icon_youtube"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/font_awesome_default_margin"
+        android:text="@string/fa_icon_youtube"
+        android:textSize="20sp"
+        android:visibility="visible" />
+
+</LinearLayout>
