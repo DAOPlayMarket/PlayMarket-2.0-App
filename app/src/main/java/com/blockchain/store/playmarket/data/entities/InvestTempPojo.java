@@ -193,9 +193,10 @@ public class InvestTempPojo {
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MEMBER);
 
-//for
-//        objects.add(new InvestTitle("Contacts"));
-//        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
+        objects.add(new InvestTitle("Contacts"));
+        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
+        objects.add(new InvestTitle(""));
+        objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_SOCIAL);
         investTempPojo.objects = objects;
         investTempPojo.objectViewType = objectViewType;
         return investTempPojo;

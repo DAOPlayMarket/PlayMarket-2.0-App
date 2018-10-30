@@ -1,5 +1,8 @@
 package com.blockchain.store.playmarket.adapters;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -375,9 +378,11 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private TextView youtubeIcon;
         private TextView telegramIcon;
         private TextView gitIcon;
+        private Context context;
 
         public InvestSocialMediaViewHolder(View itemView) {
             super(itemView);
+            this.context = itemView.getContext();
             gplusIcon = itemView.findViewById(R.id.icon_gplus);
             facebookIcon = itemView.findViewById(R.id.icon_fb);
             linkedinIcon = itemView.findViewById(R.id.icon_linkedin);
@@ -392,11 +397,23 @@ public class InvestScreenAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public void bind() {
             if (isTestItems) {
                 facebookIcon.setVisibility(View.VISIBLE);
-                twitterIcon.setVisibility(View.VISIBLE);
+                telegramIcon.setVisibility(View.VISIBLE);
                 gitIcon.setVisibility(View.VISIBLE);
                 youtubeIcon.setVisibility(View.VISIBLE);
             }
+
+            facebookIcon.setOnClickListener(v -> onSocialIconClicked(context, "https://www.facebook.com/playmarket2.0/"));
+            twitterIcon.setOnClickListener(v -> onSocialIconClicked(context, "https://t.me/playmarket_2"));
+            gitIcon.setOnClickListener(v -> onSocialIconClicked(context, "https://github.com/CryptonStudio"));
+            youtubeIcon.setOnClickListener(v -> onSocialIconClicked(context, "https://www.youtube.com/channel/UCErfyOgXb_3UQh9i7LZAYwA/"));
+
         }
+    }
+
+    public void onSocialIconClicked(Context context, String string) {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(string));
+        context.startActivity(i);
     }
 
     public class InvestTitleViewHolder extends RecyclerView.ViewHolder {
