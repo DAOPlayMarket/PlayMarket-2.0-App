@@ -63,7 +63,7 @@ public interface ServerApi {
 
     @FormUrlEncoded
     @POST("check-buy")
-    Observable<Boolean> checkPurchase(@Field("idApp") String appId, @Field("address") String address);  // If user bought item with  provided ObjectId(0 means an applications). By default objectid = 0,
+    Observable<Boolean> checkPurchase(@Field("idApp") String appId, @Field("address") String address);
 
     @FormUrlEncoded
     @POST("get-info-for-tx")
@@ -81,11 +81,6 @@ public interface ServerApi {
     @POST("get-apps-by-package-name")
     Observable<ArrayList<App>> getAppsByPackage(@Field("packageNameArr") String arrayOfString);
 
-//    @FormUrlEncoded()
-//    @POST("get-exchange-rate")
-//    Call<ExchangeRate> getExchangeRate(@Field("currency") String currency);
-//
-
     @FormUrlEncoded()
     @POST("get-currency")
     Call<ExchangeRate> getExchangeRate(@Field("currency") String currency);
@@ -99,15 +94,6 @@ public interface ServerApi {
     Observable<ArrayList<UserReview>> getReviews(@Field("idApp") int appId);
 
     @FormUrlEncoded()
-    @POST("get-balanceOf")
-    Observable<ArrayList<IcoBalance>> getBalanceOf(@Field("addressPull") String arrayAddress, @Field("addressUser") String addressUser);
-
-    @FormUrlEncoded()
-    @POST("get-address-ico-info")
-    Observable<IcoInfoResponse> getCurrentInfo(@Field("tokenAddress") String tokenAddress, @Field("address") String userAddress);
-
-
-    @FormUrlEncoded()
     @POST("get-ico-info")
     Observable<IcoInfoResponse> getIcoInfo(@Field("crowdsaleAddress") String addressICO, @Field("tokenAddress") String tokenAddress);
 
@@ -117,6 +103,4 @@ public interface ServerApi {
     @GET("/")
     Observable<TokenResponse> getAllTokens();
 
-    @GET("/")
-    Observable<TokenResponse> getCustomToken(@Query("contract") String contract);
 }

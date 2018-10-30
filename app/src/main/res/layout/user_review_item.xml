@@ -67,7 +67,7 @@
         android:layout_marginEnd="16dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:text="TextViewT extVfsdafd sfd fd fdfddffd fdfs df dsasdfa fasdf d assf sd fsdf f saf asdfsa fsd f sdaf dfd s f fsdaeie wTextVie wTextVi fs fsdfas dfd dsf sdf ew TextView TextVieasd s s s s s s s s  s s d   dadsa  d wTextView fdas asfd df"
+        tools:text="TextViewT extVfsdafd sfd fd fdfddffd fdfs df dsasdfa fasdf d assf sd fsdf f saf asdfsa fsd f sdaf dfd s f fsdaeie wTextVie wTextVi fs fsdfas dfd dsf sdf ew TextView TextVieasd s s s s s s s s  s s d   dadsa  d wTextView fdas asfd df"
         android:textColor="@color/review_text_color"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
