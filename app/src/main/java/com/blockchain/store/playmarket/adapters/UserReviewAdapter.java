@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.adapters;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -81,12 +82,14 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private ObjectAnimator textDescriptionAnimator;
         private View itemView;
         private int viewType;
+        private Context context;
 
         public UserReviewViewHolder(View itemView, int viewType) {
             super(itemView);
             this.itemView = itemView;
             ButterKnife.bind(this, itemView);
             this.viewType = viewType;
+            this.context = itemView.getContext();
             userCommentary.post(() -> setupViewAfterOnMeasure(userCommentary));
         }
 
@@ -94,17 +97,20 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ViewGroup.MarginLayoutParams contraintParmas = (ViewGroup.MarginLayoutParams) constraintLayout.getLayoutParams();
             constraintLayout.setOnClickListener(v -> callback.onReplyOnReviewClicked(userReview));
 
-//            if (viewType == TYPE_USER_REVIEW) {
-//                contraintParmas.setMargins();
-//            } else {
-//
-//            }
-//
-//            if (userReview.isReviewOnReview) {
-//
-//            } else {
-//
-//            }
+            int startMargin = (int) (userReview.isReviewOnReview ?
+                    context.getResources().getDimension(R.dimen.USER_REVIEW_LEFT_MARGIN_LARGE) :
+                    context.getResources().getDimension(R.dimen.USER_REVIEW_LEFT_MARGIN_BASIC));
+
+            int endMargin = (int) (userReview.isReviewOnReview ?
+                    context.getResources().getDimension(R.dimen.USER_REVIEW_END_MARGIN_BASIC) :
+                    context.getResources().getDimension(R.dimen.USER_REVIEW_END_MARGIN_LARGE));
+
+            if (viewType == TYPE_USER_REVIEW) {
+                contraintParmas.setMargins(startMargin, contraintParmas.topMargin, endMargin, contraintParmas.bottomMargin);
+            } else {
+                contraintParmas.setMargins(endMargin, contraintParmas.topMargin, startMargin, contraintParmas.bottomMargin);
+            }
+
             userCommentary.setText(userReview.text);
             userName.setText(userReview.author);
             try {
@@ -122,7 +128,6 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 if (ellipsisCount > 0) {
                     readMore.setVisibility(View.VISIBLE);
                 }
-                Log.d(TAG, "UserReviewViewHolder: ellipsisCount " + ellipsisCount);
             }
             readMore.setOnClickListener(v -> setReadMoreLogic(userCommentary));
         }

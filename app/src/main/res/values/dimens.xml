@@ -22,8 +22,10 @@
     <dimen name="perimeter_layout_margin">15dp</dimen>
     <dimen name="font_awesome_default_margin">4dp</dimen>
     <dimen name="navigation_view_default_elevation">4dp</dimen>
-    <dimen name="USER_REVIEW_LEFT_MARGIN_BASIC">6dp</dimen>
-    <dimen name="USER_REVIEW_LEFT_MARGIN_LARGE">16dp</dimen>
+    <dimen name="USER_REVIEW_LEFT_MARGIN_BASIC">10dp</dimen>
+    <dimen name="USER_REVIEW_LEFT_MARGIN_LARGE">20dp</dimen>
+    <dimen name="USER_REVIEW_END_MARGIN_BASIC">30dp</dimen>
+    <dimen name="USER_REVIEW_END_MARGIN_LARGE">40dp</dimen>
     <dimen name="USER_REPLY_RIGHT_MARGIN_BASIC">6dp</dimen>
     <dimen name="USER_REPLY_RIGHT_MARGIN_LARGE">16dp</dimen>
 </resources>
