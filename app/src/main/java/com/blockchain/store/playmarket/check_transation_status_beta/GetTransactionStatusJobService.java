@@ -40,8 +40,14 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
     private void onTransactionReady(EthGetTransactionReceipt result, JobParameters params) {
         if (result.getTransactionReceipt() != null) {
             jobFinished(params, false);
-            NotificationManager.getManager().downloadCompleteWithoutError(getNotification(params));
             TransactionPrefsUtil.updateModel(result.getTransactionReceipt());
+            if (result.getTransactionReceipt().getStatus().contains("1")) {
+                NotificationManager.getManager().downloadCompleteWithoutError(getNotification(params));
+            } else {
+                NotificationManager.getManager().downloadCompleteWithError(getNotification(params), new Exception(""));
+            }
+
+
         } else {
             jobFinished(params, true);
         }
