@@ -30,6 +30,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
         this.usersArrayList = usersArrayList;
     }
 
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_list_item, parent, false);

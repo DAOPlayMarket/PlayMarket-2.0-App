@@ -52,6 +52,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/whiteStatusBarStyle" />
         <activity
+
             android:name=".ui.account_management_activity.AccountManagementActivity"
             android:screenOrientation="portrait" />
         <activity

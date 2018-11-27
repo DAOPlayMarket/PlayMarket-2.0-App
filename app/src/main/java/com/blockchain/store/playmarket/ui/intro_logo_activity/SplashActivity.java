@@ -95,7 +95,8 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     protected void setLogoTextFont() {
         Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/roboto.ttf");
         logoTextView.setTypeface(tf);
-    }
+
+     }
 
 
     private void showGif() {
