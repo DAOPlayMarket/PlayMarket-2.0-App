@@ -7,6 +7,7 @@
     tools:context=".ui.login_screen.welcome_screen.WelcomeFragment">
 
     <TextView
+        style="@style/genericTextColor"
         android:id="@+id/LogoTextView"
         android:layout_width="252dp"
         android:layout_height="30dp"
@@ -36,6 +37,7 @@
         tools:layout_constraintLeft_creator="1" />
 
     <TextView
+        style="@style/genericTextColor"
         android:layout_width="284dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -54,6 +56,7 @@
         tools:layout_constraintTop_creator="1" />
 
     <Button
+        style="@style/genericButton"
         android:id="@+id/create_account_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -74,6 +77,7 @@
         tools:layout_constraintTop_creator="1" />
 
     <Button
+        style="@style/genericButton"
         android:id="@+id/import_account_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

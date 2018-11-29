@@ -258,17 +258,14 @@ public class NotificationManager {
         }
     }
 
-
     public void removeCallback(App app, NotificationManagerCallbacks callback) {
         if (this.callbacks.isEmpty()) return;
-        Log.d(TAG, "removeCallback: was callbacks " + this.callbacks.size());
         for (Iterator<Pair<Integer, NotificationManagerCallbacks>> iterator = this.callbacks.iterator(); iterator.hasNext(); ) {
             Pair<Integer, NotificationManagerCallbacks> object = iterator.next();
             if (object.second != null && object.second.equals(callback)) {
                 iterator.remove();
             }
         }
-        Log.d(TAG, "removeCallback: now callbacks " + this.callbacks.size());
     }
 }
 

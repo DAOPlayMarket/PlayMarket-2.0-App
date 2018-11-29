@@ -10,9 +10,9 @@
         android:id="@+id/confirm_password_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="40dp"
+        android:layout_marginEnd="15dp"
         android:orientation="vertical"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,11 +22,12 @@
 
         <TextView
             android:id="@+id/password_title_textView"
+            style="@style/genericTextColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:text="@string/enter_your_password_first"
             android:textColor="@color/black"
-            android:layout_marginBottom="15dp"
             android:textSize="18sp" />
 
         <android.support.design.widget.TextInputLayout
@@ -46,6 +47,7 @@
 
             <EditText
                 android:id="@+id/account_password_editText"
+                style="@style/genericEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
@@ -70,6 +72,7 @@
 
     <TextView
         android:id="@+id/fingerprint_title_textView"
+        style="@style/genericTextColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -84,11 +87,12 @@
 
     <TextView
         android:id="@+id/fingerprint_info_textView"
+        style="@style/genericTextColor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
         android:layout_marginTop="8dp"
+        android:layout_marginRight="15dp"
         android:gravity="center"
         android:text="@string/about_activate"
         android:textColor="@color/black"
@@ -104,24 +108,24 @@
         android:layout_height="79dp"
         android:layout_gravity="center_vertical"
         android:layout_margin="25dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:scaleType="fitXY"
         android:src="@drawable/available_fingerprint"
         app:layout_constraintBottom_toTopOf="@+id/dont_activate_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fingerprint_info_textView" />
 
     <Button
         android:id="@+id/dont_activate_button"
+        style="@style/genericTextColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="40dp"
         android:background="@color/Clear"
         android:text="@string/do_not_activate"
         android:textAllCaps="false"

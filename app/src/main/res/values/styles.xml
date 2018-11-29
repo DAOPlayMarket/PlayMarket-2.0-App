@@ -102,7 +102,6 @@
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@color/green_color</item>
-
     </style>
 
     <style name="default_black_title">
@@ -127,4 +126,17 @@
         <item name="android:textSize">10sp</item>
     </style>
 
+    <style name="genericTextColor">
+
+    </style>
+
+    <style name="titleTextView">
+    </style>
+
+    <style name="genericButton">
+
+    </style>
+    <style name="genericEditText">
+
+    </style>
 </resources>
