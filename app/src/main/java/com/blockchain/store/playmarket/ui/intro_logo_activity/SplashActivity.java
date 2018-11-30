@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.ui.intro_logo_activity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Movie;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
