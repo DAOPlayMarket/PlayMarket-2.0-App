@@ -8,27 +8,29 @@ import android.support.v4.app.NotificationCompat;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.interfaces.NotificationImpl;
-import com.blockchain.store.playmarket.services.DownloadService;
+import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 
-public class UpdateNotification implements NotificationImpl {
+public class AppUpdateNotification implements NotificationImpl {
 
-    public App app;
+    public int updateCount;
 
-    public UpdateNotification(App app) {
-        this.app = app;
+    public AppUpdateNotification(int updateCount) {
+        this.updateCount = updateCount;
     }
 
     public NotificationCompat.Builder createNotification(Context context) {
-        Intent intent = new Intent(context, DownloadService.class);
-        intent.putExtra(Constants.DOWNLOAD_SERVICE_APP_EXTRA, app);
-        intent.putExtra(Constants.DOWNLOAD_SERVICE_URL_EXTRA, app.getDownloadLink());
-        intent.putExtra(Constants.DOWNLOAD_SERVICE_FORCE_INSTALL, true);
-        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
+        Intent intent = new Intent(context, MainMenuActivity.class);
+        intent.setAction(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(Constants.OPEN_MY_APPS_EXTRA, true);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "channel_id_1")
                 .setContentTitle(getTitleName())
-                .setContentText("Tap here to start update")
+                .setContentText(updateCount + " apps are ready to update")
                 .setSmallIcon(R.mipmap.ic_logo)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true)
@@ -40,11 +42,11 @@ public class UpdateNotification implements NotificationImpl {
 
     @Override
     public int getId() {
-        return 987;
+        return 986;
     }
 
     @Override
     public String getTitleName() {
-        return "Update available!";
+        return "Updates available!";
     }
 }

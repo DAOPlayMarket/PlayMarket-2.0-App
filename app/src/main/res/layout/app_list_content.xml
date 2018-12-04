@@ -6,9 +6,10 @@
     android:id="@+id/cardView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
     android:layout_marginLeft="@dimen/main_list_title_margin_left"
     android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    app:cardCornerRadius="4dp"
     app:cardElevation="4dp">
 
     <LinearLayout
@@ -40,6 +41,7 @@
                 android:layout_marginTop="@dimen/text_margin"
                 android:layout_weight="1"
                 android:maxLines="3"
+                android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
                 tools:text="Daily Deals: Prime Day Edition" />
 
@@ -85,9 +87,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical|right"
-                    tools:text="4.5"
                     android:textAppearance="?attr/textAppearanceListItem"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                    tools:text="4.5" />
 
 
             </LinearLayout>
@@ -103,11 +105,11 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical|right"
-                    tools:text="000"
                     android:textAppearance="?attr/textAppearanceListItem"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:typeface="normal" />
+                    android:typeface="normal"
+                    tools:text="000" />
 
             </LinearLayout>
 

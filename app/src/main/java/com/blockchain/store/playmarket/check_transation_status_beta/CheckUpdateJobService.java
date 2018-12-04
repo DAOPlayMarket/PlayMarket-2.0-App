@@ -7,8 +7,10 @@ import android.util.Log;
 import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.App;
-import com.blockchain.store.playmarket.data.entities.UpdateNotification;
+import com.blockchain.store.playmarket.data.entities.AppUpdateNotification;
+import com.blockchain.store.playmarket.data.entities.PlayMarketUpdateNotification;
 import com.blockchain.store.playmarket.notification.NotificationManager;
+import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
@@ -27,7 +29,8 @@ public class CheckUpdateJobService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        RestApi.getServerApi().getAppsByPackage(getBaseContext().getPackageName())
+        String s = MyPackageManager.prepareApplicationInfoForRequest();
+        RestApi.getServerApi().getAppsByPackage(s)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> onGetAppsReady(result, params),
@@ -36,19 +39,22 @@ public class CheckUpdateJobService extends JobService {
     }
 
     private void onGetAppsReady(ArrayList<App> result, JobParameters params) {
-        Log.d(TAG, "onGetAppsReady() called with: result = [" + result + "], params = [" + params + "]");
         if (!result.isEmpty()) {
-            App app = result.get(0);
-            Log.d(TAG, "onGetAppsReady: server's app version " + app.version);
-            if (Integer.parseInt(app.version) > BuildConfig.VERSION_CODE) {
-                onNewVersionAvailable(app);
+            for (App app : result) {
+                if (app.packageName.equalsIgnoreCase(getBaseContext().getPackageName())
+                        && Integer.parseInt(app.version) > BuildConfig.VERSION_CODE) {
+                    onPlayMarketNewVersionAvailable(app);
+                }
             }
 
+            onAppsUpdateAvailiable(result.size());
         }
         jobFinished(params, false);
     }
 
     private void onGetAppsFailed(Throwable throwable, JobParameters params) {
+
+        jobFinished(params, true);
         Log.d(TAG, "onGetAppsFailed() called with: throwable = [" + throwable + "], params = [" + params + "]");
     }
 
@@ -57,10 +63,9 @@ public class CheckUpdateJobService extends JobService {
         return true;
     }
 
-    private void onNewVersionAvailable(App app) {
-        Log.d(TAG, "onNewVersionAvailable() called with: app = [" + app + "]");
-        UpdateNotification updateNotification = new UpdateNotification(app);
-        NotificationManager.getManager().registerNewNotification(updateNotification);
+    private void onPlayMarketNewVersionAvailable(App app) {
+        PlayMarketUpdateNotification playMarketUpdateNotification = new PlayMarketUpdateNotification(app);
+        NotificationManager.getManager().registerNewNotification(playMarketUpdateNotification);
         if (Hawk.get(DOWNLOAD_NEW_VERSION_WITHOUT_PROMPT, false)) {
 
         } else {
@@ -68,4 +73,11 @@ public class CheckUpdateJobService extends JobService {
         }
 
     }
+
+    private void onAppsUpdateAvailiable(int countOfAppsHasUpdate) {
+        AppUpdateNotification playMarketUpdateNotification = new AppUpdateNotification(countOfAppsHasUpdate);
+        NotificationManager.getManager().registerNewNotification(playMarketUpdateNotification);
+    }
+
+
 }

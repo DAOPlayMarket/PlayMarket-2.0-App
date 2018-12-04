@@ -83,7 +83,6 @@ public class MyIcoActivity extends AppCompatActivity implements MyIcoContract.Vi
     @Override
     public void onAppInfoClicked(AppInfo appinfo) {
         InvestActivity.startFromIco(this, appinfo);
-
     }
 
     @Override

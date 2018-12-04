@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
+import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
 import com.blockchain.store.playmarket.ui.pax_screen.PexActivity;
 import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
@@ -47,6 +49,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.subjects.BehaviorSubject;
 
 import static com.blockchain.store.playmarket.ui.main_list_screen.MainMenuContract.Presenter;
+import static com.blockchain.store.playmarket.utilities.Constants.OPEN_MY_APPS_EXTRA;
 
 public class MainMenuActivity extends AppCompatActivity implements AppListCallbacks, MainMenuContract.View, MaterialSearchView.OnQueryTextListener {
     private static final String TAG = "MainMenuActivity";
@@ -269,6 +272,15 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 //        searchText = newText;
         userInputSubject.onNext(newText);
         return false;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.hasExtra(OPEN_MY_APPS_EXTRA)) {
+            startActivity(new Intent(this, MyAppsActivity.class));
+        }
+        Log.d(TAG, "onNewIntent() called with: intent = [" + intent + "]");
     }
 
     @Override

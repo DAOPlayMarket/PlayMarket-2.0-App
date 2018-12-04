@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:fitsSystemWindows="true"
     tools:context="com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity">
 
@@ -19,7 +20,7 @@
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white">
+        android:background="@color/colorPrimary">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -29,7 +30,9 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:actionBarSize"
-                android:background="@android:color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/white"
                 android:contentInsetStart="0dp"
                 android:contentInsetLeft="0dp"
                 android:theme="@style/ActionBarStyle"
@@ -41,14 +44,13 @@
                     android:id="@+id/toolbar_title_holder"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/playmarket_logo_bg"
+                    android:background="@color/white"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-
                         android:layout_marginLeft="6dp"
                         android:layout_marginTop="12dp"
                         android:layout_marginRight="10dp"
@@ -61,12 +63,12 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@color/playmarket_logo_bg"
+                        android:background="@color/white"
                         android:gravity="left|center"
                         android:paddingLeft="4dp"
                         android:text="@string/app_name"
                         android:textAllCaps="true"
-                        android:textColor="@color/playmarket_logo_text_color"
+                        android:textColor="#9E9E9E"
                         android:textStyle="bold" />
 
                     <ImageView
@@ -120,12 +122,12 @@
             app:tabTextColor="@android:color/darker_gray" />
 
         <LinearLayout
+            android:id="@+id/exchange_tab"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@color/white"
-            android:id="@+id/exchange_tab"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -137,9 +139,9 @@
                 android:tint="#707070" />
 
             <TextView
-                android:layout_marginBottom="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="4dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Exchange"

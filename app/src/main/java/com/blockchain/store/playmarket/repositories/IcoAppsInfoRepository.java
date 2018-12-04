@@ -102,7 +102,5 @@ public class IcoAppsInfoRepository {
         default void onIcoAppsTerminated() {
 
         }
-
-
     }
 }

@@ -4,7 +4,7 @@
     android:id="@+id/swipe_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/colorPrimary"
     android:outlineProvider="bounds">
 
     <android.support.v4.widget.NestedScrollView
@@ -58,7 +58,6 @@
                 android:lines="3"
                 android:minLines="3"
                 android:textAllCaps="true"
-                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/avatar_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/avatar_image"
@@ -86,7 +85,6 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:maxLength="12"
-                android:textColor="@color/nav_text_color"
                 android:textSize="26sp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/balance_icon"

@@ -53,6 +53,7 @@ public class Constants {
 
     }
 
+    public static final String OPEN_MY_APPS_EXTRA = "open_my_apps_extra";
 
     public enum TransactionStatus {
         SUCCEES, FAILED, PENDING, ALL
@@ -125,4 +126,5 @@ public class Constants {
     public static final String PAX_URL_MAINNET = "https://pex.playmarket.io/";
     public static final String PAX_URL_TESTNET = "https://testpex.playmarket.io/";
     public static final String PAX_URL = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? PAX_URL_MAINNET : PAX_URL_TESTNET);
+
 }

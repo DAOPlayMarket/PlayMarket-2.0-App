@@ -12,7 +12,8 @@ import android.util.Pair;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
-import com.blockchain.store.playmarket.data.entities.UpdateNotification;
+import com.blockchain.store.playmarket.data.entities.AppUpdateNotification;
+import com.blockchain.store.playmarket.data.entities.PlayMarketUpdateNotification;
 import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -163,7 +164,7 @@ public class NotificationManager {
         android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationObject.getNotificationBuilder().setProgress(0, 0, false)
                 .setContentTitle(item.getSuccessResultName());
-        if (item instanceof UpdateNotification) {
+        if (item instanceof PlayMarketUpdateNotification) {
             notificationManager.notify(item.getId(), notificationObject.getNotificationBuilder().setSmallIcon(R.mipmap.ic_logo).build());
         } else {
             notificationManager.notify(item.getId(), notificationObject.getNotificationBuilder().setSmallIcon(android.R.drawable.stat_sys_download_done).build());
@@ -195,8 +196,13 @@ public class NotificationManager {
                 notificationChannel = new NotificationChannel("channel_id_1", "App installation channel", android.app.NotificationManager.IMPORTANCE_DEFAULT);
 
             }
-        } else if (item instanceof UpdateNotification) {
-            notificationBuilder = ((UpdateNotification) item).createNotification(context);
+        } else if (item instanceof PlayMarketUpdateNotification) {
+            notificationBuilder = ((PlayMarketUpdateNotification) item).createNotification(context);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                notificationChannel = new NotificationChannel("channel_id_1", "App installation channel", android.app.NotificationManager.IMPORTANCE_DEFAULT);
+            }
+        } else if (item instanceof AppUpdateNotification) {
+            notificationBuilder = ((AppUpdateNotification) item).createNotification(context);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 notificationChannel = new NotificationChannel("channel_id_1", "App installation channel", android.app.NotificationManager.IMPORTANCE_DEFAULT);
             }

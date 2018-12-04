@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3fb584</color>
-    <color name="colorPrimaryDark">#309f90</color>
+    <color name="colorPrimary">#131E2B</color>
+    <color name="colorPrimaryDark">#101823</color>
     <color name="colorSelectItem">#e0f1ee</color>
     <color name="colorAccent">#138f92</color>
     <color name="Clear">#00ffffff</color>
@@ -37,7 +37,7 @@
     <color name="ico_tokens_bought">#05c9b5</color>
 
     <color name="playmarket_logo_bg">#e2efed</color>
-    <color name="drawer_toggle_color">#536a69</color>
+    <color name="drawer_toggle_color">#DADADA</color>
     <color name="playmarket_logo_text_color">#a6b4b4</color>
 
     <!--Material colors. Used for testing user's avatars-->
