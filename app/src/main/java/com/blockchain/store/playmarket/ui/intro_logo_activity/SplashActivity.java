@@ -2,7 +2,6 @@ package com.blockchain.store.playmarket.ui.intro_logo_activity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Movie;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
@@ -26,10 +24,6 @@ import com.blockchain.store.playmarket.ui.permissions_prompt_activity.Permission
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 import com.bumptech.glide.Glide;
-
-import org.ethereum.geth.Geth;
-import org.web3j.crypto.WalletUtils;
-import org.web3j.protocol.Web3j;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

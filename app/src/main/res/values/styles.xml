@@ -130,12 +130,20 @@
 
     </style>
 
-    <style name="titleTextView">
-    </style>
+    <style name="titleTextView"></style>
 
     <style name="genericButton">
 
     </style>
+
+    <style name="PositiveButton">
+
+    </style>
+
+    <style name="NegativeButton">
+
+    </style>
+
     <style name="genericEditText">
 
     </style>

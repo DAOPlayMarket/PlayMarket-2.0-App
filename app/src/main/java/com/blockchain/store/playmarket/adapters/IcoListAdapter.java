@@ -70,7 +70,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
     @Override
     public void onBindViewHolder(IcoAppViewHolder holder, int position) {
         if (position == 0) {
-            holder.bindAsATest();
+            holder.bindAsATest(appList.get(position));
         } else {
             holder.bind(appList.get(position));
         }
@@ -171,10 +171,10 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
             }.start();
         }
 
-        public void bindAsATest() {
+        public void bindAsATest(AppInfo appInfo) {
             icon.setImageResource(R.mipmap.ic_logo);
             title.setText("PlayMarket 2.0");
-            tokenBought.setText("100 000");
+            tokenBought.setText(appInfo.icoBalance.balanceOf);
             cardView.setOnClickListener(v -> appListCallbacks.onAppInfoClicked(null));
 
             if (smallDescription != null) {

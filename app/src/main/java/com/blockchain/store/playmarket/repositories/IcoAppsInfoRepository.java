@@ -6,6 +6,7 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.IcoBalance;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class IcoAppsInfoRepository {
     public void getIcoApps(IcoAppsRepositoryCallback callback) {
         this.callback = callback;
         RestApi.getServerApi().getIcoApps()
+                .map(this::mapWithLocalIco)
                 .flatMap(this::mapWithGetIcoBalance, Pair::new)
                 .map(this::mapWithCombineResult)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -31,10 +33,18 @@ public class IcoAppsInfoRepository {
 
     public Observable<ArrayList<AppInfo>> getIcoApps() {
         return RestApi.getServerApi().getIcoApps()
+                .map(this::mapWithLocalIco)
                 .flatMap(this::mapWithGetIcoBalance, Pair::new)
                 .map(this::mapWithCombineResult)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread());
+    }
+
+    private ArrayList<AppInfo> mapWithLocalIco(ArrayList<AppInfo> appInfos) {
+        AppInfo localAppInfo = new AppInfo();
+        localAppInfo.adrICO = Constants.PLAY_MARKET_ADDRESS;
+        appInfos.add(0, localAppInfo);
+        return appInfos;
     }
 
     private Observable<List<IcoBalance>> mapWithGetIcoBalance(ArrayList<AppInfo> apps) {
