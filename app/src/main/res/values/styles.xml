@@ -113,7 +113,7 @@
     <style name="about_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/ico_item_button</item>
+        <item name="android:textColor">@color/secondary_btn_text_color</item>
 
     </style>
 
@@ -127,7 +127,7 @@
     </style>
 
     <style name="genericTextColor">
-
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="titleTextView"></style>
@@ -136,8 +136,9 @@
 
     </style>
 
-    <style name="PositiveButton">
-
+    <style name="positiveButton">
+        <item name="android:background">@drawable/positive_btn_bg</item>
+        <item name="android:textColor">@color/positive_btn_text_color</item>
     </style>
 
     <style name="NegativeButton">
@@ -145,6 +146,21 @@
     </style>
 
     <style name="genericEditText">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:textColorHint">@color/edittext_hint_color</item>
+        <item name="android:backgroundTint">@color/colorAccent</item>
 
     </style>
+    <style name="checkBoxStyle" parent="AppTheme">
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+
+    </style>
+    <style name="secondaryButton">
+        <item name="android:textColor">@color/secondary_btn_text_color</item>
+    </style>
+
 </resources>

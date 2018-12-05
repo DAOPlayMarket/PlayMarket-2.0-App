@@ -1,8 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:background="@color/colorPrimary">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,7 +12,6 @@
         android:orientation="vertical"
         android:paddingTop="25dp"
         android:paddingBottom="25dp">
-
 
         <LinearLayout
             android:id="@+id/nav_view_exchange"
@@ -22,10 +23,7 @@
 
             <ImageView
                 style="@style/navViewImageItem"
-                android:scaleX="2"
-                android:scaleY="2"
-                android:src="@drawable/exchange"
-                android:tint="@color/exchange_color" />
+                android:src="@drawable/ic_depositicon" />
 
             <TextView
                 style="@style/navViewTextItem"
@@ -43,10 +41,7 @@
 
             <ImageView
                 style="@style/navViewImageItem"
-                android:scaleX="2"
-                android:scaleY="2"
-                android:src="@drawable/transfer"
-                android:tint="@color/transfer_color" />
+                android:src="@drawable/ic_transfericon" />
 
             <TextView
                 style="@style/navViewTextItem"
@@ -64,8 +59,7 @@
 
             <ImageView
                 style="@style/navViewImageItem"
-                android:src="@drawable/clock"
-                android:tint="@color/history_items_bg" />
+                android:src="@drawable/ic_historyicon" />
 
             <TextView
                 style="@style/navViewTextItem"
@@ -83,9 +77,7 @@
 
             <ImageView
                 style="@style/navViewImageItem"
-                android:src="@drawable/book"
-                android:tint="@color/library_color"
-                app:srcCompat="@drawable/book" />
+                android:src="@drawable/ic_myappsicon" />
 
             <TextView
                 style="@style/navViewTextItem"
@@ -104,10 +96,7 @@
 
             <ImageView
                 style="@style/navViewImageItem"
-                android:scaleX="1.2"
-                android:scaleY="1.2"
-                android:src="@drawable/erctokenicon"
-                android:tint="@color/tokens_color" />
+                android:src="@drawable/ic_tokensicon" />
 
             <TextView
                 style="@style/navViewTextItem"
@@ -125,10 +114,7 @@
 
             <ImageView
                 style="@style/navViewImageItem"
-                android:layout_height="30dp"
-                android:scaleType="centerCrop"
-                android:tint="@color/account_color"
-                app:srcCompat="@drawable/ic_person_black_24dp" />
+                android:src="@drawable/ic_accounticon" />
 
             <TextView
                 style="@style/navViewTextItem"
@@ -146,8 +132,7 @@
             <ImageView
                 android:id="@+id/grav"
                 style="@style/navViewImageItem"
-                android:tint="@color/my_ico_color"
-                app:srcCompat="@drawable/leaf" />
+                android:src="@drawable/ic_myicoicon" />
 
             <TextView
                 style="@style/navViewTextItem"
@@ -164,8 +149,7 @@
 
             <ImageView
                 style="@style/navViewImageItem"
-                android:tint="@color/settings_color"
-                app:srcCompat="@drawable/cog" />
+                android:src="@drawable/ic_settingsicon" />
 
             <TextView
                 style="@style/navViewTextItem"
@@ -182,8 +166,7 @@
 
             <ImageView
                 style="@style/navViewImageItem"
-                android:tint="@color/news_color"
-                app:srcCompat="@drawable/speak" />
+                android:src="@drawable/ic_newsicon" />
 
             <TextView
                 style="@style/navViewTextItem"
@@ -199,8 +182,7 @@
 
             <ImageView
                 style="@style/navViewImageItem"
-                android:tint="@color/about_color"
-                app:srcCompat="@drawable/ask" />
+                android:src="@drawable/ic_abouticon" />
 
             <TextView
                 style="@style/navViewTextItem"

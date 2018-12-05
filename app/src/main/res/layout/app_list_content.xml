@@ -6,8 +6,8 @@
     android:id="@+id/cardView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/main_list_title_margin_left"
     android:layout_marginTop="4dp"
+    android:layout_marginRight="@dimen/main_list_title_margin_left"
     android:layout_marginBottom="4dp"
     app:cardCornerRadius="4dp"
     app:cardElevation="4dp">
@@ -64,13 +64,15 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
-
+                android:orientation="horizontal"
+                android:visibility="gone">
                 <TextView
+
                     android:id="@+id/no_rating_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/no_marks"
+                    android:textColor="@color/black"
                     android:textSize="10sp" />
 
                 <ImageView
@@ -88,6 +90,7 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical|right"
                     android:textAppearance="?attr/textAppearanceListItem"
+                    android:textColor="@color/black"
                     android:textSize="10sp"
                     tools:text="4.5" />
 
@@ -106,6 +109,7 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical|right"
                     android:textAppearance="?attr/textAppearanceListItem"
+                    android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:typeface="normal"

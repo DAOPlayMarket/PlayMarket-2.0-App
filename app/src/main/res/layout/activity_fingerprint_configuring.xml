@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".ui.fingerprint_screen.FingerprintConfiguringActivity">
 
     <LinearLayout
@@ -27,7 +28,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:text="@string/enter_your_password_first"
-            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <android.support.design.widget.TextInputLayout
@@ -58,13 +58,12 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
+            style="@style/positiveButton"
             android:id="@+id/confirm_password_button"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="end"
-            android:background="@drawable/round_corner_green_button"
             android:text="@string/confirm_button"
-            android:textColor="@color/white"
             android:textSize="13sp" />
 
     </LinearLayout>
@@ -78,7 +77,6 @@
         android:layout_marginTop="40dp"
         android:gravity="center"
         android:text="@string/press_sensor"
-        android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -95,7 +93,6 @@
         android:layout_marginRight="15dp"
         android:gravity="center"
         android:text="@string/about_activate"
-        android:textColor="@color/black"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.166"
@@ -120,20 +117,16 @@
 
     <Button
         android:id="@+id/dont_activate_button"
-        style="@style/genericTextColor"
+        style="@style/secondaryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="40dp"
         android:background="@color/Clear"
         android:text="@string/do_not_activate"
         android:textAllCaps="false"
-        android:textColor="@color/green_color"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -48,15 +48,13 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="29dp"
+                        android:layout_height="34dp"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="6dp"
-                        android:layout_marginTop="12dp"
                         android:layout_marginRight="10dp"
-                        android:layout_marginBottom="12dp"
-                        android:alpha="0.6"
-                        android:src="@mipmap/ic_logo" />
+                        android:scaleType="centerCrop"
+
+                        android:src="@drawable/ic_pm_logo" />
 
                     <TextView
                         android:id="@+id/toolbar_title"
@@ -116,10 +114,11 @@
             android:layout_height="52dp"
             android:layout_weight="3"
             android:background="@android:color/white"
+            app:tabIndicatorColor="@color/tab_color_not_active"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabSelectedTextColor="@color/tab_color_active"
             app:tabTextAppearance="@style/tabTextAppearance"
-            app:tabTextColor="@android:color/darker_gray" />
+            app:tabTextColor="@color/tab_text_color" />
 
         <LinearLayout
             android:id="@+id/exchange_tab"
@@ -146,6 +145,7 @@
                 android:gravity="center"
                 android:text="Exchange"
                 android:textAppearance="@style/tabTextAppearance"
+                android:textColor="@color/tab_text_color"
                 android:visibility="visible" />
 
         </LinearLayout>

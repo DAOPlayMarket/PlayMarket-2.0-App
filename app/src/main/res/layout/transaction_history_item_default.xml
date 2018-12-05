@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@color/colorPrimary">
 
     <TextView
         android:id="@+id/date"
@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:textColor="@color/time"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="11.09.2018 14:01" />
@@ -70,7 +69,7 @@
         android:id="@+id/detail_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/gray_bg"
+        android:background="#243142"
         android:minHeight="180dp"
         android:orientation="horizontal"
         android:visibility="gone"
@@ -128,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/etherscan_link"
-                android:textColor="#006f9b" />
+                android:textColor="@color/colorAccent" />
 
         </LinearLayout>
 

@@ -118,10 +118,10 @@ public class FingerprintConfiguringActivity extends AppCompatActivity implements
 
     private void fingerprintIsAvailable(boolean isAvailable) {
         if (isAvailable) {
-            availableFingerprintImageView.setColorFilter(getResources().getColor(R.color.green_color));
+            availableFingerprintImageView.setColorFilter(getResources().getColor(R.color.colorAccent));
             fingerprintTitleTextView.setTextColor(getResources().getColor(R.color.black));
             fingerprintInfoTextView.setTextColor(getResources().getColor(R.color.black));
-            availableFingerprintImageView.setColorFilter(getResources().getColor(R.color.green_color));
+            availableFingerprintImageView.setColorFilter(getResources().getColor(R.color.colorAccent));
 
             passwordTitleTextView.setEnabled(false);
             accountPasswordEditText.setEnabled(false);

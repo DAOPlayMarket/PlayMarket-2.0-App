@@ -4,30 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context="com.blockchain.store.playmarket.ui.about_screen.AboutAppActivity">
 
     <ImageView
         android:id="@+id/logo"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_logo" />
+        app:srcCompat="@drawable/ic_pm_logo" />
 
     <TextView
         android:id="@+id/version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
+        android:layout_marginEnd="8dp"
         android:gravity="center"
         android:text="ver. 1.1.23 \n Node Address https://n000001/playmarket.io"
-        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logo" />
@@ -36,9 +36,9 @@
     <TextView
         android:id="@+id/our_site"
         style="@style/about_text"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/our_site"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,9 +48,9 @@
     <TextView
         android:id="@+id/browser_version"
         style="@style/about_text"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/browser_version"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,11 +61,10 @@
         android:id="@+id/about_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/about_playmarket_2_0"
-        android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -73,9 +72,9 @@
     <TextView
         android:id="@+id/organizational_structure"
         style="@style/about_text"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="32dp"
         android:text="@string/organizational_structure"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/about_text"

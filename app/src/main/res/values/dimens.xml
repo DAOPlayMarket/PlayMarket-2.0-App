@@ -6,7 +6,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="main_list_left_padding">16dp</dimen>
-    <dimen name="main_list_title_margin_left">4dp</dimen>
+    <dimen name="main_list_title_margin_left">8dp</dimen>
     <dimen name="detail_app_arrow_margins">18dp</dimen>
     <dimen name="application_icon_width">100dp</dimen>
     <dimen name="application_icon_height">100dp</dimen>

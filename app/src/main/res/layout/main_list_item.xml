@@ -13,12 +13,12 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_marginLeft="@dimen/main_list_title_margin_left"
             android:id="@+id/id_category_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAllCaps="true"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/appListTitleColor"
+            tools:text="abcgdfssgdfdfg" />
 
         <TextView
             android:id="@+id/id_category_arrow"
@@ -33,9 +33,9 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        tools:listitem="@layout/app_list_content"
         android:id="@+id/recycler_view_nested"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/app_list_content" />
 
 </LinearLayout>

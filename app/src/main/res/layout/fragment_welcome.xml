@@ -4,19 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".ui.login_screen.welcome_screen.WelcomeFragment">
 
     <TextView
-        style="@style/genericTextColor"
         android:id="@+id/LogoTextView"
+        style="@style/genericTextColor"
         android:layout_width="252dp"
         android:layout_height="30dp"
+        android:layout_marginLeft="24dp"
         android:text="@string/app_name"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
         android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="@+id/LogoImageView"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/LogoImageView"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/LogoImageView"
@@ -25,14 +28,13 @@
 
     <ImageView
         android:id="@+id/LogoImageView"
-        android:layout_width="50dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="46dp"
-        android:layout_marginStart="37dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginTop="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_logo"
+        app:srcCompat="@drawable/ic_pm_logo"
         tools:ignore="RtlHardcoded"
         tools:layout_constraintLeft_creator="1" />
 
@@ -56,28 +58,22 @@
         tools:layout_constraintTop_creator="1" />
 
     <Button
-        style="@style/genericButton"
+        style="@style/positiveButton"
         android:id="@+id/create_account_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="80dp"
         android:layout_marginRight="80dp"
-        android:background="@drawable/round_corner_green_button"
         android:text="@string/new_account_button"
-        android:textColor="@color/white"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        />
 
-    <Button
-        style="@style/genericButton"
+    <TextView
+        style="@style/secondaryButton"
         android:id="@+id/import_account_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -85,11 +81,9 @@
         android:layout_marginEnd="100dp"
         android:layout_marginStart="100dp"
         android:layout_marginTop="60dp"
-        android:background="@color/Clear"
         android:gravity="center"
         android:text="@string/import_account_button"
         android:textAllCaps="false"
-        android:textColor="@color/green_color"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

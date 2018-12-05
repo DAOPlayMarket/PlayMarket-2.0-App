@@ -4,24 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/colorPrimary"
     tools:context="com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity">
 
     <TextView
         android:id="@+id/LogoTextView"
-        style="@style/titleTextView"
+        style="@style/genericTextColor"
         android:layout_width="252dp"
         android:layout_height="30dp"
         android:layout_marginStart="50dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginRight="18dp"
         android:text="@string/playmarket"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:typeface="normal"
         app:layout_constraintLeft_toRightOf="@+id/LogoImageView"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -37,16 +34,17 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@mipmap/ic_logo" />
+        app:srcCompat="@drawable/ic_pm_logo" />
 
     <TextView
-        style="@style/genericTextColor"
         android:id="@+id/NewUserWelcomeTextView"
+        style="@style/genericTextColor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="38dp"
         android:layout_marginTop="64dp"
         android:layout_marginRight="38dp"
+        android:gravity="center"
         android:text="@string/congratulations_title"
         android:visibility="visible"
         app:layout_constraintHorizontal_bias="0.0"
@@ -57,11 +55,11 @@
 
     <TextView
         android:id="@+id/fingerprint_info_textView"
-        android:layout_width="281dp"
+        style="@style/genericTextColor"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="38dp"
         android:layout_marginTop="40dp"
-        style="@style/genericTextColor"
         android:layout_marginEnd="38dp"
         android:gravity="center"
         android:text="@string/save_key_title"
@@ -73,13 +71,12 @@
 
     <TextView
         android:id="@+id/address_text_view"
-        android:layout_width="wrap_content"
+        style="@style/genericTextColor"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="38dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="38dp"
-        style="@style/genericTextColor"
-        android:background="@color/yellow_light"
         android:textAlignment="center"
         android:textSize="11sp"
         app:layout_constraintHorizontal_bias="0.506"
@@ -90,11 +87,11 @@
 
     <TextView
         android:id="@+id/textView"
+        style="@style/genericTextColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="38dp"
         android:layout_marginTop="368dp"
-        style="@style/genericTextColor"
         android:layout_marginEnd="38dp"
         android:text="@string/save"
         android:textSize="20sp"
@@ -104,19 +101,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        style="@style/genericButton"
         android:id="@+id/continue_button"
+        style="@style/positiveButton"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="8dp"
         android:layout_marginRight="70dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/round_corner_green_button"
         android:text="@string/continue_btn"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/save_cloud_imageButton"
@@ -132,6 +126,7 @@
         android:background="@drawable/new_user_welcome_button"
         android:elevation="2dp"
         android:scaleType="center"
+        android:tint="@color/colorAccent"
         android:translationZ="1dp"
         app:layout_constraintBottom_toTopOf="@+id/continue_button"
         app:layout_constraintStart_toStartOf="parent"
@@ -146,6 +141,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="15dp"
+
         android:background="@drawable/new_user_welcome_button"
         android:elevation="2dp"
         android:enabled="false"
@@ -167,6 +163,7 @@
         android:background="@drawable/new_user_welcome_button"
         android:elevation="2dp"
         android:scaleType="center"
+        android:tint="@color/colorAccent"
         android:translationZ="1dp"
         app:layout_constraintBottom_toTopOf="@+id/continue_button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -176,15 +173,13 @@
 
     <Button
         android:id="@+id/fingerprint"
+        style="@style/positiveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="70dp"
-        android:background="@drawable/round_corner_green_button"
         android:text="@string/configure_fingerprint"
-        android:textColor="@color/white"
-        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

@@ -37,11 +37,8 @@ public class WelcomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_welcome, container, false);
         ButterKnife.bind(this, view);
-
         loginViewModel = ViewModelProviders.of(getActivity()).get(LoginViewModel.class);
-
         return view;
-
     }
 
     @OnClick(R.id.create_account_button)

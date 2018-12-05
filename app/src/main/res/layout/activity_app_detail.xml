@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@android:color/white"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -94,8 +94,6 @@
                         android:id="@+id/app_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-
-                        android:textColor="@android:color/black"
                         android:textSize="@dimen/title_text_size"
                         tools:text="Ecalit Wallet" />
 
@@ -130,7 +128,7 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:text="@string/no_marks"
-                                    android:textColor="@color/black"
+
                                     android:textSize="14sp"
                                     android:visibility="gone" />
 
@@ -138,7 +136,7 @@
                                     android:id="@+id/rating_textView"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@android:color/black"
+
                                     android:textSize="18sp"
                                     android:textStyle="bold"
                                     tools:text="4.5" />
@@ -186,7 +184,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:textColor="@color/black"
                                 android:textSize="18sp"
                                 tools:text="12 +" />
 
@@ -224,26 +221,26 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingBottom="20dp"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"
                 android:paddingTop="8dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="20dp"
                 android:weightSum="2">
 
 
                 <Button
+                    style="@style/secondaryButton"
                     android:id="@+id/delete_view"
                     android:layout_width="0dp"
                     android:layout_height="35dp"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:background="@drawable/delete_bg_btn"
+                    android:background="@null"
                     android:gravity="center"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:text="@string/uninstall"
                     android:textAllCaps="false"
-                    android:textColor="@color/uninstall_green_btn"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -257,9 +254,9 @@
 
                     <android.support.v7.widget.AppCompatButton
                         android:id="@+id/action_btn"
-                        style="@style/ColorButton"
+                        style="@style/positiveButton"
                         android:layout_width="match_parent"
-                        android:background="@drawable/download_btn_bg"
+                        android:layout_height="35dp"
                         android:textAllCaps="false"
                         android:visibility="visible"
                         tools:text="@string/btn_download"
@@ -310,8 +307,8 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|right">
 
         <android.support.design.widget.FloatingActionButton

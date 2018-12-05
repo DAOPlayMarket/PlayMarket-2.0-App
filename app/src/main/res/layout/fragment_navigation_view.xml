@@ -38,7 +38,7 @@
                 android:id="@+id/avatar_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="32dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/close_image_button"
                 tools:background="@color/colorAccent"
@@ -97,15 +97,14 @@
 
             <ImageView
                 android:id="@+id/balance_icon"
-                android:layout_width="45dp"
-                android:layout_height="35dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
-                android:tint="@color/nav_text_color"
                 android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/avatar_image"
-                app:srcCompat="@drawable/eth_big"
+                app:srcCompat="@drawable/ic_eth_pub_icon"
                 tools:visibility="visible" />
 
 
@@ -142,8 +141,8 @@
                 android:id="@+id/view_divider"
                 android:layout_width="0dp"
                 android:layout_height="3dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/top_view_divider"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/divider_gradient_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/ether_count"
                 app:layout_constraintTop_toBottomOf="@+id/balance_in_local" />

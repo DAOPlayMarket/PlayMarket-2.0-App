@@ -5,17 +5,18 @@
     android:id="@+id/my_apps_holder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="3dp"
+    android:layout_margin="4dp"
     android:layout_marginTop="3dp"
+    android:layout_marginBottom="3dp"
     android:animateLayoutChanges="true"
     android:clickable="false">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="4dp"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:background="@color/colorPrimary"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
 
         <ImageView
             android:id="@+id/my_apps_icon"
@@ -30,11 +31,9 @@
             android:id="@+id/my_apps_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/app_name"
-            android:textColor="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/my_apps_icon"
@@ -44,8 +43,8 @@
             android:id="@+id/my_apps_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/app_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -53,10 +52,10 @@
             app:layout_constraintTop_toBottomOf="@+id/my_apps_title" />
 
         <LinearLayout
+            android:id="@+id/my_apps_action_btn_area"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:id="@+id/my_apps_action_btn_area"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +67,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:textColor="@android:color/black"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/my_apps_action_btn"
@@ -82,6 +80,7 @@
                 android:layout_height="22dp"
                 android:layout_marginEnd="20dp"
                 android:src="@drawable/update"
+                android:tint="@color/colorAccent"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

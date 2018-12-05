@@ -39,8 +39,7 @@
 
         <activity
             android:name=".ui.intro_logo_activity.SplashActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/whiteStatusBarStyle">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,16 +48,14 @@
         </activity>
         <activity
             android:name=".ui.login_screen.LoginPromptActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/whiteStatusBarStyle" />
+            android:screenOrientation="portrait" />
         <activity
 
             android:name=".ui.account_management_activity.AccountManagementActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.new_user_welcome_activity.NewUserWelcomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/whiteStatusBarStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.main_list_screen.MainMenuActivity"
             android:label="@string/title_activity_main_menu"
@@ -67,8 +64,7 @@
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".ui.permissions_prompt_activity.PermissionsPromptActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/whiteStatusBarStyle" />
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".services.PurchaseVerifierService"

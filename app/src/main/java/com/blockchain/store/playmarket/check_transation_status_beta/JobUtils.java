@@ -37,6 +37,9 @@ public class JobUtils {
 
     public static void scheduleCheckUpdateJob(Context context) {
         JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+//        if (checkIfJobAlreadyRunning(jobScheduler)) {
+//            return;
+//        }
 
         ComponentName jobService = new ComponentName(context, CheckUpdateJobService.class);
         JobInfo.Builder exerciseJobBuilder = new JobInfo.Builder(AUTO_UPDATE_JOB_ID, jobService)

@@ -198,7 +198,7 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
                         status.setText(R.string.chosed);
                         status.setTextColor(context.getResources().getColor(R.color.action_btn_bg));
                     } else {
-                        status.setTextColor(Color.BLACK);
+                        status.setTextColor(context.getResources().getColor(R.color.white));
                     }
 
                     break;

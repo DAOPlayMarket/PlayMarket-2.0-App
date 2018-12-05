@@ -148,10 +148,10 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
             arrowHolder.setBackground(
                     new ColorDrawable(isExpanded
                             ? ContextCompat.getColor(context, R.color.negative_value)
-                            : ContextCompat.getColor(context, R.color.white)));
+                            : ContextCompat.getColor(context, R.color.colorPrimary)));
             rightLine.setBackground(new ColorDrawable(isExpanded
                     ? ContextCompat.getColor(context, R.color.negative_value_line)
-                    : ContextCompat.getColor(context, R.color.white)));
+                    : ContextCompat.getColor(context, R.color.colorPrimary)));
         }
 
         private void setViewsVisibility(TransactionModel model, boolean isExpanded) {

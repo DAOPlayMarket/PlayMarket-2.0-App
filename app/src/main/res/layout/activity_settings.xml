@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context="com.blockchain.store.playmarket.ui.settings_screen.SettingsActivity">
 
     <include layout="@layout/detail_app_toolbar"/>
@@ -25,6 +26,8 @@
             android:textSize="16sp" />
 
         <CheckBox
+            android:checked="true"
+            android:buttonTint="@color/check_box_colors"
             android:id="@+id/setting_autoinstall_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
