@@ -4,10 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="10dp"
-    android:layout_marginEnd="10dp"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="10dp"
+    android:background="@color/colorPrimary"
     tools:context="com.blockchain.store.playmarket.ui.file_manager_screen.FileManagerActivity">
 
     <TextView
@@ -15,13 +12,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingBottom="10dp"
         android:paddingTop="10dp"
-        android:textColor="@color/black"
+        android:paddingBottom="10dp"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="afsasfdasdfasdf" />
 
     <ImageButton
         android:id="@+id/back_imageButton"
@@ -32,6 +29,7 @@
         android:background="@color/Clear"
         android:contentDescription="@string/todo"
         android:src="@drawable/back_image"
+        android:tint="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/info_textView" />
 
@@ -39,10 +37,10 @@
         android:id="@+id/path_textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:layout_weight="1"
         android:ellipsize="middle"
         android:singleLine="true"
@@ -58,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginTop="8dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorAccent"
         app:layout_constraintTop_toBottomOf="@+id/create_folder_imageButton"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp" />
@@ -67,11 +65,12 @@
         android:id="@+id/create_folder_imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:background="@color/Clear"
         android:contentDescription="@string/todo"
         android:src="@drawable/add_image"
+        android:tint="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/info_textView" />
 
@@ -79,8 +78,8 @@
         android:id="@+id/folders_recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginTop="15dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/confirm_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -91,14 +90,14 @@
 
     <Button
         android:id="@+id/close_manager_button"
+        style="@style/secondaryButton"
         android:layout_width="158dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/Clear"
         android:text="@string/cancel_btn"
-        android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/confirm_button"
@@ -106,13 +105,12 @@
 
     <Button
         android:id="@+id/confirm_button"
+        style="@style/positiveButton"
         android:layout_width="158dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/round_corner_green_button"
+        android:layout_marginBottom="8dp"
         android:text="@string/confirm_button"
-        android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

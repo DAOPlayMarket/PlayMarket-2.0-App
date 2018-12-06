@@ -58,7 +58,7 @@ public class FileManagerRecyclerViewAdapter extends RecyclerView.Adapter<FileMan
         });
 
         if (selectedItemIndex == position){
-            holder.itemLinearLayout.setBackgroundResource(R.color.colorSelectItem);
+            holder.itemLinearLayout.setBackgroundResource(R.color.colorAccent);
         }
         else{
             holder.itemLinearLayout.setBackgroundResource(R.color.Clear);

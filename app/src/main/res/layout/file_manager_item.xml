@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
+    android:background="@color/colorPrimary"
     android:padding="10dp"
     tools:ignore="UseCompoundDrawables">
 
@@ -14,12 +15,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginEnd="15dp"
         android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:textSize="16sp"
-        tools:ignore="RtlSymmetry" />
+        tools:ignore="RtlSymmetry"
+        tools:text="afsdfasdfdsadfs" />
 
     <ImageView
         android:id="@+id/next_folder_imageView"
@@ -28,6 +30,7 @@
         android:layout_gravity="center_vertical"
         android:contentDescription="@string/todo"
         android:paddingEnd="10dp"
+        android:tint="@color/colorAccent"
         android:visibility="invisible"
         app:srcCompat="@drawable/next_image"
         tools:ignore="RtlSymmetry" />

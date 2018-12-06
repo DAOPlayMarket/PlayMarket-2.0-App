@@ -58,8 +58,8 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            style="@style/positiveButton"
             android:id="@+id/confirm_password_button"
+            style="@style/positiveButton"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="end"
@@ -110,6 +110,7 @@
         android:layout_marginBottom="8dp"
         android:scaleType="fitXY"
         android:src="@drawable/available_fingerprint"
+        android:tint="@color/colorAccent"
         app:layout_constraintBottom_toTopOf="@+id/dont_activate_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
