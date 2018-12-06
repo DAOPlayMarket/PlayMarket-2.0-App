@@ -44,8 +44,8 @@
     </style>
 
     <style name="ColorButton" parent="@style/Base.Widget.AppCompat.Button.Borderless">
-        <item name="background">@drawable/rounded_bg</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/positive_btn_bg</item>
+        <item name="android:textColor">@color/positive_btn_text_color</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">35dp</item>
 

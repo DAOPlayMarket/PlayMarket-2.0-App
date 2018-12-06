@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="?attr/actionBarSize"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     tools:context="com.blockchain.store.playmarket.ui.invest_screen.InvestActivity">
 
@@ -161,18 +162,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
         <Button
             android:id="@+id/open_app_btn"
-            style="@style/ColorButton"
+            style="@style/secondaryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
             android:layout_marginRight="40dp"
-            android:background="@drawable/round_corner_orange_button"
-            android:backgroundTint="@color/colorAccent"
+            android:background="@color/Clear"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="@string/open_app_info" />
@@ -180,8 +182,6 @@
         <Button
             android:id="@+id/invest_btn"
             style="@style/ColorButton"
-            android:background="@drawable/round_corner_orange_button"
-
             android:text="@string/btn_invest" />
     </LinearLayout>
 

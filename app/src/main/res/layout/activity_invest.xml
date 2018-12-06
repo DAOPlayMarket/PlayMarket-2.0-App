@@ -2,7 +2,8 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -33,7 +34,7 @@
                 android:paddingLeft="18dp"
                 android:paddingRight="18dp"
                 android:text="@string/fa_back_arrow"
-                android:textColor="#7a8784"
+                android:textColor="@color/colorAccent"
                 android:textSize="24sp" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
