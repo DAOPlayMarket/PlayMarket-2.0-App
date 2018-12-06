@@ -2,69 +2,67 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="15dp"
     android:layout_gravity="center"
+    android:layout_margin="15dp"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
         android:layout_marginTop="30dp"
         android:text="@string/found_json_keystore"
-        android:textColor="@color/black"
+        android:textAlignment="center"
         android:textSize="20sp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
         android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
         android:gravity="center"
-        android:text="@string/import_message" />
+        android:text="@string/import_message"
+        android:textAlignment="center" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/json_keysore_files_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="225dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginEnd="15dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="30dp">
 
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/close_manager_button"
+            style="@style/secondaryButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@color/Clear"
             android:maxHeight="225dp"
-            android:text="@string/cancel_btn"
-            style="?android:attr/buttonBarButtonStyle"
-            android:textColor="@color/green_color" />
+            android:text="@string/cancel_btn" />
 
         <Button
             android:id="@+id/import_button"
-            style="?android:attr/buttonBarButtonStyle"
+            style="@style/positiveButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="5dp"
             android:layout_weight="1"
-            android:background="@drawable/round_corner_green_button"
-            android:text="@string/import_button"
-            android:textColor="@android:color/background_light" />
+            android:text="@string/import_button" />
     </LinearLayout>
 
 </LinearLayout>

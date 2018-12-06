@@ -179,7 +179,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         customTokenTextView.setText(tokenName);
 
         customTokenTextView.setVisibility(View.VISIBLE);
-        customTokenTextView.setBackgroundResource(R.drawable.round_corner_green_button);
+        customTokenTextView.setBackgroundResource(R.drawable.round_black_corner);
         customTokenTextView.setTextColor(getResources().getColor(R.color.white));
 
 
@@ -189,7 +189,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     }
 
     private void ethSelect() {
-        ethTextView.setBackgroundResource(R.drawable.round_corner_green_button);
+        ethTextView.setBackgroundResource(R.drawable.round_black_corner);
         ethTextView.setTextColor(getResources().getColor(R.color.white));
 
         weiTextView.setBackgroundResource(R.color.Clear);
@@ -203,11 +203,11 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     }
 
     private void weiSelect() {
-        weiTextView.setBackgroundResource(R.drawable.round_corner_green_button);
+        weiTextView.setBackgroundResource(R.drawable.round_black_corner);
         weiTextView.setTextColor(getResources().getColor(R.color.white));
 
         ethTextView.setBackgroundResource(R.color.Clear);
-        weiTextView.setTextColor(getResources().getColor(R.color.colorAccent));
+        ethTextView.setTextColor(getResources().getColor(R.color.colorAccent));
 
         dimensionInfoTextView.setText(WEI);
 

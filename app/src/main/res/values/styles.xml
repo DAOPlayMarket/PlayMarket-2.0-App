@@ -150,7 +150,9 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:textColorHint">@color/edittext_hint_color</item>
+        <item name="android:textColorHighlight">@color/edittext_hint_color</item>
         <item name="android:backgroundTint">@color/colorAccent</item>
+
 
     </style>
     <style name="checkBoxStyle" parent="AppTheme">

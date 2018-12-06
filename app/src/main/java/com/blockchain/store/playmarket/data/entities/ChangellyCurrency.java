@@ -10,14 +10,14 @@ import android.util.Log;
 
 public class ChangellyCurrency implements Parcelable {
     private static final String TAG = "ChangellyCurrency";
-
     public String name;
     public String fullName;
     public boolean enabled;
 
     public String getImageUrl() {
-        Log.d(TAG, "getImageUrl: " + "https://changelly.com/coins/" + name + ".svg");
-        return "https://changelly.com/coins/" + name + ".svg";
+        Log.d(TAG, "getImageUrl: " + name);
+        return "file:///android_asset/svg/" + name + ".svg";
+        //return "https://changelly.com/coins/" + name + ".svg";
     }
 
     @Override

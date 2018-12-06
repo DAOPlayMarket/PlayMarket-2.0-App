@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
+    android:background="@color/colorPrimary"
     android:padding="5dp">
 
     <TextView
@@ -15,13 +16,15 @@
         android:layout_marginEnd="5dp"
         android:layout_weight="1"
         android:textSize="14sp"
-        tools:ignore="InefficientWeight" />
+        tools:ignore="InefficientWeight"
+        tools:text="abdfs;glkdf;lgkfdlg;" />
 
     <RadioButton
         android:id="@+id/json_keystore_check_radioButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:buttonTint="@color/check_box_colors"
         android:checked="false"
         android:clickable="false"
         android:duplicateParentState="false"

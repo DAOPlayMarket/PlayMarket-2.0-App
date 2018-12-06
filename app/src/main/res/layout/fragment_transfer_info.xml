@@ -117,6 +117,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColorHint="@color/colorAccent"
             app:errorEnabled="true">
 
             <EditText
@@ -129,7 +130,7 @@
                 android:maxLength="42"
                 android:singleLine="true"
                 android:textSize="14sp"
-                tools:text="0xdB2301db944a59680619F86017418EBb10b9DE4b" />
+                />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -168,6 +169,7 @@
             android:id="@+id/amount_textInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textColorHint="@color/colorAccent"
             android:layout_weight="1"
             app:errorEnabled="true">
 

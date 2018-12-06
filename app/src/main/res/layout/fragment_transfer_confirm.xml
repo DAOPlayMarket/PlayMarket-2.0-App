@@ -110,6 +110,7 @@
             android:orientation="vertical"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
+            android:textColorHint="@color/colorAccent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:passwordToggleEnabled="true"
@@ -138,7 +139,8 @@
         android:layout_marginTop="20dp"
         android:background="@color/light_green_background_color"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -148,7 +150,8 @@
             android:layout_marginRight="30dp"
             android:layout_marginBottom="30dp"
             android:contentDescription="@string/todo"
-            android:src="@drawable/available_fingerprint" />
+            android:src="@drawable/available_fingerprint"
+            android:tint="@color/colorAccent" />
 
         <TextView
             android:id="@+id/transaction_state_textView"
@@ -157,7 +160,7 @@
             android:layout_gravity="center"
             android:layout_marginEnd="30dp"
             android:text="@string/press_sensor_to_complete"
-            android:textColor="@color/green_color"
+            android:textColor="@color/colorAccent"
             android:textSize="12sp" />
 
     </LinearLayout>
