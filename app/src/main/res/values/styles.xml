@@ -70,14 +70,14 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/exchange_main_title_text_color</item>
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <style name="exchangeTextBody">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/exchange_main_field_text_color</item>
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <style name="exchangeGrayText">
@@ -92,7 +92,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">2</item>
         <item name="android:layout_marginRight">10dp</item>
-        <item name="android:textColor">@color/green_color</item>
+        <item name="android:background">@color/Clear</item>
+        <item name="android:textColor">@color/secondary_btn_text_color</item>
     </style>
 
     <style name="exchangeContinueButton">
@@ -100,8 +101,8 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">10dp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:background">@color/green_color</item>
+        <item name="android:background">@drawable/positive_btn_bg</item>
+        <item name="android:textColor">@color/positive_btn_text_color</item>
     </style>
 
     <style name="default_black_title">

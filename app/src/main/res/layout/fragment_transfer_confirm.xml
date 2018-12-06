@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     tools:context="com.blockchain.store.playmarket.ui.transfer_screen.transfer_confirm_screen.TransferConfirmFragment">
 
@@ -39,7 +40,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:gravity="center"
-                android:textColor="@color/black"
                 android:textSize="18sp"
                 tools:text="12341" />
 
@@ -49,7 +49,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textAllCaps="true"
-                android:textColor="@color/black"
                 android:textSize="18sp"
                 tools:text="eth" />
         </LinearLayout>
@@ -78,12 +77,12 @@
 
         <TextView
             android:id="@+id/recipient_address_info_textView"
-            style="@style/exchangeGrayText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape"
             android:gravity="center"
             android:padding="10dp"
+            android:textColor="@color/colorAccent"
             android:textSize="13sp"
             tools:text="0xdB2301db944a59680619F86017418EBb10b9DE4b" />
     </LinearLayout>
@@ -114,16 +113,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/green_color">
+            app:passwordToggleTint="@color/colorAccent">
 
             <EditText
                 android:id="@+id/password_editText"
+                style="@style/genericEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toStartOf="@+id/imageView6"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -144,10 +143,10 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
             android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="30dp"
             android:contentDescription="@string/todo"
             android:src="@drawable/available_fingerprint" />
 
@@ -171,9 +170,9 @@
         android:layout_marginEnd="@dimen/perimeter_layout_margin"
         android:background="@color/Clear"
         android:gravity="center_vertical"
-        android:paddingEnd="@dimen/perimeter_layout_margin"
         android:paddingStart="@dimen/perimeter_layout_margin"
+        android:paddingEnd="@dimen/perimeter_layout_margin"
         android:text="@string/use_password"
-        android:textColor="@color/green_color"
+        android:textColor="@color/colorAccent"
         android:textSize="12sp" />
 </LinearLayout>

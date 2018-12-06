@@ -193,7 +193,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         ethTextView.setTextColor(getResources().getColor(R.color.white));
 
         weiTextView.setBackgroundResource(R.color.Clear);
-        weiTextView.setTextColor(getResources().getColor(R.color.green_color));
+        weiTextView.setTextColor(getResources().getColor(R.color.colorAccent));
 
         dimensionInfoTextView.setText(ETH);
 
@@ -207,7 +207,7 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         weiTextView.setTextColor(getResources().getColor(R.color.white));
 
         ethTextView.setBackgroundResource(R.color.Clear);
-        ethTextView.setTextColor(getResources().getColor(R.color.green_color));
+        weiTextView.setTextColor(getResources().getColor(R.color.colorAccent));
 
         dimensionInfoTextView.setText(WEI);
 

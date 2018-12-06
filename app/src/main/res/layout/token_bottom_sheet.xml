@@ -5,7 +5,7 @@
     android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@color/colorPrimary">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/bottom_contraint"
@@ -36,6 +36,7 @@
 
             <EditText
                 android:id="@+id/editText"
+                style="@style/genericEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -44,10 +45,9 @@
 
         <Button
             android:id="@+id/find_btn"
-            style="@style/ColorButton"
+            style="@style/positiveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/download_btn_bg"
             android:text="@string/token_dialog_find"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/text_input_layout"

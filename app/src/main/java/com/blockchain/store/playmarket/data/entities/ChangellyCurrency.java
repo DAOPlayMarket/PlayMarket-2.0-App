@@ -2,17 +2,21 @@ package com.blockchain.store.playmarket.data.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 /**
  * Created by Crypton04 on 27.02.2018.
  */
 
 public class ChangellyCurrency implements Parcelable {
+    private static final String TAG = "ChangellyCurrency";
+
     public String name;
     public String fullName;
     public boolean enabled;
 
     public String getImageUrl() {
+        Log.d(TAG, "getImageUrl: " + "https://changelly.com/coins/" + name + ".svg");
         return "https://changelly.com/coins/" + name + ".svg";
     }
 

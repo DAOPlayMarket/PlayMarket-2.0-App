@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
 
     <LinearLayout
         android:id="@+id/content_holder"
@@ -11,8 +12,8 @@
         android:layout_above="@+id/buttons_holder"
         android:layout_below="@id/top_layout_holder"
         android:layout_marginLeft="@dimen/main_list_left_padding"
-        android:layout_marginRight="@dimen/main_list_left_padding"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="@dimen/main_list_left_padding"
         android:orientation="vertical"
         android:visibility="gone"
         tools:context="com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivity"
@@ -30,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:background="@color/exchange_main_bg_color"
+            android:background="@color/white"
             android:minHeight="40dp"
             android:orientation="horizontal">
 
@@ -82,11 +83,10 @@
 
             <EditText
                 android:id="@+id/user_address_field"
+                style="@style/genericEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/exchange_main_field_text_color"
                 android:enabled="false"
-                android:textColor="@color/exchange_main_field_text_color"
                 android:textSize="13sp"
                 tools:text="0xd1ce561c07164639153e8540edaa769c89906181" />
 
@@ -95,16 +95,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/send_amount"
-                android:textColor="@color/exchange_main_title_text_color" />
+                android:textColor="@color/colorAccent" />
 
             <EditText
                 android:id="@+id/entered_amount"
+                style="@style/genericEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:backgroundTint="@color/exchange_main_field_text_color"
                 android:inputType="numberDecimal"
-                android:textColor="@color/exchange_main_field_text_color"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="0,01" />

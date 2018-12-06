@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:background="@android:color/white"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/currency_icon"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:tint="@color/white" />
 
     <TextView
         android:id="@+id/currency_name"
@@ -20,7 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:textColor="@android:color/black"
         tools:text="Ethereum classic" />
 
 </LinearLayout>
