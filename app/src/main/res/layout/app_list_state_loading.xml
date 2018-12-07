@@ -4,9 +4,10 @@
     android:id="@+id/cardView"
     android:layout_width="116dp"
     android:layout_height="170dp"
-    android:layout_marginBottom="4dp"
     android:layout_marginLeft="@dimen/main_list_title_margin_left"
     android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    android:background="@color/Clear"
     app:cardElevation="4dp">
 
     <ProgressBar

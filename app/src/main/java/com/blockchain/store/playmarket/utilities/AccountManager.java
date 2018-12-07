@@ -1,8 +1,6 @@
 package com.blockchain.store.playmarket.utilities;
 
 
-import com.blockchain.store.playmarket.Application;
-
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
 import org.ethereum.geth.KeyStore;

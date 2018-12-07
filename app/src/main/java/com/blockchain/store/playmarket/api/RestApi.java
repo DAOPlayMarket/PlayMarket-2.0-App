@@ -162,7 +162,7 @@ public class RestApi {
         Gson gson = new GsonBuilder()
                 .setLenient().create();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl("https://api.rss2json.com/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(client)

@@ -8,6 +8,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="4dp"
     android:layout_marginRight="@dimen/main_list_title_margin_left"
+
     android:layout_marginBottom="4dp"
     app:cardCornerRadius="4dp"
     app:cardElevation="4dp">

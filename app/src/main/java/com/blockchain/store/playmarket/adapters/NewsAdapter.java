@@ -55,11 +55,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         @BindView(R.id.news_body) TextView body;
         @BindView(R.id.news_read_more) TextView readMore;
         @BindView(R.id.news_publication_date) TextView publicationDate;
+
         private SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         private SimpleDateFormat outputFormat = new SimpleDateFormat("MMMM dd", Locale.getDefault());
         private ObjectAnimator textDescriptionAnimator;
         private Context context;
-
 
         public NewsViewHolder(View itemView) {
             super(itemView);
