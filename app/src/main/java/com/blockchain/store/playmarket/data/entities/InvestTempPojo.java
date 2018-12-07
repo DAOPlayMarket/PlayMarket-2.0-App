@@ -103,7 +103,7 @@ public class InvestTempPojo {
                 "PMT",
                 false
         );
-        investMainItem.iconResourceId = R.mipmap.ic_logo;
+        investMainItem.iconResourceId = R.drawable.ic_pm_logo;
         objects.add(investMainItem);
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_MAIN);
 

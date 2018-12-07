@@ -68,10 +68,12 @@ public class AccountManager {
     public static String getFormattedAddress() {
         return NumberUtils.formatStringToSpacedNumber(getAddress().getHex());
     }
-    private int getCurrentUserPosition(){
+
+    private int getCurrentUserPosition() {
         return 0;
     }
-    private void setCurrentUserPosition(int position){
+
+    private void setCurrentUserPosition(int position) {
         //set
     }
 

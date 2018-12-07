@@ -172,7 +172,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
         }
 
         public void bindAsATest(AppInfo appInfo) {
-            icon.setImageResource(R.mipmap.ic_logo);
+            icon.setImageResource(R.drawable.ic_pm_logo);
             title.setText("PlayMarket 2.0");
             tokenBought.setText(appInfo.icoBalance.balanceOf);
             cardView.setOnClickListener(v -> appListCallbacks.onAppInfoClicked(null));
@@ -181,7 +181,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
                 smallDescription.setText("The DAO PlayMarket 2.0 platform implies that holders of PMT tokens automatically become co-owners of the platform-based DAO PlayMarket Foundation (PMF). One of the primary functions of the foundation is open management of its resources in conjunction with other members of DAO PlayMarket 2.0. ");
             }
             if (backImageView != null && imageDisposable == null) {
-                imageDisposable = FrescoUtils.getPalleteFromBitemap(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_logo))
+                imageDisposable = FrescoUtils.getPalleteFromBitemap(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_pm_logo))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(this::onPaletteLoaded, this::onBitmapAndPaletteFailed);

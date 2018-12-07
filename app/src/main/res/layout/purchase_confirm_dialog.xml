@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
     android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
     android:layout_marginTop="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="10dp"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <LinearLayout
@@ -21,7 +22,7 @@
             android:layout_height="90dp"
             android:layout_marginRight="10dp"
             android:visibility="gone"
-            app:srcCompat="@mipmap/ic_logo" />
+            app:srcCompat="@drawable/ic_pm_logo" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,7 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:text="@string/review_dialog_title"
-        android:textColor="@color/greyBackground"
+
         android:textSize="22sp"
         android:textStyle="italic" />
 
@@ -95,14 +96,13 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="60dp"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/ether"
-                android:backgroundTint="@android:color/black" />
+                android:background="@drawable/ic_eth_pub_icon" />
 
             <EditText
                 android:id="@+id/balanceText"
@@ -111,7 +111,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:enabled="false"
-                android:gravity="left"
+                android:gravity="left|center"
                 android:text="0.000"
                 android:textColor="@android:color/black"
                 android:textSize="30sp"
@@ -123,6 +123,7 @@
 
     <EditText
         android:id="@+id/password_editText"
+        style="@style/genericEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
@@ -142,14 +143,14 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/or_user_your_fingerprint"
-            android:textColor="@color/green_color"
             android:textSize="18sp" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/available_fingerprint" />
+            android:src="@drawable/available_fingerprint"
+            android:tint="@color/colorAccent" />
 
     </LinearLayout>
 
@@ -161,26 +162,22 @@
 
         <Button
             android:id="@+id/cancelButton"
-            style="@style/ColorButton"
+            style="@style/secondaryButton"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/rounded_dialog_button"
-            android:text="@string/cancel_btn"
-            android:textColor="@android:color/background_light"
-            android:textStyle="bold" />
+            android:background="@color/Clear"
+            android:text="@string/cancel_btn" />
 
         <Button
             android:id="@+id/continue_button"
-            style="@style/ColorButton"
+            style="@style/positiveButton"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/rounded_dialog_button"
-            android:text="@string/continue_btn"
-            android:textColor="@android:color/background_light"
-            android:textStyle="bold" />
-
+            android:text="@string/continue_btn" />
 
     </LinearLayout>
 

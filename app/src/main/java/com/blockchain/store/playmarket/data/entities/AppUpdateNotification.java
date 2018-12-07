@@ -31,7 +31,7 @@ public class AppUpdateNotification implements NotificationImpl {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "channel_id_1")
                 .setContentTitle(getTitleName())
                 .setContentText(updateCount + " apps are ready to update")
-                .setSmallIcon(R.mipmap.ic_logo)
+                .setSmallIcon(R.drawable.ic_pm_logo)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true)
                 .setTicker("")
