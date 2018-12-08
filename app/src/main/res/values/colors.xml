@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="ico_chart_yaxis_color">#5560dcf4</color>
+    <color name="ico_chart_xaxis_color">#60DCF4</color>
+
     <color name="positive_btn_disable_bg">#808FA4</color>
     <color name="positive_btn_disable_text_color">#AEB7C5</color>
 
@@ -126,9 +129,14 @@
     <color name="time_remains">#79b841</color>
     <color name="goal_color">#adadad</color>
     <color name="goal_color2">#E60C0C</color>
+    
+    <color name="graph_color_gradient_start_color">#3e6eff</color>
+    <color name="graph_color_gradient_end_color">#82e567f1</color>
 
     <!-- Drawable nine patch create in http://inloop.github.io/shadow4android/-->
     <!-- Navigation card layout var's are: width,height 200. Shadow 10. Radius 4-->
     <!-- Button var's: width 120, height 36, shadow 10, round 18-->
+    
+    
 
 </resources>

@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,16 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,7 +87,7 @@ public class NewIcoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override public int getItemCount() {
-        return 4;
+        return 5;
     }
 
     public class IcoSplashViewHolder extends RecyclerView.ViewHolder {
@@ -99,11 +110,55 @@ public class NewIcoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             super(itemView);
         }
     }
-   public class IcoGraphViewHolder extends RecyclerView.ViewHolder {
+
+    public class IcoGraphViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.lineChart) LineChart lineChart;
+        @BindView(R.id.graph_switcher) SwitchCompat switcher;
 
         public IcoGraphViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
+            switcher.setOnCheckedChangeListener((compoundButton, b) -> setupChart());
+            setupChart();
+
         }
+
+        private void setupChart() {
+            ArrayList<Entry> data = new ArrayList<>();
+            for (int i = 0; i < 30; i++) {
+                data.add(new Entry(i, i + new Random().nextInt(10)));
+            }
+            LineDataSet dataSet = new LineDataSet(data, "String label");
+            dataSet.setGradientColor(
+                    appCompatActivity.getResources().getColor(R.color.graph_color_gradient_start_color),
+                    appCompatActivity.getResources().getColor(R.color.graph_color_gradient_end_color));
+
+            dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+            dataSet.setDrawCircles(false);
+            dataSet.setDrawValues(false);
+            dataSet.setDrawFilled(true);
+            LineData lineData = new LineData(dataSet);
+
+
+            lineChart.setDrawGridBackground(false);
+            lineChart.getLegend().setEnabled(false);
+            lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+            lineChart.getXAxis().setTextColor(appCompatActivity.getResources().getColor(R.color.ico_chart_xaxis_color));
+            lineChart.getAxisLeft().setTextColor(appCompatActivity.getResources().getColor(R.color.ico_chart_yaxis_color));
+
+            Description description = new Description();
+            description.setText("");
+            lineChart.setClickable(false);
+            lineChart.setDescription(description);
+            lineChart.setData(lineData);
+            lineChart.getAxisLeft().setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
+            lineChart.getAxisRight().setEnabled(false);
+            lineChart.animateX(500);
+            lineChart.animateY(500);
+            lineChart.invalidate();
+        }
+
+
     }
 
     public class IcoStepViewHolder extends RecyclerView.ViewHolder {
@@ -131,8 +186,8 @@ public class NewIcoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
                 @Override public void onPageSelected(int position) {
                     arrowLeft.setAlpha(position == 0 ? 0.2f : 1f);
-                    arrowRight.setAlpha(position == viewPagerAdapter.getCount() ? 0.2f : 1f);
-                    setCounter.setText(String.format(itemView.getContext().getString(R.string.step_counter), position+1, viewPagerAdapter.getCount()));
+                    arrowRight.setAlpha(position == viewPagerAdapter.getCount() - 1 ? 0.2f : 1f);
+                    setCounter.setText(String.format(itemView.getContext().getString(R.string.step_counter), position + 1, viewPagerAdapter.getCount()));
                     super.onPageSelected(position);
                 }
             });
@@ -141,11 +196,11 @@ public class NewIcoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         @OnClick(R.id.arrowLeft) void onLeftArrowClicked() {
-            viewpager.setCurrentItem(viewpager.getCurrentItem() - 1,true);
+            viewpager.setCurrentItem(viewpager.getCurrentItem() - 1, true);
         }
 
         @OnClick(R.id.arrowRight) void onRightArrowClicked() {
-            viewpager.setCurrentItem(viewpager.getCurrentItem() + 1,true);
+            viewpager.setCurrentItem(viewpager.getCurrentItem() + 1, true);
         }
 
         public void bind() {

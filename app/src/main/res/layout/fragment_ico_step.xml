@@ -14,7 +14,7 @@
         style="@style/icoTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:text="220 ETH"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -24,7 +24,7 @@
         style="@style/icoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="8dp"
         android:text="Заработанно"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/earned_eth"/>
@@ -34,7 +34,7 @@
         style="@style/icoTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="15dp"
         android:text="0,2 ETH"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/earned_tv"/>
@@ -44,7 +44,7 @@
         style="@style/icoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="8dp"
         android:text="Цена одного токена"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/token_price"/>
@@ -76,12 +76,11 @@
         style="@style/icoTitleTextWithOpacity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="25dp"
         android:text="11"
-        android:textSize="48sp"
-        app:layout_constraintStart_toEndOf="@+id/ico_day_left"
-        app:layout_constraintTop_toBottomOf="@+id/token_price_tv"/>
+        android:textSize="36sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/ico_day_left"
+        app:layout_constraintStart_toEndOf="@+id/ico_day_left"/>
 
     <TextView
         android:id="@+id/ico_hour_tv"
@@ -91,9 +90,9 @@
         android:text="часов"
         android:textSize="12sp"
         android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/ico_day_tv"
         app:layout_constraintEnd_toEndOf="@+id/ico_hour_left"
-        app:layout_constraintStart_toStartOf="@+id/ico_hour_left"
-        app:layout_constraintTop_toBottomOf="@+id/ico_hour_left"/>
+        app:layout_constraintStart_toStartOf="@+id/ico_hour_left"/>
 
     <TextView
         android:id="@+id/ico_minutes_left"
@@ -101,11 +100,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="15dp"
         android:text="29"
-        android:textSize="48sp"
-        app:layout_constraintStart_toEndOf="@+id/ico_hour_left"
-        app:layout_constraintTop_toBottomOf="@+id/token_price_tv"/>
+        android:textSize="36sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/ico_hour_left"
+        app:layout_constraintStart_toEndOf="@+id/ico_hour_left"/>
 
     <TextView
         android:id="@+id/ico_minutes_tv"
@@ -115,17 +113,16 @@
         android:text="дней"
         android:textSize="12dp"
         android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/ico_hour_tv"
         app:layout_constraintEnd_toEndOf="@+id/ico_minutes_left"
-        app:layout_constraintStart_toStartOf="@+id/ico_minutes_left"
-        app:layout_constraintTop_toBottomOf="@+id/ico_minutes_left"/>
+        app:layout_constraintStart_toStartOf="@+id/ico_minutes_left"/>
 
     <TextView
         android:id="@+id/start_tv"
         style="@style/icoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="11dp"
         android:text="До старта продаж"
         app:layout_constraintTop_toBottomOf="@+id/ico_day_tv"/>
 
