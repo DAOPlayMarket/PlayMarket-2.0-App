@@ -166,4 +166,15 @@
         <item name="android:textColor">@color/secondary_btn_text_color</item>
     </style>
 
+    <style name="icoTextView">
+        <item name="android:textColor">#34ffffff</item>
+    </style>
+    <style name="icoTitleText">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="icoTitleTextWithOpacity" parent="icoTextView">
+        <item name="android:alpha">0.5</item>
+    </style>
+
 </resources>
