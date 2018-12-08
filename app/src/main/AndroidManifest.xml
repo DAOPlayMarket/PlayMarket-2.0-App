@@ -202,7 +202,9 @@
             android:name=".ui.add_token_screen.AddTokenActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.pax_screen.PexActivity"/>
-        <activity android:name=".ui.local_ico_screen.IcoLocalActivity">
+        <activity
+            android:name=".ui.local_ico_screen.IcoLocalActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
