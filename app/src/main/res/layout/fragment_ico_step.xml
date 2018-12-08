@@ -1,0 +1,133 @@
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout5"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:paddingLeft="25dp"
+    tools:context="com.blockchain.store.playmarket.ui.local_ico_screen.IcoStepFragment">
+
+    <TextView
+        android:id="@+id/earned_eth"
+        style="@style/icoTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="220 ETH"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/earned_tv"
+        style="@style/icoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Заработанно"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/earned_eth"/>
+
+    <TextView
+        android:id="@+id/token_price"
+        style="@style/icoTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="29dp"
+        android:text="0,2 ETH"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/earned_tv"/>
+
+    <TextView
+        android:id="@+id/token_price_tv"
+        style="@style/icoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Цена одного токена"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/token_price"/>
+
+    <TextView
+        android:id="@+id/ico_day_left"
+        style="@style/icoTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="29"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/token_price_tv"/>
+
+    <TextView
+        android:id="@+id/ico_day_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="минут"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/ico_day_left"
+        app:layout_constraintStart_toStartOf="@+id/ico_day_left"
+        app:layout_constraintTop_toBottomOf="@+id/ico_day_left"/>
+
+    <TextView
+        android:id="@+id/ico_hour_left"
+        style="@style/icoTitleTextWithOpacity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="15dp"
+        android:text="11"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@+id/ico_day_left"
+        app:layout_constraintTop_toBottomOf="@+id/token_price_tv"/>
+
+    <TextView
+        android:id="@+id/ico_hour_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.5"
+        android:text="часов"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/ico_hour_left"
+        app:layout_constraintStart_toStartOf="@+id/ico_hour_left"
+        app:layout_constraintTop_toBottomOf="@+id/ico_hour_left"/>
+
+    <TextView
+        android:id="@+id/ico_minutes_left"
+        style="@style/icoTitleTextWithOpacity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
+        android:text="29"
+        android:textSize="48sp"
+        app:layout_constraintStart_toEndOf="@+id/ico_hour_left"
+        app:layout_constraintTop_toBottomOf="@+id/token_price_tv"/>
+
+    <TextView
+        android:id="@+id/ico_minutes_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.5"
+        android:text="дней"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/ico_minutes_left"
+        app:layout_constraintStart_toStartOf="@+id/ico_minutes_left"
+        app:layout_constraintTop_toBottomOf="@+id/ico_minutes_left"/>
+
+    <TextView
+        android:id="@+id/start_tv"
+        style="@style/icoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:text="До старта продаж"
+        app:layout_constraintTop_toBottomOf="@+id/ico_day_tv"/>
+
+
+</android.support.constraint.ConstraintLayout>

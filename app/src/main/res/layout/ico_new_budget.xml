@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/crypto_duel_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/textview1"
+        style="icote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:text="Компания стоит:"
+        android:textColor="#34ffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo"/>
+
+    <TextView
+        android:id="@+id/company_budget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="1029"
+        android:textColor="#48fee8"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="@+id/textview1"
+        app:layout_constraintStart_toStartOf="@+id/textview1"
+        app:layout_constraintTop_toBottomOf="@+id/textview1"/>
+
+    <TextView
+        android:id="@+id/budget_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Подробнее"
+        android:textColor="#60DCF4"
+        app:layout_constraintEnd_toEndOf="@+id/company_budget"
+        app:layout_constraintStart_toStartOf="@+id/company_budget"
+        app:layout_constraintTop_toBottomOf="@+id/company_budget"/>
+
+
+    <TextView
+        android:id="@+id/textview2"
+        style="icote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="8dp"
+        android:text="Рекламный бюджет:"
+        android:textColor="#34ffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/budget_details"/>
+
+    <TextView
+        android:id="@+id/advertisement_budget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="500"
+        android:layout_marginTop="5dp"
+        android:textColor="#48fee8"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="@+id/textview1"
+        app:layout_constraintStart_toStartOf="@+id/textview1"
+        app:layout_constraintTop_toBottomOf="@+id/textview2"/>
+
+    <TextView
+        android:id="@+id/advertisement_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Подробнее"
+        android:layout_marginTop="10dp"
+        android:textColor="#60DCF4"
+        app:layout_constraintEnd_toEndOf="@+id/company_budget"
+        app:layout_constraintStart_toStartOf="@+id/company_budget"
+        app:layout_constraintTop_toBottomOf="@+id/advertisement_budget"/>
+
+</android.support.constraint.ConstraintLayout>

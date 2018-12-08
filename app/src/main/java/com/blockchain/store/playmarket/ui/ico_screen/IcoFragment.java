@@ -19,9 +19,13 @@ import com.blockchain.store.playmarket.adapters.IcoListAdapter;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.interfaces.AppInfoCallback;
 import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
+import com.blockchain.store.playmarket.ui.local_ico_screen.IcoLocalActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 
 import java.util.ArrayList;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.RECIPIENT_ARG;
 
@@ -49,6 +53,7 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ico, container, false);
+        ButterKnife.bind(this, view);
         bindViews(view);
         icoRefreshLayout.setOnRefreshListener(this);
         attachPresenter();
@@ -143,5 +148,11 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
         Intent intent = new Intent(getActivity(), TransferActivity.class);
         intent.putExtra(RECIPIENT_ARG, address);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.testBtn)
+    void abc() {
+        startActivity(new Intent(getActivity(), IcoLocalActivity.class));
+
     }
 }

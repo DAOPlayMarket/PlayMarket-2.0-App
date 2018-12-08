@@ -216,4 +216,8 @@
     <string name="fragment_exchange_title">Exchange</string>
 
 
+    <!--ICO NEW-->
+    <string name="step_counter">ЭТАП %1$d/%2$d</string>
+
+
 </resources>
