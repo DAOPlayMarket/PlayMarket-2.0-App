@@ -183,8 +183,12 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
                 smallDescription.setText("The DAO PlayMarket 2.0 platform implies that holders of PMT tokens automatically become co-owners of the platform-based DAO PlayMarket Foundation (PMF). One of the primary functions of the foundation is open management of its resources in conjunction with other members of DAO PlayMarket 2.0. ");
             }
             if (backImageView != null && imageDisposable == null) {
-                backImageView.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+                imageDisposable = FrescoUtils.getPalleteFromBitemap(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_pm_logo))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::onPaletteLoaded, this::onBitmapAndPaletteFailed);
             }
+
             startBuyingBtn.setVisibility(View.GONE);
             transferBtn.setVisibility(View.GONE);
         }
@@ -205,20 +209,11 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
                 smallDescription.setText("Crypto Duel is a bet between two players, the winner is determined by an independent and open smart contract algorithm ");
             }
             if (backImageView != null && imageDisposable == null) {
-                imageDisposable = FrescoUtils.getPalleteFromBitemap(BitmapFactory.decodeResource(context.getResources(), R.drawable.cryptoduel_logo))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::onPaletteLoaded, this::onBitmapAndPaletteFailed);
+                backImageView.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+
             }
-//            if (goal != null) {
-//                String totalTokens = String.valueOf(Long.parseLong(app.icoSoftCap) / ((long) Math.pow(10, Long.parseLong(app.icoBalance.decimals))));
-//                goal.setText(String.format(context.getString(R.string.token_goal),
-//                        NumberUtils.formatTokenToSpacedNumber(totalTokens),
-//                        app.icoSymbol));
-//            }
             startBuyingBtn.setVisibility(View.GONE);
             transferBtn.setVisibility(View.GONE);
-//            setTransferButtonEnable();
         }
     }
 
