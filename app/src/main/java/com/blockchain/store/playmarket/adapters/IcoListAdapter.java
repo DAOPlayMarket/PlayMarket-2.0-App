@@ -71,6 +71,8 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
     public void onBindViewHolder(IcoAppViewHolder holder, int position) {
         if (position == 0) {
             holder.bindAsATest(appList.get(position));
+        } else if (position == 1) {
+            holder.bindAsCryptoDuel(appList.get(position));
         } else {
             holder.bind(appList.get(position));
         }
@@ -181,7 +183,29 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
                 smallDescription.setText("The DAO PlayMarket 2.0 platform implies that holders of PMT tokens automatically become co-owners of the platform-based DAO PlayMarket Foundation (PMF). One of the primary functions of the foundation is open management of its resources in conjunction with other members of DAO PlayMarket 2.0. ");
             }
             if (backImageView != null && imageDisposable == null) {
-                imageDisposable = FrescoUtils.getPalleteFromBitemap(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_pm_logo))
+                backImageView.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+            }
+            startBuyingBtn.setVisibility(View.GONE);
+            transferBtn.setVisibility(View.GONE);
+        }
+
+        private void onPaletteLoaded(Palette palette) {
+            if (backImageView != null) {
+                backImageView.setBackgroundColor(palette.getDominantColor(Color.WHITE));
+            }
+        }
+
+        public void bindAsCryptoDuel(AppInfo appInfo) {
+            icon.setImageResource(R.drawable.cryptoduel_logo);
+            title.setText("CryptoDuel");
+            tokenBought.setText(appInfo.icoBalance.balanceOf);
+            cardView.setOnClickListener(v -> appListCallbacks.onCryptoDuelClicked());
+
+            if (smallDescription != null) {
+                smallDescription.setText("Crypto Duel is a bet between two players, the winner is determined by an independent and open smart contract algorithm ");
+            }
+            if (backImageView != null && imageDisposable == null) {
+                imageDisposable = FrescoUtils.getPalleteFromBitemap(BitmapFactory.decodeResource(context.getResources(), R.drawable.cryptoduel_logo))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(this::onPaletteLoaded, this::onBitmapAndPaletteFailed);
@@ -195,12 +219,6 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
             startBuyingBtn.setVisibility(View.GONE);
             transferBtn.setVisibility(View.GONE);
 //            setTransferButtonEnable();
-        }
-
-        private void onPaletteLoaded(Palette palette) {
-            if (backImageView != null) {
-                backImageView.setBackgroundColor(palette.getDominantColor(Color.WHITE));
-            }
         }
     }
 

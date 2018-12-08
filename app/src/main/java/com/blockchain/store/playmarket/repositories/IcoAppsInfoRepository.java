@@ -44,6 +44,11 @@ public class IcoAppsInfoRepository {
         AppInfo localAppInfo = new AppInfo();
         localAppInfo.adrICO = Constants.PLAY_MARKET_ADDRESS;
         appInfos.add(0, localAppInfo);
+
+        AppInfo cryptoDuelInfo = new AppInfo();
+        localAppInfo.adrICO = Constants.PLAY_MARKET_ADDRESS;
+        appInfos.add(1, localAppInfo);
+
         return appInfos;
     }
 

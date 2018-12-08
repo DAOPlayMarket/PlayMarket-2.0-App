@@ -25,7 +25,6 @@ import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import java.util.ArrayList;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.RECIPIENT_ARG;
 
@@ -143,16 +142,14 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
         TransferActivity.startAsTokenTransfer(getActivity(), appinfo);
     }
 
+    @Override public void onCryptoDuelClicked() {
+        startActivity(new Intent(getActivity(), IcoLocalActivity.class));
+    }
+
     @Override
     public void onAppInvestClicked(String address) {
         Intent intent = new Intent(getActivity(), TransferActivity.class);
         intent.putExtra(RECIPIENT_ARG, address);
         startActivity(intent);
-    }
-
-    @OnClick(R.id.testBtn)
-    void abc() {
-        startActivity(new Intent(getActivity(), IcoLocalActivity.class));
-
     }
 }
