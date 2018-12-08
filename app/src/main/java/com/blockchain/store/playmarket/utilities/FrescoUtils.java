@@ -2,7 +2,6 @@ package com.blockchain.store.playmarket.utilities;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.graphics.Palette;
 
@@ -54,8 +53,14 @@ public class FrescoUtils {
         return new Observable<Palette>() {
             @Override
             protected void subscribeActual(Observer<? super Palette> observer) {
-                Palette generate = Palette.from(bitmap).generate();
-                observer.onNext(generate);
+                try{
+                    Palette generate = Palette.from(bitmap).generate();
+                    observer.onNext(generate);
+                } catch (Exception e){
+                    observer.onError(e);
+                }
+
+
             }
         };
     }
