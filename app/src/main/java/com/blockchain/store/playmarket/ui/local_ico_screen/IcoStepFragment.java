@@ -59,10 +59,10 @@ public class IcoStepFragment extends Fragment {
                     minutesLeft.setText(String.valueOf(cal.get(Calendar.MINUTE)));
 
                     Date date = new Date(millisUntilFinished);
-                    
-                    dayTv.setText("");
-                    hourTv.setText("");
-                    minutesTv.setText("");
+
+//                    dayTv.setText("");
+//                    hourTv.setText("");
+//                    minutesTv.setText("");
 
                 }
 

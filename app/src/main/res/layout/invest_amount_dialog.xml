@@ -37,7 +37,7 @@
                     android:layout_marginEnd="16dp"
                     android:ellipsize="middle"
                     android:singleLine="true"
-                    android:textColor="@color/review_title_text_color"
+                    android:textColor="@color/colorAccent"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     tools:text="Some Random  Name " />
@@ -46,8 +46,8 @@
                     android:id="@+id/user_commentary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:textColor="@color/review_text_color"
@@ -59,11 +59,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:paddingBottom="4dp"
-                    android:paddingEnd="12dp"
                     android:paddingTop="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="4dp"
                     android:text="@string/more"
-                    android:textColor="@color/review_title_text_color"
+                    android:textColor="@color/colorAccent"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/user_commentary"
@@ -86,8 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginRight="10dp"
                 android:orientation="horizontal">
 
                 <me.zhanghai.android.materialratingbar.MaterialRatingBar
@@ -98,7 +98,7 @@
                     android:maxHeight="23dp"
                     android:minHeight="23dp"
                     android:numStars="5"
-                    android:progressTint="#67b7b5"
+                    android:progressTint="@color/colorAccent"
                     android:rating="4"
                     android:secondaryProgressTint="#686f7d"
                     android:stepSize="1"
@@ -120,20 +120,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:textColorHint="@color/green_color"
+                android:layout_marginRight="10dp"
+                android:textColorHint="@color/colorAccent"
                 app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/green_color">
+                app:passwordToggleTint="@color/colorAccent">
 
                 <EditText
                     android:id="@+id/password_field"
+                    style="@style/genericEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/green_color"
                     android:hint="@string/password"
-                    android:inputType="textPassword"
-                    android:textColor="@color/green_color" />
+                    android:inputType="textPassword" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -150,33 +149,32 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="25dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="25dp"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/cancelButton"
-                    style="@style/ColorButton"
+                    style="@style/secondaryButton"
                     android:layout_width="0dp"
+                    android:layout_height="35dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:paddingRight="40dp"
+                    android:background="@color/Clear"
+
                     android:text="@string/cancel_btn"
-                    android:textColor="@color/green_color"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/continue_button"
-                    style="@style/ColorButton"
+                    style="@style/positiveButton"
                     android:layout_width="0dp"
+                    android:layout_height="35dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/rounded_green_button"
-                    android:text="@string/send_message"
-                    android:textColor="@android:color/background_light"
-                    android:textStyle="bold" />
+                    android:text="@string/send_message" />
 
 
             </LinearLayout>

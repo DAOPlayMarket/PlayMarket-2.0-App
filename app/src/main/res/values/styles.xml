@@ -174,7 +174,7 @@
         <item name="android:textStyle">bold</item>
     </style>
     <style name="icoTitleTextWithOpacity" parent="icoTextView">
-        <item name="android:alpha">0.5</item>
+        <item name="android:alpha">0.6</item>
     </style>
 
 </resources>

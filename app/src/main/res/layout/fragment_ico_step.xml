@@ -5,6 +5,7 @@
     android:id="@+id/linearLayout5"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/ico_bg"
     android:paddingLeft="25dp"
     tools:context="com.blockchain.store.playmarket.ui.local_ico_screen.IcoStepFragment">
 
@@ -73,6 +74,7 @@
     <TextView
         android:id="@+id/ico_hour_left"
         style="@style/icoTitleTextWithOpacity"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
@@ -85,8 +87,9 @@
         android:id="@+id/ico_hour_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha="0.5"
         android:text="часов"
+        style="@style/icoTitleTextWithOpacity"
+        android:textColor="@color/white"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/ico_day_tv"
@@ -96,6 +99,7 @@
     <TextView
         android:id="@+id/ico_minutes_left"
         style="@style/icoTitleTextWithOpacity"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
@@ -108,7 +112,8 @@
         android:id="@+id/ico_minutes_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha="0.5"
+        style="@style/icoTitleTextWithOpacity"
+        android:textColor="@color/white"
         android:text="минут"
         android:textSize="12dp"
         android:textStyle="bold"

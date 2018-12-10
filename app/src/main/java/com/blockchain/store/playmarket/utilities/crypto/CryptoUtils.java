@@ -53,7 +53,7 @@ public class CryptoUtils {
     public static EthDroid ethdroid;
 
     public static KeyManager setupKeyManager(String dataDir) {
-        return KeyManager.newKeyManager(dataDir);
+        return keyManager = KeyManager.newKeyManager(dataDir);
     }
 
     public static String getRawTransaction(Transaction transaction) {

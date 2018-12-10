@@ -31,6 +31,7 @@ import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
+import com.blockchain.store.playmarket.ui.local_ico_screen.NewIcoAdapter;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
@@ -85,6 +86,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.reviews_recycler_view) RecyclerView reviewsRecyclerView;
     @BindView(R.id.fab) FloatingActionButton mFab;
 
+    @BindView(R.id.ico_recycler_view) RecyclerView icoRecyclerView;
+
     private boolean isUserPurchasedApp;
 
     private ObjectAnimator textDescriptionAnimator;
@@ -136,6 +139,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         setViews();
         generateToolbarColor();
     }
+
+
 
     private void attachPresenter() {
         presenter = new AppDetailPresenter();
