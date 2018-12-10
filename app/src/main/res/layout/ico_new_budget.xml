@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary">
+    tools:background="@color/ico_bg">
 
     <ImageView
         android:id="@+id/logo"
@@ -41,7 +41,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="5dp"
         android:text="1029"
-        android:textColor="#49B1E9"
+        android:textStyle="bold"
+        android:textColor="#43B6F1"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="@+id/textview1"
         app:layout_constraintStart_toStartOf="@+id/textview1"
@@ -82,8 +83,9 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="500"
+        android:textStyle="bold"
         android:layout_marginTop="5dp"
-        android:textColor="#49B1E9"
+        android:textColor="#43B6F1"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="@+id/textview1"
         app:layout_constraintStart_toStartOf="@+id/textview1"

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/ico_bg"
     tools:context="com.blockchain.store.playmarket.ui.local_ico_screen.IcoLocalActivity">
 
     <android.support.v7.widget.RecyclerView

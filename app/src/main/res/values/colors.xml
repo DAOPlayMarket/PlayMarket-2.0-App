@@ -2,6 +2,7 @@
 <resources>
     <color name="ico_chart_yaxis_color">#5560dcf4</color>
     <color name="ico_chart_xaxis_color">#60DCF4</color>
+    <color name="ico_bg">#001023</color>
 
     <color name="positive_btn_disable_bg">#808FA4</color>
     <color name="positive_btn_disable_text_color">#AEB7C5</color>

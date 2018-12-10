@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="60dp"
-    android:background="@color/colorPrimary">
+    tools:background="@color/ico_bg">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/ico_mask_group"/>
-
+        android:layout_gravity="bottom"
+        android:background="@drawable/ico_mask_group" />
     <TextView
         android:id="@+id/ico_new_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_gravity="center"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="72dp"
         android:gravity="center|left"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mi nisi, laoreet ac tempor ac, molestie sed tellus. Fusce eleifend lectus nibh, at condimentum enim mattis quis. Donec tempus tempus turpis, a aliquam erat maximus id. Sed interdum aliquam faucibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse convallis porta egestas. Aenean viverra mi eu nunc dictum dictum ut ac massa. Donec quis dignissim erat. Sed in commodo ipsum. Etiam volutpat nibh ut dui vulputate, id auctor dolor bibendum. Praesent gravida imperdiet luctus. Aliquam turpis ante, mollis quis ipsum eget, egestas laoreet lacus. Suspendisse suscipit bibendum vehicula."/>
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent mi nisi, laoreet ac tempor ac, molestie sed tellus. Fusce eleifend lectus nibh, at condimentum enim mattis quis. Donec tempus tempus turpis, a aliquam erat maximus id. Sed interdum aliquam faucibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse convallis porta egestas. Aenean viverra mi eu nunc dictum dictum ut ac massa. Donec quis dignissim erat. Sed in commodo ipsum. Etiam volutpat nibh ut dui vulputate, id auctor dolor bibendum. Praesent gravida imperdiet luctus. Aliquam turpis ante, mollis quis ipsum eget, egestas laoreet lacus. Suspendisse suscipit bibendum vehicula." />
 
 </FrameLayout>

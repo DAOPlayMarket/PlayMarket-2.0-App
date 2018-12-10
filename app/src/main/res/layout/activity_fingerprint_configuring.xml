@@ -43,7 +43,7 @@
             app:layout_constraintTop_toBottomOf="@+id/no_rating_textView"
             app:layout_constraintVertical_bias="1.0"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/green_color">
+            app:passwordToggleTint="@color/colorAccent">
 
             <EditText
                 android:id="@+id/account_password_editText"
