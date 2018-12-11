@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout4"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="30dp"
-    android:layout_marginTop="35dp"
-    tools:background="@color/ico_bg">
+    android:layout_height="wrap_content"
+    android:background="@color/ico_bg"
+    android:focusableInTouchMode="true"
+    android:paddingLeft="30dp"
+    android:paddingTop="35dp">
 
     <TextView
         android:id="@+id/textView7"

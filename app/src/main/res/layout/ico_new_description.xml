@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="60dp"
-    tools:background="@color/ico_bg">
+    android:paddingTop="60dp"
+    android:background="@color/ico_bg">
 
     <ImageView
         android:layout_width="wrap_content"

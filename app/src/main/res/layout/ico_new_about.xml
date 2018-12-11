@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/ico_bg"
+    android:paddingBottom="50dp"
+    android:paddingTop="100dp">
+
+    <ImageView
+        android:id="@+id/ico_duel_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ico_telegram_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ico_chat_duel_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:text="https://t.me/ChatDuel"
+        android:textColor="#40BAE7"
+        app:layout_constraintBottom_toBottomOf="@+id/ico_duel_icon"
+        app:layout_constraintStart_toEndOf="@+id/ico_duel_icon"
+        app:layout_constraintTop_toTopOf="@+id/ico_duel_icon" />
+
+    <ImageView
+        android:id="@+id/ico_duel_bot_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/ico_telegram_icon"
+        app:layout_constraintStart_toStartOf="@+id/ico_duel_icon"
+        app:layout_constraintTop_toBottomOf="@+id/ico_duel_icon" />
+
+    <TextView
+        android:id="@+id/ico_duel_bot_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:text="https://t.me/CryptoDuelBot"
+        android:textColor="#40BAE7"
+        app:layout_constraintBottom_toBottomOf="@+id/ico_duel_bot_icon"
+        app:layout_constraintStart_toEndOf="@+id/ico_duel_bot_icon"
+        app:layout_constraintTop_toTopOf="@+id/ico_duel_bot_icon" />
+
+    <ImageView
+        android:id="@+id/ico_site"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/ico_web_icon"
+        app:layout_constraintStart_toStartOf="@+id/ico_duel_bot_icon"
+        app:layout_constraintTop_toBottomOf="@+id/ico_duel_bot_icon" />
+
+    <TextView
+        android:id="@+id/ico_site_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:text="https://cryptoduel.casino"
+        android:textColor="#40BAE7"
+        app:layout_constraintBottom_toBottomOf="@+id/ico_site"
+        app:layout_constraintStart_toEndOf="@+id/ico_site"
+        app:layout_constraintTop_toTopOf="@+id/ico_site" />
+
+</android.support.constraint.ConstraintLayout>

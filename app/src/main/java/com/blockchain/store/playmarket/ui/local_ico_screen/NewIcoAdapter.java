@@ -203,8 +203,5 @@ public class NewIcoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             viewpager.setCurrentItem(viewpager.getCurrentItem() + 1, true);
         }
 
-        public void bind() {
-
-        }
     }
 }

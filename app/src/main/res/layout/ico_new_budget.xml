@@ -1,65 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:background="@color/ico_bg">
+    android:background="@color/ico_bg">
 
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:src="@drawable/crypto_duel_logo"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textview1"
         style="icote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="40dp"
-        android:text="Компания стоит:"
+        android:text="Стоимость компании:"
         android:textColor="#34ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo"/>
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
 
     <TextView
         android:id="@+id/company_budget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="5dp"
         android:text="1029"
-        android:textStyle="bold"
         android:textColor="#43B6F1"
         android:textSize="36sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/textview1"
         app:layout_constraintStart_toStartOf="@+id/textview1"
-        app:layout_constraintTop_toBottomOf="@+id/textview1"/>
+        app:layout_constraintTop_toBottomOf="@+id/textview1" />
 
     <TextView
         android:id="@+id/budget_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:text="Подробнее"
         android:textColor="#60DCF4"
         app:layout_constraintEnd_toEndOf="@+id/company_budget"
         app:layout_constraintStart_toStartOf="@+id/company_budget"
-        app:layout_constraintTop_toBottomOf="@+id/company_budget"/>
+        app:layout_constraintTop_toBottomOf="@+id/company_budget" />
 
 
     <TextView
@@ -67,41 +59,73 @@
         style="icote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="30dp"
+        android:text="Стоимость токена:"
+        android:textColor="#34ffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/budget_details" />
+
+    <TextView
+        android:id="@+id/token_budget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="500"
+        android:textColor="#43B6F1"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/textview1"
+        app:layout_constraintStart_toStartOf="@+id/textview1"
+        app:layout_constraintTop_toBottomOf="@+id/textview2" />
+
+    <TextView
+        android:id="@+id/token_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Подробнее"
+        android:textColor="#60DCF4"
+        app:layout_constraintEnd_toEndOf="@+id/token_budget"
+        app:layout_constraintStart_toStartOf="@+id/token_budget"
+        app:layout_constraintTop_toBottomOf="@+id/token_budget" />
+
+    <TextView
+        android:id="@+id/textview3"
+        style="icote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="8dp"
         android:text="Рекламный бюджет:"
         android:textColor="#34ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/budget_details"/>
+        app:layout_constraintTop_toBottomOf="@+id/token_details" />
 
     <TextView
         android:id="@+id/advertisement_budget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="500"
-        android:textStyle="bold"
         android:layout_marginTop="5dp"
+        android:text="500"
         android:textColor="#43B6F1"
         android:textSize="36sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/textview1"
         app:layout_constraintStart_toStartOf="@+id/textview1"
-        app:layout_constraintTop_toBottomOf="@+id/textview2"/>
+        app:layout_constraintTop_toBottomOf="@+id/textview3" />
 
     <TextView
         android:id="@+id/advertisement_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="Подробнее"
         android:layout_marginTop="10dp"
+        android:text="Подробнее"
         android:textColor="#60DCF4"
-        app:layout_constraintEnd_toEndOf="@+id/company_budget"
-        app:layout_constraintStart_toStartOf="@+id/company_budget"
-        app:layout_constraintTop_toBottomOf="@+id/advertisement_budget"/>
+        app:layout_constraintEnd_toEndOf="@+id/advertisement_budget"
+        app:layout_constraintStart_toStartOf="@+id/advertisement_budget"
+        app:layout_constraintTop_toBottomOf="@+id/advertisement_budget" />
+
 
 </android.support.constraint.ConstraintLayout>

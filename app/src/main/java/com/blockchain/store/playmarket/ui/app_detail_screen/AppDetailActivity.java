@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,11 +25,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.adapters.AppDetailAdapter;
 import com.blockchain.store.playmarket.adapters.ImageListAdapter;
 import com.blockchain.store.playmarket.adapters.UserReviewAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.AppReviewsData;
 import com.blockchain.store.playmarket.data.entities.UserReview;
+import com.blockchain.store.playmarket.interfaces.AppDetailsImpl;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
@@ -77,25 +81,25 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.age_restrictions_textView) TextView ageRestrictionsTextView;
     @BindView(R.id.no_marks_textView) TextView noMarksTextView;
     @BindView(R.id.rating_materialRatingBar) MaterialRatingBar ratingBar;
+    @BindView(R.id.nested_scroll_view) NestedScrollView nestedScrollView;
 
     @BindView(R.id.invest_btn) Button investBtn;
     @BindView(R.id.delete_view) TextView deleteBtn;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.price_progress_bar) ProgressBar priceProgressBar;
-    @BindView(R.id.reviews_recycler_view) RecyclerView reviewsRecyclerView;
     @BindView(R.id.fab) FloatingActionButton mFab;
-
 
     private boolean isUserPurchasedApp;
 
     private ObjectAnimator textDescriptionAnimator;
     private ImageViewer.Builder imageViewerBuilder;
     private ImageListAdapter imageAdapter;
-    private UserReviewAdapter userReviewAdapter;
     private AppDetailPresenter presenter;
     private AppInfo appInfo;
     private App app;
     private String appTransitionName;
+
+    private AppDetailAdapter appDetailAdapter;
 
     public static void start(Context context, App app) {
         Intent starter = new Intent(context, AppDetailActivity.class);
@@ -215,15 +219,14 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
             ratingBar.setVisibility(View.GONE);
         }
 
-        setupScreenshotRecyclerView(appInfo);
+        //setupScreenshotRecyclerView(appInfo);
         presenter.loadButtonsState(app, isUserPurchasedApp);
     }
 
     private void setInvestButtonVisibility(AppInfo appInfo) {
         investBtn.setVisibility(View.INVISIBLE);
-        if (this.appInfo.isIco) {
-            investBtn.setVisibility(View.VISIBLE);
-
+        if (this.appInfo.isIco || app.appId.equalsIgnoreCase("434")) {
+            investBtn.setVisibility(View.INVISIBLE);
         } else {
             investBtn.setVisibility(View.INVISIBLE);
         }
@@ -244,21 +247,21 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @Override
     public void onReviewsReady(ArrayList<UserReview> userReviews) {
-        setupReviewsRecyclerView(userReviews);
+        ArrayList<AppDetailsImpl> appDetails = new ArrayList<>();
+        appDetails.add(app);
+        appDetails.add(new AppReviewsData(userReviews));
+        if (app.appId.equalsIgnoreCase("434")) {
+            appDetails.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_BUDGET);
+            appDetails.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_DESCRIPTION);
+            appDetails.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_STEP);
+            appDetails.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_GRAPH);
+            appDetails.add(() -> AppDetailAdapter.ViewTypes.ABOUT);
+        }
+        appDetailAdapter = new AppDetailAdapter(appDetails, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setAdapter(appDetailAdapter);
     }
-
-
-    private void setupReviewsRecyclerView(ArrayList<UserReview> userReviews) {
-        userReviewAdapter = new UserReviewAdapter(userReviews, this);
-        reviewsRecyclerView.setHasFixedSize(true);
-        reviewsRecyclerView.setNestedScrollingEnabled(false);
-        LinearLayoutManager layout = new LinearLayoutManager(this);
-//        layout.setAutoMeasureEnabled(false);
-        reviewsRecyclerView.setLayoutManager(layout);
-        reviewsRecyclerView.setAdapter(userReviewAdapter);
-//        reviewsRecyclerView
-    }
-
 
     @Override
     public void setActionButtonText(String string) {
@@ -321,7 +324,9 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @OnClick(R.id.invest_btn)
     void onInvestBtnClicked() {
-        InvestActivity.start(this, appInfo);
+//        InvestActivity.start(this, appInfo);
+        nestedScrollView.scrollTo(1500, 1500);
+        recyclerView.smoothScrollToPosition(3);
     }
 
 

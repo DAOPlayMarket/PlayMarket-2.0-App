@@ -276,6 +276,6 @@ public class App implements Parcelable, NotificationImpl, AppDetailsImpl {
 
     @Override
     public AppDetailAdapter.ViewTypes getViewType() {
-        return AppDetailAdapter.ViewTypes.MAIN;
+        return AppDetailAdapter.ViewTypes.SCREENSHOTS;
     }
 }

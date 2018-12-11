@@ -55,9 +55,11 @@
 
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/top_layout_holder">
+        android:layout_below="@+id/top_layout_holder"
+        android:fillViewport="true">
 
         <LinearLayout
             android:id="@+id/main_layout_holder"
@@ -272,19 +274,13 @@
 
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/reviews_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:layout_marginTop="10dp" />
 
             <android.support.v7.widget.RecyclerView
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:id="@+id/ico_recycler_view"
+                android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:descendantFocusability="blocksDescendants" />
 
         </LinearLayout>
 
