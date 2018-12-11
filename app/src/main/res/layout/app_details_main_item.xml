@@ -15,7 +15,7 @@
         android:orientation="horizontal"
         android:padding="@dimen/app_detaild_top_layout_padding">
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/image_icon"
             android:layout_width="@dimen/application_icon_width"
             android:layout_height="@dimen/application_icon_height"

@@ -31,7 +31,6 @@ import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
-import com.blockchain.store.playmarket.ui.local_ico_screen.NewIcoAdapter;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
@@ -86,6 +85,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.reviews_recycler_view) RecyclerView reviewsRecyclerView;
     @BindView(R.id.fab) FloatingActionButton mFab;
 
+
     private boolean isUserPurchasedApp;
 
     private ObjectAnimator textDescriptionAnimator;
@@ -95,6 +95,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     private AppDetailPresenter presenter;
     private AppInfo appInfo;
     private App app;
+    private String appTransitionName;
 
     public static void start(Context context, App app) {
         Intent starter = new Intent(context, AppDetailActivity.class);
@@ -127,13 +128,15 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
             } else {
                 app = getIntent().getParcelableExtra(APP_EXTRA);
             }
+            appTransitionName = getIntent().getStringExtra(EXTRA_TRANSITION_NAME);
+            if (appTransitionName != null) {
+                imageIcon.setTransitionName(appTransitionName);
+            }
         }
         attachPresenter();
         setViews();
         generateToolbarColor();
-
     }
-
 
     private void attachPresenter() {
         presenter = new AppDetailPresenter();

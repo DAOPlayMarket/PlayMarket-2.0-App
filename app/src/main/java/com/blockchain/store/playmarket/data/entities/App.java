@@ -4,7 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.blockchain.store.playmarket.adapters.AppDetailAdapter;
 import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.interfaces.AppDetailsImpl;
 import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.google.gson.annotations.SerializedName;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
  * Created by Crypton04 on 26.01.2018.
  */
 
-public class App implements Parcelable, NotificationImpl {
+public class App implements Parcelable, NotificationImpl, AppDetailsImpl {
     private static final String TAG = "App";
 
     @SerializedName("idApp")
@@ -129,7 +131,6 @@ public class App implements Parcelable, NotificationImpl {
         double formattedCurrency = currentCurrencyRate / power;
         return String.valueOf(formattedCurrency);
     }
-
 
 
     public String getFileName() {
@@ -271,5 +272,10 @@ public class App implements Parcelable, NotificationImpl {
     @Override
     public String getFailedResultName() {
         return nameApp + " download failed.";
+    }
+
+    @Override
+    public AppDetailAdapter.ViewTypes getViewType() {
+        return AppDetailAdapter.ViewTypes.MAIN;
     }
 }
