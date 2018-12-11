@@ -283,6 +283,14 @@
                 android:id="@+id/reviews_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:layout_marginTop="10dp" />
+
+            <android.support.v7.widget.RecyclerView
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:id="@+id/ico_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginTop="10dp" />
 
         </LinearLayout>

@@ -130,10 +130,7 @@ public class App implements Parcelable, NotificationImpl {
         return String.valueOf(formattedCurrency);
     }
 
-    public String getImageByPath(String path) {
-        String url = RestApi.ICON_URL + hashTag + "/" + hash + "/";
-        return url;
-    }
+
 
     public String getFileName() {
         return packageName + ".apk";

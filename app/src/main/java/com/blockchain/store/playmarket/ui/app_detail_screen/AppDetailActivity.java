@@ -86,8 +86,6 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.reviews_recycler_view) RecyclerView reviewsRecyclerView;
     @BindView(R.id.fab) FloatingActionButton mFab;
 
-    @BindView(R.id.ico_recycler_view) RecyclerView icoRecyclerView;
-
     private boolean isUserPurchasedApp;
 
     private ObjectAnimator textDescriptionAnimator;
@@ -97,7 +95,6 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     private AppDetailPresenter presenter;
     private AppInfo appInfo;
     private App app;
-    private String appTransitionName;
 
     public static void start(Context context, App app) {
         Intent starter = new Intent(context, AppDetailActivity.class);
@@ -130,16 +127,12 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
             } else {
                 app = getIntent().getParcelableExtra(APP_EXTRA);
             }
-            appTransitionName = getIntent().getStringExtra(EXTRA_TRANSITION_NAME);
-            if (appTransitionName != null) {
-                imageIcon.setTransitionName(appTransitionName);
-            }
         }
         attachPresenter();
         setViews();
         generateToolbarColor();
-    }
 
+    }
 
 
     private void attachPresenter() {
