@@ -243,10 +243,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onAppClickedWithTransition(App app, View view) {
-        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                this, view, ViewCompat.getTransitionName(view)
-        );
-        AppDetailActivity.start(this, app, optionsCompat, ViewCompat.getTransitionName(view));
+        AppDetailActivity.start(this, app);
     }
 
     private void onSuggestionClicked(String query) {
