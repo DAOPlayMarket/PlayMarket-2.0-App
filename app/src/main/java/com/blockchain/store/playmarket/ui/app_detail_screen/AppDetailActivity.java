@@ -97,7 +97,6 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     private AppDetailPresenter presenter;
     private AppInfo appInfo;
     private App app;
-    private String appTransitionName;
 
     private AppDetailAdapter appDetailAdapter;
 
@@ -113,13 +112,6 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         context.startActivity(starter);
     }
 
-    public static void start(Context context, App app, ActivityOptionsCompat options, String viewTransitionName) {
-        Intent starter = new Intent(context, AppDetailActivity.class);
-        starter.putExtra(APP_EXTRA, app);
-        starter.putExtra(EXTRA_TRANSITION_NAME, viewTransitionName);
-        context.startActivity(starter/*, options.toBundle()*/);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,10 +124,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
             } else {
                 app = getIntent().getParcelableExtra(APP_EXTRA);
             }
-            appTransitionName = getIntent().getStringExtra(EXTRA_TRANSITION_NAME);
-            if (appTransitionName != null) {
-                imageIcon.setTransitionName(appTransitionName);
-            }
+
         }
         attachPresenter();
         setViews();
