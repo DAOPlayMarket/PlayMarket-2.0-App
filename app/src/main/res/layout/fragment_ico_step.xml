@@ -1,5 +1,4 @@
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout5"
@@ -17,7 +16,7 @@
         android:layout_marginTop="40dp"
         android:text="220 ETH"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/earned_tv"
@@ -27,7 +26,7 @@
         android:layout_marginTop="8dp"
         android:text="Заработанно"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/earned_eth"/>
+        app:layout_constraintTop_toBottomOf="@+id/earned_eth" />
 
     <TextView
         android:id="@+id/token_price"
@@ -37,7 +36,7 @@
         android:layout_marginTop="15dp"
         android:text="0,2 ETH"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/earned_tv"/>
+        app:layout_constraintTop_toBottomOf="@+id/earned_tv" />
 
     <TextView
         android:id="@+id/token_price_tv"
@@ -47,88 +46,126 @@
         android:layout_marginTop="8dp"
         android:text="Цена одного токена"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/token_price"/>
+        app:layout_constraintTop_toBottomOf="@+id/token_price" />
 
     <TextView
         android:id="@+id/ico_day_left"
         style="@style/icoTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="92dp"
         android:text="29"
         android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/token_price_tv"/>
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <TextView
         android:id="@+id/ico_day_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Дней"
+        android:textColor="#60DCF4"
         android:textSize="12dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/ico_day_left"
-        app:layout_constraintStart_toStartOf="@+id/ico_day_left"
-        app:layout_constraintTop_toBottomOf="@+id/ico_day_left"/>
+        app:layout_constraintTop_toBottomOf="@+id/ico_day_left" />
 
     <TextView
         android:id="@+id/ico_hour_left"
-        style="@style/icoTitleTextWithOpacity"
-        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:text="11"
+        android:textColor="@color/white"
         android:textSize="36sp"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/ico_day_left"
-        app:layout_constraintStart_toEndOf="@+id/ico_day_left"/>
+        app:layout_constraintStart_toEndOf="@+id/ico_day_left" />
 
     <TextView
         android:id="@+id/ico_hour_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="часов"
-        style="@style/icoTitleTextWithOpacity"
-        android:textColor="@color/white"
+        android:textColor="#60DCF4"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/ico_day_tv"
         app:layout_constraintEnd_toEndOf="@+id/ico_hour_left"
-        app:layout_constraintStart_toStartOf="@+id/ico_hour_left"/>
+        app:layout_constraintStart_toStartOf="@+id/ico_hour_left" />
 
     <TextView
         android:id="@+id/ico_minutes_left"
-        style="@style/icoTitleTextWithOpacity"
-        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:text="29"
+        android:textColor="@color/white"
         android:textSize="36sp"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/ico_hour_left"
-        app:layout_constraintStart_toEndOf="@+id/ico_hour_left"/>
+        app:layout_constraintStart_toEndOf="@+id/ico_hour_left" />
 
     <TextView
         android:id="@+id/ico_minutes_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/icoTitleTextWithOpacity"
-        android:textColor="@color/white"
         android:text="минут"
+        android:textColor="#60DCF4"
         android:textSize="12dp"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/ico_hour_tv"
         app:layout_constraintEnd_toEndOf="@+id/ico_minutes_left"
-        app:layout_constraintStart_toStartOf="@+id/ico_minutes_left"/>
+        app:layout_constraintStart_toStartOf="@+id/ico_minutes_left" />
+
+
+    <Button
+        android:id="@+id/button3"
+        style="@style/positiveButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="80dp"
+        android:text="Купить"
+        android:textAllCaps="false"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/token_price_tv" />
 
     <TextView
-        android:id="@+id/start_tv"
+        android:id="@+id/textView8"
+        style="@style/icoTextView"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:text="Продано"
+        app:layout_constraintBaseline_toBaselineOf="@+id/ico_sell_count"
+        app:layout_constraintEnd_toEndOf="@+id/button3"
+        app:layout_constraintHorizontal_bias="0.34"
+        app:layout_constraintStart_toStartOf="@+id/button3" />
+
+    <TextView
+        android:id="@+id/ico_sell_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="861/1000"
+        app:layout_constraintStart_toEndOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+    <TextView
+        android:id="@+id/textView9"
         style="@style/icoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
-        android:text="До старта продаж"
-        app:layout_constraintTop_toBottomOf="@+id/ico_day_tv"/>
-
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="8dp"
+        android:text="Цена актуальна:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
 </android.support.constraint.ConstraintLayout>

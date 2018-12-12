@@ -74,7 +74,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.error_holder) LinearLayout errorHolder;
     @BindView(R.id.image_icon) ImageView imageIcon;
     @BindView(R.id.app_name) TextView appName;
-    @BindView(R.id.app_description) FadingTextView appDescription;
+    @BindView(R.id.app_description) TextView appDescription;
     @BindView(R.id.app_description_short) TextView appDescriptionShort;
     @BindView(R.id.rating_textView) TextView appRating;
     @BindView(R.id.marks_count_textView) TextView marksCountTextView;
@@ -313,9 +313,13 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @OnClick(R.id.invest_btn)
     void onInvestBtnClicked() {
-//        InvestActivity.start(this, appInfo);
-        nestedScrollView.scrollTo(1500, 1500);
-        recyclerView.smoothScrollToPosition(3);
+        if (app.getId() == 434) {
+            nestedScrollView.scrollTo(1500, 1500);
+            recyclerView.smoothScrollToPosition(3);
+        } else {
+            InvestActivity.start(this, appInfo);
+        }
+
     }
 
 
@@ -349,10 +353,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     void onDescriptionClicked() {
         if (appDescription.getMaxLines() == DEFAULT_MAX_LINES) {
             textDescriptionAnimator = ObjectAnimator.ofInt(appDescription, "maxLines", LIMIT_MAX_LINES);
-            appDescription.setNeedToDrawFading(true);
         } else if (appDescription.getMaxLines() == LIMIT_MAX_LINES) {
             textDescriptionAnimator = ObjectAnimator.ofInt(appDescription, "maxLines", DEFAULT_MAX_LINES);
-            appDescription.setNeedToDrawFading(false);
         }
 
         if (textDescriptionAnimator != null && !textDescriptionAnimator.isStarted()) {

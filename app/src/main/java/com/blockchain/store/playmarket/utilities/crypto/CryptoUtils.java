@@ -49,7 +49,7 @@ import static com.blockchain.store.playmarket.utilities.Constants.USER_ETHERSCAN
 
 public class CryptoUtils {
 
-    public static KeyManager keyManager;
+    public static KeyManager keyManager = AccountManager.getKeyManager();
     public static EthDroid ethdroid;
 
     public static KeyManager setupKeyManager(String dataDir) {
