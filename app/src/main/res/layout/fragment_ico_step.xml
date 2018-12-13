@@ -26,7 +26,7 @@
         android:layout_marginTop="8dp"
         android:text="Заработанно"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/earned_eth" />
+        app:layout_constraintTop_toBottomOf="@+id/earned_eth" />333333333333
 
     <TextView
         android:id="@+id/token_price"

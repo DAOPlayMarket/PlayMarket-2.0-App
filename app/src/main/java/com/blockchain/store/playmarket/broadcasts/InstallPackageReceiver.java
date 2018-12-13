@@ -15,12 +15,10 @@ import java.io.File;
  */
 
 public class InstallPackageReceiver extends BroadcastReceiver {
-    private static final String TAG = "InstallPackageReceiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         String packageName = intent.getData().getEncodedSchemeSpecificPart();
-        Log.d(TAG, "onReceive() called with: PackageName: " + packageName);
 
         File file = new MyPackageManager().findFileByPackageName(packageName, context);
         if (file != null && file.exists()) {

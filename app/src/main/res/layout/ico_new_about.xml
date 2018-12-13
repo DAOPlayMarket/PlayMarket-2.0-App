@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@color/ico_bg"
     android:paddingBottom="50dp"
-    android:paddingTop="100dp">
+    android:paddingTop="80dp">
 
     <ImageView
         android:id="@+id/ico_duel_icon"

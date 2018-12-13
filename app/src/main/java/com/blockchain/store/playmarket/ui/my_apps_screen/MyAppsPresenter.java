@@ -117,7 +117,6 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
 
     @Override
     public void onAppDownloadError(App app, String message) {
-        Log.d(TAG, "onAppDownloadError() called with: app = [" + app + "], message = [" + message + "]");
         view.updateApp(app, 0, Constants.APP_STATE.STATE_DOWNLOADING);
     }
 

@@ -134,7 +134,7 @@ public class App implements Parcelable, NotificationImpl, AppDetailsImpl {
 
 
     public String getFileName() {
-        return packageName + ".apk";
+        return version + packageName + ".apk";
     }
 
     public boolean isFree() {

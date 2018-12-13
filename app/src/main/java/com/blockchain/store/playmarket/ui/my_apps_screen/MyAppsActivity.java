@@ -63,7 +63,6 @@ public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.
         super.onResume();
         if (adapter != null) {
             presenter.updateAppStatuses(adapter.getAllItemsWithUpdate());
-            //todo update status of installed apps in adapter
         }
     }
 
