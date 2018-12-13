@@ -142,9 +142,20 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
     }
 
     public void updateAppStatuses(ArrayList<AppLibrary> allItemsWithUpdate) {
+        MyPackageManager myPackageManager = new MyPackageManager();
         for (AppLibrary library : allItemsWithUpdate) {
             library.isHasUpdate = MyPackageManager.isAppHasUpdate(library.app);
-            library.appState = Constants.APP_STATE.STATE_UNKNOWN;
+            if (library.appState == Constants.APP_STATE.STATE_UPDATE_DOWNLOADED_NOT_INSTALLED) {
+                File fileByPackageName = myPackageManager.findFileByPackageName(library.app.packageName, Application.getInstance().getBaseContext());
+                int versionFromFile = myPackageManager.getVersionFromFile(fileByPackageName);
+                if (versionFromFile > library.versionName) {
+
+                } else {
+                    library.appState = Constants.APP_STATE.STATE_UNKNOWN;
+                }
+            } else {
+                library.appState = Constants.APP_STATE.STATE_UNKNOWN;
+            }
         }
         view.onCheckForUpdatesReady(allItemsWithUpdate);
     }
