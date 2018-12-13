@@ -38,7 +38,7 @@ public class InvestTempPojo {
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_YOUTUBE);
 
 
-        objects.add(new InvestTitle("ICO description"));
+        objects.add(new InvestTitle("STO description"));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
 
         objects.add(new InvestBody(app.infoICO.description));
@@ -111,7 +111,7 @@ public class InvestTempPojo {
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_YOUTUBE);
 
 
-        objects.add(new InvestTitle("ICO description"));
+        objects.add(new InvestTitle("STO description"));
         objectViewType.add(InvestScreenAdapter.INVEST_VIEWTYPE_TITLE);
 
         objects.add(new InvestBody("DAO PlayMarket 2.0 is a decentralized Android app store that accepts cryptocurrency payments. It is combined with a crowdinvesting (ICO) developer platform. The DAO PlayMarket 2.0 platform has a lot of advantages over alternative platforms and large mobile app stores, such as:\",\n" +

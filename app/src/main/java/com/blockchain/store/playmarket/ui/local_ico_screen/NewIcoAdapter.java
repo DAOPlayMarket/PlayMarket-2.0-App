@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by Igor.Sakovich on 08.12.2018.
+ * Created by Crypton04 on 08.12.2018.
  */
 
 public class NewIcoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

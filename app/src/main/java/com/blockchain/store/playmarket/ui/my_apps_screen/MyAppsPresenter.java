@@ -4,6 +4,7 @@ import android.content.pm.ApplicationInfo;
 import android.util.Log;
 import android.util.Pair;
 
+import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppLibrary;
@@ -12,6 +13,7 @@ import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +42,6 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
                 .subscribe(this::onAppsReady, this::onAppsFailed);
     }
 
-
     private Pair<ArrayList<AppLibrary>, Integer> mapWithLocalApps(ArrayList<App> apps) {
         Integer howManyAppsNeedUpdate = 0;
         ArrayList<AppLibrary> appLibraries = new ArrayList<>();
@@ -58,8 +59,17 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
             }
             appLibrary.isHasUpdate = MyPackageManager.isAppHasUpdate(appLibrary.app);
             appLibrary.versionName = MyPackageManager.getVersionNameByPackageName(appLibrary.applicationInfo.packageName);
+
             if (isHasLocalCopy && appLibrary.isHasUpdate) {
-                howManyAppsNeedUpdate++;
+                MyPackageManager myPackageManager = new MyPackageManager();
+                File fileByPackageName = myPackageManager.findFileByPackageName(appLibrary.app.packageName, Application.getInstance().getBaseContext());
+                int versionFromFile = myPackageManager.getVersionFromFile(fileByPackageName);
+                if (versionFromFile > appLibrary.versionName) {
+                    appLibrary.appState = Constants.APP_STATE.STATE_UPDATE_DOWNLOADED_NOT_INSTALLED;
+                    appLibrary.isHasUpdate = false;
+                } else {
+                    howManyAppsNeedUpdate++;
+                }
                 loadState(appLibrary);
                 appLibraries.add(0, appLibrary);
             } else {
@@ -94,9 +104,14 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
     }
 
     public void onActionItemClicked(AppLibrary appLibrary) {
-        NotificationManager.getManager().registerCallback(appLibrary.app, this);
-        new MyPackageManager().startDownloadApkService(appLibrary.app, true);
-        view.updateApp(appLibrary.app, 0, Constants.APP_STATE.STATE_DOWNLOADING);
+        if (appLibrary.appState == Constants.APP_STATE.STATE_UPDATE_DOWNLOADED_NOT_INSTALLED) {
+            new MyPackageManager().installApkByApp(appLibrary.app);
+        } else {
+            NotificationManager.getManager().registerCallback(appLibrary.app, this);
+            new MyPackageManager().startDownloadApkService(appLibrary.app, true);
+            view.updateApp(appLibrary.app, 0, Constants.APP_STATE.STATE_DOWNLOADING);
+        }
+
     }
 
     @Override
@@ -106,7 +121,7 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
 
     @Override
     public void onAppDownloadProgressChanged(App app, int progress) {
-        view.updateApp((App) app, progress, Constants.APP_STATE.STATE_DOWNLOADING);
+        view.updateApp(app, progress, Constants.APP_STATE.STATE_DOWNLOADING);
 
     }
 

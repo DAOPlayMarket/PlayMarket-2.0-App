@@ -9,6 +9,7 @@ import com.blockchain.store.playmarket.data.entities.CurrentInfo;
 import com.blockchain.store.playmarket.data.entities.ExchangeRate;
 import com.blockchain.store.playmarket.data.entities.IcoBalance;
 import com.blockchain.store.playmarket.data.entities.IcoInfoResponse;
+import com.blockchain.store.playmarket.data.entities.PexHistory;
 import com.blockchain.store.playmarket.data.entities.PlaymarketFeed;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.TokenResponse;
@@ -102,5 +103,8 @@ public interface ServerApi {
 
     @GET("/")
     Observable<TokenResponse> getAllTokens();
+
+    @GET("https://pex-balancer.playmarket.io/api/history?symbol=PMT&resolution=1D&from=1513577768&to=1544681828")
+    Observable<PexHistory> getPexHistory();
 
 }

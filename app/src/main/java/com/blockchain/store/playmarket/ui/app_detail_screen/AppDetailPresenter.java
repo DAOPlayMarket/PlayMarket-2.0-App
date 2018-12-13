@@ -91,18 +91,14 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     @Override
     public void onActionButtonClicked(App app) {
-        Log.d(TAG, "onActionButtonClicked: " + appState);
-
         switch (appState) {
             case STATE_DOWNLOAD_ERROR:
             case STATE_NOT_DOWNLOAD:
-                addItemToLibrary(app);
                 NotificationManager.getManager().registerCallback(app, this);
                 new MyPackageManager().startDownloadApkService(app);
                 changeState(Constants.APP_STATE.STATE_DOWNLOADING);
                 break;
             case STATE_HAS_UPDATE:
-                addItemToLibrary(app);
                 NotificationManager.getManager().registerCallback(app, this);
                 new MyPackageManager().startDownloadApkService(app);
                 changeState(Constants.APP_STATE.STATE_DOWNLOADING);
@@ -124,28 +120,12 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 break;
             case STATE_NOT_PURCHASED:
                 view.showPurchaseDialog();
+                break;
+            case STATE_UPDATE_DOWNLOADED_NOT_INSTALLED:
+                new MyPackageManager().installApkByApp(app);
+                break;
 
         }
-    }
-
-    private void addItemToLibrary(App app) {
-        ArrayList<App> appList = new ArrayList<>();
-        boolean isContains = false;
-        if (Hawk.contains(Constants.DOWNLOADED_APPS_LIST)) {
-            appList = Hawk.get(Constants.DOWNLOADED_APPS_LIST);
-
-            for (App app1 : appList) {
-                if (app1.appId.equalsIgnoreCase(app.appId)) {
-                    isContains = true;
-                }
-            }
-        }
-        if (!isContains) {
-            appList.add(app);
-            Hawk.put(Constants.DOWNLOADED_APPS_LIST, appList);
-        }
-
-
     }
 
     @Override
@@ -154,12 +134,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
         if (app.isFree() || isUserPurchasedApp) {
             boolean applicationInstalled = new MyPackageManager().isApplicationInstalled(app.packageName);
             if (applicationInstalled) {
-                if (new MyPackageManager().isHasUpdate(app)) {
-                    changeState(Constants.APP_STATE.STATE_HAS_UPDATE);
-                } else {
-                    changeState(Constants.APP_STATE.STATE_INSTALLED);
-                }
-
+                changeState(new MyPackageManager().isHasUpdate(app));
             } else if (NotificationManager.getManager().isCallbackAlreadyRegistered(app)) {
                 NotificationManager.getManager().registerCallback(app, this);
                 changeState(Constants.APP_STATE.STATE_DOWNLOADING);
@@ -199,6 +174,10 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
             case STATE_NOT_PURCHASED:
                 view.setActionButtonText(app.getPrice());
                 break;
+            case STATE_UPDATE_DOWNLOADED_NOT_INSTALLED:
+                view.setActionButtonText("update from disk");
+                break;
+
 
         }
         if (newState == Constants.APP_STATE.STATE_INSTALLED && !app.packageName.equalsIgnoreCase("com.blockchain.store.playmarket")) {

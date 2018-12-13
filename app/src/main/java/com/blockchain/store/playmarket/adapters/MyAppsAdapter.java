@@ -112,11 +112,6 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
         return apps;
     }
 
-    public void selectItem(int position) {
-        appLibraries.get(position).isHasUpdate = !appLibraries.get(position).isHasUpdate;
-        notifyDataSetChanged();
-    }
-
     public void performActionOnSelectedItems() {
         for (AppLibrary appLibrary : appLibraries) {
             if (appLibrary.isSelected) {
@@ -204,6 +199,10 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
                     break;
                 case STATE_DOWNLOADED_NOT_INSTALLED:
                     status.setVisibility(View.GONE);
+                    break;
+                case STATE_UPDATE_DOWNLOADED_NOT_INSTALLED:
+                    actionBtn.setVisibility(appLibrary.isHasUpdate ? View.VISIBLE : View.GONE);
+                    status.setText("Install update");
                     break;
 
             }

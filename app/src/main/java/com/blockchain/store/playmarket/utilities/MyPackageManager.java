@@ -85,11 +85,27 @@ public class MyPackageManager {
         return null;
     }
 
+    public int getVersionFromFile(File file) {
+        if (file == null) return 0;
+        String name = file.getName();
+        if (name.contains(":")) {
+            String version = name.substring(0, name.indexOf(":"));
+            try {
+                return Integer.parseInt(version);
+            } catch (Exception e) {
+                return 0;
+            }
+
+        } else {
+            return 0;
+        }
+    }
+
     public boolean isAppFileExists(App app) {
         return getFileFromApp(app).exists();
     }
 
-    public boolean isHasUpdate(App app) {
+    public Constants.APP_STATE isHasUpdate(App app) {
         PackageInfo pinfo = null;
         Context applicationContext = Application.getInstance().getApplicationContext();
         try {
@@ -98,20 +114,25 @@ public class MyPackageManager {
             e.printStackTrace();
         }
         if (pinfo == null) {
-            return false;
+            return Constants.APP_STATE.STATE_INSTALLED;
         }
         int appCode = 0;
 
         try {
             String number = app.version.replaceAll("\\D+", "");
             appCode = Integer.parseInt(number);
+            File fileByPackageName = findFileByPackageName(app.packageName, applicationContext);
+            int versionFromFile = getVersionFromFile(fileByPackageName);
+            if (versionFromFile > pinfo.versionCode && versionFromFile <= appCode) {
+                return Constants.APP_STATE.STATE_UPDATE_DOWNLOADED_NOT_INSTALLED;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         if (appCode > pinfo.versionCode) {
-            return true;
+            return Constants.APP_STATE.STATE_HAS_UPDATE;
         }
-        return false;
+        return Constants.APP_STATE.STATE_INSTALLED;
     }
 
     public void uninstallApkByApp(App app) {

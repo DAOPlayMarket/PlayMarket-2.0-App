@@ -43,17 +43,22 @@ import butterknife.OnClick;
 public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public enum ViewTypes {
-        MAIN, SCREENSHOTS, REVIEWS, VIEW_TYPE_BUDGET,
+        MAIN,
+        SCREENSHOTS,
+        REVIEWS,
+        VIEW_TYPE_BUDGET,
         VIEW_TYPE_DESCRIPTION,
         VIEW_TYPE_STEP,
+        VIEW_TYPE_TOKEN_DESCRIPTION,
         VIEW_TYPE_GRAPH, ABOUT
     }
 
     private static final int VIEW_TYPE_BUDGET = 3;
     private static final int VIEW_TYPE_DESCRIPTION = 4;
     private static final int VIEW_TYPE_STEP = 5;
-    private static final int VIEW_TYPE_GRAPH = 6;
-    private static final int VIEW_TYPE_ABOUT = 7;
+    private static final int VIEW_TYPE_TOKEN_DESCRIPTION = 6;
+    private static final int VIEW_TYPE_GRAPH = 7;
+    private static final int VIEW_TYPE_ABOUT = 8;
 
     ArrayList<AppDetailsImpl> items;
     private AppCompatActivity activity;
@@ -101,6 +106,10 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.ico_new_step, parent, false);
                 return new IcoStepViewHolder(view);
+            case VIEW_TYPE_TOKEN_DESCRIPTION:
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.ico_new_token_description, parent, false);
+                return new IcoDescriptionViewHolder(view);
             case VIEW_TYPE_GRAPH:
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.ico_new_graph, parent, false);
@@ -320,10 +329,13 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @BindView(R.id.ico_chat_duel_tv) TextView chatDuelTv;
         @BindView(R.id.ico_duel_bot_tv) TextView duelBotTv;
         @BindView(R.id.ico_site_tv) TextView siteTv;
+        @BindView(R.id.ico_listing_holder) View icoListingHolder;
 
         public IcoAboutViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            icoListingHolder.setOnClickListener(v -> itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://dex.playmarket.io/"))));
             chatDuelTv.setOnClickListener(v -> {
                 itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(chatDuelTv.getText().toString())));
             });

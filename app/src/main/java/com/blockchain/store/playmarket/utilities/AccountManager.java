@@ -8,7 +8,7 @@ import org.ethereum.geth.KeyStore;
 import io.ethmobile.ethdroid.KeyManager;
 
 /**
- * Created by Igor.Sakovich on 25.01.2018.
+ * Created by Crypton04 on 25.01.2018.
  */
 
 public class AccountManager {

@@ -24,7 +24,7 @@ import rx.schedulers.Schedulers;
 import static com.blockchain.store.playmarket.utilities.Constants.DOWNLOAD_NEW_VERSION_WITHOUT_PROMPT;
 
 /**
- * Created by Igor.Sakovich on 17.10.2018.
+ * Created by Crypton04 on 17.10.2018.
  */
 
 public class CheckUpdateJobService extends JobService {

@@ -243,6 +243,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
             appDetails.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_BUDGET);
             appDetails.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_DESCRIPTION);
             appDetails.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_STEP);
+            appDetails.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_TOKEN_DESCRIPTION);
             appDetails.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_GRAPH);
             appDetails.add(() -> AppDetailAdapter.ViewTypes.ABOUT);
         }

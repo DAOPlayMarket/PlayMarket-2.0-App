@@ -4,15 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/ico_bg"
-    android:paddingLeft="30dp"
-    android:paddingTop="60dp">
+    android:paddingLeft="30dp">
+
 
     <ImageView
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@drawable/ico_mask_group" />
+        android:layout_gravity="right|center"
+        android:background="@drawable/token_description_bg" />
 
 
     <LinearLayout
@@ -20,89 +19,102 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="60dp"
+            android:src="@drawable/ico_divider" />
+
         <TextView
             style="@style/icoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Название:" />
+            android:text="Количество токенов:" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingBottom="20dp"
-            android:text="CryptoDuel Token"
-            android:textSize="16sp" />
+            android:text="100 000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             style="@style/icoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Тикер:" />
+            android:text="Количество этапов:" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingBottom="20dp"
-            android:text="CDLT"
+            android:text="8 по 30 дней"
             android:textSize="16sp" />
 
         <TextView
             style="@style/icoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Тип токена:" />
+            android:text="Количество токенов в этапе" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingBottom="20dp"
-            android:text="Security"
+            android:text="5 000(5% от общего кол-ва)"
             android:textSize="16sp" />
 
         <TextView
             style="@style/icoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Дивиденды:" />
+            android:text="Токены команды::" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingBottom="20dp"
-            android:text="каждые 30 дней"
+            android:text="55 000(55% от общего кол-ва) заморожены\nна 270 дней."
             android:textSize="16sp" />
 
         <TextView
             style="@style/icoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Валюта дивидендов:" />
+            android:text="Токены на продажу" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingBottom="20dp"
-            android:text="ETH"
+            android:text="40 000(40% от общего кол-во) на 8 этапов."
             android:textSize="16sp" />
 
         <TextView
             style="@style/icoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Средства от реализации токенов:" />
+            android:text="DAO PlayMarket 2.0:" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingBottom="20dp"
-            android:text="Привлечение новых пользователей"
+            android:text="5000 (5% от общего кол-ва)."
             android:textSize="16sp" />
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ico_divider" />
 
     </LinearLayout>
 

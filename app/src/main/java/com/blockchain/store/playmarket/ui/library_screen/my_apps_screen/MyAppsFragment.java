@@ -69,9 +69,6 @@ public class MyAppsFragment extends Fragment implements AppListCallbacks {
     }
 
     private void loadSavedApps() {
-        if (Hawk.contains(Constants.DOWNLOADED_APPS_LIST)) {
-            appsList = Hawk.get(Constants.DOWNLOADED_APPS_LIST);
-        }
         if (isShowOnlyUpdatedApps) {
             populateRecyclerView(new ArrayList<>());
         } else {

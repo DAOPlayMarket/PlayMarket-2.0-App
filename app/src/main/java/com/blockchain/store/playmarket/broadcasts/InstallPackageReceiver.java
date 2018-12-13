@@ -18,11 +18,17 @@ public class InstallPackageReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String packageName = intent.getData().getEncodedSchemeSpecificPart();
+        try{
+            String packageName = intent.getData().getEncodedSchemeSpecificPart();
+            File file = new MyPackageManager().findFileByPackageName(packageName, context);
+            if (file != null && file.exists()) {
+                file.delete();
+            }
+        }catch (Exception e){
 
-        File file = new MyPackageManager().findFileByPackageName(packageName, context);
-        if (file != null && file.exists()) {
-            file.delete();
         }
+
+
+
     }
 }
