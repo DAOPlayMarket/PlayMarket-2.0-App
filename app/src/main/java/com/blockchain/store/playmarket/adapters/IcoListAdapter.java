@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
@@ -52,7 +53,6 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
         this.appListCallbacks = appListCallbacks;
         this.isUsedAlternativeDesign = isUsedAlternativeDesign;
     }
-
 
     @Override
     public IcoAppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

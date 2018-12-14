@@ -1,17 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--Font awesome -->
-    <string name="fa_icon_google_plus" translatable="false">&#xf2b3;</string>
-    <string name="fa_icon_fbs" translatable="false">&#xf09a;</string>
-    <string name="fa_icon_linkedin" translatable="false">&#xf08c;</string>
-    <string name="fa_icon_twitter" translatable="false">&#xf099;</string>
-    <string name="fa_icon_instagram" translatable="false">&#xf16d;</string>
-    <string name="fa_icon_vk" translatable="false">&#xf189;</string>
-    <string name="fa_icon_youtube" translatable="false">&#xf167;</string>
-    <string name="fa_icon_telegram" translatable="false">&#xf2c6;</string>
-    <string name="fa_icon_git" translatable="false">&#xf1d3;</string>
-    <string name="fa_share_icon" translatable="false">&#xf064;</string>
-    <string name="fa_back_arrow" translatable="false">&#xf104;</string>
-
     <string name="app_name">DAO PlayMarket 2.0</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -223,6 +211,4 @@
     <string name="ico_detail">Подробнее</string>
     <string name="token_cost">Стоимость токена:</string>
     <string name="advertisement_budget">Рекламный бюджет:</string>
-
-
 </resources>
