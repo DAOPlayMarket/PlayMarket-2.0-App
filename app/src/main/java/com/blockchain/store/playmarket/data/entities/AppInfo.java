@@ -6,7 +6,9 @@ import android.util.Log;
 
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.interfaces.NotificationImpl;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.google.gson.annotations.SerializedName;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
 
@@ -25,8 +27,6 @@ public class AppInfo implements Parcelable, NotificationImpl {
     public String icoCrowdSaleAddress;
     @SerializedName("price")
     public String price;
-    @SerializedName("free")
-    public boolean isFree;
     public String adrDev;
     @SerializedName("hashType")
     public String hashTag;
@@ -76,6 +76,21 @@ public class AppInfo implements Parcelable, NotificationImpl {
     public IcoInfoResponse icoInfoResponse;
     public String icoTotalForSale;
     public String icoSoftCap;
+
+
+    public String getPrice() {
+        String price = this.price;
+        ExchangeRate exchangeRate = Hawk.get(Constants.CURRENT_CURRENCY, new ExchangeRate());
+        double currentCurrencyRate = Double.parseDouble(exchangeRate.rate) * Double.parseDouble(price);
+        double rightArgument = 2 + exchangeRate.currency.getDecimals();
+        double power = Math.pow(10, rightArgument);
+        double formattedCurrency = currentCurrencyRate / power;
+        return String.valueOf(formattedCurrency);
+    }
+
+    public boolean isFree() {
+        return price.equals("0");
+    }
 
     public String getRating() {
         try {
@@ -144,7 +159,7 @@ public class AppInfo implements Parcelable, NotificationImpl {
     public boolean isIcoAlreadyStarts() {
         long currentTimeUnix = System.currentTimeMillis() / 1000;
         if (icoInfoResponse != null) {
-            return currentTimeUnix > Long.parseLong(icoStartDate) && currentTimeUnix < Long.parseLong(icoInfoResponse.stages.get(icoInfoResponse.stages.size()-1).endsAt);
+            return currentTimeUnix > Long.parseLong(icoStartDate) && currentTimeUnix < Long.parseLong(icoInfoResponse.stages.get(icoInfoResponse.stages.size() - 1).endsAt);
         }
         return currentTimeUnix > Long.parseLong(icoStartDate);
 
@@ -219,7 +234,6 @@ public class AppInfo implements Parcelable, NotificationImpl {
         dest.writeString(this.adrICO);
         dest.writeString(this.icoCrowdSaleAddress);
         dest.writeString(this.price);
-        dest.writeByte(this.isFree ? (byte) 1 : (byte) 0);
         dest.writeString(this.adrDev);
         dest.writeString(this.hashTag);
         dest.writeString(this.hash);
@@ -267,7 +281,6 @@ public class AppInfo implements Parcelable, NotificationImpl {
         this.adrICO = in.readString();
         this.icoCrowdSaleAddress = in.readString();
         this.price = in.readString();
-        this.isFree = in.readByte() != 0;
         this.adrDev = in.readString();
         this.hashTag = in.readString();
         this.hash = in.readString();

@@ -22,8 +22,8 @@ public class IcoAppsInfoRepository {
         this.callback = callback;
         RestApi.getServerApi().getIcoApps()
                 .map(this::mapWithLocalIco)
-                .flatMap(this::mapWithGetIcoBalance, Pair::new)
-                .map(this::mapWithCombineResult)
+//                .flatMap(this::mapWithGetIcoBalance, Pair::new)
+//                .map(this::mapWithCombineResult)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .doOnSubscribe(() -> this.callback.onIcoAppsSubscribed())
@@ -44,10 +44,6 @@ public class IcoAppsInfoRepository {
         AppInfo localAppInfo = new AppInfo();
         localAppInfo.adrICO = Constants.PLAY_MARKET_ADDRESS;
         appInfos.add(0, localAppInfo);
-
-        AppInfo cryptoDuelInfo = new AppInfo();
-        localAppInfo.adrICO = Constants.PLAY_MARKET_ADDRESS;
-        appInfos.add(1, localAppInfo);
 
         return appInfos;
     }

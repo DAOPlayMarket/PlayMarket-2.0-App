@@ -3,7 +3,6 @@ package com.blockchain.store.playmarket.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.CountDownTimer;
@@ -25,6 +24,7 @@ import com.blockchain.store.playmarket.interfaces.AppInfoCallback;
 import com.blockchain.store.playmarket.utilities.FrescoUtils;
 import com.blockchain.store.playmarket.utilities.NumberUtils;
 import com.blockchain.store.playmarket.utilities.TimeUtils;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 
@@ -35,6 +35,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppViewHolder> {
+
     private static final String TAG = "IcoListAdapter";
 
     private ArrayList<AppInfo> appList;
@@ -58,7 +59,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
         View view;
         if (isUsedAlternativeDesign) {
             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.ico_app_list_item_new, parent, false);
+                    .inflate(R.layout.app_list_content, parent, false);
         } else {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.ico_app_list_item, parent, false);
@@ -70,8 +71,6 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
     @Override
     public void onBindViewHolder(IcoAppViewHolder holder, int position) {
         if (position == 0) {
-            holder.bindAsATest(appList.get(position));
-        } else if (position == 1) {
             holder.bindAsCryptoDuel(appList.get(position));
         } else {
             holder.bind(appList.get(position));
@@ -85,22 +84,16 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
 
 
     public class IcoAppViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.icon) ImageView icon;
-        @BindView(R.id.title) TextView title;
-        @BindView(R.id.tokens_bought) TextView tokenBought;
-        @BindView(R.id.time_remains) TextView timeRemains;
+        @BindView(R.id.imageView) SimpleDraweeView imageView;
         @BindView(R.id.cardView) CardView cardView;
-        @BindView(R.id.invest_clock_image) ImageView clockIcon;
-        @BindView(R.id.transfer_token) Button transferBtn;
+        @BindView(R.id.content) TextView content;
+        @BindView(R.id.dots) ImageView dots;
+        @BindView(R.id.ratingText) TextView ratingText;
+        @BindView(R.id.ratingStar) ImageView ratingStar;
+        @BindView(R.id.no_rating_textView) TextView noRating;
+        @BindView(R.id.Price) TextView price;
 
-        private CountDownTimer countDownTimer;
         private Context context;
-        private Disposable imageDisposable;
-        @BindView(R.id.view3) @Nullable View backImageView;
-        @BindView(R.id.small_description) @Nullable TextView smallDescription;
-        @BindView(R.id.goal) @Nullable TextView goal;
-        @BindView(R.id.start_buying) @Nullable Button startBuyingBtn;
-
 
         IcoAppViewHolder(View itemView) {
             super(itemView);
@@ -110,115 +103,36 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
 
         @SuppressLint("CheckResult")
         public void bind(AppInfo app) {
-            icon.setImageURI(Uri.parse(app.getIconUrl()));
-            title.setText(app.nameApp);
-            tokenBought.setText(app.icoBalance.getTokenCount());
-            cardView.setOnClickListener(v -> appListCallbacks.onAppInfoClicked(app));
-            transferBtn.setOnClickListener(v -> appListCallbacks.onAppTransferTokenClicked(app));
-
-            if (smallDescription != null) {
-                smallDescription.setText(app.shortDescription);
+            content.setText(app.nameApp);
+            if (app.rating != null) {
+                noRating.setVisibility(View.GONE);
+                ratingText.setText(app.getRating());
+            } else {
+                noRating.setVisibility(View.VISIBLE);
+                ratingText.setVisibility(View.GONE);
+                ratingStar.setVisibility(View.GONE);
             }
-            if (backImageView != null && imageDisposable == null) {
-                imageDisposable = FrescoUtils.getBitmapDataSource(context, app.getIconUrl())
-                        .flatMap(FrescoUtils::getPalleteFromBitemap, Pair::new)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::onBitmapAndPaletteLoaded, this::onBitmapAndPaletteFailed);
+            imageView.setImageURI(Uri.parse(app.getIconUrl()));
+            if (app.isFree()) {
+                price.setText(R.string.app_free);
+            } else {
+                price.setText(app.getPrice());
             }
-            if (goal != null) {
-                String totalTokens = String.valueOf(Long.parseLong(app.icoSoftCap) / ((long) Math.pow(10, Long.parseLong(app.icoBalance.decimals))));
-                goal.setText(String.format(context.getString(R.string.token_goal),
-                        NumberUtils.formatTokenToSpacedNumber(totalTokens),
-                        app.icoSymbol));
-            }
-            if (startBuyingBtn != null) {
-                startBuyingBtn.setOnClickListener(v -> appListCallbacks.onAppInvestClicked(app.icoCrowdSaleAddress));
-            }
-
-            long timeToFirstStageEnding = app.getUnixTimeToStageEnding();
-            if (countDownTimer == null && timeToFirstStageEnding > 0) {
-                countDownTimer = initCountDownTimer(timeToFirstStageEnding);
-            }
-            setTransferButtonEnable();
+//            cardView.setOnClickListener(v -> mainCallback.onAppClickedWithTransition(app, imageView));
         }
 
-        private void onBitmapAndPaletteLoaded(Pair<Bitmap, Palette> bitmapPalettePair) {
-            icon.setImageBitmap(bitmapPalettePair.first);
-            Palette palette = bitmapPalettePair.second;
-            if (backImageView != null) {
-                backImageView.setBackgroundColor(palette.getDominantColor(Color.WHITE));
-            }
-        }
 
-        private void onBitmapAndPaletteFailed(Throwable throwable) {
-
-        }
-
-        private void setTransferButtonEnable() {
-            transferBtn.setEnabled(true);
-        }
-
-        private CountDownTimer initCountDownTimer(long timeToFirstStageEnding) {
-            return new CountDownTimer(timeToFirstStageEnding * 1000, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    String formattedString = TimeUtils.unixTimeToDays(millisUntilFinished);
-                    timeRemains.setText(formattedString);
-                }
-
-                @Override
-                public void onFinish() {
-                }
-            }.start();
-        }
-
-        public void bindAsATest(AppInfo appInfo) {
-            icon.setImageResource(R.drawable.ic_pm_logo);
-            title.setText("PlayMarket 2.0");
-            tokenBought.setText(appInfo.icoBalance.balanceOf);
-            cardView.setOnClickListener(v -> appListCallbacks.onAppInfoClicked(null));
-
-            if (smallDescription != null) {
-                smallDescription.setText("The DAO PlayMarket 2.0 platform implies that holders of PMT tokens automatically become co-owners of the platform-based DAO PlayMarket Foundation (PMF). One of the primary functions of the foundation is open management of its resources in conjunction with other members of DAO PlayMarket 2.0. ");
-            }
-            if (backImageView != null && imageDisposable == null) {
-                backImageView.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
-            }
-            startBuyingBtn.setVisibility(View.GONE);
-            transferBtn.setVisibility(View.GONE);
-        }
-
-        private void onPaletteLoaded(Palette palette) {
-            if (backImageView != null) {
-                backImageView.setBackgroundColor(palette.getDominantColor(Color.WHITE));
-            }
-        }
-
-        public void bindAsCryptoDuel(AppInfo appInfo) {
-            icon.setImageResource(R.drawable.cryptoduel_logo);
-            title.setText("CryptoDuel");
-            tokenBought.setText(appInfo.icoBalance.balanceOf);
+        public void bindAsCryptoDuel(AppInfo app) {
+            content.setText("CryptoDuel");
+            imageView.setImageResource(R.drawable.cryptoduel_logo);
             cardView.setOnClickListener(v -> appListCallbacks.onCryptoDuelClicked());
-
-            if (smallDescription != null) {
-                smallDescription.setText("Crypto Duel is a bet between two players, the winner is determined by an independent and open smart contract algorithm ");
+            if (app.isFree()) {
+                price.setText(R.string.app_free);
+            } else {
+                price.setText(app.getPrice());
             }
-            if (backImageView != null && imageDisposable == null) {
-                backImageView.setBackgroundColor(context.getResources().getColor(R.color.ico_bg));
 
-            }
-            startBuyingBtn.setVisibility(View.GONE);
-            transferBtn.setVisibility(View.GONE);
         }
     }
 
-
-    private String tokenTransform(String tokensStr, String decimalsStr) {
-        long tokensNum = Long.valueOf(tokensStr);
-        short decimalsNum = Short.valueOf(decimalsStr);
-        double transformedTokensNum = tokensNum * Math.pow(10, -decimalsNum);
-        transformedTokensNum = Math.round(transformedTokensNum * 10000.0) / 10000.0;
-        return String.valueOf(transformedTokensNum);
-    }
 }
