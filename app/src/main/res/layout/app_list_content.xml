@@ -6,15 +6,14 @@
     android:id="@+id/cardView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/main_list_title_margin_left"
     android:layout_marginTop="4dp"
-    android:layout_marginRight="@dimen/main_list_title_margin_left"
-
     android:layout_marginBottom="4dp"
     app:cardCornerRadius="4dp"
     app:cardElevation="4dp">
 
     <LinearLayout
-        android:layout_width="116dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:orientation="vertical"
@@ -24,11 +23,8 @@
             android:id="@+id/imageView"
             android:layout_width="@dimen/application_icon_width"
             android:layout_height="@dimen/application_icon_height"
-            android:transitionName="app_icon"
-            fresco:roundBottomLeft="true"
-            fresco:roundBottomRight="true"
-            fresco:roundTopRight="true"
-            fresco:roundedCornerRadius="10sp" />
+            android:src="@drawable/ic_pm_logo"
+            android:background="@color/black" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,6 +63,7 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:visibility="gone">
+
                 <TextView
 
                     android:id="@+id/no_rating_textView"

@@ -211,4 +211,46 @@
     <string name="ico_detail">Подробнее</string>
     <string name="token_cost">Стоимость токена:</string>
     <string name="advertisement_budget">Рекламный бюджет:</string>
+    <string name="ico_app_name">Название:</string>
+    <string name="ico_token">CryptoDuel Token</string>
+    <string name="ico_ticker">Тикер:</string>
+    <string name="ico_cdlt">CDLT</string>
+    <string name="ico_token_type">Тип токена:</string>
+    <string name="ico_token_name_security">Security</string>
+    <string name="ico_dividends">Дивиденды:</string>
+    <string name="ico_dividens_length">каждые 30 дней</string>
+    <string name="ico_dividends_valute">Валюта дивидендов:</string>
+    <string name="ico_valute_eth">ETH</string>
+    <string name="token_funds">Средства от реализации токенов:</string>
+    <string name="ico_attracting_new_users">Привлечение новых пользователей</string>
+    <string name="ico_earned">Заработанно</string>
+    <string name="ico_one_token_price">Цена одного токена</string>
+    <string name="ico_day">Дней</string>
+    <string name="ico_hour">часов</string>
+    <string name="ico_minute">минут</string>
+    <string name="ico_buy_tokens">Купить</string>
+    <string name="ico_sold_tokens">Продано</string>
+    <string name="ico_actual_price">Цена актуальна:</string>
+    <string name="ico_tokens_count">Количество токенов:</string>
+    <string name="ico_stages_count">Количество этапов:</string>
+    <string name="ico_stages_text">8 по 30 дней</string>
+    <string name="ico_number_of_tokens_per_stage">Количество токенов в этапе</string>
+    <string name="ico_5_percent">5 000(5% от общего кол-ва)</string>
+    <string name="ico_team_tokens">Токены команды:</string>
+    <string name="ico_team_tokens_exaplained">55 000(55% от общего кол-ва) заморожены на 270 дней.</string>
+    <string name="ico_tokens_for_sale">Токены на продажу</string>
+    <string name="ico_token_for_sale_explained">40 000(40% от общего кол-во) на 8 этапов.</string>
+    <string name="ico_dao_playmarket">DAO PlayMarket 2.0:</string>
+    <string name="ico_dao_playmarket_explained">5000 (5% от общего кол-ва).</string>
+    <string name="ico_company_dynamics">Динамика компании:</string>
+    <string name="ico_token_rate">Курс токена</string>
+    <string name="ico_profit">Прибыль</string>
+    <string name="ico_token_listing_part1">Листинг токенов на</string>
+    <string name="ico_token_listing_part_2">автоматически с момента выпуска</string>
+
+    <string name="company_budget_details">Расчет стоимости компании производится по формуле:\nДоход компании за последнии 30 дней умножить на 6</string>
+    <string name="token_budget_details">Cтоимость токена рассчитывается по формуле:\nДоход компании за последнии 30 дней умножить на 6 и разделить на 100 тыс.\nФиксируется каждые 30 дней.</string>
+    <string name="adver_budget_details">Средства вырученные от продажи токен-акций.\nВсе средства будут потрачены на трафик новых пользователей и защищены смарт-контрактом.</string>
+
+
 </resources>

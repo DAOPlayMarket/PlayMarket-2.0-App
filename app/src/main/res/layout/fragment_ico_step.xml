@@ -24,9 +24,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Заработанно"
+        android:text="@string/ico_earned"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/earned_eth" />333333333333
+        app:layout_constraintTop_toBottomOf="@+id/earned_eth" />
 
     <TextView
         android:id="@+id/token_price"
@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Цена одного токена"
+        android:text="@string/ico_one_token_price"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/token_price" />
 
@@ -63,7 +63,7 @@
         android:id="@+id/ico_day_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Дней"
+        android:text="@string/ico_day"
         android:textColor="#60DCF4"
         android:textSize="12dp"
         android:textStyle="bold"
@@ -86,7 +86,7 @@
         android:id="@+id/ico_hour_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="часов"
+        android:text="@string/ico_hour"
         android:textColor="#60DCF4"
         android:textSize="12sp"
         android:textStyle="bold"
@@ -110,7 +110,7 @@
         android:id="@+id/ico_minutes_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="минут"
+        android:text="@string/ico_minute"
         android:textColor="#60DCF4"
         android:textSize="12dp"
         android:textStyle="bold"
@@ -127,7 +127,7 @@
         android:layout_marginStart="55dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="80dp"
-        android:text="Купить"
+        android:text="@string/ico_buy_tokens"
         android:textAllCaps="false"
         android:textSize="24dp"
         android:textStyle="bold"
@@ -140,7 +140,7 @@
         style="@style/icoTextView"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:text="Продано"
+        android:text="@string/ico_sold_tokens"
         app:layout_constraintBaseline_toBaselineOf="@+id/ico_sell_count"
         app:layout_constraintEnd_toEndOf="@+id/button3"
         app:layout_constraintHorizontal_bias="0.34"
@@ -163,7 +163,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="8dp"
-        android:text="Цена актуальна:"
+        android:text="@string/ico_actual_price"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />

@@ -127,7 +127,7 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
 
     @Override
     public void onAppDownloadSuccessful(App app) {
-        view.updateApp(app, 0, Constants.APP_STATE.STATE_DOWNLOADED_NOT_INSTALLED);
+        view.updateApp(app, 0, Constants.APP_STATE.STATE_UPDATE_DOWNLOADED_NOT_INSTALLED);
     }
 
     @Override

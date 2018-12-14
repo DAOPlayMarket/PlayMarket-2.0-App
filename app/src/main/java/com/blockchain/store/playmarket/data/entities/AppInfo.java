@@ -26,7 +26,7 @@ public class AppInfo implements Parcelable, NotificationImpl {
     @SerializedName("icoCrowdsaleAddress")
     public String icoCrowdSaleAddress;
     @SerializedName("price")
-    public String price;
+    public String price = "0";
     public String adrDev;
     @SerializedName("hashType")
     public String hashTag;

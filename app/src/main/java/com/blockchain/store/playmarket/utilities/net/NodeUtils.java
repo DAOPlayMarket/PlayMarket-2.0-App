@@ -105,7 +105,12 @@ public class NodeUtils {
     public Observable<Node> getNearestNode(Location location) {
         return Observable.create(subscriber -> {
             try {
-                String currencyCode = Currency.getInstance(Locale.getDefault()).getCurrencyCode();
+                String currencyCode;
+                try {
+                    currencyCode = Currency.getInstance(Locale.getDefault()).getCurrencyCode();
+                } catch (NullPointerException | IllegalArgumentException ex) {
+                    currencyCode = Currency.getInstance(new Locale("en", "US")).getCurrencyCode();
+                }
                 ArrayList<Node> nodes = NodeUtils.getNodesList(NodeUtils.NODES_DNS_SERVER);
                 ArrayList<Node> nearestNodeIP = NodeUtils.sortNodesByNearest(nodes, location);
                 for (Node node : nearestNodeIP) {

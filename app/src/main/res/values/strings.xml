@@ -217,12 +217,55 @@
 
 
     <!--ICO NEW-->
-    <string name="step_counter">ЭТАП %1$d/%2$d</string>
-    <string name="playmarket_dex"><u>PlayMarket DEX</u></string>
-    <string name="company_cost">Стоимость компании:</string>
-    <string name="ico_detail">Подробнее</string>
-    <string name="token_cost">Стоимость токена:</string>
-    <string name="advertisement_budget">Рекламный бюджет:</string>
+    <string name="ico_detail">Details</string>
 
+    <string name="step_counter">Stage %1$d/%2$d</string>
+    <string name="playmarket_dex"><u>PlayMarket DEX</u></string>
+    <string name="company_cost">Company value:</string>
+    <string name="token_cost">Token price:</string>
+    <string name="advertisement_budget">Advertising budget:</string>
+    <string name="ico_app_name">Name:</string>
+    <string name="ico_token">CryptoDuel Token</string>
+    <string name="ico_ticker">Ticker:</string>
+    <string name="ico_cdlt">CDLT</string>
+    <string name="ico_token_type">Token type</string>
+    <string name="ico_token_name_security">Security</string>
+    <string name="ico_dividends">Dividends:</string>
+    <string name="ico_dividens_length">every 30 days.</string>
+    <string name="ico_dividends_valute">Dividend currency</string>
+    <string name="ico_valute_eth">ETH</string>
+    <string name="token_funds">Proceeds from the sale of tokens:</string>
+    <string name="ico_attracting_new_users">new users acquisition.</string>
+
+    <string name="ico_earned">Earned</string>
+    <string name="ico_one_token_price">Price of 1 token</string>
+    <string name="ico_day">Days</string>
+    <string name="ico_hour">hours</string>
+    <string name="ico_minute">minutes</string>
+    <string name="ico_buy_tokens">Купить</string>
+    <string name="ico_sold_tokens">Tokens sold</string>
+    <string name="ico_actual_price">Цена актуальна:</string>
+
+    <string name="ico_tokens_count">Number of tokens:</string>
+    <string name="ico_stages_count">Number of stages:</string>
+    <string name="ico_stages_text">8 of 30 days</string>
+    <string name="ico_number_of_tokens_per_stage">Tokens per stage</string>
+    <string name="ico_5_percent">5,000(5% of the total number)</string>
+    <string name="ico_team_tokens">Team tokens:</string>
+    <string name="ico_team_tokens_exaplained">55,000(55% of the total number) are frozen for 270 days. Dividends are available.</string>
+    <string name="ico_tokens_for_sale">Tokens for sale</string>
+    <string name="ico_token_for_sale_explained">40,000(40% of the total number) for 8 stages.</string>
+    <string name="ico_dao_playmarket">DAO PlayMarket 2.0:</string>
+    <string name="ico_dao_playmarket_explained">5,000 (5%of the total number).</string>
+
+    <string name="ico_company_dynamics">Динамика компании:</string>
+    <string name="ico_token_rate">Token rate</string>
+    <string name="ico_profit">Profit</string
+        >
+    <string name="ico_token_listing_part1">Tokens will be automatically listed on</string>
+    <string name="ico_token_listing_part_2">from the moment of issue</string>
+    <string name="company_budget_details">The company value is calculated according to the following formula:\nThe company\'s revenue for the last 30 days is multiplied by 6.</string>
+    <string name="token_budget_details">The price for one token is calculated by the following formula:\nThe company\'s revenue for the last 30 days is multiplied by 6 and divided by 100,000. It is fixed every 30 days.</string>
+    <string name="adver_budget_details">Proceeds from the sale of token shares.\nAll funds will be spent on new users acquisition and protected by a smart contract.</string>
 
 </resources>

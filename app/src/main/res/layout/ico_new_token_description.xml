@@ -29,7 +29,7 @@
             style="@style/icoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Количество токенов:" />
+            android:text="@string/ico_tokens_count" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,70 +44,70 @@
             style="@style/icoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Количество этапов:" />
+            android:text="@string/ico_stages_count" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingBottom="20dp"
-            android:text="8 по 30 дней"
+            android:text="@string/ico_stages_text"
             android:textSize="16sp" />
 
         <TextView
             style="@style/icoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Количество токенов в этапе" />
+            android:text="@string/ico_number_of_tokens_per_stage" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingBottom="20dp"
-            android:text="5 000(5% от общего кол-ва)"
+            android:text="@string/ico_5_percent"
             android:textSize="16sp" />
 
         <TextView
             style="@style/icoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Токены команды::" />
+            android:text="@string/ico_team_tokens" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingBottom="20dp"
-            android:text="55 000(55% от общего кол-ва) заморожены\nна 270 дней."
+            android:text="@string/ico_team_tokens_exaplained"
             android:textSize="16sp" />
 
         <TextView
             style="@style/icoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Токены на продажу" />
+            android:text="@string/ico_tokens_for_sale" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingBottom="20dp"
-            android:text="40 000(40% от общего кол-во) на 8 этапов."
+            android:text="@string/ico_token_for_sale_explained"
             android:textSize="16sp" />
 
         <TextView
             style="@style/icoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DAO PlayMarket 2.0:" />
+            android:text="@string/ico_dao_playmarket" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:paddingBottom="20dp"
-            android:text="5000 (5% от общего кол-ва)."
+            android:text="@string/ico_dao_playmarket_explained"
             android:textSize="16sp" />
 
 

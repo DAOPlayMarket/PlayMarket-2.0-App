@@ -84,6 +84,9 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
         if (getItemByApp(app) != null) {
             getItemByApp(app).downloadProgress = String.valueOf(progress);
             getItemByApp(app).appState = appState;
+            if (appState == Constants.APP_STATE.STATE_UPDATE_DOWNLOADED_NOT_INSTALLED) {
+                getItemByApp(app).isHasUpdate = false;
+            }
             notifyDataSetChanged();
         }
     }
@@ -105,7 +108,7 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
     public ArrayList<AppLibrary> getAllItemsWithUpdate() {
         ArrayList<AppLibrary> apps = new ArrayList<>();
         for (AppLibrary appLibrary : appLibraries) {
-            if (appLibrary.isHasUpdate) {
+            if (appLibrary.isHasUpdate || appLibrary.appState == Constants.APP_STATE.STATE_UPDATE_DOWNLOADED_NOT_INSTALLED) {
                 apps.add(appLibrary);
             }
         }

@@ -57,29 +57,24 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
     @Override
     public IcoAppViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        if (isUsedAlternativeDesign) {
-            view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.app_list_content, parent, false);
-        } else {
-            view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.ico_app_list_item, parent, false);
-        }
+        view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.app_list_content, parent, false);
         IcoAppViewHolder icoAppViewHolder = new IcoAppViewHolder(view);
         return icoAppViewHolder;
     }
 
     @Override
     public void onBindViewHolder(IcoAppViewHolder holder, int position) {
-        if (position == 0) {
-            holder.bindAsCryptoDuel(appList.get(position));
-        } else {
-            holder.bind(appList.get(position));
-        }
+//        if (position == 0) {
+        holder.bindAsCryptoDuel();
+//        } else {
+//            holder.bind(appList.get(position));
+//        }
     }
 
     @Override
     public int getItemCount() {
-        return appList.size();
+        return 40;
     }
 
 
@@ -122,16 +117,12 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
         }
 
 
-        public void bindAsCryptoDuel(AppInfo app) {
+        public void bindAsCryptoDuel() {
             content.setText("CryptoDuel");
             imageView.setImageResource(R.drawable.cryptoduel_logo);
+            imageView.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
             cardView.setOnClickListener(v -> appListCallbacks.onCryptoDuelClicked());
-            if (app.isFree()) {
-                price.setText(R.string.app_free);
-            } else {
-                price.setText(app.getPrice());
-            }
-
+            price.setText(R.string.app_free);
         }
     }
 

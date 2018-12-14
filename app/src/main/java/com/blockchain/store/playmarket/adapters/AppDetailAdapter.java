@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +16,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -214,8 +217,27 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public class IcoBudgetViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.budget_details) TextView budgetDetails;
+        @BindView(R.id.token_details) TextView tokenDetails;
+        @BindView(R.id.advertisement_details) TextView advertisementDetails;
+
         public IcoBudgetViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
+            Context context = itemView.getContext();
+            budgetDetails.setOnClickListener(v -> showDialog(context, context.getString(R.string.company_cost), context.getString(R.string.company_budget_details)));
+            tokenDetails.setOnClickListener(v -> showDialog(context, context.getString(R.string.token_cost), context.getString(R.string.token_budget_details)));
+            advertisementDetails.setOnClickListener(v -> showDialog(context, context.getString(R.string.advertisement_budget), context.getString(R.string.adver_budget_details)));
+        }
+
+        private void showDialog(Context context, String title, String body) {
+            AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.alert_dialog_dark))
+                    .setTitle(title)
+                    .setMessage(body)
+                    .setCancelable(true)
+                    .create();
+            alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            alertDialog.show();
         }
     }
 
@@ -335,7 +357,7 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            icoListingHolder.setOnClickListener(v -> itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://dex.playmarket.io/"))));
+            icoListingHolder.setOnClickListener(v -> itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://dex.playmarket.io/CDLT/ETH/"))));
             chatDuelTv.setOnClickListener(v -> {
                 itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(chatDuelTv.getText().toString())));
             });

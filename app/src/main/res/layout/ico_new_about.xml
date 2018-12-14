@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Листинг токенов на " />
+            android:text="@string/ico_token_listing_part1" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="автоматически с момента выпуска"
+        android:text="@string/ico_token_listing_part_2"
         app:layout_constraintEnd_toEndOf="@+id/ico_listing_holder"
         app:layout_constraintStart_toStartOf="@+id/ico_listing_holder"
         app:layout_constraintTop_toBottomOf="@+id/ico_listing_holder" />

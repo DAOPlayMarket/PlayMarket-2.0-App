@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -118,7 +119,7 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
     private void setupRecyclerView(ArrayList<AppInfo> apps) {
         adapter = new IcoListAdapter(apps, this, true);
 //        adapter.setHasStableIds(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),3));
         recyclerView.setAdapter(adapter);
     }
 
