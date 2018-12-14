@@ -165,7 +165,7 @@ public class NotificationManager {
         notificationObject.getNotificationBuilder().setProgress(0, 0, false)
                 .setContentTitle(item.getSuccessResultName());
         if (item instanceof PlayMarketUpdateNotification) {
-            notificationManager.notify(item.getId(), notificationObject.getNotificationBuilder().setSmallIcon(R.drawable.ic_pm_logo).build());
+            notificationManager.notify(item.getId(), notificationObject.getNotificationBuilder().setSmallIcon(R.drawable.daopmlogo).build());
         } else {
             notificationManager.notify(item.getId(), notificationObject.getNotificationBuilder().setSmallIcon(android.R.drawable.stat_sys_download_done).build());
         }

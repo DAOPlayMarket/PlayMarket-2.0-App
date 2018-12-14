@@ -48,13 +48,12 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="29dp"
-                        android:layout_height="34dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginRight="10dp"
                         android:scaleType="centerCrop"
-
-                        android:src="@drawable/ic_pm_logo" />
+                        android:src="@drawable/daopmlogo" />
 
                     <TextView
                         android:id="@+id/toolbar_title"

@@ -22,11 +22,6 @@ import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.interfaces.AppListHolderCallback;
 import com.blockchain.store.playmarket.utilities.EndlessRecyclerOnScrollListener;
 
-import org.spongycastle.crypto.Digest;
-import org.spongycastle.crypto.macs.HMac;
-import org.spongycastle.jcajce.provider.digest.MD2;
-
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
