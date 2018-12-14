@@ -74,7 +74,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
 
     @Override
     public int getItemCount() {
-        return 40;
+        return 1;
     }
 
 
