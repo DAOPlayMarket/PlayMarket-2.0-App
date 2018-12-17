@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.ui.local_ico_screen;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import butterknife.ButterKnife;
 public class IcoStepFragment extends Fragment {
 
     private static final String TAG = "IcoStepFragment";
+    private static final String TIME_KEY = "timeInMillis";
 
     @BindView(R.id.earned_eth) TextView earnedEth;
     @BindView(R.id.token_price) TextView tokenPrice;
@@ -32,6 +34,23 @@ public class IcoStepFragment extends Fragment {
     @BindView(R.id.ico_minutes_tv) TextView minutesTv;
 
     private CountDownTimer countDownTimer;
+    private long timeToStartInMillis;
+
+    public static IcoStepFragment newInstance(Long timeToStartInMillis) {
+        Bundle args = new Bundle();
+        args.putLong(TIME_KEY, timeToStartInMillis);
+        IcoStepFragment fragment = new IcoStepFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            timeToStartInMillis = getArguments().getLong(TIME_KEY);
+        }
+    }
 
     public IcoStepFragment() {
         // Required empty public constructor
@@ -42,35 +61,37 @@ public class IcoStepFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ico_step, container, false);
         ButterKnife.bind(this, view);
-        initTimer();
+        initTimer(timeToStartInMillis);
         return view;
 
     }
 
-    private void initTimer() {
+    private void initTimer(long timeToStartInMillis) {
         if (countDownTimer == null) {
-            countDownTimer = new CountDownTimer(2505600000L + 39600000 + 1320000, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTimeInMillis(millisUntilFinished);
-                    dayLeft.setText(String.valueOf(cal.get(Calendar.DAY_OF_MONTH)));
-                    hourLeft.setText(String.valueOf(cal.get(Calendar.HOUR_OF_DAY)));
-                    minutesLeft.setText(String.valueOf(cal.get(Calendar.MINUTE)));
+            if (timeToStartInMillis > System.currentTimeMillis()) {
 
-                    Date date = new Date(millisUntilFinished);
+                countDownTimer = new CountDownTimer(2505600000L + 39600000 + 1320000, 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTimeInMillis(millisUntilFinished);
+                        dayLeft.setText(String.valueOf(cal.get(Calendar.DAY_OF_MONTH)));
+                        hourLeft.setText(String.valueOf(cal.get(Calendar.HOUR_OF_DAY)));
+                        minutesLeft.setText(String.valueOf(cal.get(Calendar.MINUTE)));
+
+                        Date date = new Date(millisUntilFinished);
 
 //                    dayTv.setText("");
 //                    hourTv.setText("");
 //                    minutesTv.setText("");
 
-                }
+                    }
 
-                @Override
-                public void onFinish() {
-                }
-            }.start();
+                    @Override
+                    public void onFinish() {
+                    }
+                }.start();
+            }
         }
     }
-
 }

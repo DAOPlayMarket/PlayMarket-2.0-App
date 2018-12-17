@@ -57,7 +57,7 @@
         android:text="29"
         android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/ico_actual_price" />
 
     <TextView
         android:id="@+id/ico_day_tv"
@@ -68,6 +68,7 @@
         android:textSize="12dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/ico_day_left"
+        app:layout_constraintStart_toStartOf="@+id/ico_day_left"
         app:layout_constraintTop_toBottomOf="@+id/ico_day_left" />
 
     <TextView
@@ -138,34 +139,46 @@
     <TextView
         android:id="@+id/textView8"
         style="@style/icoTextView"
-        android:layout_width="60dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="4dp"
         android:text="@string/ico_sold_tokens"
-        app:layout_constraintBaseline_toBaselineOf="@+id/ico_sell_count"
-        app:layout_constraintEnd_toEndOf="@+id/button3"
-        app:layout_constraintHorizontal_bias="0.34"
-        app:layout_constraintStart_toStartOf="@+id/button3" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/button3" />
 
     <TextView
         android:id="@+id/ico_sell_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="12dp"
         android:text="861/1000"
-        app:layout_constraintStart_toEndOf="@+id/textView8"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/button3" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/ico_actual_price"
         style="@style/icoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="8dp"
         android:text="@string/ico_actual_price"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <android.support.constraint.Group
+        android:id="@+id/ico_purchase_token_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="button3,ico_sell_count,textView8" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
 </android.support.constraint.ConstraintLayout>

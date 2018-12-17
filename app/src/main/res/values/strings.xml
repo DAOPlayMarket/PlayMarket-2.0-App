@@ -242,9 +242,11 @@
     <string name="ico_day">Days</string>
     <string name="ico_hour">hours</string>
     <string name="ico_minute">minutes</string>
-    <string name="ico_buy_tokens">Купить</string>
+    <string name="ico_buy_tokens">Purchase</string>
     <string name="ico_sold_tokens">Tokens sold</string>
+
     <string name="ico_actual_price">Цена актуальна:</string>
+    <string name="ico_company_dynamics">Динамика компании:</string>
 
     <string name="ico_tokens_count">Number of tokens:</string>
     <string name="ico_stages_count">Number of stages:</string>
@@ -258,14 +260,13 @@
     <string name="ico_dao_playmarket">DAO PlayMarket 2.0:</string>
     <string name="ico_dao_playmarket_explained">5,000 (5%of the total number).</string>
 
-    <string name="ico_company_dynamics">Динамика компании:</string>
     <string name="ico_token_rate">Token rate</string>
-    <string name="ico_profit">Profit</string
-        >
+    <string name="ico_profit">Profit</string>
     <string name="ico_token_listing_part1">Tokens will be automatically listed on</string>
     <string name="ico_token_listing_part_2">from the moment of issue</string>
     <string name="company_budget_details">The company value is calculated according to the following formula:\nThe company\'s revenue for the last 30 days is multiplied by 6.</string>
     <string name="token_budget_details">The price for one token is calculated by the following formula:\nThe company\'s revenue for the last 30 days is multiplied by 6 and divided by 100,000. It is fixed every 30 days.</string>
     <string name="adver_budget_details">Proceeds from the sale of token shares.\nAll funds will be spent on new users acquisition and protected by a smart contract.</string>
+    <string name="ico_time_to_start">До старта продаж</string>
 
 </resources>
