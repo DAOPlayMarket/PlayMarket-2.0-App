@@ -81,6 +81,9 @@ public interface ServerApi {
     @FormUrlEncoded
     @POST("get-apps-by-package-name")
     Observable<ArrayList<App>> getAppsByPackage(@Field("packageNameArr") String arrayOfString);
+    @FormUrlEncoded
+    @POST("get-apps-by-package-name")
+    Observable<ArrayList<AppInfo>> getAppsByPackageGetAsAppInfo(@Field("packageNameArr") String arrayOfString);
 
     @FormUrlEncoded()
     @POST("get-currency")

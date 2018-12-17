@@ -66,8 +66,8 @@ public class IcoStepFragment extends Fragment {
         if (getArguments() != null)
             timeToStartInMillis = getArguments().getLong(TIME_KEY);
         purchaseButton.setEnabled(isStageIsActive());
-        tokensCount.setText(isStageIsActive() ? "/0" : "/1000");
-        tokensSold.setText(isStageIsActive() ? "0" : "500");
+        tokensCount.setText(isStageIsActive() ? "/1000" : "/0");
+        tokensSold.setText(isStageIsActive() ? "681" : "0");
         actualPriceTv.setText(isStageIsActive() ? R.string.ico_actual_price : R.string.ico_time_to_start);
         initTimer();
         return view;
@@ -91,10 +91,6 @@ public class IcoStepFragment extends Fragment {
                         minutesLeft.setText(String.valueOf(cal.get(Calendar.MINUTE)));
 
                         Date date = new Date(millisUntilFinished);
-
-//                      dayTv.setText("");
-//                      hourTv.setText("");
-//                      minutesTv.setText("");
 
                     }
 

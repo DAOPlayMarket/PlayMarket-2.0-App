@@ -21,7 +21,9 @@ public class IcoAppsInfoRepository {
     public void getIcoApps(IcoAppsRepositoryCallback callback) {
         this.callback = callback;
         RestApi.getServerApi().getIcoApps()
-                .map(this::mapWithLocalIco)
+                .zipWith(RestApi.getServerApi().getAppsByPackageGetAsAppInfo("com.blockchain.cryptoduel"), Pair::new)
+                .map(this::addCryptoDuelToArray)
+//                .map(this::mapWithLocalIco)
 //                .flatMap(this::mapWithGetIcoBalance, Pair::new)
 //                .map(this::mapWithCombineResult)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -30,6 +32,14 @@ public class IcoAppsInfoRepository {
                 .doOnTerminate(() -> this.callback.onIcoAppsTerminated())
                 .subscribe(callback::onIcoAppsReady, callback::onIcoAppsFailed);
     }
+
+    private ArrayList<AppInfo> addCryptoDuelToArray(Pair<ArrayList<AppInfo>, ArrayList<AppInfo>> arrayListArrayListPair) {
+        ArrayList<AppInfo> first = arrayListArrayListPair.first;
+        ArrayList<AppInfo> second = arrayListArrayListPair.second;
+        first.add(0, second.get(0));
+        return first;
+    }
+
 
     public Observable<ArrayList<AppInfo>> getIcoApps() {
         return RestApi.getServerApi().getIcoApps()

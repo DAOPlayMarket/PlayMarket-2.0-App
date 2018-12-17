@@ -14,6 +14,7 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.IcoListAdapter;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.interfaces.AppInfoCallback;
+import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
 import com.blockchain.store.playmarket.ui.local_ico_screen.IcoLocalActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
@@ -83,7 +84,7 @@ public class MyIcoActivity extends AppCompatActivity implements MyIcoContract.Vi
 
     @Override
     public void onAppInfoClicked(AppInfo appinfo) {
-        InvestActivity.startFromIco(this, appinfo);
+        AppDetailActivity.start(this, appinfo);
     }
 
     @Override
@@ -91,7 +92,8 @@ public class MyIcoActivity extends AppCompatActivity implements MyIcoContract.Vi
         TransferActivity.startAsTokenTransfer(this, appinfo);
     }
 
-    @Override public void onCryptoDuelClicked() {
+    @Override
+    public void onCryptoDuelClicked() {
         startActivity(new Intent(this, IcoLocalActivity.class));
     }
 

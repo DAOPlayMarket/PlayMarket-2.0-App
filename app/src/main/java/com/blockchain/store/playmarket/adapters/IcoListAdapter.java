@@ -66,7 +66,7 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
     @Override
     public void onBindViewHolder(IcoAppViewHolder holder, int position) {
 //        if (position == 0) {
-        holder.bindAsCryptoDuel();
+        holder.bindAsCryptoDuel(appList.get(position));
 //        } else {
 //            holder.bind(appList.get(position));
 //        }
@@ -117,11 +117,11 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
         }
 
 
-        public void bindAsCryptoDuel() {
+        public void bindAsCryptoDuel(AppInfo appInfo) {
             content.setText("CryptoDuel");
             imageView.setImageResource(R.drawable.cryptoduel_logo);
             imageView.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
-            cardView.setOnClickListener(v -> appListCallbacks.onCryptoDuelClicked());
+            cardView.setOnClickListener(v -> appListCallbacks.onAppInfoClicked(appInfo));
             price.setText(R.string.app_free);
         }
     }
