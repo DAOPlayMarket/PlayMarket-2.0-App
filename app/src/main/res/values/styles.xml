@@ -169,7 +169,7 @@
     </style>
 
     <style name="icoTextView">
-        <item name="android:textColor">#34ffffff</item>
+        <item name="android:textColor">#707B87</item>
     </style>
 
     <style name="icoTitleText">

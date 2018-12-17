@@ -4,8 +4,8 @@
     android:id="@+id/linearLayout5"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/ico_bg"
-    android:paddingLeft="25dp"
+    tools:background="@color/ico_bg"
+
     tools:context="com.blockchain.store.playmarket.ui.local_ico_screen.IcoStepFragment">
 
     <TextView
@@ -13,7 +13,8 @@
         style="@style/icoTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
         android:text="220 ETH"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/ico_earned"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/earned_eth"
         app:layout_constraintTop_toBottomOf="@+id/earned_eth" />
 
     <TextView
@@ -35,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:text="0,2 ETH"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/earned_tv"
         app:layout_constraintTop_toBottomOf="@+id/earned_tv" />
 
     <TextView
@@ -45,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/ico_one_token_price"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/token_price"
         app:layout_constraintTop_toBottomOf="@+id/token_price" />
 
     <TextView
@@ -53,7 +54,7 @@
         style="@style/icoTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="65dp"
+        android:layout_marginStart="92dp"
         android:text="29"
         android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -121,11 +122,11 @@
 
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/ico_purchase_button"
         style="@style/positiveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
+        android:layout_marginStart="80dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="80dp"
         android:text="@string/ico_buy_tokens"
@@ -133,52 +134,65 @@
         android:textSize="24dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/token_price_tv" />
 
-    <TextView
-        android:id="@+id/textView8"
-        style="@style/icoTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="4dp"
-        android:text="@string/ico_sold_tokens"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
 
-    <TextView
-        android:id="@+id/ico_sell_count"
+    <LinearLayout
+        android:id="@+id/ico_sold_tokens_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="12dp"
-        android:text="861/1000"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ico_purchase_button">
+
+        <TextView
+            android:id="@+id/textView8"
+            style="@style/icoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="4dp"
+            android:text="@string/ico_sold_tokens" />
+
+        <TextView
+            android:id="@+id/ico_sell_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="861" />
+
+        <TextView
+            android:id="@+id/ico_sell_count_max"
+            style="@style/icoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="/1000" />
+
+
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/ico_actual_price"
         style="@style/icoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="30dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/ico_actual_price"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ico_sold_tokens_holder" />
 
     <android.support.constraint.Group
         android:id="@+id/ico_purchase_token_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="button3,ico_sell_count,textView8" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        app:constraint_referenced_ids="ico_purchase_button,ico_sold_tokens_holder" />
 
 </android.support.constraint.ConstraintLayout>

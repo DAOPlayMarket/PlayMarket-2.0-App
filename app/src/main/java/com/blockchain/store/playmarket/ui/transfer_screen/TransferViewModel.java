@@ -31,5 +31,7 @@ public class TransferViewModel extends ViewModel {
 
     public MutableLiveData<String> priceInLocalCurrency = new MutableLiveData<>();
 
+    public MutableLiveData<Boolean> isHasMaxCount = new MutableLiveData<>();
 
+    public MutableLiveData<Integer> maxCount = new MutableLiveData<>();
 }

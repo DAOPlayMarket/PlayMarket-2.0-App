@@ -310,13 +310,13 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ButterKnife.bind(this, itemView);
             viewPagerAdapter = new ViewPagerAdapter(activity.getSupportFragmentManager());
             viewPagerAdapter.addFragment(IcoStepFragment.newInstance(0L));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(2505600000L + 39600000 + 1320000));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(2505600000L + 39600000 + 1320000));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(2505600000L + 39600000 + 1320000));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(2505600000L + 39600000 + 1320000));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(2505600000L + 39600000 + 1320000));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(2505600000L + 39600000 + 1320000));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(2505600000L + 39600000 + 1320000));
+            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L ));
+            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
             ViewPager viewPager = itemView.findViewById(R.id.ico_viewpager);
             viewPager.setAdapter(viewPagerAdapter);
 
