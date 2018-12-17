@@ -294,8 +294,6 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             lineChart.animateY(500);
             lineChart.invalidate();
         }
-
-
     }
 
     public class IcoStepViewHolder extends RecyclerView.ViewHolder {
@@ -309,9 +307,9 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
             ButterKnife.bind(this, itemView);
             viewPagerAdapter = new ViewPagerAdapter(activity.getSupportFragmentManager());
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(0L));
+            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(2505600000L));
             viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L ));
+            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
             viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
             viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
             viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));

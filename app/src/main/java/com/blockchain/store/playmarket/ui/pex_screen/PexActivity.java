@@ -4,10 +4,21 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.webkit.ConsoleMessage;
+import android.webkit.GeolocationPermissions;
+import android.webkit.PermissionRequest;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.PexHistory;
-import com.github.mikephil.charting.charts.CandleStickChart;
+import com.blockchain.store.playmarket.utilities.Constants;
+import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -33,6 +44,10 @@ public class PexActivity extends AppCompatActivity implements PexContract.View {
     //    @BindView(R.id.candleStickChart) CandleStickChart candleStickChart;
     @BindView(R.id.combinedChart) CombinedChart combinedChart;
 
+    @BindView(R.id.web_view) WebView webView;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
+
+
     private PexPresenter presenter;
     private PexHistory pexHistory;
 
@@ -42,9 +57,50 @@ public class PexActivity extends AppCompatActivity implements PexContract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pex_activity);
         ButterKnife.bind(this);
-        attachPresenter();
-        initChart();
+//        attachPresenter();
+        setWebView();
 
+
+    }
+
+    private void setWebView() {
+        webView.getSettings().setAppCachePath(getCacheDir().getAbsolutePath());
+        webView.getSettings().setAllowFileAccess(true);
+        webView.getSettings().setAppCacheEnabled(true);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        webView.getSettings().setAllowFileAccessFromFileURLs(true);
+        webView.getSettings().setAllowFileAccess(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onPermissionRequest(PermissionRequest request) {
+                request.grant(PermissionUtils.getPermissionsLocation());
+            }
+
+            @Override
+            public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
+                callback.invoke(origin, true, false);
+            }
+        });
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+        webView.loadUrl(Constants.PAX_URL);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void attachPresenter() {
@@ -52,11 +108,6 @@ public class PexActivity extends AppCompatActivity implements PexContract.View {
         presenter.init(this);
         presenter.loadHistory();
     }
-
-    private void initChart() {
-
-    }
-
 
     @Override
     public void onHistoryReady(PexHistory pexHistory) {

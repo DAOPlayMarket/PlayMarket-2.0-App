@@ -1,9 +1,9 @@
 package com.blockchain.store.playmarket.ui.local_ico_screen;
 
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Group;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.blockchain.store.playmarket.R;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,7 +44,6 @@ public class IcoStepFragment extends Fragment {
     @BindView(R.id.ico_purchase_token_group) Group purchaseTokenGroup;
     @BindView(R.id.ico_actual_price) TextView actualPriceTv;
     @BindView(R.id.ico_purchase_button) Button purchaseButton;
-
 
     private CountDownTimer countDownTimer;
     private long timeToStartInMillis;
@@ -80,25 +78,27 @@ public class IcoStepFragment extends Fragment {
 
     private void initTimer() {
         if (countDownTimer == null) {
-            if (isStageIsActive()) {
-                countDownTimer = new CountDownTimer(timeToStartInMillis, 1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTimeInMillis(millisUntilFinished);
-                        dayLeft.setText(String.valueOf(cal.get(Calendar.DAY_OF_MONTH)));
-                        hourLeft.setText(String.valueOf(cal.get(Calendar.HOUR_OF_DAY)));
-                        minutesLeft.setText(String.valueOf(cal.get(Calendar.MINUTE)));
+            countDownTimer = new CountDownTimer(timeToStartInMillis, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTimeInMillis(millisUntilFinished);
+                    dayLeft.setText(String.valueOf(cal.get(Calendar.DAY_OF_MONTH)));
+                    hourLeft.setText(String.valueOf(cal.get(Calendar.HOUR_OF_DAY)));
+                    minutesLeft.setText(String.valueOf(cal.get(Calendar.MINUTE)));
 
-                        Date date = new Date(millisUntilFinished);
+                    Resources resources = getActivity().getBaseContext().getResources();
 
-                    }
+                    dayTv.setText(resources.getQuantityString(R.plurals.days, cal.get(Calendar.DAY_OF_MONTH)));
+                    hourTv.setText(resources.getQuantityString(R.plurals.hours, cal.get(Calendar.HOUR_OF_DAY)));
+                    minutesTv.setText(resources.getQuantityString(R.plurals.minutes, cal.get(Calendar.MINUTE)));
 
-                    @Override
-                    public void onFinish() {
-                    }
-                }.start();
-            }
+                }
+
+                @Override
+                public void onFinish() {
+                }
+            }.start();
         }
     }
 
