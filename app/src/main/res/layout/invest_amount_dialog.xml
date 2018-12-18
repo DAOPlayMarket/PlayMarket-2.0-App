@@ -50,7 +50,7 @@
                     android:layout_marginEnd="16dp"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:textColor="@color/review_text_color"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     tools:text="TextViewT extVfsdafd sfd fd fdfddffd fdfs df dsasdfa fasdffasdf TextViewT extVfsdafd sfd fd fdfddffd fdfs df dsasdfa fasdffasdf  d assf sd fsdf f saf asdfsa fsd f sdaf dfd s f fsdaeie wTextVie wTextVi fs fsdfas dfd dsf sdf ew TextView TextVieasd s s s s s s s s  s s d   dadsa  d wTextView fdas asfd dfTextViewT extVfsdafd sfd fd fdfddffd fdfs df dsasdfa fasdffasdf  d assf sd fsdf f saf asdfsa fsd f sdaf dfd s f fsdaeie wTextVie wTextVi fs fsdfas dfd dsf sdf ew TextView TextVieasd s s s s s s s s  s s d   dadsa  d wTextView fdas asfd dfTextViewT extVfsdafd sfd fd fdfddffd fdfs df dsasdfa fasdffasdf  d assf sd fsdf f saf asdfsa fsd f sdaf dfd s f fsdaeie wTextVie wTextVi fs fsdfas dfd dsf sdf ew TextView TextVieasd s s s s s s s s  s s d   dadsa  d wTextView fdas asfd df d assf sd fsdf f saf asdfsa fsd f sdaf dfd s f fsdaeie wTextVie wTextVi fs fsdfas dfd dsf sdf ew TextView TextVieasd s s s s s s s s  s s d   dadsa  d wTextView fdas asfd df" />
 
@@ -77,10 +77,11 @@
                 android:layout_height="wrap_content"
                 android:background="@color/dialog_edittext_bg"
                 android:gravity="top|center_vertical"
+                android:hint="Enter your response here..."
                 android:minHeight="140dp"
                 android:padding="15dp"
                 android:textColor="@android:color/white"
-                tools:text="Test test ..." />
+                android:textColorHint="@color/white" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -99,8 +100,8 @@
                     android:minHeight="23dp"
                     android:numStars="5"
                     android:progressTint="@color/colorAccent"
-                    android:secondaryProgressTint="#686f7d"
                     android:rating="5"
+                    android:secondaryProgressTint="#686f7d"
                     android:stepSize="1"
                     app:layout_constraintStart_toStartOf="@+id/user_name"
                     app:layout_constraintTop_toBottomOf="@+id/user_name"

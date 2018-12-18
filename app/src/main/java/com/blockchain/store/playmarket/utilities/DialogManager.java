@@ -151,9 +151,7 @@ public class DialogManager {
             }
         });
 
-        cancelButton.setOnClickListener(v -> {
-            createFolderDialog.dismiss();
-        });
+        cancelButton.setOnClickListener(v -> createFolderDialog.dismiss());
         return createFolderDialog;
     }
 

@@ -185,4 +185,14 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@color/colorPrimary</item>
     </style>
+
+    <style name="icoSwitcher" parent="Base.Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:colorControlActivated">#60DCF4</item>
+
+        <item name="colorSwitchThumbNormal">@color/ico_switch_thumb</item>
+
+        <item name="android:track">@color/ico_switch_thumb</item>
+        <item name="android:colorForeground">#60DCF4</item>
+        <item name="android:colorAccent">#60DCF4</item>
+    </style>
 </resources>
