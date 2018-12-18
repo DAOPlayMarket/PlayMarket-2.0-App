@@ -234,6 +234,14 @@ public class MyPackageManager {
         } catch (Exception e) {
             return false;
         }
+    }
 
+    public boolean deleteLocalApkByPackageName(String packageName, Context context) {
+        File file = findFileByPackageName(packageName, context);
+        if (file != null && file.exists()) {
+            return file.delete();
+        } else {
+            return false;
+        }
     }
 }

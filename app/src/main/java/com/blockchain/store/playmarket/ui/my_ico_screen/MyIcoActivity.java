@@ -34,6 +34,7 @@ public class MyIcoActivity extends AppCompatActivity implements MyIcoContract.Vi
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
+    @BindView(R.id.empty_view) TextView emptyView;
 
     private MyIcoPresenter presenter;
     private IcoListAdapter adapter;
@@ -60,6 +61,11 @@ public class MyIcoActivity extends AppCompatActivity implements MyIcoContract.Vi
 
     @Override
     public void onIcoAppsReady(ArrayList<AppInfo> apps) {
+        if (apps.isEmpty()) {
+            emptyView.setVisibility(View.VISIBLE);
+            return;
+        }
+        emptyView.setVisibility(View.GONE);
         adapter = new IcoListAdapter(apps, this, true);
         adapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -69,6 +75,7 @@ public class MyIcoActivity extends AppCompatActivity implements MyIcoContract.Vi
     @Override
     public void onIcoAppsFailed(Throwable throwable) {
         errorHolder.setVisibility(View.VISIBLE);
+        emptyView.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.top_layout_back_arrow)

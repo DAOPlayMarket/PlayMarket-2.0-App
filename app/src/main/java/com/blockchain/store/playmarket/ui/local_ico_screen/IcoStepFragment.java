@@ -23,10 +23,6 @@ import butterknife.OnClick;
 
 public class IcoStepFragment extends Fragment {
 
-    @BindView(R.id.earned_tv) TextView earned_tv;
-    @BindView(R.id.token_price_tv) TextView token_price_tv;
-    @BindView(R.id.textView8) TextView textView8;
-    @BindView(R.id.ico_sold_tokens_holder) LinearLayout ico_sold_tokens_holder;
 
     private static final String TAG = "IcoStepFragment";
     private static final String TIME_KEY = "timeInMillis";
@@ -44,6 +40,10 @@ public class IcoStepFragment extends Fragment {
     @BindView(R.id.ico_purchase_token_group) Group purchaseTokenGroup;
     @BindView(R.id.ico_actual_price) TextView actualPriceTv;
     @BindView(R.id.ico_purchase_button) Button purchaseButton;
+    @BindView(R.id.earned_tv) TextView earned_tv;
+    @BindView(R.id.token_price_tv) TextView token_price_tv;
+    @BindView(R.id.textView8) TextView textView8;
+    @BindView(R.id.ico_sold_tokens_holder) LinearLayout ico_sold_tokens_holder;
 
     private CountDownTimer countDownTimer;
     private long timeToStartInMillis;
@@ -102,9 +102,20 @@ public class IcoStepFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        cancelTimer();
+    }
+
+    public void cancelTimer() {
+        if (this.countDownTimer != null) {
+            this.countDownTimer.cancel();
+        }
+    }
+
     @OnClick(R.id.ico_purchase_button)
     public void ico_purchase_button() {
-        // TODO
     }
 
 }

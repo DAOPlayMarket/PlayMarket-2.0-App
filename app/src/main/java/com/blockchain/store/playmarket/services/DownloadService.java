@@ -21,6 +21,7 @@ import java.io.File;
 public class DownloadService extends IntentService {
     private static final int TIMEOUT_IN_MILLIS = 3000;
     private static final String TAG = "DownloadService";
+    private int progress = 0;
 
     public DownloadService() {
         super("DownloadService");
@@ -41,9 +42,13 @@ public class DownloadService extends IntentService {
                 .load(url)
                 .setTimeout(TIMEOUT_IN_MILLIS)
                 .progress((downloaded, total) -> {
-                    int progress = (int) ((double) downloaded / total * 100);
+                    int tempProgress = (int) ((double) downloaded / total * 100);
+//                    if (tempProgress > progress) {
+                    progress = tempProgress;
                     Log.d(TAG, "progress: downloaded: " + downloaded + ". Total: " + total + ". progress " + progress);
-                    NotificationManager.getManager().updateProgress(app, progress);
+                    NotificationManager.getManager().updateProgress(app, tempProgress);
+//                    }
+
                 }).write(file).setCallback((exception, result) -> {
             if (exception == null) {
                 NotificationManager.getManager().downloadCompleteWithoutError(app);
@@ -53,6 +58,7 @@ public class DownloadService extends IntentService {
                     installApk(result);
                 }
             } else {
+                new MyPackageManager().deleteLocalApkByPackageName(app.packageName, this);
                 NotificationManager.getManager().downloadCompleteWithError(app, exception);
             }
         });

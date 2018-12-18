@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
@@ -217,17 +218,30 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public class IcoBudgetViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.budget_details) TextView budgetDetails;
-        @BindView(R.id.token_details) TextView tokenDetails;
-        @BindView(R.id.advertisement_details) TextView advertisementDetails;
+        @BindView(R.id.budget_details) LinearLayout budgetDetails;
+        @BindView(R.id.token_details) LinearLayout tokenDetails;
+        @BindView(R.id.advertisement_details) LinearLayout advertisementDetails;
+        private Context context;
 
         public IcoBudgetViewHolder(View itemView) {
             super(itemView);
+            this.context = itemView.getContext();
             ButterKnife.bind(this, itemView);
-            Context context = itemView.getContext();
-            budgetDetails.setOnClickListener(v -> showDialog(context, context.getString(R.string.company_cost), context.getString(R.string.company_budget_details)));
-            tokenDetails.setOnClickListener(v -> showDialog(context, context.getString(R.string.token_cost), context.getString(R.string.token_budget_details)));
-            advertisementDetails.setOnClickListener(v -> showDialog(context, context.getString(R.string.advertisement_budget), context.getString(R.string.adver_budget_details)));
+        }
+
+        @OnClick({R.id.budget_details, R.id.textview1, R.id.company_budget})
+        void onBudgetDetailsClicked() {
+            showDialog(context, context.getString(R.string.company_cost), context.getString(R.string.company_budget_details));
+        }
+
+        @OnClick({R.id.token_details, R.id.textview2, R.id.token_budget})
+        void onTokenDetailsClicked() {
+            showDialog(context, context.getString(R.string.token_cost), context.getString(R.string.token_budget_details));
+        }
+
+        @OnClick({R.id.advertisement_details, R.id.textview3, R.id.advertisement_budget})
+        void onAdvertisementDetailsClicked() {
+            showDialog(context, context.getString(R.string.advertisement_budget), context.getString(R.string.adver_budget_details));
         }
 
         private void showDialog(Context context, String title, String body) {

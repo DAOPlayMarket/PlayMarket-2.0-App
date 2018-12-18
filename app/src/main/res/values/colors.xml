@@ -81,8 +81,8 @@
     <color name="history_items_bg">#AFC5FD</color>
 
     <!--User review colors-->
-    <color name="review_title_text_color">#67b7b5</color>
-    <color name="review_text_color">#686f7d</color>
+    <color name="review_title_text_color">@color/colorAccent</color>
+    <color name="review_text_color">@color/white</color>
 
     <!--User Review Dialog-->
     <color name="dialog_edittext_bg">#2f2e2d</color>

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/ico_bg">
+    android:background="@color/ico_bg"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/logo"
@@ -12,21 +14,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:src="@drawable/crypto_duel_logo"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/textview1"
-        style="@style/icoTextView"
         android:layout_width="wrap_content"
-        android:layout_height="15dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="@string/company_cost"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
+        android:text="@string/company_cost" />
 
     <TextView
         android:id="@+id/company_budget"
@@ -36,33 +31,47 @@
         android:text="1029"
         android:textColor="#43B6F1"
         android:textSize="36sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/textview1"
-        app:layout_constraintStart_toStartOf="@+id/textview1"
-        app:layout_constraintTop_toBottomOf="@+id/textview1" />
+        android:textStyle="bold" />
 
-    <TextView
+    <LinearLayout
         android:id="@+id/budget_details"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/ico_detail"
-        android:textColor="#60DCF4"
-        app:layout_constraintEnd_toEndOf="@+id/company_budget"
-        app:layout_constraintStart_toStartOf="@+id/company_budget"
-        app:layout_constraintTop_toBottomOf="@+id/company_budget" />
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:rotation="180"
+            android:src="@drawable/ico_small_arrow_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ico_detail"
+            android:textColor="#60DCF4" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ico_small_arrow_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </LinearLayout>
 
 
     <TextView
         android:id="@+id/textview2"
-        style="@style/icoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="@string/token_cost"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/budget_details" />
+        android:text="@string/token_cost" />
 
     <TextView
         android:id="@+id/token_budget"
@@ -72,33 +81,49 @@
         android:text="500"
         android:textColor="#43B6F1"
         android:textSize="36sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/textview1"
-        app:layout_constraintStart_toStartOf="@+id/textview1"
-        app:layout_constraintTop_toBottomOf="@+id/textview2" />
+        android:textStyle="bold" />
 
-    <TextView
+
+    <LinearLayout
         android:id="@+id/token_details"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/ico_detail"
-        android:textColor="#60DCF4"
-        app:layout_constraintEnd_toEndOf="@+id/token_budget"
-        app:layout_constraintStart_toStartOf="@+id/token_budget"
-        app:layout_constraintTop_toBottomOf="@+id/token_budget" />
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:rotation="180"
+            android:src="@drawable/ico_small_arrow_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ico_detail"
+            android:textColor="#60DCF4" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ico_small_arrow_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/textview3"
-        style="@style/icoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/advertisement_budget"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/token_details" />
+        android:text="@string/advertisement_budget" />
 
     <TextView
         android:id="@+id/advertisement_budget"
@@ -108,21 +133,40 @@
         android:text="500"
         android:textColor="#43B6F1"
         android:textSize="36sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/textview1"
-        app:layout_constraintStart_toStartOf="@+id/textview1"
-        app:layout_constraintTop_toBottomOf="@+id/textview3" />
+        android:textStyle="bold" />
 
-    <TextView
+
+    <LinearLayout
         android:id="@+id/advertisement_details"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/ico_detail"
-        android:textColor="#60DCF4"
-        app:layout_constraintEnd_toEndOf="@+id/advertisement_budget"
-        app:layout_constraintStart_toStartOf="@+id/advertisement_budget"
-        app:layout_constraintTop_toBottomOf="@+id/advertisement_budget" />
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:rotation="180"
+            android:src="@drawable/ico_small_arrow_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ico_detail"
+            android:textColor="#60DCF4" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ico_small_arrow_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </LinearLayout>
 
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
