@@ -1,14 +1,21 @@
 package com.blockchain.store.playmarket.ui.local_ico_screen;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
@@ -38,8 +45,9 @@ public class NewIcoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final int VIEW_TYPE_BUDGET = 1;
     private static final int VIEW_TYPE_DESCRIPTION = 2;
     private static final int VIEW_TYPE_STEP = 3;
-    private static final int VIEW_TYPE_GRAPH = 4;
-
+    private static final int VIEW_TYPE_TOKEN_DESCRIPTION = 4;
+    private static final int VIEW_TYPE_GRAPH = 5;
+    private static final int VIEW_TYPE_ABOUT = 6;
     private AppCompatActivity appCompatActivity;
 
     public NewIcoAdapter(AppCompatActivity appCompatActivity) {
@@ -47,11 +55,14 @@ public class NewIcoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         //bindAsCrypoDuelTest
     }
 
-    @Override public int getItemViewType(int position) {
+    @Override
+    public int getItemViewType(int position) {
         return position;
     }
 
-    @NonNull @Override public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = null;
 
 
@@ -72,22 +83,32 @@ public class NewIcoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.ico_new_step, parent, false);
                 return new IcoStepViewHolder(view);
+            case VIEW_TYPE_TOKEN_DESCRIPTION:
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.ico_new_token_description, parent, false);
+                return new IcoDescriptionViewHolder(view);
             case VIEW_TYPE_GRAPH:
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.ico_new_graph, parent, false);
                 return new IcoGraphViewHolder(view);
+            case VIEW_TYPE_ABOUT:
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.ico_new_about, parent, false);
+                return new IcoAboutViewHolder(view);
         }
 
 
         return null;
     }
 
-    @Override public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
     }
 
-    @Override public int getItemCount() {
-        return 5;
+    @Override
+    public int getItemCount() {
+        return 7;
     }
 
     public class IcoSplashViewHolder extends RecyclerView.ViewHolder {
@@ -99,8 +120,40 @@ public class NewIcoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public class IcoBudgetViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.budget_details) LinearLayout budgetDetails;
+        @BindView(R.id.token_details) LinearLayout tokenDetails;
+        @BindView(R.id.advertisement_details) LinearLayout advertisementDetails;
+        private Context context;
+
         public IcoBudgetViewHolder(View itemView) {
             super(itemView);
+            this.context = itemView.getContext();
+            ButterKnife.bind(this, itemView);
+        }
+
+        @OnClick({R.id.budget_details, R.id.textview1, R.id.company_budget})
+        void onBudgetDetailsClicked() {
+            showDialog(context, context.getString(R.string.company_cost), context.getString(R.string.company_budget_details));
+        }
+
+        @OnClick({R.id.token_details, R.id.textview2, R.id.token_budget})
+        void onTokenDetailsClicked() {
+            showDialog(context, context.getString(R.string.token_cost), context.getString(R.string.token_budget_details));
+        }
+
+        @OnClick({R.id.advertisement_details, R.id.textview3, R.id.advertisement_budget})
+        void onAdvertisementDetailsClicked() {
+            showDialog(context, context.getString(R.string.advertisement_budget), context.getString(R.string.adver_budget_details));
+        }
+
+        private void showDialog(Context context, String title, String body) {
+            AlertDialog alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(context, R.style.alert_dialog_dark))
+                    .setTitle(title)
+                    .setMessage(body)
+                    .setCancelable(true)
+                    .create();
+            alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            alertDialog.show();
         }
     }
 
@@ -157,8 +210,6 @@ public class NewIcoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             lineChart.animateY(500);
             lineChart.invalidate();
         }
-
-
     }
 
     public class IcoStepViewHolder extends RecyclerView.ViewHolder {
@@ -172,19 +223,22 @@ public class NewIcoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             super(itemView);
             ButterKnife.bind(this, itemView);
             viewPagerAdapter = new ViewPagerAdapter(appCompatActivity.getSupportFragmentManager());
-            viewPagerAdapter.addFragment(new IcoStepFragment());
-            viewPagerAdapter.addFragment(new IcoStepFragment());
-            viewPagerAdapter.addFragment(new IcoStepFragment());
-            viewPagerAdapter.addFragment(new IcoStepFragment());
-            viewPagerAdapter.addFragment(new IcoStepFragment());
-            viewPagerAdapter.addFragment(new IcoStepFragment());
+            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(2505600000L));
+            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
             ViewPager viewPager = itemView.findViewById(R.id.ico_viewpager);
             viewPager.setAdapter(viewPagerAdapter);
 
             setCounter.setText(String.format(itemView.getContext().getString(R.string.step_counter), 1, viewPagerAdapter.getCount()));
 
             viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-                @Override public void onPageSelected(int position) {
+                @Override
+                public void onPageSelected(int position) {
                     arrowLeft.setAlpha(position == 0 ? 0.2f : 1f);
                     arrowRight.setAlpha(position == viewPagerAdapter.getCount() - 1 ? 0.2f : 1f);
                     setCounter.setText(String.format(itemView.getContext().getString(R.string.step_counter), position + 1, viewPagerAdapter.getCount()));
@@ -195,13 +249,40 @@ public class NewIcoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         }
 
-        @OnClick(R.id.arrowLeft) void onLeftArrowClicked() {
+        @OnClick(R.id.arrowLeft)
+        void onLeftArrowClicked() {
             viewpager.setCurrentItem(viewpager.getCurrentItem() - 1, true);
         }
 
-        @OnClick(R.id.arrowRight) void onRightArrowClicked() {
+        @OnClick(R.id.arrowRight)
+        void onRightArrowClicked() {
             viewpager.setCurrentItem(viewpager.getCurrentItem() + 1, true);
         }
 
+    }
+
+    public class IcoAboutViewHolder extends RecyclerView.ViewHolder {
+
+
+        @BindView(R.id.ico_chat_duel_tv) TextView chatDuelTv;
+        @BindView(R.id.ico_duel_bot_tv) TextView duelBotTv;
+        @BindView(R.id.ico_site_tv) TextView siteTv;
+        @BindView(R.id.ico_listing_holder) View icoListingHolder;
+
+        public IcoAboutViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+
+            icoListingHolder.setOnClickListener(v -> itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://dex.playmarket.io/CDLT/ETH/"))));
+            chatDuelTv.setOnClickListener(v -> {
+                itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(chatDuelTv.getText().toString())));
+            });
+            duelBotTv.setOnClickListener(v -> {
+                itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(duelBotTv.getText().toString())));
+            });
+            siteTv.setOnClickListener(v -> {
+                itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(siteTv.getText().toString())));
+            });
+        }
     }
 }

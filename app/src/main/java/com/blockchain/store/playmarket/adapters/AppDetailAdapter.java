@@ -136,9 +136,6 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (holder instanceof ReviewsViewHolder) {
             ((ReviewsViewHolder) holder).bind((AppReviewsData) items.get(position));
         }
-        if (holder instanceof IcoViewHolder) {
-            ((IcoViewHolder) holder).bind();
-        }
     }
 
     @Override
@@ -194,20 +191,6 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    class IcoViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.ico_recycler_view) RecyclerView recyclerView;
-
-        public IcoViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
-        public void bind() {
-            NewIcoAdapter adapter = new NewIcoAdapter(activity);
-            recyclerView.setLayoutManager(new LinearLayoutManager(activity));
-            recyclerView.setAdapter(adapter);
-        }
-    }
 
     public class IcoSplashViewHolder extends RecyclerView.ViewHolder {
 

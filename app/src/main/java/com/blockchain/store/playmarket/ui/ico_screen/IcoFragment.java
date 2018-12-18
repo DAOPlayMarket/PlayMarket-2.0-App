@@ -136,7 +136,8 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
 
     @Override
     public void onAppInfoClicked(AppInfo appinfo) {
-        AppDetailActivity.start(getActivity(),appinfo);
+        startActivity(new Intent(getActivity(), IcoLocalActivity.class));
+//        AppDetailActivity.start(getActivity(),appinfo);
     }
 
     @Override
