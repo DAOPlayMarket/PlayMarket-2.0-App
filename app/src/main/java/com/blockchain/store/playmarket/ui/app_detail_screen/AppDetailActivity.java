@@ -87,7 +87,6 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @BindView(R.id.delete_view) TextView deleteBtn;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.price_progress_bar) ProgressBar priceProgressBar;
-    @BindView(R.id.fab) FloatingActionButton mFab;
 
     private boolean isUserPurchasedApp;
 
@@ -362,11 +361,6 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
             textDescriptionAnimator.setDuration(ANIMATOR_DURATION).start();
         }
 
-    }
-
-    @OnClick(R.id.fab)
-    void onFabClicked() {
-        onReplyClicked();
     }
 
     @Override

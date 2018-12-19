@@ -5,22 +5,19 @@
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="6dp"
-    android:layout_marginLeft="40dp"
-    android:layout_marginRight="6dp"
+    android:layout_marginLeft="@dimen/USER_REVIEW_LEFT_MARGIN_BASIC"
     android:layout_marginTop="6dp"
-    android:animateLayoutChanges="true"
-    android:backgroundTint="@color/white"
-    android:background="@drawable/review_ours">
+    android:paddingBottom="20dp"
+    tools:background="@color/colorPrimary">
 
-    <ImageView
-        android:id="@+id/user_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:visibility="gone"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/user_name"
+    <View
+        android:id="@+id/divider"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:background="@color/review_title_text_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@color/colorAccent" />
 
     <TextView
@@ -28,16 +25,16 @@
         style="@style/default_black_title"
         android:layout_width="0dp"
         android:layout_height="17dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="10dp"
         android:ellipsize="middle"
         android:singleLine="true"
         android:textColor="@color/review_title_text_color"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/user_commentary"
+        app:layout_constraintStart_toEndOf="@+id/divider"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Some Random  Name " />
+        tools:text="0xf43DD3D777BC49E438b170B0d92e3F28327452CF" />
 
     <me.zhanghai.android.materialratingbar.MaterialRatingBar
         android:id="@+id/user_rating_bar"
@@ -52,9 +49,9 @@
         android:maxHeight="20dp"
         android:minHeight="20dp"
         android:numStars="5"
-        android:progressTint="@color/colorAccent"
-        android:secondaryProgressTint="#686f7d"
+        android:progressTint="@color/review_title_text_color"
         android:rating="4"
+        android:secondaryProgressTint="#D4D4D4"
         android:stepSize="1"
         app:layout_constraintStart_toStartOf="@+id/user_name"
         app:layout_constraintTop_toBottomOf="@+id/user_name"
@@ -62,32 +59,30 @@
 
     <TextView
         android:id="@+id/user_commentary"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
         android:ellipsize="end"
-        android:maxLines="2"
+        android:maxLines="4"
         android:text="TextViewT extVfsdafd sfd fd fdfddffd fdfs df dsasdfa fasdf d assf sd fsdf f saf asdfsa fsd f sdaf dfd s f fsdaeie wTextVie wTextVi fs fsdfas dfd dsf sdf ew TextView TextVieasd s s s s s s s s  s s d   dadsa  d wTextView fdas asfd df"
         android:textColor="@color/review_text_color"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/user_icon"
+        app:layout_constraintStart_toStartOf="@+id/user_rating_bar"
         app:layout_constraintTop_toBottomOf="@+id/user_rating_bar" />
 
     <TextView
         android:id="@+id/read_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingEnd="16dp"
         android:paddingTop="12dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="4dp"
         android:text="@string/more"
         android:textColor="@color/review_title_text_color"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_commentary"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toBottomOf="@+id/user_commentary" />
 
 </android.support.constraint.ConstraintLayout>

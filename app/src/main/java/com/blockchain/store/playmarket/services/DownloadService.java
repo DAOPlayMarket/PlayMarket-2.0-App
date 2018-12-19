@@ -43,11 +43,11 @@ public class DownloadService extends IntentService {
                 .setTimeout(TIMEOUT_IN_MILLIS)
                 .progress((downloaded, total) -> {
                     int tempProgress = (int) ((double) downloaded / total * 100);
-//                    if (tempProgress > progress) {
-                    progress = tempProgress;
-                    Log.d(TAG, "progress: downloaded: " + downloaded + ". Total: " + total + ". progress " + progress);
-                    NotificationManager.getManager().updateProgress(app, tempProgress);
-//                    }
+                    if (tempProgress > progress) {
+                        progress = tempProgress;
+                        Log.d(TAG, "progress: downloaded: " + downloaded + ". Total: " + total + ". progress " + progress);
+                        NotificationManager.getManager().updateProgress(app, progress);
+                    }
 
                 }).write(file).setCallback((exception, result) -> {
             if (exception == null) {
@@ -58,7 +58,7 @@ public class DownloadService extends IntentService {
                     installApk(result);
                 }
             } else {
-                new MyPackageManager().deleteLocalApkByPackageName(app.packageName, this);
+                new MyPackageManager().deleteLocalApkByPackageName(app.packageName,this);
                 NotificationManager.getManager().downloadCompleteWithError(app, exception);
             }
         });

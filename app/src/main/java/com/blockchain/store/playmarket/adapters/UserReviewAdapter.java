@@ -2,14 +2,15 @@ package com.blockchain.store.playmarket.adapters;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
@@ -24,9 +25,11 @@ import butterknife.ButterKnife;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
     private static final String TAG = "UserReviewAdapter";
     private static final int TYPE_USER_REPLY = 0;
     private static final int TYPE_USER_REVIEW = 1;
+    private static final int TYPE_REPLY = 2;
     ArrayList<UserReview> userReviews;
     int expandedItem = -1;
     UserReviewCallback callback;
@@ -35,11 +38,15 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public UserReviewAdapter(ArrayList<UserReview> userReviews, UserReviewCallback callback) {
         this.callback = callback;
         this.userReviews = userReviews;
+        this.userReviews.add(0, null);
         userAddress = AccountManager.getAddress().getHex();
     }
 
     @Override
     public int getItemViewType(int position) {
+        if (position == 0) {
+            return TYPE_REPLY;
+        }
         if (!userReviews.get(position).author.equalsIgnoreCase(userAddress)) {
             return TYPE_USER_REVIEW;
         } else {
@@ -51,11 +58,14 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_USER_REVIEW) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_review_item, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_replay_item, parent, false);
             return new UserReviewViewHolder(view, viewType);
         } else if (viewType == TYPE_USER_REPLY) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_replay_item, parent, false);
             return new UserReviewViewHolder(view, viewType);
+        } else if (viewType == TYPE_REPLY) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.review_reply, parent, false);
+            return new ReplyViewHolder(view);
         }
         return null;
     }
@@ -64,6 +74,9 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof UserReviewViewHolder) {
             ((UserReviewViewHolder) holder).bind(userReviews.get(position), position);
+        }
+        if (holder instanceof ReplyViewHolder) {
+            ((ReplyViewHolder) holder).bind(userReviews.size() > 1);
         }
     }
 
@@ -78,6 +91,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @BindView(R.id.user_commentary) TextView userCommentary;
         @BindView(R.id.read_more) TextView readMore;
         @BindView(R.id.root_view) ConstraintLayout constraintLayout;
+        @BindView(R.id.divider) View divider;
 
         private ObjectAnimator textDescriptionAnimator;
         private View itemView;
@@ -109,7 +123,11 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 contraintParmas.setMargins(startMargin, contraintParmas.topMargin, endMargin, contraintParmas.bottomMargin);
             } else {
                 contraintParmas.setMargins(endMargin, contraintParmas.topMargin, startMargin, contraintParmas.bottomMargin);
+
             }
+            Resources resources = context.getResources();
+            divider.setBackgroundColor(userReview.isReviewOnReview ? resources.getColor(R.color.review_on_review_title_text_color) : resources.getColor(R.color.review_title_text_color));
+            userName.setTextColor(userReview.isReviewOnReview ? resources.getColor(R.color.review_on_review_title_text_color) : resources.getColor(R.color.review_title_text_color));
 
             userCommentary.setText(userReview.text);
             userName.setText(userReview.author);
@@ -147,6 +165,27 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
 
+    }
+
+    class ReplyViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.leave_feedback) Button feedbackBtn;
+        @BindView(R.id.leave_feedback_tv) TextView feedbackTv;
+
+        private Context context;
+
+        public ReplyViewHolder(View itemView) {
+            super(itemView);
+            this.context = itemView.getContext();
+            ButterKnife.bind(this, itemView);
+        }
+
+        public void bind(boolean isHasItems) {
+            Resources resources = context.getResources();
+
+            feedbackTv.setText(isHasItems ? resources.getString(R.string.user_feedback) : resources.getString(R.string.no_feedback_yet));
+            feedbackBtn.setOnClickListener(v -> callback.onReplyClicked());
+        }
     }
 
     public interface UserReviewCallback {

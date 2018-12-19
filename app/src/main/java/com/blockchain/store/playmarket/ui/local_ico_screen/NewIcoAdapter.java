@@ -65,7 +65,6 @@ public class NewIcoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = null;
 
-
         switch (viewType) {
             case VIEW_TYPE_SPLASH:
                 view = LayoutInflater.from(parent.getContext())
@@ -96,7 +95,6 @@ public class NewIcoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         .inflate(R.layout.ico_new_about, parent, false);
                 return new IcoAboutViewHolder(view);
         }
-
 
         return null;
     }
