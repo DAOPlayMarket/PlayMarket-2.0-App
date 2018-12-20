@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -185,6 +186,10 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
         }
         mainAdapter = new TokenAdapter(tokenResponse, this);
         mainAdapter.setHasStableIds(true);
+        RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
+        if (animator instanceof SimpleItemAnimator) {
+            ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);
+        }
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mainAdapter);
     }

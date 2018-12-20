@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Group;
 import android.support.transition.AutoTransition;
+import android.support.transition.ChangeBounds;
 import android.support.transition.TransitionManager;
 import android.support.transition.TransitionSet;
 import android.support.v7.widget.RecyclerView;
@@ -213,10 +214,12 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
                         selectedPosition = position;
                     }
                     TransitionSet transitionSet = TransictionUtils.getTransactionSetForHistoryAdapter();
-                    TransitionManager.beginDelayedTransition(recyclerView, transitionSet);
-                    notifyItemChanged(previousExpandedPosition);
-                    notifyItemChanged(position);
-//                    notifyDataSetChanged();
+//                    TransitionManager.beginDelayedTransition(recyclerView, transitionSet);
+                    TransitionManager.beginDelayedTransition(recyclerView,new ChangeBounds());
+//                    notifyItemChanged(previousExpandedPosition);
+//                    notifyItemChanged(position);
+
+                    notifyDataSetChanged();
 
                 });
             }
