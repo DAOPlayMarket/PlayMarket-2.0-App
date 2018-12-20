@@ -83,6 +83,11 @@ public class TokenListPresenter implements TokenListContract.Presenter {
 
     public void addToken(Token token) {
         new TokenRepository().addToken(token);
-        getAllTokens();
+        view.updateBottomSheetAdapter();
+    }
+
+    public void deleteToken(Token token) {
+        new TokenRepository().deleteToken(token);
+//        view.updateMainAdapter();
     }
 }

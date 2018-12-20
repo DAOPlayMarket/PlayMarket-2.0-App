@@ -1,10 +1,10 @@
 package com.blockchain.store.playmarket.adapters;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Group;
+import android.support.transition.AutoTransition;
 import android.support.transition.TransitionManager;
 import android.support.transition.TransitionSet;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +22,8 @@ import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.repositories.TokenRepository;
 import com.blockchain.store.playmarket.utilities.TransictionUtils;
 
+import org.web3j.tx.TransactionManager;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -35,6 +37,7 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
     private boolean isOpenFromBottomSheet = false;
     private RecyclerView recyclerView;
     private int selectedPosition = -1;
+    private int previousExpandedPosition = -1;
 
     public TokenAdapter(ArrayList<Token> tokensList, TokenAdapterListener callback) {
         this.filteredTokenList = tokensList;
@@ -50,9 +53,15 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
     }
 
     public void setTokens(ArrayList<Token> tokensList) {
+        selectedPosition = -1;
         this.filteredTokenList = tokensList;
         this.originalTokenList = tokensList;
         isLoading = false;
+        notifyDataSetChanged();
+    }
+
+    public void updateAllItems() {
+        selectedPosition = -1;
         notifyDataSetChanged();
     }
 
@@ -72,6 +81,10 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
         }
     }
 
+    @Override
+    public long getItemId(int position) {
+        return filteredTokenList.get(position).symbol.hashCode();
+    }
 
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -147,6 +160,7 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
 
         private Resources resources;
 
+
         public TokenViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -165,6 +179,9 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
                 button.setOnClickListener(v -> callback.onTokenClicked(token));
                 transferIcon.setOnClickListener(v -> callback.onTokenClicked(token));
                 balance.setText(token.balanceOf);
+            }
+            if (position == selectedPosition) {
+                previousExpandedPosition = position;
             }
             transferIcon.setVisibility(isOpenFromBottomSheet ? View.GONE : View.VISIBLE);
             button.setTextColor(resources.getColor(R.color.colorAccent));
@@ -185,23 +202,39 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
                 tokenDivider.setVisibility(selectedPosition == position ? View.VISIBLE : View.GONE);
                 deleteIcon.setVisibility(selectedPosition == position ? View.VISIBLE : View.GONE);
                 deleteTv.setVisibility(selectedPosition == position ? View.VISIBLE : View.GONE);
+
+                deleteIcon.setOnClickListener(view -> deleteToken(token, position));
+                deleteTv.setOnClickListener(view -> deleteToken(token, position));
+
                 constraintLayout.setOnClickListener(v -> {
                     if (selectedPosition == position) {
                         selectedPosition = -1;
                     } else {
                         selectedPosition = position;
                     }
-
                     TransitionSet transitionSet = TransictionUtils.getTransactionSetForHistoryAdapter();
                     TransitionManager.beginDelayedTransition(recyclerView, transitionSet);
-                    notifyDataSetChanged();
+                    notifyItemChanged(previousExpandedPosition);
+                    notifyItemChanged(position);
+//                    notifyDataSetChanged();
+
                 });
             }
+
+        }
+
+        private void deleteToken(Token token, int position) {
+            selectedPosition = -1;
+            callback.onTokenDeleteClicked(token);
+            filteredTokenList.remove(token);
+            notifyItemRemoved(position);
         }
 
     }
 
     public interface TokenAdapterListener {
         void onTokenClicked(Token token);
+
+        void onTokenDeleteClicked(Token token);
     }
 }

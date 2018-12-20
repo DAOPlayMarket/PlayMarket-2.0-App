@@ -64,4 +64,16 @@ public class TokenRepository {
         }
         return false;
     }
+
+    public ArrayList<Token> deleteToken(Token token) {
+        ArrayList<Token> newTokens = new ArrayList<>();
+        ArrayList<Token> userTokens = getUserSavedTokens();
+        for (Token userToken : userTokens) {
+            if (!userToken.name.equalsIgnoreCase(token.name)) {
+                newTokens.add(userToken);
+            }
+        }
+        saveTokens(newTokens);
+        return newTokens;
+    }
 }

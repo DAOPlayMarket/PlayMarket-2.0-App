@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.utilities;
 
 import android.support.transition.AutoTransition;
+import android.support.transition.ChangeBounds;
 import android.support.transition.ChangeTransform;
 import android.support.transition.TransitionSet;
 import android.view.animation.AccelerateInterpolator;
@@ -27,6 +28,22 @@ public class TransictionUtils {
         transitionSet.addTransition(autoTransition);
         transitionSet.addTransition(changeTransform);
         transitionSet.addTransition(recolor);
+        return transitionSet;
+    }
+
+    public static TransitionSet getChangeBoundsTransiction(){
+        TransitionSet transitionSet = new TransitionSet();
+        transitionSet.setOrdering(TransitionSet.ORDERING_TOGETHER);
+
+        ChangeTransform changeTransform = new ChangeTransform();
+        changeTransform.setDuration(TRANSACTION_DURATION);
+        changeTransform.setInterpolator(new AccelerateInterpolator());
+
+        ChangeBounds changeBounds = new ChangeBounds();
+        changeBounds.setDuration(TRANSACTION_DURATION);
+
+        transitionSet.addTransition(changeBounds);
+        transitionSet.addTransition(changeTransform);
         return transitionSet;
     }
 }

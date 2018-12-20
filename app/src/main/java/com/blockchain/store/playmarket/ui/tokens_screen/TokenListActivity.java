@@ -43,7 +43,7 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
     @BindView(R.id.progress_bar) ProgressBar progressBarToken;
     @BindView(R.id.bottom_contraint) ConstraintLayout bottomLayout;
 
-    private TokenAdapter adapter;
+    private TokenAdapter mainAdapter;
     private BottomSheetBehavior bottomSheetBehavior;
     private TokenListPresenter presenter;
     private AlertDialog alertDialog;
@@ -81,6 +81,7 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
 
     private void setUpBottomDialog() {
         bottomSheetDialog = new BottomSheetDialog(this);
+
         bottomSheetDialog.setContentView(R.layout.token_bottom_sheet);
 
         EditText dialogEditText = bottomSheetDialog.findViewById(R.id.editText);
@@ -121,7 +122,17 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
             presenter.getBottomSheetTokens();
         });
         bottomSheetRecyclerView = bottomSheetDialog.findViewById(R.id.recycler_view);
-        bottomSheetAdapter = new TokenAdapter(token -> presenter.addToken(token));
+        bottomSheetAdapter = new TokenAdapter(new TokenAdapter.TokenAdapterListener() {
+            @Override
+            public void onTokenClicked(Token token) {
+                presenter.addToken(token);
+            }
+
+            @Override
+            public void onTokenDeleteClicked(Token token) {
+
+            }
+        });
         bottomSheetRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         bottomSheetRecyclerView.setAdapter(bottomSheetAdapter);
         dialogBtn.setOnClickListener(v -> addTokenClicked(dialogEditText.getText().toString(), dialogEditText));
@@ -172,9 +183,10 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
         } else {
             emptyView.setVisibility(View.VISIBLE);
         }
-        adapter = new TokenAdapter(tokenResponse, this);
+        mainAdapter = new TokenAdapter(tokenResponse, this);
+        mainAdapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(mainAdapter);
     }
 
     @Override
@@ -185,7 +197,7 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
     @Override
     public void onNewTokenReady(Token token) {
         emptyView.setVisibility(View.GONE);
-        adapter.addNewToken(token);
+        mainAdapter.addNewToken(token);
     }
 
     @Override
@@ -212,10 +224,25 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
 
     }
 
+    @Override
+    public void onTokenDeleteClicked(Token token) {
+        presenter.deleteToken(token);
+    }
+
 
     @Override
     public void onBottomSheetTokensReady(ArrayList<Token> tokens) {
         bottomSheetAdapter.setTokens(tokens);
+    }
+
+    @Override
+    public void updateBottomSheetAdapter() {
+        bottomSheetAdapter.updateAllItems();
+    }
+
+    @Override
+    public void updateMainAdapter(ArrayList<Token> tokens) {
+        mainAdapter.setTokens(tokens);
     }
 
     @Override

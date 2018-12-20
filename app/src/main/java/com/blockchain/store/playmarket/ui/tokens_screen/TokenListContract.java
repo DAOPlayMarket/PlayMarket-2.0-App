@@ -1,7 +1,6 @@
 package com.blockchain.store.playmarket.ui.tokens_screen;
 
 import com.blockchain.store.playmarket.data.entities.Token;
-import com.blockchain.store.playmarket.data.entities.TokenResponse;
 
 import java.util.ArrayList;
 
@@ -24,6 +23,10 @@ public class TokenListContract {
         void onBottomSheetTokensFailed(Throwable throwable);
 
         void onBottomSheetTokensReady(ArrayList<Token> tokens);
+
+        void updateBottomSheetAdapter();
+
+        void updateMainAdapter(ArrayList<Token> tokens);
     }
 
     interface Presenter {
