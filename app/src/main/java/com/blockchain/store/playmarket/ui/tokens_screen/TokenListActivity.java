@@ -116,20 +116,12 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
             }
         });
 
-        errorHolderButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                errorHolder.setVisibility(View.GONE);
-                presenter.getBottomSheetTokens();
-            }
+        errorHolderButton.setOnClickListener(v -> {
+            errorHolder.setVisibility(View.GONE);
+            presenter.getBottomSheetTokens();
         });
         bottomSheetRecyclerView = bottomSheetDialog.findViewById(R.id.recycler_view);
-        bottomSheetAdapter = new TokenAdapter(new TokenAdapter.TokenAdapterListener() {
-            @Override
-            public void onTokenClicked(Token token) {
-                presenter.addToken(token);
-            }
-        });
+        bottomSheetAdapter = new TokenAdapter(token -> presenter.addToken(token));
         bottomSheetRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         bottomSheetRecyclerView.setAdapter(bottomSheetAdapter);
         dialogBtn.setOnClickListener(v -> addTokenClicked(dialogEditText.getText().toString(), dialogEditText));

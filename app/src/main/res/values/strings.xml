@@ -270,6 +270,7 @@
     <string name="ico_time_to_start">Time to start</string>
     <string name="user_feedback">User feedback:</string>
     <string name="no_feedback_yet">No feedback yet</string>
+    <string name="delete">Delete</string>
     <plurals name="days">
         <item quantity="one">day</item>
         <item quantity="other">days</item>

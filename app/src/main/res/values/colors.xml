@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="added_token_color">#105F90</color>
+
     <color name="ico_chart_yaxis_color">#5560dcf4</color>
     <color name="ico_chart_xaxis_color">#60DCF4</color>
     <color name="ico_bg">#001023</color>
@@ -134,6 +136,7 @@
     
     <color name="graph_color_gradient_start_color">#3e6eff</color>
     <color name="graph_color_gradient_end_color">#82e567f1</color>
+
 
     <!-- Drawable nine patch create in http://inloop.github.io/shadow4android/-->
     <!-- Navigation card layout var's are: width,height 200. Shadow 10. Radius 4-->
