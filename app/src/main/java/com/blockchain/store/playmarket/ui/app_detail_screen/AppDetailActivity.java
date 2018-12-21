@@ -6,15 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
 import android.text.Html;
 import android.util.Pair;
 import android.view.View;
@@ -31,6 +27,7 @@ import com.blockchain.store.playmarket.adapters.UserReviewAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.AppReviewsData;
+import com.blockchain.store.playmarket.data.entities.IcoLocalData;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.interfaces.AppDetailsImpl;
 import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
@@ -40,7 +37,6 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.FrescoUtils;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
-import com.blockchain.store.playmarket.views.FadingTextView;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import java.util.ArrayList;
@@ -54,7 +50,7 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 import static com.blockchain.store.playmarket.utilities.Constants.PLAY_MARKET_ADDRESS;
 
-public class AppDetailActivity extends AppCompatActivity implements AppDetailContract.View, ImageListAdapterCallback, UserReviewAdapter.UserReviewCallback {
+public class AppDetailActivity extends AppCompatActivity implements AppDetailContract.View, UserReviewAdapter.UserReviewCallback {
     private static final String TAG = "AppDetailActivity";
     private static final String APP_EXTRA = "app_extra";
     private static final String APP_INFO_EXTRA = "app_info_extra";
@@ -91,11 +87,10 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     private boolean isUserPurchasedApp;
 
     private ObjectAnimator textDescriptionAnimator;
-    private ImageViewer.Builder imageViewerBuilder;
-    private ImageListAdapter imageAdapter;
     private AppDetailPresenter presenter;
     private AppInfo appInfo;
     private App app;
+    private IcoLocalData icoLocalData;
 
     private AppDetailAdapter appDetailAdapter;
 
@@ -138,7 +133,11 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         } else {
             presenter.getDetailedInfo(app);
         }
+        if (app.appId.equalsIgnoreCase("434")) {
+            presenter.loadCryptoDuelData();
+        }
         presenter.getReviews(app.appId);
+
     }
 
     @Override
@@ -221,15 +220,12 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     }
 
-    private void setupScreenshotRecyclerView(AppInfo appInfo) {
-        if (app.files != null && app.getImages() != null) {
-            imageViewerBuilder = new ImageViewer.Builder(this, app.getImages());
-            imageAdapter = new ImageListAdapter(app.getImages(), this);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-            SnapHelper snapHelper = new LinearSnapHelper();
-            snapHelper.attachToRecyclerView(recyclerView);
-            recyclerView.setLayoutManager(linearLayoutManager);
-            recyclerView.setAdapter(imageAdapter);
+    @Override
+    public void onIcoDataReady(IcoLocalData icoLocalData) {
+        if (appDetailAdapter != null) {
+            appDetailAdapter.setIcoData(icoLocalData);
+        } else {
+            this.icoLocalData = icoLocalData;
         }
     }
 
@@ -247,6 +243,9 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
             appDetails.add(() -> AppDetailAdapter.ViewTypes.ABOUT);
         }
         appDetailAdapter = new AppDetailAdapter(appDetails, this);
+        if (icoLocalData != null) {
+            appDetailAdapter.setIcoData(icoLocalData);
+        }
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(appDetailAdapter);
@@ -343,11 +342,6 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         this.onBackPressed();
     }
 
-
-    @Override
-    public void onImageGalleryItemClicked(int position) {
-        imageViewerBuilder.setStartPosition(position).show();
-    }
 
     @OnClick(R.id.app_description)
     void onDescriptionClicked() {

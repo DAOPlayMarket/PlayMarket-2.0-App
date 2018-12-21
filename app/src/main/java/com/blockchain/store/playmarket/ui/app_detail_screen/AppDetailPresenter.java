@@ -10,12 +10,14 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.IcoLocalData;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.SendReviewTransactionModel;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
 import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.repositories.TransactionInteractor;
+import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
@@ -262,8 +264,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     private void sortUserReviews(ArrayList<UserReview> userReviews) {
         ArrayList<UserReview> flattedArrayOfReviews = new ArrayList<>();
-
-
+        
         for (UserReview review : userReviews) {
             flattedArrayOfReviews.add(review);
             for (UserReview userReview : review.responses) {
@@ -296,4 +297,17 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     }
 
+    public void loadCryptoDuelData() {
+        TransactionRepository.getLocalIcoData(Constants.CRYPTO_DUEL_CONTRACT, AccountManager.getAddress().getHex())
+                .subscribe(this::onIcoDataReady, this::onIcoDataError);
+    }
+
+    private void onIcoDataReady(IcoLocalData icoLocalData) {
+        view.onIcoDataReady(icoLocalData);
+        Log.d(TAG, "onIcoDataReady: ");
+    }
+
+    private void onIcoDataError(Throwable throwable) {
+        Log.d(TAG, "onIcoDataError: ");
+    }
 }

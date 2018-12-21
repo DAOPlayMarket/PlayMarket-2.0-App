@@ -185,7 +185,8 @@ public class TokenListActivity extends AppCompatActivity implements TokenListCon
             emptyView.setVisibility(View.VISIBLE);
         }
         mainAdapter = new TokenAdapter(tokenResponse, this);
-        mainAdapter.setHasStableIds(true);
+//        mainAdapter.setHasStableIds(true);
+        recyclerView.setHasFixedSize(true);
         RecyclerView.ItemAnimator animator = recyclerView.getItemAnimator();
         if (animator instanceof SimpleItemAnimator) {
             ((SimpleItemAnimator) animator).setSupportsChangeAnimations(false);

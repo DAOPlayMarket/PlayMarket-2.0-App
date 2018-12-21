@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppReviewsData;
+import com.blockchain.store.playmarket.data.entities.IcoLocalData;
 import com.blockchain.store.playmarket.interfaces.AppDetailsImpl;
 import com.blockchain.store.playmarket.ui.local_ico_screen.IcoStepFragment;
 import com.blockchain.store.playmarket.ui.local_ico_screen.NewIcoAdapter;
@@ -46,6 +47,7 @@ import butterknife.OnClick;
 
 public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+
     public enum ViewTypes {
         MAIN,
         SCREENSHOTS,
@@ -66,6 +68,7 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     ArrayList<AppDetailsImpl> items;
     private AppCompatActivity activity;
+    private IcoLocalData icoLocalData;
 
     public AppDetailAdapter(ArrayList<AppDetailsImpl> items, AppCompatActivity activity) {
         this.items = items;
@@ -79,6 +82,12 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getItemViewType(int position) {
         return items.get(position).getViewType().ordinal();
+    }
+
+    public void setIcoData(IcoLocalData icoLocalData) {
+        this.icoLocalData = icoLocalData;
+        notifyDataSetChanged();
+
     }
 
     @NonNull
@@ -135,6 +144,12 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
         if (holder instanceof ReviewsViewHolder) {
             ((ReviewsViewHolder) holder).bind((AppReviewsData) items.get(position));
+        }
+        if (holder instanceof IcoBudgetViewHolder) {
+            ((IcoBudgetViewHolder) holder).bind(icoLocalData);
+        }
+        if (holder instanceof IcoStepViewHolder) {
+            ((IcoStepViewHolder) holder).bind(icoLocalData);
         }
     }
 
@@ -204,6 +219,10 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @BindView(R.id.budget_details) LinearLayout budgetDetails;
         @BindView(R.id.token_details) LinearLayout tokenDetails;
         @BindView(R.id.advertisement_details) LinearLayout advertisementDetails;
+
+        @BindView(R.id.budget_details) TextView budgetTv;
+        @BindView(R.id.token_details) TextView tokenTv;
+        @BindView(R.id.advertisement_details) TextView adverTv;
         private Context context;
 
         public IcoBudgetViewHolder(View itemView) {
@@ -235,6 +254,12 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     .create();
             alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             alertDialog.show();
+        }
+
+        public void bind(IcoLocalData icoLocalData) {
+            budgetTv.setText(icoLocalData.getCompanyValue());
+            tokenTv.setText(icoLocalData.price.get(0));
+//            adverTv.setText();
         }
     }
 
@@ -303,6 +328,19 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public IcoStepViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        @OnClick(R.id.arrowLeft)
+        void onLeftArrowClicked() {
+            viewpager.setCurrentItem(viewpager.getCurrentItem() - 1, true);
+        }
+
+        @OnClick(R.id.arrowRight)
+        void onRightArrowClicked() {
+            viewpager.setCurrentItem(viewpager.getCurrentItem() + 1, true);
+        }
+
+        public void bind(IcoLocalData icoLocalData) {
             viewPagerAdapter = new ViewPagerAdapter(activity.getSupportFragmentManager());
             viewPagerAdapter.addFragment(IcoStepFragment.newInstance(2505600000L));
             viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
@@ -327,19 +365,8 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
 
-
+            viewpager.setCurrentItem(icoLocalData.getCurrentPeriod());
         }
-
-        @OnClick(R.id.arrowLeft)
-        void onLeftArrowClicked() {
-            viewpager.setCurrentItem(viewpager.getCurrentItem() - 1, true);
-        }
-
-        @OnClick(R.id.arrowRight)
-        void onRightArrowClicked() {
-            viewpager.setCurrentItem(viewpager.getCurrentItem() + 1, true);
-        }
-
     }
 
     public class IcoAboutViewHolder extends RecyclerView.ViewHolder {

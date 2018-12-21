@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.ui.app_detail_screen;
 
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
+import com.blockchain.store.playmarket.data.entities.IcoLocalData;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 
@@ -39,6 +40,8 @@ public class AppDetailContract {
         void onReviewsReady(ArrayList<UserReview> userReviews);
 
         void onReviewSendSuccessfully();
+
+        void onIcoDataReady(IcoLocalData icoLocalData);
     }
 
     public interface Presenter {

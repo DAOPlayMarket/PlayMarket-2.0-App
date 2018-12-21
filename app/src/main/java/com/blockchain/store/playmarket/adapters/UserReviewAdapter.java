@@ -119,16 +119,13 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     context.getResources().getDimension(R.dimen.USER_REVIEW_END_MARGIN_BASIC) :
                     context.getResources().getDimension(R.dimen.USER_REVIEW_END_MARGIN_LARGE));
 
-            if (viewType == TYPE_USER_REVIEW) {
-                contraintParmas.setMargins(startMargin, contraintParmas.topMargin, endMargin, contraintParmas.bottomMargin);
-            } else {
-                contraintParmas.setMargins(endMargin, contraintParmas.topMargin, startMargin, contraintParmas.bottomMargin);
 
-            }
+            contraintParmas.setMargins(endMargin, contraintParmas.topMargin, startMargin, contraintParmas.bottomMargin);
+
             Resources resources = context.getResources();
             divider.setBackgroundColor(userReview.isReviewOnReview ? resources.getColor(R.color.review_on_review_title_text_color) : resources.getColor(R.color.review_title_text_color));
             userName.setTextColor(userReview.isReviewOnReview ? resources.getColor(R.color.review_on_review_title_text_color) : resources.getColor(R.color.review_title_text_color));
-
+            userRatingBar.setVisibility(userReview.isReviewOnReview ? View.GONE : View.VISIBLE);
             userCommentary.setText(userReview.text);
             userName.setText(userReview.author);
             try {

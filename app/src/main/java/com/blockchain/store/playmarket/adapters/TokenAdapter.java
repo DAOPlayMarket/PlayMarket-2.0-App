@@ -214,8 +214,8 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
                         selectedPosition = position;
                     }
                     TransitionSet transitionSet = TransictionUtils.getTransactionSetForHistoryAdapter();
-//                    TransitionManager.beginDelayedTransition(recyclerView, transitionSet);
-                    TransitionManager.beginDelayedTransition(recyclerView,new ChangeBounds());
+                    TransitionManager.beginDelayedTransition(recyclerView, transitionSet);
+//                    TransitionManager.beginDelayedTransition(recyclerView,new ChangeBounds());
 //                    notifyItemChanged(previousExpandedPosition);
 //                    notifyItemChanged(position);
 
