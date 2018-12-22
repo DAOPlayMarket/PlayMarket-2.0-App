@@ -342,14 +342,9 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         public void bind(IcoLocalData icoLocalData) {
             viewPagerAdapter = new ViewPagerAdapter(activity.getSupportFragmentManager());
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(2505600000L));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+            for (int i = 0; i < Integer.valueOf(icoLocalData.numberOfPeriods); i++) {
+                viewPagerAdapter.addFragment(IcoStepFragment.newInstance(icoLocalData,i));
+            }
             ViewPager viewPager = itemView.findViewById(R.id.ico_viewpager);
             viewPager.setAdapter(viewPagerAdapter);
 

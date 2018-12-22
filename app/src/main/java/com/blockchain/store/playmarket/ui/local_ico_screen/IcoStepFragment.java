@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.data.entities.IcoLocalData;
 
 import java.util.Calendar;
 
@@ -48,7 +49,7 @@ public class IcoStepFragment extends Fragment {
     private CountDownTimer countDownTimer;
     private long timeToStartInMillis;
 
-    public static IcoStepFragment newInstance(Long timeToStartInMillis) {
+    public static Fragment newInstance(IcoLocalData icoLocalData, int i) {
         Bundle args = new Bundle();
         args.putLong(TIME_KEY, timeToStartInMillis);
         IcoStepFragment fragment = new IcoStepFragment();
