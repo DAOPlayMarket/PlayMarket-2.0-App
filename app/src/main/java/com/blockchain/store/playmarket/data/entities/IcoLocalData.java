@@ -81,7 +81,7 @@ public class IcoLocalData implements Parcelable {
     }
 
     public Long getTokensInPeriod() {
-        return Long.valueOf(tokensInPeriod) / 100_000;
+        return Long.valueOf(tokensInPeriod) / 100_000_00;
     }
 
     public Long getStartsAt() {
