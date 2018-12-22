@@ -38,7 +38,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public UserReviewAdapter(ArrayList<UserReview> userReviews, UserReviewCallback callback) {
         this.callback = callback;
         this.userReviews = userReviews;
-        if (this.userReviews.get(0) != null)
+        if (this.userReviews.size() > 0 && this.userReviews.get(0) != null)
             this.userReviews.add(0, null);
         userAddress = AccountManager.getAddress().getHex();
     }
