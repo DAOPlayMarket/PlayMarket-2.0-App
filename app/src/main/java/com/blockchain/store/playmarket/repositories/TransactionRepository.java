@@ -1,6 +1,5 @@
 package com.blockchain.store.playmarket.repositories;
 
-import android.util.Log;
 import android.util.Pair;
 
 import com.blockchain.store.playmarket.data.entities.IcoBalance;
@@ -8,7 +7,6 @@ import com.blockchain.store.playmarket.data.entities.IcoLocalData;
 import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
-import com.blockchain.store.playmarket.utilities.WebAppInterface;
 
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
@@ -19,20 +17,24 @@ import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
-import org.web3j.abi.datatypes.generated.StaticArray8;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
+import org.web3j.protocol.Web3jService;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthCall;
+import org.web3j.protocol.core.methods.response.EthGetBalance;
 import org.web3j.protocol.http.HttpService;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -53,7 +55,17 @@ public class TransactionRepository {
     }
 
     private static void initAsRinkeby(String contractAddress, String userAddress) {
-        TransactionRepository.web3j = Web3jFactory.build(new HttpService(BASE_URL_INFURA_RINKEBY));
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .addInterceptor(interceptor);
+        OkHttpClient build = builder.build();
+        Web3jService web3jService = new HttpService(BASE_URL_INFURA_RINKEBY, build, false);
+
+        TransactionRepository.web3j = Web3jFactory.build(web3jService);
         TransactionRepository.contractAddress = contractAddress;
         TransactionRepository.userAddress = userAddress;
     }
@@ -125,6 +137,10 @@ public class TransactionRepository {
         return web3j.ethCall(createEthCallTransaction(TransactionRepository.userAddress, contractAddress, FunctionEncoder.encode(dataFunction)), DefaultBlockParameterName.LATEST).observable();
     }
 
+    private static Observable<EthGetBalance> getBalanceObservable(String address) {
+        return web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).observable();
+    }
+
     private static Observable<EthCall> getCheckBuyObservable(int appId, String objectId) {
         return getEthCallObservable(getCheckBuyFunction(appId, objectId));
     }
@@ -184,32 +200,79 @@ public class TransactionRepository {
         initAsRinkeby(contractAddress, userAddress);
 
         return Observable.zip(
+                getBalanceObservable(userAddress),
                 getEthCallObservable(startsAtFunction()),
                 getEthCallObservable(durationOfPeriodFunction()),
                 getEthCallObservable(tokensInPeriodFunction()),
-                getEthCallObservable(numberOfPeriodsFunction()), (startsAt, durationOfPeriod, tokensInPeriod, numberOfPeriods) -> {
+                getEthCallObservable(numberOfPeriodsFunction()), (contractBalance, startsAt, durationOfPeriod, tokensInPeriod, numberOfPeriods) -> {
                     IcoLocalData icoLocalData = new IcoLocalData();
                     icoLocalData.startsAt = decodeFunction(startsAt, startsAtFunction()).toString();
                     icoLocalData.durationOfPeriod = decodeFunction(durationOfPeriod, durationOfPeriodFunction()).toString();
                     icoLocalData.tokensInPeriod = decodeFunction(tokensInPeriod, tokensInPeriodFunction()).toString();
                     icoLocalData.numberOfPeriods = decodeFunction(numberOfPeriods, numberOfPeriodsFunction()).toString();
+                    icoLocalData.adverBudget = contractBalance.getBalance();
                     return icoLocalData;
-                }).flatMap(result -> getEthCallObservable(pricesFunction(result.getCurrentPeriod())), Pair::new)
+                }).flatMap(result -> mapGetPrice(result.getCurrentPeriod()), Pair::new)
                 .map(result -> {
-                    result.first.price.add(decodeFunction(result.second, pricesFunction(result.first.getCurrentPeriod())).toString());
+                    for (int i = 0; i < result.second.size(); i++) {
+                        result.first.price.add(decodeFunction(result.second.get(i), pricesFunction(result.first.getCurrentPeriod())).toString());
+                    }
+                    return result.first;
+                }).flatMap(result -> mapEarned(result.getCurrentPeriod()), Pair::new)
+                .map(result -> {
+                    for (int i = 0; i < result.second.size(); i++) {
+                        result.first.earnedInPeriod.add(decodeFunction(result.second.get(i), earnedFunction(result.first.getCurrentPeriod())).toString());
+                    }
+                    return result.first;
+                }).flatMap(result -> mapTokenAmountOfPeriod(result.getCurrentPeriod()), Pair::new)
+                .map(result -> {
+                    for (int i = 0; i < result.second.size(); i++) {
+                        result.first.tokenEarnedInPeriod.add(decodeFunction(result.second.get(i), tokenAmountOfPeriodFunction(result.first.getCurrentPeriod())).toString());
+                    }
                     return result.first;
                 })
                 .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread());
     }
 
+    private static Observable<List<EthCall>> mapGetPrice(int currentPeriod) {
+        ArrayList<Observable<EthCall>> pricesList = new ArrayList<>();
+        for (int i = 0; i <= currentPeriod; i++) {
+            pricesList.add(getEthCallObservable(pricesFunction(i)));
+        }
+        return Observable.from(pricesList).flatMap(result -> result).toList();
+    }
+
+    private static Observable<List<EthCall>> mapEarned(int currentPeriod) {
+        ArrayList<Observable<EthCall>> pricesList = new ArrayList<>();
+        for (int i = 0; i <= currentPeriod; i++) {
+            pricesList.add(getEthCallObservable(earnedFunction(i)));
+        }
+        return Observable.from(pricesList).flatMap(result -> result).toList();
+    }
+
+    private static Observable<List<EthCall>> mapTokenAmountOfPeriod(int currentPeriod) {
+        ArrayList<Observable<EthCall>> pricesList = new ArrayList<>();
+        for (int i = 0; i <= currentPeriod; i++) {
+            pricesList.add(getEthCallObservable(tokenAmountOfPeriodFunction(i)));
+        }
+        return Observable.from(pricesList).flatMap(result -> result).toList();
+    }
+
+    /*
+    *       ArrayList<Observable<String>> obsList = new ArrayList<>();
+        for (Token userSavedToken : userSavedTokens) {
+            obsList.add(TransactionRepository.getUserTokenBalance(userSavedToken.address, AccountManager.getAddress().getHex()));
+        }
+        return Observable.from(obsList).flatMap(result -> result.observeOn(Schedulers.newThread())).toList().map(result -> {
+    * */
 
     private static Function startsAtFunction() {
         return new Function("startsAt", new ArrayList<>(), Collections.singletonList(new TypeReference<Uint256>() {
         }));
     }
 
-    private static Function pricesFunction(int pricePosition) {
-        return new Function("price", Collections.singletonList(new Uint256(pricePosition)), Collections.singletonList(new TypeReference<Uint256>() {
+    private static Function pricesFunction(int stageNumber) {
+        return new Function("price", Collections.singletonList(new Uint256(stageNumber)), Collections.singletonList(new TypeReference<Uint256>() {
         }));
     }
 
@@ -225,6 +288,16 @@ public class TransactionRepository {
 
     private static Function numberOfPeriodsFunction() {
         return new Function("numberOfPeriods", new ArrayList<>(), Collections.singletonList(new TypeReference<Uint256>() {
+        }));
+    }
+
+    private static Function tokenAmountOfPeriodFunction(int stageNumber) {
+        return new Function("tokenAmountOfPeriod", Collections.singletonList(new Uint256(stageNumber)), Collections.singletonList(new TypeReference<Uint256>() {
+        }));
+    }
+
+    private static Function earnedFunction(int stageNumber) {
+        return new Function("earned", Collections.singletonList(new Uint256(stageNumber)), Collections.singletonList(new TypeReference<Uint256>() {
         }));
     }
 

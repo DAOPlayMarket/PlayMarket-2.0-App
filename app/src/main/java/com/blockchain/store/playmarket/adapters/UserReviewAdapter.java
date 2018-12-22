@@ -38,7 +38,8 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public UserReviewAdapter(ArrayList<UserReview> userReviews, UserReviewCallback callback) {
         this.callback = callback;
         this.userReviews = userReviews;
-        this.userReviews.add(0, null);
+        if (this.userReviews.get(0) != null)
+            this.userReviews.add(0, null);
         userAddress = AccountManager.getAddress().getHex();
     }
 
@@ -120,7 +121,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     context.getResources().getDimension(R.dimen.USER_REVIEW_END_MARGIN_LARGE));
 
 
-            contraintParmas.setMargins(endMargin, contraintParmas.topMargin, startMargin, contraintParmas.bottomMargin);
+            contraintParmas.setMargins(startMargin, contraintParmas.topMargin, endMargin, contraintParmas.bottomMargin);
 
             Resources resources = context.getResources();
             divider.setBackgroundColor(userReview.isReviewOnReview ? resources.getColor(R.color.review_on_review_title_text_color) : resources.getColor(R.color.review_title_text_color));

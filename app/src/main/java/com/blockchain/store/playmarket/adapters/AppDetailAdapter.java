@@ -220,9 +220,9 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @BindView(R.id.token_details) LinearLayout tokenDetails;
         @BindView(R.id.advertisement_details) LinearLayout advertisementDetails;
 
-        @BindView(R.id.budget_details) TextView budgetTv;
-        @BindView(R.id.token_details) TextView tokenTv;
-        @BindView(R.id.advertisement_details) TextView adverTv;
+        @BindView(R.id.company_budget) TextView budgetTv;
+        @BindView(R.id.token_budget) TextView tokenTv;
+        @BindView(R.id.advertisement_budget) TextView adverTv;
         private Context context;
 
         public IcoBudgetViewHolder(View itemView) {
@@ -257,9 +257,11 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void bind(IcoLocalData icoLocalData) {
-            budgetTv.setText(icoLocalData.getCompanyValue());
-            tokenTv.setText(icoLocalData.price.get(0));
-//            adverTv.setText();
+            if (icoLocalData != null) {
+                budgetTv.setText(icoLocalData.getCompanyValue());
+                tokenTv.setText(icoLocalData.getPrice(icoLocalData.getCurrentPeriod()));
+                adverTv.setText(String.format("%.2f", icoLocalData.getAdverBudget()));
+            }
         }
     }
 
@@ -341,11 +343,13 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void bind(IcoLocalData icoLocalData) {
+            if (icoLocalData == null) return;
             viewPagerAdapter = new ViewPagerAdapter(activity.getSupportFragmentManager());
-            for (int i = 0; i < Integer.valueOf(icoLocalData.numberOfPeriods); i++) {
-                viewPagerAdapter.addFragment(IcoStepFragment.newInstance(icoLocalData,i));
+            for (int i = 1; i <= Integer.valueOf(icoLocalData.numberOfPeriods); i++) {
+                viewPagerAdapter.addFragment(IcoStepFragment.newInstance(icoLocalData, i));
             }
             ViewPager viewPager = itemView.findViewById(R.id.ico_viewpager);
+            viewPager.setOffscreenPageLimit(icoLocalData.getNumberOfPeriods());
             viewPager.setAdapter(viewPagerAdapter);
 
             setCounter.setText(String.format(itemView.getContext().getString(R.string.step_counter), 1, viewPagerAdapter.getCount()));

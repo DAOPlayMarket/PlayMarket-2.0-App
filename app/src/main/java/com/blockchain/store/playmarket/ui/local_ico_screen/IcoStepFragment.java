@@ -26,7 +26,8 @@ public class IcoStepFragment extends Fragment {
 
 
     private static final String TAG = "IcoStepFragment";
-    private static final String TIME_KEY = "timeInMillis";
+    private static final String ICO_DATA_KEY = "ico_data_key";
+    private static final String POSITION_KEY = "position_key";
 
     @BindView(R.id.earned_eth) TextView earnedEth;
     @BindView(R.id.token_price) TextView tokenPrice;
@@ -47,11 +48,14 @@ public class IcoStepFragment extends Fragment {
     @BindView(R.id.ico_sold_tokens_holder) LinearLayout ico_sold_tokens_holder;
 
     private CountDownTimer countDownTimer;
-    private long timeToStartInMillis;
+    private int position;
+    private IcoLocalData icoLocalData;
+    private long timeInMillis;
 
-    public static Fragment newInstance(IcoLocalData icoLocalData, int i) {
+    public static Fragment newInstance(IcoLocalData icoLocalData, int position) {
         Bundle args = new Bundle();
-        args.putLong(TIME_KEY, timeToStartInMillis);
+        args.putParcelable(ICO_DATA_KEY, icoLocalData);
+        args.putInt(POSITION_KEY, position);
         IcoStepFragment fragment = new IcoStepFragment();
         fragment.setArguments(args);
         return fragment;
@@ -62,29 +66,38 @@ public class IcoStepFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ico_step, container, false);
         ButterKnife.bind(this, view);
-        if (getArguments() != null)
-            timeToStartInMillis = getArguments().getLong(TIME_KEY);
-        purchaseButton.setEnabled(isStageIsActive());
-        tokensCount.setText(isStageIsActive() ? "/1000" : "/0");
-        tokensSold.setText(isStageIsActive() ? "681" : "0");
+
+        icoLocalData = getArguments().getParcelable(ICO_DATA_KEY);
+        position = getArguments().getInt(POSITION_KEY);
+
+        timeInMillis = icoLocalData.getTimeToStartStage(position);
+
+        earnedEth.setText(icoLocalData.getEarned(position));
+
+        tokensSold.setText(String.valueOf(icoLocalData.getTokensEarnedInPeriod(position)));
+        tokensCount.setText("/" + String.valueOf(icoLocalData.getTokensInPeriod()));
+
         actualPriceTv.setText(isStageIsActive() ? R.string.ico_actual_price : R.string.ico_time_to_start);
+        tokenPrice.setText(icoLocalData.price.get(0));
+
+        purchaseButton.setEnabled(isStageIsActive());
         initTimer();
         return view;
 
     }
 
     private boolean isStageIsActive() {
-        return timeToStartInMillis < System.currentTimeMillis();
+        return icoLocalData.getCurrentPeriod() == position;
     }
 
     private void initTimer() {
         if (countDownTimer == null) {
-            countDownTimer = new CountDownTimer(timeToStartInMillis, 1000) {
+            countDownTimer = new CountDownTimer(timeInMillis, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     Calendar cal = Calendar.getInstance();
                     cal.setTimeInMillis(millisUntilFinished);
-                    dayLeft.setText(String.valueOf(cal.get(Calendar.DAY_OF_MONTH)));
+                    dayLeft.setText(String.valueOf(cal.get(Calendar.DAY_OF_YEAR)));
                     hourLeft.setText(String.valueOf(cal.get(Calendar.HOUR_OF_DAY)));
                     minutesLeft.setText(String.valueOf(cal.get(Calendar.MINUTE)));
 

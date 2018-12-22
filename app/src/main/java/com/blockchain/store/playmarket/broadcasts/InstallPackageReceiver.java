@@ -15,19 +15,21 @@ import java.io.File;
  */
 
 public class InstallPackageReceiver extends BroadcastReceiver {
+    private static final String TAG = "InstallPackageReceiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        try{
-            String packageName = intent.getData().getEncodedSchemeSpecificPart();
+
+        try {
+            String packageName = intent.getData().toString();
             File file = new MyPackageManager().findFileByPackageName(packageName, context);
             if (file != null && file.exists()) {
                 file.delete();
             }
-        }catch (Exception e){
-
+            Log.d(TAG, "onReceive: packageName " + packageName);
+        } catch (Exception e) {
+            Log.d(TAG, "onReceive: Error " + e.getMessage());
         }
-
 
 
     }

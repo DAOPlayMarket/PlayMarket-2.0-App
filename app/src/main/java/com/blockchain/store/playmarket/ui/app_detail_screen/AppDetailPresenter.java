@@ -264,7 +264,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     private void sortUserReviews(ArrayList<UserReview> userReviews) {
         ArrayList<UserReview> flattedArrayOfReviews = new ArrayList<>();
-        
+
         for (UserReview review : userReviews) {
             flattedArrayOfReviews.add(review);
             for (UserReview userReview : review.responses) {
@@ -309,5 +309,6 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     private void onIcoDataError(Throwable throwable) {
         Log.d(TAG, "onIcoDataError: ");
+        throwable.printStackTrace();
     }
 }

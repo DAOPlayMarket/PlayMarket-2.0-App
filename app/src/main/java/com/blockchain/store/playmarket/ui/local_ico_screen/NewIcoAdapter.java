@@ -220,15 +220,15 @@ public class NewIcoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public IcoStepViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            viewPagerAdapter = new ViewPagerAdapter(appCompatActivity.getSupportFragmentManager());
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(2505600000L));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
-            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+//            viewPagerAdapter = new ViewPagerAdapter(appCompatActivity.getSupportFragmentManager());
+//            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(2505600000L));
+//            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+//            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+//            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+//            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+//            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+//            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
+//            viewPagerAdapter.addFragment(IcoStepFragment.newInstance(System.currentTimeMillis() + 2505600000L));
             ViewPager viewPager = itemView.findViewById(R.id.ico_viewpager);
             viewPager.setAdapter(viewPagerAdapter);
 

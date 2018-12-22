@@ -20,9 +20,8 @@ public class TokenRepository {
             obsList.add(TransactionRepository.getUserTokenBalance(userSavedToken.address, AccountManager.getAddress().getHex()));
         }
         return Observable.from(obsList).flatMap(result -> result.observeOn(Schedulers.newThread())).toList().map(result -> {
-            for (int i = 0; i < userSavedTokens.size(); i++) {
+            for (int i = 1; i <= userSavedTokens.size(); i++) {
                 userSavedTokens.get(i).balanceOf = result.get(i);
-
             }
             saveTokens(userSavedTokens);
             return userSavedTokens;
