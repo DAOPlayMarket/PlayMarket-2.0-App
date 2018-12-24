@@ -84,6 +84,7 @@ public class IcoStepFragment extends Fragment {
 
         tokensSold.setText(String.valueOf(icoLocalData.getTokensEarnedInPeriod(position)));
         tokensCount.setText("/" + String.valueOf(icoLocalData.getTokensInPeriod()));
+
         if (isStageIsActive()) {
             actualPriceTv.setText(R.string.ico_actual_price);
         } else if (position < icoLocalData.getCurrentPeriod()) {
@@ -94,7 +95,7 @@ public class IcoStepFragment extends Fragment {
 
         tokenPrice.setText(String.format("%.8f", icoLocalData.getPrice(position)));
 
-        purchaseButton.setEnabled(isStageIsActive());
+        purchaseButton.setEnabled(isStageIsActive() || icoLocalData.getEarnedInPeriod(position) == icoLocalData.getTokensInPeriod());
         initTimer();
         return view;
 

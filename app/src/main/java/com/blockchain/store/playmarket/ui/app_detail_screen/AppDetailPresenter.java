@@ -297,7 +297,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
     public void loadCryptoDuelData() {
-        TransactionRepository.getLocalIcoData(Constants.CRYPTO_DUEL_CONTRACT_CROWDSALE, AccountManager.getAddress().getHex())
+        TransactionRepository.getLocalIcoData(Constants.CRYPTO_DUEL_CONTRACT_CROWDSALE, Constants.CRYPTO_DUEL_CONTRACT_FOR_ADVER_BUDGET)
                 .subscribe(this::onIcoDataReady, this::onIcoDataError);
     }
 
