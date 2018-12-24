@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.AppDetailAdapter;
-import com.blockchain.store.playmarket.adapters.ImageListAdapter;
 import com.blockchain.store.playmarket.adapters.UserReviewAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
@@ -30,14 +29,12 @@ import com.blockchain.store.playmarket.data.entities.AppReviewsData;
 import com.blockchain.store.playmarket.data.entities.IcoLocalData;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.interfaces.AppDetailsImpl;
-import com.blockchain.store.playmarket.interfaces.ImageListAdapterCallback;
 import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.FrescoUtils;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
-import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import java.util.ArrayList;
 
@@ -133,7 +130,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         } else {
             presenter.getDetailedInfo(app);
         }
-        if (app.appId.equalsIgnoreCase("434")) {
+        if (app.isIco || app.appId.equalsIgnoreCase("434")) {
             presenter.loadCryptoDuelData();
         }
         presenter.getReviews(app.appId);
@@ -234,14 +231,6 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         ArrayList<AppDetailsImpl> appDetails = new ArrayList<>();
         appDetails.add(app);
         appDetails.add(new AppReviewsData(userReviews));
-        if (app.appId.equalsIgnoreCase("434")) {
-            appDetails.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_BUDGET);
-            appDetails.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_DESCRIPTION);
-            appDetails.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_STEP);
-            appDetails.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_TOKEN_DESCRIPTION);
-            appDetails.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_GRAPH);
-            appDetails.add(() -> AppDetailAdapter.ViewTypes.ABOUT);
-        }
         appDetailAdapter = new AppDetailAdapter(appDetails, this);
         if (icoLocalData != null) {
             appDetailAdapter.setIcoData(icoLocalData);
@@ -316,7 +305,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
             nestedScrollView.scrollTo(1500, 1500);
             recyclerView.smoothScrollToPosition(3);
         } else {
-            InvestActivity.start(this, appInfo);
+//            InvestActivity.start(this, appInfo);
         }
 
     }
@@ -330,6 +319,11 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     @OnClick(R.id.error_view_repeat_btn)
     public void onErrorViewRepeatClicked() {
         presenter.getDetailedInfo(app);
+        if (app.isIco || app.appId.equalsIgnoreCase("434")) {
+            presenter.loadCryptoDuelData();
+        }
+        presenter.getReviews(app.appId);
+
     }
 
     @OnClick(R.id.delete_view)

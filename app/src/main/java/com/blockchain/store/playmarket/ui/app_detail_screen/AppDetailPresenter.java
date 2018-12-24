@@ -22,7 +22,6 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
-import com.orhanobut.hawk.Hawk;
 
 import org.ethereum.geth.BigInt;
 
@@ -298,7 +297,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
     public void loadCryptoDuelData() {
-        TransactionRepository.getLocalIcoData(Constants.CRYPTO_DUEL_CONTRACT, AccountManager.getAddress().getHex())
+        TransactionRepository.getLocalIcoData(Constants.CRYPTO_DUEL_CONTRACT_CROWDSALE, AccountManager.getAddress().getHex())
                 .subscribe(this::onIcoDataReady, this::onIcoDataError);
     }
 

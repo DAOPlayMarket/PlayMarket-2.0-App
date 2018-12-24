@@ -63,7 +63,7 @@ public class Constants {
     public static final String WELCOME_ACTIVITY_IS_LUANCHED_FROM_SETTINGS_EXTRA = "welcome_activity_is_launched_from_settings_extra";
 
     public static final int DOWNLOAD_APPS_PER_REQUEST = 40;
-    public static final int GAS_LIMIT = 200000;
+    public static final int GAS_LIMIT = 500_000;
 
     public static final int USER_ETHERSCAN_ID = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? 1 : 4);
 
@@ -81,7 +81,8 @@ public class Constants {
     public static final String PLAY_MARKET_ADDRESS_TESTNET = "0x5245b2014e888b93418688cb9c9477b1b65c4630";
     public static final String PLAY_MARKET_ADDRESS_MAINNET = "0x839ea7b29be3075a463cab3b065a828d8c37cfaf";
     public static final String PLAY_MARKET_ADDRESS = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? PLAY_MARKET_ADDRESS_MAINNET : PLAY_MARKET_ADDRESS_TESTNET);
-    public static final String CRYPTO_DUEL_CONTRACT = "0x47b9d4bbe86c2a0756a7994aa949b0a97f8eb09e";
+    public static final String CRYPTO_DUEL_CONTRACT_CROWDSALE = "0xdC6E8e49a441b49E854e5bf2C58c07d0c212AAe7";
+    public static final String CRYPTO_DUEL_CONTRACT = "0xeee604440284dab54abe3fce2399023f6a420e22";
     public static final String CRYPTO_DUEL_CONTRACT_FOR_ADVER_BUDGET = "0x47b9d4bbe86c2a0756a7994aa949b0a97f8eb09e";
 
 

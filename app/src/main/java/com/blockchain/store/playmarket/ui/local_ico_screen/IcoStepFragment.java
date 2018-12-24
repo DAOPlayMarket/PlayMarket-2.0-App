@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.ui.local_ico_screen;
 
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -15,12 +16,16 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.IcoLocalData;
+import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
+import com.blockchain.store.playmarket.utilities.Constants;
 
 import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.RECIPIENT_ARG;
 
 public class IcoStepFragment extends Fragment {
 
@@ -72,13 +77,13 @@ public class IcoStepFragment extends Fragment {
 
         timeInMillis = icoLocalData.getTimeToStartStage(position);
 
-        earnedEth.setText(icoLocalData.getEarned(position));
+        earnedEth.setText(String.valueOf(icoLocalData.getEarnedInPeriod(position)));
 
         tokensSold.setText(String.valueOf(icoLocalData.getTokensEarnedInPeriod(position)));
         tokensCount.setText("/" + String.valueOf(icoLocalData.getTokensInPeriod()));
 
         actualPriceTv.setText(isStageIsActive() ? R.string.ico_actual_price : R.string.ico_time_to_start);
-        tokenPrice.setText(icoLocalData.price.get(0));
+        tokenPrice.setText(String.format("%.8f", icoLocalData.getPrice(position)));
 
         purchaseButton.setEnabled(isStageIsActive());
         initTimer();
@@ -130,6 +135,9 @@ public class IcoStepFragment extends Fragment {
 
     @OnClick(R.id.ico_purchase_button)
     public void ico_purchase_button() {
+        Intent intent = new Intent(getActivity(), TransferActivity.class);
+        intent.putExtra(RECIPIENT_ARG, Constants.CRYPTO_DUEL_CONTRACT_CROWDSALE);
+        startActivity(intent);
     }
 
 }

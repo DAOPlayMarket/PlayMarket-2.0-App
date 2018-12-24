@@ -36,7 +36,8 @@ public class IcoAppsInfoRepository {
     private ArrayList<AppInfo> addCryptoDuelToArray(Pair<ArrayList<AppInfo>, ArrayList<AppInfo>> arrayListArrayListPair) {
         ArrayList<AppInfo> first = arrayListArrayListPair.first;
         ArrayList<AppInfo> second = arrayListArrayListPair.second;
-        first.add(0, second.get(0));
+        if (!second.isEmpty())
+            first.add(0, second.get(0));
         return first;
     }
 

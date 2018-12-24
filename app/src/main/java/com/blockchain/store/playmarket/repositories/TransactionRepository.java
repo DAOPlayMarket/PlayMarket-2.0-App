@@ -130,7 +130,7 @@ public class TransactionRepository {
     }
 
     private static Observable<EthCall> getBalanceOfObservable() {
-        return getEthCallObservable(getBalanceOfFunction(userAddress));
+        return getEthCallObservable(getBalanceOfFunction(Constants.CRYPTO_DUEL_CONTRACT_FOR_ADVER_BUDGET));
     }
 
     private static Observable<EthCall> getEthCallObservable(Function dataFunction) {
@@ -215,15 +215,15 @@ public class TransactionRepository {
                 }).flatMap(result -> mapGetPrice(result.getCurrentPeriod()), Pair::new)
                 .map(result -> {
                     for (int i = 0; i < result.second.size(); i++) {
-                        result.first.price.add(decodeFunction(result.second.get(i), pricesFunction(result.first.getCurrentPeriod())).toString());
+                        result.first.earnedInPeriod.add(decodeFunction(result.second.get(i), pricesFunction(result.first.getCurrentPeriod())).toString());
                     }
                     return result.first;
-                }).flatMap(result -> mapEarned(result.getCurrentPeriod()), Pair::new)
-                .map(result -> {
-                    for (int i = 0; i < result.second.size(); i++) {
-                        result.first.earnedInPeriod.add(decodeFunction(result.second.get(i), earnedFunction(result.first.getCurrentPeriod())).toString());
-                    }
-                    return result.first;
+//                }).flatMap(result -> mapEarned(result.getCurrentPeriod()), Pair::new)
+//                .map(result -> {
+//                    for (int i = 0; i < result.second.size(); i++) {
+//                        result.first.earnedInPeriod.add(decodeFunction(result.second.get(i), earnedFunction(result.first.getCurrentPeriod())).toString());
+//                    }
+//                    return result.first;
                 }).flatMap(result -> mapTokenAmountOfPeriod(result.getCurrentPeriod()), Pair::new)
                 .map(result -> {
                     for (int i = 0; i < result.second.size(); i++) {
@@ -236,8 +236,8 @@ public class TransactionRepository {
 
     private static Observable<List<EthCall>> mapGetPrice(int currentPeriod) {
         ArrayList<Observable<EthCall>> pricesList = new ArrayList<>();
-        for (int i = 0; i <= currentPeriod; i++) {
-            pricesList.add(getEthCallObservable(pricesFunction(i)));
+        for (int i = 0; i <= currentPeriod - 1; i++) {
+            pricesList.add(getCustomEthCall(rewardFunction(i),Constants.CRYPTO_DUEL_CONTRACT));
         }
         return Observable.from(pricesList).flatMap(result -> result).toList();
     }
@@ -257,6 +257,7 @@ public class TransactionRepository {
         }
         return Observable.from(pricesList).flatMap(result -> result).toList();
     }
+
 
     /*
     *       ArrayList<Observable<String>> obsList = new ArrayList<>();
@@ -299,6 +300,15 @@ public class TransactionRepository {
     private static Function earnedFunction(int stageNumber) {
         return new Function("earned", Collections.singletonList(new Uint256(stageNumber)), Collections.singletonList(new TypeReference<Uint256>() {
         }));
+    }
+
+    private static Function rewardFunction(int previousStageNumber) {
+        return new Function("reward", Collections.singletonList(new Uint256(previousStageNumber)), Collections.singletonList(new TypeReference<Uint256>() {
+        }));
+    }
+
+    private static Observable<EthCall> getCustomEthCall(Function dataFunction, String contractAddress) {
+        return web3j.ethCall(createEthCallTransaction(TransactionRepository.userAddress, contractAddress, FunctionEncoder.encode(dataFunction)), DefaultBlockParameterName.LATEST).observable();
     }
 
 

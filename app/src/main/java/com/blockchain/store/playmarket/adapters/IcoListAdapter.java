@@ -121,7 +121,14 @@ public class IcoListAdapter extends RecyclerView.Adapter<IcoListAdapter.IcoAppVi
             content.setText("CryptoDuel");
             imageView.setImageResource(R.drawable.cryptoduel_logo);
             imageView.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
-            cardView.setOnClickListener(v -> appListCallbacks.onAppInfoClicked(appInfo));
+            cardView.setOnClickListener(v -> {
+                if (appInfo.appId.equalsIgnoreCase("434")) {
+                    appListCallbacks.onCryptoDuelClicked(appInfo);
+                } else {
+                    appListCallbacks.onAppInfoClicked(appInfo);
+                }
+
+            });
             price.setText(R.string.app_free);
         }
     }

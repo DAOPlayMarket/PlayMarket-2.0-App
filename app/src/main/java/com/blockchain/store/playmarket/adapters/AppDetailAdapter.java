@@ -85,6 +85,14 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public void setIcoData(IcoLocalData icoLocalData) {
+        if (this.icoLocalData == null) {
+            this.items.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_BUDGET);
+            this.items.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_DESCRIPTION);
+            this.items.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_STEP);
+            this.items.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_TOKEN_DESCRIPTION);
+            this.items.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_GRAPH);
+            this.items.add(() -> AppDetailAdapter.ViewTypes.ABOUT);
+        }
         this.icoLocalData = icoLocalData;
         notifyDataSetChanged();
 
@@ -259,7 +267,9 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void bind(IcoLocalData icoLocalData) {
             if (icoLocalData != null) {
                 budgetTv.setText(icoLocalData.getCompanyValue());
-                tokenTv.setText(icoLocalData.getPrice(icoLocalData.getCurrentPeriod()));
+
+                tokenTv.setText(String.format("%.4f", icoLocalData.getEarnedInPeriod(icoLocalData.getCurrentPeriod())));
+
                 adverTv.setText(String.format("%.2f", icoLocalData.getAdverBudget()));
             }
         }
@@ -364,7 +374,7 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
 
-            viewpager.setCurrentItem(icoLocalData.getCurrentPeriod());
+            viewpager.setCurrentItem(icoLocalData.getCurrentPeriod() - 1);
         }
     }
 

@@ -120,7 +120,7 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
     private void setupRecyclerView(ArrayList<AppInfo> apps) {
         adapter = new IcoListAdapter(apps, this, true);
 //        adapter.setHasStableIds(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),3));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView.setAdapter(adapter);
     }
 
@@ -136,7 +136,8 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
 
     @Override
     public void onAppInfoClicked(AppInfo appinfo) {
-        AppDetailActivity.start(getActivity(),appinfo);
+//        InvestActivity.startFromIco(getActivity(), appinfo);
+        AppDetailActivity.start(getActivity(), appinfo);
     }
 
     @Override
@@ -144,8 +145,9 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
         TransferActivity.startAsTokenTransfer(getActivity(), appinfo);
     }
 
-    @Override public void onCryptoDuelClicked() {
-        startActivity(new Intent(getActivity(), IcoLocalActivity.class));
+    @Override
+    public void onCryptoDuelClicked(AppInfo appInfo) {
+        AppDetailActivity.start(getActivity(), appInfo);
     }
 
     @Override

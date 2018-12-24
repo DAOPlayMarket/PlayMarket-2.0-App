@@ -63,7 +63,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     }
 
     private void test() {
-        TransactionRepository.getLocalIcoData(Constants.CRYPTO_DUEL_CONTRACT, AccountManager.getAddress().getHex())
+        TransactionRepository.getLocalIcoData(Constants.CRYPTO_DUEL_CONTRACT_CROWDSALE, AccountManager.getAddress().getHex())
                 .subscribe(this::onOk, this::onError);
     }
 

@@ -5,11 +5,13 @@ import android.os.Parcelable;
 
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class IcoLocalData implements Parcelable {
     private static final String TAG = "IcoLocalData";
+    private static final int tokensDecimals = 1_000_000_00;
     public ArrayList<String> price = new ArrayList<>();
     public ArrayList<String> earnedInPeriod = new ArrayList<>();
     public ArrayList<String> tokenEarnedInPeriod = new ArrayList<>();
@@ -36,25 +38,22 @@ public class IcoLocalData implements Parcelable {
         }
     }
 
-    public String getPrice(int position) {
-        try {
-            return new EthereumPrice(price.get(position)).inEther().toPlainString();
-        } catch (Exception e) {
-            return "0";
-        }
+    public double getPrice(int position) {
+        return getEarnedInPeriod(position) * 6 / 100_000;
     }
 
-    public String getEarned(int position) {
+    public double getEarnedInPeriod(int period) {
         try {
-            return new EthereumPrice(earnedInPeriod.get(position)).inEther().toPlainString();
+            double longValue = new EthereumPrice(earnedInPeriod.get(period)).inEther().doubleValue();
+            return longValue;
         } catch (Exception e) {
-            return "0";
+            return 0;
         }
     }
 
     public long getTokensEarnedInPeriod(int position) {
         try {
-            return Long.parseLong(tokenEarnedInPeriod.get(position)) / 100_000_00;
+            return Long.parseLong(tokenEarnedInPeriod.get(position)) / tokensDecimals;
         } catch (Exception e) {
             return 0;
         }
@@ -81,7 +80,7 @@ public class IcoLocalData implements Parcelable {
     }
 
     public Long getTokensInPeriod() {
-        return Long.valueOf(tokensInPeriod) / 100_000_00;
+        return Long.valueOf(tokensInPeriod) / tokensDecimals;
     }
 
     public Long getStartsAt() {

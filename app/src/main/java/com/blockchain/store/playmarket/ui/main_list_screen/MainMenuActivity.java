@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.blockchain.store.playmarket.Application;
@@ -63,6 +64,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @BindView(R.id.error_holder) View errorHolder;
     @BindView(R.id.nav_view) NavigationView navigationView;
     @BindView(R.id.search_view) MaterialSearchView searchView;
+    @BindView(R.id.bottom_layout) LinearLayout bottomLayout;
 
     private BehaviorSubject<String> userInputSubject = BehaviorSubject.create();
     private ArrayList<App> searchListResult = new ArrayList<>();
@@ -152,6 +154,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onCategoryLoaded(ArrayList<Category> categories) {
+        bottomLayout.setVisibility(View.VISIBLE);
         errorHolder.setVisibility(View.GONE);
         initViewPager(categories);
 

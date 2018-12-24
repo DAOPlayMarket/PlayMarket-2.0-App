@@ -5,7 +5,7 @@ import com.blockchain.store.playmarket.data.entities.AppInfo;
 public interface AppInfoCallback {
     void onAppInfoClicked(AppInfo appinfo);
     void onAppTransferTokenClicked(AppInfo appinfo);
-    void onCryptoDuelClicked();
+    void onCryptoDuelClicked(AppInfo appInfo);
 
     default void onAppInvestClicked(String address) {
 
