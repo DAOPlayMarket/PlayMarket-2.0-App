@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.blockchain.store.playmarket.data.entities.UserBalance;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferViewModel;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.blockchain.store.playmarket.utilities.InputFilterMinMax;
 import com.blockchain.store.playmarket.utilities.QRCodeScannerActivity;
 
 import java.math.BigDecimal;
@@ -61,6 +63,9 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     private String tokenName;
     private Constants.TransactionTypes transactionTypes;
     private UserBalance accountBalance;
+
+    private long maxValueInWei;
+    private long minValueInWei;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -200,9 +205,19 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         isEth = true;
         transferViewModel.isEth.setValue(isEth);
         transferViewModel.dimension.setValue(ETH);
+
+        maxValueInWei = new EthereumPrice(String.valueOf(maxValueInWei)).inEther().longValue();
+        minValueInWei = new EthereumPrice(String.valueOf(minValueInWei)).inEther().longValue();
+        if (maxValueInWei != minValueInWei)
+            amountEditText.setFilters(new InputFilter[]{new InputFilterMinMax(String.valueOf(minValueInWei), String.valueOf(maxValueInWei))});
     }
 
     private void weiSelect() {
+        maxValueInWei = new EthereumPrice(String.valueOf(maxValueInWei)).inWei().longValue();
+        minValueInWei = new EthereumPrice(String.valueOf(minValueInWei)).inWei().longValue();
+        if (maxValueInWei != minValueInWei)
+            amountEditText.setFilters(new InputFilter[]{new InputFilterMinMax(String.valueOf(minValueInWei), String.valueOf(maxValueInWei))});
+
         weiTextView.setBackgroundResource(R.drawable.round_black_corner);
         weiTextView.setTextColor(getResources().getColor(R.color.white));
 
@@ -277,6 +292,9 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         transferViewModel.transferAmount.observe(getActivity(), s -> transferAmount = s);
         transferViewModel.tokenName.observe(getActivity(), this::setTokenName);
         transferViewModel.transactionType.observe(getActivity(), this::setTransactionType);
+
+        transferViewModel.minValue.observe(getActivity(), result -> minValueInWei = result);
+        transferViewModel.maxValue.observe(getActivity(), result -> maxValueInWei = result);
     }
 
 }

@@ -245,8 +245,9 @@
     <string name="ico_buy_tokens">Purchase</string>
     <string name="ico_sold_tokens">Tokens sold</string>
 
-    <string name="ico_actual_price">Цена актуальна:</string>
-    <string name="ico_company_dynamics">Динамика компании:</string>
+    <string name="ico_actual_price">Price is valid until:</string>
+    <string name="ico_company_dynamics">Company Dynamics:</string>
+    <string name="ico_company_time_from_ends">Stage ended: </string>
 
     <string name="ico_tokens_count">Number of tokens:</string>
     <string name="ico_stages_count">Number of stages:</string>

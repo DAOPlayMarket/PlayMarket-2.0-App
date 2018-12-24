@@ -33,5 +33,7 @@ public class TransferViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> isHasMaxCount = new MutableLiveData<>();
 
-    public MutableLiveData<Integer> maxCount = new MutableLiveData<>();
+    public MutableLiveData<Long> maxValue = new MutableLiveData<>();
+
+    public MutableLiveData<Long> minValue = new MutableLiveData<>();
 }

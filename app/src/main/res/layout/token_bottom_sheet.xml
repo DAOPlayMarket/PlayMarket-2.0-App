@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/colorPrimary">
 
     <android.support.constraint.ConstraintLayout
@@ -41,7 +41,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/token_dialog_enter_address" />
+                android:hint="@string/token_dialog_enter_address"
+                android:theme="@style/genericEditText" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
@@ -70,7 +71,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:scrollbars="vertical"
             android:verticalScrollbarPosition="right"

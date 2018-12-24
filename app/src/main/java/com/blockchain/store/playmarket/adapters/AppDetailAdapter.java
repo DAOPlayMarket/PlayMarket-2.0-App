@@ -266,11 +266,11 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         public void bind(IcoLocalData icoLocalData) {
             if (icoLocalData != null) {
-                budgetTv.setText(icoLocalData.getCompanyValue());
+                budgetTv.setText(String.format("%.3f", icoLocalData.getEarnedInPeriod(icoLocalData.getCurrentPeriod()) * 6));
 
-                tokenTv.setText(String.format("%.4f", icoLocalData.getEarnedInPeriod(icoLocalData.getCurrentPeriod())));
+                tokenTv.setText(String.format("%.5f", icoLocalData.getEarnedInPeriod(icoLocalData.getCurrentPeriod()) * 6 / 100_000));
 
-                adverTv.setText(String.format("%.2f", icoLocalData.getAdverBudget()));
+                adverTv.setText(String.format("%.3f", icoLocalData.getAdverBudget()));
             }
         }
     }

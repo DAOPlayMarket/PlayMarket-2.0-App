@@ -218,12 +218,6 @@ public class TransactionRepository {
                         result.first.earnedInPeriod.add(decodeFunction(result.second.get(i), pricesFunction(result.first.getCurrentPeriod())).toString());
                     }
                     return result.first;
-//                }).flatMap(result -> mapEarned(result.getCurrentPeriod()), Pair::new)
-//                .map(result -> {
-//                    for (int i = 0; i < result.second.size(); i++) {
-//                        result.first.earnedInPeriod.add(decodeFunction(result.second.get(i), earnedFunction(result.first.getCurrentPeriod())).toString());
-//                    }
-//                    return result.first;
                 }).flatMap(result -> mapTokenAmountOfPeriod(result.getCurrentPeriod()), Pair::new)
                 .map(result -> {
                     for (int i = 0; i < result.second.size(); i++) {
@@ -236,7 +230,7 @@ public class TransactionRepository {
 
     private static Observable<List<EthCall>> mapGetPrice(int currentPeriod) {
         ArrayList<Observable<EthCall>> pricesList = new ArrayList<>();
-        for (int i = 0; i <= currentPeriod - 1; i++) {
+        for (int i = 1; i <= currentPeriod; i++) {
             pricesList.add(getCustomEthCall(rewardFunction(i),Constants.CRYPTO_DUEL_CONTRACT));
         }
         return Observable.from(pricesList).flatMap(result -> result).toList();

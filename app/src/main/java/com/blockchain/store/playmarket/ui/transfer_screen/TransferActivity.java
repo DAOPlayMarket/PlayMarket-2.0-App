@@ -40,6 +40,8 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     public static String APP_INFO_ARG = "app_info_address";
     public static String TOKEN_INFO_ARG = "token_info_address";
     public static String TRANSACTION_ARG = "transaction_arg";
+    public static String MAX_VALUE_ARG = "wei_max_value";
+    public static String MIN_VALUE_ARG = "wei_min_value";
 
     @BindView(R.id.transfer_viewPager) NonSwipeableViewPager transferViewPager;
     @BindView(R.id.continue_transfer_button) Button continueButton;
@@ -62,6 +64,9 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     private ViewPagerAdapter transferAdapter;
     private String tokenName;
     private Constants.TransactionTypes transactionTypes;
+
+    private long minSendValue;
+    private long maxSendValue;
 
     public static void startWithResult(Activity activity, String recipientAddress, App app, Constants.TransactionTypes transactionType, int resultCode) {
         Intent starter = new Intent(activity.getBaseContext(), TransferActivity.class);
@@ -98,7 +103,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
             transferViewModel.recipientAddress.setValue(recipientAddress);
         }
 
-
+        checkMinMaxValues();
         app = getIntent().getParcelableExtra(APP_ARG);
         appInfo = getIntent().getParcelableExtra(APP_INFO_ARG);
         token = getIntent().getParcelableExtra(TOKEN_INFO_ARG);
@@ -128,6 +133,15 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
         transferAdapter.addFragment(new TransferInfoFragment());
         transferAdapter.addFragment(new TransferConfirmFragment());
         transferViewPager.setAdapter(transferAdapter);
+    }
+
+    private void checkMinMaxValues() {
+        maxSendValue = getIntent().getLongExtra(MAX_VALUE_ARG, 0);
+        minSendValue = getIntent().getLongExtra(MIN_VALUE_ARG, 0);
+
+        transferViewModel.maxValue.postValue(maxSendValue);
+        transferViewModel.minValue.postValue(minSendValue);
+
     }
 
     @OnClick(R.id.continue_transfer_button)

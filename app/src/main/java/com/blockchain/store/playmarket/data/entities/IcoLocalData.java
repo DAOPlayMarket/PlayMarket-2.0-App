@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 
@@ -21,6 +20,10 @@ public class IcoLocalData implements Parcelable {
     public String startsAt;
     public BigInteger adverBudget;
 
+    public IcoLocalData() {
+        earnedInPeriod.add(0, "0");
+    }
+
     public double getAdverBudget() {
         return new EthereumPrice(adverBudget.toString()).inEther().doubleValue();
     }
@@ -30,11 +33,11 @@ public class IcoLocalData implements Parcelable {
         return (int) currentPeriod;
     }
 
-    public String getCompanyValue() {
+    public double getCompanyValue() {
         try {
-            return new EthereumPrice(String.valueOf(Long.valueOf(price.get(getCurrentPeriod())) * 100_000)).inEther().toPlainString();
+            return getEarnedInPeriod(getCurrentPeriod()) * 100_000;
         } catch (Exception e) {
-            return "0";
+            return 0;
         }
     }
 
@@ -53,7 +56,8 @@ public class IcoLocalData implements Parcelable {
 
     public long getTokensEarnedInPeriod(int position) {
         try {
-            return Long.parseLong(tokenEarnedInPeriod.get(position)) / tokensDecimals;
+            long l = Long.parseLong(tokenEarnedInPeriod.get(position));
+            return l / tokensDecimals;
         } catch (Exception e) {
             return 0;
         }
@@ -61,6 +65,9 @@ public class IcoLocalData implements Parcelable {
 
     public long getTimeToStartStage(int position) {
         long returnValue;
+        if (position != 0 && position <= getCurrentPeriod()) {
+            position++;
+        }
         if (position == 0) {
             returnValue = Math.abs(System.currentTimeMillis() - (getStartsAt() + getDurationOfPeriod()));
         } else if (position == getNumberOfPeriods()) {
@@ -85,9 +92,6 @@ public class IcoLocalData implements Parcelable {
 
     public Long getStartsAt() {
         return Long.valueOf(startsAt) * 1000;
-    }
-
-    public IcoLocalData() {
     }
 
     @Override

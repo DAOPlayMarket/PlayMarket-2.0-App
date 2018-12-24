@@ -20,11 +20,14 @@ import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.MAX_VALUE_ARG;
+import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.MIN_VALUE_ARG;
 import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.RECIPIENT_ARG;
 
 public class IcoStepFragment extends Fragment {
@@ -81,8 +84,14 @@ public class IcoStepFragment extends Fragment {
 
         tokensSold.setText(String.valueOf(icoLocalData.getTokensEarnedInPeriod(position)));
         tokensCount.setText("/" + String.valueOf(icoLocalData.getTokensInPeriod()));
+        if (isStageIsActive()) {
+            actualPriceTv.setText(R.string.ico_actual_price);
+        } else if (position < icoLocalData.getCurrentPeriod()) {
+            actualPriceTv.setText(R.string.ico_company_time_from_ends);
+        } else {
+            actualPriceTv.setText(R.string.ico_time_to_start);
+        }
 
-        actualPriceTv.setText(isStageIsActive() ? R.string.ico_actual_price : R.string.ico_time_to_start);
         tokenPrice.setText(String.format("%.8f", icoLocalData.getPrice(position)));
 
         purchaseButton.setEnabled(isStageIsActive());
@@ -102,9 +111,17 @@ public class IcoStepFragment extends Fragment {
                 public void onTick(long millisUntilFinished) {
                     Calendar cal = Calendar.getInstance();
                     cal.setTimeInMillis(millisUntilFinished);
-                    dayLeft.setText(String.valueOf(cal.get(Calendar.DAY_OF_YEAR)));
-                    hourLeft.setText(String.valueOf(cal.get(Calendar.HOUR_OF_DAY)));
-                    minutesLeft.setText(String.valueOf(cal.get(Calendar.MINUTE)));
+
+                    long days = TimeUnit.MILLISECONDS.toDays(millisUntilFinished);
+                    millisUntilFinished -= TimeUnit.DAYS.toMillis(days);
+                    long hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished);
+                    millisUntilFinished -= TimeUnit.HOURS.toMillis(hours);
+                    long minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished);
+
+
+                    dayLeft.setText(String.valueOf(days));
+                    hourLeft.setText(String.valueOf(hours));
+                    minutesLeft.setText(String.valueOf(minutes));
 
                     Resources resources = getActivity().getBaseContext().getResources();
 
@@ -137,6 +154,8 @@ public class IcoStepFragment extends Fragment {
     public void ico_purchase_button() {
         Intent intent = new Intent(getActivity(), TransferActivity.class);
         intent.putExtra(RECIPIENT_ARG, Constants.CRYPTO_DUEL_CONTRACT_CROWDSALE);
+        intent.putExtra(MAX_VALUE_ARG, icoLocalData.getTokensInPeriod() - icoLocalData.getTokensEarnedInPeriod(position));
+        intent.putExtra(MIN_VALUE_ARG, icoLocalData.getPrice(position));
         startActivity(intent);
     }
 
