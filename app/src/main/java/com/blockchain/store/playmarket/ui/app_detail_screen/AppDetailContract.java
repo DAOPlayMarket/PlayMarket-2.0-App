@@ -42,6 +42,8 @@ public class AppDetailContract {
         void onReviewSendSuccessfully();
 
         void onIcoDataReady(IcoLocalData icoLocalData);
+
+        void onIcoDataError(Throwable throwable);
     }
 
     public interface Presenter {

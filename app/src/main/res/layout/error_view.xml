@@ -8,6 +8,7 @@
     android:layout_gravity="center"
     android:padding="40dp"
     android:visibility="gone"
+    tools:background="@color/colorPrimary"
     tools:visibility="visible">
 
     <TextView

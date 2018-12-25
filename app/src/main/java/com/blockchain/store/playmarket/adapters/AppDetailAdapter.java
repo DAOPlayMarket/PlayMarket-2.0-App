@@ -17,8 +17,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
@@ -26,8 +28,8 @@ import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppReviewsData;
 import com.blockchain.store.playmarket.data.entities.IcoLocalData;
 import com.blockchain.store.playmarket.interfaces.AppDetailsImpl;
+import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.local_ico_screen.IcoStepFragment;
-import com.blockchain.store.playmarket.ui.local_ico_screen.NewIcoAdapter;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
@@ -56,7 +58,7 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         VIEW_TYPE_DESCRIPTION,
         VIEW_TYPE_STEP,
         VIEW_TYPE_TOKEN_DESCRIPTION,
-        VIEW_TYPE_GRAPH, ABOUT
+        VIEW_TYPE_GRAPH, ABOUT, LOAD
     }
 
     private static final int VIEW_TYPE_BUDGET = 3;
@@ -65,14 +67,18 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int VIEW_TYPE_TOKEN_DESCRIPTION = 6;
     private static final int VIEW_TYPE_GRAPH = 7;
     private static final int VIEW_TYPE_ABOUT = 8;
+    private static final int VIEW_TYPE_LOAD = 9;
 
     ArrayList<AppDetailsImpl> items;
     private AppCompatActivity activity;
     private IcoLocalData icoLocalData;
+    private boolean isLoading = true;
+    private boolean isError = false;
 
     public AppDetailAdapter(ArrayList<AppDetailsImpl> items, AppCompatActivity activity) {
         this.items = items;
         this.activity = activity;
+        items.add(() -> AppDetailAdapter.ViewTypes.LOAD);
     }
 
     public void addItems(ArrayList<AppDetailsImpl> items) {
@@ -93,8 +99,19 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             this.items.add(() -> AppDetailAdapter.ViewTypes.VIEW_TYPE_GRAPH);
             this.items.add(() -> AppDetailAdapter.ViewTypes.ABOUT);
         }
+        isLoading = false;
+        isError = false;
         this.icoLocalData = icoLocalData;
         notifyDataSetChanged();
+    }
+
+    public void onError(boolean showError, Throwable throwable) {
+        this.isError = showError;
+        this.isLoading = !showError;
+        notifyDataSetChanged();
+    }
+
+    public void setLoading() {
 
     }
 
@@ -139,6 +156,10 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.ico_new_about, parent, false);
                 return new IcoAboutViewHolder(view);
+            case VIEW_TYPE_LOAD:
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.ico_new_loading, parent, false);
+                return new IcoLoadingErrorViewHolder(view);
 
         }
 
@@ -158,6 +179,9 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
         if (holder instanceof IcoStepViewHolder) {
             ((IcoStepViewHolder) holder).bind(icoLocalData);
+        }
+        if (holder instanceof IcoLoadingErrorViewHolder) {
+            ((IcoLoadingErrorViewHolder) holder).bind();
         }
     }
 
@@ -297,7 +321,12 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         private void setupChart() {
             ArrayList<Entry> data = new ArrayList<>();
             for (int i = 0; i < 30; i++) {
-                data.add(new Entry(i, i + new Random().nextInt(10)));
+                if(i % 2 == 0){
+                    data.add(new Entry(i, i + 8));
+                } else {
+                    data.add(new Entry(i, i + 5));
+                }
+
             }
             LineDataSet dataSet = new LineDataSet(data, "String label");
             dataSet.setGradientColor(
@@ -400,6 +429,34 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             siteTv.setOnClickListener(v -> {
                 itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(siteTv.getText().toString())));
             });
+        }
+    }
+
+    public class IcoLoadingErrorViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.error_view_repeat_btn) Button repeatButton;
+        @BindView(R.id.progress_bar) ProgressBar progressBar;
+        @BindView(R.id.error_holder) LinearLayout errorHolder;
+
+
+        public IcoLoadingErrorViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        @OnClick(R.id.error_view_repeat_btn)
+        void onRepeatButtonClicked() {
+            try {
+                ((AppDetailActivity) activity).reloadCryptoDuelData();
+            } catch (Exception e) {
+            }
+
+        }
+
+
+        public void bind() {
+            progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            errorHolder.setVisibility(isError ? View.VISIBLE : View.GONE);
         }
     }
 }

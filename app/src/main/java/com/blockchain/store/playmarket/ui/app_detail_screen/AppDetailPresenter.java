@@ -307,7 +307,7 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
     private void onIcoDataError(Throwable throwable) {
-        Log.d(TAG, "onIcoDataError: ");
+        view.onIcoDataError(throwable);
         throwable.printStackTrace();
     }
 }

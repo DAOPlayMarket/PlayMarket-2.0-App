@@ -227,6 +227,13 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
     }
 
     @Override
+    public void onIcoDataError(Throwable throwable) {
+        if (appDetailAdapter != null) {
+            appDetailAdapter.onError(true, throwable);
+        }
+    }
+
+    @Override
     public void onReviewsReady(ArrayList<UserReview> userReviews) {
         ArrayList<AppDetailsImpl> appDetails = new ArrayList<>();
         appDetails.add(app);
@@ -372,4 +379,12 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
             presenter.getDetailedInfo(app);
         }
     }
+
+    public void reloadCryptoDuelData() {
+        presenter.loadCryptoDuelData();
+        if (appDetailAdapter != null) {
+            appDetailAdapter.onError(false, null);
+        }
+    }
+
 }
