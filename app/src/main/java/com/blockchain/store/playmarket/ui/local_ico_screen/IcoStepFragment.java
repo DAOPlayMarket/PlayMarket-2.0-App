@@ -107,7 +107,7 @@ public class IcoStepFragment extends Fragment {
 
     private void initTimer() {
         if (countDownTimer == null) {
-            countDownTimer = new CountDownTimer(System.currentTimeMillis()+15000, 1000) {
+            countDownTimer = new CountDownTimer(timeInMillis, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     Calendar cal = Calendar.getInstance();

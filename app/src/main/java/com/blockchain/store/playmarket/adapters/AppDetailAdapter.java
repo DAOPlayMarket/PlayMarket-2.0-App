@@ -41,6 +41,8 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.stfalcon.frescoimageviewer.ImageViewer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -309,25 +311,23 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public class IcoGraphViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.lineChart) LineChart lineChart;
         @BindView(R.id.graph_switcher) SwitchCompat switcher;
+        ArrayList<Entry> data = new ArrayList<>();
+        private List<Integer> yValues;
 
         public IcoGraphViewHolder(View itemView) {
             super(itemView);
+            yValues = Arrays.asList(2, 9, 11, 12, 10, 10, 14, 12, 12, 16, 16, 12, 16, 17, 19, 18, 19, 17, 27, 24, 25, 23, 23, 24, 27, 25, 35, 33, 32, 38);
+
             ButterKnife.bind(this, itemView);
+            for (int i = 0; i < 30; i++) {
+                data.add(new Entry(i, yValues.get(i)));
+            }
             switcher.setOnCheckedChangeListener((compoundButton, b) -> setupChart());
             setupChart();
 
         }
 
         private void setupChart() {
-            ArrayList<Entry> data = new ArrayList<>();
-            for (int i = 0; i < 30; i++) {
-                if(i % 2 == 0){
-                    data.add(new Entry(i, i + 8));
-                } else {
-                    data.add(new Entry(i, i + 5));
-                }
-
-            }
             LineDataSet dataSet = new LineDataSet(data, "String label");
             dataSet.setGradientColor(
                     activity.getResources().getColor(R.color.graph_color_gradient_start_color),
