@@ -30,6 +30,9 @@ public class IcoLocalData implements Parcelable {
 
     public int getCurrentPeriod() {
         long currentPeriod = Math.abs((System.currentTimeMillis() - getStartsAt()) / getDurationOfPeriod());
+        if (currentPeriod > Long.valueOf(numberOfPeriods)) {
+            currentPeriod = Long.valueOf(numberOfPeriods);
+        }
         return (int) currentPeriod;
     }
 
@@ -43,6 +46,10 @@ public class IcoLocalData implements Parcelable {
 
     public double getPrice(int position) {
         return getEarnedInPeriod(position) * 6 / 100_000;
+    }
+
+    public long getPriceAsWei(int position) {
+        return new EthereumPrice(String.valueOf(getEarnedInPeriod(position) * 6 / 100_000), EthereumPrice.Currency.ETHER).inWei().longValue();
     }
 
     public double getEarnedInPeriod(int period) {

@@ -387,4 +387,8 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         }
     }
 
+    public void reloadCryptonDataSilently() {
+        presenter.loadCryptoDuelData();
+    }
+
 }

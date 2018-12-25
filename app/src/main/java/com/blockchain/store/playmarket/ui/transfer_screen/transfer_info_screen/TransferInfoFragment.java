@@ -67,6 +67,10 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
     private long maxValueInWei;
     private long minValueInWei;
 
+    private float currentMaxValue;
+    private float currentMinValue;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -205,19 +209,13 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         isEth = true;
         transferViewModel.isEth.setValue(isEth);
         transferViewModel.dimension.setValue(ETH);
-
-        maxValueInWei = new EthereumPrice(String.valueOf(maxValueInWei)).inEther().longValue();
-        minValueInWei = new EthereumPrice(String.valueOf(minValueInWei)).inEther().longValue();
-        if (maxValueInWei != minValueInWei)
-            amountEditText.setFilters(new InputFilter[]{new InputFilterMinMax(String.valueOf(minValueInWei), String.valueOf(maxValueInWei))});
+        currentMaxValue = new EthereumPrice(String.valueOf(maxValueInWei)).inEther().floatValue();
+        currentMinValue = new EthereumPrice(String.valueOf(minValueInWei)).inEther().floatValue();
     }
 
     private void weiSelect() {
-        maxValueInWei = new EthereumPrice(String.valueOf(maxValueInWei)).inWei().longValue();
-        minValueInWei = new EthereumPrice(String.valueOf(minValueInWei)).inWei().longValue();
-        if (maxValueInWei != minValueInWei)
-            amountEditText.setFilters(new InputFilter[]{new InputFilterMinMax(String.valueOf(minValueInWei), String.valueOf(maxValueInWei))});
-
+        currentMaxValue = new EthereumPrice(String.valueOf(maxValueInWei)).inWei().floatValue();
+        currentMinValue = new EthereumPrice(String.valueOf(minValueInWei)).inWei().floatValue();
         weiTextView.setBackgroundResource(R.drawable.round_black_corner);
         weiTextView.setTextColor(getResources().getColor(R.color.white));
 
@@ -277,6 +275,19 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
                 isHasNoError = false;
             } else amountTextInputLayout.setError("");
         }
+        float amountValue = Float.parseFloat(amountEditText.getText().toString());
+        if (currentMinValue != currentMaxValue && currentMinValue != 0) {
+            if (amountValue > currentMaxValue) {
+                amountTextInputLayout.setError(String.format(getResources().getString(R.string.transfer_maximum_value_error), currentMaxValue));
+                isHasNoError = false;
+            } else if (amountValue < currentMinValue) {
+                amountTextInputLayout.setError(String.format(getResources().getString(R.string.transfer_minimum_value_error), currentMinValue));
+                isHasNoError = false;
+            } else {
+                isHasNoError = true;
+            }
+        }
+
         return isHasNoError;
     }
 

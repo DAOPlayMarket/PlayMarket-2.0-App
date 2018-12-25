@@ -82,9 +82,9 @@ public class Constants {
     public static final String PLAY_MARKET_ADDRESS_MAINNET = "0x839ea7b29be3075a463cab3b065a828d8c37cfaf";
     public static final String PLAY_MARKET_ADDRESS = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? PLAY_MARKET_ADDRESS_MAINNET : PLAY_MARKET_ADDRESS_TESTNET);
 
-    public static final String CRYPTO_DUEL_CONTRACT_CROWDSALE = "0x1b215a6580a196c555178d32d8c3f85eE4d896a6";
-    public static final String CRYPTO_DUEL_CONTRACT =           "0xc0de0557551ed21e1974db89ae630fb5383f53e0";
-    public static final String CRYPTO_DUEL_CONTRACT_FOR_ADVER_BUDGET = "0x86e86322817b3aee6820c55a14d045f19416cb8f";
+    public static final String CRYPTO_DUEL_CONTRACT_CROWDSALE = "0x2ab54369795266fc84e12270A0219d2e7d21F70f";
+    public static final String CRYPTO_DUEL_CONTRACT =           "0x869eb8a1a479a80f9907673eae8336625dc3e526";
+    public static final String CRYPTO_DUEL_CONTRACT_FOR_ADVER_BUDGET = "0xbc82729a3a5063465f66b54d9a1e18496529c532";
 
 
 

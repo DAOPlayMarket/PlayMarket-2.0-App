@@ -48,7 +48,6 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     @BindView(R.id.progress_bar) ProgressBar progressBar;
 
     private TransferViewModel transferViewModel;
-
     private TransferPresenter presenter;
 
     private String password;
@@ -67,6 +66,7 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
 
     private long minSendValue;
     private long maxSendValue;
+
 
     public static void startWithResult(Activity activity, String recipientAddress, App app, Constants.TransactionTypes transactionType, int resultCode) {
         Intent starter = new Intent(activity.getBaseContext(), TransferActivity.class);
@@ -139,8 +139,8 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
         maxSendValue = getIntent().getLongExtra(MAX_VALUE_ARG, 0);
         minSendValue = getIntent().getLongExtra(MIN_VALUE_ARG, 0);
 
-        transferViewModel.maxValue.postValue(maxSendValue);
-        transferViewModel.minValue.postValue(minSendValue);
+        transferViewModel.maxValue.setValue(maxSendValue);
+        transferViewModel.minValue.setValue(minSendValue);
 
     }
 

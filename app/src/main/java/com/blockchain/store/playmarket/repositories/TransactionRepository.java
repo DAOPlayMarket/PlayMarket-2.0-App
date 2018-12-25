@@ -63,7 +63,7 @@ public class TransactionRepository {
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .addInterceptor(interceptor);
         OkHttpClient build = builder.build();
-        Web3jService web3jService = new HttpService(BASE_URL_INFURA_RINKEBY, build, false);
+        Web3jService web3jService = new HttpService(BASE_URL_INFURA, build, false);
 
         TransactionRepository.web3j = Web3jFactory.build(web3jService);
         TransactionRepository.contractAddress = contractAddress;

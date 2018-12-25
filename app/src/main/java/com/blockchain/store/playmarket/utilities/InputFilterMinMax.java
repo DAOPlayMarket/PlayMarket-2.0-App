@@ -5,16 +5,16 @@ import android.text.Spanned;
 
 public class InputFilterMinMax implements InputFilter {
 
-    private long min, max;
+    private double min, max;
 
-    public InputFilterMinMax(int min, int max) {
+    public InputFilterMinMax(double min, double max) {
         this.min = min;
         this.max = max;
     }
 
     public InputFilterMinMax(String min, String max) {
-        this.min = Integer.parseInt(min);
-        this.max = Integer.parseInt(max);
+        this.min = Double.parseDouble(min);
+        this.max = Double.parseDouble(max);
     }
 
     @Override
@@ -24,14 +24,15 @@ public class InputFilterMinMax implements InputFilter {
             String newVal = dest.toString().substring(0, dstart) + dest.toString().substring(dend, dest.toString().length());
             // Add the new string in
             newVal = newVal.substring(0, dstart) + source.toString() + newVal.substring(dstart, newVal.length());
-            int input = Integer.parseInt(newVal);
+            double input = Double.parseDouble(newVal);
             if (isInRange(min, max, input))
                 return null;
-        } catch (NumberFormatException nfe) { }
+        } catch (NumberFormatException nfe) {
+        }
         return "";
     }
-    
-    private boolean isInRange(long a, long b, long c) {
+
+    private boolean isInRange(double a, double b, double c) {
         return b > a ? c >= a && c <= b : c >= b && c <= a;
     }
 }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.IcoLocalData;
+import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 
@@ -31,7 +32,6 @@ import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivit
 import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.RECIPIENT_ARG;
 
 public class IcoStepFragment extends Fragment {
-
 
     private static final String TAG = "IcoStepFragment";
     private static final String ICO_DATA_KEY = "ico_data_key";
@@ -107,7 +107,7 @@ public class IcoStepFragment extends Fragment {
 
     private void initTimer() {
         if (countDownTimer == null) {
-            countDownTimer = new CountDownTimer(timeInMillis, 1000) {
+            countDownTimer = new CountDownTimer(System.currentTimeMillis()+15000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     Calendar cal = Calendar.getInstance();
@@ -118,7 +118,6 @@ public class IcoStepFragment extends Fragment {
                     long hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished);
                     millisUntilFinished -= TimeUnit.HOURS.toMillis(hours);
                     long minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished);
-
 
                     dayLeft.setText(String.valueOf(days));
                     hourLeft.setText(String.valueOf(hours));
@@ -134,6 +133,11 @@ public class IcoStepFragment extends Fragment {
 
                 @Override
                 public void onFinish() {
+                    try {
+                        ((AppDetailActivity) getActivity()).reloadCryptonDataSilently();
+                    } catch (Exception e) {
+                    }
+
                 }
             }.start();
         }
@@ -153,10 +157,13 @@ public class IcoStepFragment extends Fragment {
 
     @OnClick(R.id.ico_purchase_button)
     public void ico_purchase_button() {
+        long totalTokensLeft = icoLocalData.getTokensInPeriod() - icoLocalData.getTokensEarnedInPeriod(position);
+        long priceOfOneToken = icoLocalData.getPriceAsWei(position);
+
         Intent intent = new Intent(getActivity(), TransferActivity.class);
         intent.putExtra(RECIPIENT_ARG, Constants.CRYPTO_DUEL_CONTRACT_CROWDSALE);
-        intent.putExtra(MAX_VALUE_ARG, icoLocalData.getTokensInPeriod() - icoLocalData.getTokensEarnedInPeriod(position));
-        intent.putExtra(MIN_VALUE_ARG, icoLocalData.getPrice(position));
+        intent.putExtra(MAX_VALUE_ARG, priceOfOneToken * totalTokensLeft);
+        intent.putExtra(MIN_VALUE_ARG, priceOfOneToken);
         startActivity(intent);
     }
 
