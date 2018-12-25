@@ -101,7 +101,8 @@ public class MyIcoActivity extends AppCompatActivity implements MyIcoContract.Vi
 
     @Override
     public void onCryptoDuelClicked(AppInfo appInfo) {
-        startActivity(new Intent(this, IcoLocalActivity.class));
+        AppDetailActivity.start(this, appInfo);
+//        startActivity(new Intent(this, IcoLocalActivity.class));
     }
 
     @Override

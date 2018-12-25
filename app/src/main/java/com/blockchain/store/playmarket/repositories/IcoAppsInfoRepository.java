@@ -21,8 +21,8 @@ public class IcoAppsInfoRepository {
     public void getIcoApps(IcoAppsRepositoryCallback callback) {
         this.callback = callback;
         RestApi.getServerApi().getIcoApps()
-                .zipWith(RestApi.getServerApi().getAppsByPackageGetAsAppInfo("com.blockchain.cryptoduel"), Pair::new)
-                .map(this::addCryptoDuelToArray)
+//                .zipWith(RestApi.getServerApi().getAppsByPackageGetAsAppInfo("com.blockchain.cryptoduel"), Pair::new)
+//                .map(this::addCryptoDuelToArray)
 //                .map(this::mapWithLocalIco)
 //                .flatMap(this::mapWithGetIcoBalance, Pair::new)
 //                .map(this::mapWithCombineResult)

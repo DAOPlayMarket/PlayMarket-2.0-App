@@ -229,9 +229,10 @@ public class TransactionRepository {
     }
 
     private static Observable<List<EthCall>> mapGetPrice(int currentPeriod) {
+        currentPeriod++;
         ArrayList<Observable<EthCall>> pricesList = new ArrayList<>();
         for (int i = 1; i <= currentPeriod; i++) {
-            pricesList.add(getCustomEthCall(rewardFunction(i),Constants.CRYPTO_DUEL_CONTRACT));
+            pricesList.add(getCustomEthCall(rewardFunction(i), Constants.CRYPTO_DUEL_CONTRACT));
         }
         return Observable.from(pricesList).flatMap(result -> result).toList();
     }
