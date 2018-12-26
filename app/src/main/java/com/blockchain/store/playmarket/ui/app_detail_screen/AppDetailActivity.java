@@ -238,7 +238,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         ArrayList<AppDetailsImpl> appDetails = new ArrayList<>();
         appDetails.add(app);
         appDetails.add(new AppReviewsData(userReviews));
-        appDetailAdapter = new AppDetailAdapter(appDetails, this);
+        appDetailAdapter = new AppDetailAdapter(appDetails, this, app.appId.equalsIgnoreCase("434"));
         if (icoLocalData != null) {
             appDetailAdapter.setIcoData(icoLocalData);
         }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.constraint.Group;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,20 +17,25 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.IcoLocalData;
+import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
 
 import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.MAX_VALUE_ARG;
 import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.MIN_VALUE_ARG;
 import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.RECIPIENT_ARG;
+import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.startAsTokenTransfer;
 
 public class IcoStepFragment extends Fragment {
 
@@ -59,6 +65,7 @@ public class IcoStepFragment extends Fragment {
     private int position;
     private IcoLocalData icoLocalData;
     private long timeInMillis;
+    private Timer timer;
 
     public static Fragment newInstance(IcoLocalData icoLocalData, int position) {
         Bundle args = new Bundle();
@@ -80,7 +87,8 @@ public class IcoStepFragment extends Fragment {
 
         timeInMillis = icoLocalData.getTimeToStartStage(position);
 
-        earnedEth.setText(String.valueOf(icoLocalData.getEarnedInPeriod(position)));
+        earnedEth.setText(String.format("%.8f", icoLocalData.getEarnedInPeriod(position)));
+        tokenPrice.setText(String.format("%.8f", icoLocalData.getPrice(position)));
 
         tokensSold.setText(String.valueOf(icoLocalData.getTokensEarnedInPeriod(position)));
         tokensCount.setText("/" + String.valueOf(icoLocalData.getTokensInPeriod()));
@@ -93,12 +101,58 @@ public class IcoStepFragment extends Fragment {
             actualPriceTv.setText(R.string.ico_time_to_start);
         }
 
-        tokenPrice.setText(String.format("%.8f", icoLocalData.getPrice(position)));
+        if (position == icoLocalData.getCurrentPeriod() + 1) {
+            initRunAutoUpdateTimer();
+        }
+
 
         purchaseButton.setEnabled(isStageIsActive() || icoLocalData.getEarnedInPeriod(position) == icoLocalData.getTokensInPeriod());
         initTimer();
         return view;
 
+    }
+
+    private void initRunAutoUpdateTimer() {
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                updateTokenPrice();
+
+            }
+        }, TimeUnit.MINUTES.toMillis(1), TimeUnit.MINUTES.toMillis(1));
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (timer != null) {
+            initRunAutoUpdateTimer();
+        }
+    }
+
+    private void updateTokenPrice() {
+        Observable<String> stringObservable = TransactionRepository.updateTokenPrice(position);
+        stringObservable.subscribe(this::onTokenPriceUpdate, this::onTokenPriceError);
+    }
+
+    private void onTokenPriceUpdate(String updateTokenPrice) {
+        icoLocalData.earnedInPeriod.set(position, updateTokenPrice);
+        earnedEth.setText(String.format("%.8f", icoLocalData.getEarnedInPeriod(position)));
+        tokenPrice.setText(String.format("%.8f", icoLocalData.getPrice(position)));
+    }
+
+    private void onTokenPriceError(Throwable throwable) {
+        Log.d(TAG, "onTokenPriceError() called with: throwable = [" + throwable + "]");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (timer != null) {
+            timer.cancel();
+        }
     }
 
     private boolean isStageIsActive() {

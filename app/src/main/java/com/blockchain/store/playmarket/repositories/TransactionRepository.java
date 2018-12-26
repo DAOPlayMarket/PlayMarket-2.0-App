@@ -40,7 +40,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA;
-import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA_RINKEBY;
 import static org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction;
 
 public class TransactionRepository {
@@ -225,6 +224,12 @@ public class TransactionRepository {
                     }
                     return result.first;
                 })
+                .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread());
+    }
+
+    public static Observable<String> updateTokenPrice(int stageNumber) {
+        return getCustomEthCall(rewardFunction(stageNumber), Constants.CRYPTO_DUEL_CONTRACT)
+                .map(result -> decodeFunction(result, rewardFunction(stageNumber)).toString())
                 .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread());
     }
 

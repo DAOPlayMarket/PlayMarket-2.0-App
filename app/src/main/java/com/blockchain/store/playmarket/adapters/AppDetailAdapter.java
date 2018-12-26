@@ -77,10 +77,12 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private boolean isLoading = true;
     private boolean isError = false;
 
-    public AppDetailAdapter(ArrayList<AppDetailsImpl> items, AppCompatActivity activity) {
+    public AppDetailAdapter(ArrayList<AppDetailsImpl> items, AppCompatActivity activity, boolean isHasICo) {
         this.items = items;
         this.activity = activity;
-        items.add(() -> AppDetailAdapter.ViewTypes.LOAD);
+        if (isHasICo) {
+            items.add(() -> AppDetailAdapter.ViewTypes.LOAD);
+        }
     }
 
     public void addItems(ArrayList<AppDetailsImpl> items) {

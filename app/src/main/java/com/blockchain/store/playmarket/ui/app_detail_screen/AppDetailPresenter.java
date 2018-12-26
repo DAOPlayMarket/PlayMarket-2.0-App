@@ -25,6 +25,7 @@ import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
 import org.ethereum.geth.BigInt;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import rx.Observable;
@@ -131,15 +132,23 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
 
     @Override
     public void loadButtonsState(App app, boolean isUserPurchasedApp) {
+        MyPackageManager packageManager = new MyPackageManager();
         this.app = app;
         if (app.isFree() || isUserPurchasedApp) {
-            boolean applicationInstalled = new MyPackageManager().isApplicationInstalled(app.packageName);
+            boolean applicationInstalled = packageManager.isApplicationInstalled(app.packageName);
             if (applicationInstalled) {
-                changeState(new MyPackageManager().isHasUpdate(app));
+                File fileByPackageName = packageManager.findFileByPackageName(app.packageName, Application.getInstance().getBaseContext());
+                int versionFromFile = packageManager.getVersionFromFile(fileByPackageName);
+                if (versionFromFile > Integer.valueOf(app.version)) {
+                    changeState(Constants.APP_STATE.STATE_UPDATE_DOWNLOADED_NOT_INSTALLED);
+                } else {
+                    changeState(packageManager.isHasUpdate(app));
+                }
+
             } else if (NotificationManager.getManager().isCallbackAlreadyRegistered(app)) {
                 NotificationManager.getManager().registerCallback(app, this);
                 changeState(Constants.APP_STATE.STATE_DOWNLOADING);
-            } else if (new MyPackageManager().isAppFileExists(app)) {
+            } else if (packageManager.isAppFileExists(app)) {
                 changeState(Constants.APP_STATE.STATE_DOWNLOADED_NOT_INSTALLED);
             } else {
                 changeState(Constants.APP_STATE.STATE_NOT_DOWNLOAD);
