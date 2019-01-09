@@ -8,10 +8,12 @@ import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.Bool;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
+import org.web3j.abi.datatypes.generated.Bytes32;
 import org.web3j.abi.datatypes.generated.Uint256;
 
 import java.math.BigInteger;
@@ -139,6 +141,110 @@ public class GenerateTransactionData {
         return build();
     }
 
+    /* DAO data*/
+    public byte[] addProposal(String address, String amount, String description, String fullDescription, byte[] byteCode) {
+        setMethod("addProposal");
+        putTypeData(new org.web3j.abi.datatypes.Address(address));
+        putTypeData(new Uint256(Long.valueOf(amount)));
+        putTypeData(new Utf8String(description));
+        putTypeData(new Utf8String(fullDescription));
+        putTypeData(new Bytes32(byteCode));
+        return build();
+    }
 
+    public byte[] vote(long proposalId, boolean supportsProposal, String justificationText) {
+        setMethod("addProposal");
+        putTypeData(new Uint256(proposalId));
+        putTypeData(new Bool(supportsProposal));
+        putTypeData(new Utf8String(justificationText));
+        return build();
+    }
+
+    public byte[] executeProposal(long proposalId, byte[] byteCode) {
+        setMethod("executeProposal");
+        putTypeData(new Uint256(proposalId));
+        putTypeData(new Bytes32(byteCode));
+        return build();
+    }
+
+    public byte[] checkProposalCode(long proposalId, String recipient, long amount, byte[] byteCode) {
+        setMethod("checkProposalCode");
+        putTypeData(new Uint256(proposalId));
+        putTypeData(new org.web3j.abi.datatypes.Address(recipient));
+        putTypeData(new Uint256(amount));
+        putTypeData(new Bytes32(byteCode));
+        return build();
+    }
+
+    public byte[] changeVotingRules(long minimumQuorum, long debatingPeriodDuration, long requisiteMajority) {
+        setMethod("changeVotingRules");
+        putTypeData(new Uint256(minimumQuorum));
+        putTypeData(new Uint256(debatingPeriodDuration));
+        putTypeData(new Uint256(requisiteMajority));
+        return build();
+    }
+
+    /* DAO Repository data*/
+    public byte[] refund(long value) {
+        setMethod("refund");
+        putTypeData(new Uint256(value));
+        return build();
+    }
+
+    public byte[] getVoted(long proposalId, String voter) {/*returns uints*/
+        setMethod("getVoted");
+        putTypeData(new Uint256(proposalId));
+        putTypeData(new org.web3j.abi.datatypes.Address(voter));
+        return build();
+    }
+
+    public byte[] getBalance(String address) {
+        setMethod("getBalance");
+        putTypeData(new org.web3j.abi.datatypes.Address(address));
+        return build();
+    }
+
+    public byte[] getNotLockedBalance(String address) {
+        setMethod("getNotLockedBalance");
+        putTypeData(new org.web3j.abi.datatypes.Address(address));
+        return build();
+    }
+
+    /* DAO Foundation data*/
+    public byte[] getTokens(long offset, long limit) {
+        setMethod("getTokens");
+        putTypeData(new Uint256(offset));
+        putTypeData(new Uint256(limit));
+        return build();
+    }
+
+    public byte[] withdraw(String tokenAddress, long value) {
+        setMethod("withdraw");
+        putTypeData(new org.web3j.abi.datatypes.Address(tokenAddress));
+        putTypeData(new Uint256(value));
+        return build();
+    }
+
+    public byte[] getFund(String tokenAddress, String owner) {/* returns uint balance*/
+        setMethod("getFund");
+        putTypeData(new org.web3j.abi.datatypes.Address(tokenAddress));
+        putTypeData(new org.web3j.abi.datatypes.Address(owner));
+        return build();
+    }
+
+    public byte[] getWithdrawn(String tokenAddress, String owner) {/* returns uint balance*/
+        setMethod("getFund");
+        putTypeData(new org.web3j.abi.datatypes.Address(tokenAddress));
+        putTypeData(new org.web3j.abi.datatypes.Address(owner));
+        return build();
+    }
+
+    /*ERC 20 */
+    public byte[] approve(String addressSpender, long tokens) {/* returns uint balance*/
+        setMethod("approve");
+        putTypeData(new org.web3j.abi.datatypes.Address(addressSpender));
+        putTypeData(new Uint256(tokens));
+        return build();
+    }
 
 }

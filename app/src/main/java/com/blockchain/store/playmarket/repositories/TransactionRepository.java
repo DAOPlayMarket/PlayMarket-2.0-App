@@ -259,14 +259,6 @@ public class TransactionRepository {
     }
 
 
-    /*
-    *       ArrayList<Observable<String>> obsList = new ArrayList<>();
-        for (Token userSavedToken : userSavedTokens) {
-            obsList.add(TransactionRepository.getUserTokenBalance(userSavedToken.address, AccountManager.getAddress().getHex()));
-        }
-        return Observable.from(obsList).flatMap(result -> result.observeOn(Schedulers.newThread())).toList().map(result -> {
-    * */
-
     private static Function startsAtFunction() {
         return new Function("startsAt", new ArrayList<>(), Collections.singletonList(new TypeReference<Uint256>() {
         }));

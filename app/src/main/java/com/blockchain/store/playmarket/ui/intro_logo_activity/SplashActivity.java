@@ -62,6 +62,12 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
 //        showGif();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.d(TAG, "onNewIntent: ");
+    }
+
     private void test() {
         TransactionRepository.getLocalIcoData(Constants.CRYPTO_DUEL_CONTRACT_CROWDSALE, AccountManager.getAddress().getHex())
                 .subscribe(this::onOk, this::onError);

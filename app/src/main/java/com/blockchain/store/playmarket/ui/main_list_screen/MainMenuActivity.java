@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -74,13 +75,15 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getIntent() != null) {
+            onNewIntent(getIntent());
+        }
         setContentView(R.layout.activity_main_menu);
         ButterKnife.bind(this);
         attachPresenter();
         initViews();
         attachFragment();
         setSearchViewDebounce();
-
     }
 
     private void attachPresenter() {
@@ -217,7 +220,8 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @OnClick(R.id.exchange_tab)
     void onExchangeTabClicked() {
-        startActivity(new Intent(this, PexActivity.class));
+//        startActivity(new Intent(this, PexActivity.class));
+        startActivity(new Intent(this, DaoActivity.class));
     }
 
     @OnClick(R.id.error_view_repeat_btn)

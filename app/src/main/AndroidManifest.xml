@@ -58,6 +58,7 @@
         <activity
             android:name=".ui.main_list_screen.MainMenuActivity"
             android:label="@string/title_activity_main_menu"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustNothing" />
@@ -192,6 +193,8 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service android:name=".services.NotificationService" />
 
+        <service android:name="com.blockchain.store.dao.ui.services.DaoContractService"/>
+
         <activity
             android:name=".ui.transaction_history_screen.TransactionHistoryActivity"
             android:screenOrientation="portrait" />
@@ -208,6 +211,7 @@
         <activity
             android:name=".ui.local_ico_screen.IcoLocalActivity"
             android:screenOrientation="portrait" />
+        <activity android:name="com.blockchain.store.dao.ui.dao_activity.DaoActivity"></activity>
     </application>
 
 </manifest>

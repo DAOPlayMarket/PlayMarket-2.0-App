@@ -284,9 +284,10 @@
         <item quantity="one">hour</item>
         <item quantity="other">hours</item>
     </plurals>
-    
+
     <string name="transfer_minimum_value_error">Please, enter value higher than %1$f </string>
     <string name="transfer_maximum_value_error">Please, enter value lower than %1$f</string>
+    <string name="title_dao">Module Title</string>
 
 
 </resources>
