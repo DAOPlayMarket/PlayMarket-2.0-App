@@ -18,6 +18,7 @@ import org.web3j.abi.datatypes.generated.Uint256;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class GenerateTransactionData {
     private String methodName;
@@ -185,18 +186,20 @@ public class GenerateTransactionData {
     }
 
     /* DAO Repository data*/
+
+
+    private byte[] makeDeposit(long value) { // make sure, ERC20.approve before.
+        setMethod("makeDeposit");
+        putTypeData(new Uint256(value));
+        return build();
+    }
+
     public byte[] refund(long value) {
         setMethod("refund");
         putTypeData(new Uint256(value));
         return build();
     }
 
-    public byte[] getVoted(long proposalId, String voter) {/*returns uints*/
-        setMethod("getVoted");
-        putTypeData(new Uint256(proposalId));
-        putTypeData(new org.web3j.abi.datatypes.Address(voter));
-        return build();
-    }
 
     public byte[] getBalance(String address) {
         setMethod("getBalance");
@@ -225,26 +228,7 @@ public class GenerateTransactionData {
         return build();
     }
 
-    public byte[] getFund(String tokenAddress, String owner) {/* returns uint balance*/
-        setMethod("getFund");
-        putTypeData(new org.web3j.abi.datatypes.Address(tokenAddress));
-        putTypeData(new org.web3j.abi.datatypes.Address(owner));
-        return build();
-    }
 
-    public byte[] getWithdrawn(String tokenAddress, String owner) {/* returns uint balance*/
-        setMethod("getFund");
-        putTypeData(new org.web3j.abi.datatypes.Address(tokenAddress));
-        putTypeData(new org.web3j.abi.datatypes.Address(owner));
-        return build();
-    }
 
-    /*ERC 20 */
-    public byte[] approve(String addressSpender, long tokens) {/* returns uint balance*/
-        setMethod("approve");
-        putTypeData(new org.web3j.abi.datatypes.Address(addressSpender));
-        putTypeData(new Uint256(tokens));
-        return build();
-    }
 
 }

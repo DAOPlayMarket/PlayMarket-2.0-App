@@ -10,6 +10,8 @@ import com.blockchain.store.dao.ui.DaoConstants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.web3j.protocol.Web3j;
+import org.web3j.utils.Numeric;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -20,11 +22,11 @@ public class DaoContractService extends Service {
     private static final String TAG = "DaoContractService";
 
     /* Methods hex values*/
-    private static final String CHANGE_OF_RULES = "e7a31acb9efc5512cc1896266cbc06335ca5e661547b177002b7bb5d8535871e";
-    private static final String PAYMENT = "d4f43975feb89f48dd30cabbb32011045be187d1e11c8ea9faa43efc35282519";
-    private static final String PROPOSAL_TALLIED = "aaeb6d33bfb00b3e17bf4254a99bbc05ae6215c458924aed1119209ed8fe2416";
-    private static final String VOTED = "c34f869b7ff431b034b7b9aea9822dac189a685e0b015c7d1be3add3f89128e8";
-    private static final String PROPOSAL_ADDED = "4c6647c4a4058c1a0bcd513fe2522706466700a104b82d4487d888f17ce5be13";
+    private static final String CHANGE_OF_RULES = "0xe7a31acb9efc5512cc1896266cbc06335ca5e661547b177002b7bb5d8535871e";
+    private static final String PAYMENT = "0xd4f43975feb89f48dd30cabbb32011045be187d1e11c8ea9faa43efc35282519";
+    private static final String PROPOSAL_TALLIED = "0xaaeb6d33bfb00b3e17bf4254a99bbc05ae6215c458924aed1119209ed8fe2416";
+    private static final String VOTED = "0xc34f869b7ff431b034b7b9aea9822dac189a685e0b015c7d1be3add3f89128e8";
+    private static final String PROPOSAL_ADDED = "0x4c6647c4a4058c1a0bcd513fe2522706466700a104b82d4487d888f17ce5be13";
 
     @Override
 
@@ -36,9 +38,7 @@ public class DaoContractService extends Service {
     private void getContractHistory() {
         WebSocket webSocket = createWebSocketConnection(new WebSocketListener());
         webSocket.send("{\"id\":1,\"jsonrpc\":\"2.0\",\"params\":[{\"fromBlock\":\"" + DaoConstants.DAO_BLOCK_NUMBER_HEX + "\",\"toBlock\":\"latest\",\"address\":\"" + DaoConstants.DAO + "\"}],\"method\":\"eth_getLogs\"}");
-
     }
-
 
     private WebSocket createWebSocketConnection(WebSocketListener listener) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
@@ -59,8 +59,9 @@ public class DaoContractService extends Service {
             Log.d(TAG, "onMessage() called with: webSocket = [" + webSocket + "], text = [" + text + "]");
             try {
                 JSONArray result = new JSONObject(text).getJSONArray("result");
-                for (int i = result.length(); i > 0; i--) {
-                    String topics = result.getJSONObject(i).getJSONArray("topics").get(0).toString();
+                for (int i = result.length() - 1; i >= 0; i--) {
+                    JSONArray item = result.getJSONObject(i).getJSONArray("topics");
+                    String topics = item.get(0).toString();
                     switch (topics) {
                         case CHANGE_OF_RULES:
                             break;
@@ -72,14 +73,8 @@ public class DaoContractService extends Service {
                             break;
                         case PROPOSAL_ADDED:
                             break;
-
-
                     }
-
-
                 }
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }

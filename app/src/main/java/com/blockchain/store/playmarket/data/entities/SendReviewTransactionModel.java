@@ -23,7 +23,10 @@ public class SendReviewTransactionModel extends TransactionModel {
 
     @Override
     public String getFormattedTitle() {
-        return "'" + app.getTitleName() + "' Comment";
+        if (app == null) {
+            return "new comment";
+        }
+        return "'" + app.getTitleName() + "' comment";
     }
 
 

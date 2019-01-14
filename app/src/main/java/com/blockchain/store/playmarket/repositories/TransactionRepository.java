@@ -85,6 +85,15 @@ public class TransactionRepository {
                 }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread());
     }
 
+    public static Observable<Pair<String,String>> getTokenNameAndSymbol(String contractAddress){
+        init(contractAddress, userAddress);
+        return Observable.zip(getNameObservable(), getSymbolObservable(), (nameEthCall, symbolEthCall) ->{
+            String name = decodeFunction(nameEthCall, getNameFunction()).toString();
+            String symbol = decodeFunction(symbolEthCall, getSymbolFunction()).toString();
+            return new Pair<String,String>(name,symbol);
+        });
+    }
+
     public static Observable<String> getUserTokenBalance(String contractAddress, String userAddress) {
         init(contractAddress, userAddress);
         return getBalanceOfObservable().map(result -> decodeFunction(result, getBalanceOfFunction(userAddress))
@@ -302,6 +311,5 @@ public class TransactionRepository {
     private static Observable<EthCall> getCustomEthCall(Function dataFunction, String contractAddress) {
         return web3j.ethCall(createEthCallTransaction(TransactionRepository.userAddress, contractAddress, FunctionEncoder.encode(dataFunction)), DefaultBlockParameterName.LATEST).observable();
     }
-
 
 }

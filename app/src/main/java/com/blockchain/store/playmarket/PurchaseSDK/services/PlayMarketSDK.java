@@ -5,11 +5,15 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Binder;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.JobIntentService;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.blockchain.store.playmarket.PurchaseSDK.entities.TransferObject;
 import com.blockchain.store.playmarket.PurchaseSDK.repository.PlayMarketSdkTransactionFactory;
@@ -53,6 +57,7 @@ public class PlayMarketSDK extends JobIntentService {
 
     @Override
     public void onCreate() {
+        Log.d(TAG, "onCreate() called");
         super.onCreate();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             android.app.NotificationManager notificationManager = (android.app.NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -62,6 +67,18 @@ public class PlayMarketSDK extends JobIntentService {
             notificationManager.createNotificationChannel(notificationChannel);
             startForeground(1, notificationBuilder.build());
         }
+        sendTestIntent();
+    }
+
+    private void sendTestIntent() {
+        Intent outerIntent = getOuterIntent(METHOD_GET_ACCOUNT);
+        outerIntent.putExtra(EXTRA_METHOD_RESULT, "test");
+        sendBroadCast(outerIntent);
+    }
+
+    @Override
+    public IBinder onBind(@NonNull Intent intent) {
+        return new Binder();
     }
 
     @Override
@@ -204,8 +221,14 @@ public class PlayMarketSDK extends JobIntentService {
 
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
-        start(intent);
-        return START_NOT_STICKY;
+        Log.d(TAG, "onStartCommand() called with: intent = [" + intent + "], flags = [" + flags + "], startId = [" + startId + "]");
+        try {
+            start(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return START_REDELIVER_INTENT;
     }
 
     private void start(Intent intent) {
@@ -256,4 +279,11 @@ public class PlayMarketSDK extends JobIntentService {
                 break;
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy() called");
+    }
+
 }

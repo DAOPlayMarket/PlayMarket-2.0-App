@@ -163,8 +163,10 @@
             android:screenOrientation="portrait" />
 
         <service
-            android:name=".PurchaseSDK.services.PlayMarketSDK"
-            android:exported="true" />
+            android:name="com.blockchain.store.playmarket.PurchaseSDK.services.PlayMarketSDK"
+            android:exported="true"
+            android:isolatedProcess="true"
+            android:process=":ServiceProcess"/>
 
         <activity
             android:name=".ui.fingerprint_screen.FingerprintConfiguringActivity"

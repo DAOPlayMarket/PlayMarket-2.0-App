@@ -29,6 +29,9 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 import com.bumptech.glide.Glide;
 
+import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.WalletUtils;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
