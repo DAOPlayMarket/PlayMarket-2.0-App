@@ -3,7 +3,7 @@ package com.blockchain.store.dao.repository;
 import android.util.Pair;
 
 import com.blockchain.store.dao.ui.DaoConstants;
-import com.blockchain.store.playmarket.data.entities.DaoToken;
+import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
@@ -103,7 +103,8 @@ public class DaoTransactionRepository {
     }
 
     public static Observable<List<DaoToken>> getTokens() {
-        init(DaoConstants.DAO, AccountManager.getAddress().getHex());
+        init(DaoConstants.DAO, DaoConstants.TOKEN_HOLDER_USED_FOR_TEST);
+//        init(DaoConstants.DAO, AccountManager.getAddress().getHex());
         ArrayList<DaoToken> daoTokens = new ArrayList<>();
         return Observable.range(0, 10000)
                 .map(position -> getEthCallObservable(tokens(position), DaoConstants.Foundation))
@@ -186,7 +187,7 @@ public class DaoTransactionRepository {
 
     public static Function getBalance() {/*returns uints*/
         ArrayList<Type> inputParameters = new ArrayList<>();
-        inputParameters.add(new Address(AccountManager.getAccount().getAddress().getHex()));
+        inputParameters.add(new Address(DaoTransactionRepository.userAddress));
         return new Function("getBalance", inputParameters, Collections.singletonList(new TypeReference<Uint256>() {
         }));
     }
@@ -204,7 +205,8 @@ public class DaoTransactionRepository {
         ArrayList<Type> inputParameters = new ArrayList<>();
 
         inputParameters.add(new Address(tokenAddress));
-        inputParameters.add(new Address(AccountManager.getAccount().getAddress().getHex()));
+//        inputParameters.add(new Address(AccountManager.getAccount().getAddress().getHex()));
+        inputParameters.add(new Address(DaoTransactionRepository.userAddress));
         return new Function("getFund", inputParameters, Collections.singletonList(new TypeReference<Uint256>() {
         }));
     }
@@ -217,7 +219,7 @@ public class DaoTransactionRepository {
     public static Function getWithdrawn(String tokenAddress) {/* returns uint balance*/
         ArrayList<Type> inputParameters = new ArrayList<>();
         inputParameters.add(new Address(tokenAddress));
-        inputParameters.add(new Address(AccountManager.getAccount().getAddress().getHex()));
+        inputParameters.add(new Address(DaoTransactionRepository.userAddress));
         return new Function("getWithdrawn", inputParameters, Collections.singletonList(new TypeReference<Uint256>() {
         }));
     }

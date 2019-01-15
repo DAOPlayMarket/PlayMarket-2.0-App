@@ -10,6 +10,9 @@ public class Constants {
 
     /* Job service extra*/
     public static String JOB_HASH_EXTRA = "job_hash_extra";
+    public static String JOB_HASH_FIRST_IS_COMPLETED = "job_hash_first_is_completed";
+    public static String JOB_SECOND_HASH_EXTRA = "job_second_hash_extra";
+    public static String JOB_SECOND_RAW_TX = "JOB_HASH_SECOND_IS_COMPLETED";
     public static String JOB_TRANSACTION_TYPE_ORDINAL = "transaction_type_ordinal";
 
     public enum APP_STATE {

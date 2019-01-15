@@ -22,13 +22,17 @@ public class TransactionInteractor {
         return response;
     }
 
+    public static void addToJobSchedule(String firstHash, String secondHash, String secondRawTransaction) {
+        JobUtils.scheduleCheckTransactionJobs(Application.getInstance(), firstHash, secondHash, secondRawTransaction, null);
+    }
+
 
     private static void addToJobSchedule(String hash) {
         JobUtils.scheduleCheckTransactionJob(Application.getInstance().getApplicationContext(), hash, null);
     }
 
     private static void addToJobSchedule(String hash, TransactionModel transactionModel) {
-        JobUtils.scheduleCheckTransactionJob(Application.getInstance().getApplicationContext(), hash,transactionModel.getTransactionType());
+        JobUtils.scheduleCheckTransactionJob(Application.getInstance().getApplicationContext(), hash, transactionModel.getTransactionType());
     }
 
 }
