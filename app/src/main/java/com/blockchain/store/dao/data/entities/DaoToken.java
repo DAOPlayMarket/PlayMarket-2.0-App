@@ -11,6 +11,7 @@ public class DaoToken {
     public String fund;
     public String withdraw;
     public String daoBalance;
+    public String balance;
 
     public int totalTokensLength = 0;
     public int tokenPositionInArray = 0;
@@ -66,4 +67,18 @@ public class DaoToken {
         return daoToken;
     }
 
+    public long getBalanceWithDecimals() {
+        if (Long.valueOf(balance) == 0) {
+            return 0;
+        } else {
+            return (long) (Long.valueOf(balance) / Math.pow(10, decimals));
+        }
+    }
+    public long getDaoBalanceWithDecimals() {
+        if (Long.valueOf(daoBalance) == 0) {
+            return 0;
+        } else {
+            return (long) (Long.valueOf(daoBalance) / Math.pow(10, decimals));
+        }
+    }
 }

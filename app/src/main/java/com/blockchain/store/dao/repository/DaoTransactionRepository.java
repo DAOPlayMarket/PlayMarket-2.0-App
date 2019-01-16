@@ -14,6 +14,7 @@ import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Bool;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
+import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
@@ -93,7 +94,7 @@ public class DaoTransactionRepository {
         init(DaoConstants.DAO, AccountManager.getAddress().getHex());
         return Observable.zip(
                 getEthCallObservable(getBalance(), DaoConstants.Repository),
-                getEthCallObservable(getNotLockedBalance(DaoTransactionRepository.userAddress), DaoConstants.Repository), (balanceCall, getNotLockedBalance) -> {
+                getEthCallObservable(getNotLockedBalance(), DaoConstants.Repository), (balanceCall, getNotLockedBalance) -> {
                     String balance = decodeFunction(balanceCall, getBalance()).toString();
                     String notLockedBalance = decodeFunction(getNotLockedBalance, getBalance()).toString();
                     return new Pair<>(balance, notLockedBalance);
@@ -119,6 +120,13 @@ public class DaoTransactionRepository {
                 .toList()
                 .flatMap(DaoTransactionRepository::mapGetTokenNameAndSymbol, Pair::new)
                 .map(DaoTransactionRepository::mapTokenWithPair)
+                .flatMap(result -> getEthCallObservable(getTokenBalanceOfFunction(), DaoConstants.PlayMarket_token_contract), Pair::new)
+                .map(result -> {
+                    DaoToken pmToken = new DaoToken().generatePmToken();
+                    pmToken.balance = decodeFunction(result.second, getTokenBalanceOfFunction()).toString();
+                    result.first.add(0, pmToken);
+                    return result.first;
+                })
                 .flatMap(result -> {
                     ArrayList<Observable<EthCall>> list = new ArrayList<>();
                     for (int i = 0; i < result.size(); i++) {
@@ -148,13 +156,14 @@ public class DaoTransactionRepository {
                     }
                     return tokenEthCallPair.first;
                 })
-                .flatMap(result -> getEthCallObservable(getBalance(), DaoConstants.Repository), Pair::new)
+                .flatMap(result -> getEthCallObservable(getNotLockedBalance(), DaoConstants.Repository), Pair::new)
                 .map(result -> {
                     for (int i = 0; i < result.first.size(); i++) {
-                        result.first.get(i).daoBalance = decodeFunction(result.second, getBalance()).toString();
+                        result.first.get(i).daoBalance = decodeFunction(result.second, getNotLockedBalance()).toString();
                     }
                     return result.first;
                 })
+
                 .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread());
 
     }
@@ -194,12 +203,13 @@ public class DaoTransactionRepository {
         }));
     }
 
-    public static Function getNotLockedBalance(String voter) {/*returns uints*/
+    public static Function getNotLockedBalance() {/*returns uints*/
         ArrayList<Type> inputParameters = new ArrayList<>();
-        inputParameters.add(new Address(voter));
+        inputParameters.add(new Address(DaoTransactionRepository.userAddress));
         return new Function("getNotLockedBalance", inputParameters, Collections.singletonList(new TypeReference<Uint256>() {
         }));
     }
+
 
 
     /* DAO Foundation data*/
@@ -251,5 +261,11 @@ public class DaoTransactionRepository {
         return new Function("approve", inputParameters, Collections.singletonList(new TypeReference<Bool>() {
         }));
     }
+
+    private static Function getTokenBalanceOfFunction() {
+        return new Function("balanceOf", Collections.singletonList(new Address(userAddress)), Collections.singletonList(new TypeReference<Uint>() {
+        }));
+    }
+
 
 }

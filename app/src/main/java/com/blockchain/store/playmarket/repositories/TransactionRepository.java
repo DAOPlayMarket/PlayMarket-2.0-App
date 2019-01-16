@@ -69,6 +69,8 @@ public class TransactionRepository {
         TransactionRepository.userAddress = userAddress;
     }
 
+
+
     public static Observable<Token> getTokenFullInfo(String contractAddress, String userAddress) {
         init(contractAddress, userAddress);
         return Observable.zip(getNameObservable(), getSymbolObservable(), getDecimalsObservable(), getBalanceOfObservable(),
