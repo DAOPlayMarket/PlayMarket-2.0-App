@@ -1,0 +1,76 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.blockchain.store.dao.ui.votes_screen.VotesFragment"
+    android:background="@color/colorPrimary">
+
+    <ImageView
+        android:id="@+id/close_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close"
+        android:contentDescription="@string/todo" />
+
+    <ImageView
+        android:id="@+id/logo_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="@string/todo"
+        android:scaleType="fitXY"
+        android:src="@drawable/pm2_logo_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_height="50dp"
+        tools:layout_width="50dp" />
+
+    <ImageView
+        android:id="@+id/logo_text_imageView"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/pm2_logo_text"
+        app:layout_constraintBottom_toBottomOf="@+id/logo_image"
+        app:layout_constraintStart_toEndOf="@+id/logo_image"
+        app:layout_constraintTop_toTopOf="@+id/logo_image"
+        tools:layout_height="40dp"
+        tools:layout_width="140dp" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/votes_tabLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/addProposal_button"
+        app:layout_constraintEnd_toStartOf="@+id/addProposal_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/addProposal_button" />
+
+    <Button
+        android:id="@+id/addProposal_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/add_new_proposal"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo_text_imageView" />
+
+    <com.blockchain.store.playmarket.utilities.NonSwipeableViewPager
+        android:id="@+id/votes_viewPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/addProposal_button"
+        app:layout_constraintStart_toStartOf="@+id/votes_tabLayout"
+        app:layout_constraintTop_toBottomOf="@+id/votes_tabLayout"/>
+
+</android.support.constraint.ConstraintLayout>

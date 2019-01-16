@@ -1,0 +1,15 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.blockchain.store.playmarket.ui.WalletFragment"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/your_account"
+        android:textSize="14sp"
+        android:textColor="@color/white40"/>
+
+</android.support.constraint.ConstraintLayout>

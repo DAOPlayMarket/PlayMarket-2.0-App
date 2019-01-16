@@ -152,7 +152,6 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
         pathTextView.setText(currentDirectory);
         fileList = presenter.getFolderList(currentDirectory, fileManagerType);
         setFoldersRecyclerView(fileList);
-
     }
 
     @Override

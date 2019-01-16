@@ -21,18 +21,19 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
+import com.blockchain.store.dao.ui.votes_screen.NewProposalFragment;
+import com.blockchain.store.dao.ui.votes_screen.VotesFragment;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
+import com.blockchain.store.playmarket.interfaces.NavigationCallback;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
 import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
-import com.blockchain.store.playmarket.ui.pex_screen.PexActivity;
 import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
-import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 import com.blockchain.store.playmarket.utilities.drawable.HamburgerDrawable;
@@ -50,22 +51,32 @@ import rx.subjects.BehaviorSubject;
 import static com.blockchain.store.playmarket.ui.main_list_screen.MainMenuContract.Presenter;
 import static com.blockchain.store.playmarket.utilities.Constants.OPEN_MY_APPS_EXTRA;
 
-public class MainMenuActivity extends AppCompatActivity implements AppListCallbacks, MainMenuContract.View, MaterialSearchView.OnQueryTextListener {
+public class MainMenuActivity extends AppCompatActivity implements AppListCallbacks, MainMenuContract.View, MaterialSearchView.OnQueryTextListener, NavigationCallback {
     private static final String TAG = "MainMenuActivity";
     private static final int DEBOUNCE_INTERVAL_MILLIS = 1000;
     private static final int DOUBLE_TAP_INTERVAL_MILLIS = 2000;
     private int tabPosition;
 
-    @BindView(R.id.tab_layout) TabLayout tabLayout;
-    @BindView(R.id.app_bar_layout) AppBarLayout appBarLayout;
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
-    @BindView(R.id.view_pager) ViewPager viewPager;
-    @BindView(R.id.progress_bar) ProgressBar progressBar;
-    @BindView(R.id.error_holder) View errorHolder;
-    @BindView(R.id.nav_view) NavigationView navigationView;
-    @BindView(R.id.search_view) MaterialSearchView searchView;
-    @BindView(R.id.bottom_layout) LinearLayout bottomLayout;
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout appBarLayout;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    @BindView(R.id.error_holder)
+    View errorHolder;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+    @BindView(R.id.search_view)
+    MaterialSearchView searchView;
+    @BindView(R.id.bottom_layout)
+    LinearLayout bottomLayout;
 
     private BehaviorSubject<String> userInputSubject = BehaviorSubject.create();
     private ArrayList<App> searchListResult = new ArrayList<>();
@@ -82,7 +93,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         ButterKnife.bind(this);
         attachPresenter();
         initViews();
-        attachFragment();
+        replaceFragment(new NavigationViewFragment());
         setSearchViewDebounce();
     }
 
@@ -94,11 +105,16 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     }
 
-    private void attachFragment() {
-        Fragment navViewFragment = getSupportFragmentManager().findFragmentByTag(Constants.NAV_VIEW_FRAGMENT_TAG);
-        if (navViewFragment == null)
-            navViewFragment = new NavigationViewFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view_holder, navViewFragment, Constants.NAV_VIEW_FRAGMENT_TAG).commitAllowingStateLoss();
+    private void replaceFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view_holder, fragment).commitAllowingStateLoss();
+    }
+
+    private void addFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().add(R.id.navigation_view_holder, fragment).commitAllowingStateLoss();
+    }
+
+    private void removeFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().remove(fragment).commitAllowingStateLoss();
     }
 
     private void initViews() {
@@ -128,20 +144,29 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (searchView.isSearchOpen()) {
-            searchView.closeSearch();
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.navigation_view_holder);
+
+        if (fragment instanceof VotesFragment) {
+            replaceFragment(new NavigationViewFragment());
+        } else if (fragment instanceof NewProposalFragment) {
+            removeFragment(fragment);
         } else {
-            if (backPressedLastTime + DOUBLE_TAP_INTERVAL_MILLIS > System.currentTimeMillis()) {
-                this.finish();
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else if (searchView.isSearchOpen()) {
+                searchView.closeSearch();
             } else {
-                backPressedLastTime = System.currentTimeMillis();
-                ToastUtil.showToast(R.string.double_tap_msg);
+                if (backPressedLastTime + DOUBLE_TAP_INTERVAL_MILLIS > System.currentTimeMillis()) {
+                    this.finish();
+                } else {
+                    backPressedLastTime = System.currentTimeMillis();
+                    ToastUtil.showToast(R.string.double_tap_msg);
+                }
             }
         }
     }
+
 
     @OnClick(R.id.toolbar_title_holder)
     void onToolbarTitleClicked() {
@@ -288,5 +313,20 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     protected void onDestroy() {
         super.onDestroy();
         Application.stopAnalytic();
+    }
+
+    @Override
+    public void onVotesClicked() {
+        replaceFragment(new VotesFragment());
+    }
+
+    @Override
+    public void onWalletClicked() {
+
+    }
+
+    @Override
+    public void onNewProposalClicked() {
+        addFragment(new NewProposalFragment());
     }
 }
