@@ -4,6 +4,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
+import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.playmarket.PurchaseSDK.entities.TransferObject;
 import com.blockchain.store.playmarket.PurchaseSDK.services.RemoteConstants;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
@@ -169,6 +170,7 @@ public class CryptoUtils {
         String sigHash = signedTransaction.getSigHash().getHex();
         return getRawTransaction(signedTransaction);
     }
+
     public static Transaction generateTransferTransactionRaw(int nonce, String gasPrice, String transferAmount, String recipientAddress) throws Exception {
         BigInt price = new BigInt(0);
         price.setString(transferAmount, 10);
@@ -181,13 +183,12 @@ public class CryptoUtils {
         return signedTransaction;
     }
 
-    public static Pair<Transaction, Transaction> test(int nonce, String gasPrice){
+    public static Pair<Transaction, Transaction> test(int nonce, String gasPrice) {
         try {
-            keyManager.unlockAccount(AccountManager.getAccount(),"123123123");
+            keyManager.unlockAccount(AccountManager.getAccount(), "123123123");
             Transaction firstTransaction = CryptoUtils.generateTransferTransactionRaw(nonce, gasPrice, new EthereumPrice("1", EthereumPrice.Currency.ETHER).inWeiString(), AccountManager.getAddress().getHex());
-            Transaction secondTransaction = CryptoUtils.generateTransferTransactionRaw(nonce+1, gasPrice, new EthereumPrice("2", EthereumPrice.Currency.ETHER).inWeiString(), AccountManager.getAddress().getHex());
-            return new Pair<Transaction,Transaction>(firstTransaction, secondTransaction);
-
+            Transaction secondTransaction = CryptoUtils.generateTransferTransactionRaw(nonce + 1, gasPrice, new EthereumPrice("2", EthereumPrice.Currency.ETHER).inWeiString(), AccountManager.getAddress().getHex());
+            return new Pair<Transaction, Transaction>(firstTransaction, secondTransaction);
 
 
         } catch (Exception e) {
@@ -196,7 +197,7 @@ public class CryptoUtils {
         return null;
     }
 
-    public static Pair<Transaction,Transaction> generateDaoTransferTransactions(long nonce, BigInt gasPrice, DaoToken token) throws Exception {
+    public static Pair<Transaction, Transaction> generateDaoTransferTransactions(long nonce, BigInt gasPrice, DaoToken token) throws Exception {
         BigInt price = new BigInt(0);
         Account account = AccountManager.getAccount();
         GenerateTransactionData generateTransactionData = new GenerateTransactionData();
@@ -206,16 +207,16 @@ public class CryptoUtils {
 
         Transaction getTokensTransaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
                 price, GAS_LIMIT, gasPrice, tokens);
-        Transaction withdrawTransaction = new Transaction(nonce+1, new Address(Constants.PLAY_MARKET_ADDRESS),
+        Transaction withdrawTransaction = new Transaction(nonce + 1, new Address(Constants.PLAY_MARKET_ADDRESS),
                 price, GAS_LIMIT, gasPrice, withdraw);
-        keyManager.unlockAccount(account,"123123123");
+        keyManager.unlockAccount(account, "123123123");
         Transaction getTokenSignedTx = keyManager.getKeystore().signTx(account, getTokensTransaction, new BigInt(USER_ETHERSCAN_ID));
         Transaction withdrawSignedTx = keyManager.getKeystore().signTx(account, withdrawTransaction, new BigInt(USER_ETHERSCAN_ID));
 
         String tokenRawTransaction = getRawTransaction(getTokenSignedTx);
         String withdrawRawTx = getRawTransaction(withdrawSignedTx);
 
-        return new Pair<Transaction,Transaction>(getTokenSignedTx, withdrawSignedTx);
+        return new Pair<Transaction, Transaction>(getTokenSignedTx, withdrawSignedTx);
 
     }
 
@@ -284,6 +285,28 @@ public class CryptoUtils {
         return getRawTransaction(transaction);
 
     }
+
+    /*DAO tranasctions*/
+
+    public static String generateWithdrawTx(AccountInfoResponse accountInfo, String tokenAddress, long amount) {
+        KeyStore keystore = AccountManager.getKeyManager().getKeystore();
+        Account account = AccountManager.getAccount();
+
+        BigInt price = new BigInt(0);
+        BigInt gasPrice = new BigInt(Long.parseLong(accountInfo.gasPrice));
+        byte[] txData = new GenerateTransactionData().withdraw(tokenAddress, amount);
+        Transaction transaction = new Transaction(accountInfo.count, new Address(DaoConstants.Repository), price, GAS_LIMIT, gasPrice, txData);
+        try {
+            transaction = keystore.signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
+            return getRawTransaction(transaction);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
 
 }
 
