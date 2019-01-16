@@ -12,6 +12,9 @@ public class DaoToken {
     public String withdraw;
     public String daoBalance;
 
+    public int totalTokensLength = 0;
+    public int tokenPositionInArray = 0;
+
     private long multiplier = 100_000L;
     private long TotalPMT = 30000000000L;
 
@@ -29,7 +32,7 @@ public class DaoToken {
 
     public long countToken() {
         long value = 0;
-        long balance = Long.valueOf(daoBalance);
+        long balance = getDaoBalance();
         value = balance - getWithdraw();
         if (value > 0) {
             value = value * multiplier;
@@ -41,6 +44,10 @@ public class DaoToken {
         return value;
     }
 
+    public long totalCountToken() {
+        return getFund() + countToken();
+    }
+
     private long safePerc(long x, long y) {
         if (x == 0) {
             return 0;
@@ -48,6 +55,15 @@ public class DaoToken {
         long z = x * y;
         z = z / 10_000;
         return z;
+    }
+
+    public DaoToken generatePmToken() {
+        DaoToken daoToken = new DaoToken();
+        daoToken.name = "DAO PlayMarket 2.0";
+        daoToken.symbol = "PMT";
+        daoToken.address = "0xc1322d8ae3b0e2e437e0ae36388d0cfd2c02f1c9";
+        daoToken.decimals = 4;
+        return daoToken;
     }
 
 }

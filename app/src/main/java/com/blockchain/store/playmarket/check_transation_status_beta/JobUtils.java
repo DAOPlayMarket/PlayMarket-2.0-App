@@ -29,24 +29,13 @@ public class JobUtils {
         exerciseJobBuilder.setRequiresCharging(false);
         exerciseJobBuilder.setBackoffCriteria(TimeUnit.SECONDS.toMillis(5), JobInfo.BACKOFF_POLICY_LINEAR);
 
-        addExtras(exerciseJobBuilder, transactionHash, secondTransactionHash, secondRawTransaction,transactionType);
+        addExtras(exerciseJobBuilder, transactionHash, secondTransactionHash, secondRawTransaction, transactionType);
         JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         jobScheduler.schedule(exerciseJobBuilder.build());
     }
 
     public static void scheduleCheckTransactionJob(Context context, String transactionHash, Constants.TransactionTypes transactionType) {
-        ComponentName jobService = new ComponentName(context, GetTransactionStatusJobService.class);
-        JobInfo.Builder exerciseJobBuilder = new JobInfo.Builder(TRANSACTION_STATUS_JOB_ID++, jobService);
-        exerciseJobBuilder.setMinimumLatency(TimeUnit.SECONDS.toMillis(1));
-        exerciseJobBuilder.setOverrideDeadline(0);
-        exerciseJobBuilder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
-        exerciseJobBuilder.setRequiresDeviceIdle(false);
-        exerciseJobBuilder.setRequiresCharging(false);
-        exerciseJobBuilder.setBackoffCriteria(TimeUnit.SECONDS.toMillis(5), JobInfo.BACKOFF_POLICY_LINEAR);
-
-        addExtras(exerciseJobBuilder, transactionHash, transactionType);
-        JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        jobScheduler.schedule(exerciseJobBuilder.build());
+        scheduleCheckTransactionJobs(context, transactionHash, null, null, transactionType);
     }
 
     public static void scheduleCheckUpdateJob(Context context) {
@@ -86,11 +75,13 @@ public class JobUtils {
         exerciseJobBuilder.setExtras(bundle);
     }
 
-    private static void addExtras(JobInfo.Builder exerciseJobBuilder, String transactionHash, String secondTransactionHash,String secondRawTransaction, Constants.TransactionTypes transactionType) {
+    private static void addExtras(JobInfo.Builder exerciseJobBuilder, String transactionHash, String secondTransactionHash, String secondRawTransaction, Constants.TransactionTypes transactionType) {
         PersistableBundle bundle = new PersistableBundle();
         bundle.putString(Constants.JOB_HASH_EXTRA, transactionHash);
-        bundle.putString(Constants.JOB_SECOND_HASH_EXTRA, secondTransactionHash);
-        bundle.putString(Constants.JOB_SECOND_RAW_TX, secondRawTransaction);
+        if (secondRawTransaction != null) {
+            bundle.putString(Constants.JOB_SECOND_HASH_EXTRA, secondTransactionHash);
+            bundle.putString(Constants.JOB_SECOND_RAW_TX, secondRawTransaction);
+        }
 
         if (transactionType != null) {
             bundle.putInt(Constants.JOB_TRANSACTION_TYPE_ORDINAL, transactionType.ordinal());

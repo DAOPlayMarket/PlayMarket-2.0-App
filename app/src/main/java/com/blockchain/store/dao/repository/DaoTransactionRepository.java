@@ -117,7 +117,7 @@ public class DaoTransactionRepository {
                 })
                 .takeWhile(daoToken -> daoToken != null)
                 .toList()
-                .flatMap(DaoTransactionRepository::mapGetPrice, Pair::new)
+                .flatMap(DaoTransactionRepository::mapGetTokenNameAndSymbol, Pair::new)
                 .map(DaoTransactionRepository::mapTokenWithPair)
                 .flatMap(result -> {
                     ArrayList<Observable<EthCall>> list = new ArrayList<>();
@@ -163,11 +163,13 @@ public class DaoTransactionRepository {
         for (int i = 0; i < result.first.size(); i++) {
             result.first.get(i).name = result.second.get(i).first;
             result.first.get(i).symbol = result.second.get(i).second;
+            result.first.get(i).totalTokensLength = result.first.size();
+            result.first.get(i).tokenPositionInArray = i;
         }
         return result.first;
     }
 
-    private static Observable<List<Pair<String, String>>> mapGetPrice(List<DaoToken> daoTokenList) {
+    private static Observable<List<Pair<String, String>>> mapGetTokenNameAndSymbol(List<DaoToken> daoTokenList) {
         ArrayList<Observable<Pair<String, String>>> pricesList = new ArrayList<>();
         for (int i = 0; i < daoTokenList.size(); i++) {
             pricesList.add(TransactionRepository.getTokenNameAndSymbol(daoTokenList.get(i).address));
@@ -210,6 +212,7 @@ public class DaoTransactionRepository {
         return new Function("getFund", inputParameters, Collections.singletonList(new TypeReference<Uint256>() {
         }));
     }
+
     public static Function checkWithdrawIsBlock() {
         ArrayList<Type> inputParameters = new ArrayList<>();
         return new Function("WithdrawIsBlocked ", inputParameters, Collections.singletonList(new TypeReference<Bool>() {
