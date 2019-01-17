@@ -5,30 +5,45 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.blockchain.store.dao.adapters.ProposalsAdapter;
+import com.blockchain.store.dao.database.model.Proposal;
+import com.blockchain.store.dao.interfaces.Callbacks;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
-import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
-import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
-public class VotesFragment extends Fragment {
+public class VotesFragment extends Fragment implements Callbacks.ProposalCallback {
 
+    public enum StartFlag {
+        Ongoing,
+        Archive
+    }
+
+    private ProposalsAdapter adapter;
     private NavigationCallback navigationCallback;
-    private ViewPagerAdapter viewPagerAdapter;
 
-    @BindView(R.id.votes_tabLayout)
-    TabLayout votesTabLayout;
-    @BindView(R.id.votes_viewPager)
-    NonSwipeableViewPager votesViewPager;
+    @BindView(R.id.proposals_recyclerView) RecyclerView proposalsRecyclerView;
+
+    public static VotesFragment newInstance(StartFlag startFlag, List<Proposal> proposals) {
+        Bundle args = new Bundle();
+        args.putSerializable("StartFlag", startFlag);
+        args.putParcelableArrayList("Proposals", (ArrayList) proposals);
+        VotesFragment fragment = new VotesFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -45,25 +60,27 @@ public class VotesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        initTabLayout();
+        if (getArguments() != null) {
+            ArrayList<Proposal> proposals = getArguments().getParcelableArrayList("Proposals");
+            showProposals(proposals);
+        }
     }
 
-    private void initTabLayout() {
-        viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
-        viewPagerAdapter.addFragment(new OngoingVotesFragment());
-        viewPagerAdapter.addFragment(new ArchiveVotesFragment());
-
-        votesViewPager.setAdapter(viewPagerAdapter);
-        votesViewPager.setOffscreenPageLimit(2);
-
-        votesTabLayout.setupWithViewPager(votesViewPager);
-        votesTabLayout.getTabAt(0).setText("Ongoing");
-        votesTabLayout.getTabAt(1).setText("Archive");
+    private void showProposals(ArrayList<Proposal> proposals) {
+        if (adapter == null) {
+            proposalsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            proposalsRecyclerView.setHasFixedSize(true);
+            adapter = new ProposalsAdapter(proposals, this);
+            adapter.setHasStableIds(true);
+            proposalsRecyclerView.setAdapter(adapter);
+        } else {
+            adapter.setItems(proposals);
+        }
     }
 
-    @OnClick(R.id.addProposal_button)
-    void onNewProposalClicked() {
-        navigationCallback.onNewProposalClicked();
+    @Override
+    public void onItemClicked(Proposal proposal) {
+        navigationCallback.onProposalDetailsClicked();
     }
 
 }

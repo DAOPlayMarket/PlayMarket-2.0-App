@@ -8,4 +8,6 @@ public interface NavigationCallback {
 
     void onNewProposalClicked();
 
+    void onProposalDetailsClicked();
+
 }

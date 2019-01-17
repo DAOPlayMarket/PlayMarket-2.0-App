@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
 
 import com.blockchain.store.dao.repository.DaoTransactionRepository;
-import com.blockchain.store.dao.ui.services.DaoContractService;
+import com.blockchain.store.dao.services.DaoContractService;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.DaoToken;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DaoActivity extends AppCompatActivity {

@@ -119,6 +119,8 @@ dependencies {
     implementation 'com.android.support:design:27.1.0'
     implementation 'de.measite.minidns:minidns-hla:0.2.4'
     implementation 'com.android.support:multidex:1.0.2'
+    implementation "android.arch.persistence.room:runtime:1.1.1"
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
     implementation 'us.feras.mdv:markdownview:1.1.0'
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.0@aar') {

@@ -22,7 +22,8 @@ import android.widget.ProgressBar;
 
 import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
 import com.blockchain.store.dao.ui.votes_screen.NewProposalFragment;
-import com.blockchain.store.dao.ui.votes_screen.VotesFragment;
+import com.blockchain.store.dao.ui.votes_screen.ProposalDetailsFragment;
+import com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -146,9 +147,9 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     public void onBackPressed() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.navigation_view_holder);
 
-        if (fragment instanceof VotesFragment) {
+        if (fragment instanceof MainVotesFragment) {
             replaceFragment(new NavigationViewFragment());
-        } else if (fragment instanceof NewProposalFragment) {
+        } else if (fragment instanceof NewProposalFragment || fragment instanceof ProposalDetailsFragment) {
             removeFragment(fragment);
         } else {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -317,7 +318,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onVotesClicked() {
-        replaceFragment(new VotesFragment());
+        replaceFragment(new MainVotesFragment());
     }
 
     @Override
@@ -328,5 +329,10 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @Override
     public void onNewProposalClicked() {
         addFragment(new NewProposalFragment());
+    }
+
+    @Override
+    public void onProposalDetailsClicked() {
+        addFragment(new ProposalDetailsFragment());
     }
 }

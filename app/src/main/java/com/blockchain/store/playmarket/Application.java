@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket;
 
+import android.arch.persistence.room.Room;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
@@ -7,6 +8,9 @@ import android.text.TextUtils;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
+import com.blockchain.store.dao.database.DaoDatabase;
+import com.blockchain.store.dao.database.model.Proposal;
+import com.blockchain.store.dao.database.model.Rules;
 import com.blockchain.store.playmarket.data.content.AppsDispatcher;
 import com.blockchain.store.playmarket.data.content.AppsManager;
 import com.blockchain.store.playmarket.data.entities.AppBuyTransactionModel;
@@ -40,6 +44,7 @@ public class Application extends MultiDexApplication {
     private static AppsManager appsManager;
     private static Application instance;
     private static PinpointManager pinpointManager;
+    private static DaoDatabase daoDatabase;
 
     @Override
     public void onCreate() {
@@ -49,6 +54,12 @@ public class Application extends MultiDexApplication {
         MultiDex.install(this);
         ToastUtil.setContext(this);
         AccountManager.setKeyManager(KeyManager.newKeyManager(getFilesDir().getAbsolutePath()));
+
+        daoDatabase = Room.databaseBuilder(this, DaoDatabase.class, "DaoDB")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();
+
         Hawk.init(this).setParser(new Parser() {
             @Override
             public <T> T fromJson(String content, Type type) {
@@ -110,9 +121,14 @@ public class Application extends MultiDexApplication {
         return appsManager;
     }
 
+    public static DaoDatabase getDaoDatabase(){
+        return daoDatabase;
+    }
+
     public static Application getInstance() {
         return instance;
     }
+
 
     public static boolean isForeground() {
         return instance == null;

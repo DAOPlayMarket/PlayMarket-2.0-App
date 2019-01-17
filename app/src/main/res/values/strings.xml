@@ -296,6 +296,17 @@
     <string name="description">Description</string>
     <string name="full_description_hash">Full description hash</string>
     <string name="transaction_bytecode">Transaction bytecode</string>
+    <string name="description_proposal_id">Description proposal ID:</string>
+    <string name="see_details">See details</string>
+    <string name="total_voted">Total voted:</string>
+    <string name="quorum">Quorum:</string>
+    <string name="requisite_majority">Requisite Majority:</string>
+    <string name="dao_playmarket_2_0">DAO PlayMarket 2.0</string>
+    <string name="token_symbol">Token symbol:</string>
+    <string name="local_balance">Local balance:</string>
+    <string name="repository_balance">Repository balance:</string>
+    <string name="accept">Accept</string>
+    <string name="decline">decline</string>
 
 
 </resources>
