@@ -10,6 +10,7 @@ import android.util.Pair;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.repository.DaoTransactionRepository;
+import com.blockchain.store.dao.ui.DaoTokenTransfer;
 import com.blockchain.store.dao.ui.services.DaoContractService;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.DaoTokenAdapter;
@@ -36,6 +37,7 @@ public class DaoActivity extends AppCompatActivity {
 
     List<DaoToken> daoTokens;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +56,12 @@ public class DaoActivity extends AppCompatActivity {
 
     private void initAdapter(List<DaoToken> daoTokens) {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new DaoTokenAdapter(daoTokens);
+        adapter = new DaoTokenAdapter(daoTokens, new DaoAdapterCallback() {
+            @Override
+            public void onPmTokenClicked(DaoToken daoToken) {
+                DaoTokenTransfer.start(DaoActivity.this, daoToken);
+            }
+        });
         recyclerView.setAdapter(adapter);
     }
 
@@ -97,5 +104,8 @@ public class DaoActivity extends AppCompatActivity {
         Log.d(TAG, "transferSuccess: ");
     }
 
+    public interface DaoAdapterCallback {
+        void onPmTokenClicked(DaoToken daoToken);
+    }
 
 }

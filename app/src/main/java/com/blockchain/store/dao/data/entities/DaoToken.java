@@ -1,6 +1,9 @@
 package com.blockchain.store.dao.data.entities;
 
-public class DaoToken {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class DaoToken implements Parcelable {
     public String address;
     public long decimals;
     public long total;  // Total number of tokens transferred to PMFund
@@ -8,10 +11,10 @@ public class DaoToken {
     public String name;
     public String symbol;
 
-    public String fund;
-    public String withdraw;
-    public String daoBalance;
-    public String balance;
+    public String fund = "0";
+    public String withdraw = "0";
+    public String balance = "0";
+    public String daoBalance = "0";
 
     public int totalTokensLength = 0;
     public int tokenPositionInArray = 0;
@@ -81,4 +84,57 @@ public class DaoToken {
             return (long) (Long.valueOf(daoBalance) / Math.pow(10, decimals));
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.address);
+        dest.writeLong(this.decimals);
+        dest.writeLong(this.total);
+        dest.writeString(this.name);
+        dest.writeString(this.symbol);
+        dest.writeString(this.fund);
+        dest.writeString(this.withdraw);
+        dest.writeString(this.balance);
+        dest.writeString(this.daoBalance);
+        dest.writeInt(this.totalTokensLength);
+        dest.writeInt(this.tokenPositionInArray);
+        dest.writeLong(this.multiplier);
+        dest.writeLong(this.TotalPMT);
+    }
+
+    public DaoToken() {
+    }
+
+    protected DaoToken(Parcel in) {
+        this.address = in.readString();
+        this.decimals = in.readLong();
+        this.total = in.readLong();
+        this.name = in.readString();
+        this.symbol = in.readString();
+        this.fund = in.readString();
+        this.withdraw = in.readString();
+        this.balance = in.readString();
+        this.daoBalance = in.readString();
+        this.totalTokensLength = in.readInt();
+        this.tokenPositionInArray = in.readInt();
+        this.multiplier = in.readLong();
+        this.TotalPMT = in.readLong();
+    }
+
+    public static final Parcelable.Creator<DaoToken> CREATOR = new Parcelable.Creator<DaoToken>() {
+        @Override
+        public DaoToken createFromParcel(Parcel source) {
+            return new DaoToken(source);
+        }
+
+        @Override
+        public DaoToken[] newArray(int size) {
+            return new DaoToken[size];
+        }
+    };
 }

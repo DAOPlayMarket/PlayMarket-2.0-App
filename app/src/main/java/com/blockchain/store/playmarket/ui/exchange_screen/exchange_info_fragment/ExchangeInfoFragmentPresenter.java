@@ -1,14 +1,9 @@
 package com.blockchain.store.playmarket.ui.exchange_screen.exchange_info_fragment;
 
-import android.util.Pair;
-
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.ChangellyBaseBody;
-import com.blockchain.store.playmarket.data.entities.ChangellyCreateTransactionResponse;
 import com.blockchain.store.playmarket.data.entities.ChangellyCurrency;
 import com.blockchain.store.playmarket.data.entities.ChangellyMinimumAmountResponse;
-
-import java.util.ArrayList;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;

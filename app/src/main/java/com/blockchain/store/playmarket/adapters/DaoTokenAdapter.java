@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
+import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
 import com.blockchain.store.playmarket.R;
 
 import java.util.List;
@@ -21,9 +22,11 @@ import butterknife.OnClick;
 public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<DaoToken> daoTokens;
+    DaoActivity.DaoAdapterCallback callback;
 
-    public DaoTokenAdapter(List<DaoToken> daoTokens) {
+    public DaoTokenAdapter(List<DaoToken> daoTokens, DaoActivity.DaoAdapterCallback callback) {
         this.daoTokens = daoTokens;
+        this.callback = callback;
     }
 
     @Override
@@ -77,8 +80,12 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             symbol.setText(daoToken.symbol);
             balance.setText(String.valueOf(daoToken.getBalanceWithDecimals()));
             repositoryBalance.setText(String.valueOf(daoToken.getDaoBalanceWithDecimals()));
-            setClickEnabled(daoToken.getBalanceWithDecimals() != 0 || daoToken.getDaoBalance() != 0);
+//            setClickEnabled(daoToken.getBalanceWithDecimals() != 0 || daoToken.getDaoBalance() != 0);
 
+            transferIcon.setOnClickListener(v -> {
+                callback.onPmTokenClicked(daoToken);
+            });
+            button.setOnClickListener(v -> callback.onPmTokenClicked(daoToken));
 
         }
 
@@ -88,13 +95,6 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             transferIcon.setAlpha(isEnabled ? 1 : 0.3f);
             button.setAlpha(isEnabled ? 1 : 0.3f);
-
-            transferIcon.setOnClickListener(v -> {
-
-            });
-            button.setOnClickListener(v -> {
-
-            });
         }
     }
 

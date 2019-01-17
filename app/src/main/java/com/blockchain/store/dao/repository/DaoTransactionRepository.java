@@ -1,5 +1,6 @@
 package com.blockchain.store.dao.repository;
 
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Pair;
 
 import com.blockchain.store.dao.ui.DaoConstants;
@@ -104,7 +105,7 @@ public class DaoTransactionRepository {
     }
 
     public static Observable<List<DaoToken>> getTokens() {
-        init(DaoConstants.DAO, DaoConstants.TOKEN_HOLDER_USED_FOR_TEST);
+        init(DaoConstants.DAO, AccountManager.getAddress().getHex());
 //        init(DaoConstants.DAO, AccountManager.getAddress().getHex());
         ArrayList<DaoToken> daoTokens = new ArrayList<>();
         return Observable.range(0, 10000)
