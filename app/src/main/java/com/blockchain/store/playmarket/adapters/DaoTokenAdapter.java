@@ -82,9 +82,7 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             repositoryBalance.setText(String.valueOf(daoToken.getDaoBalanceWithDecimals()));
 //            setClickEnabled(daoToken.getBalanceWithDecimals() != 0 || daoToken.getDaoBalance() != 0);
 
-            transferIcon.setOnClickListener(v -> {
-                callback.onPmTokenClicked(daoToken);
-            });
+            transferIcon.setOnClickListener(v -> callback.onPmTokenClicked(daoToken));
             button.setOnClickListener(v -> callback.onPmTokenClicked(daoToken));
 
         }
@@ -102,7 +100,7 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @BindView(R.id.name) TextView name;
         @BindView(R.id.symbol) TextView symbol;
-        @BindView(R.id.button) TextView button;
+        @BindView(R.id.receive_text) TextView receiveText;
         @BindView(R.id.token_dividends_amount) TextView dividendsAmount;
         @BindView(R.id.imageView2) ImageView transferIcon;
 
@@ -121,15 +119,15 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         private void setClickEnabled(boolean isEnabled) {
             transferIcon.setEnabled(isEnabled);
-            button.setEnabled(isEnabled);
+            receiveText.setEnabled(isEnabled);
 
             transferIcon.setAlpha(isEnabled ? 1 : 0.3f);
-            button.setAlpha(isEnabled ? 1 : 0.3f);
+            receiveText.setAlpha(isEnabled ? 1 : 0.3f);
 
             transferIcon.setOnClickListener(v -> {
 
             });
-            button.setOnClickListener(v -> {
+            receiveText.setOnClickListener(v -> {
 
             });
         }

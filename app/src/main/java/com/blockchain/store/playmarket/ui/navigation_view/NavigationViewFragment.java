@@ -6,36 +6,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.UserBalance;
-import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
 import com.blockchain.store.playmarket.ui.about_screen.AboutAppActivity;
-import com.blockchain.store.playmarket.ui.activity_screen.NewsActivity;
-import com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivity;
 import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
-import com.blockchain.store.playmarket.ui.my_ico_screen.MyIcoActivity;
-import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
 import com.blockchain.store.playmarket.ui.settings_screen.SettingsActivity;
-import com.blockchain.store.playmarket.ui.tokens_screen.TokenListActivity;
-import com.blockchain.store.playmarket.ui.transaction_history_screen.TransactionHistoryActivity;
-import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
-import com.blockchain.store.playmarket.utilities.AccountManager;
-import com.blockchain.store.playmarket.utilities.Constants;
-import com.blockchain.store.playmarket.utilities.QrUtils;
-import com.blockchain.store.playmarket.utilities.ToastUtil;
-import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,12 +39,12 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     //@BindView(R.id.token_layout) LinearLayout tokenLayout;
     //@BindView(R.id.user_id_title) TextView userAddress;
     @BindView(R.id.ether_count) TextView balanceView;
-   // @BindView(R.id.avatar_image) ImageView avatarImage;
+    // @BindView(R.id.avatar_image) ImageView avatarImage;
     //@BindView(R.id.user_balance_progress_bar) ProgressBar progressBar;
     //@BindView(R.id.error_view_title) TextView errorViewTitle;
     //@BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.error_view_repeat_btn) Button errorBtn;
-   // @BindView(R.id.balance_icon) ImageView balanceIcon;
+    // @BindView(R.id.balance_icon) ImageView balanceIcon;
     @BindView(R.id.balance_in_local) TextView balanceInLocal;
 
     NavigationViewPresenter presenter;
@@ -111,8 +95,13 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     }
 
     @OnClick(R.id.votes_layout)
-    void onVotesClicked(){
+    void onVotesClicked() {
         navigationCallback.onVotesClicked();
+    }
+
+    @OnClick(R.id.dividends_layout)
+    void onDividendsClicked() {
+        navigationCallback.onDividendsClicked();
     }
 
 //    @OnClick(R.id.news_layout)

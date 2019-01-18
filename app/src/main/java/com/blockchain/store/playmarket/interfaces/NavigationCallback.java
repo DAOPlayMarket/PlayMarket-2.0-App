@@ -8,6 +8,8 @@ public interface NavigationCallback {
 
     void onWalletClicked();
 
+    void onDividendsClicked();
+
     void onNewProposalClicked();
 
     void onProposalDetailsClicked(Proposal proposal);

@@ -304,13 +304,11 @@
     <string name="dao_playmarket_2_0">DAO PlayMarket 2.0</string>
     <string name="token_symbol">Token symbol:</string>
     <string name="local_balance">Local balance:</string>
-    <string name="repository_balance">Repository balance:</string>
     <string name="accept">Accept</string>
     <string name="decline">decline</string>
     <string name="dividends_amount">Dividends amount:</string>
     <string name="transfer">Transfer</string>
     <string name="receive">Receive</string>
     <string name="repository_balance">Repository balance:</string>
-
 
 </resources>

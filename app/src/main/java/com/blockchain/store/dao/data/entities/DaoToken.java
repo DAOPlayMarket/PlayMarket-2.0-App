@@ -70,18 +70,18 @@ public class DaoToken implements Parcelable {
         return daoToken;
     }
 
-    public long getBalanceWithDecimals() {
+    public double getBalanceWithDecimals() {
         if (Long.valueOf(balance) == 0) {
             return 0;
         } else {
-            return (long) (Long.valueOf(balance) / Math.pow(10, decimals));
+            return (double) (Double.valueOf(balance) / Math.pow(10, decimals));
         }
     }
-    public long getDaoBalanceWithDecimals() {
+    public double getDaoBalanceWithDecimals() {
         if (Long.valueOf(daoBalance) == 0) {
             return 0;
         } else {
-            return (long) (Long.valueOf(daoBalance) / Math.pow(10, decimals));
+            return (double) (Double.valueOf(daoBalance) / Math.pow(10, decimals));
         }
     }
 
