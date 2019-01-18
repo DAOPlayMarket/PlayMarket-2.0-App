@@ -49,7 +49,7 @@ public class ProposalsAdapter extends RecyclerView.Adapter<ProposalsAdapter.View
         notifyDataSetChanged();
     }
 
-    protected class ViewHolder extends RecyclerView.ViewHolder{
+    protected class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.id_textView) TextView idTextView;
         @BindView(R.id.description_textView) TextView descriptionTextView;
@@ -58,13 +58,12 @@ public class ProposalsAdapter extends RecyclerView.Adapter<ProposalsAdapter.View
             super(itemView);
             ButterKnife.bind(this, itemView);
                     }
-        
+
         protected void bind(Proposal proposal) {
             idTextView.setText(String.valueOf(proposal.proposalID));
             descriptionTextView.setText(proposal.description);
             itemView.setOnClickListener(v -> proposalCallback.onItemClicked(proposal));
         }
-
     }
 
 }

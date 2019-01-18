@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FileManagerRecyclerViewAdapter extends RecyclerView.Adapter<FileManagerRecyclerViewAdapter.ViewHolder>{
+public class FileManagerRecyclerViewAdapter extends RecyclerView.Adapter<FileManagerRecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "FileManagerRecyclerView";
 
     private ArrayList<File> fileList;
@@ -25,7 +25,7 @@ public class FileManagerRecyclerViewAdapter extends RecyclerView.Adapter<FileMan
     private int selectedItemIndex = -1;
     FileManagerCallback fileManagerCallback;
 
-    public FileManagerRecyclerViewAdapter(ArrayList<File> fileList, FileManagerCallback fileManagerCallback){
+    public FileManagerRecyclerViewAdapter(ArrayList<File> fileList, FileManagerCallback fileManagerCallback) {
         this.fileManagerCallback = fileManagerCallback;
         this.fileList = fileList;
     }
@@ -42,7 +42,8 @@ public class FileManagerRecyclerViewAdapter extends RecyclerView.Adapter<FileMan
         Log.d(TAG, "onBindViewHolder() called with: holder = [" + file.getName() + "], position = [" + position + "]");
         holder.folderTextView.setText(file.getName());
 
-        if (fileList.get(position).isDirectory()) holder.nextFolderImageView.setVisibility(View.VISIBLE);
+        if (fileList.get(position).isDirectory())
+            holder.nextFolderImageView.setVisibility(View.VISIBLE);
         else holder.nextFolderImageView.setVisibility(View.INVISIBLE);
 
         holder.itemLinearLayout.setOnClickListener(v -> {
@@ -50,17 +51,15 @@ public class FileManagerRecyclerViewAdapter extends RecyclerView.Adapter<FileMan
                 selectedPath = file.getPath();
                 notifyDataSetChanged();
                 fileManagerCallback.onClick();
-            }
-            else{
+            } else {
                 selectedItemIndex = position;
                 notifyDataSetChanged();
             }
         });
 
-        if (selectedItemIndex == position){
+        if (selectedItemIndex == position) {
             holder.itemLinearLayout.setBackgroundResource(R.color.colorAccent);
-        }
-        else{
+        } else {
             holder.itemLinearLayout.setBackgroundResource(R.color.Clear);
         }
 
@@ -71,11 +70,11 @@ public class FileManagerRecyclerViewAdapter extends RecyclerView.Adapter<FileMan
         return fileList.get(position).hashCode();
     }
 
-    public String getSelectedPath(){
+    public String getSelectedPath() {
         return selectedPath;
     }
 
-    public int getSelectedItemIndex(){
+    public int getSelectedItemIndex() {
         return selectedItemIndex;
     }
 
@@ -100,7 +99,7 @@ public class FileManagerRecyclerViewAdapter extends RecyclerView.Adapter<FileMan
         }
     }
 
-    public interface FileManagerCallback{
+    public interface FileManagerCallback {
         void onClick();
     }
 }

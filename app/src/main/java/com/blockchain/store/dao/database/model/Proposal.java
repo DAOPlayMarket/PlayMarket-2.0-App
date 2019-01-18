@@ -22,9 +22,14 @@ public class Proposal implements Parcelable {
     public int votesSupport;
     public int votesAgainst;
     public int quorum;
-    public boolean active;
+    public boolean isActive;
+    public boolean isAccepted;
+    public boolean isExecuted;
     @TypeConverters(VotesConverter.class)
     public ArrayList<Vote> votes = new ArrayList<>();
+
+    public Proposal() {
+    }
 
     @Override
     public int describeContents() {
@@ -41,28 +46,28 @@ public class Proposal implements Parcelable {
         dest.writeInt(this.votesSupport);
         dest.writeInt(this.votesAgainst);
         dest.writeInt(this.quorum);
-        dest.writeByte(this.active ? (byte) 1 : (byte) 0);
-        dest.writeList(this.votes);
-    }
-
-    public Proposal() {
+        dest.writeByte(this.isActive ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isAccepted ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isExecuted ? (byte) 1 : (byte) 0);
+        dest.writeTypedList(this.votes);
     }
 
     protected Proposal(Parcel in) {
-        this.proposalID = in.readInt();
+        this.proposalID = in.readLong();
         this.recipient = in.readString();
-        this.amount = in.readInt();
+        this.amount = in.readLong();
         this.description = in.readString();
         this.fullDescHash = in.readString();
         this.votesSupport = in.readInt();
         this.votesAgainst = in.readInt();
         this.quorum = in.readInt();
-        this.active = in.readByte() != 0;
-        this.votes = new ArrayList<Vote>();
-        in.readList(this.votes, Vote.class.getClassLoader());
+        this.isActive = in.readByte() != 0;
+        this.isAccepted = in.readByte() != 0;
+        this.isExecuted = in.readByte() != 0;
+        this.votes = in.createTypedArrayList(Vote.CREATOR);
     }
 
-    public static final Parcelable.Creator<Proposal> CREATOR = new Parcelable.Creator<Proposal>() {
+    public static final Creator<Proposal> CREATOR = new Creator<Proposal>() {
         @Override
         public Proposal createFromParcel(Parcel source) {
             return new Proposal(source);

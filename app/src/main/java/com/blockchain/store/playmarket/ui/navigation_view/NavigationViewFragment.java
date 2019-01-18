@@ -55,7 +55,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     //@BindView(R.id.token_layout) LinearLayout tokenLayout;
     //@BindView(R.id.user_id_title) TextView userAddress;
     @BindView(R.id.ether_count) TextView balanceView;
-   // @BindView(R.id.avatar_image) ImageView avatarImage;
+    //@BindView(R.id.avatar_image) ImageView avatarImage;
     //@BindView(R.id.user_balance_progress_bar) ProgressBar progressBar;
     //@BindView(R.id.error_view_title) TextView errorViewTitle;
     //@BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
@@ -113,6 +113,11 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     @OnClick(R.id.votes_layout)
     void onVotesClicked(){
         navigationCallback.onVotesClicked();
+    }
+
+    @OnClick(R.id.wallet_layout)
+    void onWalletClicked() {
+        navigationCallback.onWalletClicked();
     }
 
 //    @OnClick(R.id.news_layout)

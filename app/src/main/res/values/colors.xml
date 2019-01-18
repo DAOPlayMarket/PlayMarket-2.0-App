@@ -17,6 +17,8 @@
     <color name="appListTitleColor">#A2AEC0</color>
 
     <color name="colorPrimary">#131E2B</color>
+    <color name="colorPrimary70">#B3174362</color>
+
     <color name="colorPrimaryDark">#101823</color>
     <color name="colorSelectItem">#e0f1ee</color>
     <color name="colorAccent">#059FFA</color>
@@ -138,6 +140,8 @@
     <color name="graph_color_gradient_end_color">#82e567f1</color>
 
     <color name="white40">#66FFFFFF</color>
+    <color name="lightBlue">#1BA7FA</color>
+    <color name="colorPrimaryLight">#153A55</color>
 
 
     <!-- Drawable nine patch create in http://inloop.github.io/shadow4android/-->

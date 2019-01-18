@@ -1,6 +1,5 @@
 package com.blockchain.store.dao.ui.votes_screen.proposal_details_screen;
 
-
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,24 +21,21 @@ public class ProposalDetailsFragment extends Fragment implements ProposalDetails
 
     private ProposalDetailsPresenter presenter = new ProposalDetailsPresenter();
 
-    private static String ACCEPT_TAG = "IsAccept";
-    private static String EXECUTE_TAG = "IsExecute";
+    private static String PROPOSAL_TAG = "Proposal";
 
     @BindView(R.id.id_textView) TextView idTextView;
     @BindView(R.id.description_textView) TextView descriptionTextView;
 
-    public static Fragment newInstance(Boolean isAccept, Boolean isExecute, Proposal proposal){
+    public static Fragment newInstance(Proposal proposal) {
         Fragment fragment = new ProposalDetailsFragment();
         Bundle bundle = new Bundle();
-        bundle.putBoolean(ACCEPT_TAG, isAccept);
-        bundle.putBoolean(EXECUTE_TAG, isExecute);
-        bundle.putParcelable("Proposal", proposal);
+        bundle.putParcelable(PROPOSAL_TAG, proposal);
         fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_proposal_details, container, false);
     }
 
@@ -48,9 +44,9 @@ public class ProposalDetailsFragment extends Fragment implements ProposalDetails
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         presenter.init(this);
-        Rules rules = presenter.getRules();
+        setVotingRules(presenter.getRules());
         if (getArguments() != null) {
-            Proposal proposal = getArguments().getParcelable("Proposal");
+            Proposal proposal = getArguments().getParcelable(PROPOSAL_TAG);
             if (proposal != null) {
                 idTextView.setText(String.valueOf(proposal.proposalID));
                 descriptionTextView.setText(proposal.description);
@@ -59,8 +55,12 @@ public class ProposalDetailsFragment extends Fragment implements ProposalDetails
     }
 
     @OnClick(R.id.close_image_button)
-    void onCloseClicked(){
+    void onCloseClicked() {
         if (getActivity() != null) getActivity().onBackPressed();
+    }
+
+    private void setVotingRules(Rules rules) {
+
     }
 
 }

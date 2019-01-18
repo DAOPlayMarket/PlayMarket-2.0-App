@@ -31,6 +31,9 @@ import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
+import com.blockchain.store.playmarket.ui.wallet_screen.MainTokenTransferFragment;
+import com.blockchain.store.playmarket.ui.wallet_screen.TokenTransferFragment;
+import com.blockchain.store.playmarket.ui.wallet_screen.WalletFragment;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
 import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
@@ -148,10 +151,12 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     public void onBackPressed() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.navigation_view_holder);
 
-        if (fragment instanceof MainVotesFragment) {
+        if (fragment instanceof MainVotesFragment || fragment instanceof WalletFragment) {
             replaceFragment(new NavigationViewFragment());
         } else if (fragment instanceof NewProposalFragment || fragment instanceof ProposalDetailsFragment) {
             removeFragment(fragment);
+        } else if (fragment instanceof MainTokenTransferFragment) {
+            replaceFragment(new WalletFragment());
         } else {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -324,7 +329,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onWalletClicked() {
-
+        replaceFragment(new WalletFragment());
     }
 
     @Override
@@ -334,6 +339,11 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onProposalDetailsClicked(Proposal proposal) {
-        addFragment(ProposalDetailsFragment.newInstance(true, true, proposal));
+        addFragment(ProposalDetailsFragment.newInstance(proposal));
+    }
+
+    @Override
+    public void onTokenTransferClicked() {
+        replaceFragment(new MainTokenTransferFragment());
     }
 }

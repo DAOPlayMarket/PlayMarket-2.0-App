@@ -3,6 +3,7 @@ package com.blockchain.store.dao.ui.votes_screen;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -39,7 +40,7 @@ public class VotesFragment extends Fragment implements Callbacks.ProposalCallbac
     public static VotesFragment newInstance(StartFlag startFlag, List<Proposal> proposals) {
         Bundle args = new Bundle();
         args.putSerializable("StartFlag", startFlag);
-        args.putParcelableArrayList("Proposals", (ArrayList) proposals);
+        args.putParcelableArrayList("Proposals", (ArrayList<? extends Parcelable>) proposals);
         VotesFragment fragment = new VotesFragment();
         fragment.setArguments(args);
         return fragment;
@@ -52,7 +53,7 @@ public class VotesFragment extends Fragment implements Callbacks.ProposalCallbac
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_votes, container, false);
     }
 

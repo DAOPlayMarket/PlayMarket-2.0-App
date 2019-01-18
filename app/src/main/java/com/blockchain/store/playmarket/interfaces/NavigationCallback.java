@@ -12,4 +12,6 @@ public interface NavigationCallback {
 
     void onProposalDetailsClicked(Proposal proposal);
 
+    void onTokenTransferClicked();
+
 }

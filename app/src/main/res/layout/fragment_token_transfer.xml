@@ -1,0 +1,160 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="com.blockchain.store.playmarket.ui.wallet_screen.TokenTransferFragment">
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/recipient"
+        android:textColor="@color/lightBlue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/duelRadioGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/textView1"
+        app:layout_constraintTop_toBottomOf="@+id/textView1">
+
+        <RadioButton
+            android:id="@+id/publicDuelButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/lightBlue"
+            android:checked="true"
+            android:padding="10dp"
+            android:text="@string/repository"
+            android:textColor="@color/white" />
+
+        <RadioButton
+            android:id="@+id/privateDuelButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/lightBlue"
+            android:checked="false"
+            android:padding="10dp"
+            android:text="@string/custom_address"
+            android:textColor="@color/white" />
+    </RadioGroup>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/recipientInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp"
+        app:errorEnabled="true"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/duelRadioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/duelRadioGroup">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/recipientEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/lightBlue"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            tools:text="0x729AF33F41dc22b20A832B3A2305b9cD4d833e8E" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/amountInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp"
+        app:errorEnabled="true"
+        app:hintEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/recipientInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/recipientInputLayout">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/amountEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/lightBlue"
+            android:singleLine="true"
+
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            tools:text="5464.324235" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/token2_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="5dp"
+        android:textAllCaps="true"
+        android:textColor="@color/lightBlue"
+        app:layout_constraintEnd_toEndOf="@+id/amountInputLayout"
+        app:layout_constraintTop_toTopOf="@+id/amountInputLayout"
+        tools:text="PMT" />
+
+    <TextView
+        android:id="@+id/all_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/outline_background"
+        android:paddingStart="20dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="8dp"
+        android:text="@string/all"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/amountInputLayout"
+        app:layout_constraintTop_toTopOf="@+id/amountInputLayout" />
+
+    <Button
+        android:id="@+id/continue_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/lightBlue"
+        android:text="@string/continue_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/Clear"
+        android:text="@string/cancel_btn"
+        android:textColor="@color/lightBlue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="205dp" />
+
+
+</android.support.constraint.ConstraintLayout>
