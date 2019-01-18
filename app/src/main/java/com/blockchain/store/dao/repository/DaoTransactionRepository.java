@@ -3,6 +3,9 @@ package com.blockchain.store.dao.repository;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Pair;
 
+import com.blockchain.store.dao.database.model.Proposal;
+import com.blockchain.store.dao.database.model.Rules;
+import com.blockchain.store.dao.database.model.Vote;
 import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.playmarket.repositories.TransactionRepository;
@@ -15,6 +18,7 @@ import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Bool;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
+import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.Web3j;
@@ -261,6 +265,82 @@ public class DaoTransactionRepository {
         inputParameters.add(new Uint256(tokens));
         return new Function("approve", inputParameters, Collections.singletonList(new TypeReference<Bool>() {
         }));
+    }
+
+    private static Function proposalFunction() {
+        ArrayList<TypeReference<?>> outputParameters = new ArrayList<>();
+        outputParameters.add(new TypeReference<Uint256>() {});
+        outputParameters.add(new TypeReference<Address>() {});
+        outputParameters.add(new TypeReference<Uint256>() {});
+        outputParameters.add(new TypeReference<Utf8String>() {});
+        outputParameters.add(new TypeReference<Utf8String>() {});
+        return new Function("Proposal", new ArrayList<>(), outputParameters);
+
+    }
+
+    public static Proposal decodeProposal(String data) {
+        Function function = DaoTransactionRepository.proposalFunction();
+        List<Type> decode = FunctionReturnDecoder.decode(data, function.getOutputParameters());
+        Proposal proposal = new Proposal();
+        try {
+            proposal.proposalID = Integer.parseInt(decode.get(0).getValue().toString());
+            proposal.recipient = decode.get(1).getValue().toString();
+            proposal.amount = Integer.parseInt(decode.get(2).getValue().toString());
+            proposal.description = decode.get(3).getValue().toString();
+            proposal.fullDescHash = decode.get(4).getValue().toString();
+        } catch (Exception e) {
+            return null;
+        }
+        return proposal;
+    }
+
+    private static Function voteFunction() {
+        ArrayList<TypeReference<?>> outputParameters = new ArrayList<>();
+        outputParameters.add(new TypeReference<Uint256>() {});
+        outputParameters.add(new TypeReference<Bool>() {});
+        outputParameters.add(new TypeReference<Address>() {});
+        outputParameters.add(new TypeReference<Utf8String>() {});
+
+        return new Function("Vote", new ArrayList<>(), outputParameters);
+
+    }
+
+    public static Vote decodeVote(String data) {
+        Function function = DaoTransactionRepository.voteFunction();
+        List<Type> decode = FunctionReturnDecoder.decode(data, function.getOutputParameters());
+        Vote vote = new Vote();
+        try {
+            vote.proposalID = Integer.parseInt(decode.get(0).getValue().toString());
+            vote.position = (boolean) decode.get(1).getValue();
+            vote.voter = decode.get(2).getValue().toString();
+            vote.justification = decode.get(3).getValue().toString();
+        } catch (Exception e) {
+            return null;
+        }
+        return vote;
+    }
+
+    private static Function rulesFunction() {
+        ArrayList<TypeReference<?>> outputParameters = new ArrayList<>();
+        outputParameters.add(new TypeReference<Uint256>() {});
+        outputParameters.add(new TypeReference<Uint256>() {});
+        outputParameters.add(new TypeReference<Uint256>() {});
+        return new Function("Rules", new ArrayList<>(), outputParameters);
+    }
+
+    public static Rules decodeRules(String data) {
+        Function function = DaoTransactionRepository.rulesFunction();
+        List<Type> decode = FunctionReturnDecoder.decode(data, function.getOutputParameters());
+        Rules rules = new Rules();
+        try {
+            rules.id = 1;
+            rules.minimumQuorum = Long.parseLong(decode.get(0).getValue().toString());
+            rules.debatingPeriodDuration = Integer.parseInt(decode.get(1).getValue().toString());
+            rules.requisiteMajority = Long.parseLong(decode.get(2).getValue().toString());
+        } catch (Exception e) {
+            return null;
+        }
+        return rules;
     }
 
     private static Function getTokenBalanceOfFunction() {

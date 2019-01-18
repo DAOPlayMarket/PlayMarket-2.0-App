@@ -7,6 +7,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.blockchain.store.playmarket.R;
@@ -56,6 +57,7 @@ public class PermissionsPromptActivity extends AppCompatActivity {
 
     public void openLoginPromptActivity() {
         startActivity(new Intent(getApplicationContext(), LoginPromptActivity.class));
+
         finish();
     }
 

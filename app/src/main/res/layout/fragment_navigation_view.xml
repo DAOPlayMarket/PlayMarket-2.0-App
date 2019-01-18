@@ -1,4 +1,4 @@
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipe_refresh_layout"
@@ -7,167 +7,144 @@
     android:background="@color/colorPrimary"
     android:outlineProvider="bounds">
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:outlineProvider="bounds">
+    <ImageView
+        android:id="@+id/close_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close" />
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:outlineProvider="bounds">
+    <ImageView
+        android:id="@+id/logo_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="@string/todo"
+        android:scaleType="fitXY"
+        android:src="@drawable/pm2_logo_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_height="50dp"
+        tools:layout_width="50dp" />
 
-
-            <ImageView
-                android:id="@+id/close_image_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:padding="6dp"
-                android:rotation="45"
-                android:tint="@color/nav_text_color"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/add" />
-
-            <ImageView
-                android:id="@+id/avatar_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/close_image_button"
-                tools:background="@color/colorAccent"
-                tools:layout_height="80dp"
-                tools:layout_width="80dp" />
-
-
-            <TextView
-                android:id="@+id/user_id_title"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:gravity="left"
-                android:lineSpacingExtra="6dp"
-                android:lines="3"
-                android:minLines="3"
-                android:textAllCaps="true"
-                app:layout_constraintBottom_toBottomOf="@+id/avatar_image"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/avatar_image"
-                app:layout_constraintTop_toTopOf="@+id/avatar_image"
-                tools:text="0x9e1F6 01D72 bDA50 9D82e d7082 D9d3a 7E0F4 d012B" />
+    <ImageView
+        android:id="@+id/logo_text_imageView"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:contentDescription="@string/todo"
+        android:src="@drawable/pm2_logo_text"
+        app:layout_constraintBottom_toBottomOf="@+id/logo_image"
+        app:layout_constraintStart_toEndOf="@+id/logo_image"
+        app:layout_constraintTop_toTopOf="@+id/logo_image"
+        tools:layout_height="40dp"
+        tools:layout_width="140dp" />
 
 
-            <ProgressBar
-                android:id="@+id/user_balance_progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/avatar_image" />
+    <ProgressBar
+        android:id="@+id/user_balance_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo_image" />
 
-            <TextView
-                android:id="@+id/ether_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLength="12"
-                android:textSize="26sp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/balance_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/balance_icon"
-                app:layout_constraintTop_toTopOf="@+id/balance_icon"
-                tools:text="14.914159"
-                tools:visibility="visible" />
+    <TextView
+        android:id="@+id/ether_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLength="12"
+        android:textSize="26sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/balance_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/balance_icon"
+        app:layout_constraintTop_toTopOf="@+id/balance_icon"
+        tools:text="14.914159" />
 
-            <ImageView
-                android:id="@+id/balance_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
-                android:visibility="invisible"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/avatar_image"
-                app:srcCompat="@drawable/ic_eth_pub_icon"
-                tools:visibility="visible" />
+    <ImageView
+        android:id="@+id/balance_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo_image"
+        app:srcCompat="@drawable/ic_eth_pub_icon" />
 
 
-            <TextView
-                android:id="@+id/error_view_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="8dp"
-                android:gravity="center"
-                android:text="@string/error_view_msg"
-                android:textSize="16sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toStartOf="@+id/error_view_repeat_btn"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/avatar_image"
-                tools:visibility="visible" />
+    <TextView
+        android:id="@+id/error_view_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:text="@string/error_view_msg"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/error_view_repeat_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo_image" />
 
-            <Button
-                android:id="@+id/error_view_repeat_btn"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="@string/error_btn_msg"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/error_view_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/error_view_title"
-                tools:visibility="visible" />
+    <Button
+        android:id="@+id/error_view_repeat_btn"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/error_btn_msg"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/error_view_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/error_view_title" />
 
-            <View
-                android:id="@+id/view_divider"
-                android:layout_width="0dp"
-                android:layout_height="3dp"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/divider_gradient_color"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/ether_count"
-                app:layout_constraintTop_toBottomOf="@+id/balance_in_local" />
-
-
-            <include
-                android:id="@+id/include2"
-                layout="@layout/nav_view_items"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="@+id/balance_icon"
-                app:layout_constraintTop_toBottomOf="@+id/balance_in_local" />
-
-            <TextView
-                android:id="@+id/balance_in_local"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:tint="@color/nav_text_color"
-                app:layout_constraintStart_toStartOf="@+id/ether_count"
-                app:layout_constraintTop_toBottomOf="@+id/ether_count"
-                tools:text="PMC: 1000.12312 " />
+    <View
+        android:id="@+id/view_divider"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/divider_gradient_color"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/ether_count"
+        app:layout_constraintTop_toBottomOf="@+id/balance_in_local" />
 
 
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v4.widget.NestedScrollView>
-</android.support.v4.widget.SwipeRefreshLayout>
+    <include
+        android:id="@+id/include2"
+        layout="@layout/nav_view_items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="@+id/logo_image"
+        app:layout_constraintTop_toBottomOf="@+id/logo_text_imageView" />
+
+    <TextView
+        android:id="@+id/balance_in_local"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:tint="@color/nav_text_color"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/ether_count"
+        app:layout_constraintTop_toBottomOf="@+id/ether_count"
+        tools:text="PMC: 1000.12312 " />
+
+
+</android.support.constraint.ConstraintLayout>

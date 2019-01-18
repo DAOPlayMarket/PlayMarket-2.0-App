@@ -143,7 +143,8 @@
     </style>
 
     <style name="NegativeButton">
-
+        <item name="android:background">@drawable/positive_btn_bg</item>
+        <item name="android:textColor">@color/positive_btn_text_color</item>
     </style>
 
     <style name="genericEditText">

@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,191 +6,111 @@
     tools:background="@color/colorPrimary">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="25dp"
-        android:paddingBottom="25dp">
+        android:id="@+id/library_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/nav_drawer_menu_height"
+        android:layout_marginBottom="@dimen/navigation_view_indents"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/nav_view_exchange"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_drawer_menu_height"
-            android:layout_marginBottom="@dimen/navigation_view_indents"
-            android:gravity="center|left"
-            android:orientation="horizontal">
+        <ImageView
+            style="@style/navViewImageItem"
+            android:src="@drawable/ic_myappsicon" />
 
-            <ImageView
-                style="@style/navViewImageItem"
-                android:src="@drawable/ic_depositicon" />
-
-            <TextView
-                style="@style/navViewTextItem"
-                android:gravity="center_vertical"
-                android:text="@string/exchange" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/nav_view_send"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_drawer_menu_height"
-            android:layout_marginBottom="@dimen/navigation_view_indents"
-            android:gravity="center|left"
-            android:orientation="horizontal">
-
-            <ImageView
-                style="@style/navViewImageItem"
-                android:src="@drawable/ic_transfericon" />
-
-            <TextView
-                style="@style/navViewTextItem"
-                android:gravity="center_vertical"
-                android:text="@string/nav_view_transfer" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/nav_view_history"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_drawer_menu_height"
-            android:layout_marginBottom="@dimen/navigation_view_indents"
-            android:gravity="center|left"
-            android:orientation="horizontal">
-
-            <ImageView
-                style="@style/navViewImageItem"
-                android:src="@drawable/ic_historyicon" />
-
-            <TextView
-                style="@style/navViewTextItem"
-                android:gravity="center_vertical"
-                android:text="@string/history" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/library_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_drawer_menu_height"
-            android:layout_marginBottom="@dimen/navigation_view_indents"
-            android:gravity="center|left"
-            android:orientation="horizontal">
-
-            <ImageView
-                style="@style/navViewImageItem"
-                android:src="@drawable/ic_myappsicon" />
-
-            <TextView
-                style="@style/navViewTextItem"
-                android:gravity="center_vertical"
-                android:text="@string/library_screen_title" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/token_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_drawer_menu_height"
-            android:layout_marginBottom="@dimen/navigation_view_indents"
-            android:gravity="center|left"
-            android:orientation="horizontal">
-
-            <ImageView
-                style="@style/navViewImageItem"
-                android:src="@drawable/ic_tokensicon" />
-
-            <TextView
-                style="@style/navViewTextItem"
-                android:gravity="center_vertical"
-                android:text="@string/token_activity_title" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/account_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_drawer_menu_height"
-            android:layout_marginBottom="@dimen/navigation_view_indents"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                style="@style/navViewImageItem"
-                android:src="@drawable/ic_accounticon" />
-
-            <TextView
-                style="@style/navViewTextItem"
-                android:text="@string/account" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/my_ico_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_drawer_menu_height"
-            android:layout_marginBottom="@dimen/navigation_view_indents"
+        <TextView
+            style="@style/navViewTextItem"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/grav"
-                style="@style/navViewImageItem"
-                android:src="@drawable/ic_myicoicon" />
-
-            <TextView
-                style="@style/navViewTextItem"
-                android:text="@string/my_ico" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/settings_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_drawer_menu_height"
-            android:layout_marginBottom="@dimen/navigation_view_indents"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                style="@style/navViewImageItem"
-                android:src="@drawable/ic_settingsicon" />
-
-            <TextView
-                style="@style/navViewTextItem"
-                android:text="@string/settings" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/news_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_drawer_menu_height"
-            android:layout_marginBottom="@dimen/navigation_view_indents"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                style="@style/navViewImageItem"
-                android:src="@drawable/ic_newsicon" />
-
-            <TextView
-                style="@style/navViewTextItem"
-                android:text="@string/news" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/about_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/nav_drawer_menu_height"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                style="@style/navViewImageItem"
-                android:src="@drawable/ic_abouticon" />
-
-            <TextView
-                style="@style/navViewTextItem"
-                android:text="@string/about" />
-        </LinearLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="30dp" />
-
+            android:text="@string/library_screen_title" />
     </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/wallet_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/nav_drawer_menu_height"
+        android:layout_marginBottom="@dimen/navigation_view_indents"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/navViewImageItem"
+            android:src="@drawable/ic_tokensicon" />
+
+        <TextView
+            style="@style/navViewTextItem"
+            android:gravity="center_vertical"
+            android:text="@string/wallet" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dividends_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/nav_drawer_menu_height"
+        android:layout_marginBottom="@dimen/navigation_view_indents"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/navViewImageItem"
+            android:src="@drawable/ic_accounticon" />
+
+        <TextView
+            style="@style/navViewTextItem"
+            android:text="@string/dividends" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/votes_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/nav_drawer_menu_height"
+        android:layout_marginBottom="@dimen/navigation_view_indents"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/navViewImageItem"
+            android:src="@drawable/ic_myicoicon" />
+
+        <TextView
+            style="@style/navViewTextItem"
+            android:text="@string/votes" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/settings_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/nav_drawer_menu_height"
+        android:layout_marginBottom="@dimen/navigation_view_indents"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/navViewImageItem"
+            android:src="@drawable/ic_settingsicon" />
+
+        <TextView
+            style="@style/navViewTextItem"
+            android:text="@string/settings_title" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/about_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/nav_drawer_menu_height"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/navViewImageItem"
+            android:src="@drawable/ic_abouticon" />
+
+        <TextView
+            style="@style/navViewTextItem"
+            android:text="@string/about" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
+
 </LinearLayout>

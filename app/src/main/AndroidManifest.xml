@@ -165,10 +165,10 @@
             android:screenOrientation="portrait" />
 
         <service
-            android:name=".PurchaseSDK.services.PlayMarketSDK"
+            android:name="com.blockchain.store.playmarket.PurchaseSDK.services.PlayMarketSDK"
             android:exported="true"
             android:isolatedProcess="true"
-            android:process=":ServiceProcess" />
+            android:process=":ServiceProcess"/>
 
         <activity
             android:name=".ui.fingerprint_screen.FingerprintConfiguringActivity"
@@ -196,7 +196,8 @@
             android:name=".check_transation_status_beta.CheckUpdateJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service android:name=".services.NotificationService" />
-        <service android:name="com.blockchain.store.dao.ui.services.DaoContractService" />
+
+        <service android:name="com.blockchain.store.dao.services.DaoContractService"/>
 
         <activity
             android:name=".ui.transaction_history_screen.TransactionHistoryActivity"

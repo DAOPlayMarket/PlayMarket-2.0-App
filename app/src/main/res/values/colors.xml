@@ -137,6 +137,8 @@
     <color name="graph_color_gradient_start_color">#3e6eff</color>
     <color name="graph_color_gradient_end_color">#82e567f1</color>
 
+    <color name="white40">#66FFFFFF</color>
+
 
     <!-- Drawable nine patch create in http://inloop.github.io/shadow4android/-->
     <!-- Navigation card layout var's are: width,height 200. Shadow 10. Radius 4-->
