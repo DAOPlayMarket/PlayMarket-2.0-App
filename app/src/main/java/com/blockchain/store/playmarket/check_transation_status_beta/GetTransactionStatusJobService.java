@@ -25,6 +25,7 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
+        Log.d(TAG, "onStartJob() called with: params = [" + params + "]");
         NotificationManager.getManager().registerNewNotification(getNotification(params));
         PersistableBundle extras = params.getExtras();
         String transactionHash = extras.getString(Constants.JOB_HASH_EXTRA);
@@ -39,19 +40,22 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
     }
 
     private void onTransactionReady(EthGetTransactionReceipt result, JobParameters params) {
+        Log.d(TAG, "onTransactionReady() called with: result = [" + result + "], params = [" + params + "]");
         if (result.getTransactionReceipt() != null) {
-            jobFinished(params, false);
+            Log.d(TAG, "onTransactionReady: with result " + result.getTransactionReceipt().getStatus());
             TransactionPrefsUtil.updateModel(result.getTransactionReceipt());
             String secondTransaction = params.getExtras().getString(Constants.JOB_SECOND_RAW_TX, null);
+            Log.d(TAG, "onTransactionReady: check for second transaction: " + secondTransaction);
             if (secondTransaction != null) {
                 sendSecondTransaction(secondTransaction, params);
-            }
-            if (result.getTransactionReceipt().getStatus().contains("1")) {
-                NotificationManager.getManager().downloadCompleteWithoutError(getNotification(params));
             } else {
-                NotificationManager.getManager().downloadCompleteWithError(getNotification(params), new Exception(""));
+                if (result.getTransactionReceipt().getStatus().contains("1")) {
+                    NotificationManager.getManager().downloadCompleteWithoutError(getNotification(params));
+                } else {
+                    NotificationManager.getManager().downloadCompleteWithError(getNotification(params), new Exception(""));
+                }
             }
-
+            jobFinished(params, false);
         } else {
             jobFinished(params, true);
         }
@@ -59,6 +63,7 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
     }
 
     private void sendSecondTransaction(String secondTransaction, JobParameters params) {
+        Log.d(TAG, "sendSecondTransaction() called with: secondTransaction = [" + secondTransaction + "], params = [" + params + "]");
         Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
         build.ethSendRawTransaction(secondTransaction).observable()
                 .subscribeOn(Schedulers.io())
@@ -68,9 +73,10 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
     }
 
     private void onSecondTransactionReady(EthSendTransaction result, JobParameters params) {
+        Log.d(TAG, "onSecondTransactionReady() called with: result = [" + result + "], params = [" + params + "]");
         String secondTransaction = params.getExtras().getString(Constants.JOB_SECOND_HASH_EXTRA, null);
         if (secondTransaction != null)
-            JobUtils.scheduleCheckTransactionJob(this, secondTransaction, null);
+            JobUtils.scheduleSecondTransactionJob(this, secondTransaction, null);
     }
 
     private TransactionNotification getNotification(JobParameters params) {
@@ -80,6 +86,7 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
     }
 
     private void onTransactionError(Throwable throwable, JobParameters params) {
+        Log.d(TAG, "onTransactionError() called with: throwable = [" + throwable + "], params = [" + params + "]");
         jobFinished(params, true);
     }
 

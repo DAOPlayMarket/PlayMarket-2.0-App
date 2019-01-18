@@ -22,9 +22,10 @@ import android.widget.ProgressBar;
 
 import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
+import com.blockchain.store.dao.ui.dividends_screen.DividendsFragment;
 import com.blockchain.store.dao.ui.votes_screen.NewProposalFragment;
-import com.blockchain.store.dao.ui.votes_screen.proposal_details_screen.ProposalDetailsFragment;
 import com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment;
+import com.blockchain.store.dao.ui.votes_screen.proposal_details_screen.ProposalDetailsFragment;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -38,6 +39,7 @@ import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
 import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
+import com.blockchain.store.playmarket.ui.pex_screen.PexActivity;
 import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
@@ -98,7 +100,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         ButterKnife.bind(this);
         attachPresenter();
         initViews();
-        replaceFragment(new NavigationViewFragment());
+        replaceNavViewFragment(new NavigationViewFragment());
         setSearchViewDebounce();
     }
 
@@ -110,7 +112,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     }
 
-    private void replaceFragment(Fragment fragment) {
+    private void replaceNavViewFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view_holder, fragment).commitAllowingStateLoss();
     }
 
@@ -151,12 +153,12 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     public void onBackPressed() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.navigation_view_holder);
 
-        if (fragment instanceof MainVotesFragment || fragment instanceof WalletFragment) {
-            replaceFragment(new NavigationViewFragment());
+        if (fragment instanceof MainVotesFragment || fragment instanceof WalletFragment || fragment instanceof DividendsFragment) {
+            replaceNavViewFragment(new NavigationViewFragment());
         } else if (fragment instanceof NewProposalFragment || fragment instanceof ProposalDetailsFragment) {
             removeFragment(fragment);
         } else if (fragment instanceof MainTokenTransferFragment) {
-            replaceFragment(new WalletFragment());
+            replaceNavViewFragment(new WalletFragment());
         } else {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -252,8 +254,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @OnClick(R.id.exchange_tab)
     void onExchangeTabClicked() {
-//        startActivity(new Intent(this, PexActivity.class));
-        startActivity(new Intent(this, DaoActivity.class));
+        startActivity(new Intent(this, PexActivity.class));
     }
 
     @OnClick(R.id.error_view_repeat_btn)
@@ -324,12 +325,18 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onVotesClicked() {
-        replaceFragment(new MainVotesFragment());
+        replaceNavViewFragment(new MainVotesFragment());
     }
 
     @Override
     public void onWalletClicked() {
-        replaceFragment(new WalletFragment());
+        replaceNavViewFragment(new WalletFragment());
+    }
+
+    @Override
+    public void onDividendsClicked() {
+        replaceNavViewFragment(new DividendsFragment());
+
     }
 
     @Override
@@ -344,6 +351,6 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onTokenTransferClicked() {
-        replaceFragment(new MainTokenTransferFragment());
+        replaceNavViewFragment(new MainTokenTransferFragment());
     }
 }

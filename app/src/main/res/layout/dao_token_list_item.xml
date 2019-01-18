@@ -32,7 +32,7 @@
         tools:text="MTX" />
 
     <TextView
-        android:id="@+id/button"
+        android:id="@+id/receive_text"
         style="@style/secondaryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -102,9 +102,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:src="@drawable/ic_token_list_transfer"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="@+id/button"
-        app:layout_constraintStart_toStartOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/receive_text"
+        app:layout_constraintEnd_toEndOf="@+id/receive_text"
+        app:layout_constraintStart_toStartOf="@+id/receive_text"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.52"
         app:layout_constraintVertical_chainStyle="packed" />

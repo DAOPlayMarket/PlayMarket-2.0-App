@@ -185,12 +185,9 @@ public class CryptoUtils {
 
     public static Pair<Transaction, Transaction> test(int nonce, String gasPrice) {
         try {
-            keyManager.unlockAccount(AccountManager.getAccount(), "123123123");
             Transaction firstTransaction = CryptoUtils.generateTransferTransactionRaw(nonce, gasPrice, new EthereumPrice("1", EthereumPrice.Currency.ETHER).inWeiString(), AccountManager.getAddress().getHex());
             Transaction secondTransaction = CryptoUtils.generateTransferTransactionRaw(nonce + 1, gasPrice, new EthereumPrice("2", EthereumPrice.Currency.ETHER).inWeiString(), AccountManager.getAddress().getHex());
             return new Pair<Transaction, Transaction>(firstTransaction, secondTransaction);
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -202,14 +199,12 @@ public class CryptoUtils {
         Account account = AccountManager.getAccount();
         GenerateTransactionData generateTransactionData = new GenerateTransactionData();
         byte[] tokens = generateTransactionData.getTokens(0, 1);
-        byte[] withdraw = generateTransactionData.withdraw("0xa265ac4a788dc44d3c5ce94b8a8450a45d65be5d", 500000000000L);
-//        byte[] withdraw = generateTransactionData.withdraw(token.address, token.total);
+        byte[] withdraw = generateTransactionData.withdraw(token.address, token.total);
 
         Transaction getTokensTransaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
                 price, GAS_LIMIT, gasPrice, tokens);
         Transaction withdrawTransaction = new Transaction(nonce + 1, new Address(Constants.PLAY_MARKET_ADDRESS),
                 price, GAS_LIMIT, gasPrice, withdraw);
-        keyManager.unlockAccount(account, "123123123");
         Transaction getTokenSignedTx = keyManager.getKeystore().signTx(account, getTokensTransaction, new BigInt(USER_ETHERSCAN_ID));
         Transaction withdrawSignedTx = keyManager.getKeystore().signTx(account, withdrawTransaction, new BigInt(USER_ETHERSCAN_ID));
 

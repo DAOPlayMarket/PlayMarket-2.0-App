@@ -1,17 +1,16 @@
 package com.blockchain.store.dao.ui.dao_activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
-import com.blockchain.store.playmarket.R;
+
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.repository.DaoTransactionRepository;
-import com.blockchain.store.dao.services.DaoContractService;
 import com.blockchain.store.dao.ui.DaoTokenTransfer;
+import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.DaoTokenAdapter;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.repositories.TransactionInteractor;
@@ -31,7 +30,7 @@ import rx.schedulers.Schedulers;
 public class DaoActivity extends AppCompatActivity {
     private static final String TAG = "DaoActivity";
 
-  /*  @BindView(R.id.recycler_view) */RecyclerView recyclerView;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
     DaoTokenAdapter adapter;
 
     List<DaoToken> daoTokens;
@@ -42,7 +41,6 @@ public class DaoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dao);
         ButterKnife.bind(this);
-        startService(new Intent(this, DaoContractService.class));
         DaoTransactionRepository.getTokens().subscribe(this::onOk, this::onError);
 
     }
@@ -70,7 +68,6 @@ public class DaoActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        stopService(new Intent(this, DaoContractService.class));
         super.onStop();
     }
 

@@ -38,6 +38,12 @@ public class JobUtils {
         scheduleCheckTransactionJobs(context, transactionHash, null, null, transactionType);
     }
 
+    public static void scheduleSecondTransactionJob(Context context, String transactionHash, Constants.TransactionTypes transactionType) {
+        TRANSACTION_STATUS_JOB_ID--;
+        scheduleCheckTransactionJobs(context, transactionHash, null, null, transactionType);
+    }
+
+
     public static void scheduleCheckUpdateJob(Context context) {
         JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         if (checkIfJobAlreadyRunning(jobScheduler)) {
