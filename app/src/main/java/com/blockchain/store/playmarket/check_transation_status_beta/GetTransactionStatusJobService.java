@@ -12,6 +12,7 @@ import com.blockchain.store.playmarket.utilities.TransactionPrefsUtil;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;
+import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.http.HttpService;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -33,6 +34,7 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> onTransactionReady(result, params),
                         throwable -> onTransactionError(throwable, params));
+
         return true;
     }
 
@@ -40,17 +42,35 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
         if (result.getTransactionReceipt() != null) {
             jobFinished(params, false);
             TransactionPrefsUtil.updateModel(result.getTransactionReceipt());
+            String secondTransaction = params.getExtras().getString(Constants.JOB_SECOND_RAW_TX, null);
+            if (secondTransaction != null) {
+                sendSecondTransaction(secondTransaction, params);
+            }
             if (result.getTransactionReceipt().getStatus().contains("1")) {
                 NotificationManager.getManager().downloadCompleteWithoutError(getNotification(params));
             } else {
                 NotificationManager.getManager().downloadCompleteWithError(getNotification(params), new Exception(""));
             }
 
-
         } else {
             jobFinished(params, true);
         }
 
+    }
+
+    private void sendSecondTransaction(String secondTransaction, JobParameters params) {
+        Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
+        build.ethSendRawTransaction(secondTransaction).observable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> onSecondTransactionReady(result, params),
+                        throwable -> onTransactionError(throwable, params));
+    }
+
+    private void onSecondTransactionReady(EthSendTransaction result, JobParameters params) {
+        String secondTransaction = params.getExtras().getString(Constants.JOB_SECOND_HASH_EXTRA, null);
+        if (secondTransaction != null)
+            JobUtils.scheduleCheckTransactionJob(this, secondTransaction, null);
     }
 
     private TransactionNotification getNotification(JobParameters params) {

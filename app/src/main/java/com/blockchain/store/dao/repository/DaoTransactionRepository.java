@@ -1,12 +1,13 @@
 package com.blockchain.store.dao.repository;
 
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Pair;
 
 import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.database.model.Rules;
 import com.blockchain.store.dao.database.model.Vote;
 import com.blockchain.store.dao.ui.DaoConstants;
-import com.blockchain.store.playmarket.data.entities.DaoToken;
+import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
@@ -18,6 +19,7 @@ import org.web3j.abi.datatypes.Bool;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Utf8String;
+import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
@@ -97,7 +99,7 @@ public class DaoTransactionRepository {
         init(DaoConstants.DAO, AccountManager.getAddress().getHex());
         return Observable.zip(
                 getEthCallObservable(getBalance(), DaoConstants.Repository),
-                getEthCallObservable(getNotLockedBalance(DaoTransactionRepository.userAddress), DaoConstants.Repository), (balanceCall, getNotLockedBalance) -> {
+                getEthCallObservable(getNotLockedBalance(), DaoConstants.Repository), (balanceCall, getNotLockedBalance) -> {
                     String balance = decodeFunction(balanceCall, getBalance()).toString();
                     String notLockedBalance = decodeFunction(getNotLockedBalance, getBalance()).toString();
                     return new Pair<>(balance, notLockedBalance);
@@ -108,6 +110,7 @@ public class DaoTransactionRepository {
 
     public static Observable<List<DaoToken>> getTokens() {
         init(DaoConstants.DAO, AccountManager.getAddress().getHex());
+//        init(DaoConstants.DAO, AccountManager.getAddress().getHex());
         ArrayList<DaoToken> daoTokens = new ArrayList<>();
         return Observable.range(0, 10000)
                 .map(position -> getEthCallObservable(tokens(position), DaoConstants.Foundation))
@@ -120,8 +123,15 @@ public class DaoTransactionRepository {
                 })
                 .takeWhile(daoToken -> daoToken != null)
                 .toList()
-                .flatMap(DaoTransactionRepository::mapGetPrice, Pair::new)
+                .flatMap(DaoTransactionRepository::mapGetTokenNameAndSymbol, Pair::new)
                 .map(DaoTransactionRepository::mapTokenWithPair)
+                .flatMap(result -> getEthCallObservable(getTokenBalanceOfFunction(), DaoConstants.PlayMarket_token_contract), Pair::new)
+                .map(result -> {
+                    DaoToken pmToken = new DaoToken().generatePmToken();
+                    pmToken.balance = decodeFunction(result.second, getTokenBalanceOfFunction()).toString();
+                    result.first.add(0, pmToken);
+                    return result.first;
+                })
                 .flatMap(result -> {
                     ArrayList<Observable<EthCall>> list = new ArrayList<>();
                     for (int i = 0; i < result.size(); i++) {
@@ -151,13 +161,14 @@ public class DaoTransactionRepository {
                     }
                     return tokenEthCallPair.first;
                 })
-                .flatMap(result -> getEthCallObservable(getBalance(), DaoConstants.Repository), Pair::new)
+                .flatMap(result -> getEthCallObservable(getNotLockedBalance(), DaoConstants.Repository), Pair::new)
                 .map(result -> {
                     for (int i = 0; i < result.first.size(); i++) {
-                        result.first.get(i).daoBalance = decodeFunction(result.second, getBalance()).toString();
+                        result.first.get(i).daoBalance = decodeFunction(result.second, getNotLockedBalance()).toString();
                     }
                     return result.first;
                 })
+
                 .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread());
 
     }
@@ -166,11 +177,13 @@ public class DaoTransactionRepository {
         for (int i = 0; i < result.first.size(); i++) {
             result.first.get(i).name = result.second.get(i).first;
             result.first.get(i).symbol = result.second.get(i).second;
+            result.first.get(i).totalTokensLength = result.first.size();
+            result.first.get(i).tokenPositionInArray = i;
         }
         return result.first;
     }
 
-    private static Observable<List<Pair<String, String>>> mapGetPrice(List<DaoToken> daoTokenList) {
+    private static Observable<List<Pair<String, String>>> mapGetTokenNameAndSymbol(List<DaoToken> daoTokenList) {
         ArrayList<Observable<Pair<String, String>>> pricesList = new ArrayList<>();
         for (int i = 0; i < daoTokenList.size(); i++) {
             pricesList.add(TransactionRepository.getTokenNameAndSymbol(daoTokenList.get(i).address));
@@ -190,17 +203,18 @@ public class DaoTransactionRepository {
 
     public static Function getBalance() {/*returns uints*/
         ArrayList<Type> inputParameters = new ArrayList<>();
-        inputParameters.add(new Address(AccountManager.getAccount().getAddress().getHex()));
+        inputParameters.add(new Address(DaoTransactionRepository.userAddress));
         return new Function("getBalance", inputParameters, Collections.singletonList(new TypeReference<Uint256>() {
         }));
     }
 
-    public static Function getNotLockedBalance(String voter) {/*returns uints*/
+    public static Function getNotLockedBalance() {/*returns uints*/
         ArrayList<Type> inputParameters = new ArrayList<>();
-        inputParameters.add(new Address(voter));
+        inputParameters.add(new Address(DaoTransactionRepository.userAddress));
         return new Function("getNotLockedBalance", inputParameters, Collections.singletonList(new TypeReference<Uint256>() {
         }));
     }
+
 
 
     /* DAO Foundation data*/
@@ -208,10 +222,12 @@ public class DaoTransactionRepository {
         ArrayList<Type> inputParameters = new ArrayList<>();
 
         inputParameters.add(new Address(tokenAddress));
-        inputParameters.add(new Address(AccountManager.getAccount().getAddress().getHex()));
+//        inputParameters.add(new Address(AccountManager.getAccount().getAddress().getHex()));
+        inputParameters.add(new Address(DaoTransactionRepository.userAddress));
         return new Function("getFund", inputParameters, Collections.singletonList(new TypeReference<Uint256>() {
         }));
     }
+
     public static Function checkWithdrawIsBlock() {
         ArrayList<Type> inputParameters = new ArrayList<>();
         return new Function("WithdrawIsBlocked ", inputParameters, Collections.singletonList(new TypeReference<Bool>() {
@@ -221,7 +237,7 @@ public class DaoTransactionRepository {
     public static Function getWithdrawn(String tokenAddress) {/* returns uint balance*/
         ArrayList<Type> inputParameters = new ArrayList<>();
         inputParameters.add(new Address(tokenAddress));
-        inputParameters.add(new Address(AccountManager.getAccount().getAddress().getHex()));
+        inputParameters.add(new Address(DaoTransactionRepository.userAddress));
         return new Function("getWithdrawn", inputParameters, Collections.singletonList(new TypeReference<Uint256>() {
         }));
     }
@@ -326,5 +342,11 @@ public class DaoTransactionRepository {
         }
         return rules;
     }
+
+    private static Function getTokenBalanceOfFunction() {
+        return new Function("balanceOf", Collections.singletonList(new Address(userAddress)), Collections.singletonList(new TypeReference<Uint>() {
+        }));
+    }
+
 
 }

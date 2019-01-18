@@ -307,6 +307,10 @@
     <string name="repository_balance">Repository balance:</string>
     <string name="accept">Accept</string>
     <string name="decline">decline</string>
+    <string name="dividends_amount">Dividends amount:</string>
+    <string name="transfer">Transfer</string>
+    <string name="receive">Receive</string>
+    <string name="repository_balance">Repository balance:</string>
 
 
 </resources>

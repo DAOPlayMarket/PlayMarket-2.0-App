@@ -27,6 +27,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label">
+        <activity android:name="com.blockchain.store.dao.ui.DaoTokenTransfer"></activity>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.contentprovider"
@@ -213,7 +215,7 @@
         <activity
             android:name=".ui.local_ico_screen.IcoLocalActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.blockchain.store.dao.ui.dao_activity.DaoActivity"></activity>
+        <activity android:name="com.blockchain.store.dao.ui.dao_activity.DaoActivity" />
     </application>
 
 </manifest>

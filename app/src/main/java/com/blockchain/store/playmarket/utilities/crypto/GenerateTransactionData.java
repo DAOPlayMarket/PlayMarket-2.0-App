@@ -9,6 +9,9 @@ import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Bool;
+import org.web3j.abi.datatypes.Bytes;
+import org.web3j.abi.datatypes.BytesType;
+import org.web3j.abi.datatypes.DynamicBytes;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
@@ -228,7 +231,14 @@ public class GenerateTransactionData {
         return build();
     }
 
-
+    public byte[] checkProposalCode(long proposalId, String recipientAddress, long amount, String transactionByteCode) {
+        setMethod("checkProposalCode");
+        putTypeData(new Uint256(proposalId));
+        putTypeData(new Address(recipientAddress));
+        putTypeData(new Uint256(amount));
+        putTypeData(new Bytes32(transactionByteCode.getBytes()));
+        return build();
+    }
 
 
 }

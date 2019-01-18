@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    tools:context="com.blockchain.store.dao.ui.DaoTokenTransfer">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Unlock account" />
+
+    <EditText
+        android:id="@+id/unlock_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="enter password or use fingerprint"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
+
+    <Button
+        android:id="@+id/unlock_account_btn"
+        style="@style/positiveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="unlock account" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Withdraw tokens" />
+
+    <EditText
+        android:id="@+id/withdraw_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:hint="enter tokens amount. With decimals."
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
+
+    <Button
+        android:id="@+id/button"
+        style="@style/positiveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/transfer" />
+
+</LinearLayout>
