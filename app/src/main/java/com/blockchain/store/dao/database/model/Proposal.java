@@ -14,9 +14,9 @@ import java.util.ArrayList;
 public class Proposal implements Parcelable {
 
     @PrimaryKey
-    public int proposalID;
+    public long proposalID;
     public String recipient;
-    public int amount;
+    public long amount;
     public String description;
     public String fullDescHash;
     public int votesSupport;
@@ -33,9 +33,9 @@ public class Proposal implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.proposalID);
+        dest.writeLong(this.proposalID);
         dest.writeString(this.recipient);
-        dest.writeInt(this.amount);
+        dest.writeLong(this.amount);
         dest.writeString(this.description);
         dest.writeString(this.fullDescHash);
         dest.writeInt(this.votesSupport);

@@ -7,7 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 public class Rules {
     @PrimaryKey
     public int id;
-    public int newMinimumQuorum;
-    public int newDebatingPeriodDuration;
-    public int newRequisiteMajority;
+    public long minimumQuorum;
+    public int debatingPeriodDuration;
+    public long requisiteMajority;
 }

@@ -20,9 +20,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
 import com.blockchain.store.dao.ui.votes_screen.NewProposalFragment;
-import com.blockchain.store.dao.ui.votes_screen.ProposalDetailsFragment;
+import com.blockchain.store.dao.ui.votes_screen.proposal_details_screen.ProposalDetailsFragment;
 import com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
@@ -332,7 +333,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     }
 
     @Override
-    public void onProposalDetailsClicked() {
-        addFragment(new ProposalDetailsFragment());
+    public void onProposalDetailsClicked(Proposal proposal) {
+        addFragment(ProposalDetailsFragment.newInstance(true, true, proposal));
     }
 }

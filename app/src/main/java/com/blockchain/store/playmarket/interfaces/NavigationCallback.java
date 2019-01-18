@@ -1,5 +1,7 @@
 package com.blockchain.store.playmarket.interfaces;
 
+import com.blockchain.store.dao.database.model.Proposal;
+
 public interface NavigationCallback {
 
     void onVotesClicked();
@@ -8,6 +10,6 @@ public interface NavigationCallback {
 
     void onNewProposalClicked();
 
-    void onProposalDetailsClicked();
+    void onProposalDetailsClicked(Proposal proposal);
 
 }

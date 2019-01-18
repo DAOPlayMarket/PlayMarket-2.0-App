@@ -3,6 +3,7 @@ package com.blockchain.store.dao.repository;
 import android.util.Pair;
 
 import com.blockchain.store.dao.database.model.Proposal;
+import com.blockchain.store.dao.database.model.Rules;
 import com.blockchain.store.dao.database.model.Vote;
 import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.playmarket.data.entities.DaoToken;
@@ -252,17 +253,11 @@ public class DaoTransactionRepository {
 
     private static Function proposalFunction() {
         ArrayList<TypeReference<?>> outputParameters = new ArrayList<>();
-        outputParameters.add(new TypeReference<Uint256>() {
-        });
-        outputParameters.add(new TypeReference<Address>() {
-        });
-        outputParameters.add(new TypeReference<Uint256>() {
-        });
-        outputParameters.add(new TypeReference<Utf8String>() {
-        });
-        outputParameters.add(new TypeReference<Utf8String>() {
-        });
-
+        outputParameters.add(new TypeReference<Uint256>() {});
+        outputParameters.add(new TypeReference<Address>() {});
+        outputParameters.add(new TypeReference<Uint256>() {});
+        outputParameters.add(new TypeReference<Utf8String>() {});
+        outputParameters.add(new TypeReference<Utf8String>() {});
         return new Function("Proposal", new ArrayList<>(), outputParameters);
 
     }
@@ -307,6 +302,29 @@ public class DaoTransactionRepository {
             return null;
         }
         return vote;
+    }
+
+    private static Function rulesFunction() {
+        ArrayList<TypeReference<?>> outputParameters = new ArrayList<>();
+        outputParameters.add(new TypeReference<Uint256>() {});
+        outputParameters.add(new TypeReference<Uint256>() {});
+        outputParameters.add(new TypeReference<Uint256>() {});
+        return new Function("Rules", new ArrayList<>(), outputParameters);
+    }
+
+    public static Rules decodeRules(String data) {
+        Function function = DaoTransactionRepository.rulesFunction();
+        List<Type> decode = FunctionReturnDecoder.decode(data, function.getOutputParameters());
+        Rules rules = new Rules();
+        try {
+            rules.id = 1;
+            rules.minimumQuorum = Long.parseLong(decode.get(0).getValue().toString());
+            rules.debatingPeriodDuration = Integer.parseInt(decode.get(1).getValue().toString());
+            rules.requisiteMajority = Long.parseLong(decode.get(2).getValue().toString());
+        } catch (Exception e) {
+            return null;
+        }
+        return rules;
     }
 
 }

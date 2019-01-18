@@ -80,7 +80,7 @@ public class VotesFragment extends Fragment implements Callbacks.ProposalCallbac
 
     @Override
     public void onItemClicked(Proposal proposal) {
-        navigationCallback.onProposalDetailsClicked();
+        navigationCallback.onProposalDetailsClicked(proposal);
     }
 
 }

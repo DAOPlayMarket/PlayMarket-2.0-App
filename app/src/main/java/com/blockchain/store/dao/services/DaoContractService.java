@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.blockchain.store.dao.database.DaoDatabase;
 import com.blockchain.store.dao.database.model.Proposal;
+import com.blockchain.store.dao.database.model.Rules;
 import com.blockchain.store.dao.database.model.Vote;
 import com.blockchain.store.dao.repository.DaoTransactionRepository;
 import com.blockchain.store.dao.ui.DaoConstants;
@@ -68,6 +69,7 @@ public class DaoContractService extends Service {
                     String data = log.getString("data").replace("0x", "");
                     switch (topics) {
                         case DaoConstants.CHANGE_OF_RULES:
+                            rulesHanding(data);
                             break;
                         case DaoConstants.PAYMENT:
                             break;
@@ -131,12 +133,20 @@ public class DaoContractService extends Service {
         }
     }
 
+    private void rulesHanding(String data) {
+        Rules rules = DaoTransactionRepository.decodeRules(data);
+        if (rules != null) {
+            Rules rulesFromDb = daoDatabase.rulesDao().getRules();
+            if (rulesFromDb == null) daoDatabase.rulesDao().insert(rules);
+            else daoDatabase.rulesDao().update(rules);
+        }
+    }
+
     private void sendBroadcast(){
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(MainVotesFragment.BROADCAST_ACTION);
         broadcastIntent.putExtra("IsSync", true);
         sendBroadcast(broadcastIntent);
-
     }
 
 }

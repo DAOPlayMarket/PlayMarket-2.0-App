@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context="com.blockchain.store.dao.ui.votes_screen.ProposalDetailsFragment">
+    tools:context="com.blockchain.store.dao.ui.votes_screen.proposal_details_screen.ProposalDetailsFragment"
+    android:clickable="true"
+    android:focusable="true">
 
     <ImageView
         android:id="@+id/close_image_button"

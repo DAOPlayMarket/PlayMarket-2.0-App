@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 public class Vote implements Parcelable {
 
-    public int proposalID;
+    public long proposalID;
     public boolean position;
     public String voter;
     public String justification;
@@ -17,7 +17,7 @@ public class Vote implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.proposalID);
+        dest.writeLong(this.proposalID);
         dest.writeByte(this.position ? (byte) 1 : (byte) 0);
         dest.writeString(this.voter);
         dest.writeString(this.justification);

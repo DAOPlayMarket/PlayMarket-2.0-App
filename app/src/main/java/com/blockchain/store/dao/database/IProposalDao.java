@@ -8,8 +8,6 @@ import android.arch.persistence.room.Update;
 
 import com.blockchain.store.dao.database.model.Proposal;
 
-import org.web3j.abi.datatypes.Int;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +27,7 @@ public interface IProposalDao {
     void insert(ArrayList<Proposal> proposals);
 
     @Query("SELECT * FROM Proposal WHERE proposalID = :proposalId")
-    Proposal getById(int proposalId);
+    Proposal getById(long proposalId);
 
     @Query("SELECT * FROM Proposal")
     List<Proposal> getAll();

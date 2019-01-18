@@ -3,6 +3,7 @@ package com.blockchain.store.dao.database;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 import com.blockchain.store.dao.database.model.Rules;
 
@@ -17,5 +18,8 @@ public interface IRulesDao {
 
     @Delete
     void delete(Rules rules);
+
+    @Query("SELECT * FROM Rules")
+    Rules getRules();
 
 }
