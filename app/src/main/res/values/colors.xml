@@ -140,6 +140,7 @@
     <color name="graph_color_gradient_end_color">#82e567f1</color>
 
     <color name="white40">#66FFFFFF</color>
+    <color name="white60">#99FFFFFF</color>
     <color name="lightBlue">#1BA7FA</color>
     <color name="colorPrimaryLight">#153A55</color>
 

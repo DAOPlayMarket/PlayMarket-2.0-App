@@ -317,5 +317,6 @@
     <string name="repository">Repository</string>
     <string name="custom_address">Custom address</string>
     <string name="all">all</string>
+    <string name="withdraw_amount">Withdraw amount</string>
 
 </resources>
