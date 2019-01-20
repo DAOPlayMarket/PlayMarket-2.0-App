@@ -7,7 +7,7 @@ import com.blockchain.store.playmarket.data.entities.UserBalance;
  */
 
 public class NavigationViewContract {
-    interface View {
+    public interface View {
 
         void onBalanceReady(UserBalance balance);
 

@@ -1,7 +1,6 @@
 package com.blockchain.store.playmarket.adapters;
 
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -132,7 +131,7 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
         }
 
-        @OnClick({R.id.button, R.id.imageView2})
+        @OnClick({R.id.receive_text, R.id.imageView2})
         void onTransferClicked() {
 
         }

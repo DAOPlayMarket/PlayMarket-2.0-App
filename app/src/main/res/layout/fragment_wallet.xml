@@ -47,7 +47,7 @@
         android:textAllCaps="true"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        tools:text="0xf43DD3D777BC49E438b170B0d92e3F28327452CF" />
+        tools:text="0xf43DD3D777BC49E438b170B0d92e3F28327452CF"/>
 
     <ImageView
         android:id="@+id/qr_button"
@@ -163,15 +163,15 @@
         app:layout_constraintStart_toStartOf="@+id/imageView1"
         app:layout_constraintTop_toBottomOf="@+id/rubBalance_textView" />
 
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_marginTop="20dp"-->
-        <!--android:layout_marginEnd="20dp"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="@+id/view"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/view" />-->
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <Button
         android:id="@+id/button"

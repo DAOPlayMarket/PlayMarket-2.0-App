@@ -9,8 +9,6 @@ import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
 import com.blockchain.store.dao.database.DaoDatabase;
-import com.blockchain.store.dao.database.model.Proposal;
-import com.blockchain.store.dao.database.model.Rules;
 import com.blockchain.store.playmarket.data.content.AppsDispatcher;
 import com.blockchain.store.playmarket.data.content.AppsManager;
 import com.blockchain.store.playmarket.data.entities.AppBuyTransactionModel;
@@ -87,7 +85,7 @@ public class Application extends MultiDexApplication {
                             return new Gson().fromJson(content, (Class<T>) SendReviewTransactionModel.class);
                         }
                     }
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
 
                 return new Gson().fromJson(content, type);
@@ -99,7 +97,7 @@ public class Application extends MultiDexApplication {
             }
         }).build();
         setUpFresco();
-        setUpAWS();
+//        setUpAWS();
     }
 
 
