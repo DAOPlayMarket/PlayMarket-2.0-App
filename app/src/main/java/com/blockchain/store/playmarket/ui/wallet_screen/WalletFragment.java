@@ -84,7 +84,7 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
 
     @OnClick(R.id.button)
     void onItemClick() {
-        navigationCallback.onTokenTransferClicked();
+//        navigationCallback.onTokenTransferClicked();
     }
 
     @Override public void onBalanceReady(UserBalance balance) {

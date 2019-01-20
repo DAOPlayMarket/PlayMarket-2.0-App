@@ -47,6 +47,10 @@ public class DaoToken implements Parcelable {
         return value;
     }
 
+    public boolean isNeedSecondTx() {
+        return countToken() != getFund();
+    }
+
     public long totalCountToken() {
         return getFund() + countToken();
     }
@@ -77,6 +81,7 @@ public class DaoToken implements Parcelable {
             return (double) (Double.valueOf(balance) / Math.pow(10, decimals));
         }
     }
+
     public double getDaoBalanceWithDecimals() {
         if (Long.valueOf(daoBalance) == 0) {
             return 0;

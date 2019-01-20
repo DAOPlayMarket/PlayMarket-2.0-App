@@ -318,5 +318,7 @@
     <string name="custom_address">Custom address</string>
     <string name="all">all</string>
     <string name="withdraw_amount">Withdraw amount</string>
+    <string name="receive_dividends">Receive dividends</string>
+    <string name="to_receive_dividends_please_enter_password">To receive dividends please enter password.</string>
 
 </resources>

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +15,25 @@ import android.widget.ProgressBar;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.repository.DaoTransactionRepository;
-import com.blockchain.store.dao.ui.DaoTokenTransfer;
 import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.DaoTokenAdapter;
+import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.repositories.TransactionInteractor;
+import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.DialogManager;
+import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
+
+import org.ethereum.geth.Transaction;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class DividendsFragment extends Fragment {
     private static final String TAG = "DividendsFragment";
@@ -69,8 +80,52 @@ public class DividendsFragment extends Fragment {
 
     private void initAdapter(List<DaoToken> daoTokens) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new DaoTokenAdapter(daoTokens, daoToken -> DaoTokenTransfer.start(getActivity(), daoToken));
+        adapter = new DaoTokenAdapter(daoTokens, new DaoActivity.DaoAdapterCallback() {
+            @Override public void onPmTokenClicked(DaoToken daoToken) {
+                new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
+                    @Override public void onDividendsSucceed() {
+                        runDemo();
+                    }
+                });
+//                ((MainMenuActivity) getActivity()).onTokenTransferClicked(daoToken);
+            }
+
+            @Override public void onDaoTokenClicked(DaoToken daoToken) {
+                new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
+                    @Override public void onDividendsSucceed() {
+                        runDemo();
+                    }
+                });
+            }
+        });
         recyclerView.setAdapter(adapter);
+    }
+
+    private void runDemo() {
+        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
+                .flatMap(result -> {
+                    try {
+                        Pair<Transaction, Transaction> stringStringPair = CryptoUtils.test(result.count, result.gasPrice);
+                        String rawTransaction = CryptoUtils.getRawTransaction(stringStringPair.first);
+                        String rawSecondTransaction = CryptoUtils.getRawTransaction(stringStringPair.second);
+                        TransactionInteractor.addToJobSchedule(stringStringPair.first.getHash().getHex(), stringStringPair.second.getHash().getHex(), rawSecondTransaction);
+                        return RestApi.getServerApi().deployTransaction(rawTransaction);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        throw new RuntimeException("111");
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::transferSuccess, this::transferFailed);
+    }
+
+    private void transferFailed(Throwable throwable) {
+        Log.d(TAG, "transferFailed() called with: throwable = [" + throwable + "]");
+    }
+
+    private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
+        Log.d(TAG, "transferSuccess() called with: purchaseAppResponse = [" + purchaseAppResponse + "]");
     }
 
 }

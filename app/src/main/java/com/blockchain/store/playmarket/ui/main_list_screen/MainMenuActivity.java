@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.ui.dividends_screen.DividendsFragment;
 import com.blockchain.store.dao.ui.votes_screen.NewProposalFragment;
@@ -31,14 +32,14 @@ import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
-import com.blockchain.store.playmarket.ui.wallet_screen.TokenTransferFragment;
-import com.blockchain.store.playmarket.ui.wallet_screen.WalletFragment;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
 import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
 import com.blockchain.store.playmarket.ui.pex_screen.PexActivity;
 import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
+import com.blockchain.store.playmarket.ui.wallet_screen.TokenTransferFragment;
+import com.blockchain.store.playmarket.ui.wallet_screen.WalletFragment;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 import com.blockchain.store.playmarket.utilities.drawable.HamburgerDrawable;
@@ -111,11 +112,11 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     }
 
     private void replaceNavViewFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view_holder, fragment).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view_holder, fragment).addToBackStack("").commitAllowingStateLoss();
     }
 
     private void addFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().add(R.id.navigation_view_holder, fragment).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().add(R.id.navigation_view_holder, fragment).addToBackStack("").commitAllowingStateLoss();
     }
 
     private void removeFragment(Fragment fragment) {
@@ -150,6 +151,11 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @Override
     public void onBackPressed() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.navigation_view_holder);
+
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            getSupportFragmentManager().popBackStack();
+            return;
+        }
 
         if (fragment instanceof MainVotesFragment || fragment instanceof WalletFragment || fragment instanceof DividendsFragment) {
             replaceNavViewFragment(new NavigationViewFragment());
@@ -348,7 +354,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     }
 
     @Override
-    public void onTokenTransferClicked() {
-        replaceNavViewFragment(new TokenTransferFragment());
+    public void onTokenTransferClicked(DaoToken daoToken) {
+        addFragment(TokenTransferFragment.newInstance(daoToken));
     }
 }

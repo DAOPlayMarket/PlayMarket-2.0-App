@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.utilities;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -15,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.mtramin.rxfingerprint.RxFingerprint;
@@ -153,15 +153,56 @@ public class DialogManager {
         return createFolderDialog;
     }
 
-    public void showAskPasswordDialog(Context context, App app) {
-        AlertDialog autoUpdateDialog = new AlertDialog.Builder(context)
-                .setView(R.layout.ask_password_dialog)
+    @SuppressLint("CheckResult") public void showDividendsDialog(Context context, DividendCallback callback) {
+        AlertDialog dividendDialog = new AlertDialog.Builder(context)
+                .setView(R.layout.dividends_dialog)
                 .setCancelable(false)
                 .create();
-        autoUpdateDialog.show();
-        autoUpdateDialog.findViewById(R.id.btn_later).setOnClickListener(
-                v -> autoUpdateDialog.dismiss());
-        Button btnUpdate = autoUpdateDialog.findViewById(R.id.btn_update);
+        dividendDialog.show();
+        dividendDialog.findViewById(R.id.btn_later).setOnClickListener(
+                v -> dividendDialog.dismiss());
+        EditText passwordField = dividendDialog.findViewById(R.id.password_editText);
+
+        if (FingerprintUtils.isFingerprintAvailibility(context)) {
+            dividendDialog.findViewById(R.id.fingerprint_holder).setVisibility(View.VISIBLE);
+            RxFingerprint.decrypt(context, Hawk.get(Constants.ENCRYPTED_PASSWORD))
+                    .subscribe(fingerprintDecryptionResult -> {
+                        switch (fingerprintDecryptionResult.getResult()) {
+                            case FAILED:
+                                passwordField.setError(context.getResources().getString(R.string.fingerprint_not_recognized));
+                                passwordField.requestFocus();
+                                break;
+                            case HELP:
+                                break;
+                            case AUTHENTICATED:
+                                if (new BigDecimal(1).compareTo(new BigDecimal("0")) == 1) {
+                                    try {
+                                        AccountManager.getKeyStore().unlock(AccountManager.getAccount(), fingerprintDecryptionResult.getDecrypted());
+                                        dividendDialog.dismiss();
+                                        callback.onDividendsSucceed();
+
+                                    } catch (Exception e) {
+                                        passwordField.setError(context.getString(R.string.wrong_password));
+                                    }
+                                } else {
+                                    passwordField.setError(context.getString(R.string.not_enought_balance));
+                                    passwordField.requestFocus();
+                                }
+                                break;
+                        }
+                    }, throwable -> Log.e("ERROR", "decrypt", throwable));
+        }
+        Button btnUpdate = dividendDialog.findViewById(R.id.receive_dividends);
+        btnUpdate.setOnClickListener(view -> {
+            try {
+                AccountManager.getKeyStore().unlock(AccountManager.getAccount(), passwordField.getText().toString());
+                dividendDialog.dismiss();
+                callback.onDividendsSucceed();
+                dividendDialog.dismiss();
+            } catch (Exception e) {
+                passwordField.setError(context.getString(R.string.wrong_password));
+            }
+        });
 
 
     }
@@ -190,5 +231,9 @@ public class DialogManager {
     public enum DialogNames {
         CREATE_FOLDER_DIALOG,
         CONFIRM_IMPORT_DIALOG
+    }
+
+    public interface DividendCallback {
+        void onDividendsSucceed();
     }
 }

@@ -185,8 +185,8 @@ public class CryptoUtils {
 
     public static Pair<Transaction, Transaction> test(int nonce, String gasPrice) {
         try {
-            Transaction firstTransaction = CryptoUtils.generateTransferTransactionRaw(nonce, gasPrice, new EthereumPrice("1", EthereumPrice.Currency.ETHER).inWeiString(), AccountManager.getAddress().getHex());
-            Transaction secondTransaction = CryptoUtils.generateTransferTransactionRaw(nonce + 1, gasPrice, new EthereumPrice("2", EthereumPrice.Currency.ETHER).inWeiString(), AccountManager.getAddress().getHex());
+            Transaction firstTransaction = CryptoUtils.generateTransferTransactionRaw(nonce, gasPrice, new EthereumPrice("0.1", EthereumPrice.Currency.ETHER).inWeiString(), AccountManager.getAddress().getHex());
+            Transaction secondTransaction = CryptoUtils.generateTransferTransactionRaw(nonce + 1, gasPrice, new EthereumPrice("0.2", EthereumPrice.Currency.ETHER).inWeiString(), AccountManager.getAddress().getHex());
             return new Pair<Transaction, Transaction>(firstTransaction, secondTransaction);
         } catch (Exception e) {
             e.printStackTrace();

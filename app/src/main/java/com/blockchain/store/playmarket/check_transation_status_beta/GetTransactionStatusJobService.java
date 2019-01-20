@@ -65,6 +65,9 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
     private void sendSecondTransaction(String secondTransaction, JobParameters params) {
         Log.d(TAG, "sendSecondTransaction() called with: secondTransaction = [" + secondTransaction + "], params = [" + params + "]");
         Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
+        if (!secondTransaction.startsWith("0x")) {
+            secondTransaction = "0x" + secondTransaction;
+        }
         build.ethSendRawTransaction(secondTransaction).observable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

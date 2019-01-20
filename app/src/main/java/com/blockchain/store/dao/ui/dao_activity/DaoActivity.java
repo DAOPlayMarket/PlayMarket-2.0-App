@@ -58,6 +58,10 @@ public class DaoActivity extends AppCompatActivity {
             public void onPmTokenClicked(DaoToken daoToken) {
                 DaoTokenTransfer.start(DaoActivity.this, daoToken);
             }
+
+            @Override public void onDaoTokenClicked(DaoToken daoToken) {
+
+            }
         });
         recyclerView.setAdapter(adapter);
     }
@@ -102,6 +106,7 @@ public class DaoActivity extends AppCompatActivity {
 
     public interface DaoAdapterCallback {
         void onPmTokenClicked(DaoToken daoToken);
+        void onDaoTokenClicked(DaoToken daoToken);
     }
 
 }
