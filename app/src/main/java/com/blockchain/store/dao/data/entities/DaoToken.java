@@ -44,7 +44,6 @@ public class DaoToken implements Parcelable {
             value = safePerc(total, value);
             value = value / (multiplier / 100);
         }
-        value += getFund();
         return value;
     }
 
