@@ -6,27 +6,139 @@
     android:background="@color/colorPrimary"
     tools:context="com.blockchain.store.playmarket.ui.wallet_screen.TokenTransferFragment">
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
-        android:text="@string/recipient"
-        android:textColor="@color/lightBlue"
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimaryLight"
+        app:layout_constraintBottom_toBottomOf="@+id/tabLayout"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RadioGroup
-        android:id="@+id/duelRadioGroup"
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <ImageView
+        android:id="@+id/close_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/todo"
+        android:padding="20dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintBottom_toBottomOf="@+id/tokenTitle_textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tokenTitle_textView" />
+
+    <TextView
+        android:id="@+id/tokenTitle_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/playmarket_token"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/close_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/balance"
+        android:textColor="@color/lightBlue"
+        app:layout_constraintStart_toStartOf="@+id/tokenTitle_textView"
+        app:layout_constraintTop_toBottomOf="@+id/tokenTitle_textView" />
+
+    <TextView
+        android:id="@+id/balance_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        tools:text="1938.7894" />
+
+    <TextView
+        android:id="@+id/token_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/lightBlue"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/balance_textView"
+        app:layout_constraintStart_toEndOf="@+id/balance_textView"
+        tools:text="PMT" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/repository_balance"
+        android:textColor="@color/lightBlue"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/repositoryBalance_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView3"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        tools:text="500.7894" />
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@+id/textView1"
-        app:layout_constraintTop_toBottomOf="@+id/textView1">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/white60" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/recipient"
+        android:textColor="@color/lightBlue"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/tabLayout"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+
+
+    <RadioGroup
+        android:id="@+id/recipient_radioGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView4">
 
         <RadioButton
-            android:id="@+id/publicDuelButton"
+            android:id="@+id/repository_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:buttonTint="@color/lightBlue"
@@ -36,7 +148,7 @@
             android:textColor="@color/white" />
 
         <RadioButton
-            android:id="@+id/privateDuelButton"
+            android:id="@+id/customAddress_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:buttonTint="@color/lightBlue"
@@ -47,80 +159,42 @@
     </RadioGroup>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/recipientInputLayout"
+        android:id="@+id/recipient_inputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
+        android:hint="@string/recipient_address"
+        android:textColorHint="@color/lightBlue"
+        android:visibility="visible"
         app:errorEnabled="true"
-        app:hintEnabled="false"
+        app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/duelRadioGroup"
-        app:layout_constraintTop_toBottomOf="@+id/duelRadioGroup">
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="@+id/guideline2">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/recipientEditText"
+            android:id="@+id/recipient_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/lightBlue"
+            android:paddingBottom="15dp"
             android:singleLine="true"
             android:textColor="@color/white"
             android:textSize="12sp"
             tools:text="0x729AF33F41dc22b20A832B3A2305b9cD4d833e8E" />
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/amountInputLayout"
-        android:layout_width="0dp"
-        android:layout_height="69dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="20dp"
-        app:errorEnabled="true"
-        app:hintEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/recipientInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/recipientInputLayout">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/amountEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/lightBlue"
-            android:singleLine="true"
-
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            tools:text="5464.324235" />
-    </android.support.design.widget.TextInputLayout>
-
-    <TextView
-        android:id="@+id/token2_textView"
+    <ImageView
+        android:id="@+id/qrScanner_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="5dp"
-        android:textAllCaps="true"
-        android:textColor="@color/lightBlue"
-        app:layout_constraintEnd_toEndOf="@+id/amountInputLayout"
-        app:layout_constraintTop_toTopOf="@+id/amountInputLayout"
-        tools:text="PMT" />
-
-    <TextView
-        android:id="@+id/all_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="5dp"
-        android:background="@drawable/outline_background"
-        android:paddingStart="20dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="8dp"
-        android:text="@string/all"
-        android:textAllCaps="true"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/amountInputLayout"
-        app:layout_constraintTop_toTopOf="@+id/amountInputLayout" />
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_qr_code"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/recipient_inputLayout"
+        app:layout_constraintTop_toTopOf="@+id/recipient_inputLayout" />
 
     <Button
         android:id="@+id/continue_button"
@@ -149,12 +223,83 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/send_InputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:hint="@string/amount"
+        android:textColorHint="@color/lightBlue"
+        app:errorEnabled="true"
+        app:hintEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/recipient_radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/recipient_inputLayout">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/send_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/lightBlue"
+            android:paddingBottom="15dp"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            tools:text="5464.324235" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/token2_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="205dp" />
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="5dp"
+        android:textAllCaps="true"
+        android:textColor="@color/lightBlue"
+        app:layout_constraintEnd_toEndOf="@+id/send_InputLayout"
+        app:layout_constraintTop_toTopOf="@+id/send_InputLayout"
+        tools:text="PMT" />
+
+    <TextView
+        android:id="@+id/all_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/outline_background"
+        android:paddingStart="20dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="8dp"
+        android:text="@string/all"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/send_InputLayout"
+        app:layout_constraintTop_toTopOf="@+id/send_InputLayout" />
+
+    <android.support.constraint.Group
+        android:id="@+id/repository_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids=",tabLayout,repositoryBalance_textView,textView3" />
+
+    <android.support.constraint.Group
+        android:id="@+id/send_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="recipient_radioGroup, recipient_inputLayout" />
+
+    <TextView
+        android:id="@+id/repository_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textAllCaps="true"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        tools:text="0xf43DD3D777BC49E438b170B0d92e3F28327452CF" />
 
 
 </android.support.constraint.ConstraintLayout>

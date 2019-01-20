@@ -21,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.blockchain.store.dao.database.model.Proposal;
-import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
 import com.blockchain.store.dao.ui.dividends_screen.DividendsFragment;
 import com.blockchain.store.dao.ui.votes_screen.NewProposalFragment;
 import com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment;
@@ -32,7 +31,6 @@ import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
-import com.blockchain.store.playmarket.ui.wallet_screen.MainTokenTransferFragment;
 import com.blockchain.store.playmarket.ui.wallet_screen.TokenTransferFragment;
 import com.blockchain.store.playmarket.ui.wallet_screen.WalletFragment;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
@@ -157,7 +155,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
             replaceNavViewFragment(new NavigationViewFragment());
         } else if (fragment instanceof NewProposalFragment || fragment instanceof ProposalDetailsFragment) {
             removeFragment(fragment);
-        } else if (fragment instanceof MainTokenTransferFragment) {
+        } else if (fragment instanceof TokenTransferFragment) {
             replaceNavViewFragment(new WalletFragment());
         } else {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -351,6 +349,6 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onTokenTransferClicked() {
-        replaceNavViewFragment(new MainTokenTransferFragment());
+        replaceNavViewFragment(new TokenTransferFragment());
     }
 }
