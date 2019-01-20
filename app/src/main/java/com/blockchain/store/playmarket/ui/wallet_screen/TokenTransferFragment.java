@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
@@ -35,14 +36,12 @@ public class TokenTransferFragment extends Fragment {
     @BindView(R.id.repositoryBalance_textView) TextView repositoryBalanceTextView;
     @BindView(R.id.token_textView) TextView tokenTextView;
     @BindView(R.id.token2_textView) TextView token2TextView;
-
     @BindView(R.id.tabLayout) TabLayout tabLayout;
     @BindView(R.id.send_group) Group sendGroup;
     @BindView(R.id.send_InputLayout) TextInputLayout sendInputLayout;
     @BindView(R.id.repository_textView) TextView repositoryTextView;
-
     @BindView(R.id.repository_button) RadioButton repositoryButton;
-    @BindView(R.id.customAddress_button) TextView customAddressButton;
+    @BindView(R.id.customAddress_button) RadioButton customAddressButton;
     @BindView(R.id.qrScanner_button) ImageView qrScannerButton;
     @BindView(R.id.recipient_editText) TextView recipientEditText;
 
@@ -139,19 +138,15 @@ public class TokenTransferFragment extends Fragment {
         sendGroup.setVisibility(View.VISIBLE);
         repositoryTextView.setVisibility(View.GONE);
         sendInputLayout.setHint(getResources().getString(R.string.amount));
+        if (customAddressButton.isChecked()) qrScannerButton.setVisibility(View.VISIBLE);
     }
 
     private void showWithdrawComponents() {
         sendGroup.setVisibility(View.GONE);
         repositoryTextView.setVisibility(View.VISIBLE);
+        qrScannerButton.setVisibility(View.GONE);
         if (repositoryTextView.getText() == "") repositoryTextView.setText(AccountManager.getAddress().getHex());
         sendInputLayout.setHint(getResources().getString(R.string.withdraw_amount));
-    }
-
-    @OnClick(R.id.qrScanner_button)
-    void onScannerButtonPressed() {
-        Intent intent = new Intent(getActivity(), QRCodeScannerActivity.class);
-        startActivityForResult(intent, 1);
     }
 
     @Override
@@ -159,5 +154,18 @@ public class TokenTransferFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (data == null) return;
         recipientEditText.setText(data.getStringExtra("qrResult"));
+    }
+
+
+    @OnClick(R.id.qrScanner_button)
+    void onScannerButtonPressed() {
+        Intent intent = new Intent(getActivity(), QRCodeScannerActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+
+    @OnClick({R.id.close_button, R.id.cancel_button})
+    void onCloseButtonPressed() {
+        if (getActivity() != null) getActivity().onBackPressed();
     }
 }
