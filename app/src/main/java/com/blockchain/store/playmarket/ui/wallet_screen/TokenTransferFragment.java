@@ -91,7 +91,7 @@ public class TokenTransferFragment extends Fragment {
                 repositoryBalanceTextView.setText(String.valueOf(daoToken.getDaoBalanceWithDecimals()));
                 tokenTextView.setText(daoToken.symbol);
                 token2TextView.setText(daoToken.symbol);
-                lockedAmount.setText(daoToken.getDaoBalance() - daoToken.getNotLockedBalance() + " are locked.");
+                lockedAmount.setText(daoToken.getDaoBalance() - daoToken.getNotLockedBalance() + " tokens are locked.");
             }
         }
         initStartView();

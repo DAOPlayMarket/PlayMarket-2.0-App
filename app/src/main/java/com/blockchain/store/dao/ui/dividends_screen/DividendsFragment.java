@@ -92,7 +92,11 @@ public class DividendsFragment extends Fragment {
                 new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
                     @Override
                     public void onAccountUnlocked() {
-                        runReceive(daoToken);
+                        if (daoToken.isNeedSecondTx()) {
+                            runDoubleTx(daoToken);
+                        } else {
+                            runSingleTx(daoToken);
+                        }
                     }
                 });
             }
@@ -100,14 +104,14 @@ public class DividendsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-    private void runReceive(DaoToken daoToken) {
+    private void runSingleTx(DaoToken daoToken) {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .flatMap(result -> {
                     try {
-                        return RestApi.getServerApi().deployTransaction(CryptoUtils.generateDaoWithdraw(result,daoToken));
+                        return RestApi.getServerApi().deployTransaction(CryptoUtils.generateDaoWithdraw(result, daoToken));
                     } catch (Exception e) {
                         e.printStackTrace();
-                        throw new RuntimeException("111");
+                        throw new RuntimeException(e);
                     }
                 })
                 .subscribeOn(Schedulers.newThread())
@@ -119,11 +123,11 @@ public class DividendsFragment extends Fragment {
         Log.d(TAG, "receive() called with: purchaseAppResponse = [" + purchaseAppResponse + "]");
     }
 
-    private void runDemo() {
+    private void runDoubleTx(DaoToken daoToken) {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .flatMap(result -> {
                     try {
-                        Pair<Transaction, Transaction> stringStringPair = CryptoUtils.test(result.count, result.gasPrice);
+                        Pair<Transaction, Transaction> stringStringPair = CryptoUtils.generateDaoTransferTransactions(result, daoToken);
                         String rawTransaction = CryptoUtils.getRawTransaction(stringStringPair.first);
                         String rawSecondTransaction = CryptoUtils.getRawTransaction(stringStringPair.second);
                         TransactionInteractor.addToJobSchedule(stringStringPair.first.getHash().getHex(), stringStringPair.second.getHash().getHex(), rawSecondTransaction);

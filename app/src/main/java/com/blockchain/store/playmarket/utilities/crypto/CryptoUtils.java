@@ -194,17 +194,17 @@ public class CryptoUtils {
         return null;
     }
 
-    public static Pair<Transaction, Transaction> generateDaoTransferTransactions(long nonce, BigInt gasPrice, DaoToken token) throws Exception {
+    public static Pair<Transaction, Transaction> generateDaoTransferTransactions(AccountInfoResponse accountInfo, DaoToken token) throws Exception {
         BigInt price = new BigInt(0);
         Account account = AccountManager.getAccount();
         GenerateTransactionData generateTransactionData = new GenerateTransactionData();
         byte[] tokens = generateTransactionData.getTokens(0, 1);
         byte[] withdraw = generateTransactionData.withdraw(token.address, token.total);
 
-        Transaction getTokensTransaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
-                price, GAS_LIMIT, gasPrice, tokens);
-        Transaction withdrawTransaction = new Transaction(nonce + 1, new Address(Constants.PLAY_MARKET_ADDRESS),
-                price, GAS_LIMIT, gasPrice, withdraw);
+        Transaction getTokensTransaction = new Transaction(accountInfo.count, new Address(Constants.PLAY_MARKET_ADDRESS),
+                price, GAS_LIMIT,  new BigInt(Long.valueOf(accountInfo.gasPrice)), tokens);
+        Transaction withdrawTransaction = new Transaction(accountInfo.count + 1, new Address(Constants.PLAY_MARKET_ADDRESS),
+                price, GAS_LIMIT,  new BigInt(Long.valueOf(accountInfo.gasPrice)), withdraw);
         Transaction getTokenSignedTx = keyManager.getKeystore().signTx(account, getTokensTransaction, new BigInt(USER_ETHERSCAN_ID));
         Transaction withdrawSignedTx = keyManager.getKeystore().signTx(account, withdrawTransaction, new BigInt(USER_ETHERSCAN_ID));
 
@@ -359,7 +359,7 @@ public class CryptoUtils {
         BigInt price = new BigInt(0);
         Account account = AccountManager.getAccount();
         GenerateTransactionData generateTransactionData = new GenerateTransactionData();
-        byte[] withdraw = generateTransactionData.withdraw(token.address, 1_000_000L);
+        byte[] withdraw = generateTransactionData.withdraw(token.address, token.total);
 
         Transaction withdrawTransaction = new Transaction(result.count, new Address(Constants.PLAY_MARKET_ADDRESS),
                 price, GAS_LIMIT, new BigInt(Long.valueOf(result.gasPrice)), withdraw);

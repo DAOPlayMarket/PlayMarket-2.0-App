@@ -112,7 +112,7 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             name.setText(daoToken.name);
             symbol.setText(daoToken.symbol);
             dividendsAmount.setText(String.valueOf(daoToken.getTokenCountWithDecimals()));
-            setClickEnabled(daoToken.total != 0 && !daoToken.isWithdrawBlocked);
+            setClickEnabled(daoToken.total != 0 && daoToken.isWithdrawBlocked);
             transferIcon.setOnClickListener(v -> callback.onDaoTokenClicked(daoToken));
             receiveText.setOnClickListener(v -> callback.onDaoTokenClicked(daoToken));
         }
