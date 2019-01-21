@@ -320,5 +320,8 @@
     <string name="withdraw_amount">Withdraw amount</string>
     <string name="receive_dividends">Receive dividends</string>
     <string name="to_receive_dividends_please_enter_password">To receive dividends please enter password.</string>
+    <string name="you_send_amount">You send amount:</string>
+    <string name="to_recipient_address">To recipient address:</string>
+    <string name="confirm_transaction">Confirm transaction</string>
 
 </resources>

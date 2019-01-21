@@ -196,4 +196,9 @@
         <item name="android:colorForeground">#60DCF4</item>
         <item name="android:colorAccent">#60DCF4</item>
     </style>
+
+    <style name="error_appearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/red_error_color</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -15,9 +16,11 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blockchain.store.dao.interfaces.Callbacks;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
+import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.mtramin.rxfingerprint.RxFingerprint;
 import com.orhanobut.hawk.Hawk;
 
@@ -32,6 +35,8 @@ public class DialogManager {
 
     private EditText folderNamedText;
     private EditText passwordText;
+
+    private Disposable fingerprintDisposable = Disposables.empty();
 
     public void showReviewDialog(UserReview userReview, Context context, CreateReviewCallback callback) {
         String accountBalanceInWei = AccountManager.getUserBalance();
@@ -153,7 +158,8 @@ public class DialogManager {
         return createFolderDialog;
     }
 
-    @SuppressLint("CheckResult") public void showDividendsDialog(Context context, DividendCallback callback) {
+    @SuppressLint("CheckResult")
+    public void showDividendsDialog(Context context, DividendCallback callback) {
         AlertDialog dividendDialog = new AlertDialog.Builder(context)
                 .setView(R.layout.dividends_dialog)
                 .setCancelable(false)
@@ -235,5 +241,64 @@ public class DialogManager {
 
     public interface DividendCallback {
         void onAccountUnlocked();
+    }
+
+    @SuppressLint("CheckResult")
+    public void showPasswordDialogWithDetails(String amount, String address, Context context, Callbacks.PasswordCallback callback) {
+
+        AlertDialog alertDialog = new AlertDialog.Builder(context)
+                .setCancelable(false)
+                .setView(R.layout.password_dialog)
+                .create();
+        alertDialog.show();
+
+        TextView amountTextView = alertDialog.findViewById(R.id.amount_textView);
+        amountTextView.setText(amount);
+
+        TextView addressTextView = alertDialog.findViewById(R.id.address_textView);
+        addressTextView.setText(address);
+
+        TextInputEditText passwordEditText = alertDialog.findViewById(R.id.password_editText);
+        TextInputLayout passwordLayout = alertDialog.findViewById(R.id.password_inputLayout);
+
+        alertDialog.findViewById(R.id.confirm_button).setOnClickListener(v -> {
+            boolean isUnlock = AccountManager.unlockKeystore(passwordEditText.getText().toString());
+            if (isUnlock) {
+                callback.onAccountUnlock(true);
+                alertDialog.dismiss();
+            } else {
+                passwordLayout.setError("Wrong password");
+            }
+        });
+
+        if (FingerprintUtils.isFingerprintAvailibility(context)) {
+            alertDialog.findViewById(R.id.passwordGroup).setVisibility(View.GONE);
+            alertDialog.findViewById(R.id.fingerprintGroup).setVisibility(View.VISIBLE);
+            fingerprintDisposable = RxFingerprint.decrypt(context, Hawk.get(Constants.ENCRYPTED_PASSWORD))
+                    .subscribe(fingerprintDecryptionResult -> {
+                        switch (fingerprintDecryptionResult.getResult()) {
+                            case FAILED:
+                                break;
+                            case AUTHENTICATED:
+                                callback.onAccountUnlock(AccountManager.unlockKeystore(fingerprintDecryptionResult.getDecrypted()));
+                                alertDialog.dismiss();
+                                fingerprintDisposable.dispose();
+                        }
+                    }, throwable -> Log.e("ERROR", "decrypt", throwable));
+        } else {
+            alertDialog.findViewById(R.id.passwordGroup).setVisibility(View.VISIBLE);
+            alertDialog.findViewById(R.id.fingerprintGroup).setVisibility(View.GONE);
+        }
+
+        alertDialog.findViewById(R.id.usePassword_button).setOnClickListener(v -> {
+            fingerprintDisposable.dispose();
+            alertDialog.findViewById(R.id.passwordGroup).setVisibility(View.VISIBLE);
+            alertDialog.findViewById(R.id.fingerprintGroup).setVisibility(View.GONE);
+        });
+
+        alertDialog.findViewById(R.id.cancel_button).setOnClickListener(v -> {
+            if (FingerprintUtils.isFingerprintAvailibility(context)) fingerprintDisposable.dispose();
+            alertDialog.dismiss();
+        });
     }
 }

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.UserBalance;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
@@ -92,7 +93,7 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
 
     @OnClick(R.id.button)
     void onItemClick() {
-//        navigationCallback.onTokenTransferClicked();
+        navigationCallback.onTokenTransferClicked(new DaoToken());
     }
 
     @Override
@@ -115,9 +116,7 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
 
     }
 
-
-    @OnClick(R.id.qr_button)
-    void onQrButtonClicked() {
+    @OnClick(R.id.qr_button) void onQrButtonClicked() {
         startActivity(new Intent(getActivity(), QrActivity.class));
     }
 
