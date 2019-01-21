@@ -46,7 +46,7 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
         }
         if (result.getTransactionReceipt() != null) {
             Log.d(TAG, "onTransactionReady: with result " + result.getTransactionReceipt().getStatus());
-            TransactionPrefsUtil.updateModel(result.getTransactionReceipt());
+//            TransactionPrefsUtil.updateModel(result.getTransactionReceipt());
             String secondTransaction = params.getExtras().getString(Constants.JOB_SECOND_RAW_TX, null);
             Log.d(TAG, "onTransactionReady: check for second transaction: " + secondTransaction);
             if (secondTransaction != null) {

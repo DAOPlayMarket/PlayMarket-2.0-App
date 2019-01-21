@@ -166,7 +166,7 @@ public class DaoTransactionRepository {
                         result.first.get(i).daoNotLockedBalance = decodeFunction(result.second, getNotLockedBalance()).toString();
                     }
                     return result.first;
-                })  .flatMap(result -> getEthCallObservable(getNotLockedBalance(), DaoConstants.Repository), Pair::new)
+                }).flatMap(result -> getEthCallObservable(getNotLockedBalance(), DaoConstants.Repository), Pair::new)
                 .map(result -> {
                     for (int i = 0; i < result.first.size(); i++) {
                         result.first.get(i).daoBalance = decodeFunction(result.second, getBalance()).toString();
@@ -174,9 +174,16 @@ public class DaoTransactionRepository {
                     return result.first;
                 })
                 .flatMap(result -> getEthCallObservable(isWithDrawIsblocked(), DaoConstants.Foundation), Pair::new)
-                .map(result ->{
+                .map(result -> {
                     for (int i = 0; i < result.first.size(); i++) {
-                        result.first.get(i).isWithdrawBlocked = (boolean) decodeFunction(result.second,isWithDrawIsblocked());
+                        result.first.get(i).isWithdrawBlocked = (boolean) decodeFunction(result.second, isWithDrawIsblocked());
+                    }
+                    return result.first;
+                })
+                .flatMap(result -> getEthCallObservable(allowance(), DaoConstants.PlayMarket_token_contract), Pair::new)
+                .map(result -> {
+                    for (int i = 0; i < result.first.size(); i++) {
+                        result.first.get(i).approval = decodeFunction(result.second, allowance()).toString();
                     }
                     return result.first;
                 })
@@ -226,12 +233,20 @@ public class DaoTransactionRepository {
         return new Function("getNotLockedBalance", inputParameters, Collections.singletonList(new TypeReference<Uint256>() {
         }));
     }
-   public static Function isWithDrawIsblocked() {/*returns uints*/
+
+    public static Function isWithDrawIsblocked() {/*returns uints*/
         ArrayList<Type> inputParameters = new ArrayList<>();
         return new Function("WithdrawIsBlocked", inputParameters, Collections.singletonList(new TypeReference<Bool>() {
         }));
     }
 
+    public static Function allowance() {/*returns uints*/
+        ArrayList<Type> inputParameters = new ArrayList<>();
+        inputParameters.add(new Address(DaoTransactionRepository.userAddress));
+        inputParameters.add(new Address(DaoConstants.PlayMarket_token_contract));
+        return new Function("allowance", inputParameters, Collections.singletonList(new TypeReference<Uint256>() {
+        }));
+    }
 
 
     /* DAO Foundation data*/
@@ -286,11 +301,16 @@ public class DaoTransactionRepository {
 
     private static Function proposalFunction() {
         ArrayList<TypeReference<?>> outputParameters = new ArrayList<>();
-        outputParameters.add(new TypeReference<Uint256>() {});
-        outputParameters.add(new TypeReference<Address>() {});
-        outputParameters.add(new TypeReference<Uint256>() {});
-        outputParameters.add(new TypeReference<Utf8String>() {});
-        outputParameters.add(new TypeReference<Utf8String>() {});
+        outputParameters.add(new TypeReference<Uint256>() {
+        });
+        outputParameters.add(new TypeReference<Address>() {
+        });
+        outputParameters.add(new TypeReference<Uint256>() {
+        });
+        outputParameters.add(new TypeReference<Utf8String>() {
+        });
+        outputParameters.add(new TypeReference<Utf8String>() {
+        });
         return new Function("Proposal", new ArrayList<>(), outputParameters);
 
     }
@@ -313,10 +333,14 @@ public class DaoTransactionRepository {
 
     private static Function voteFunction() {
         ArrayList<TypeReference<?>> outputParameters = new ArrayList<>();
-        outputParameters.add(new TypeReference<Uint256>() {});
-        outputParameters.add(new TypeReference<Bool>() {});
-        outputParameters.add(new TypeReference<Address>() {});
-        outputParameters.add(new TypeReference<Utf8String>() {});
+        outputParameters.add(new TypeReference<Uint256>() {
+        });
+        outputParameters.add(new TypeReference<Bool>() {
+        });
+        outputParameters.add(new TypeReference<Address>() {
+        });
+        outputParameters.add(new TypeReference<Utf8String>() {
+        });
 
         return new Function("Vote", new ArrayList<>(), outputParameters);
 
@@ -339,9 +363,12 @@ public class DaoTransactionRepository {
 
     private static Function rulesFunction() {
         ArrayList<TypeReference<?>> outputParameters = new ArrayList<>();
-        outputParameters.add(new TypeReference<Uint256>() {});
-        outputParameters.add(new TypeReference<Uint256>() {});
-        outputParameters.add(new TypeReference<Uint256>() {});
+        outputParameters.add(new TypeReference<Uint256>() {
+        });
+        outputParameters.add(new TypeReference<Uint256>() {
+        });
+        outputParameters.add(new TypeReference<Uint256>() {
+        });
         return new Function("Rules", new ArrayList<>(), outputParameters);
     }
 

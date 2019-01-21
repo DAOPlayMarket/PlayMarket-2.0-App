@@ -18,6 +18,7 @@ public class DaoToken implements Parcelable {
     public String balance = "0";
     public String daoBalance = "0";
     public String daoNotLockedBalance = "0";
+    public String approval = "0";
 
     public int totalTokensLength = 0;
     public int tokenPositionInArray = 0;
