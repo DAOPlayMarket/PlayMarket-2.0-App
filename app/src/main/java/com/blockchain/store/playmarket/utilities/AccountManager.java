@@ -1,6 +1,8 @@
 package com.blockchain.store.playmarket.utilities;
 
 
+import com.blockchain.store.playmarket.Application;
+
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
 import org.ethereum.geth.KeyStore;
@@ -75,6 +77,16 @@ public class AccountManager {
 
     private void setCurrentUserPosition(int position) {
         //set
+    }
+
+    public static boolean unlockKeystore(String password) {
+        try {
+            keyManager.getKeystore().unlock(AccountManager.getAccount(), password);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

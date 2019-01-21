@@ -104,6 +104,17 @@
         app:layout_constraintStart_toEndOf="@+id/textView3"
         tools:text="500.7894" />
 
+    <TextView
+        android:id="@+id/token3_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:textSize="12sp"
+        android:textColor="@color/lightBlue"
+        app:layout_constraintBaseline_toBaselineOf="@+id/repositoryBalance_textView"
+        app:layout_constraintStart_toEndOf="@+id/repositoryBalance_textView"
+        tools:text="PMT"/>
+
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
@@ -121,7 +132,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="@string/recipient"
         android:textColor="@color/lightBlue"
         android:textStyle="bold"
@@ -162,10 +173,11 @@
         android:id="@+id/recipient_inputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:hint="@string/recipient_address"
         android:textColorHint="@color/lightBlue"
+        app:errorTextAppearance="@style/error_appearance"
         android:visibility="visible"
         app:errorEnabled="true"
         app:hintEnabled="true"
@@ -227,11 +239,11 @@
         android:id="@+id/send_InputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:hint="@string/amount"
         android:textColorHint="@color/lightBlue"
         app:errorEnabled="true"
+        app:errorTextAppearance="@style/error_appearance"
         app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/recipient_radioGroup"

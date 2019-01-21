@@ -63,26 +63,16 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     private static final int DOUBLE_TAP_INTERVAL_MILLIS = 2000;
     private int tabPosition;
 
-    @BindView(R.id.tab_layout)
-    TabLayout tabLayout;
-    @BindView(R.id.app_bar_layout)
-    AppBarLayout appBarLayout;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawerLayout;
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
-    @BindView(R.id.error_holder)
-    View errorHolder;
-    @BindView(R.id.nav_view)
-    NavigationView navigationView;
-    @BindView(R.id.search_view)
-    MaterialSearchView searchView;
-    @BindView(R.id.bottom_layout)
-    LinearLayout bottomLayout;
+    @BindView(R.id.tab_layout) TabLayout tabLayout;
+    @BindView(R.id.app_bar_layout) AppBarLayout appBarLayout;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @BindView(R.id.view_pager) ViewPager viewPager;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.error_holder) View errorHolder;
+    @BindView(R.id.nav_view) NavigationView navigationView;
+    @BindView(R.id.search_view) MaterialSearchView searchView;
+    @BindView(R.id.bottom_layout) LinearLayout bottomLayout;
 
     private BehaviorSubject<String> userInputSubject = BehaviorSubject.create();
     private ArrayList<App> searchListResult = new ArrayList<>();
@@ -115,14 +105,6 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view_holder, fragment).addToBackStack("").commitAllowingStateLoss();
     }
 
-    private void addFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().add(R.id.navigation_view_holder, fragment).addToBackStack("").commitAllowingStateLoss();
-    }
-
-    private void removeFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().remove(fragment).commitAllowingStateLoss();
-    }
-
     private void initViews() {
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -150,32 +132,23 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.navigation_view_holder);
 
         if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
             getSupportFragmentManager().popBackStack();
             return;
         }
 
-        if (fragment instanceof MainVotesFragment || fragment instanceof WalletFragment || fragment instanceof DividendsFragment) {
-            replaceNavViewFragment(new NavigationViewFragment());
-        } else if (fragment instanceof NewProposalFragment || fragment instanceof ProposalDetailsFragment) {
-            removeFragment(fragment);
-        } else if (fragment instanceof TokenTransferFragment) {
-            replaceNavViewFragment(new WalletFragment());
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
         } else {
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            } else if (searchView.isSearchOpen()) {
-                searchView.closeSearch();
+            if (backPressedLastTime + DOUBLE_TAP_INTERVAL_MILLIS > System.currentTimeMillis()) {
+                this.finish();
             } else {
-                if (backPressedLastTime + DOUBLE_TAP_INTERVAL_MILLIS > System.currentTimeMillis()) {
-                    this.finish();
-                } else {
-                    backPressedLastTime = System.currentTimeMillis();
-                    ToastUtil.showToast(R.string.double_tap_msg);
-                }
+                backPressedLastTime = System.currentTimeMillis();
+                ToastUtil.showToast(R.string.double_tap_msg);
             }
         }
     }
@@ -345,16 +318,16 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onNewProposalClicked() {
-        addFragment(new NewProposalFragment());
+        replaceNavViewFragment(new NewProposalFragment());
     }
 
     @Override
     public void onProposalDetailsClicked(Proposal proposal) {
-        addFragment(ProposalDetailsFragment.newInstance(proposal));
+        replaceNavViewFragment(ProposalDetailsFragment.newInstance(proposal));
     }
 
     @Override
     public void onTokenTransferClicked(DaoToken daoToken) {
-        addFragment(TokenTransferFragment.newInstance(daoToken));
+        replaceNavViewFragment(TokenTransferFragment.newInstance(daoToken));
     }
 }
