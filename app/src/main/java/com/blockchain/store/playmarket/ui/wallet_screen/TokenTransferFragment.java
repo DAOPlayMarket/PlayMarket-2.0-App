@@ -14,12 +14,11 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.ui.DaoConstants;
@@ -190,13 +189,15 @@ public class TokenTransferFragment extends Fragment {
     }
 
 
-
     private boolean checkEnterValue() {
         Double sendAmount = Double.valueOf(sendEditText.getText().toString());
 
         if (sendAmount == 0) {
             sendEditText.setError("Wrong amount");
             return false;
+        }
+        if (sendAmount >= daoToken.getApprovalWithDecimals()) {
+            Toast.makeText(getActivity(), "You already has " + daoToken.getApprovalWithDecimals() + " token approval. Send tokens below this value.", Toast.LENGTH_SHORT).show();
         }
 //        if (sendAmount > Double.valueOf(daoToken.getNotLockedBalanceWithDecimals())) {
 //            sendEditText.setError("You can send only " + daoToken.getNotLockedBalanceWithDecimals() + " tokens");
@@ -239,8 +240,13 @@ public class TokenTransferFragment extends Fragment {
                             try {
                                 Pair<Transaction, Transaction> stringStringPair = CryptoUtils.generateDepositTokenToRepositoryTx(result, amount);
                                 String rawTransaction = CryptoUtils.getRawTransaction(stringStringPair.first);
-                                String rawSecondTransaction = CryptoUtils.getRawTransaction(stringStringPair.second);
-                                TransactionInteractor.addToJobSchedule(stringStringPair.first.getHash().getHex(), stringStringPair.second.getHash().getHex(), rawSecondTransaction);
+                                if (daoToken.getApprovalWithoutDecimal() < amount) {
+                                    TransactionInteractor.addToJobSchedule(stringStringPair.first.getHash().getHex());
+                                } else {
+                                    String rawSecondTransaction = CryptoUtils.getRawTransaction(stringStringPair.second);
+                                    TransactionInteractor.addToJobSchedule(stringStringPair.first.getHash().getHex(), stringStringPair.second.getHash().getHex(), rawSecondTransaction);
+                                }
+
                                 return RestApi.getServerApi().deployTransaction(rawTransaction);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -295,7 +301,7 @@ public class TokenTransferFragment extends Fragment {
         if (getActivity() != null) getActivity().onBackPressed();
     }
 
-//    @OnClick(R.id.continue_button)
+    //    @OnClick(R.id.continue_button)
     void onContinueButtonPressed() {
         String address;
         if (tabPosition == 0) address = recipientEditText.getText().toString();

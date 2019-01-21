@@ -38,6 +38,13 @@ public class DaoToken implements Parcelable {
         return String.valueOf(getNotLockedBalance() / Math.pow(2, decimals));
     }
 
+    public Long getApprovalWithoutDecimal(){
+        return (long)(Long.valueOf(approval));
+    }
+    public Long getApprovalWithDecimals() {
+        return (long)(Long.valueOf(approval) / Math.pow(10,decimals));
+    }
+
     public long getWithdraw() {
         return Long.valueOf(withdraw);
     }
