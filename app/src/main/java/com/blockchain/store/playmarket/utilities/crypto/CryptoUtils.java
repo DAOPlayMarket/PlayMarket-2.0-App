@@ -301,6 +301,23 @@ public class CryptoUtils {
 
     }
 
+    public static Transaction generateWithDrawPmtTokens(AccountInfoResponse accountInfo, long amount) {
+        KeyStore keystore = AccountManager.getKeyManager().getKeystore();
+        Account account = AccountManager.getAccount();
+
+        BigInt price = new BigInt(0);
+        BigInt gasPrice = new BigInt(Long.parseLong(accountInfo.gasPrice));
+        byte[] txData = new GenerateTransactionData().refund(amount);
+        Transaction transaction = new Transaction(accountInfo.count, new Address(DaoConstants.Repository), price, GAS_LIMIT, gasPrice, txData);
+        try {
+            transaction = keystore.signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
+            return transaction;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static Pair<Transaction, Transaction> generateDepositTokenToRepositoryTx(AccountInfoResponse accountInfo, long amount) {
         KeyStore keystore = AccountManager.getKeyManager().getKeystore();
         Account account = AccountManager.getAccount();
@@ -323,6 +340,19 @@ public class CryptoUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static Transaction generateDaoSendTokenToUser(AccountInfoResponse accountInfo, String userAddress, String amount) throws Exception {
+        KeyStore keystore = AccountManager.getKeyManager().getKeystore();
+        Account account = AccountManager.getAccount();
+        BigInt price = new BigInt(0);
+        BigInt gasPrice = new BigInt(Long.parseLong(accountInfo.gasPrice));
+
+        byte[] sentTokenTransactionBytes = createSentTokenTransactionBytes(userAddress, String.valueOf(amount));
+        Transaction sendTokenTx = new Transaction(accountInfo.count, new Address(DaoConstants.PlayMarket_token_contract), price, GAS_LIMIT, gasPrice, sentTokenTransactionBytes);
+        Transaction signedTx = keyManager.getKeystore().signTx(account, sendTokenTx, new BigInt(USER_ETHERSCAN_ID));
+        return signedTx;
+
     }
 
     public static String generateDaoWithdraw(AccountInfoResponse result, DaoToken token) throws Exception {

@@ -1,5 +1,7 @@
 package com.blockchain.store.dao.ui;
 
+import com.blockchain.store.playmarket.BuildConfig;
+
 import org.web3j.utils.Numeric;
 
 import java.math.BigInteger;
@@ -8,20 +10,20 @@ public class DaoConstants {
 
     public static final String INFURA_WEBSOCKET_MAINNET = "wss://mainnet.infura.io/ws";
 
-    /* Contracts for release */
-    public static final String Foundation = "0x7f3833e21c116C54cf157B3457896C7F5c85FE79"; // test
-    public static final String DAO = "0x6ed82ffe4c0db4f9b0d52ef943a4e75b4159d85a"; // test
-    public static final String Repository = "0xa294558c55343a31c1fb3d443db2b7a1b8df2e80"; //test
+    private static final String Foundation_TEST = "0x7f3833e21c116C54cf157B3457896C7F5c85FE79"; // test
+    private static final String DAO_TEST = "0x6ed82ffe4c0db4f9b0d52ef943a4e75b4159d85a"; // test
+    private static final String Repository_TEST = "0xa294558c55343a31c1fb3d443db2b7a1b8df2e80"; //test
+    private static final String PlayMarket_token_contract_test = "0x538106e553f5BA3298199C1998ba061922815A6c"; // test
 
+    private static final String Foundation_mainnet = "0xb04A05905Dc94345DCAD4846664001d4818E16D2"; // mainnet
+    private static final String DAO_mainnet = "0x550cbf0d9c62dbb7ff0ac8be1ad9fba4cb2ce49d"; // mainnet
+    private static final String Repository_mainnet = "0xe789578025fC8DFEa42C6Cecb4D42C65fa5B4826"; //mainnet
+    private static final String PlayMarket_token_contract_mainnet= "0xc1322d8ae3b0e2e437e0ae36388d0cfd2c02f1c9"; // mainnet
 
-//    public static final String Repository = "0xe789578025fC8DFEa42C6Cecb4D42C65fa5B4826"; //mainnet
-    //    public static final String Foundation = "0xb04A05905Dc94345DCAD4846664001d4818E16D2"; // mainnet
-//    public static final String DAO = "0x550cbf0d9c62dbb7ff0ac8be1ad9fba4cb2ce49d"; // mainnet
-
-
-
-//    public static final String PlayMarket_token_contract="0xc1322d8ae3b0e2e437e0ae36388d0cfd2c02f1c9"; // mainnet
-    public static final String PlayMarket_token_contract="0x538106e553f5BA3298199C1998ba061922815A6c"; // test
+    public static final String Foundation = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? Foundation_mainnet : Foundation_TEST);
+    public static final String DAO = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? DAO_mainnet : DAO_TEST);
+    public static final String Repository = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? Repository_mainnet : Repository_TEST);
+    public static final String PlayMarket_token_contract = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? PlayMarket_token_contract_mainnet : PlayMarket_token_contract_test);
 
 
     public static final String CHANGE_OF_RULES = "0xe7a31acb9efc5512cc1896266cbc06335ca5e661547b177002b7bb5d8535871e";

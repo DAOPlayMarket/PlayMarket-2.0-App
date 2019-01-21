@@ -179,7 +179,7 @@ public class DialogManager {
                                     try {
                                         AccountManager.getKeyStore().unlock(AccountManager.getAccount(), fingerprintDecryptionResult.getDecrypted());
                                         dividendDialog.dismiss();
-                                        callback.onDividendsSucceed();
+                                        callback.onAccountUnlocked();
 
                                     } catch (Exception e) {
                                         passwordField.setError(context.getString(R.string.wrong_password));
@@ -197,7 +197,7 @@ public class DialogManager {
             try {
                 AccountManager.getKeyStore().unlock(AccountManager.getAccount(), passwordField.getText().toString());
                 dividendDialog.dismiss();
-                callback.onDividendsSucceed();
+                callback.onAccountUnlocked();
                 dividendDialog.dismiss();
             } catch (Exception e) {
                 passwordField.setError(context.getString(R.string.wrong_password));
@@ -234,6 +234,6 @@ public class DialogManager {
     }
 
     public interface DividendCallback {
-        void onDividendsSucceed();
+        void onAccountUnlocked();
     }
 }

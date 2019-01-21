@@ -91,7 +91,7 @@ public class DividendsFragment extends Fragment {
             public void onDaoTokenClicked(DaoToken daoToken) {
                 new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
                     @Override
-                    public void onDividendsSucceed() {
+                    public void onAccountUnlocked() {
                         runReceive(daoToken);
                     }
                 });

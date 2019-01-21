@@ -256,6 +256,7 @@
             android:backgroundTint="@color/lightBlue"
             android:paddingBottom="15dp"
             android:singleLine="true"
+            android:inputType="numberDecimal"
             android:textColor="@color/white"
             android:textSize="12sp"
             tools:text="5464.324235" />

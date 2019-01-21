@@ -173,7 +173,7 @@ public class DaoTransactionRepository {
                     }
                     return result.first;
                 })
-                .flatMap(result -> getEthCallObservable(isWithDrawIsblocked(), DaoConstants.Repository), Pair::new)
+                .flatMap(result -> getEthCallObservable(isWithDrawIsblocked(), DaoConstants.Foundation), Pair::new)
                 .map(result ->{
                     for (int i = 0; i < result.first.size(); i++) {
                         result.first.get(i).isWithdrawBlocked = (boolean) decodeFunction(result.second,isWithDrawIsblocked());
@@ -228,7 +228,7 @@ public class DaoTransactionRepository {
     }
    public static Function isWithDrawIsblocked() {/*returns uints*/
         ArrayList<Type> inputParameters = new ArrayList<>();
-        return new Function("WithdrawIsBlockedByFund", inputParameters, Collections.singletonList(new TypeReference<Bool>() {
+        return new Function("WithdrawIsBlocked", inputParameters, Collections.singletonList(new TypeReference<Bool>() {
         }));
     }
 

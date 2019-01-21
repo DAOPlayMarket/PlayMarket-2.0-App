@@ -29,8 +29,12 @@ public class DaoToken implements Parcelable {
         return Long.valueOf(daoBalance);
     }
 
-    public long getNotLockedBalance(){
+    public long getNotLockedBalance() {
         return Long.valueOf(daoNotLockedBalance);
+    }
+
+    public String getNotLockedBalanceWithDecimals() {
+        return String.valueOf(getNotLockedBalance() / Math.pow(2, decimals));
     }
 
     public long getWithdraw() {
