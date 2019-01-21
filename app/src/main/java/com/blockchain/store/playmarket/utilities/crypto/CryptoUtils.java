@@ -301,7 +301,45 @@ public class CryptoUtils {
 
     }
 
+    public static Pair<Transaction, Transaction> generateDepositTokenToRepositoryTx(AccountInfoResponse accountInfo, long amount) {
+        KeyStore keystore = AccountManager.getKeyManager().getKeystore();
+        Account account = AccountManager.getAccount();
+        BigInt price = new BigInt(0);
+        BigInt gasPrice = new BigInt(Long.parseLong(accountInfo.gasPrice));
 
+        byte[] approveData = new GenerateTransactionData().approve(amount);
+        Transaction approveTransaction = new Transaction(accountInfo.count, new Address(DaoConstants.PlayMarket_token_contract), price, GAS_LIMIT, gasPrice, approveData);
+
+        byte[] depositData = new GenerateTransactionData().makeDeposit(amount);
+        Transaction depositTransaction = new Transaction(accountInfo.count + 1, new Address(DaoConstants.Repository), price, GAS_LIMIT, gasPrice, depositData);
+
+        try {
+
+            depositTransaction = keystore.signTx(account, depositTransaction, new BigInt(USER_ETHERSCAN_ID));
+            approveTransaction = keystore.signTx(account, approveTransaction, new BigInt(USER_ETHERSCAN_ID));
+
+            return new Pair<Transaction, Transaction>(approveTransaction, depositTransaction);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String generateDaoWithdraw(AccountInfoResponse result, DaoToken token) throws Exception {
+        BigInt price = new BigInt(0);
+        Account account = AccountManager.getAccount();
+        GenerateTransactionData generateTransactionData = new GenerateTransactionData();
+        byte[] withdraw = generateTransactionData.withdraw(token.address, 1_000_000L);
+
+        Transaction withdrawTransaction = new Transaction(result.count, new Address(Constants.PLAY_MARKET_ADDRESS),
+                price, GAS_LIMIT, new BigInt(Long.valueOf(result.gasPrice)), withdraw);
+        Transaction withdrawSignedTx = keyManager.getKeystore().signTx(account, withdrawTransaction, new BigInt(USER_ETHERSCAN_ID));
+
+        String withdrawRawTx = getRawTransaction(withdrawSignedTx);
+
+        return withdrawRawTx;
+
+    }
 
 }
 

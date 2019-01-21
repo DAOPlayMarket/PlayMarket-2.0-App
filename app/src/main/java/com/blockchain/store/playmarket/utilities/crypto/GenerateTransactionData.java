@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.utilities.crypto;
 
 import android.util.Log;
 
+import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.playmarket.PurchaseSDK.entities.TransferObject;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 
@@ -9,9 +10,6 @@ import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Bool;
-import org.web3j.abi.datatypes.Bytes;
-import org.web3j.abi.datatypes.BytesType;
-import org.web3j.abi.datatypes.DynamicBytes;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
@@ -21,7 +19,6 @@ import org.web3j.abi.datatypes.generated.Uint256;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class GenerateTransactionData {
     private String methodName;
@@ -191,7 +188,7 @@ public class GenerateTransactionData {
     /* DAO Repository data*/
 
 
-    private byte[] makeDeposit(long value) { // make sure, ERC20.approve before.
+    public byte[] makeDeposit(long value) { // make sure, ERC20.approve before.
         setMethod("makeDeposit");
         putTypeData(new Uint256(value));
         return build();
@@ -237,6 +234,15 @@ public class GenerateTransactionData {
         putTypeData(new Address(recipientAddress));
         putTypeData(new Uint256(amount));
         putTypeData(new Bytes32(transactionByteCode.getBytes()));
+        return build();
+    }
+
+
+    /*ERC 20 */
+    public byte[] approve(long tokens) {
+        setMethod("approve");
+        putTypeData(new Address(DaoConstants.Repository));
+        putTypeData(new Uint256(tokens));
         return build();
     }
 

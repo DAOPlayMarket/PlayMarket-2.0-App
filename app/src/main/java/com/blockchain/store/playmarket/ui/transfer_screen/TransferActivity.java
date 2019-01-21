@@ -27,6 +27,8 @@ import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 
+import org.web3j.protocol.Web3j;
+
 import java.util.Currency;
 
 import butterknife.BindView;

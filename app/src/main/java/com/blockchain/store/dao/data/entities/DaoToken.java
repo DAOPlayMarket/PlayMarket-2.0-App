@@ -11,10 +11,13 @@ public class DaoToken implements Parcelable {
     public String name;
     public String symbol;
 
+    public boolean isWithdrawBlocked = false;
+
     public String fund = "0";
     public String withdraw = "0";
     public String balance = "0";
     public String daoBalance = "0";
+    public String daoNotLockedBalance = "0";
 
     public int totalTokensLength = 0;
     public int tokenPositionInArray = 0;
@@ -24,6 +27,10 @@ public class DaoToken implements Parcelable {
 
     public long getDaoBalance() {
         return Long.valueOf(daoBalance);
+    }
+
+    public long getNotLockedBalance(){
+        return Long.valueOf(daoNotLockedBalance);
     }
 
     public long getWithdraw() {
@@ -45,6 +52,10 @@ public class DaoToken implements Parcelable {
             value = value / (multiplier / 100);
         }
         return value;
+    }
+
+    public String getTokenCountWithDecimals() {
+        return String.valueOf(countToken() / Math.pow(10, decimals));
     }
 
     public boolean isNeedSecondTx() {
@@ -70,7 +81,7 @@ public class DaoToken implements Parcelable {
         daoToken.symbol = "PMT";
         daoToken.address = "0xcf42d66172f8fdec2b42515f0f0289049e4011c2";
 //        daoToken.address = "0xc1322d8ae3b0e2e437e0ae36388d0cfd2c02f1c9";
-        daoToken.decimals = 8;
+        daoToken.decimals = 4;
         return daoToken;
     }
 

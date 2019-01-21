@@ -137,7 +137,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:contentDescription="@string/todo"
+        android:visibility="gone"
         android:src="@drawable/ic_refresh"
+        app:layout_constraintBottom_toBottomOf="@+id/ethBalance_textView"
+        app:layout_constraintStart_toEndOf="@+id/ethBalance_textView"
+        app:layout_constraintTop_toTopOf="@+id/ethBalance_textView" />
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
         app:layout_constraintBottom_toBottomOf="@+id/ethBalance_textView"
         app:layout_constraintStart_toEndOf="@+id/ethBalance_textView"
         app:layout_constraintTop_toTopOf="@+id/ethBalance_textView" />

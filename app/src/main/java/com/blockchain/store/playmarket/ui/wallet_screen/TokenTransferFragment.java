@@ -8,28 +8,39 @@ import android.support.constraint.Group;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.ui.DaoConstants;
-import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.repositories.TransactionInteractor;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.QRCodeScannerActivity;
+import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
+
+import org.ethereum.geth.Transaction;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class TokenTransferFragment extends Fragment {
 
     private static String TOKEN_TAG = "token";
+    private static final String TAG = "TokenTransferFragment";
 
     @BindView(R.id.tokenTitle_textView) TextView tokenTitleTextView;
     @BindView(R.id.balance_textView) TextView balanceTextView;
@@ -44,6 +55,11 @@ public class TokenTransferFragment extends Fragment {
     @BindView(R.id.customAddress_button) RadioButton customAddressButton;
     @BindView(R.id.qrScanner_button) ImageView qrScannerButton;
     @BindView(R.id.recipient_editText) TextView recipientEditText;
+    @BindView(R.id.lockedAmount) TextView lockedAmount;
+
+
+    @BindView(R.id.continue_button) Button continueButton;
+    private int currentTabPosition = 0;
 
     public static TokenTransferFragment newInstance(DaoToken daoToken) {
         Bundle args = new Bundle();
@@ -66,10 +82,11 @@ public class TokenTransferFragment extends Fragment {
             DaoToken daoToken = getArguments().getParcelable(TOKEN_TAG);
             if (daoToken != null) {
                 tokenTitleTextView.setText(daoToken.name);
-                balanceTextView.setText(daoToken.balance);
-                repositoryBalanceTextView.setText(daoToken.daoBalance);
+                balanceTextView.setText(String.valueOf(daoToken.getBalanceWithDecimals()));
+                repositoryBalanceTextView.setText(daoToken.daoNotLockedBalance);
                 tokenTextView.setText(daoToken.symbol);
                 token2TextView.setText(daoToken.symbol);
+                lockedAmount.setText(daoToken.getDaoBalance() - daoToken.getNotLockedBalance() + " are locked.");
             }
         }
         initStartView();
@@ -77,7 +94,7 @@ public class TokenTransferFragment extends Fragment {
         initRadioGroup();
     }
 
-    private void initStartView(){
+    private void initStartView() {
         recipientEditText.setText(DaoConstants.Repository);
         recipientEditText.setEnabled(false);
         qrScannerButton.setVisibility(View.GONE);
@@ -98,6 +115,7 @@ public class TokenTransferFragment extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                currentTabPosition = tab.getPosition();
                 switch (tab.getPosition()) {
                     case 0:
                         showSendComponents();
@@ -121,13 +139,13 @@ public class TokenTransferFragment extends Fragment {
     }
 
     private void initRadioGroup() {
-        repositoryButton.setOnClickListener( view -> {
+        repositoryButton.setOnClickListener(view -> {
             recipientEditText.setText(DaoConstants.Repository);
             qrScannerButton.setVisibility(View.GONE);
             recipientEditText.setEnabled(false);
         });
 
-        customAddressButton.setOnClickListener( view -> {
+        customAddressButton.setOnClickListener(view -> {
             recipientEditText.setText("");
             qrScannerButton.setVisibility(View.VISIBLE);
             recipientEditText.setEnabled(true);
@@ -145,7 +163,8 @@ public class TokenTransferFragment extends Fragment {
         sendGroup.setVisibility(View.GONE);
         repositoryTextView.setVisibility(View.VISIBLE);
         qrScannerButton.setVisibility(View.GONE);
-        if (repositoryTextView.getText() == "") repositoryTextView.setText(AccountManager.getAddress().getHex());
+        if (repositoryTextView.getText() == "")
+            repositoryTextView.setText(AccountManager.getAddress().getHex());
         sendInputLayout.setHint(getResources().getString(R.string.withdraw_amount));
     }
 
@@ -161,6 +180,64 @@ public class TokenTransferFragment extends Fragment {
     void onScannerButtonPressed() {
         Intent intent = new Intent(getActivity(), QRCodeScannerActivity.class);
         startActivityForResult(intent, 1);
+    }
+
+    @OnClick(R.id.continue_button)
+    void onContinueClicked() {
+        if (currentTabPosition == 0) {
+            if (repositoryButton.isChecked()) {
+                sendTokensToRepository();
+            }
+            if (customAddressButton.isChecked()) {
+                sendTokenToUser();
+            }
+        }
+        if (currentTabPosition == 1) {/*withdraw*/
+            proceedWithWithdraw();
+        }
+
+    }
+
+    private void sendTokenToUser() {
+
+    }
+
+    private void sendTokensToRepository() {
+        new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
+            @Override
+            public void onDividendsSucceed() {
+                RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
+                        .flatMap(result -> {
+                            try {
+                                Pair<Transaction, Transaction> stringStringPair = CryptoUtils.generateDepositTokenToRepositoryTx(result, 999_0000L);
+                                String rawTransaction = CryptoUtils.getRawTransaction(stringStringPair.first);
+                                String rawSecondTransaction = CryptoUtils.getRawTransaction(stringStringPair.second);
+                                TransactionInteractor.addToJobSchedule(stringStringPair.first.getHash().getHex(), stringStringPair.second.getHash().getHex(), rawSecondTransaction);
+                                return RestApi.getServerApi().deployTransaction(rawTransaction);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                throw new RuntimeException("111");
+                            }
+                        })
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(response -> transferSuccess(response), error -> transferFailed(error));
+            }
+
+        });
+
+    }
+
+    private void transferFailed(Throwable throwable) {
+        Log.d(TAG, "transferFailed() called with: throwable = [" + throwable + "]");
+    }
+
+    private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
+        Log.d(TAG, "transferSuccess() called with: purchaseAppResponse = [" + purchaseAppResponse + "]");
+    }
+
+    private void proceedWithWithdraw() {
+
     }
 
 

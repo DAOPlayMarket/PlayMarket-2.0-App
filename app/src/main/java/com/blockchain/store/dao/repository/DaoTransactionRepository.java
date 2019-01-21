@@ -1,13 +1,12 @@
 package com.blockchain.store.dao.repository;
 
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Pair;
 
+import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.database.model.Rules;
 import com.blockchain.store.dao.database.model.Vote;
 import com.blockchain.store.dao.ui.DaoConstants;
-import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
@@ -18,8 +17,8 @@ import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Bool;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
-import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.Uint;
+import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
@@ -161,10 +160,23 @@ public class DaoTransactionRepository {
                     }
                     return tokenEthCallPair.first;
                 })
-                .flatMap(result -> getEthCallObservable(getNotLockedBalance(), DaoConstants.Repository), Pair::new)
+                .flatMap(result -> getEthCallObservable(getBalance(), DaoConstants.Repository), Pair::new)
                 .map(result -> {
                     for (int i = 0; i < result.first.size(); i++) {
-                        result.first.get(i).daoBalance = decodeFunction(result.second, getNotLockedBalance()).toString();
+                        result.first.get(i).daoNotLockedBalance = decodeFunction(result.second, getNotLockedBalance()).toString();
+                    }
+                    return result.first;
+                })  .flatMap(result -> getEthCallObservable(getNotLockedBalance(), DaoConstants.Repository), Pair::new)
+                .map(result -> {
+                    for (int i = 0; i < result.first.size(); i++) {
+                        result.first.get(i).daoBalance = decodeFunction(result.second, getBalance()).toString();
+                    }
+                    return result.first;
+                })
+                .flatMap(result -> getEthCallObservable(isWithDrawIsblocked(), DaoConstants.Repository), Pair::new)
+                .map(result ->{
+                    for (int i = 0; i < result.first.size(); i++) {
+                        result.first.get(i).isWithdrawBlocked = (boolean) decodeFunction(result.second,isWithDrawIsblocked());
                     }
                     return result.first;
                 })
@@ -212,6 +224,11 @@ public class DaoTransactionRepository {
         ArrayList<Type> inputParameters = new ArrayList<>();
         inputParameters.add(new Address(DaoTransactionRepository.userAddress));
         return new Function("getNotLockedBalance", inputParameters, Collections.singletonList(new TypeReference<Uint256>() {
+        }));
+    }
+   public static Function isWithDrawIsblocked() {/*returns uints*/
+        ArrayList<Type> inputParameters = new ArrayList<>();
+        return new Function("WithdrawIsBlockedByFund", inputParameters, Collections.singletonList(new TypeReference<Bool>() {
         }));
     }
 

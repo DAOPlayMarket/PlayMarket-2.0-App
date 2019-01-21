@@ -156,28 +156,20 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
             getSupportFragmentManager().popBackStack();
             return;
         }
-
-        if (fragment instanceof MainVotesFragment || fragment instanceof WalletFragment || fragment instanceof DividendsFragment) {
-            replaceNavViewFragment(new NavigationViewFragment());
-        } else if (fragment instanceof NewProposalFragment || fragment instanceof ProposalDetailsFragment) {
-            removeFragment(fragment);
-        } else if (fragment instanceof TokenTransferFragment) {
-            replaceNavViewFragment(new WalletFragment());
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
         } else {
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            } else if (searchView.isSearchOpen()) {
-                searchView.closeSearch();
+            if (backPressedLastTime + DOUBLE_TAP_INTERVAL_MILLIS > System.currentTimeMillis()) {
+                this.finish();
             } else {
-                if (backPressedLastTime + DOUBLE_TAP_INTERVAL_MILLIS > System.currentTimeMillis()) {
-                    this.finish();
-                } else {
-                    backPressedLastTime = System.currentTimeMillis();
-                    ToastUtil.showToast(R.string.double_tap_msg);
-                }
+                backPressedLastTime = System.currentTimeMillis();
+                ToastUtil.showToast(R.string.double_tap_msg);
             }
         }
+
     }
 
 

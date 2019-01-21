@@ -21,6 +21,7 @@ import com.blockchain.store.playmarket.adapters.DaoTokenAdapter;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.repositories.TransactionInteractor;
+import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
@@ -81,24 +82,41 @@ public class DividendsFragment extends Fragment {
     private void initAdapter(List<DaoToken> daoTokens) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new DaoTokenAdapter(daoTokens, new DaoActivity.DaoAdapterCallback() {
-            @Override public void onPmTokenClicked(DaoToken daoToken) {
-                new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
-                    @Override public void onDividendsSucceed() {
-                        runDemo();
-                    }
-                });
-//                ((MainMenuActivity) getActivity()).onTokenTransferClicked(daoToken);
+            @Override
+            public void onPmTokenClicked(DaoToken daoToken) {
+                ((MainMenuActivity) getActivity()).onTokenTransferClicked(daoToken);
             }
 
-            @Override public void onDaoTokenClicked(DaoToken daoToken) {
+            @Override
+            public void onDaoTokenClicked(DaoToken daoToken) {
                 new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
-                    @Override public void onDividendsSucceed() {
-                        runDemo();
+                    @Override
+                    public void onDividendsSucceed() {
+                        runReceive(daoToken);
                     }
                 });
             }
         });
         recyclerView.setAdapter(adapter);
+    }
+
+    private void runReceive(DaoToken daoToken) {
+        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
+                .flatMap(result -> {
+                    try {
+                        return RestApi.getServerApi().deployTransaction(CryptoUtils.generateDaoWithdraw(result,daoToken));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        throw new RuntimeException("111");
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::receive, this::transferFailed);
+    }
+
+    private void receive(PurchaseAppResponse purchaseAppResponse) {
+        Log.d(TAG, "receive() called with: purchaseAppResponse = [" + purchaseAppResponse + "]");
     }
 
     private void runDemo() {
