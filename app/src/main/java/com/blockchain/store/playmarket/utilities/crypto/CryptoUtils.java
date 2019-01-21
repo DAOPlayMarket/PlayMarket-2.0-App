@@ -342,6 +342,26 @@ public class CryptoUtils {
         }
     }
 
+    public static Transaction generateDepositOnlyTokenToRepositoryTx(AccountInfoResponse accountInfo, long amount) {
+        KeyStore keystore = AccountManager.getKeyManager().getKeystore();
+        Account account = AccountManager.getAccount();
+        BigInt price = new BigInt(0);
+        BigInt gasPrice = new BigInt(Long.parseLong(accountInfo.gasPrice));
+
+        byte[] depositData = new GenerateTransactionData().makeDeposit(amount);
+        Transaction depositTransaction = new Transaction(accountInfo.count, new Address(DaoConstants.Repository), price, GAS_LIMIT, gasPrice, depositData);
+
+        try {
+
+            depositTransaction = keystore.signTx(account, depositTransaction, new BigInt(USER_ETHERSCAN_ID));
+
+            return  depositTransaction;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static Transaction generateDaoSendTokenToUser(AccountInfoResponse accountInfo, String userAddress, String amount) throws Exception {
         KeyStore keystore = AccountManager.getKeyManager().getKeystore();
         Account account = AccountManager.getAccount();

@@ -243,7 +243,7 @@ public class DaoTransactionRepository {
     public static Function allowance() {/*returns uints*/
         ArrayList<Type> inputParameters = new ArrayList<>();
         inputParameters.add(new Address(DaoTransactionRepository.userAddress));
-        inputParameters.add(new Address(DaoConstants.PlayMarket_token_contract));
+        inputParameters.add(new Address(DaoConstants.Repository));
         return new Function("allowance", inputParameters, Collections.singletonList(new TypeReference<Uint256>() {
         }));
     }

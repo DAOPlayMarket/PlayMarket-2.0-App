@@ -196,8 +196,9 @@ public class TokenTransferFragment extends Fragment {
             sendEditText.setError("Wrong amount");
             return false;
         }
-        if (sendAmount >= daoToken.getApprovalWithDecimals()) {
+        if (sendAmount >= daoToken.getApprovalWithDecimals() && daoToken.getApprovalWithDecimals() != 0) {
             Toast.makeText(getActivity(), "You already has " + daoToken.getApprovalWithDecimals() + " token approval. Send tokens below this value.", Toast.LENGTH_SHORT).show();
+            return false;
         }
 //        if (sendAmount > Double.valueOf(daoToken.getNotLockedBalanceWithDecimals())) {
 //            sendEditText.setError("You can send only " + daoToken.getNotLockedBalanceWithDecimals() + " tokens");
@@ -238,11 +239,16 @@ public class TokenTransferFragment extends Fragment {
                 RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                         .flatMap(result -> {
                             try {
-                                Pair<Transaction, Transaction> stringStringPair = CryptoUtils.generateDepositTokenToRepositoryTx(result, amount);
-                                String rawTransaction = CryptoUtils.getRawTransaction(stringStringPair.first);
-                                if (daoToken.getApprovalWithoutDecimal() < amount) {
-                                    TransactionInteractor.addToJobSchedule(stringStringPair.first.getHash().getHex());
+                                String rawTransaction;
+                                Long approvalWithoutDecimal = daoToken.getApprovalWithoutDecimal();
+
+                                if (approvalWithoutDecimal >= amount && approvalWithoutDecimal != 0) {
+                                    Transaction transaction = CryptoUtils.generateDepositOnlyTokenToRepositoryTx(result, amount);
+                                    TransactionInteractor.addToJobSchedule(transaction.getHash().getHex());
+                                    rawTransaction = CryptoUtils.getRawTransaction(transaction);
                                 } else {
+                                    Pair<Transaction, Transaction> stringStringPair = CryptoUtils.generateDepositTokenToRepositoryTx(result, amount);
+                                    rawTransaction = CryptoUtils.getRawTransaction(stringStringPair.first);
                                     String rawSecondTransaction = CryptoUtils.getRawTransaction(stringStringPair.second);
                                     TransactionInteractor.addToJobSchedule(stringStringPair.first.getHash().getHex(), stringStringPair.second.getHash().getHex(), rawSecondTransaction);
                                 }
