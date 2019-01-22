@@ -27,7 +27,7 @@ public class TransactionInteractor {
     }
 
 
-    private static void addToJobSchedule(String hash) {
+    public static void addToJobSchedule(String hash) {
         JobUtils.scheduleCheckTransactionJob(Application.getInstance().getApplicationContext(), hash, null);
     }
 

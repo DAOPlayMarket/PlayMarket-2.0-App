@@ -7,6 +7,7 @@
     tools:context="com.blockchain.store.playmarket.ui.wallet_screen.TokenTransferFragment">
 
     <View
+        android:id="@+id/view2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/colorPrimaryLight"
@@ -81,6 +82,17 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/balance_textView"
         app:layout_constraintStart_toEndOf="@+id/balance_textView"
         tools:text="PMT" />
+
+    <TextView
+        android:id="@+id/lockedAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/token_textView"
+        app:layout_constraintEnd_toEndOf="@+id/view2"
+        app:layout_constraintStart_toEndOf="@+id/token_textView"
+        tools:text="1000 locked" />
 
     <TextView
         android:id="@+id/textView3"
@@ -256,6 +268,7 @@
             android:backgroundTint="@color/lightBlue"
             android:paddingBottom="15dp"
             android:singleLine="true"
+            android:inputType="numberDecimal"
             android:textColor="@color/white"
             android:textSize="12sp"
             tools:text="5464.324235" />

@@ -33,7 +33,7 @@
 
     <TextView
         android:id="@+id/receive_text"
-        style="@style/secondaryButton"
+        android:textColor="#059FFA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="28dp"

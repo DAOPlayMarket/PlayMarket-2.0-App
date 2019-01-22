@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
@@ -48,6 +49,7 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
     @BindView(R.id.ethBalance_textView) TextView ethBalance;
     @BindView(R.id.refreshBalance_button) ImageView refreshBalance;
     @BindView(R.id.rubBalance_textView) TextView balanceInLocal;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.view) View view;
     @BindView(R.id.button) Button button;
     private NavigationCallback navigationCallback;
@@ -75,7 +77,13 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
     private void attachPresenter() {
         presenter = new NavigationViewPresenter();
         presenter.init(this);
+        loadUserBalance();
+    }
+
+    private void loadUserBalance() {
         presenter.loadUserBalance();
+        progressBar.setVisibility(View.VISIBLE);
+        refreshBalance.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.close_button)
@@ -88,16 +96,23 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
         navigationCallback.onTokenTransferClicked(new DaoToken());
     }
 
-    @Override public void onBalanceReady(UserBalance balance) {
+    @Override
+    public void onBalanceReady(UserBalance balance) {
         ethBalance.setText(new EthereumPrice(balance.balanceInWei).inEther().toString());
         balanceInLocal.setText(String.format(getString(R.string.local_currency), balance.symbol, balance.getFormattedLocalCurrency()));
+
+        progressBar.setVisibility(View.GONE);
+        refreshBalance.setVisibility(View.VISIBLE);
     }
 
-    @Override public void onBalanceFail(Throwable throwable) {
-
+    @Override
+    public void onBalanceFail(Throwable throwable) {
+        progressBar.setVisibility(View.GONE);
+        refreshBalance.setVisibility(View.VISIBLE);
     }
 
-    @Override public void showUserBalanceProgress(boolean isShow) {
+    @Override
+    public void showUserBalanceProgress(boolean isShow) {
 
     }
 
@@ -105,20 +120,29 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
         startActivity(new Intent(getActivity(), QrActivity.class));
     }
 
-    @OnClick(R.id.copy_button) void onCopyButtonClicked() {
+    @OnClick(R.id.copy_button)
+    void onCopyButtonClicked() {
         ClipboardUtils.copyToClipboard(getActivity(), userAddress.getText().toString().replaceAll(" ", ""));
         ToastUtil.showToast(R.string.address_copied);
     }
 
-    @OnClick(R.id.addEth_button) void onAddEthClicked() {
+    @OnClick(R.id.addEth_button)
+    void onAddEthClicked() {
         startActivity(new Intent(getActivity(), ExchangeActivity.class));
     }
 
-    @OnClick(R.id.transfer_button) void onTransferClicked() {
+    @OnClick(R.id.transfer_button)
+    void onTransferClicked() {
         startActivity(new Intent(getActivity(), TransferActivity.class));
     }
 
-    @OnClick(R.id.history_button) void onHistoryClicked() {
+    @OnClick(R.id.history_button)
+    void onHistoryClicked() {
         startActivity(new Intent(getActivity(), TransactionHistoryActivity.class));
+    }
+
+    @OnClick(R.id.refreshBalance_button)
+    void onRefreshBalanceClicked() {
+        loadUserBalance();
     }
 }

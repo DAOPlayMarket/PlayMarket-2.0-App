@@ -34,6 +34,13 @@ public class TransactionNotification implements NotificationImpl {
                 return "Token transfer transaction pending";
             case SEND_REVIEW:
                 return "Create review transaction pending";
+
+            case SEND_INTO_REPOSITORY:
+                return "Sending tokens into repository";
+            case WITHDRAW_TOKEN:
+                return "Withdrawing tokens";
+            case GET_DIVIDENDS:
+                return "Collecting dividends";
         }
         return "Transaction";
     }
@@ -51,6 +58,13 @@ public class TransactionNotification implements NotificationImpl {
                 return "Token transfer transaction complete with success";
             case SEND_REVIEW:
                 return "Create review transaction complete with success";
+
+            case SEND_INTO_REPOSITORY:
+                return "Tokens are send to repository";
+            case WITHDRAW_TOKEN:
+                return "Tokens successfully withdrawn";
+            case GET_DIVIDENDS:
+                return "Dividends successfully collected";
         }
 
         return "Unknown transaction complete";
@@ -69,6 +83,12 @@ public class TransactionNotification implements NotificationImpl {
                 return "Token transfer transaction complete with failure";
             case SEND_REVIEW:
                 return "Create review transaction complete with failure";
+            case SEND_INTO_REPOSITORY:
+                return "Sending tokens into repository ends with error";
+            case WITHDRAW_TOKEN:
+                return "Withdrawing tokens ends with error";
+            case GET_DIVIDENDS:
+                return "Collecting dividends ends with error";
         }
         return "Unknown transaction error";
     }
@@ -89,6 +109,17 @@ public class TransactionNotification implements NotificationImpl {
         if (transactionTypeOrdinal == Constants.TransactionTypes.SEND_REVIEW.ordinal()) {
             return Constants.TransactionTypes.SEND_REVIEW;
         }
+        /*DAO*/
+        if (transactionTypeOrdinal == Constants.TransactionTypes.SEND_INTO_REPOSITORY.ordinal()) {
+            return Constants.TransactionTypes.SEND_INTO_REPOSITORY;
+        }
+        if (transactionTypeOrdinal == Constants.TransactionTypes.WITHDRAW_TOKEN.ordinal()) {
+            return Constants.TransactionTypes.WITHDRAW_TOKEN;
+        }
+        if (transactionTypeOrdinal == Constants.TransactionTypes.GET_DIVIDENDS.ordinal()) {
+            return Constants.TransactionTypes.GET_DIVIDENDS;
+        }
+
         return Constants.TransactionTypes.BUY_APP;
     }
 }

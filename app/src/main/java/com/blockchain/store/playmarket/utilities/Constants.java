@@ -52,6 +52,24 @@ public class Constants {
             public String toString() {
                 return "send review";
             }
+        },
+        SEND_INTO_REPOSITORY {
+            @Override
+            public String toString() {
+                return "send into repository";
+            }
+        },
+        WITHDRAW_TOKEN {
+            @Override
+            public String toString() {
+                return "withdraw tokens";
+            }
+        },
+        GET_DIVIDENDS {
+            @Override
+            public String toString() {
+                return "get dividends";
+            }
         }
 
     }
@@ -86,9 +104,8 @@ public class Constants {
     public static final String PLAY_MARKET_ADDRESS = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? PLAY_MARKET_ADDRESS_MAINNET : PLAY_MARKET_ADDRESS_TESTNET);
 
     public static final String CRYPTO_DUEL_CONTRACT_CROWDSALE = "0x2ab54369795266fc84e12270A0219d2e7d21F70f";
-    public static final String CRYPTO_DUEL_CONTRACT =           "0x869eb8a1a479a80f9907673eae8336625dc3e526";
+    public static final String CRYPTO_DUEL_CONTRACT = "0x869eb8a1a479a80f9907673eae8336625dc3e526";
     public static final String CRYPTO_DUEL_CONTRACT_FOR_ADVER_BUDGET = "0xbc82729a3a5063465f66b54d9a1e18496529c532";
-
 
 
     public static final String TRANSACTION_MODEL_KEY = "transaction_model_key";

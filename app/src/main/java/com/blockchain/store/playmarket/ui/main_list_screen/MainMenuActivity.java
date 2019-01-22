@@ -136,12 +136,10 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onBackPressed() {
-
         if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
             getSupportFragmentManager().popBackStack();
             return;
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -155,6 +153,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
                 ToastUtil.showToast(R.string.double_tap_msg);
             }
         }
+
     }
 
 
