@@ -23,7 +23,7 @@ public class MainVotesPresenter implements MainVotesContract.Presenter {
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Boolean isSync = intent.getBooleanExtra("IsSync", false);
+            boolean isSync = intent.getBooleanExtra("IsSync", false);
             if (isSync) {
                 List<Proposal> proposals = daoDatabase.proposalDao().getAll();
                 view.initTabLayout(proposals);

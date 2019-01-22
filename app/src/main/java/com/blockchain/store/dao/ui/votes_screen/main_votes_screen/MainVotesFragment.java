@@ -10,6 +10,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.blockchain.store.dao.database.model.Proposal;
@@ -35,7 +39,7 @@ public class MainVotesFragment extends Fragment implements MainVotesContract.Vie
     @BindView(R.id.votes_tabLayout) TabLayout votesTabLayout;
     @BindView(R.id.votes_viewPager) NonSwipeableViewPager votesViewPager;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
-
+    @BindView(R.id.addProposal_button) Button addProposalButton;
 
     @Override
     public void onAttach(Context context) {
@@ -44,7 +48,7 @@ public class MainVotesFragment extends Fragment implements MainVotesContract.Vie
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_main_votes, container, false);
     }
 
@@ -71,7 +75,7 @@ public class MainVotesFragment extends Fragment implements MainVotesContract.Vie
         viewPagerAdapter.addFragment(VotesFragment.newInstance(VotesFragment.StartFlag.Archive, proposals));
 
         votesViewPager.setAdapter(viewPagerAdapter);
-        votesViewPager.setOffscreenPageLimit(2);
+        votesViewPager.setOffscreenPageLimit(1);
 
         votesTabLayout.setupWithViewPager(votesViewPager);
         votesTabLayout.getTabAt(0).setText("Ongoing");
@@ -88,8 +92,32 @@ public class MainVotesFragment extends Fragment implements MainVotesContract.Vie
         navigationCallback.onNewProposalClicked();
     }
 
-    @OnClick(R.id.close_image_button)
+    @OnClick(R.id.close_button)
     void onCloseClicked() {
         if (getActivity() != null) getActivity().onBackPressed();
+    }
+
+    public void setButtonVisibility(int visibility) {
+        addProposalButton.setVisibility(visibility);
+    }
+
+    public void onScroll(int dy) {
+        if (dy >= 3) {
+            if (addProposalButton.getVisibility() != View.GONE) {
+                TranslateAnimation animate = new TranslateAnimation(0, 0, 0, 250);
+                animate.setDuration(200);
+                animate.setFillAfter(true);
+                addProposalButton.startAnimation(animate);
+                setButtonVisibility(View.GONE);
+            }
+        } else if (dy <= -3) {
+            if (addProposalButton.getVisibility() != View.VISIBLE) {
+                setButtonVisibility(View.VISIBLE);
+                TranslateAnimation animate = new TranslateAnimation(0, 0, 250, 0);
+                animate.setDuration(200);
+                animate.setFillAfter(true);
+                addProposalButton.startAnimation(animate);
+            }
+        }
     }
 }
