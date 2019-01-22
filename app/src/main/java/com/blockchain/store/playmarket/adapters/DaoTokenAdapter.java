@@ -19,11 +19,17 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
     private List<DaoToken> daoTokens;
     DaoActivity.DaoAdapterCallback callback;
+    private boolean isOpenAsWallet = false;
 
     public DaoTokenAdapter(List<DaoToken> daoTokens, DaoActivity.DaoAdapterCallback callback) {
+        this.daoTokens = daoTokens;
+        this.callback = callback;
+    }
+
+    public DaoTokenAdapter(List<DaoToken> daoTokens, DaoActivity.DaoAdapterCallback callback, boolean openAsDaoWallet) {
+        this.isOpenAsWallet = openAsDaoWallet;
         this.daoTokens = daoTokens;
         this.callback = callback;
     }
@@ -38,11 +44,18 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == 0) {
+
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dao_pm_token_list_item, parent, false);
             return new DaoPlayMarketTokenViewHolder(view);
         } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dao_token_list_item, parent, false);
-            return new DaoTokenViewHolder(view);
+            if (isOpenAsWallet) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dao_wallet_token_list_item, parent, false);
+                return new DaoWalletViewHolder(view);
+            } else {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dao_token_list_item, parent, false);
+                return new DaoTokenViewHolder(view);
+            }
+
         }
     }
 
@@ -53,6 +66,9 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
         if (holder instanceof DaoPlayMarketTokenViewHolder) {
             ((DaoPlayMarketTokenViewHolder) holder).bind(daoTokens.get(position));
+        }
+        if (holder instanceof DaoWalletViewHolder) {
+            ((DaoWalletViewHolder) holder).bind(daoTokens.get(position));
         }
     }
 
@@ -68,6 +84,7 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @BindView(R.id.token_balance) TextView balance;
         @BindView(R.id.token_repository_amount) TextView repositoryBalance;
         @BindView(R.id.imageView2) ImageView transferIcon;
+        @BindView(R.id.touch_helper) View touchHelper;
 
         public DaoPlayMarketTokenViewHolder(View itemView) {
             super(itemView);
@@ -83,6 +100,7 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             transferIcon.setOnClickListener(v -> callback.onPmTokenClicked(daoToken));
             button.setOnClickListener(v -> callback.onPmTokenClicked(daoToken));
+            touchHelper.setOnClickListener(v -> callback.onPmTokenClicked(daoToken));
 
         }
 
@@ -95,6 +113,34 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
+    class DaoWalletViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.name) TextView name;
+        @BindView(R.id.symbol) TextView symbol;
+        @BindView(R.id.touch_helper) View touch_helper;
+        @BindView(R.id.button) TextView button;
+        @BindView(R.id.token_balance_field) TextView token_balance_field;
+        @BindView(R.id.token_balance) TextView token_balance;
+        @BindView(R.id.imageView2) ImageView imageView2;
+
+        public DaoWalletViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+
+        public void bind(DaoToken daoToken) {
+            name.setText(daoToken.name);
+            symbol.setText(daoToken.symbol);
+            name.setText(daoToken.name);
+            symbol.setText(daoToken.symbol);
+            token_balance.setText(String.valueOf(daoToken.getBalanceWithDecimals()));
+
+            imageView2.setOnClickListener(v -> callback.onDaoTokenClicked(daoToken));
+            button.setOnClickListener(v -> callback.onDaoTokenClicked(daoToken));
+            touch_helper.setOnClickListener(v -> callback.onDaoTokenClicked(daoToken));
+        }
+    }
+
     class DaoTokenViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.name) TextView name;
@@ -102,6 +148,7 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @BindView(R.id.receive_text) TextView receiveText;
         @BindView(R.id.token_dividends_amount) TextView dividendsAmount;
         @BindView(R.id.imageView2) ImageView transferIcon;
+        @BindView(R.id.touch_helper) View touchHelper;
 
         public DaoTokenViewHolder(View itemView) {
             super(itemView);
@@ -115,11 +162,13 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             setClickEnabled(daoToken.countToken() != 0 && daoToken.isWithdrawBlocked);
             transferIcon.setOnClickListener(v -> callback.onDaoTokenClicked(daoToken));
             receiveText.setOnClickListener(v -> callback.onDaoTokenClicked(daoToken));
+            touchHelper.setOnClickListener(v -> callback.onDaoTokenClicked(daoToken));
         }
 
         private void setClickEnabled(boolean isEnabled) {
             transferIcon.setEnabled(isEnabled);
             receiveText.setEnabled(isEnabled);
+            touchHelper.setEnabled(isEnabled);
 
             transferIcon.setAlpha(isEnabled ? 1 : 0.4f);
             receiveText.setAlpha(isEnabled ? 1 : 0.4f);

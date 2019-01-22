@@ -27,6 +27,7 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.repositories.TransactionInteractor;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.QRCodeScannerActivity;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
@@ -60,6 +61,7 @@ public class TokenTransferFragment extends Fragment {
     @BindView(R.id.customAddress_button) RadioButton customAddressButton;
     @BindView(R.id.qrScanner_button) ImageView qrScannerButton;
     @BindView(R.id.lockedAmount) TextView lockedAmount;
+    @BindView(R.id.all_button) TextView allTv;
 
     @BindView(R.id.continue_button) Button continueButton;
     private int currentTabPosition = 0;
@@ -190,21 +192,45 @@ public class TokenTransferFragment extends Fragment {
 
 
     private boolean checkEnterValue() {
-        Double sendAmount = Double.valueOf(sendEditText.getText().toString());
+        Double sendAmount = 0d;
+        try {
+            sendAmount = Double.valueOf(sendEditText.getText().toString());
+        } catch (Exception e) {
+            sendEditText.setText("0");
+        }
 
         if (sendAmount == 0) {
             sendEditText.setError("Wrong amount");
             return false;
         }
-        if (sendAmount >= daoToken.getApprovalWithDecimals() && daoToken.getApprovalWithDecimals() != 0) {
-            Toast.makeText(getActivity(), "You already has " + daoToken.getApprovalWithDecimals() + " token approval. Send tokens below this value.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-//        if (sendAmount > Double.valueOf(daoToken.getNotLockedBalanceWithDecimals())) {
-//            sendEditText.setError("You can send only " + daoToken.getNotLockedBalanceWithDecimals() + " tokens");
-//            return false;
-//        }
 
+        if (currentTabPosition == 0) {
+            if (repositoryButton.isChecked()) {
+                if (sendAmount > daoToken.getApprovalWithDecimals() && daoToken.getApprovalWithDecimals() != 0) {
+                    Toast.makeText(getActivity(), "You already has " + daoToken.getApprovalWithDecimals() + " token approval. Send tokens below this value.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                if (sendAmount > Double.valueOf(daoToken.getBalanceWithDecimals())) {
+                    sendEditText.setError("You can send only " + daoToken.getBalanceWithDecimals() + " tokens");
+                    return false;
+                }
+            }
+            if (customAddressButton.isChecked()) {
+                if (recipientEditText.getText().toString().isEmpty()) {
+                    recipientEditText.setError("Empty field");
+                }
+                if (sendAmount > daoToken.getBalanceWithDecimals()) {
+                    sendEditText.setError("You can send only " + daoToken.getBalanceWithDecimals() + " tokens");
+                    return false;
+                }
+            }
+        }
+        if (currentTabPosition == 1) {/*withdraw*/
+            if (sendAmount > Double.valueOf(daoToken.getNotLockedBalanceWithDecimals())) {
+                sendEditText.setError("You can withdraw only " + String.valueOf(daoToken.getNotLockedBalanceWithDecimals()) + " tokens");
+                return false;
+            }
+        }
 
         return true;
     }
@@ -219,7 +245,7 @@ public class TokenTransferFragment extends Fragment {
                     try {
                         Transaction signedTx = CryptoUtils.generateDaoSendTokenToUser(result, recipientEditText.getText().toString(), String.valueOf(amount));
                         String rawTx = CryptoUtils.getRawTransaction(signedTx);
-                        TransactionInteractor.addToJobSchedule(signedTx.getHash().getHex());
+                        TransactionInteractor.addToJobSchedule(signedTx.getHash().getHex(), Constants.TransactionTypes.TRANSFER_TOKEN);
                         return RestApi.getServerApi().deployTransaction(rawTx);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -244,13 +270,13 @@ public class TokenTransferFragment extends Fragment {
 
                                 if (approvalWithoutDecimal >= amount && approvalWithoutDecimal != 0) {
                                     Transaction transaction = CryptoUtils.generateDepositOnlyTokenToRepositoryTx(result, amount);
-                                    TransactionInteractor.addToJobSchedule(transaction.getHash().getHex());
+                                    TransactionInteractor.addToJobSchedule(transaction.getHash().getHex(), Constants.TransactionTypes.SEND_INTO_REPOSITORY);
                                     rawTransaction = CryptoUtils.getRawTransaction(transaction);
                                 } else {
                                     Pair<Transaction, Transaction> stringStringPair = CryptoUtils.generateDepositTokenToRepositoryTx(result, amount);
                                     rawTransaction = CryptoUtils.getRawTransaction(stringStringPair.first);
                                     String rawSecondTransaction = CryptoUtils.getRawTransaction(stringStringPair.second);
-                                    TransactionInteractor.addToJobSchedule(stringStringPair.first.getHash().getHex(), stringStringPair.second.getHash().getHex(), rawSecondTransaction);
+                                    TransactionInteractor.addToJobSchedule(stringStringPair.first.getHash().getHex(), stringStringPair.second.getHash().getHex(), rawSecondTransaction, Constants.TransactionTypes.SEND_INTO_REPOSITORY);
                                 }
 
                                 return RestApi.getServerApi().deployTransaction(rawTransaction);
@@ -273,6 +299,12 @@ public class TokenTransferFragment extends Fragment {
     }
 
     private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
+        try {
+            Toast.makeText(getActivity(), "Transaction successfully sent!", Toast.LENGTH_SHORT).show();
+            getActivity().onBackPressed();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Log.d(TAG, "transferSuccess() called with: purchaseAppResponse = [" + purchaseAppResponse + "]");
     }
 
@@ -285,7 +317,7 @@ public class TokenTransferFragment extends Fragment {
                             try {
                                 Transaction tx = CryptoUtils.generateWithDrawPmtTokens(result, amount);
                                 String rawTx = CryptoUtils.getRawTransaction(tx);
-                                new TransactionInteractor().addToJobSchedule(tx.getHash().getHex());
+                                new TransactionInteractor().addToJobSchedule(tx.getHash().getHex(), Constants.TransactionTypes.WITHDRAW_TOKEN);
                                 return RestApi.getServerApi().deployTransaction(rawTx);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -324,7 +356,16 @@ public class TokenTransferFragment extends Fragment {
         if (!checkEnterValue()) {
             return;
         }
-        Long amount = (long) (Long.valueOf(sendEditText.getText().toString()) * Math.pow(10, daoToken.decimals));
+        Long amount = 0L;
+        try {
+            Double value = Double.valueOf(sendEditText.getText().toString()) * Math.pow(10, daoToken.decimals);
+            amount = value.longValue();
+        } catch (Exception e) {
+            sendEditText.setError("Wrong amount");
+            return;
+        }
+
+
         if (currentTabPosition == 0) {
             if (repositoryButton.isChecked()) {
                 sendTokensToRepository(amount);
@@ -337,5 +378,24 @@ public class TokenTransferFragment extends Fragment {
             proceedWithWithdraw(amount);
         }
 
+    }
+
+    @OnClick(R.id.all_button)
+    void onAllBtnClicked() {
+        if (currentTabPosition == 0) {
+            if (repositoryButton.isChecked()) {
+                if (daoToken.getApprovalWithDecimals() != 0) {
+                    sendEditText.setText(String.valueOf(daoToken.getApprovalWithDecimals()));
+                } else {
+                    sendEditText.setText(String.valueOf(daoToken.getBalanceWithDecimals()));
+                }
+            }
+            if (customAddressButton.isChecked()) {
+                sendEditText.setText(String.valueOf(daoToken.getBalanceWithDecimals()));
+            }
+        }
+        if (currentTabPosition == 1) {/*withdraw*/
+            sendEditText.setText(String.valueOf(daoToken.getNotLockedBalanceWithDecimals()));
+        }
     }
 }

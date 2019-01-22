@@ -12,7 +12,8 @@ public class DaoConstants {
 
     private static final String Foundation_TEST = "0x7f3833e21c116C54cf157B3457896C7F5c85FE79"; // test
     private static final String DAO_TEST = "0x6ed82ffe4c0db4f9b0d52ef943a4e75b4159d85a"; // test
-    private static final String Repository_TEST = "0xa294558c55343a31c1fb3d443db2b7a1b8df2e80"; //test
+    private static final String Repository_TEST = "0x3F94FAbdc7d84C00C84C9c87445de9d63566c6A3"; //test
+//    private static final String Repository_TEST = "0xa294558c55343a31c1fb3d443db2b7a1b8df2e80"; //test // pro
     private static final String PlayMarket_token_contract_test = "0x538106e553f5BA3298199C1998ba061922815A6c"; // test
 
     private static final String Foundation_mainnet = "0xb04A05905Dc94345DCAD4846664001d4818E16D2"; // mainnet

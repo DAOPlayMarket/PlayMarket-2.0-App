@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.repositories;
 
+import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -13,16 +14,16 @@ import rx.schedulers.Schedulers;
 
 public class TokenRepository {
 
-    public static Observable<ArrayList<Token>> getUserTokens() {
-        ArrayList<Token> userSavedTokens = getUserSavedTokens();
+    public static Observable<ArrayList<DaoToken>> getUserTokens() {
+        ArrayList<DaoToken> userSavedTokens = getUserSavedTokens();
         ArrayList<Observable<String>> obsList = new ArrayList<>();
-        for (Token userSavedToken : userSavedTokens) {
+        for (DaoToken userSavedToken : userSavedTokens) {
             obsList.add(TransactionRepository.getUserTokenBalance(userSavedToken.address, AccountManager.getAddress().getHex()));
         }
         return Observable.from(obsList).flatMap(result -> result.observeOn(Schedulers.newThread())).toList().map(result -> {
             for (int i = 0; i <= userSavedTokens.size(); i++) {
                 try {
-                    userSavedTokens.get(i).balanceOf = result.get(i);
+                    userSavedTokens.get(i).balance = result.get(i);
                 } catch (Exception e) {
                 }
             }
@@ -33,18 +34,18 @@ public class TokenRepository {
                 .subscribeOn(Schedulers.newThread());
     }
 
-    public static ArrayList<Token> getUserSavedTokens() {
-        if (Hawk.contains(Constants.LOCAL_TOKEN_KEYS)) {
-            return Hawk.get(Constants.LOCAL_TOKEN_KEYS);
+    public static ArrayList<DaoToken> getUserSavedTokens() {
+        if (Hawk.contains(Constants.LOCAL_TOKEN_KEYS_V2)) {
+            return Hawk.get(Constants.LOCAL_TOKEN_KEYS_V2);
         } else {
             return new ArrayList<>();
         }
     }
 
 
-    public static void addToken(Token token) {
-        ArrayList<Token> userTokens = getUserSavedTokens();
-        for (Token userToken : userTokens) {
+    public static void addToken(DaoToken token) {
+        ArrayList<DaoToken> userTokens = getUserSavedTokens();
+        for (DaoToken userToken : userTokens) {
             if (userToken.name.equalsIgnoreCase(token.name)) {
                 return;
             }
@@ -53,13 +54,13 @@ public class TokenRepository {
         saveTokens(userTokens);
     }
 
-    private static void saveTokens(ArrayList<Token> userTokens) {
-        Hawk.put(Constants.LOCAL_TOKEN_KEYS, userTokens);
+    private static void saveTokens(ArrayList<DaoToken> userTokens) {
+        Hawk.put(Constants.LOCAL_TOKEN_KEYS_V2, userTokens);
     }
 
-    public static boolean isTokenAlreadyAdded(Token token) {
-        ArrayList<Token> userTokens = getUserSavedTokens();
-        for (Token userToken : userTokens) {
+    public static boolean isTokenAlreadyAdded(DaoToken token) {
+        ArrayList<DaoToken> userTokens = getUserSavedTokens();
+        for (DaoToken userToken : userTokens) {
             if (userToken.name.equalsIgnoreCase(token.name)) {
                 return true;
             }
@@ -67,10 +68,10 @@ public class TokenRepository {
         return false;
     }
 
-    public ArrayList<Token> deleteToken(Token token) {
-        ArrayList<Token> newTokens = new ArrayList<>();
-        ArrayList<Token> userTokens = getUserSavedTokens();
-        for (Token userToken : userTokens) {
+    public ArrayList<DaoToken> deleteToken(DaoToken token) {
+        ArrayList<DaoToken> newTokens = new ArrayList<>();
+        ArrayList<DaoToken> userTokens = getUserSavedTokens();
+        for (DaoToken userToken : userTokens) {
             if (!userToken.name.equalsIgnoreCase(token.name)) {
                 newTokens.add(userToken);
             }

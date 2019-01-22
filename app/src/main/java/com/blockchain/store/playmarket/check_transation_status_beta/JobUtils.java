@@ -38,9 +38,20 @@ public class JobUtils {
         scheduleCheckTransactionJobs(context, transactionHash, null, null, transactionType);
     }
 
-    public static void scheduleSecondTransactionJob(Context context, String transactionHash, Constants.TransactionTypes transactionType) {
+    public static void scheduleSecondTransactionJob(Context context, String transactionHash, int transactionOrdinal) {
+        Constants.TransactionTypes type = Constants.TransactionTypes.GET_DIVIDENDS;
+
+        if (transactionOrdinal == Constants.TransactionTypes.GET_DIVIDENDS.ordinal()) {
+            type = Constants.TransactionTypes.GET_DIVIDENDS;
+        }
+        if (transactionOrdinal == Constants.TransactionTypes.SEND_INTO_REPOSITORY.ordinal()) {
+            type = Constants.TransactionTypes.SEND_INTO_REPOSITORY;
+        }
+        if (transactionOrdinal == Constants.TransactionTypes.WITHDRAW_TOKEN.ordinal()) {
+            type = Constants.TransactionTypes.WITHDRAW_TOKEN;
+        }
         TRANSACTION_STATUS_JOB_ID--;
-        scheduleCheckTransactionJobs(context, transactionHash, null, null, transactionType);
+        scheduleCheckTransactionJobs(context, transactionHash, null, null, type);
     }
 
 

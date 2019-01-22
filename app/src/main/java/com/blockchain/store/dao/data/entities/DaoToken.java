@@ -35,14 +35,14 @@ public class DaoToken implements Parcelable {
     }
 
     public String getNotLockedBalanceWithDecimals() {
-        return String.valueOf(getNotLockedBalance() / Math.pow(2, decimals));
+        return String.valueOf(getNotLockedBalance() / Math.pow(10, decimals));
     }
 
     public Long getApprovalWithoutDecimal(){
         return (long)(Long.valueOf(approval));
     }
     public Long getApprovalWithDecimals() {
-        return (long)(Long.valueOf(approval) / Math.pow(10,decimals));
+        return (long)(Double.parseDouble(approval) / Math.pow(10,decimals));
     }
 
     public long getWithdraw() {
@@ -63,6 +63,9 @@ public class DaoToken implements Parcelable {
             value = safePerc(total, value);
             value = value / (multiplier / 100);
         }
+
+        value += getFund();
+
         return value;
     }
 

@@ -189,15 +189,15 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
             if (isOpenFromBottomSheet) {
                 balanceField.setVisibility(View.GONE);
                 balance.setVisibility(View.GONE);
-                if (TokenRepository.isTokenAlreadyAdded(token)) {
-                    button.setText("Token added");
-                    transferIcon.setVisibility(View.GONE);
-                    button.setTextColor(resources.getColor(R.color.added_token_color));
-                } else {
-                    transferIcon.setVisibility(View.VISIBLE);
-                    button.setText("Add token");
-                    transferIcon.setImageResource(R.drawable.ic_add);
-                }
+//                if (TokenRepository.isTokenAlreadyAdded(token)) {
+//                    button.setText("Token added");
+//                    transferIcon.setVisibility(View.GONE);
+//                    button.setTextColor(resources.getColor(R.color.added_token_color));
+//                } else {
+//                    transferIcon.setVisibility(View.VISIBLE);
+//                    button.setText("Add token");
+//                    transferIcon.setImageResource(R.drawable.ic_add);
+//                }
             } else {
                 transferIcon.setVisibility(View.VISIBLE);
                 tokenDivider.setVisibility(selectedPosition == position ? View.VISIBLE : View.GONE);

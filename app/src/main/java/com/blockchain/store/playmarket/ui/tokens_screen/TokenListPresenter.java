@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.ui.tokens_screen;
 
+import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.data.entities.TokenResponse;
@@ -23,12 +24,13 @@ public class TokenListPresenter implements TokenListContract.Presenter {
 
     @Override
     public void getAllTokens() {
-        TokenRepository.getUserTokens()
-                .doOnSubscribe(() -> view.showProgress(true))
-                .doOnTerminate(() -> view.showProgress(false))
-                .subscribe(this::onTokensReady);
-        getTokenForBottomSheet();
+//        TokenRepository.getUserTokens()
+//                .doOnSubscribe(() -> view.showProgress(true))
+//                .doOnTerminate(() -> view.showProgress(false))
+//                .subscribe(this::onTokensReady);
+//        getTokenForBottomSheet();
     }
+
 
     public void getBottomSheetTokens() {
         getTokenForBottomSheet();
@@ -50,9 +52,9 @@ public class TokenListPresenter implements TokenListContract.Presenter {
         view.onBottomSheetTokensFailed(throwable);
     }
 
-    private void onTokensReady(ArrayList<Token> tokenResponse) {
-        view.onTokensReady(tokenResponse);
-    }
+//    private void onTokensReady(ArrayList<Token> tokenResponse) {
+//        view.onTokensReady(tokenResponse);
+//    }
 
     @Override
     public void findToken(String address) {
@@ -63,7 +65,7 @@ public class TokenListPresenter implements TokenListContract.Presenter {
     }
 
     private void onNewTokenReady(Token token) {
-        TokenRepository.addToken(token);
+//        TokenRepository.addToken(token);
         view.onNewTokenReady(token);
     }
 
@@ -82,12 +84,12 @@ public class TokenListPresenter implements TokenListContract.Presenter {
     }
 
     public void addToken(Token token) {
-        new TokenRepository().addToken(token);
+//        new TokenRepository().addToken(token);
         view.updateBottomSheetAdapter();
     }
 
     public void deleteToken(Token token) {
-        new TokenRepository().deleteToken(token);
+//        new TokenRepository().deleteToken(token);
 //        view.updateMainAdapter();
     }
 }

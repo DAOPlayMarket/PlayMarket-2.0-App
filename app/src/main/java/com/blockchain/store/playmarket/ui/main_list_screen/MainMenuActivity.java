@@ -327,6 +327,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onTokenTransferClicked(DaoToken daoToken) {
+
         replaceNavViewFragment(TokenTransferFragment.newInstance(daoToken));
     }
 }

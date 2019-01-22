@@ -14,12 +14,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.UserBalance;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
 import com.blockchain.store.playmarket.ui.about_screen.AboutAppActivity;
 import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
 import com.blockchain.store.playmarket.ui.settings_screen.SettingsActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -200,6 +203,16 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     @Override
     public void showUserBalanceProgress(boolean isShow) {
         //progressBar.setVisibility(isShow ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void onLocalTokensReady(List<DaoToken> daoTokens) {
+
+    }
+
+    @Override
+    public void onLocalTokensError(Throwable throwable) {
+
     }
 //
 //    @OnClick(R.id.nav_view_exchange)

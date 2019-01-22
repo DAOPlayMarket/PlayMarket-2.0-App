@@ -197,13 +197,12 @@ public class CryptoUtils {
     public static Pair<Transaction, Transaction> generateDaoTransferTransactions(AccountInfoResponse accountInfo, DaoToken token) throws Exception {
         BigInt price = new BigInt(0);
         Account account = AccountManager.getAccount();
-        GenerateTransactionData generateTransactionData = new GenerateTransactionData();
-        byte[] tokens = generateTransactionData.getTokens(0, 1);
-        byte[] withdraw = generateTransactionData.withdraw(token.address, token.total);
+        byte[] tokens =  new GenerateTransactionData().getTokens(0, token.totalTokensLength);
+        byte[] withdraw =  new GenerateTransactionData().withdraw(token.address, token.countToken());
 
-        Transaction getTokensTransaction = new Transaction(accountInfo.count, new Address(Constants.PLAY_MARKET_ADDRESS),
+        Transaction getTokensTransaction = new Transaction(accountInfo.count, new Address(DaoConstants.Foundation),
                 price, GAS_LIMIT,  new BigInt(Long.valueOf(accountInfo.gasPrice)), tokens);
-        Transaction withdrawTransaction = new Transaction(accountInfo.count + 1, new Address(Constants.PLAY_MARKET_ADDRESS),
+        Transaction withdrawTransaction = new Transaction(accountInfo.count + 1, new Address(DaoConstants.Foundation),
                 price, GAS_LIMIT,  new BigInt(Long.valueOf(accountInfo.gasPrice)), withdraw);
         Transaction getTokenSignedTx = keyManager.getKeystore().signTx(account, getTokensTransaction, new BigInt(USER_ETHERSCAN_ID));
         Transaction withdrawSignedTx = keyManager.getKeystore().signTx(account, withdrawTransaction, new BigInt(USER_ETHERSCAN_ID));
@@ -212,6 +211,22 @@ public class CryptoUtils {
         String withdrawRawTx = getRawTransaction(withdrawSignedTx);
 
         return new Pair<Transaction, Transaction>(getTokenSignedTx, withdrawSignedTx);
+
+    }
+
+    public static Transaction generateDaoWithdraw(AccountInfoResponse result, DaoToken token) throws Exception {
+        BigInt price = new BigInt(0);
+        Account account = AccountManager.getAccount();
+        GenerateTransactionData generateTransactionData = new GenerateTransactionData();
+        byte[] withdraw = generateTransactionData.withdraw(token.address, token.countToken());
+
+        Transaction withdrawTransaction = new Transaction(result.count, new Address(DaoConstants.Foundation),
+                price, GAS_LIMIT, new BigInt(Long.valueOf(result.gasPrice)), withdraw);
+        Transaction withdrawSignedTx = keyManager.getKeystore().signTx(account, withdrawTransaction, new BigInt(USER_ETHERSCAN_ID));
+
+        String withdrawRawTx = getRawTransaction(withdrawSignedTx);
+
+        return withdrawSignedTx;
 
     }
 
@@ -375,21 +390,7 @@ public class CryptoUtils {
 
     }
 
-    public static String generateDaoWithdraw(AccountInfoResponse result, DaoToken token) throws Exception {
-        BigInt price = new BigInt(0);
-        Account account = AccountManager.getAccount();
-        GenerateTransactionData generateTransactionData = new GenerateTransactionData();
-        byte[] withdraw = generateTransactionData.withdraw(token.address, token.total);
 
-        Transaction withdrawTransaction = new Transaction(result.count, new Address(Constants.PLAY_MARKET_ADDRESS),
-                price, GAS_LIMIT, new BigInt(Long.valueOf(result.gasPrice)), withdraw);
-        Transaction withdrawSignedTx = keyManager.getKeystore().signTx(account, withdrawTransaction, new BigInt(USER_ETHERSCAN_ID));
-
-        String withdrawRawTx = getRawTransaction(withdrawSignedTx);
-
-        return withdrawRawTx;
-
-    }
 
 }
 

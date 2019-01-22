@@ -21,6 +21,16 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Matryx" />
 
+    <TextView
+        android:id="@+id/symbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/token_balance"
+        app:layout_constraintStart_toEndOf="@+id/token_balance"
+        tools:text="MTX" />
+
     <View
         android:id="@+id/touch_helper"
         android:layout_width="107dp"
@@ -31,47 +41,28 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/symbol"
+        android:id="@+id/button"
+        style="@style/secondaryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView6"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
-        tools:text="MTX" />
-
-    <TextView
-        android:id="@+id/receive_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/receive"
-        android:textColor="#059FFA"
+        android:text="@string/transfer"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/touch_helper"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/touch_helper"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="Token symbol:"
-        app:layout_constraintStart_toStartOf="@+id/name"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <TextView
         android:id="@+id/token_balance_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="15dp"
         android:text="Balance:"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <TextView
         android:id="@+id/token_balance"
@@ -79,41 +70,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textColor="@color/secondary_btn_text_color"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBaseline_toBaselineOf="@+id/token_balance_field"
         app:layout_constraintStart_toEndOf="@+id/token_balance_field"
         tools:text="10" />
-
-    <TextView
-        android:id="@+id/token_dividends_amount_field"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:paddingBottom="17dp"
-        android:text="@string/dividends_amount"
-        app:layout_constraintStart_toStartOf="@+id/token_balance_field"
-        app:layout_constraintTop_toBottomOf="@+id/token_balance_field" />
-
-    <TextView
-        android:id="@+id/token_dividends_amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textColor="@color/secondary_btn_text_color"
-        app:layout_constraintBaseline_toBaselineOf="@+id/token_dividends_amount_field"
-        app:layout_constraintStart_toEndOf="@+id/token_dividends_amount_field"
-        tools:text="500.000" />
 
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:src="@drawable/receive_icon"
-        app:layout_constraintBottom_toTopOf="@+id/receive_text"
-        app:layout_constraintEnd_toEndOf="@+id/receive_text"
-        app:layout_constraintStart_toStartOf="@+id/receive_text"
+        android:src="@drawable/ic_token_list_transfer"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="@+id/button"
+        app:layout_constraintStart_toStartOf="@+id/button"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.52"
         app:layout_constraintVertical_chainStyle="packed" />

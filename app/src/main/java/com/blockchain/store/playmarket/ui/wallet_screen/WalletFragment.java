@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +17,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
+import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.adapters.DaoTokenAdapter;
 import com.blockchain.store.playmarket.data.entities.UserBalance;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
 import com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivity;
+import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewContract;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewPresenter;
 import com.blockchain.store.playmarket.ui.qr_screen.QrActivity;
@@ -28,6 +33,8 @@ import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,6 +59,9 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.view) View view;
     @BindView(R.id.button) Button button;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
+    @BindView(R.id.token_progress_Bar) ProgressBar tokenProgressBar;
+
     private NavigationCallback navigationCallback;
     private NavigationViewPresenter presenter;
 
@@ -78,6 +88,12 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
         presenter = new NavigationViewPresenter();
         presenter.init(this);
         loadUserBalance();
+        loadPmtToken();
+    }
+
+    private void loadPmtToken() {
+        presenter.loadPmtToken();
+        tokenProgressBar.setVisibility(View.VISIBLE);
     }
 
     private void loadUserBalance() {
@@ -116,7 +132,35 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
 
     }
 
-    @OnClick(R.id.qr_button) void onQrButtonClicked() {
+    @Override
+    public void onLocalTokensReady(List<DaoToken> daoTokens) {
+        tokenProgressBar.setVisibility(View.GONE);
+        initAdapter(daoTokens);
+    }
+
+    @Override
+    public void onLocalTokensError(Throwable throwable) {
+        tokenProgressBar.setVisibility(View.GONE);
+    }
+
+    private void initAdapter(List<DaoToken> daoTokens) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        DaoTokenAdapter daoTokenAdapter = new DaoTokenAdapter(daoTokens, new DaoActivity.DaoAdapterCallback() {
+            @Override
+            public void onPmTokenClicked(DaoToken daoToken) {
+                ((MainMenuActivity) getActivity()).onTokenTransferClicked(daoToken);
+            }
+
+            @Override
+            public void onDaoTokenClicked(DaoToken daoToken) {
+                TransferActivity.startAsTokenTransfer(getActivity(), daoToken);
+            }
+        }, true);
+        recyclerView.setAdapter(daoTokenAdapter);
+    }
+
+    @OnClick(R.id.qr_button)
+    void onQrButtonClicked() {
         startActivity(new Intent(getActivity(), QrActivity.class));
     }
 

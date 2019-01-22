@@ -112,6 +112,8 @@ public class Constants {
 
     public static final String LOCAL_TOKEN_KEYS = "local_token_keys";
 
+    public static final String LOCAL_TOKEN_KEYS_V2 = "local_token_keysv2";
+
     /*Settings prefs*/
     public static final String CURRENT_CURRENCY = "current_currency";
     public static final String SETTINGS_AUTOINSTALL_FLAG = "settings_autoinstall_flag";

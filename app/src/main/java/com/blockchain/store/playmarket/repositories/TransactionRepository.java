@@ -97,9 +97,8 @@ public class TransactionRepository {
     }
 
     public static Observable<String> getUserTokenBalance(String contractAddress, String userAddress) {
-        init(contractAddress, userAddress);
-        return getBalanceOfObservable().map(result -> decodeFunction(result, getBalanceOfFunction(userAddress))
-                .toString())
+        initAsRinkeby(contractAddress, userAddress);
+        return getBalanceOfObservable(userAddress).map(result -> decodeFunction(result,getBalanceOfFunction(userAddress)).toString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread());
     }
@@ -141,6 +140,9 @@ public class TransactionRepository {
 
     private static Observable<EthCall> getBalanceOfObservable() {
         return getEthCallObservable(getBalanceOfFunction(Constants.CRYPTO_DUEL_CONTRACT_FOR_ADVER_BUDGET));
+    }
+    private static Observable<EthCall> getBalanceOfObservable(String address) {
+        return getEthCallObservable(getBalanceOfFunction(address));
     }
 
     private static Observable<EthCall> getEthCallObservable(Function dataFunction) {
