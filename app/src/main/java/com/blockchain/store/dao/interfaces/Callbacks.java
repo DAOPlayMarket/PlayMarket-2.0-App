@@ -19,4 +19,10 @@ public abstract class Callbacks {
 
     }
 
+    public interface VotesCallback {
+
+        void OnRecyclerViewScrolled(int y);
+
+    }
+
 }

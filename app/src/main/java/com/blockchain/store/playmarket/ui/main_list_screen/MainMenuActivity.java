@@ -105,6 +105,10 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         getSupportFragmentManager().beginTransaction().replace(R.id.navigation_view_holder, fragment).addToBackStack("").commitAllowingStateLoss();
     }
 
+    private void addNavViewFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().add(R.id.navigation_view_holder, fragment).addToBackStack("").commitAllowingStateLoss();
+    }
+
     private void initViews() {
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -318,12 +322,12 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onNewProposalClicked() {
-        replaceNavViewFragment(new NewProposalFragment());
+        addNavViewFragment(new NewProposalFragment());
     }
 
     @Override
     public void onProposalDetailsClicked(Proposal proposal) {
-        replaceNavViewFragment(ProposalDetailsFragment.newInstance(proposal));
+        addNavViewFragment(ProposalDetailsFragment.newInstance(proposal));
     }
 
     @Override

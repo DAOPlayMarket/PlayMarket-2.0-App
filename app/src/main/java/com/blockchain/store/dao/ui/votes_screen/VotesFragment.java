@@ -12,12 +12,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.blockchain.store.dao.adapters.ProposalsAdapter;
 import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.interfaces.Callbacks;
+import com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
+import com.blockchain.store.playmarket.utilities.EndlessRecyclerOnScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,7 @@ public class VotesFragment extends Fragment implements Callbacks.ProposalCallbac
         Ongoing,
         Archive
     }
+
 
     private ProposalsAdapter adapter;
     private NavigationCallback navigationCallback;
@@ -69,11 +73,24 @@ public class VotesFragment extends Fragment implements Callbacks.ProposalCallbac
 
     private void showProposals(ArrayList<Proposal> proposals) {
         if (adapter == null) {
+            proposals.add(new Proposal());
+            proposals.add(new Proposal());
+            proposals.add(new Proposal());
+            proposals.add(new Proposal());
+            proposals.add(new Proposal());
             proposalsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             proposalsRecyclerView.setHasFixedSize(true);
             adapter = new ProposalsAdapter(proposals, this);
             adapter.setHasStableIds(true);
             proposalsRecyclerView.setAdapter(adapter);
+
+            proposalsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    if (getParentFragment() != null) ((MainVotesFragment)getParentFragment()).onScroll(dy);
+                }
+            });
         } else {
             adapter.setItems(proposals);
         }
