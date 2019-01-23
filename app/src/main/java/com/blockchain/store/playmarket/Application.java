@@ -97,7 +97,7 @@ public class Application extends MultiDexApplication {
             }
         }).build();
         setUpFresco();
-//        setUpAWS();
+        setUpAWS();
     }
 
 

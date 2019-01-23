@@ -34,7 +34,7 @@
 
         <ImageView
             style="@style/navViewImageItem"
-            android:src="@drawable/ic_tokensicon" />
+            android:src="@drawable/ic_depositicon" />
 
         <TextView
             style="@style/navViewTextItem"
@@ -52,7 +52,7 @@
 
         <ImageView
             style="@style/navViewImageItem"
-            android:src="@drawable/ic_accounticon" />
+            android:src="@drawable/ic_tokensicon" />
 
         <TextView
             style="@style/navViewTextItem"

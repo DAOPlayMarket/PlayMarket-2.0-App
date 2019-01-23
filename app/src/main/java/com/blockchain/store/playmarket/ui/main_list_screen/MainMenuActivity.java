@@ -34,10 +34,10 @@ import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
+import com.blockchain.store.playmarket.ui.change_account_screen.ChangeAccountFragment;
 import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
 import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
-import com.blockchain.store.playmarket.ui.pex_screen.PexActivity;
 import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
 import com.blockchain.store.playmarket.ui.wallet_screen.TokenTransferFragment;
 import com.blockchain.store.playmarket.ui.wallet_screen.WalletFragment;
@@ -333,7 +333,11 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onTokenTransferClicked(DaoToken daoToken) {
-
         replaceNavViewFragment(TokenTransferFragment.newInstance(daoToken));
+    }
+
+    @Override
+    public void onChangeAccountClicked() {
+        addNavViewFragment(new ChangeAccountFragment());
     }
 }
