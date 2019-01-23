@@ -65,7 +65,7 @@ public class TransferPresenter implements TransferContract.Presenter {
     private String generateTransaction(AccountInfoResponse accountInfoResponse, String transferAmount, String address) {
         String rawTransaction;
         try {
-            rawTransaction = CryptoUtils.generateTransferTransaction(accountInfoResponse.count, accountInfoResponse.gasPrice, transferAmount, address);
+            rawTransaction = CryptoUtils.generateTransferTransaction(accountInfoResponse.count, accountInfoResponse.getGasPrice(), transferAmount, address);
             return rawTransaction;
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,7 +99,7 @@ public class TransferPresenter implements TransferContract.Presenter {
         try {
             rawTransaction = CryptoUtils.generateAppBuyTransaction(
                     accountInfo.first.count,
-                    new BigInt(Long.parseLong(accountInfo.first.gasPrice)),
+                    new BigInt(Long.parseLong(accountInfo.first.getGasPrice())),
                     app, accountInfo.first.adrNode, accountInfo.second);
         } catch (Exception e) {
             e.printStackTrace();

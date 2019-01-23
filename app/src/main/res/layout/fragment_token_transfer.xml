@@ -202,6 +202,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/lightBlue"
+            android:ellipsize="middle"
             android:paddingBottom="15dp"
             android:singleLine="true"
             android:textColor="@color/white"
@@ -317,15 +318,20 @@
 
     <TextView
         android:id="@+id/repository_textView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:ellipsize="middle"
+        android:singleLine="true"
         android:textAllCaps="true"
-        android:visibility="gone"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/send_InputLayout"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        tools:text="0xf43DD3D777BC49E438b170B0d92e3F28327452CF" />
+        tools:text="0xf43DD3D777BCasdfasdfasdfasdfsdfsadfas49E438b170B0d92e3F28327452CF" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -325,5 +325,6 @@
     <string name="confirm_transaction">Confirm transaction</string>
     <string name="new_proposal">New proposal</string>
     <string name="id">id:</string>
+    <string name="your_accounts">Your accounts:</string>
 
 </resources>

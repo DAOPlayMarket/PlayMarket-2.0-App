@@ -30,6 +30,7 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.QRCodeScannerActivity;
+import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
 import org.ethereum.geth.Transaction;
@@ -92,7 +93,12 @@ public class TokenTransferFragment extends Fragment {
                 repositoryBalanceTextView.setText(String.valueOf(daoToken.getDaoBalanceWithDecimals()));
                 tokenTextView.setText(daoToken.symbol);
                 token2TextView.setText(daoToken.symbol);
-                lockedAmount.setText(daoToken.getDaoBalance() - daoToken.getNotLockedBalance() + " tokens are locked.");
+                if (daoToken.isWithdrawBlocked) {
+                    lockedAmount.setText("All token are locked");
+                } else {
+                    lockedAmount.setText(daoToken.getDaoBalance() - daoToken.getNotLockedBalance() + " tokens are locked.");
+                }
+
             }
         }
         initStartView();
@@ -122,6 +128,7 @@ public class TokenTransferFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 currentTabPosition = tab.getPosition();
+
                 switch (tab.getPosition()) {
                     case 0:
                         showSendComponents();
@@ -141,7 +148,6 @@ public class TokenTransferFragment extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
     }
@@ -219,13 +225,19 @@ public class TokenTransferFragment extends Fragment {
                 if (recipientEditText.getText().toString().isEmpty()) {
                     recipientEditText.setError("Empty field");
                 }
-                if (sendAmount > daoToken.getBalanceWithDecimals()) {
-                    sendEditText.setError("You can send only " + daoToken.getBalanceWithDecimals() + " tokens");
+                if (sendAmount > Double.valueOf(daoToken.getNotLockedBalanceWithDecimals())) {
+                    sendEditText.setError("You can send only " + daoToken.getNotLockedBalanceWithDecimals() + " tokens");
                     return false;
                 }
             }
         }
         if (currentTabPosition == 1) {/*withdraw*/
+
+            if (daoToken.isWithdrawBlocked) {
+                ToastUtil.showToast("Withdraw is blocked!");
+                return false;
+            }
+
             if (sendAmount > Double.valueOf(daoToken.getNotLockedBalanceWithDecimals())) {
                 sendEditText.setError("You can withdraw only " + String.valueOf(daoToken.getNotLockedBalanceWithDecimals()) + " tokens");
                 return false;

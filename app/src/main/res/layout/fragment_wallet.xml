@@ -39,9 +39,21 @@
         app:layout_constraintStart_toStartOf="@+id/close_button"
         app:layout_constraintTop_toBottomOf="@+id/close_button" />
 
+
+    <TextView
+        android:id="@+id/change_account"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:singleLine="true"
+        android:text="Change account"
+        android:textColor="#51C8F2"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <TextView
         android:id="@+id/address_textView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
@@ -53,7 +65,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        tools:text="0xf43DD3D777BC49E438b170B0d92e3F28327452CF" />
+        tools:text="0xf43DD3D777BC49E438b170B0d92e3dsfadafsdfsfdsafadsasdfsfdafdsadfsfsdF28327452CF" />
 
     <ImageView
         android:id="@+id/qr_button"
@@ -216,6 +228,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view" />
+
+
+    <include
+        android:id="@+id/error_holder"
+        layout="@layout/error_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
 
 </android.support.constraint.ConstraintLayout>

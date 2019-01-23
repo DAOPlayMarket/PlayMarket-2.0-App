@@ -63,8 +63,13 @@ public class DividendsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dividends, container, false);
         ButterKnife.bind(this, view);
+        setErrorHolderBg();
         getTokens();
         return view;
+    }
+
+    private void setErrorHolderBg() {
+        errorHolder.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
     }
 
     @OnClick(R.id.back_arrow)
@@ -72,8 +77,9 @@ public class DividendsFragment extends Fragment {
         getActivity().onBackPressed();
     }
 
-    @OnClick(R.id.error_holder)
+    @OnClick(R.id.error_view_repeat_btn)
     void onRepeatLayotClicked() {
+        errorHolder.setVisibility(View.GONE);
         getTokens();
     }
 

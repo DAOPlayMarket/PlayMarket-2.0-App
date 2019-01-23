@@ -31,7 +31,6 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
         NotificationManager.getManager().registerNewNotification(getNotification(params));
         PersistableBundle extras = params.getExtras();
         String transactionHash = extras.getString(Constants.JOB_HASH_EXTRA);
-        String transactionHash2 = extras.getString(Constants.JOB_HASH_EXTRA);
         Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
         build.ethGetTransactionReceipt(transactionHash).observable()
                 .subscribeOn(Schedulers.io())

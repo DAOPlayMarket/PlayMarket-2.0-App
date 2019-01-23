@@ -240,13 +240,13 @@ public class DaoTransactionRepository {
                 .flatMap(result -> getEthCallObservable(getBalance(), DaoConstants.Repository), Pair::new)
                 .map(result -> {
                     for (int i = 0; i < result.first.size(); i++) {
-                        result.first.get(i).daoBalance = decodeFunction(result.second, getNotLockedBalance()).toString();
+                        result.first.get(i).daoBalance = decodeFunction(result.second, getBalance()).toString();
                     }
                     return result.first;
                 }).flatMap(result -> getEthCallObservable(getNotLockedBalance(), DaoConstants.Repository), Pair::new)
                 .map(result -> {
                     for (int i = 0; i < result.first.size(); i++) {
-                        result.first.get(i).daoNotLockedBalance = decodeFunction(result.second, getBalance()).toString();
+                        result.first.get(i).daoNotLockedBalance = decodeFunction(result.second, getNotLockedBalance()).toString();
                     }
                     return result.first;
                 })

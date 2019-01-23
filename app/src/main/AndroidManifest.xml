@@ -65,7 +65,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustNothing"/>
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ui.permissions_prompt_activity.PermissionsPromptActivity"
             android:screenOrientation="portrait"/>

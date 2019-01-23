@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.database.model.Proposal;
+import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
 import com.blockchain.store.dao.ui.dividends_screen.DividendsFragment;
 import com.blockchain.store.dao.ui.votes_screen.NewProposalFragment;
 import com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment;
@@ -234,7 +235,8 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @OnClick(R.id.exchange_tab)
     void onExchangeTabClicked() {
-        startActivity(new Intent(this, PexActivity.class));
+//        startActivity(new Intent(this, PexActivity.class));
+        startActivity(new Intent(this, DaoActivity.class));
     }
 
     @OnClick(R.id.error_view_repeat_btn)

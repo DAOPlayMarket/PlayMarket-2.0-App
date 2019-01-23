@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -41,6 +42,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class WalletFragment extends Fragment implements NavigationViewContract.View {
+
+
     private static final String TAG = "WalletFragment";
 
     @BindView(R.id.close_button) ImageView close_button;
@@ -61,6 +64,8 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
     @BindView(R.id.button) Button button;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.token_progress_Bar) ProgressBar tokenProgressBar;
+    @BindView(R.id.error_view_repeat_btn) Button error_view_repeat_btn;
+    @BindView(R.id.error_holder) LinearLayout errorHolder;
 
     private NavigationCallback navigationCallback;
     private NavigationViewPresenter presenter;
@@ -94,6 +99,7 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
     private void loadPmtToken() {
         presenter.loadPmtToken();
         tokenProgressBar.setVisibility(View.VISIBLE);
+        errorHolder.setVisibility(View.GONE);
     }
 
     private void loadUserBalance() {
@@ -135,12 +141,14 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
     @Override
     public void onLocalTokensReady(List<DaoToken> daoTokens) {
         tokenProgressBar.setVisibility(View.GONE);
+        errorHolder.setVisibility(View.GONE);
         initAdapter(daoTokens);
     }
 
     @Override
     public void onLocalTokensError(Throwable throwable) {
         tokenProgressBar.setVisibility(View.GONE);
+        errorHolder.setVisibility(View.VISIBLE);
     }
 
     private void initAdapter(List<DaoToken> daoTokens) {
@@ -185,8 +193,18 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
         startActivity(new Intent(getActivity(), TransactionHistoryActivity.class));
     }
 
+    @OnClick(R.id.error_view_repeat_btn)
+    void onErrorHolderClicked() {
+        loadPmtToken();
+    }
+
     @OnClick(R.id.refreshBalance_button)
     void onRefreshBalanceClicked() {
+        loadUserBalance();
+    }
+
+    @OnClick(R.id.change_account)
+    void onchangeAccountClicked() {
         loadUserBalance();
     }
 }

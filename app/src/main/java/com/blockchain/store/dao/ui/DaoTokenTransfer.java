@@ -21,15 +21,26 @@ import com.mtramin.rxfingerprint.RxFingerprint;
 import com.orhanobut.hawk.Hawk;
 
 import org.ethereum.geth.Account;
+import org.ethereum.geth.Transaction;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.Web3jFactory;
+import org.web3j.protocol.core.Request;
+import org.web3j.protocol.core.methods.response.EthEstimateGas;
+import org.web3j.protocol.http.HttpService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class DaoTokenTransfer extends AppCompatActivity {
+import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA;
+import static org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction;
 
+public class DaoTokenTransfer extends AppCompatActivity {
+    private static final String TAG = "DaoTokenTransfer";
 
     @BindView(R.id.unlock_account)
     EditText unlock_account;
@@ -37,7 +48,6 @@ public class DaoTokenTransfer extends AppCompatActivity {
     Button unlock_account_btn;
     @BindView(R.id.withdraw_amount) EditText withdraw_amount;
     @BindView(R.id.button) Button button;
-    private DaoToken daoToken;
 
     public static void start(Context context, DaoToken daoToken) {
         Intent starter = new Intent(context, DaoTokenTransfer.class);
@@ -51,7 +61,6 @@ public class DaoTokenTransfer extends AppCompatActivity {
         setContentView(R.layout.activity_dao_token_transfer);
         ButterKnife.bind(this);
         initFingerPrint();
-        daoToken = getIntent().getParcelableExtra("abc");
     }
 
     private void initFingerPrint() {
@@ -96,21 +105,27 @@ public class DaoTokenTransfer extends AppCompatActivity {
     public void button() {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .flatMap(result -> {
-                    String rawTx = CryptoUtils.generateWithdrawTx(result, daoToken.address, Long.parseLong(withdraw_amount.getText().toString()));
-                    return RestApi.getServerApi().deployTransaction(rawTx);
+                    Transaction transaction = CryptoUtils.test111(result, 10000L);
+                    Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
+                    return build.ethEstimateGas(createEthCallTransaction(AccountManager.getAddress().getHex(),DaoConstants.Repository,new String(transaction.getData()))).observable();
 
                 })
+                .map(result -> result)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::transferSuccess, this::transferFailed);
     }
 
-    private void transferFailed(Throwable t) {
+    private void transferSuccess(EthEstimateGas ethEstimateGas) {
+        Log.d(TAG, "transferSuccess: ");
+    }
 
+    private void transferFailed(Throwable t) {
+        Log.d(TAG, "transferFailed: ");
     }
 
     private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
-
+        Log.d(TAG, "transferSuccess: ");
     }
 
 

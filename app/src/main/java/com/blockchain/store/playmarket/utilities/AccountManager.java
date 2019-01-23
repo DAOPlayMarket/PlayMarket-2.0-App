@@ -19,6 +19,7 @@ public class AccountManager {
     private static KeyManager keyManager;
     private static String userBalance;
 
+
     public static boolean isHasUsers() {
         try {
             return !keyManager.getAccounts().isEmpty();
