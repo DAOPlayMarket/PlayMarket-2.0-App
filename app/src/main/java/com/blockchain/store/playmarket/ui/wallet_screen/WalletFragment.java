@@ -207,4 +207,10 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
     void onchangeAccountClicked() {
         navigationCallback.onChangeAccountClicked();
     }
+
+
+    @OnClick(R.id.fab)
+    void onFabClicked() {
+        navigationCallback.onChangeAccountClicked();
+    }
 }
