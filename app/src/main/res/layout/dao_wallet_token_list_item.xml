@@ -92,6 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         app:el_expanded="false"
+        tools:el_expanded="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -130,7 +131,7 @@
                 android:layout_marginEnd="8dp"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
-                android:text="@string/delete"
+                android:text="@string/remove"
                 android:visibility="visible" />
         </LinearLayout>
     </net.cachapa.expandablelayout.ExpandableLayout>

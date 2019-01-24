@@ -329,5 +329,6 @@
     <string name="add_token">Add token</string>
     <string name="token_added">Token added</string>
     <string name="choose_token_from_list_below">Choose token from list below.</string>
+    <string name="remove">Remove</string>
 
 </resources>
