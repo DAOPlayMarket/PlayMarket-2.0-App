@@ -29,6 +29,8 @@ public class DaoToken implements Parcelable {
     private long multiplier = 100_000L;
     private long TotalPMT = 30000000000L;
 
+    public String ownersBal = "";
+
     public long getDaoBalance() {
         return Long.valueOf(daoBalance);
     }

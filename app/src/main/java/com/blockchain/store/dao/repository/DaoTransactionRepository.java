@@ -37,6 +37,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -181,6 +182,23 @@ public class DaoTransactionRepository {
                             result.first.addAll(result.second);
                             return result.first;
                         })
+                        .flatMap(result -> {
+                            for (DaoToken daoToken : result) {
+                                if (daoToken.address.equalsIgnoreCase(DaoConstants.CRYPTO_DUEL_CONTRACT)) {
+                                    return getEthCallObservable(getOwnerbal(), DaoConstants.CRYPTO_DUEL_CONTRACT).subscribeOn(Schedulers.newThread());
+                                }
+                            }
+                            return null;
+                        }, Pair::new)
+                        .map(pairOfTokensAndEthCall -> {
+                            for (DaoToken daoToken : pairOfTokensAndEthCall.first) {
+                                if (daoToken.address.equalsIgnoreCase(DaoConstants.CRYPTO_DUEL_CONTRACT)) {
+                                    daoToken.ownersBal = decodeFunction(pairOfTokensAndEthCall.second, getOwnerbal()).toString();
+                                }
+                            }
+                            return pairOfTokensAndEthCall.first;
+                        })
+
                         .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread());
 
     }
@@ -472,6 +490,13 @@ public class DaoTransactionRepository {
 
     private static Function getTokenBalanceOfFunction() {
         return new Function("balanceOf", Collections.singletonList(new Address(userAddress)), Collections.singletonList(new TypeReference<Uint>() {
+        }));
+    }
+
+    /*CryptoDuel*/
+
+    private static Function getOwnerbal() {
+        return new Function("ownersbal", Collections.singletonList(new Address(userAddress)), Collections.singletonList(new TypeReference<Uint>() {
         }));
     }
 
