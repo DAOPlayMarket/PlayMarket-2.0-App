@@ -120,6 +120,7 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
 
     @Override
     public void onBalanceReady(UserBalance balance) {
+        AccountManager.setUserBalance(balance.balanceInWei);
         ethBalance.setText(new EthereumPrice(balance.balanceInWei).inEther().toString());
         balanceInLocal.setText(String.format(getString(R.string.local_currency), balance.symbol, balance.getFormattedLocalCurrency()));
 
@@ -211,6 +212,6 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
 
     @OnClick(R.id.fab)
     void onFabClicked() {
-        navigationCallback.onChangeAccountClicked();
+        navigationCallback.onAddTokenClicked();
     }
 }

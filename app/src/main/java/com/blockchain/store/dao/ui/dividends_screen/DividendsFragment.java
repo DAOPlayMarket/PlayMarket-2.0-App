@@ -28,6 +28,7 @@ import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
+import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
 import org.ethereum.geth.Transaction;
@@ -110,6 +111,10 @@ public class DividendsFragment extends Fragment {
 
             @Override
             public void onDaoTokenClicked(DaoToken daoToken) {
+                if (!AccountManager.getUserBalance().equalsIgnoreCase("-1") && Long.valueOf(AccountManager.getUserBalance()) == 0) {
+                    ToastUtil.showToast("Not enough balance to send transaction");
+                    return;
+                }
                 new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
                     @Override
                     public void onAccountUnlocked() {

@@ -18,4 +18,6 @@ public interface NavigationCallback {
     void onTokenTransferClicked(DaoToken daoToken);
 
     void onChangeAccountClicked();
+
+    void onAddTokenClicked();
 }

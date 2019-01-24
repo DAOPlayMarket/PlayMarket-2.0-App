@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.adapters;
 
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,9 @@ import android.widget.TextView;
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.repositories.TokenRepository;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.List;
 
@@ -22,6 +26,7 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private List<DaoToken> daoTokens;
     DaoActivity.DaoAdapterCallback callback;
     private boolean isOpenAsWallet = false;
+    private int selectPosition = 0;
 
     public DaoTokenAdapter(List<DaoToken> daoTokens, DaoActivity.DaoAdapterCallback callback) {
         this.daoTokens = daoTokens;
@@ -50,7 +55,22 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         } else {
             if (isOpenAsWallet) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dao_wallet_token_list_item, parent, false);
-                return new DaoWalletViewHolder(view);
+                DaoWalletViewHolder daoWalletViewHolder = new DaoWalletViewHolder(view);
+                daoWalletViewHolder.deleteHolder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int position = daoWalletViewHolder.getAdapterPosition();
+                        TokenRepository.deleteToken(daoTokens.get(position));
+                        try {
+                            daoTokens.remove(position);
+                            notifyItemRemoved(position);
+                        } catch (Exception e) {
+
+                        }
+
+                    }
+                });
+                return daoWalletViewHolder;
             } else {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dao_token_list_item, parent, false);
                 return new DaoTokenViewHolder(view);
@@ -68,7 +88,7 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((DaoPlayMarketTokenViewHolder) holder).bind(daoTokens.get(position));
         }
         if (holder instanceof DaoWalletViewHolder) {
-            ((DaoWalletViewHolder) holder).bind(daoTokens.get(position));
+            ((DaoWalletViewHolder) holder).bind(daoTokens.get(position), position);
         }
     }
 
@@ -121,6 +141,10 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @BindView(R.id.token_balance_field) TextView token_balance_field;
         @BindView(R.id.token_balance) TextView token_balance;
         @BindView(R.id.imageView2) ImageView imageView2;
+        @BindView(R.id.expandable_layout) ExpandableLayout expandableLayout;
+        @BindView(R.id.linearLayout2) ConstraintLayout rootLayout;
+        @BindView(R.id.delete_holder) View deleteHolder;
+
 
         public DaoWalletViewHolder(View itemView) {
             super(itemView);
@@ -128,7 +152,7 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
 
-        public void bind(DaoToken daoToken) {
+        public void bind(DaoToken daoToken, int position) {
             name.setText(daoToken.name);
             symbol.setText(daoToken.symbol);
             name.setText(daoToken.name);
@@ -138,6 +162,15 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             imageView2.setOnClickListener(v -> callback.onDaoTokenClicked(daoToken));
             button.setOnClickListener(v -> callback.onDaoTokenClicked(daoToken));
             touch_helper.setOnClickListener(v -> callback.onDaoTokenClicked(daoToken));
+
+            rootLayout.setOnClickListener(v -> {
+                if (expandableLayout.isExpanded()) {
+                    expandableLayout.collapse();
+                } else {
+                    expandableLayout.expand();
+                }
+            });
+
         }
     }
 

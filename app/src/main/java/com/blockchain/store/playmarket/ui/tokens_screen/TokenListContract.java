@@ -1,6 +1,6 @@
 package com.blockchain.store.playmarket.ui.tokens_screen;
 
-import com.blockchain.store.playmarket.data.entities.Token;
+import com.blockchain.store.dao.data.entities.DaoToken;
 
 import java.util.ArrayList;
 
@@ -8,25 +8,17 @@ public class TokenListContract {
 
     interface View {
 
-        void onTokensReady(ArrayList<Token> tokenResponse);
+        void onTokensReady(ArrayList<DaoToken> tokenResponse);
 
         void onNewTokenFailed(Throwable throwable);
 
-        void onNewTokenReady(Token token);
-
-        void showBottomProgress(boolean isShown);
+        void onNewTokenReady(DaoToken token);
 
         void showProgress(boolean isShown);
 
-        void onTokenBalanceReady(Token token);
+        void onTokensError(Throwable throwable);
 
-        void onBottomSheetTokensFailed(Throwable throwable);
-
-        void onBottomSheetTokensReady(ArrayList<Token> tokens);
-
-        void updateBottomSheetAdapter();
-
-        void updateMainAdapter(ArrayList<Token> tokens);
+        void showFindTokenProgress(boolean isShown);
     }
 
     interface Presenter {

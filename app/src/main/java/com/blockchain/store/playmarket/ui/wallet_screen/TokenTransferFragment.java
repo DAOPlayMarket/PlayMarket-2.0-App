@@ -205,6 +205,11 @@ public class TokenTransferFragment extends Fragment {
             sendEditText.setText("0");
         }
 
+        if (!AccountManager.getUserBalance().equalsIgnoreCase("-1") && Long.valueOf(AccountManager.getUserBalance()) == 0) {
+            sendEditText.setError("Not enough balance to send transaction");
+            return false;
+        }
+
         if (sendAmount == 0) {
             sendEditText.setError("Wrong amount");
             return false;
@@ -224,9 +229,10 @@ public class TokenTransferFragment extends Fragment {
             if (customAddressButton.isChecked()) {
                 if (recipientEditText.getText().toString().isEmpty()) {
                     recipientEditText.setError("Empty field");
+                    return false;
                 }
-                if (sendAmount > Double.valueOf(daoToken.getNotLockedBalanceWithDecimals())) {
-                    sendEditText.setError("You can send only " + daoToken.getNotLockedBalanceWithDecimals() + " tokens");
+                if (sendAmount > daoToken.getBalanceWithDecimals()) {
+                    sendEditText.setError("You can send only " + daoToken.getBalanceWithDecimals() + " tokens");
                     return false;
                 }
             }

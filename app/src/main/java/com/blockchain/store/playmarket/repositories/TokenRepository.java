@@ -20,7 +20,7 @@ public class TokenRepository {
         for (DaoToken userSavedToken : userSavedTokens) {
             obsList.add(TransactionRepository.getUserTokenBalance(userSavedToken.address, AccountManager.getAddress().getHex()));
         }
-        return Observable.from(obsList).flatMap(result -> result.observeOn(Schedulers.newThread())).toList().map(result -> {
+        return Observable.from(obsList).concatMap(result -> result.observeOn(Schedulers.newThread())).toList().map(result -> {
             for (int i = 0; i <= userSavedTokens.size(); i++) {
                 try {
                     userSavedTokens.get(i).balance = result.get(i);
@@ -68,7 +68,7 @@ public class TokenRepository {
         return false;
     }
 
-    public ArrayList<DaoToken> deleteToken(DaoToken token) {
+    public static ArrayList<DaoToken> deleteToken(DaoToken token) {
         ArrayList<DaoToken> newTokens = new ArrayList<>();
         ArrayList<DaoToken> userTokens = getUserSavedTokens();
         for (DaoToken userToken : userTokens) {

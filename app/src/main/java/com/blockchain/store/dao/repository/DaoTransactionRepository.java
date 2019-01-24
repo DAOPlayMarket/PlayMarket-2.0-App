@@ -7,6 +7,7 @@ import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.database.model.Rules;
 import com.blockchain.store.dao.database.model.Vote;
 import com.blockchain.store.dao.ui.DaoConstants;
+import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.repositories.TokenRepository;
 import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
@@ -262,6 +263,11 @@ public class DaoTransactionRepository {
                     for (int i = 0; i < result.first.size(); i++) {
                         result.first.get(i).approval = decodeFunction(result.second, allowance()).toString();
                     }
+                    return result.first;
+                })
+                .flatMap(result -> RestApi.getServerApi().getBalance(userAddress), Pair::new)
+                .map(result -> {
+                    AccountManager.setUserBalance(result.second);
                     return result.first;
                 })
 

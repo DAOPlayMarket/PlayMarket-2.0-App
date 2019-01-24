@@ -60,7 +60,7 @@ public class AccountManager {
     }
 
     public static String getUserBalance() {
-        if (userBalance == null) return "0";
+        if (userBalance == null) return "-1";
         return userBalance;
     }
 

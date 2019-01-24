@@ -38,7 +38,9 @@ import com.blockchain.store.playmarket.ui.change_account_screen.ChangeAccountFra
 import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
 import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
+import com.blockchain.store.playmarket.ui.pex_screen.PexActivity;
 import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
+import com.blockchain.store.playmarket.ui.tokens_screen.TokenListFragment;
 import com.blockchain.store.playmarket.ui.wallet_screen.TokenTransferFragment;
 import com.blockchain.store.playmarket.ui.wallet_screen.WalletFragment;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
@@ -235,8 +237,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @OnClick(R.id.exchange_tab)
     void onExchangeTabClicked() {
-//        startActivity(new Intent(this, PexActivity.class));
-        startActivity(new Intent(this, DaoActivity.class));
+        startActivity(new Intent(this, PexActivity.class));
     }
 
     @OnClick(R.id.error_view_repeat_btn)
@@ -318,7 +319,6 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @Override
     public void onDividendsClicked() {
         replaceNavViewFragment(new DividendsFragment());
-
     }
 
     @Override
@@ -339,5 +339,10 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @Override
     public void onChangeAccountClicked() {
         addNavViewFragment(new ChangeAccountFragment());
+    }
+
+    @Override
+    public void onAddTokenClicked() {
+        replaceNavViewFragment(new TokenListFragment());
     }
 }

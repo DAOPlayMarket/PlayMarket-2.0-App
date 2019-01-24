@@ -3,7 +3,10 @@ package com.blockchain.store.dao.data.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 public class DaoToken implements Parcelable {
+    @SerializedName("contract")
     public String address;
     public long decimals;
     public long total;  // Total number of tokens transferred to PMFund
