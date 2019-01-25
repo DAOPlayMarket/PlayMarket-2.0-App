@@ -84,7 +84,7 @@ public class Constants {
     public static final String WELCOME_ACTIVITY_IS_LUANCHED_FROM_SETTINGS_EXTRA = "welcome_activity_is_launched_from_settings_extra";
 
     public static final int DOWNLOAD_APPS_PER_REQUEST = 40;
-    public static final int GAS_LIMIT = 500_000;
+    public static final int GAS_LIMIT = 200_000;
 
     public static final int USER_ETHERSCAN_ID = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? 1 : 4);
 
@@ -114,6 +114,8 @@ public class Constants {
 
     public static final String LOCAL_TOKEN_KEYS = "local_token_keys";
 
+    public static final String LOCAL_TOKEN_KEYS_V2 = "local_token_keysv2";
+
     /*Settings prefs*/
     public static final String CURRENT_CURRENCY = "current_currency";
     public static final String SETTINGS_AUTOINSTALL_FLAG = "settings_autoinstall_flag";
@@ -129,6 +131,8 @@ public class Constants {
 
     public static final String NAV_VIEW_FRAGMENT_TAG = "nav_view_fragment_tag";
     public static final String ENCRYPTED_PASSWORD = "encrypted_account_password";
+    public static final String ENCRYPTED_PASSWORD_MAP = "encrypted_account_password_map";
+    public static final String USER_ACCOUNT_POSITION ="user_account_position";
 
     /*Social titles*/
     public static final String social_google_plus = "google-plus";

@@ -4,6 +4,8 @@ import android.app.job.JobParameters;
 import android.os.PersistableBundle;
 import android.util.Log;
 
+import com.blockchain.store.playmarket.data.entities.AppBuyTransactionModel;
+import com.blockchain.store.playmarket.data.entities.TransactionModel;
 import com.blockchain.store.playmarket.data.entities.TransactionNotification;
 import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -41,12 +43,16 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
 
     private void onTransactionReady(EthGetTransactionReceipt result, JobParameters params) {
         Log.d(TAG, "onTransactionReady() called with: result = [" + result + "], params = [" + params + "]");
-        if(result.hasError()) {
+        if (result.hasError()) {
             return;
         }
         if (result.getTransactionReceipt() != null) {
             Log.d(TAG, "onTransactionReady: with result " + result.getTransactionReceipt().getStatus());
-//            TransactionPrefsUtil.updateModel(result.getTransactionReceipt());
+            try {
+                TransactionPrefsUtil.updateModel(result.getTransactionReceipt());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             String secondTransaction = params.getExtras().getString(Constants.JOB_SECOND_RAW_TX, null);
             Log.d(TAG, "onTransactionReady: check for second transaction: " + secondTransaction);
             if (secondTransaction != null) {
@@ -81,8 +87,10 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
     private void onSecondTransactionReady(EthSendTransaction result, JobParameters params) {
         Log.d(TAG, "onSecondTransactionReady() called with: result = [" + result + "], params = [" + params + "]");
         String secondTransaction = params.getExtras().getString(Constants.JOB_SECOND_HASH_EXTRA, null);
-        if (secondTransaction != null)
-            JobUtils.scheduleSecondTransactionJob(this, secondTransaction, null);
+        if (secondTransaction != null) {
+            int transactionType = params.getExtras().getInt(Constants.JOB_TRANSACTION_TYPE_ORDINAL);
+            JobUtils.scheduleSecondTransactionJob(this, secondTransaction, transactionType);
+        }
     }
 
     private TransactionNotification getNotification(JobParameters params) {

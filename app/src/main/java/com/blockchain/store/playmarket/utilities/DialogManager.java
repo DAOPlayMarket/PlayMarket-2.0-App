@@ -77,7 +77,7 @@ public class DialogManager {
 
         if (FingerprintUtils.isFingerprintAvailibility(context)) {
             fingerPrintTitle.setVisibility(View.VISIBLE);
-            fingerprintDisposable = RxFingerprint.decrypt(context, Hawk.get(Constants.ENCRYPTED_PASSWORD))
+            fingerprintDisposable = RxFingerprint.decrypt(context, FingerprintUtils.getEncryptedPassword())
                     .subscribe(fingerprintDecryptionResult -> {
                         switch (fingerprintDecryptionResult.getResult()) {
                             case FAILED:
@@ -171,14 +171,12 @@ public class DialogManager {
 
         if (FingerprintUtils.isFingerprintAvailibility(context)) {
             dividendDialog.findViewById(R.id.fingerprint_holder).setVisibility(View.VISIBLE);
-            RxFingerprint.decrypt(context, Hawk.get(Constants.ENCRYPTED_PASSWORD))
+            RxFingerprint.decrypt(context, FingerprintUtils.getEncryptedPassword())
                     .subscribe(fingerprintDecryptionResult -> {
                         switch (fingerprintDecryptionResult.getResult()) {
                             case FAILED:
                                 passwordField.setError(context.getResources().getString(R.string.fingerprint_not_recognized));
                                 passwordField.requestFocus();
-                                break;
-                            case HELP:
                                 break;
                             case AUTHENTICATED:
                                 if (new BigDecimal(1).compareTo(new BigDecimal("0")) == 1) {
@@ -274,7 +272,7 @@ public class DialogManager {
         if (FingerprintUtils.isFingerprintAvailibility(context)) {
             alertDialog.findViewById(R.id.passwordGroup).setVisibility(View.GONE);
             alertDialog.findViewById(R.id.fingerprintGroup).setVisibility(View.VISIBLE);
-            fingerprintDisposable = RxFingerprint.decrypt(context, Hawk.get(Constants.ENCRYPTED_PASSWORD))
+            fingerprintDisposable = RxFingerprint.decrypt(context, FingerprintUtils.getEncryptedPassword())
                     .subscribe(fingerprintDecryptionResult -> {
                         switch (fingerprintDecryptionResult.getResult()) {
                             case FAILED:

@@ -2,84 +2,70 @@ package com.blockchain.store.playmarket.adapters;
 
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Group;
-import android.support.transition.AutoTransition;
-import android.support.transition.ChangeBounds;
-import android.support.transition.TransitionManager;
-import android.support.transition.TransitionSet;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.repositories.TokenRepository;
-import com.blockchain.store.playmarket.utilities.TransictionUtils;
-
-import org.web3j.tx.TransactionManager;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHolder> implements Filterable {
+public class TokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
+    private static final String TAG = "TokenAdapter";
+
     private TokenAdapterListener callback;
-    private ArrayList<Token> filteredTokenList;
-    private ArrayList<Token> originalTokenList;
-    private boolean isLoading = false;
-    private boolean isOpenFromBottomSheet = false;
-    private RecyclerView recyclerView;
-    private int selectedPosition = -1;
-    private int previousExpandedPosition = -1;
+    private ArrayList<DaoToken> filteredTokenList;
+    private ArrayList<DaoToken> originalTokenList;
+    private ArrayList<DaoToken> userSavedTokens;
 
-    public TokenAdapter(ArrayList<Token> tokensList, TokenAdapterListener callback) {
+    public TokenAdapter(ArrayList<DaoToken> tokensList, ArrayList<DaoToken> userSavedTokens, TokenAdapterListener callback) {
         this.filteredTokenList = tokensList;
         this.originalTokenList = tokensList;
+        this.userSavedTokens = userSavedTokens;
         this.callback = callback;
     }
 
-    public TokenAdapter(TokenAdapterListener callback) {
-        this.filteredTokenList = new ArrayList<>();
-        this.callback = callback;
-        this.isLoading = true;
-        this.isOpenFromBottomSheet = true;
-    }
-
-    public void setTokens(ArrayList<Token> tokensList) {
-        selectedPosition = -1;
+    public void setTokens(ArrayList<DaoToken> tokensList) {
         this.filteredTokenList = tokensList;
         this.originalTokenList = tokensList;
-        isLoading = false;
-        notifyDataSetChanged();
-    }
-
-    public void updateAllItems() {
-        selectedPosition = -1;
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public TokenViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.token_list_item, parent, false);
-        return new TokenViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (filteredTokenList.size() == 0) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_token_item, parent, false);
+            return new AddTokenViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.token_list_item, parent, false);
+            return new TokenViewHolder(view);
+        }
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TokenViewHolder holder, int position) {
-        if (isLoading) {
-            holder.bind(null, position);
-        } else {
-            holder.bind(filteredTokenList.get(position), position);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof TokenViewHolder) {
+            ((TokenViewHolder) holder).bind(filteredTokenList.get(position), position);
         }
+        if (holder instanceof AddTokenViewHolder) {
+            ((AddTokenViewHolder) holder).bind();
+        }
+
     }
 
     @Override
@@ -90,17 +76,15 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        this.recyclerView = recyclerView;
     }
 
 
     @Override
     public int getItemCount() {
-        if (isLoading) return 1;
         return filteredTokenList.size();
     }
 
-    public void addNewToken(Token token) {
+    public void addNewToken(DaoToken token) {
         this.filteredTokenList.add(0, token);
         notifyDataSetChanged();
     }
@@ -111,18 +95,20 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 String charString = constraint.toString();
-                ArrayList<Token> tempCurrencies = new ArrayList<>();
+                ArrayList<DaoToken> tempCurrencies = new ArrayList<>();
                 if (charString.isEmpty()) {
                     tempCurrencies = originalTokenList;
                 } else {
-                    for (Token token : originalTokenList) {
-                        if (token.name.toLowerCase().contains(charString.toLowerCase()) || token.symbol.toLowerCase().contains(charString.toLowerCase())) {
+                    for (DaoToken token : originalTokenList) {
+                        if (token.name.toLowerCase().contains(charString.toLowerCase()) ||
+                                token.symbol.toLowerCase().contains(charString.toLowerCase()) ||
+                                token.address.toLowerCase().contains(charString.toLowerCase())) {
                             tempCurrencies.add(token);
                         }
                     }
 
                     if (tempCurrencies.isEmpty()) {
-                        for (Token token : originalTokenList) {
+                        for (DaoToken token : originalTokenList) {
                             if (token.name.toLowerCase().contains(charString.toLowerCase())) {
                                 tempCurrencies.add(token);
                             }
@@ -136,10 +122,20 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                filteredTokenList = (ArrayList<Token>) results.values;
+                filteredTokenList = (ArrayList<DaoToken>) results.values;
+                callback.isListEmpty(filteredTokenList.isEmpty());
                 notifyDataSetChanged();
             }
         };
+    }
+
+    public boolean isTokenAlreadyAdded(DaoToken daoToken) {
+        for (DaoToken userSavedToken : userSavedTokens) {
+            if (userSavedToken.symbol.equalsIgnoreCase(daoToken.symbol)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -150,14 +146,7 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
         @BindView(R.id.button) TextView button;
         @BindView(R.id.group) Group group;
         @BindView(R.id.progress_bar) ProgressBar progressBar;
-        @BindView(R.id.token_balance) TextView balance;
-        @BindView(R.id.token_balance_field) TextView balanceField;
         @BindView(R.id.imageView2) ImageView transferIcon;
-
-        @BindView(R.id.token_divider) View tokenDivider;
-        @BindView(R.id.delete_icon) ImageView deleteIcon;
-        @BindView(R.id.delete_tv) TextView deleteTv;
-        @BindView(R.id.linearLayout2) ConstraintLayout constraintLayout;
 
         private Resources resources;
 
@@ -168,76 +157,54 @@ public class TokenAdapter extends RecyclerView.Adapter<TokenAdapter.TokenViewHol
             this.resources = itemView.getContext().getResources();
         }
 
-        public void bind(Token token, int position) {
-            if (isLoading) {
-                group.setVisibility(View.GONE);
-                progressBar.setVisibility(View.VISIBLE);
-            } else {
-                group.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.GONE);
-                name.setText(token.name);
-                symbol.setText(token.symbol);
-                button.setOnClickListener(v -> callback.onTokenClicked(token));
-                transferIcon.setOnClickListener(v -> callback.onTokenClicked(token));
-                balance.setText(token.balanceOf);
-            }
-            if (position == selectedPosition) {
-                previousExpandedPosition = position;
-            }
-            transferIcon.setVisibility(isOpenFromBottomSheet ? View.GONE : View.VISIBLE);
-            button.setTextColor(resources.getColor(R.color.colorAccent));
-            if (isOpenFromBottomSheet) {
-                balanceField.setVisibility(View.GONE);
-                balance.setVisibility(View.GONE);
-                if (TokenRepository.isTokenAlreadyAdded(token)) {
-                    button.setText("Token added");
-                    transferIcon.setVisibility(View.GONE);
-                    button.setTextColor(resources.getColor(R.color.added_token_color));
-                } else {
-                    transferIcon.setVisibility(View.VISIBLE);
-                    button.setText("Add token");
-                    transferIcon.setImageResource(R.drawable.ic_add);
-                }
+        public void bind(DaoToken token, int position) {
+            if (isTokenAlreadyAdded(token)) {
+                transferIcon.setEnabled(false);
+                button.setText(resources.getText(R.string.token_added));
+                button.setEnabled(false);
+                button.setAlpha(0.3f);
+                transferIcon.setVisibility(View.GONE);
             } else {
                 transferIcon.setVisibility(View.VISIBLE);
-                tokenDivider.setVisibility(selectedPosition == position ? View.VISIBLE : View.GONE);
-                deleteIcon.setVisibility(selectedPosition == position ? View.VISIBLE : View.GONE);
-                deleteTv.setVisibility(selectedPosition == position ? View.VISIBLE : View.GONE);
-
-                deleteIcon.setOnClickListener(view -> deleteToken(token, position));
-                deleteTv.setOnClickListener(view -> deleteToken(token, position));
-
-                constraintLayout.setOnClickListener(v -> {
-                    if (selectedPosition == position) {
-                        selectedPosition = -1;
-                    } else {
-                        selectedPosition = position;
-                    }
-                    TransitionSet transitionSet = TransictionUtils.getTransactionSetForHistoryAdapter();
-                    TransitionManager.beginDelayedTransition(recyclerView, transitionSet);
-//                    TransitionManager.beginDelayedTransition(recyclerView,new ChangeBounds());
-//                    notifyItemChanged(previousExpandedPosition);
-//                    notifyItemChanged(position);
-
-                    notifyDataSetChanged();
-
-                });
+                button.setAlpha(1f);
+                button.setText(resources.getText(R.string.add_token));
+                button.setEnabled(true);
+                button.setOnClickListener(v -> addToken(token, position));
+                transferIcon.setOnClickListener(v -> addToken(token, position));
             }
-
+            name.setText(token.name);
+            symbol.setText(token.symbol);
+            button.setTextColor(resources.getColor(R.color.colorAccent));
         }
 
-        private void deleteToken(Token token, int position) {
-            selectedPosition = -1;
-            callback.onTokenDeleteClicked(token);
-            filteredTokenList.remove(token);
-            notifyItemRemoved(position);
+        private void addToken(DaoToken daoToken, int position) {
+            callback.onTokenClicked(daoToken);
+            userSavedTokens.add(daoToken);
+            TokenRepository.addToken(daoToken);
+            notifyItemChanged(position);
         }
 
     }
 
-    public interface TokenAdapterListener {
-        void onTokenClicked(Token token);
+    class AddTokenViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.add_token) Button addToken;
 
-        void onTokenDeleteClicked(Token token);
+        public AddTokenViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+
+        public void bind() {
+
+
+        }
+    }
+
+    public interface TokenAdapterListener {
+        void onTokenClicked(DaoToken token);
+
+        void isListEmpty(boolean empty);
+
     }
 }

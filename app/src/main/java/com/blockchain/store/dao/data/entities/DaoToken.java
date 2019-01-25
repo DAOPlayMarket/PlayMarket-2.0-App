@@ -3,7 +3,11 @@ package com.blockchain.store.dao.data.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.blockchain.store.playmarket.data.types.EthereumPrice;
+import com.google.gson.annotations.SerializedName;
+
 public class DaoToken implements Parcelable {
+    @SerializedName("contract")
     public String address;
     public long decimals;
     public long total;  // Total number of tokens transferred to PMFund
@@ -26,6 +30,14 @@ public class DaoToken implements Parcelable {
     private long multiplier = 100_000L;
     private long TotalPMT = 30000000000L;
 
+    public String ownersBal = "";
+
+    public String getOwnersBal() {
+        if (ownersBal.equalsIgnoreCase("0"))
+            return "0";
+        return String.format("%.8f", new EthereumPrice(ownersBal).inEther().floatValue());
+    }
+
     public long getDaoBalance() {
         return Long.valueOf(daoBalance);
     }
@@ -35,14 +47,15 @@ public class DaoToken implements Parcelable {
     }
 
     public String getNotLockedBalanceWithDecimals() {
-        return String.valueOf(getNotLockedBalance() / Math.pow(2, decimals));
+        return String.valueOf(getNotLockedBalance() / Math.pow(10, decimals));
     }
 
-    public Long getApprovalWithoutDecimal(){
-        return (long)(Long.valueOf(approval));
+    public Long getApprovalWithoutDecimal() {
+        return (long) (Long.valueOf(approval));
     }
+
     public Long getApprovalWithDecimals() {
-        return (long)(Long.valueOf(approval) / Math.pow(10,decimals));
+        return (long) (Double.parseDouble(approval) / Math.pow(10, decimals));
     }
 
     public long getWithdraw() {
@@ -63,6 +76,9 @@ public class DaoToken implements Parcelable {
             value = safePerc(total, value);
             value = value / (multiplier / 100);
         }
+
+        value += getFund();
+
         return value;
     }
 

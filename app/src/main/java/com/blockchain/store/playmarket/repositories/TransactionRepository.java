@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.repositories;
 
 import android.util.Pair;
 
+import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.playmarket.data.entities.IcoBalance;
 import com.blockchain.store.playmarket.data.entities.IcoLocalData;
 import com.blockchain.store.playmarket.data.entities.Token;
@@ -70,7 +71,6 @@ public class TransactionRepository {
     }
 
 
-
     public static Observable<Token> getTokenFullInfo(String contractAddress, String userAddress) {
         init(contractAddress, userAddress);
         return Observable.zip(getNameObservable(), getSymbolObservable(), getDecimalsObservable(), getBalanceOfObservable(),
@@ -87,19 +87,34 @@ public class TransactionRepository {
                 }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread());
     }
 
-    public static Observable<Pair<String,String>> getTokenNameAndSymbol(String contractAddress){
+    public static Observable<DaoToken> getDaoTokenFullInfo(String contractAddress) {
+        init(contractAddress, AccountManager.getAddress().getHex());
+        return Observable.zip(getNameObservable(), getSymbolObservable(), getDecimalsObservable(), getBalanceOfObservable(),
+                (nameCall, symbolCall, decimalsCall, balanceOfCall) -> {
+                    DaoToken token = new DaoToken();
+                    token.name = decodeFunction(nameCall, getNameFunction()).toString();
+                    token.symbol = decodeFunction(symbolCall, getSymbolFunction()).toString();
+                    token.decimals = Long.parseLong(decodeFunction(decimalsCall, getDecimalsFunction()).toString());
+                    token.address = TransactionRepository.contractAddress;
+                    token.balance = decodeFunction(balanceOfCall, getBalanceOfFunction(TransactionRepository.userAddress)).toString();
+                    token.address = contractAddress;
+
+                    return token;
+                }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread());
+    }
+
+    public static Observable<Pair<String, String>> getTokenNameAndSymbol(String contractAddress) {
         init(contractAddress, userAddress);
-        return Observable.zip(getNameObservable(), getSymbolObservable(), (nameEthCall, symbolEthCall) ->{
+        return Observable.zip(getNameObservable(), getSymbolObservable(), (nameEthCall, symbolEthCall) -> {
             String name = decodeFunction(nameEthCall, getNameFunction()).toString();
             String symbol = decodeFunction(symbolEthCall, getSymbolFunction()).toString();
-            return new Pair<String,String>(name,symbol);
+            return new Pair<String, String>(name, symbol);
         });
     }
 
     public static Observable<String> getUserTokenBalance(String contractAddress, String userAddress) {
-        init(contractAddress, userAddress);
-        return getBalanceOfObservable().map(result -> decodeFunction(result, getBalanceOfFunction(userAddress))
-                .toString())
+        initAsRinkeby(contractAddress, userAddress);
+        return getBalanceOfObservable(userAddress).map(result -> decodeFunction(result, getBalanceOfFunction(userAddress)).toString())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread());
     }
@@ -141,6 +156,10 @@ public class TransactionRepository {
 
     private static Observable<EthCall> getBalanceOfObservable() {
         return getEthCallObservable(getBalanceOfFunction(Constants.CRYPTO_DUEL_CONTRACT_FOR_ADVER_BUDGET));
+    }
+
+    private static Observable<EthCall> getBalanceOfObservable(String address) {
+        return getEthCallObservable(getBalanceOfFunction(address));
     }
 
     private static Observable<EthCall> getEthCallObservable(Function dataFunction) {

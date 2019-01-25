@@ -60,7 +60,7 @@ public class TransactionNotification implements NotificationImpl {
                 return "Create review transaction complete with success";
 
             case SEND_INTO_REPOSITORY:
-                return "Tokens are send to repository";
+                return "Tokens are sent to the repository";
             case WITHDRAW_TOKEN:
                 return "Tokens successfully withdrawn";
             case GET_DIVIDENDS:

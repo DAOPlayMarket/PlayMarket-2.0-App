@@ -1,38 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/colorPrimary"
-              android:orientation="vertical"
-              android:padding="10dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
         android:text="@string/enter_password_to_proceed"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
     <EditText
         android:id="@+id/password_editText"
         style="@style/genericEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter password"/>
+        android:hint="Enter password"
+        android:inputType="textPassword" />
 
     <LinearLayout
         android:id="@+id/fingerprint_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="10dp"
-            android:text="Or user your fingerprint"/>
+            android:text="Or user your fingerprint" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -40,7 +43,7 @@
             android:layout_gravity="center"
             android:padding="10dp"
             android:src="@drawable/available_fingerprint"
-            android:tint="@color/white"/>
+            android:tint="@color/white" />
     </LinearLayout>
 
     <LinearLayout
@@ -57,7 +60,7 @@
             android:layout_weight="1"
             android:background="@color/Clear"
             android:text="@string/cancel_btn"
-            tools:ignore="ButtonStyle"/>
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/receive_dividends"
@@ -66,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="Continue"/>
+            android:text="Continue" />
     </LinearLayout>
 
 </LinearLayout>

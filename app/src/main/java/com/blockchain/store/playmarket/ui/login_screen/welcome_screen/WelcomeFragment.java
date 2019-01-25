@@ -27,6 +27,12 @@ public class WelcomeFragment extends Fragment {
     private LoginPromptCallback loginPromptCallback;
     private LoginViewModel loginViewModel;
 
+    public static WelcomeFragment openAsCreateNewFragment() {
+        Bundle args = new Bundle();
+        WelcomeFragment fragment = new WelcomeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -106,7 +106,7 @@ public class IcoStepFragment extends Fragment {
         }
 
 
-        purchaseButton.setEnabled(isStageIsActive() || icoLocalData.getEarnedInPeriod(position) == icoLocalData.getTokensInPeriod());
+        purchaseButton.setEnabled(isStageIsActive() && icoLocalData.getTokensEarnedInPeriod(position) != icoLocalData.getTokensInPeriod());
         initTimer();
         return view;
 

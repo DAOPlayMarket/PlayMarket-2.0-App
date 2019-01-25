@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.data.entities;
 
+import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -13,6 +14,13 @@ public class AccountInfoResponse {
     public String gasPrice;
     public String adrNode;
     public String currencyStock; //todo
+
+
+    public String getGasPrice() {
+        long currentGasPrice = Long.valueOf(gasPrice);
+        long additionalGwei = new EthereumPrice("1", EthereumPrice.Currency.GWEI).wei.longValue();
+        return String.valueOf(currentGasPrice + additionalGwei);
+    }
 
     public double getCurrentStock() {
         try {

@@ -50,7 +50,7 @@ public class TransferRepository {
     private String generateTransaction(AccountInfoResponse accountInfoResponse, String transferAmount, String address) {
         String rawTransaction;
         try {
-            rawTransaction = CryptoUtils.generateTransferTransaction(accountInfoResponse.count, accountInfoResponse.gasPrice, transferAmount, address);
+            rawTransaction = CryptoUtils.generateTransferTransaction(accountInfoResponse.count, accountInfoResponse.getGasPrice(), transferAmount, address);
             return rawTransaction;
         } catch (Exception e) {
             e.printStackTrace();

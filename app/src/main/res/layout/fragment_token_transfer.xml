@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5"/>
+        app:layout_constraintGuide_percent="0.5" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
@@ -121,11 +121,11 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:textSize="12sp"
         android:textColor="@color/lightBlue"
+        android:textSize="12sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/repositoryBalance_textView"
         app:layout_constraintStart_toEndOf="@+id/repositoryBalance_textView"
-        tools:text="PMT"/>
+        tools:text="PMT" />
 
 
     <android.support.design.widget.TabLayout
@@ -189,9 +189,9 @@
         android:layout_marginEnd="20dp"
         android:hint="@string/recipient_address"
         android:textColorHint="@color/lightBlue"
-        app:errorTextAppearance="@style/error_appearance"
         android:visibility="visible"
         app:errorEnabled="true"
+        app:errorTextAppearance="@style/error_appearance"
         app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView4"
@@ -202,6 +202,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/lightBlue"
+            android:ellipsize="middle"
             android:paddingBottom="15dp"
             android:singleLine="true"
             android:textColor="@color/white"
@@ -266,9 +267,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/lightBlue"
+            android:inputType="numberDecimal"
             android:paddingBottom="15dp"
             android:singleLine="true"
-            android:inputType="numberDecimal"
             android:textColor="@color/white"
             android:textSize="12sp"
             tools:text="5464.324235" />
@@ -317,14 +318,20 @@
 
     <TextView
         android:id="@+id/repository_textView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="middle"
+        android:singleLine="true"
         android:textAllCaps="true"
-        android:visibility="gone"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/send_InputLayout"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        tools:text="0xf43DD3D777BC49E438b170B0d92e3F28327452CF" />
+        tools:text="0xf43DD3D777BCasdfasdfasdfasdfsdfsadfas49E438b170B0d92e3F28327452CF" />
 
 
 </android.support.constraint.ConstraintLayout>

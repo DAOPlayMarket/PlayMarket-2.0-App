@@ -206,7 +206,7 @@
     <string name="local_currency">%1$s: %2$s</string>
     <string name="token_activity_title">Tokens</string>
     <string name="token_empty_view">List is empty tap to add new Token.</string>
-    <string name="token_dialog_enter_address">Enter address or use this as a filter</string>
+    <string name="token_dialog_enter_address">Enter address or name/symbol to find token</string>
     <string name="token_dialog_find">Find</string>
 
 
@@ -330,5 +330,13 @@
     <string name="create_proposal">Create proposal</string>
     <string name="time_to_end_voting">Time to end voting:</string>
     <string name="execute">Execute</string>
+    <string name="your_accounts">Your accounts:</string>
+    <string name="add_token">Add token</string>
+    <string name="token_added">Token added</string>
+    <string name="choose_token_from_list_below">Choose token from list below.</string>
+    <string name="remove">Remove</string>
+    <string name="create_new_wallet">Create new wallet</string>
+    <string name="import_wallet">Import wallet</string>
+    <string name="cant_delete_last_Account">You cant delete last Account</string>
 
 </resources>

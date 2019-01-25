@@ -25,21 +25,5 @@ public class SharedPrefsUtil {
         return Application.getInstance().getApplicationContext();
     }
 
-    public static void putTransaction(TransactionModel transactionModel) {
-        ArrayList<TransactionModel> allTransaction = getAllTransaction();
-        allTransaction.add(0, transactionModel);
-        getSharedEditor().putString(Constants.TRANSACTION_MODEL_KEY, new Gson().toJson(allTransaction)).apply();
 
-    }
-
-    public static ArrayList<TransactionModel> getAllTransaction() {
-        SharedPreferences sharedPrefs = getSharedPrefs();
-        String string = sharedPrefs.getString(Constants.TRANSACTION_MODEL_KEY, "");
-        ArrayList<TransactionModel> transactionModels = new Gson().fromJson(string, new TypeToken<ArrayList<TransactionModel>>() {
-        }.getType());
-        if (transactionModels == null) {
-            return new ArrayList<>();
-        }
-        return transactionModels;
-    }
 }

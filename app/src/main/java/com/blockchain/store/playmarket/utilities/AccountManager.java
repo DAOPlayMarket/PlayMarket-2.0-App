@@ -1,7 +1,9 @@
 package com.blockchain.store.playmarket.utilities;
 
 
-import com.blockchain.store.playmarket.Application;
+import android.util.Log;
+
+import com.orhanobut.hawk.Hawk;
 
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
@@ -19,6 +21,7 @@ public class AccountManager {
     private static KeyManager keyManager;
     private static String userBalance;
 
+
     public static boolean isHasUsers() {
         try {
             return !keyManager.getAccounts().isEmpty();
@@ -32,6 +35,7 @@ public class AccountManager {
         AccountManager.keyManager = keyManager;
     }
 
+
     public static KeyManager getKeyManager() {
         return keyManager;
     }
@@ -42,16 +46,24 @@ public class AccountManager {
 
     public static Address getAddress() {
         try {
-            return keyManager.getAccounts().get(0).getAddress();
+            return keyManager.getAccounts().get(getCurrentUserPosition()).getAddress();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
+    public static void deleteAccount(Account account, String password) {
+        try {
+            keyManager.deleteAccount(account, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static Account getAccount() {
         try {
-            return keyManager.getAccounts().get(0);
+            return keyManager.getAccounts().get(getCurrentUserPosition());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -59,7 +71,7 @@ public class AccountManager {
     }
 
     public static String getUserBalance() {
-        if (userBalance == null) return "0";
+        if (userBalance == null) return "-1";
         return userBalance;
     }
 
@@ -71,12 +83,13 @@ public class AccountManager {
         return NumberUtils.formatStringToSpacedNumber(getAddress().getHex());
     }
 
-    private int getCurrentUserPosition() {
-        return 0;
+    public static int getCurrentUserPosition() {
+        return Hawk.get(Constants.USER_ACCOUNT_POSITION, 0);
     }
 
-    private void setCurrentUserPosition(int position) {
-        //set
+    public static void setCurrentUserPosition(int position) {
+        Log.d(TAG, "setCurrentUserPosition() called with: position = [" + position + "]");
+        Hawk.put(Constants.USER_ACCOUNT_POSITION, position);
     }
 
     public static boolean unlockKeystore(String password) {

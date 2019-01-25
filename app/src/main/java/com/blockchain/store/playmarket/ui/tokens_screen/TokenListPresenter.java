@@ -1,9 +1,9 @@
 package com.blockchain.store.playmarket.ui.tokens_screen;
 
+import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.data.entities.TokenResponse;
-import com.blockchain.store.playmarket.repositories.TokenRepository;
 import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -23,47 +23,33 @@ public class TokenListPresenter implements TokenListContract.Presenter {
 
     @Override
     public void getAllTokens() {
-        TokenRepository.getUserTokens()
-                .doOnSubscribe(() -> view.showProgress(true))
-                .doOnTerminate(() -> view.showProgress(false))
-                .subscribe(this::onTokensReady);
-        getTokenForBottomSheet();
-    }
-
-    public void getBottomSheetTokens() {
-        getTokenForBottomSheet();
-    }
-
-    private void getTokenForBottomSheet() {
         new RestApi().getCustomUrlApi(Constants.TOKEN_URL)
                 .getAllTokens()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onBottomSheetTokensReady, this::onBottomSheetTokensError);
+                .doOnSubscribe(() -> view.showProgress(true))
+                .doOnTerminate(() -> view.showProgress(false))
+                .subscribe(this::onTokensReady, this::onTokensError);
     }
 
-    private void onBottomSheetTokensReady(TokenResponse tokenResponse) {
-        view.onBottomSheetTokensReady(tokenResponse.tokens);
+
+    private void onTokensReady(TokenResponse tokenResponse) {
+        view.onTokensReady(tokenResponse.tokens);
     }
 
-    private void onBottomSheetTokensError(Throwable throwable) {
-        view.onBottomSheetTokensFailed(throwable);
-    }
-
-    private void onTokensReady(ArrayList<Token> tokenResponse) {
-        view.onTokensReady(tokenResponse);
+    private void onTokensError(Throwable throwable) {
+        view.onTokensError(throwable);
     }
 
     @Override
     public void findToken(String address) {
-        TransactionRepository.getTokenFullInfo(address, AccountManager.getAddress().getHex())
-                .doOnSubscribe(() -> view.showBottomProgress(true))
-                .doOnTerminate(() -> view.showBottomProgress(false))
+        TransactionRepository.getDaoTokenFullInfo(address)
+                .doOnSubscribe(() -> view.showFindTokenProgress(true))
+                .doOnTerminate(() -> view.showFindTokenProgress(false))
                 .subscribe(this::onNewTokenReady, this::onNewTokenFailed);
     }
 
-    private void onNewTokenReady(Token token) {
-        TokenRepository.addToken(token);
+    private void onNewTokenReady(DaoToken token) {
         view.onNewTokenReady(token);
     }
 
@@ -71,23 +57,4 @@ public class TokenListPresenter implements TokenListContract.Presenter {
         view.onNewTokenFailed(throwable);
     }
 
-    public void getTokenBalance(Token token) {
-        TransactionRepository.getUserTokenBalance(token.address, AccountManager.getAddress().getHex())
-                .subscribe(result -> onTokenBalanceReady(token, result), this::onNewTokenFailed);
-    }
-
-    private void onTokenBalanceReady(Token token, String result) {
-        token.balanceOf = result;
-        view.onTokenBalanceReady(token);
-    }
-
-    public void addToken(Token token) {
-        new TokenRepository().addToken(token);
-        view.updateBottomSheetAdapter();
-    }
-
-    public void deleteToken(Token token) {
-        new TokenRepository().deleteToken(token);
-//        view.updateMainAdapter();
-    }
 }

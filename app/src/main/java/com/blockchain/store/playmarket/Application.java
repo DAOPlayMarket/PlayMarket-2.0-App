@@ -18,6 +18,7 @@ import com.blockchain.store.playmarket.data.entities.SendReviewTransactionModel;
 import com.blockchain.store.playmarket.data.entities.SendTokenTransactionModel;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.blockchain.store.playmarket.utilities.FingerprintUtils;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -30,6 +31,8 @@ import java.lang.reflect.Type;
 
 import io.ethmobile.ethdroid.KeyManager;
 import io.fabric.sdk.android.Fabric;
+
+import static com.blockchain.store.playmarket.utilities.Constants.ENCRYPTED_PASSWORD;
 
 /**
  * Created by Crypton04 on 24.01.2018.
@@ -96,8 +99,17 @@ public class Application extends MultiDexApplication {
                 return new Gson().toJson(body);
             }
         }).build();
+        performMigrationIntoMultiAccounting();
         setUpFresco();
-//        setUpAWS();
+        setUpAWS();
+    }
+
+    private void performMigrationIntoMultiAccounting() {
+        String password = Hawk.get(ENCRYPTED_PASSWORD);
+        if (password != null && AccountManager.getAddress() != null) {
+            FingerprintUtils.addEncryptedPassword(password);
+        }
+//        Hawk.delete(ENCRYPTED_PASSWORD);
     }
 
 
@@ -119,7 +131,7 @@ public class Application extends MultiDexApplication {
         return appsManager;
     }
 
-    public static DaoDatabase getDaoDatabase(){
+    public static DaoDatabase getDaoDatabase() {
         return daoDatabase;
     }
 

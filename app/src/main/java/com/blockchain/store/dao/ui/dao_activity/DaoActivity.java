@@ -41,8 +41,8 @@ public class DaoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dao);
         ButterKnife.bind(this);
-        DaoTransactionRepository.getTokens().subscribe(this::onOk, this::onError);
-
+//        DaoTransactionRepository.getTokens().subscribe(this::onOk, this::onError);
+        DaoTokenTransfer.start(DaoActivity.this, null);
     }
 
     private void onOk(List<DaoToken> daoTokens) {
@@ -80,7 +80,7 @@ public class DaoActivity extends AppCompatActivity {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .flatMap(result -> {
                     try {
-                        Pair<Transaction, Transaction> stringStringPair = CryptoUtils.test(result.count, result.gasPrice);
+                        Pair<Transaction, Transaction> stringStringPair = CryptoUtils.test(result.count, result.getGasPrice());
                         String rawTransaction = CryptoUtils.getRawTransaction(stringStringPair.first);
                         String rawSecondTransaction = CryptoUtils.getRawTransaction(stringStringPair.second);
                         TransactionInteractor.addToJobSchedule(stringStringPair.first.getHash().getHex(), stringStringPair.second.getHash().getHex(), rawSecondTransaction);

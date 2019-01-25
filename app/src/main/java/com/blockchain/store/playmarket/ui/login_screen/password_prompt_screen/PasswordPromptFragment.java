@@ -20,10 +20,9 @@ import android.widget.TextView;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.interfaces.LoginPromptCallback;
 import com.blockchain.store.playmarket.ui.fingerprint_screen.FingerprintConfiguringActivity;
+import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.login_screen.LoginViewModel;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
-import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
-import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 
 import butterknife.BindView;
@@ -105,9 +104,7 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
     }
 
     private void openWelcomeActivity(String address) {
-        Intent intent = new Intent(getContext(), NewUserWelcomeActivity.class);
-        intent.putExtra(Constants.WELCOME_ACTIVITY_ADDRESS_EXTRA, address);
-        startActivity(intent);
+        ((LoginPromptActivity) getActivity()).openNextActivity(address);
     }
 
     private void openFingerprintActivity(String accountPassword) {
@@ -144,7 +141,7 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
     }
 
     private void clearScreenData() {
-        passwordTextInputLayout.setPasswordVisibilityToggleTintList(AppCompatResources.getColorStateList(getContext(), R.color.green_color));
+        passwordTextInputLayout.setPasswordVisibilityToggleTintList(AppCompatResources.getColorStateList(getContext(), R.color.colorAccent));
         passwordEditText.setText("");
         passwordTextInputLayout.setError("");
         loginViewModel.jsonData.setValue(null);
@@ -180,7 +177,8 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
         if (data == null) return;
         String resultMessage = data.getStringExtra(FingerprintConfiguringActivity.RESULT);
         ToastUtil.showToast(resultMessage);
-        if (jsonData == null) openWelcomeActivity(accountAddress);
-        else openMainActivity();
+        if (jsonData == null)
+            ((LoginPromptActivity) getActivity()).openNextActivity(accountAddress);
+        else ((LoginPromptActivity) getActivity()).openMainActivity();
     }
 }

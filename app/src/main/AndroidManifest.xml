@@ -62,10 +62,9 @@
         <activity
             android:name=".ui.main_list_screen.MainMenuActivity"
             android:label="@string/title_activity_main_menu"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustNothing"/>
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ui.permissions_prompt_activity.PermissionsPromptActivity"
             android:screenOrientation="portrait"/>
@@ -204,7 +203,7 @@
             android:name=".ui.transaction_history_screen.TransactionHistoryActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.tokens_screen.TokenListActivity"
+            android:name=".ui.tokens_screen.TokenListFragment"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
         <activity

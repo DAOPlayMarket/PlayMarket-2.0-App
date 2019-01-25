@@ -17,8 +17,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class QrActivity extends AppCompatActivity {
-    @BindView(R.id.textview1) TextView textview1;
-    @BindView(R.id.backButton) ImageView backButton;
     @BindView(R.id.qrCode) ImageView qrCode;
     @BindView(R.id.user_address) TextView userAddress;
 
@@ -32,7 +30,7 @@ public class QrActivity extends AppCompatActivity {
         qrCode.setImageBitmap(getBitmapFromAddress(userAddress));
     }
 
-    @OnClick(R.id.backButton) void onBackClicked() {
+    @OnClick(R.id.back_button) void onBackClicked() {
         this.finish();
     }
 

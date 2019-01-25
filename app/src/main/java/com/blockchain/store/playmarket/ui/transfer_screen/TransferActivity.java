@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
@@ -86,6 +87,19 @@ public class TransferActivity extends AppCompatActivity implements TransferContr
     }
 
     public static void startAsTokenTransfer(Activity activity, Token token) {
+        Intent starter = new Intent(activity.getBaseContext(), TransferActivity.class);
+        starter.putExtra(TOKEN_INFO_ARG, token);
+        starter.putExtra(TRANSACTION_ARG, Constants.TransactionTypes.TRANSFER_TOKEN);
+        activity.startActivity(starter);
+    }
+    public static void startAsTokenTransfer(Activity activity, DaoToken daoToken) {
+        Token token = new Token();
+        token.address = daoToken.address;
+        token.contract = daoToken.address;
+        token.decimals = String.valueOf(daoToken.decimals);
+        token.balanceOf = daoToken.balance;
+        token.symbol = daoToken.symbol;
+
         Intent starter = new Intent(activity.getBaseContext(), TransferActivity.class);
         starter.putExtra(TOKEN_INFO_ARG, token);
         starter.putExtra(TRANSACTION_ARG, Constants.TransactionTypes.TRANSFER_TOKEN);

@@ -2,10 +2,13 @@ package com.blockchain.store.playmarket.ui.navigation_view;
 
 import android.util.Log;
 
-import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.dao.data.entities.DaoToken;
+import com.blockchain.store.dao.repository.DaoTransactionRepository;
 import com.blockchain.store.playmarket.data.entities.UserBalance;
 import com.blockchain.store.playmarket.repositories.UserBalanceRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+
+import java.util.List;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -45,4 +48,18 @@ public class NavigationViewPresenter implements NavigationViewContract.Presenter
         view.onBalanceFail(throwable);
     }
 
+    public void loadPmtToken() {
+        DaoTransactionRepository.getOnlyPmtToken()
+                .subscribe(this::onPmtTokenReady, this::onPmtTokenError);
+    }
+
+    private void onPmtTokenReady(List<DaoToken> daoTokens) {
+        Log.d(TAG, "onPmtTokenReady: ");
+        view.onLocalTokensReady(daoTokens);
+    }
+
+    private void onPmtTokenError(Throwable throwable) {
+        view.onLocalTokensError(throwable);
+        Log.d(TAG, "onPmtTokenError: ");
+    }
 }

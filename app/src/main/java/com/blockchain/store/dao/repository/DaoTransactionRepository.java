@@ -7,6 +7,8 @@ import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.database.model.Rules;
 import com.blockchain.store.dao.database.model.Vote;
 import com.blockchain.store.dao.ui.DaoConstants;
+import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.repositories.TokenRepository;
 import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
@@ -36,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -107,9 +110,103 @@ public class DaoTransactionRepository {
 
     }
 
+    public static Observable<List<DaoToken>> getOnlyPmtToken() {
+        init(DaoConstants.DAO, AccountManager.getAddress().getHex());
+        List<DaoToken> daoTokens = new ArrayList<>();
+        return
+                getEthCallObservable(getTokenBalanceOfFunction(), DaoConstants.PlayMarket_token_contract)
+                        .map(result -> {
+                            DaoToken pmToken = new DaoToken().generatePmToken();
+                            pmToken.balance = decodeFunction(result, getTokenBalanceOfFunction()).toString();
+                            daoTokens.add(pmToken);
+                            return daoTokens;
+                        })
+                        .flatMap(result -> {
+                            ArrayList<Observable<EthCall>> list = new ArrayList<>();
+                            for (int i = 0; i < result.size(); i++) {
+                                DaoToken daoToken = result.get(i);
+                                list.add(getEthCallObservable(getFund(daoToken.address), DaoConstants.Foundation));
+                            }
+                            return Observable.from(list).flatMap(getFundResult -> getFundResult).toList();
+                        }, Pair::new)
+                        .map(result -> {
+                            Pair<List<DaoToken>, List<EthCall>> tokenEthCallPair = result;
+                            for (int i = 0; i < tokenEthCallPair.first.size(); i++) {
+                                tokenEthCallPair.first.get(i).fund = decodeFunction(tokenEthCallPair.second.get(i), getFund(tokenEthCallPair.first.get(i).address)).toString();
+                            }
+                            return tokenEthCallPair.first;
+                        })
+                        .flatMap(result -> {
+                            ArrayList<Observable<EthCall>> list = new ArrayList<>();
+                            for (int i = 0; i < result.size(); i++) {
+                                DaoToken daoToken = result.get(i);
+                                list.add(getEthCallObservable(getWithdrawn(daoToken.address), DaoConstants.Foundation));
+                            }
+                            return Observable.from(list).flatMap(getFundResult -> getFundResult).toList();
+                        }, Pair::new).map(result -> {
+                    Pair<List<DaoToken>, List<EthCall>> tokenEthCallPair = result;
+                    for (int i = 0; i < tokenEthCallPair.first.size(); i++) {
+                        tokenEthCallPair.first.get(i).withdraw = decodeFunction(tokenEthCallPair.second.get(i), getWithdrawn(tokenEthCallPair.first.get(i).address)).toString();
+                    }
+                    return tokenEthCallPair.first;
+                })
+                        .flatMap(result -> getEthCallObservable(getBalance(), DaoConstants.Repository), Pair::new)
+                        .map(result -> {
+                            for (int i = 0; i < result.first.size(); i++) {
+                                result.first.get(i).daoBalance = decodeFunction(result.second, getNotLockedBalance()).toString();
+                            }
+                            return result.first;
+                        }).flatMap(result -> getEthCallObservable(getNotLockedBalance(), DaoConstants.Repository), Pair::new)
+                        .map(result -> {
+                            for (int i = 0; i < result.first.size(); i++) {
+                                result.first.get(i).daoNotLockedBalance = decodeFunction(result.second, getBalance()).toString();
+                            }
+                            return result.first;
+                        })
+                        .flatMap(result -> getEthCallObservable(isWithDrawIsblocked(), DaoConstants.Foundation), Pair::new)
+                        .map(result -> {
+                            for (int i = 0; i < result.first.size(); i++) {
+                                result.first.get(i).isWithdrawBlocked = (boolean) decodeFunction(result.second, isWithDrawIsblocked());
+                            }
+                            return result.first;
+                        })
+                        .flatMap(result -> getEthCallObservable(allowance(), DaoConstants.PlayMarket_token_contract), Pair::new)
+                        .map(result -> {
+                            for (int i = 0; i < result.first.size(); i++) {
+                                result.first.get(i).approval = decodeFunction(result.second, allowance()).toString();
+                            }
+                            return result.first;
+                        })
+                        .zipWith(TokenRepository.getUserTokens(), Pair::new)
+                        .map(result -> {
+                            result.first.addAll(result.second);
+                            return result.first;
+                        })
+                        .flatMap(result -> {
+                            for (DaoToken daoToken : result) {
+                                if (daoToken.address.equalsIgnoreCase(DaoConstants.CRYPTO_DUEL_CONTRACT)) {
+                                    return getEthCallObservable(getOwnerbal(), DaoConstants.CRYPTO_DUEL_CONTRACT).subscribeOn(Schedulers.newThread());
+                                }
+                            }
+                            return Observable.just(0);
+                        }, Pair::new)
+                        .map(pairOfTokensAndEthCall -> {
+
+                            for (DaoToken daoToken : pairOfTokensAndEthCall.first) {
+                                if (daoToken.address.equalsIgnoreCase(DaoConstants.CRYPTO_DUEL_CONTRACT) && pairOfTokensAndEthCall.second instanceof EthCall) {
+                                    daoToken.ownersBal = decodeFunction((EthCall) pairOfTokensAndEthCall.second, getOwnerbal()).toString();
+                                }
+                            }
+                            return pairOfTokensAndEthCall.first;
+                        })
+
+                        .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread());
+
+    }
+
+
     public static Observable<List<DaoToken>> getTokens() {
         init(DaoConstants.DAO, AccountManager.getAddress().getHex());
-//        init(DaoConstants.DAO, AccountManager.getAddress().getHex());
         ArrayList<DaoToken> daoTokens = new ArrayList<>();
         return Observable.range(0, 10000)
                 .map(position -> getEthCallObservable(tokens(position), DaoConstants.Foundation))
@@ -163,13 +260,13 @@ public class DaoTransactionRepository {
                 .flatMap(result -> getEthCallObservable(getBalance(), DaoConstants.Repository), Pair::new)
                 .map(result -> {
                     for (int i = 0; i < result.first.size(); i++) {
-                        result.first.get(i).daoNotLockedBalance = decodeFunction(result.second, getNotLockedBalance()).toString();
+                        result.first.get(i).daoBalance = decodeFunction(result.second, getBalance()).toString();
                     }
                     return result.first;
                 }).flatMap(result -> getEthCallObservable(getNotLockedBalance(), DaoConstants.Repository), Pair::new)
                 .map(result -> {
                     for (int i = 0; i < result.first.size(); i++) {
-                        result.first.get(i).daoBalance = decodeFunction(result.second, getBalance()).toString();
+                        result.first.get(i).daoNotLockedBalance = decodeFunction(result.second, getNotLockedBalance()).toString();
                     }
                     return result.first;
                 })
@@ -185,6 +282,11 @@ public class DaoTransactionRepository {
                     for (int i = 0; i < result.first.size(); i++) {
                         result.first.get(i).approval = decodeFunction(result.second, allowance()).toString();
                     }
+                    return result.first;
+                })
+                .flatMap(result -> RestApi.getServerApi().getBalance(userAddress), Pair::new)
+                .map(result -> {
+                    AccountManager.setUserBalance(result.second);
                     return result.first;
                 })
 
@@ -479,6 +581,13 @@ public class DaoTransactionRepository {
 
     private static Function getTokenBalanceOfFunction() {
         return new Function("balanceOf", Collections.singletonList(new Address(userAddress)), Collections.singletonList(new TypeReference<Uint>() {
+        }));
+    }
+
+    /*CryptoDuel*/
+
+    private static Function getOwnerbal() {
+        return new Function("ownersbal", Collections.singletonList(new Address(userAddress)), Collections.singletonList(new TypeReference<Uint>() {
         }));
     }
 
