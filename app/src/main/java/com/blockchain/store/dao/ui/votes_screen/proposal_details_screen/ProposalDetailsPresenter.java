@@ -19,4 +19,9 @@ public class ProposalDetailsPresenter implements ProposalDetailsContract.Present
     public Rules getRules() {
         return daoDatabase.rulesDao().getRules();
     }
+
+    @Override
+    public String obtainPercentage(long value, long maxValue) {
+        return String.valueOf(value / maxValue * 100);
+    }
 }

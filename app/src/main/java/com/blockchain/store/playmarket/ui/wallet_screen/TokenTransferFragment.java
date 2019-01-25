@@ -241,7 +241,6 @@ public class TokenTransferFragment extends Fragment {
                             try {
                                 String rawTransaction;
                                 Long approvalWithoutDecimal = daoToken.getApprovalWithoutDecimal();
-
                                 if (approvalWithoutDecimal >= amount && approvalWithoutDecimal != 0) {
                                     Transaction transaction = CryptoUtils.generateDepositOnlyTokenToRepositoryTx(result, amount);
                                     TransactionInteractor.addToJobSchedule(transaction.getHash().getHex());
@@ -252,7 +251,6 @@ public class TokenTransferFragment extends Fragment {
                                     String rawSecondTransaction = CryptoUtils.getRawTransaction(stringStringPair.second);
                                     TransactionInteractor.addToJobSchedule(stringStringPair.first.getHash().getHex(), stringStringPair.second.getHash().getHex(), rawSecondTransaction);
                                 }
-
                                 return RestApi.getServerApi().deployTransaction(rawTransaction);
                             } catch (Exception e) {
                                 e.printStackTrace();

@@ -30,20 +30,13 @@ import butterknife.ButterKnife;
 
 public class VotesFragment extends Fragment implements Callbacks.ProposalCallback {
 
-    public enum StartFlag {
-        Ongoing,
-        Archive
-    }
-
-
     private ProposalsAdapter adapter;
     private NavigationCallback navigationCallback;
 
     @BindView(R.id.proposals_recyclerView) RecyclerView proposalsRecyclerView;
 
-    public static VotesFragment newInstance(StartFlag startFlag, List<Proposal> proposals) {
+    public static VotesFragment newInstance(List<Proposal> proposals) {
         Bundle args = new Bundle();
-        args.putSerializable("StartFlag", startFlag);
         args.putParcelableArrayList("Proposals", (ArrayList<? extends Parcelable>) proposals);
         VotesFragment fragment = new VotesFragment();
         fragment.setArguments(args);
@@ -73,15 +66,8 @@ public class VotesFragment extends Fragment implements Callbacks.ProposalCallbac
 
     private void showProposals(ArrayList<Proposal> proposals) {
         if (adapter == null) {
-            proposals.add(new Proposal());
-            proposals.add(new Proposal());
-            proposals.add(new Proposal());
-            proposals.add(new Proposal());
-            proposals.add(new Proposal());
             proposalsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            proposalsRecyclerView.setHasFixedSize(true);
             adapter = new ProposalsAdapter(proposals, this);
-            adapter.setHasStableIds(true);
             proposalsRecyclerView.setAdapter(adapter);
 
             proposalsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

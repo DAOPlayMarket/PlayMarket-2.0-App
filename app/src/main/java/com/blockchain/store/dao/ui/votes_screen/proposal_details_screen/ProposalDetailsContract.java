@@ -14,6 +14,8 @@ class ProposalDetailsContract {
 
         Rules getRules();
 
+        String obtainPercentage(long value, long maxValue);
+
     }
 
 }

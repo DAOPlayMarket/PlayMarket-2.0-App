@@ -31,5 +31,4 @@ public interface IProposalDao {
 
     @Query("SELECT * FROM Proposal")
     List<Proposal> getAll();
-
 }

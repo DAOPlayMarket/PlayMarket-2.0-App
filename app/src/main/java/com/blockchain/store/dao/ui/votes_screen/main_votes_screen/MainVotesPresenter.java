@@ -4,12 +4,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.util.Pair;
 
 import com.blockchain.store.dao.database.DaoDatabase;
 import com.blockchain.store.dao.database.model.Proposal;
+import com.blockchain.store.dao.database.model.Rules;
 import com.blockchain.store.dao.services.DaoContractService;
 import com.blockchain.store.playmarket.Application;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment.BROADCAST_ACTION;
@@ -26,13 +29,27 @@ public class MainVotesPresenter implements MainVotesContract.Presenter {
             boolean isSync = intent.getBooleanExtra("IsSync", false);
             if (isSync) {
                 List<Proposal> proposals = daoDatabase.proposalDao().getAll();
-                view.initTabLayout(proposals);
+                Pair<ArrayList<Proposal>, ArrayList<Proposal>> proposalsPair = sortProposals(proposals);
+                view.initTabLayout(proposalsPair);
                 view.hideProgressBar();
                 unregisterBroadcastReceiver();
                 stopDaoService();
             }
         }
     };
+
+    private Pair<ArrayList<Proposal>, ArrayList<Proposal>> sortProposals(List<Proposal> proposals) {
+        ArrayList<Proposal> archiveProposals = new ArrayList<>();
+        ArrayList<Proposal> ongoingProposals = new ArrayList<>();
+        Rules rules = daoDatabase.rulesDao().getRules();
+        for (Proposal proposal : proposals) {
+            if (proposal.isExecuted || ((proposal.endTimeOfVoting * 1000) < System.currentTimeMillis() && proposal.numberOfVotes <= rules.minimumQuorum))
+                archiveProposals.add(proposal);
+            else
+                ongoingProposals.add(proposal);
+        }
+        return new Pair<>(ongoingProposals, archiveProposals);
+    }
 
     @Override
     public void init(MainVotesContract.View view, Context context) {

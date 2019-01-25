@@ -8,20 +8,11 @@ import android.util.Log;
 import com.blockchain.store.dao.database.DaoDatabase;
 import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.database.model.Rules;
-import com.blockchain.store.dao.database.model.Vote;
 import com.blockchain.store.dao.repository.DaoTransactionRepository;
-import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment;
 import com.blockchain.store.playmarket.Application;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.WebSocket;
+import java.util.List;
 
 public class DaoContractService extends Service {
 
@@ -30,25 +21,51 @@ public class DaoContractService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        getContractHistory();
+        int id = 0;
+        DaoTransactionRepository.getRules().subscribe(this::onGetRulesSuccess, this::onGetRulesError);
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void onGetRulesSuccess(Rules rules) {
+        Rules databaseRules = daoDatabase.rulesDao().getRules();
+        if (databaseRules == null) daoDatabase.rulesDao().insert(rules);
+        else daoDatabase.rulesDao().update(rules);
+
+        int id = 0;
+
+        List<Proposal> proposals = daoDatabase.proposalDao().getAll();
+        if (!proposals.isEmpty()) {
+            for (Proposal proposal : proposals) {
+                if (proposal.isExecuted || (proposal.endTimeOfVoting * 1000 > System.currentTimeMillis() && proposal.numberOfVotes > rules.minimumQuorum)) {
+                    id = proposal.proposalID;
+                }
+            }
+        }
+        DaoTransactionRepository.getProposals(id).subscribe(this::onProposalsLoaded, this::onProposalsError);
+    }
+
+    private void onGetRulesError(Throwable throwable) {
+    }
+
+    private void onProposalsLoaded(List<Proposal> proposals) {
+        for (Proposal proposal : proposals) {
+            if (daoDatabase.proposalDao().getById(proposal.proposalID) == null) {
+                daoDatabase.proposalDao().insert(proposal);
+            } else {
+                daoDatabase.proposalDao().update(proposal);
+            }
+        }
+        sendBroadcast();
+    }
+
+
+    private void onProposalsError(Throwable throwable) {
+        Log.d(TAG, "onProposalsLoaded: ");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-    }
-
-    private void getContractHistory() {
-        WebSocket webSocket = createWebSocketConnection(new WebSocketListener());
-        webSocket.send("{\"id\":1,\"jsonrpc\":\"2.0\",\"params\":[{\"fromBlock\":\"" + DaoConstants.CONTRACT_CREATION_BLOCK_RINKEBY + "\",\"toBlock\":\"latest\",\"address\":\"" + DaoConstants.CONTRACT_ADDRESS_RINKEBY + "\"}],\"method\":\"eth_getLogs\"}");
-    }
-
-    private WebSocket createWebSocketConnection(WebSocketListener listener) {
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
-        Request request = new Request.Builder().url(DaoConstants.INFURA_WEBSOCKET_RINKEBYT).build();
-        return okHttpClient.newWebSocket(request, listener);
     }
 
     @Override
@@ -56,97 +73,12 @@ public class DaoContractService extends Service {
         return null;
     }
 
-    private class WebSocketListener extends okhttp3.WebSocketListener {
-
-        @Override
-        public void onMessage(WebSocket webSocket, String text) {
-            Log.d(TAG, "onMessage() called with: webSocket = [" + webSocket + "], text = [" + text + "]");
-            try {
-                JSONArray contractLogs = new JSONObject(text).getJSONArray("result");
-                for (int i = 0; i < contractLogs.length(); i ++) {
-                    JSONObject log = contractLogs.getJSONObject(i);
-                    String topics = log.getJSONArray("topics").get(0).toString();
-                    String data = log.getString("data").replace("0x", "");
-                    switch (topics) {
-                        case DaoConstants.CHANGE_OF_RULES:
-                            rulesHanding(data);
-                            break;
-                        case DaoConstants.PAYMENT:
-                            break;
-                        case DaoConstants.PROPOSAL_TALLIED:
-                            break;
-                        case DaoConstants.VOTED:
-                            voteHanding(data);
-                            break;
-                        case DaoConstants.PROPOSAL_ADDED:
-                            proposalHanding(data);
-                            break;
-                    }
-                }
-                sendBroadcast();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            super.onMessage(webSocket, text);
-        }
-
-        @Override
-        public void onClosed(WebSocket webSocket, int code, String reason) {
-            Log.d(TAG, "onClosed() called with: webSocket = [" + webSocket + "], code = [" + code + "], reason = [" + reason + "]");
-            super.onClosed(webSocket, code, reason);
-        }
-
-        @Override
-        public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-            Log.d(TAG, "onFailure() called with: webSocket = [" + webSocket + "], t = [" + t + "], response = [" + response + "]");
-            super.onFailure(webSocket, t, response);
-        }
-    }
-
-    private void proposalHanding(String data) {
-        Proposal proposal = DaoTransactionRepository.decodeProposal(data);
-        if (proposal != null){
-            Proposal proposalFromDb = daoDatabase.proposalDao().getById(proposal.proposalID);
-            if (proposalFromDb == null) daoDatabase.proposalDao().insert(proposal);
-        }
-    }
-
-    private void voteHanding(String data) {
-        Vote vote = DaoTransactionRepository.decodeVote(data);
-        if (vote != null) {
-            Proposal proposalFromDb = daoDatabase.proposalDao().getById(vote.proposalID);
-
-            boolean isAlreadyVoted = false;
-            for (Vote voteFromDb: proposalFromDb.votes) {
-                if (voteFromDb.voter.equals(vote.voter)){
-                    isAlreadyVoted = true;
-                    break;
-                }
-            }
-
-            if (!isAlreadyVoted) {
-                proposalFromDb.votes.add(vote);
-                if (vote.position) proposalFromDb.votesSupport++;
-                else proposalFromDb.votesAgainst++;
-                daoDatabase.proposalDao().update(proposalFromDb);
-            }
-        }
-    }
-
-    private void rulesHanding(String data) {
-        Rules rules = DaoTransactionRepository.decodeRules(data);
-        if (rules != null) {
-            Rules rulesFromDb = daoDatabase.rulesDao().getRules();
-            if (rulesFromDb == null) daoDatabase.rulesDao().insert(rules);
-            else daoDatabase.rulesDao().update(rules);
-        }
-    }
-
-    private void sendBroadcast(){
+    private void sendBroadcast() {
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(MainVotesFragment.BROADCAST_ACTION);
         broadcastIntent.putExtra("IsSync", true);
         sendBroadcast(broadcastIntent);
     }
+
 
 }

@@ -5,9 +5,10 @@
     android:id="@+id/item_linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:background="@color/colorPrimary"
-    android:padding="10dp"
+    android:layout_marginBottom="16dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:background="@drawable/round_item_bg"
     tools:ignore="UseCompoundDrawables">
 
     <TextView
@@ -15,8 +16,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="@string/id"
         android:textAllCaps="true"
         android:textSize="18sp"
@@ -30,7 +31,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="8dp"
         android:gravity="center_vertical"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView1"
         app:layout_constraintStart_toEndOf="@+id/textView1"
         tools:text="1" />
@@ -39,47 +40,93 @@
         android:id="@+id/description_textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center_vertical"
+        android:layout_marginEnd="16dp"
         android:maxLength="60"
-        android:textSize="16sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView1"
-        tools:text="Lorem Ipsum - это тsdsadasdasfafasfasfasfasfasfafекст-рыба, частоиспользуемый в печати и вэб-дизайне... " />
+        app:layout_constraintStart_toStartOf="@+id/textView1"
+        app:layout_constraintTop_toBottomOf="@+id/textView1"/>
 
     <TextView
-        android:id="@+id/isAccepted"
+        android:id="@+id/textView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/success_background"
-        android:padding="3dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/status"
+        android:textColor="@color/lightBlue"
+        android:textSize="12sp"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/isExecuted"
-        app:layout_constraintEnd_toStartOf="@+id/isExecuted"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/description_textView"
+        app:layout_constraintTop_toBottomOf="@+id/description_textView" />
+
+    <TextView
+        android:id="@+id/isAccepted_textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/colorGreen"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
         tools:text="Accepted" />
 
     <TextView
-        android:id="@+id/isExecuted"
+        android:id="@+id/isExecuted_textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/failed_background"
-        android:padding="3dp"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/colorRed"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/isAccepted_textView"
+        app:layout_constraintStart_toEndOf="@+id/isAccepted_textView"
+        tools:text="Not executed" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/time_to_end_voting"
+        android:textColor="@color/lightBlue"
+        android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description_textView"
-        tools:text="Not executed" />
+        app:layout_constraintStart_toStartOf="@+id/description_textView"
+        app:layout_constraintTop_toBottomOf="@+id/description_textView" />
+
+    <TextView
+        android:id="@+id/votingEndTime_textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:text="@string/time_to_end_voting"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView3"
+        app:layout_constraintStart_toEndOf="@+id/textView3" />
+
+    <android.support.constraint.Group
+        android:id="@+id/timeGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="votingEndTime_textView,textView3" />
+
+    <android.support.constraint.Group
+        android:id="@+id/statusGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="textView2,isExecuted_textView,isAccepted_textView" />
 
 
 </android.support.constraint.ConstraintLayout>

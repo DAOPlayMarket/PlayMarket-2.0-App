@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.blockchain.store.playmarket.interfaces.NavigationCallback;
 import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -69,10 +71,11 @@ public class MainVotesFragment extends Fragment implements MainVotesContract.Vie
     }
 
     @Override
-    public void initTabLayout(List<Proposal> proposals) {
+    public void initTabLayout(Pair<ArrayList<Proposal>, ArrayList<Proposal>> proposalsPair) {
         viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
-        viewPagerAdapter.addFragment(VotesFragment.newInstance(VotesFragment.StartFlag.Ongoing, proposals));
-        viewPagerAdapter.addFragment(VotesFragment.newInstance(VotesFragment.StartFlag.Archive, proposals));
+
+        viewPagerAdapter.addFragment(VotesFragment.newInstance(proposalsPair.first));
+        viewPagerAdapter.addFragment(VotesFragment.newInstance(proposalsPair.second));
 
         votesViewPager.setAdapter(viewPagerAdapter);
         votesViewPager.setOffscreenPageLimit(1);

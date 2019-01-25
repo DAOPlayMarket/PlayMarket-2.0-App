@@ -107,6 +107,8 @@ public class Constants {
     public static final String CRYPTO_DUEL_CONTRACT = "0x869eb8a1a479a80f9907673eae8336625dc3e526";
     public static final String CRYPTO_DUEL_CONTRACT_FOR_ADVER_BUDGET = "0xbc82729a3a5063465f66b54d9a1e18496529c532";
 
+    public static final String EMPTY_ADDRESS = "0x0000000000000000000000000000000000000000";
+
 
     public static final String TRANSACTION_MODEL_KEY = "transaction_model_key";
 

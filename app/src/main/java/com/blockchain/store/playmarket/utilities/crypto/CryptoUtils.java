@@ -7,9 +7,11 @@ import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.playmarket.PurchaseSDK.entities.TransferObject;
 import com.blockchain.store.playmarket.PurchaseSDK.services.RemoteConstants;
+import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.CryptoPriceResponse;
+import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -38,6 +40,8 @@ import java.util.regex.Pattern;
 
 import io.ethmobile.ethdroid.EthDroid;
 import io.ethmobile.ethdroid.KeyManager;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static com.blockchain.store.playmarket.utilities.Constants.GAS_LIMIT;
 import static com.blockchain.store.playmarket.utilities.Constants.USER_ETHERSCAN_ID;
@@ -100,6 +104,43 @@ public class CryptoUtils {
         }
         return hexStringToByteArray(encode);
     }
+
+
+    public void sendTx(byte[] txData){
+        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
+                .flatMap(result -> {
+                    String rawTx = CryptoUtils.generateTx(result, txData);
+                    return RestApi.getServerApi().deployTransaction(rawTx);
+
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onSentSuccess, this::onSentFailed);
+    }
+
+    private void onSentFailed(Throwable throwable) {
+    }
+
+    private void onSentSuccess(PurchaseAppResponse purchaseAppResponse) {
+    }
+
+    public static String generateTx(AccountInfoResponse accountInfo, byte[] txData) {
+        KeyStore keystore = AccountManager.getKeyManager().getKeystore();
+        Account account = AccountManager.getAccount();
+
+        BigInt price = new BigInt(0);
+        BigInt gasPrice = new BigInt(Long.parseLong(accountInfo.gasPrice));
+        Transaction transaction = new Transaction(accountInfo.count, new Address(DaoConstants.DAO), price, GAS_LIMIT, gasPrice, txData);
+        try {
+            transaction = keystore.signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
+            return getRawTransaction(transaction);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
 
     public static byte[] createSentTokenTransactionBytes(String address, String tokenNumber) {
         if (address.startsWith("0x")) {

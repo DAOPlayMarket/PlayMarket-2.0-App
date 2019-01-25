@@ -141,9 +141,11 @@
 
     <color name="white40">#66FFFFFF</color>
     <color name="white60">#99FFFFFF</color>
-    <color name="lightBlue">#1BA7FA</color>
+    <color name="lightBlue">#0EA2FA</color>
+    <color name="colorGreen">#27AE60</color>
+
     <color name="colorPrimaryLight">#153A55</color>
-    <color name="red">#EB5757</color>
+    <color name="colorRed">#EB5757</color>
 
 
     <!-- Drawable nine patch create in http://inloop.github.io/shadow4android/-->

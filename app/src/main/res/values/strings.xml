@@ -293,10 +293,10 @@
     <string name="votes">Votes</string>
     <string name="your_account">Your account:</string>
     <string name="add_new_proposal">Add new proposal</string>
-    <string name="description">Description</string>
+    <string name="description">Description:</string>
     <string name="full_description_hash">Full description hash</string>
     <string name="transaction_bytecode">Transaction bytecode</string>
-    <string name="description_proposal_id">Description proposal ID:</string>
+    <string name="proposal">Proposal</string>
     <string name="see_details">See details</string>
     <string name="total_voted">Total voted:</string>
     <string name="quorum">Quorum:</string>
@@ -325,5 +325,10 @@
     <string name="confirm_transaction">Confirm transaction</string>
     <string name="new_proposal">New proposal</string>
     <string name="id">id:</string>
+    <string name="vote_for_support">Vote for support</string>
+    <string name="vote_against">Vote against</string>
+    <string name="create_proposal">Create proposal</string>
+    <string name="time_to_end_voting">Time to end voting:</string>
+    <string name="execute">Execute</string>
 
 </resources>

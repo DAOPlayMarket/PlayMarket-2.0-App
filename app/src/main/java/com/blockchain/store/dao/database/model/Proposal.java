@@ -14,19 +14,17 @@ import java.util.ArrayList;
 public class Proposal implements Parcelable {
 
     @PrimaryKey
-    public long proposalID;
+    public int proposalID;
+    public long endTimeOfVoting;
+    public boolean isExecuted;
+    public boolean proposalPassed;
+    public int numberOfVotes;
+    public long votesSupport;
+    public long votesAgainst;
     public String recipient;
     public long amount;
     public String description;
-    public String fullDescHash;
-    public int votesSupport;
-    public int votesAgainst;
-    public int quorum;
-    public boolean isActive;
-    public boolean isAccepted;
-    public boolean isExecuted;
-    @TypeConverters(VotesConverter.class)
-    public ArrayList<Vote> votes = new ArrayList<>();
+    public String fullDescriptionHash;
 
     public Proposal() {
     }
@@ -38,33 +36,31 @@ public class Proposal implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.proposalID);
+        dest.writeInt(this.proposalID);
+        dest.writeLong(this.endTimeOfVoting);
+        dest.writeByte(this.isExecuted ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.proposalPassed ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.numberOfVotes);
+        dest.writeLong(this.votesSupport);
+        dest.writeLong(this.votesAgainst);
         dest.writeString(this.recipient);
         dest.writeLong(this.amount);
         dest.writeString(this.description);
-        dest.writeString(this.fullDescHash);
-        dest.writeInt(this.votesSupport);
-        dest.writeInt(this.votesAgainst);
-        dest.writeInt(this.quorum);
-        dest.writeByte(this.isActive ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.isAccepted ? (byte) 1 : (byte) 0);
-        dest.writeByte(this.isExecuted ? (byte) 1 : (byte) 0);
-        dest.writeTypedList(this.votes);
+        dest.writeString(this.fullDescriptionHash);
     }
 
     protected Proposal(Parcel in) {
-        this.proposalID = in.readLong();
+        this.proposalID = in.readInt();
+        this.endTimeOfVoting = in.readLong();
+        this.isExecuted = in.readByte() != 0;
+        this.proposalPassed = in.readByte() != 0;
+        this.numberOfVotes = in.readInt();
+        this.votesSupport = in.readLong();
+        this.votesAgainst = in.readLong();
         this.recipient = in.readString();
         this.amount = in.readLong();
         this.description = in.readString();
-        this.fullDescHash = in.readString();
-        this.votesSupport = in.readInt();
-        this.votesAgainst = in.readInt();
-        this.quorum = in.readInt();
-        this.isActive = in.readByte() != 0;
-        this.isAccepted = in.readByte() != 0;
-        this.isExecuted = in.readByte() != 0;
-        this.votes = in.createTypedArrayList(Vote.CREATOR);
+        this.fullDescriptionHash = in.readString();
     }
 
     public static final Creator<Proposal> CREATOR = new Creator<Proposal>() {

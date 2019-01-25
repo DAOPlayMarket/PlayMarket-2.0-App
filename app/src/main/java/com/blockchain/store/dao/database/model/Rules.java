@@ -8,6 +8,6 @@ public class Rules {
     @PrimaryKey
     public int id;
     public long minimumQuorum;
-    public int debatingPeriodDuration;
+    public long debatingPeriodDuration;
     public long requisiteMajority;
 }

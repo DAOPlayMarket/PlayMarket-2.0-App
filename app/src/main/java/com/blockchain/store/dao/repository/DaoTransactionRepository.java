@@ -19,6 +19,7 @@ import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
+import org.web3j.abi.datatypes.generated.Bytes32;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
@@ -48,7 +49,6 @@ public class DaoTransactionRepository {
     private static String userAddress;
     private static Web3j web3j;
     private static boolean isHasLogs = true;
-
 
     private static void init(String contractAddress, String userAddress) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -210,6 +210,38 @@ public class DaoTransactionRepository {
         return Observable.from(pricesList).flatMap(result -> result).toList();
     }
 
+    public static Observable<List<Proposal>> getProposals(int startId) {
+        init(DaoConstants.DAO, AccountManager.getAddress().getHex());
+        return Observable.range(startId, 10000)
+                .map(position -> new Pair<>(position, getEthCallObservable(proposalFunction(position), DaoConstants.DAO)))
+                .flatMap(proposal -> proposal.second.map(result -> new Pair<>(proposal.first, result)))
+                //.flatMap(proposal -> proposal.second)
+                .map(result -> decodeProposal(result.first, result.second.getValue(), proposalFunction(0)))
+                .takeWhile(proposal -> proposal != null)
+                .toList()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread());
+    }
+
+    public static Observable<Rules> getRules() {
+        init(DaoConstants.DAO, AccountManager.getAddress().getHex());
+        return Observable
+                .zip(
+                        getEthCallObservable(minQuorumFunction(), DaoConstants.DAO),
+                        getEthCallObservable(debatingPeriodFunction(), DaoConstants.DAO),
+                        getEthCallObservable(requisiteMajorityFunction(), DaoConstants.DAO),
+                        (minimumQuorum, debatingPeriodDuration, requisiteMajority) -> {
+                            Rules rules = new Rules();
+                            rules.id = 0;
+                            rules.minimumQuorum = Long.parseLong(decodeFunction(minimumQuorum, minQuorumFunction()).toString());
+                            rules.debatingPeriodDuration = Long.parseLong(decodeFunction(debatingPeriodDuration, debatingPeriodFunction()).toString());
+                            rules.requisiteMajority = Long.parseLong(decodeFunction(requisiteMajority, requisiteMajorityFunction()).toString());
+                            return rules;
+                        })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread());
+    }
+
 
     /* DAO Repository data*/
     public static Function getVoted(long proposalId, String voter) {/*returns uints*/
@@ -299,36 +331,94 @@ public class DaoTransactionRepository {
         }));
     }
 
-    private static Function proposalFunction() {
+    private static Function proposalFunction(int position) {
+
+        ArrayList<Type> inputParameters = new ArrayList<>();
+        inputParameters.add(new Uint256(position));
+
         ArrayList<TypeReference<?>> outputParameters = new ArrayList<>();
+        outputParameters.add(new TypeReference<Uint256>() {
+        });
+        outputParameters.add(new TypeReference<Bool>() {
+        });
+        outputParameters.add(new TypeReference<Bool>() {
+        });
+        outputParameters.add(new TypeReference<Uint256>() {
+        });
+        outputParameters.add(new TypeReference<Uint256>() {
+        });
         outputParameters.add(new TypeReference<Uint256>() {
         });
         outputParameters.add(new TypeReference<Address>() {
         });
         outputParameters.add(new TypeReference<Uint256>() {
         });
-        outputParameters.add(new TypeReference<Utf8String>() {
+        outputParameters.add(new TypeReference<Bytes32>() {
         });
         outputParameters.add(new TypeReference<Utf8String>() {
         });
-        return new Function("Proposal", new ArrayList<>(), outputParameters);
-
+        outputParameters.add(new TypeReference<Utf8String>() {
+        });
+        return new Function("Proposals", inputParameters, outputParameters);
     }
 
-    public static Proposal decodeProposal(String data) {
-        Function function = DaoTransactionRepository.proposalFunction();
+    private static Function minQuorumFunction() {
+        ArrayList<TypeReference<?>> outputParameters = new ArrayList<>();
+        outputParameters.add(new TypeReference<Uint256>() {
+        });
+        return new Function("minimumQuorum", new ArrayList<>(), outputParameters);
+    }
+
+    private static Function debatingPeriodFunction() {
+        ArrayList<TypeReference<?>> outputParameters = new ArrayList<>();
+        outputParameters.add(new TypeReference<Uint256>() {
+        });
+        return new Function("debatingPeriodDuration", new ArrayList<>(), outputParameters);
+    }
+
+    private static Function requisiteMajorityFunction() {
+        ArrayList<TypeReference<?>> outputParameters = new ArrayList<>();
+        outputParameters.add(new TypeReference<Uint256>() {
+        });
+        return new Function("requisiteMajority", new ArrayList<>(), outputParameters);
+    }
+
+
+    public static Proposal decodeProposal(int position, String data, Function function) {
         List<Type> decode = FunctionReturnDecoder.decode(data, function.getOutputParameters());
         Proposal proposal = new Proposal();
         try {
-            proposal.proposalID = Integer.parseInt(decode.get(0).getValue().toString());
-            proposal.recipient = decode.get(1).getValue().toString();
-            proposal.amount = Integer.parseInt(decode.get(2).getValue().toString());
-            proposal.description = decode.get(3).getValue().toString();
-            proposal.fullDescHash = decode.get(4).getValue().toString();
+            proposal.proposalID = position;
+            proposal.endTimeOfVoting = Long.parseLong(decode.get(0).getValue().toString());
+            proposal.isExecuted = (boolean) decode.get(1).getValue();
+            proposal.proposalPassed = (boolean) decode.get(2).getValue();
+            proposal.numberOfVotes = Integer.parseInt(decode.get(3).getValue().toString());
+            proposal.votesSupport = Long.parseLong(decode.get(4).getValue().toString());
+            proposal.votesAgainst = Long.parseLong(decode.get(5).getValue().toString());
+            proposal.recipient = decode.get(6).getValue().toString();
+            proposal.amount = Long.parseLong(decode.get(7).getValue().toString());
+            proposal.description = decode.get(9).getValue().toString();
+            proposal.fullDescriptionHash = decode.get(10).getValue().toString();
         } catch (Exception e) {
             return null;
         }
         return proposal;
+    }
+
+    private static Function executedProposalFunction() {
+        ArrayList<TypeReference<?>> outputParameters = new ArrayList<>();
+        outputParameters.add(new TypeReference<Uint256>() {
+        });
+        outputParameters.add(new TypeReference<Uint256>() {
+        });
+        outputParameters.add(new TypeReference<Uint256>() {
+        });
+        outputParameters.add(new TypeReference<Uint256>() {
+        });
+        outputParameters.add(new TypeReference<Bool>() {
+        });
+        return new Function("Proposal", new ArrayList<>(), outputParameters);
+
     }
 
     private static Function voteFunction() {
