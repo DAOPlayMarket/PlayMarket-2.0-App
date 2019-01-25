@@ -33,9 +33,11 @@ public class PasswordPromptPresenter implements PasswordPromptContract.Presenter
     public String createNewAccount(String accountPassword) {
         try {
             Account account = AccountManager.getKeyManager().newAccount(accountPassword);
-            AccountManager.setCurrentUserPosition(
-                    AccountManager.getKeyManager().getAccounts().size() - 1
-            );
+            int size = AccountManager.getKeyManager().getAccounts().size();
+            if (size > 1) {
+                size--;
+            }
+            AccountManager.setCurrentUserPosition(size);
             Log.d(TAG, "makeNewAccount: " + account.getURL().toString());
             String address = account.getAddress().getHex();
             autoSaveJsonKeystoreFile();
@@ -50,6 +52,15 @@ public class PasswordPromptPresenter implements PasswordPromptContract.Presenter
 
     @Override
     public boolean importAccount(String fileString, String password) {
+        try {
+            int size = AccountManager.getKeyManager().getAccounts().size();
+            if (size > 1) {
+                size--;
+            }
+            AccountManager.setCurrentUserPosition(size);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return fileUtils.importJsonKeystoreFile(fileString, password);
     }
 

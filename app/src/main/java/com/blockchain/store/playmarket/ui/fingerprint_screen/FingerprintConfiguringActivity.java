@@ -147,7 +147,7 @@ public class FingerprintConfiguringActivity extends AppCompatActivity implements
     }
 
     private void hidePasswordError() {
-        accountPasswordTextInputLayout.setPasswordVisibilityToggleTintList(AppCompatResources.getColorStateList(this, R.color.green_color));
+        accountPasswordTextInputLayout.setPasswordVisibilityToggleTintList(AppCompatResources.getColorStateList(this, R.color.colorAccent));
         accountPasswordTextInputLayout.setError(null);
     }
 

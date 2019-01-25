@@ -76,8 +76,10 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
 
         fileManagerType = getIntent().getStringExtra(START_FILE_MANAGER_TAG);
 
-        if (fileManagerType.equals("folders")) infoTextView.setText(getResources().getText(R.string.chose_folder));
-        if (fileManagerType.equals("all_files")) infoTextView.setText(getResources().getText(R.string.chose_file));
+        if (fileManagerType.equals("folders"))
+            infoTextView.setText(getResources().getText(R.string.chose_folder));
+        if (fileManagerType.equals("all_files"))
+            infoTextView.setText(getResources().getText(R.string.chose_file));
 
         pathTextView.setText(currentDirectory);
         fileList = presenter.getFolderList(currentDirectory, fileManagerType);
@@ -134,7 +136,13 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
             if (fileIndex == -1) {
                 Toast.makeText(this, "You need chose one of the accounts", Toast.LENGTH_SHORT).show();
             } else {
-                if (presenter.jsonKeystoreFileCheck(fileList.get(fileIndex), "address") != null) {
+                String importedAddress = presenter.jsonKeystoreFileCheck(fileList.get(fileIndex), "address");
+                if (importedAddress != null) {
+                    if (presenter.isAccountAlreadyImported("0x" + importedAddress)) {
+                        Toast.makeText(this, "Account already imported", Toast.LENGTH_SHORT).show();
+                        setResult(RESULT_CANCELED);
+                        return;
+                    }
                     File selectedUserJsonFile = fileList.get(fileIndex);
                     jsonData = presenter.getDataFromJsonKeystoreFile(selectedUserJsonFile, "all_data");
                     Intent intent = new Intent();

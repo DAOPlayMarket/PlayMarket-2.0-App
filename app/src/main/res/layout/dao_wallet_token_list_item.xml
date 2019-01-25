@@ -45,6 +45,7 @@
         style="@style/secondaryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="@string/transfer"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -58,11 +59,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:paddingBottom="15dp"
+        android:paddingBottom="5dp"
         android:text="Balance:"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/name"
         app:layout_constraintTop_toBottomOf="@+id/name" />
+
+    <TextView
+        android:id="@+id/dividends_amount_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:text="Dividends balance:"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/token_balance_field"
+        app:layout_constraintTop_toBottomOf="@+id/token_balance_field" />
+
+    <TextView
+        android:id="@+id/dividends_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:visibility="gone"
+        app:layout_constraintBaseline_toBaselineOf="@+id/dividends_amount_field"
+        app:layout_constraintStart_toEndOf="@+id/dividends_amount_field"
+        tools:text="jksfda;kfsd;klfd" />
 
     <TextView
         android:id="@+id/token_balance"
@@ -83,7 +104,6 @@
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_token_list_transfer"
         app:layout_constraintEnd_toEndOf="@+id/button"
-        app:layout_constraintHorizontal_bias="0.45"
         app:layout_constraintStart_toStartOf="@+id/button"
         app:layout_constraintTop_toTopOf="@+id/touch_helper" />
 
@@ -92,11 +112,11 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         app:el_expanded="false"
-        tools:el_expanded="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/token_balance_field">
+        app:layout_constraintTop_toBottomOf="@+id/dividends_amount_field"
+        tools:el_expanded="true">
 
         <View
             android:id="@+id/token_divider"

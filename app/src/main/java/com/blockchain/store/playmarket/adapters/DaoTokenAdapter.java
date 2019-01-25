@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
+import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.repositories.TokenRepository;
@@ -56,19 +57,16 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (isOpenAsWallet) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dao_wallet_token_list_item, parent, false);
                 DaoWalletViewHolder daoWalletViewHolder = new DaoWalletViewHolder(view);
-                daoWalletViewHolder.deleteHolder.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int position = daoWalletViewHolder.getAdapterPosition();
-                        TokenRepository.deleteToken(daoTokens.get(position));
-                        try {
-                            daoTokens.remove(position);
-                            notifyItemRemoved(position);
-                        } catch (Exception e) {
-
-                        }
+                daoWalletViewHolder.deleteHolder.setOnClickListener(v -> {
+                    int position = daoWalletViewHolder.getAdapterPosition();
+                    TokenRepository.deleteToken(daoTokens.get(position));
+                    try {
+                        daoTokens.remove(position);
+                        notifyItemRemoved(position);
+                    } catch (Exception e) {
 
                     }
+
                 });
                 return daoWalletViewHolder;
             } else {
@@ -144,6 +142,8 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @BindView(R.id.expandable_layout) ExpandableLayout expandableLayout;
         @BindView(R.id.linearLayout2) ConstraintLayout rootLayout;
         @BindView(R.id.delete_holder) View deleteHolder;
+        @BindView(R.id.dividends_amount_field) TextView dividendsAmountField;
+        @BindView(R.id.dividends_amount) TextView dividendsAmount;
 
 
         public DaoWalletViewHolder(View itemView) {
@@ -153,6 +153,15 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
         public void bind(DaoToken daoToken, int position) {
+            if (daoToken.address.equalsIgnoreCase(DaoConstants.CRYPTO_DUEL_CONTRACT)) {
+                dividendsAmountField.setVisibility(View.VISIBLE);
+                dividendsAmount.setVisibility(View.VISIBLE);
+                dividendsAmount.setText(daoToken.getOwnersBal());
+            } else {
+                dividendsAmountField.setVisibility(View.GONE);
+                dividendsAmount.setVisibility(View.GONE);
+            }
+
             name.setText(daoToken.name);
             symbol.setText(daoToken.symbol);
             name.setText(daoToken.name);

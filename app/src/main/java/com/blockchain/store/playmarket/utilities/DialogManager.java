@@ -178,8 +178,6 @@ public class DialogManager {
                                 passwordField.setError(context.getResources().getString(R.string.fingerprint_not_recognized));
                                 passwordField.requestFocus();
                                 break;
-                            case HELP:
-                                break;
                             case AUTHENTICATED:
                                 if (new BigDecimal(1).compareTo(new BigDecimal("0")) == 1) {
                                     try {

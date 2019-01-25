@@ -104,7 +104,7 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
     }
 
     private void openWelcomeActivity(String address) {
-        ((LoginPromptActivity)getActivity()).openNextActivity(address);
+        ((LoginPromptActivity) getActivity()).openNextActivity(address);
     }
 
     private void openFingerprintActivity(String accountPassword) {
@@ -177,7 +177,8 @@ public class PasswordPromptFragment extends Fragment implements PasswordPromptCo
         if (data == null) return;
         String resultMessage = data.getStringExtra(FingerprintConfiguringActivity.RESULT);
         ToastUtil.showToast(resultMessage);
-        if (jsonData == null) openWelcomeActivity(accountAddress);
-        else openMainActivity();
+        if (jsonData == null)
+            ((LoginPromptActivity) getActivity()).openNextActivity(accountAddress);
+        else ((LoginPromptActivity) getActivity()).openMainActivity();
     }
 }

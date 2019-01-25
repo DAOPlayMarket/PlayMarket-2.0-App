@@ -41,7 +41,8 @@ public class FingerprintConfiguringPresenter implements FingerprintConfiguringCo
                             break;
                         case AUTHENTICATED:
                             String encrypted = fingerprintEncryptionResult.getEncrypted();
-                            FingerprintUtils.addEncryptedPassword(encrypted);;
+                            FingerprintUtils.addEncryptedPassword(encrypted);
+
                             view.closeFingerprintActivity(context.getResources().getString(R.string.fingerprint_success));
                             break;
                     }

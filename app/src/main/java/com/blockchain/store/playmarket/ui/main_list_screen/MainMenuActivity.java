@@ -35,6 +35,7 @@ import com.blockchain.store.playmarket.interfaces.NavigationCallback;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.change_account_screen.ChangeAccountFragment;
 import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
+import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
 import com.blockchain.store.playmarket.ui.pex_screen.PexActivity;
@@ -66,6 +67,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     private int tabPosition;
 
     public static final int CHANGE_ACCOUNT_REQUEST_CODE = 80;
+    public static final int IMPORT_ACCOUNT_REQUEST_CODE = 2;
 
     @BindView(R.id.tab_layout) TabLayout tabLayout;
     @BindView(R.id.app_bar_layout) AppBarLayout appBarLayout;
@@ -352,6 +354,12 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CHANGE_ACCOUNT_REQUEST_CODE) {
             updateChangeAccountFragment();
+        }
+        if (requestCode == IMPORT_ACCOUNT_REQUEST_CODE) {
+            if (data != null) {
+                String jsonData = data.getStringExtra("json_data");
+                LoginPromptActivity.startAsImportccount((AppCompatActivity) this, IMPORT_ACCOUNT_REQUEST_CODE,jsonData);
+            }
         }
     }
 

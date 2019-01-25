@@ -1,12 +1,13 @@
 package com.blockchain.store.playmarket.utilities;
 
 
+import android.util.Log;
+
 import com.orhanobut.hawk.Hawk;
 
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
 import org.ethereum.geth.KeyStore;
-import org.web3j.utils.Numeric;
 
 import io.ethmobile.ethdroid.KeyManager;
 
@@ -34,6 +35,7 @@ public class AccountManager {
         AccountManager.keyManager = keyManager;
     }
 
+
     public static KeyManager getKeyManager() {
         return keyManager;
     }
@@ -49,6 +51,14 @@ public class AccountManager {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void deleteAccount(Account account, String password) {
+        try {
+            keyManager.deleteAccount(account, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static Account getAccount() {
@@ -78,6 +88,7 @@ public class AccountManager {
     }
 
     public static void setCurrentUserPosition(int position) {
+        Log.d(TAG, "setCurrentUserPosition() called with: position = [" + position + "]");
         Hawk.put(Constants.USER_ACCOUNT_POSITION, position);
     }
 

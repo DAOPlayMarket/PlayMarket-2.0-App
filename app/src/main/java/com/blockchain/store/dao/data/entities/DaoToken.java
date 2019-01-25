@@ -3,6 +3,7 @@ package com.blockchain.store.dao.data.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.google.gson.annotations.SerializedName;
 
 public class DaoToken implements Parcelable {
@@ -31,6 +32,12 @@ public class DaoToken implements Parcelable {
 
     public String ownersBal = "";
 
+    public String getOwnersBal() {
+        if (ownersBal.equalsIgnoreCase("0"))
+            return "0";
+        return String.format("%.8f", new EthereumPrice(ownersBal).inEther().floatValue());
+    }
+
     public long getDaoBalance() {
         return Long.valueOf(daoBalance);
     }
@@ -43,11 +50,12 @@ public class DaoToken implements Parcelable {
         return String.valueOf(getNotLockedBalance() / Math.pow(10, decimals));
     }
 
-    public Long getApprovalWithoutDecimal(){
-        return (long)(Long.valueOf(approval));
+    public Long getApprovalWithoutDecimal() {
+        return (long) (Long.valueOf(approval));
     }
+
     public Long getApprovalWithDecimals() {
-        return (long)(Double.parseDouble(approval) / Math.pow(10,decimals));
+        return (long) (Double.parseDouble(approval) / Math.pow(10, decimals));
     }
 
     public long getWithdraw() {

@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.ui.change_account_screen;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
@@ -14,14 +15,19 @@ import android.widget.Toast;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.ChangeAccountAdapter;
+import com.blockchain.store.playmarket.ui.file_manager_screen.FileManagerActivity;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 
+import org.ethereum.geth.Account;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity.IMPORT_ACCOUNT_REQUEST_CODE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,6 +59,11 @@ public class ChangeAccountFragment extends Fragment {
             public void onAddressClicked(int position) {
                 AccountManager.setCurrentUserPosition(position);
             }
+
+            @Override
+            public void onDeleteAccountClicked(Account account) {
+
+            }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
@@ -72,12 +83,14 @@ public class ChangeAccountFragment extends Fragment {
 
         mBottomSheetDialog.findViewById(R.id.new_wallet_holder).setOnClickListener
                 (v -> {
-                    LoginPromptActivity.startAsAddNewAccount((AppCompatActivity) getActivity(), LoginPromptActivity.START_OPTION.NEW_ACCOUNT, MainMenuActivity.CHANGE_ACCOUNT_REQUEST_CODE);
+                    LoginPromptActivity.startAsAddNewAccount((AppCompatActivity) getActivity(), MainMenuActivity.CHANGE_ACCOUNT_REQUEST_CODE);
                     mBottomSheetDialog.dismiss();
                 });
         mBottomSheetDialog.findViewById(R.id.import_wallet_holder).setOnClickListener
                 (v -> {
-                    LoginPromptActivity.startAsAddNewAccount((AppCompatActivity) getActivity(), LoginPromptActivity.START_OPTION.IMPORT_ACCOUNT, MainMenuActivity.CHANGE_ACCOUNT_REQUEST_CODE);
+                    Intent intent = new Intent(getActivity(), FileManagerActivity.class);
+                    intent.putExtra(FileManagerActivity.START_FILE_MANAGER_TAG, "all_files");
+                    getActivity().startActivityForResult(intent, IMPORT_ACCOUNT_REQUEST_CODE);
                     mBottomSheetDialog.dismiss();
                 });
         mBottomSheetDialog.show();
@@ -85,7 +98,7 @@ public class ChangeAccountFragment extends Fragment {
 
     @OnClick(R.id.testUnlockAccount)
     void onTestUnlockAccountClicked() {
-        new DialogManager().showDividendsDialog(getActivity(), () -> Toast.makeText(getActivity(), AccountManager.getAddress().getHex() +  " :Account unlocked!", Toast.LENGTH_SHORT).show());
+        new DialogManager().showDividendsDialog(getActivity(), () -> Toast.makeText(getActivity(), AccountManager.getAddress().getHex() + " :Account unlocked!", Toast.LENGTH_SHORT).show());
     }
 
     public void updateAdapter() {

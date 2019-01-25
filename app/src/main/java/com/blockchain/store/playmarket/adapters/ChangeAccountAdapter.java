@@ -8,9 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import org.ethereum.geth.Account;
 
@@ -45,9 +48,23 @@ public class ChangeAccountAdapter extends RecyclerView.Adapter<ChangeAccountAdap
         ChangeAccountViewHolder changeAccountViewHolder = new ChangeAccountViewHolder(view);
         changeAccountViewHolder.account.setOnClickListener(v -> {
             int position = changeAccountViewHolder.getAdapterPosition();
+            if (position == selectionPosition) {
+//                changeAccountViewHolder.expandableLayout.setExpanded(true);
+            }
             selectionPosition = position;
             callback.onAddressClicked(position);
             notifyDataSetChanged();
+        });
+        changeAccountViewHolder.deleteHolder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (accountList.size() == 1) {
+                    Toast.makeText(changeAccountViewHolder.itemView.getContext(), R.string.cant_delete_last_Account, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                int adapterPosition = changeAccountViewHolder.getAdapterPosition();
+                callback.onDeleteAccountClicked(accountList.get(adapterPosition));
+            }
         });
         return changeAccountViewHolder;
     }
@@ -63,8 +80,9 @@ public class ChangeAccountAdapter extends RecyclerView.Adapter<ChangeAccountAdap
     }
 
     class ChangeAccountViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.account_address)
-        TextView account;
+        @BindView(R.id.account_address) TextView account;
+        @BindView(R.id.expandedLayout) ExpandableLayout expandableLayout;
+        @BindView(R.id.delete_holder) View deleteHolder;
 
         Resources resources;
 
@@ -86,5 +104,7 @@ public class ChangeAccountAdapter extends RecyclerView.Adapter<ChangeAccountAdap
 
     public interface adapterCallback {
         public void onAddressClicked(int position);
+
+        void onDeleteAccountClicked(Account account);
     }
 }
