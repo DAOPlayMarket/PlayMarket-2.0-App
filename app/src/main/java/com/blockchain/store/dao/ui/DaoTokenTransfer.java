@@ -65,7 +65,7 @@ public class DaoTokenTransfer extends AppCompatActivity {
 
     private void initFingerPrint() {
         if (FingerprintUtils.isFingerprintAvailibility(this)) {
-            RxFingerprint.decrypt(this, Hawk.get(Constants.ENCRYPTED_PASSWORD))
+            RxFingerprint.decrypt(this, FingerprintUtils.getEncryptedPassword())
                     .subscribe(fingerprintDecryptionResult -> {
                         switch (fingerprintDecryptionResult.getResult()) {
                             case FAILED:

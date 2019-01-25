@@ -48,7 +48,7 @@
         android:singleLine="true"
         android:text="Change account"
         android:textColor="#51C8F2"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent" />
 

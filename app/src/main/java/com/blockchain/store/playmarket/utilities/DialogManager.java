@@ -77,7 +77,7 @@ public class DialogManager {
 
         if (FingerprintUtils.isFingerprintAvailibility(context)) {
             fingerPrintTitle.setVisibility(View.VISIBLE);
-            fingerprintDisposable = RxFingerprint.decrypt(context, Hawk.get(Constants.ENCRYPTED_PASSWORD))
+            fingerprintDisposable = RxFingerprint.decrypt(context, FingerprintUtils.getEncryptedPassword())
                     .subscribe(fingerprintDecryptionResult -> {
                         switch (fingerprintDecryptionResult.getResult()) {
                             case FAILED:
@@ -171,7 +171,7 @@ public class DialogManager {
 
         if (FingerprintUtils.isFingerprintAvailibility(context)) {
             dividendDialog.findViewById(R.id.fingerprint_holder).setVisibility(View.VISIBLE);
-            RxFingerprint.decrypt(context, Hawk.get(Constants.ENCRYPTED_PASSWORD))
+            RxFingerprint.decrypt(context, FingerprintUtils.getEncryptedPassword())
                     .subscribe(fingerprintDecryptionResult -> {
                         switch (fingerprintDecryptionResult.getResult()) {
                             case FAILED:
@@ -274,7 +274,7 @@ public class DialogManager {
         if (FingerprintUtils.isFingerprintAvailibility(context)) {
             alertDialog.findViewById(R.id.passwordGroup).setVisibility(View.GONE);
             alertDialog.findViewById(R.id.fingerprintGroup).setVisibility(View.VISIBLE);
-            fingerprintDisposable = RxFingerprint.decrypt(context, Hawk.get(Constants.ENCRYPTED_PASSWORD))
+            fingerprintDisposable = RxFingerprint.decrypt(context, FingerprintUtils.getEncryptedPassword())
                     .subscribe(fingerprintDecryptionResult -> {
                         switch (fingerprintDecryptionResult.getResult()) {
                             case FAILED:

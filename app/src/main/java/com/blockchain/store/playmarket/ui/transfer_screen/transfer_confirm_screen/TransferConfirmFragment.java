@@ -19,6 +19,7 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferViewModel;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.blockchain.store.playmarket.utilities.FingerprintUtils;
 import com.mtramin.rxfingerprint.RxFingerprint;
 import com.orhanobut.hawk.Hawk;
 
@@ -97,7 +98,7 @@ public class TransferConfirmFragment extends Fragment {
     }
 
     private void enableFingerprint() {
-        fingerprintDisposable = RxFingerprint.decrypt(getActivity(), (String) Hawk.get(Constants.ENCRYPTED_PASSWORD))
+        fingerprintDisposable = RxFingerprint.decrypt(getActivity(), FingerprintUtils.getEncryptedPassword())
                 .subscribe(fingerprintDecryptionResult -> {
                     switch (fingerprintDecryptionResult.getResult()) {
                         case FAILED:

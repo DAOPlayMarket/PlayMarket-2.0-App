@@ -22,7 +22,6 @@ import android.widget.ProgressBar;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.database.model.Proposal;
-import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
 import com.blockchain.store.dao.ui.dividends_screen.DividendsFragment;
 import com.blockchain.store.dao.ui.votes_screen.NewProposalFragment;
 import com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment;
@@ -65,6 +64,8 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     private static final int DEBOUNCE_INTERVAL_MILLIS = 1000;
     private static final int DOUBLE_TAP_INTERVAL_MILLIS = 2000;
     private int tabPosition;
+
+    public static final int CHANGE_ACCOUNT_REQUEST_CODE = 80;
 
     @BindView(R.id.tab_layout) TabLayout tabLayout;
     @BindView(R.id.app_bar_layout) AppBarLayout appBarLayout;
@@ -338,11 +339,26 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onChangeAccountClicked() {
-        addNavViewFragment(new ChangeAccountFragment());
+        replaceNavViewFragment(new ChangeAccountFragment());
     }
 
     @Override
     public void onAddTokenClicked() {
         replaceNavViewFragment(new TokenListFragment());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CHANGE_ACCOUNT_REQUEST_CODE) {
+            updateChangeAccountFragment();
+        }
+    }
+
+    private void updateChangeAccountFragment() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.navigation_view_holder);
+        if (fragment != null && fragment instanceof ChangeAccountFragment) {
+            ((ChangeAccountFragment) fragment).updateAdapter();
+        }
     }
 }

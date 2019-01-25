@@ -16,8 +16,8 @@ import com.blockchain.store.playmarket.adapters.UserListAdapter;
 import com.blockchain.store.playmarket.interfaces.LoginPromptCallback;
 import com.blockchain.store.playmarket.ui.login_screen.password_prompt_screen.PasswordPromptFragment;
 import com.blockchain.store.playmarket.ui.login_screen.welcome_screen.WelcomeFragment;
-import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
-import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 
@@ -34,8 +34,21 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
     private UserListAdapter adapter;
     private LoginViewModel loginViewModel;
 
+    public enum START_OPTION {
+        NEW_ACCOUNT, IMPORT_ACCOUNT
+    }
+
     @BindView(R.id.login_viewPager) NonSwipeableViewPager loginViewPager;
     private ViewPagerAdapter loginAdapter;
+
+    private START_OPTION startOption;
+
+    public static void startAsAddNewAccount(AppCompatActivity activity, START_OPTION startOption, int requestCode) {
+        Intent intent = new Intent(activity, LoginPromptActivity.class);
+        intent.putExtra("startOption", startOption);
+        activity.startActivityForResult(intent, requestCode);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +56,32 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
         setContentView(R.layout.activity_login_prompt);
         ButterKnife.bind(this);
 
+        if (getIntent() != null) {
+            startOption = (START_OPTION) getIntent().getSerializableExtra("startOption");
+        }
+
         presenter = new LoginPromptPresenter();
         presenter.init(this);
 
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
 
+
+        if (startOption != null) {
+            if (startOption == START_OPTION.NEW_ACCOUNT) {
+
+            }
+            if (startOption == START_OPTION.IMPORT_ACCOUNT) {
+
+            }
+        }
+
         loginAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        loginAdapter.addFragment(new WelcomeFragment());
+        if (startOption != null && startOption == START_OPTION.NEW_ACCOUNT)
+            loginAdapter.addFragment(new WelcomeFragment());
         loginAdapter.addFragment(new PasswordPromptFragment());
         loginViewPager.setAdapter(loginAdapter);
 
-        if (presenter.checkJsonFileExists()) showImportUserDialog();
+        if (presenter.checkJsonFileExists() && startOption == null) showImportUserDialog();
 
     }
 
@@ -90,7 +118,12 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
             }
         });
 
-        cancelButton.setOnClickListener(v -> importDialog.dismiss());
+        cancelButton.setOnClickListener(v -> {
+            importDialog.dismiss();
+            if (startOption != null) {
+                this.finish();
+            }
+        });
 
         importDialog.show();
     }
@@ -103,6 +136,22 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
     @Override
     public void openPasswordPromptFragment() {
         loginViewPager.setCurrentItem(1, true);
+    }
+
+    public void openNextActivity(String address) {
+        if (startOption == null) {
+            this.setResult(RESULT_OK);
+            this.finish();
+        } else {
+            openWelcomeActivity(address);
+        }
+
+    }
+
+    public void openWelcomeActivity(String address) {
+        Intent intent = new Intent(this, NewUserWelcomeActivity.class);
+        intent.putExtra(Constants.WELCOME_ACTIVITY_ADDRESS_EXTRA, address);
+        startActivity(intent);
     }
 
     @Override

@@ -129,6 +129,8 @@ public class Constants {
 
     public static final String NAV_VIEW_FRAGMENT_TAG = "nav_view_fragment_tag";
     public static final String ENCRYPTED_PASSWORD = "encrypted_account_password";
+    public static final String ENCRYPTED_PASSWORD_MAP = "encrypted_account_password_map";
+    public static final String USER_ACCOUNT_POSITION ="user_account_position";
 
     /*Social titles*/
     public static final String social_google_plus = "google-plus";

@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.util.Log;
 
-import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.FileUtils;
@@ -34,6 +33,9 @@ public class PasswordPromptPresenter implements PasswordPromptContract.Presenter
     public String createNewAccount(String accountPassword) {
         try {
             Account account = AccountManager.getKeyManager().newAccount(accountPassword);
+            AccountManager.setCurrentUserPosition(
+                    AccountManager.getKeyManager().getAccounts().size() - 1
+            );
             Log.d(TAG, "makeNewAccount: " + account.getURL().toString());
             String address = account.getAddress().getHex();
             autoSaveJsonKeystoreFile();

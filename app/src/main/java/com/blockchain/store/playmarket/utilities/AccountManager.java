@@ -1,11 +1,12 @@
 package com.blockchain.store.playmarket.utilities;
 
 
-import com.blockchain.store.playmarket.Application;
+import com.orhanobut.hawk.Hawk;
 
 import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
 import org.ethereum.geth.KeyStore;
+import org.web3j.utils.Numeric;
 
 import io.ethmobile.ethdroid.KeyManager;
 
@@ -43,7 +44,7 @@ public class AccountManager {
 
     public static Address getAddress() {
         try {
-            return keyManager.getAccounts().get(0).getAddress();
+            return keyManager.getAccounts().get(getCurrentUserPosition()).getAddress();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,7 +53,7 @@ public class AccountManager {
 
     public static Account getAccount() {
         try {
-            return keyManager.getAccounts().get(0);
+            return keyManager.getAccounts().get(getCurrentUserPosition());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,12 +73,12 @@ public class AccountManager {
         return NumberUtils.formatStringToSpacedNumber(getAddress().getHex());
     }
 
-    private int getCurrentUserPosition() {
-        return 0;
+    public static int getCurrentUserPosition() {
+        return Hawk.get(Constants.USER_ACCOUNT_POSITION, 0);
     }
 
-    private void setCurrentUserPosition(int position) {
-        //set
+    public static void setCurrentUserPosition(int position) {
+        Hawk.put(Constants.USER_ACCOUNT_POSITION, position);
     }
 
     public static boolean unlockKeystore(String password) {

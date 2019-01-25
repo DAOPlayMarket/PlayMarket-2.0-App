@@ -188,12 +188,13 @@ public class DaoTransactionRepository {
                                     return getEthCallObservable(getOwnerbal(), DaoConstants.CRYPTO_DUEL_CONTRACT).subscribeOn(Schedulers.newThread());
                                 }
                             }
-                            return null;
+                            return Observable.just(0);
                         }, Pair::new)
                         .map(pairOfTokensAndEthCall -> {
+
                             for (DaoToken daoToken : pairOfTokensAndEthCall.first) {
-                                if (daoToken.address.equalsIgnoreCase(DaoConstants.CRYPTO_DUEL_CONTRACT)) {
-                                    daoToken.ownersBal = decodeFunction(pairOfTokensAndEthCall.second, getOwnerbal()).toString();
+                                if (daoToken.address.equalsIgnoreCase(DaoConstants.CRYPTO_DUEL_CONTRACT) && pairOfTokensAndEthCall.second instanceof EthCall) {
+                                    daoToken.ownersBal = decodeFunction((EthCall) pairOfTokensAndEthCall.second, getOwnerbal()).toString();
                                 }
                             }
                             return pairOfTokensAndEthCall.first;

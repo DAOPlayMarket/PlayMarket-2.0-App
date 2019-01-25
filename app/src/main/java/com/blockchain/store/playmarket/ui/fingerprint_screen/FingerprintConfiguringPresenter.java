@@ -7,6 +7,7 @@ import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.blockchain.store.playmarket.utilities.FingerprintUtils;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.mtramin.rxfingerprint.RxFingerprint;
 import com.orhanobut.hawk.Hawk;
@@ -40,7 +41,7 @@ public class FingerprintConfiguringPresenter implements FingerprintConfiguringCo
                             break;
                         case AUTHENTICATED:
                             String encrypted = fingerprintEncryptionResult.getEncrypted();
-                            Hawk.put(Constants.ENCRYPTED_PASSWORD, encrypted);
+                            FingerprintUtils.addEncryptedPassword(encrypted);;
                             view.closeFingerprintActivity(context.getResources().getString(R.string.fingerprint_success));
                             break;
                     }

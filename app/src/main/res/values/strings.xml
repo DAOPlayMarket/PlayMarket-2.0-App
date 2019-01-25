@@ -330,5 +330,7 @@
     <string name="token_added">Token added</string>
     <string name="choose_token_from_list_below">Choose token from list below.</string>
     <string name="remove">Remove</string>
+    <string name="create_new_wallet">Create new wallet</string>
+    <string name="import_wallet">Import wallet</string>
 
 </resources>

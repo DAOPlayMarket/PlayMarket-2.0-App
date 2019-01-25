@@ -1,7 +1,9 @@
 package com.blockchain.store.playmarket.adapters;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +21,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ChangeAccountAdapter extends RecyclerView.Adapter<ChangeAccountAdapter.ChangeAccountViewHolder> {
+    private static final String TAG = "ChangeAccountAdapter";
 
     private List<Account> accountList = Collections.emptyList();
+    private adapterCallback callback;
+    private int selectionPosition = AccountManager.getCurrentUserPosition();
 
-    public ChangeAccountAdapter() {
+    public ChangeAccountAdapter(adapterCallback callback) {
         try {
+            this.callback = callback;
             accountList = AccountManager.getKeyManager().getAccounts();
+            Log.d(TAG, "ChangeAccountAdapter: ");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -35,12 +42,19 @@ public class ChangeAccountAdapter extends RecyclerView.Adapter<ChangeAccountAdap
     public ChangeAccountViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.change_account_item, parent, false);
-        return new ChangeAccountViewHolder(view);
+        ChangeAccountViewHolder changeAccountViewHolder = new ChangeAccountViewHolder(view);
+        changeAccountViewHolder.account.setOnClickListener(v -> {
+            int position = changeAccountViewHolder.getAdapterPosition();
+            selectionPosition = position;
+            callback.onAddressClicked(position);
+            notifyDataSetChanged();
+        });
+        return changeAccountViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ChangeAccountViewHolder holder, int position) {
-        holder.bind(accountList.get(position));
+        holder.bind(accountList.get(position), position);
     }
 
     @Override
@@ -52,13 +66,25 @@ public class ChangeAccountAdapter extends RecyclerView.Adapter<ChangeAccountAdap
         @BindView(R.id.account_address)
         TextView account;
 
+        Resources resources;
+
         public ChangeAccountViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
+            resources = itemView.getContext().getResources();
         }
 
-        public void bind(Account account) {
+        public void bind(Account account, int position) {
             this.account.setText(account.getAddress().getHex());
+            this.account.setTextColor(selectionPosition == position ?
+                    resources.getColor(R.color.colorAccent)
+                    : resources.getColor(R.color.white));
+
+
         }
+    }
+
+    public interface adapterCallback {
+        public void onAddressClicked(int position);
     }
 }
