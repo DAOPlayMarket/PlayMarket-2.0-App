@@ -55,16 +55,14 @@ public class ChangeAccountAdapter extends RecyclerView.Adapter<ChangeAccountAdap
             callback.onAddressClicked(position);
             notifyDataSetChanged();
         });
-        changeAccountViewHolder.deleteHolder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (accountList.size() == 1) {
-                    Toast.makeText(changeAccountViewHolder.itemView.getContext(), R.string.cant_delete_last_Account, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                int adapterPosition = changeAccountViewHolder.getAdapterPosition();
-                callback.onDeleteAccountClicked(accountList.get(adapterPosition));
+        changeAccountViewHolder.account.setOnLongClickListener(view1 -> {
+            if (accountList.size() == 1) {
+                Toast.makeText(changeAccountViewHolder.itemView.getContext(), R.string.cant_delete_last_Account, Toast.LENGTH_SHORT).show();
+                return false;
             }
+            int adapterPosition = changeAccountViewHolder.getAdapterPosition();
+            callback.onDeleteAccountClicked(accountList.get(adapterPosition));
+            return false;
         });
         return changeAccountViewHolder;
     }

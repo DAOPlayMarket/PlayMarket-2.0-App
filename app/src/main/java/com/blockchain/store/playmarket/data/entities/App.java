@@ -132,6 +132,12 @@ public class App implements Parcelable, NotificationImpl, AppDetailsImpl {
         return String.valueOf(formattedCurrency);
     }
 
+    public String getDisplayableName(){
+        ExchangeRate exchangeRate = Hawk.get(Constants.CURRENT_CURRENCY, new ExchangeRate());
+        String price = getPrice();
+        return price + " " + exchangeRate.currency.name;
+    }
+
 
     public String getFileName() {
         return version + ":" + packageName + ".apk";

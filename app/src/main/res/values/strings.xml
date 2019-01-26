@@ -338,5 +338,6 @@
     <string name="create_new_wallet">Create new wallet</string>
     <string name="import_wallet">Import wallet</string>
     <string name="cant_delete_last_Account">You cant delete last Account</string>
+    <string name="to_delete_account_enter_password">To delete account enter password</string>
 
 </resources>

@@ -20,6 +20,7 @@ import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.DialogManager;
+import com.blockchain.store.playmarket.views.CustomAlertDialog;
 
 import org.ethereum.geth.Account;
 
@@ -62,7 +63,9 @@ public class ChangeAccountFragment extends Fragment {
 
             @Override
             public void onDeleteAccountClicked(Account account) {
-
+                CustomAlertDialog customAlertDialog = new CustomAlertDialog(getActivity()).setAccount(account);
+                customAlertDialog.setOnDismissListener(dialogInterface -> initAdapter());
+                customAlertDialog.show();
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

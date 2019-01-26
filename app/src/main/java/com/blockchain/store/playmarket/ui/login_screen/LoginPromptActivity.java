@@ -135,6 +135,9 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
 
     @Override
     public void openWelcomeFragment() {
+        if(startOption != null){
+            this.finish();
+        }
         loginViewPager.setCurrentItem(0, true);
     }
 
@@ -157,6 +160,7 @@ public class LoginPromptActivity extends AppCompatActivity implements LoginPromp
             startActivity(new Intent(this, MainMenuActivity.class));
             this.finish();
         }
+        this.finish();
     }
 
 
