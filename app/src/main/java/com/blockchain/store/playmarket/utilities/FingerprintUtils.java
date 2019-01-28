@@ -6,12 +6,22 @@ import com.mtramin.rxfingerprint.RxFingerprint;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class FingerprintUtils {
 
     public static boolean isFingerprintAvailibility(Context context) {
         return RxFingerprint.isAvailable(context) && isUserPasswordStored();
+    }
+
+    public static boolean isFingerprintAvailibility(Context context, String account) {
+        HashMap<String, String> map = Hawk.get(Constants.ENCRYPTED_PASSWORD_MAP);
+        if (map.containsKey(account)) {
+            return RxFingerprint.isAvailable(context);
+        } else {
+            return false;
+        }
+
+
     }
 
     public static boolean isUserPasswordStored() {
@@ -27,6 +37,12 @@ public class FingerprintUtils {
         } else {
             return null;
         }
+    }
+
+    public static String getPasswordForAddress(String address) {
+        HashMap<String, String> map = Hawk.get(Constants.ENCRYPTED_PASSWORD_MAP, new HashMap<>());
+        return map.get(address);
+
     }
 
     public static void addEncryptedPassword(String encrypted) {

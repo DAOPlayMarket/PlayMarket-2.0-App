@@ -9,6 +9,9 @@ import org.ethereum.geth.Account;
 import org.ethereum.geth.Address;
 import org.ethereum.geth.KeyStore;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.ethmobile.ethdroid.KeyManager;
 
 /**
@@ -100,6 +103,21 @@ public class AccountManager {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static ArrayList<String> getAllAddresses() {
+        try {
+            List<Account> accounts = getKeyManager().getAccounts();
+            ArrayList<String> userAddresses = new ArrayList<>();
+            for (Account account : accounts) {
+                userAddresses.add(account.getAddress().getHex());
+            }
+            return userAddresses;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+
     }
 
 }

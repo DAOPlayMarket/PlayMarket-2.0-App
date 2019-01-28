@@ -246,5 +246,12 @@ public class GenerateTransactionData {
         return build();
     }
 
+    /*CDLT*/
+    public byte[] withdrawCdlt(Long amount) {
+        setMethod("withdraw");
+        putTypeData(new Uint256(amount));
+        return build();
+    }
+
 
 }

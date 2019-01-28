@@ -22,10 +22,12 @@ import android.widget.ProgressBar;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.database.model.Proposal;
+import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.dao.ui.dividends_screen.DividendsFragment;
 import com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment;
 import com.blockchain.store.dao.ui.votes_screen.proposal_creation_screen.ProposalCreationFragment;
 import com.blockchain.store.dao.ui.votes_screen.proposal_details_screen.ProposalDetailsFragment;
+import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
@@ -305,7 +307,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        Application.stopAnalytic();
+        Application.stopAnalytic();
     }
 
     @Override
@@ -335,7 +337,12 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onTokenTransferClicked(DaoToken daoToken) {
-        replaceNavViewFragment(TokenTransferFragment.newInstance(daoToken));
+        if (daoToken.address.equalsIgnoreCase(DaoConstants.CRYPTO_DUEL_CONTRACT)) {
+            replaceNavViewFragment(TokenTransferFragment.openAsCryptoDuelToken(daoToken));
+        } else {
+            replaceNavViewFragment(TokenTransferFragment.newInstance(daoToken));
+        }
+
     }
 
     @Override
@@ -357,7 +364,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         if (requestCode == IMPORT_ACCOUNT_REQUEST_CODE) {
             if (data != null) {
                 String jsonData = data.getStringExtra("json_data");
-                LoginPromptActivity.startAsImportccount((AppCompatActivity) this, IMPORT_ACCOUNT_REQUEST_CODE,jsonData);
+                LoginPromptActivity.startAsImportccount((AppCompatActivity) this, CHANGE_ACCOUNT_REQUEST_CODE, jsonData);
             }
         }
     }

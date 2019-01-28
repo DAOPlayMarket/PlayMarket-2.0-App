@@ -34,9 +34,7 @@ public class PasswordPromptPresenter implements PasswordPromptContract.Presenter
         try {
             Account account = AccountManager.getKeyManager().newAccount(accountPassword);
             int size = AccountManager.getKeyManager().getAccounts().size();
-            if (size > 1) {
-                size--;
-            }
+            size --;
             AccountManager.setCurrentUserPosition(size);
             Log.d(TAG, "makeNewAccount: " + account.getURL().toString());
             String address = account.getAddress().getHex();
@@ -52,16 +50,17 @@ public class PasswordPromptPresenter implements PasswordPromptContract.Presenter
 
     @Override
     public boolean importAccount(String fileString, String password) {
-        try {
-            int size = AccountManager.getKeyManager().getAccounts().size();
-            if (size > 1) {
-                size--;
+        boolean isAccountUnlocked = fileUtils.importJsonKeystoreFile(fileString, password);
+        if (isAccountUnlocked) {
+            try {
+                int size = AccountManager.getKeyManager().getAccounts().size();
+                size --;
+                AccountManager.setCurrentUserPosition(size);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            AccountManager.setCurrentUserPosition(size);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return fileUtils.importJsonKeystoreFile(fileString, password);
+        return isAccountUnlocked;
     }
 
     @Override

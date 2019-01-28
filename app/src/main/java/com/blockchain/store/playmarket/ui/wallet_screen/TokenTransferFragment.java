@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.repositories.TransactionInteractor;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -44,6 +46,7 @@ import rx.schedulers.Schedulers;
 public class TokenTransferFragment extends Fragment {
 
     private static String TOKEN_TAG = "token";
+    private static String CRYPTODUEL_TAG = "cryptoduel_tag";
     private static final String TAG = "TokenTransferFragment";
     private int tabPosition = 0;
 
@@ -58,19 +61,31 @@ public class TokenTransferFragment extends Fragment {
     @BindView(R.id.send_EditText) TextInputEditText sendEditText;
     @BindView(R.id.repository_textView) TextView repositoryTextView;
     @BindView(R.id.recipient_editText) TextInputEditText recipientEditText;
+    @BindView(R.id.textView3) TextView balanceRepositoryTitle;
     @BindView(R.id.repository_button) RadioButton repositoryButton;
     @BindView(R.id.customAddress_button) RadioButton customAddressButton;
     @BindView(R.id.qrScanner_button) ImageView qrScannerButton;
     @BindView(R.id.lockedAmount) TextView lockedAmount;
+    @BindView(R.id.recipient_radioGroup) RadioGroup radioGroup;
     @BindView(R.id.all_button) TextView allTv;
 
     @BindView(R.id.continue_button) Button continueButton;
+    private boolean isOpenAsCryptoDuelToken = false;
     private int currentTabPosition = 0;
     private DaoToken daoToken;
 
     public static TokenTransferFragment newInstance(DaoToken daoToken) {
         Bundle args = new Bundle();
         args.putParcelable(TOKEN_TAG, daoToken);
+        TokenTransferFragment fragment = new TokenTransferFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static TokenTransferFragment openAsCryptoDuelToken(DaoToken daoToken) {
+        Bundle args = new Bundle();
+        args.putParcelable(TOKEN_TAG, daoToken);
+        args.putBoolean(CRYPTODUEL_TAG, true);
         TokenTransferFragment fragment = new TokenTransferFragment();
         fragment.setArguments(args);
         return fragment;
@@ -87,23 +102,44 @@ public class TokenTransferFragment extends Fragment {
         ButterKnife.bind(this, view);
         if (getArguments() != null) {
             this.daoToken = getArguments().getParcelable(TOKEN_TAG);
-            if (daoToken != null) {
-                tokenTitleTextView.setText(daoToken.name);
-                balanceTextView.setText(String.valueOf(daoToken.getBalanceWithDecimals()));
-                repositoryBalanceTextView.setText(String.valueOf(daoToken.getDaoBalanceWithDecimals()));
-                tokenTextView.setText(daoToken.symbol);
-                token2TextView.setText(daoToken.symbol);
-                if (daoToken.isWithdrawBlocked) {
-                    lockedAmount.setText("All token are locked");
-                } else {
-                    lockedAmount.setText(daoToken.getDaoBalance() - daoToken.getNotLockedBalance() + " tokens are locked.");
-                }
-
+            this.isOpenAsCryptoDuelToken = getArguments().getBoolean(CRYPTODUEL_TAG, false);
+            if (isOpenAsCryptoDuelToken) {
+                initAsCryptoDuelProvided(daoToken);
+            } else if (daoToken != null) {
+                initAsDaoTokenProvided(daoToken);
+                initStartView();
             }
         }
-        initStartView();
+
         initTabLayout();
         initRadioGroup();
+    }
+
+    private void initAsDaoTokenProvided(DaoToken daoToken) {
+        tokenTitleTextView.setText(daoToken.name);
+        balanceTextView.setText(String.valueOf(daoToken.getBalanceWithDecimals()));
+        repositoryBalanceTextView.setText(String.valueOf(daoToken.getDaoBalanceWithDecimals()));
+        tokenTextView.setText(daoToken.symbol);
+        token2TextView.setText(daoToken.symbol);
+        if (daoToken.isWithdrawBlocked) {
+            lockedAmount.setText("All token are locked");
+        } else {
+            lockedAmount.setText(daoToken.getDaoBalance() - daoToken.getNotLockedBalance() + " tokens are locked.");
+        }
+    }
+
+    private void initAsCryptoDuelProvided(DaoToken daoToken) {
+        tokenTitleTextView.setText(daoToken.name);
+        balanceTextView.setText(String.valueOf(daoToken.getBalanceWithDecimals()));
+        tokenTextView.setText(daoToken.symbol);
+        token2TextView.setText("ETH");
+
+        balanceRepositoryTitle.setText(getActivity().getString(R.string.dividends_balance));
+        repositoryBalanceTextView.setText(daoToken.getOwnersBal() + " ETH");
+
+        repositoryButton.setVisibility(View.GONE);
+        customAddressButton.setVisibility(View.GONE);
+        lockedAmount.setVisibility(View.GONE);
     }
 
     private void initStartView() {
@@ -171,6 +207,7 @@ public class TokenTransferFragment extends Fragment {
         repositoryTextView.setVisibility(View.GONE);
         sendInputLayout.setHint(getResources().getString(R.string.amount));
         if (customAddressButton.isChecked()) qrScannerButton.setVisibility(View.VISIBLE);
+        if (isOpenAsCryptoDuelToken) token2TextView.setText(daoToken.symbol);
     }
 
     private void showWithdrawComponents() {
@@ -180,6 +217,7 @@ public class TokenTransferFragment extends Fragment {
         if (repositoryTextView.getText() == "")
             repositoryTextView.setText(AccountManager.getAddress().getHex());
         sendInputLayout.setHint(getResources().getString(R.string.withdraw_amount));
+        if (isOpenAsCryptoDuelToken) token2TextView.setText("ETH");
     }
 
     @Override
@@ -213,6 +251,25 @@ public class TokenTransferFragment extends Fragment {
         if (sendAmount == 0) {
             sendEditText.setError("Wrong amount");
             return false;
+        }
+
+        if (isOpenAsCryptoDuelToken) {
+
+            if (currentTabPosition == 0) {
+                if (sendAmount > daoToken.getBalanceWithDecimals()) {
+                    sendEditText.setError("You can send only " + daoToken.getBalanceWithDecimals() + " tokens");
+                    return false;
+                }
+            }
+            if (currentTabPosition == 1) {
+                if (sendAmount > Double.valueOf(daoToken.getOwnersBal())) {
+                    sendEditText.setError("You can send only " + daoToken.getOwnersBal() + " tokens");
+                    return false;
+                }
+            }
+
+
+            return true;
         }
 
         if (currentTabPosition == 0) {
@@ -261,7 +318,12 @@ public class TokenTransferFragment extends Fragment {
         new DialogManager().showDividendsDialog(getActivity(), () -> RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .flatMap(result -> {
                     try {
-                        Transaction signedTx = CryptoUtils.generateDaoSendTokenToUser(result, recipientEditText.getText().toString(), String.valueOf(amount));
+                        Transaction signedTx;
+                        if (isOpenAsCryptoDuelToken) {
+                            signedTx = CryptoUtils.generateCDLTSendTokenToUser(result, recipientEditText.getText().toString(), String.valueOf(amount));
+                        } else {
+                            signedTx = CryptoUtils.generateDaoSendTokenToUser(result, recipientEditText.getText().toString(), String.valueOf(amount));
+                        }
                         String rawTx = CryptoUtils.getRawTransaction(signedTx);
                         TransactionInteractor.addToJobSchedule(signedTx.getHash().getHex(), Constants.TransactionTypes.TRANSFER_TOKEN);
                         return RestApi.getServerApi().deployTransaction(rawTx);
@@ -331,7 +393,13 @@ public class TokenTransferFragment extends Fragment {
                 RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                         .flatMap(result -> {
                             try {
-                                Transaction tx = CryptoUtils.generateWithDrawPmtTokens(result, amount);
+                                Transaction tx;
+                                if (isOpenAsCryptoDuelToken) {
+                                    tx = CryptoUtils.generateWithDrawCDLTTokens(result, amount);
+                                } else {
+                                    tx = CryptoUtils.generateWithDrawPmtTokens(result, amount);
+                                }
+
                                 String rawTx = CryptoUtils.getRawTransaction(tx);
                                 new TransactionInteractor().addToJobSchedule(tx.getHash().getHex(), Constants.TransactionTypes.WITHDRAW_TOKEN);
                                 return RestApi.getServerApi().deployTransaction(rawTx);
@@ -372,6 +440,32 @@ public class TokenTransferFragment extends Fragment {
         if (!checkEnterValue()) {
             return;
         }
+
+        if (isOpenAsCryptoDuelToken) {
+            proceedAsCDLTtoken();
+        } else {
+            proceedAsPmtToken();
+        }
+    }
+
+    private void proceedAsCDLTtoken() {
+        if (currentTabPosition == 0) {
+            long amount = 0L;
+            try {
+                Double value = Double.valueOf(sendEditText.getText().toString()) * Math.pow(10, daoToken.decimals);
+                amount = value.longValue();
+            } catch (Exception e) {
+                sendEditText.setError("Wrong amount");
+                return;
+            }
+            sendTokenToUser(amount);
+        } else {
+            Long amount = new EthereumPrice(sendEditText.getText().toString(), EthereumPrice.Currency.ETHER).wei.longValue();
+            proceedWithWithdraw(amount);
+        }
+    }
+
+    private void proceedAsPmtToken() {
         Long amount = 0L;
         try {
             Double value = Double.valueOf(sendEditText.getText().toString()) * Math.pow(10, daoToken.decimals);
@@ -393,11 +487,23 @@ public class TokenTransferFragment extends Fragment {
         if (currentTabPosition == 1) {/*withdraw*/
             proceedWithWithdraw(amount);
         }
-
     }
 
     @OnClick(R.id.all_button)
     void onAllBtnClicked() {
+
+        if (isOpenAsCryptoDuelToken) {
+
+            if (currentTabPosition == 0) {
+                sendEditText.setText(String.valueOf(daoToken.getBalanceWithDecimals()));
+            }
+
+            if (currentTabPosition == 1) {
+                sendEditText.setText(daoToken.getOwnersBal());
+            }
+            return;
+        }
+
         if (currentTabPosition == 0) {
             if (repositoryButton.isChecked()) {
                 if (daoToken.getApprovalWithDecimals() != 0) {

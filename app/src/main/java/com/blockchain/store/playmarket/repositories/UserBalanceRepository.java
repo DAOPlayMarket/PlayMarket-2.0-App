@@ -6,8 +6,11 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.CryptoPriceResponse;
 import com.blockchain.store.playmarket.data.entities.ExchangeRate;
 import com.blockchain.store.playmarket.data.entities.UserBalance;
+import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.orhanobut.hawk.Hawk;
+
+import java.util.ArrayList;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -21,6 +24,24 @@ public class UserBalanceRepository {
                 .map(this::onNext)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<Pair<String, String>> getMultipleAccountbalances(ArrayList<String> userAddresses) {
+        ArrayList<Pair<String, Observable<String>>> balanceRequests = new ArrayList<>();
+        for (String userAddress : userAddresses) {
+            balanceRequests.add(new Pair<>(userAddress, RestApi.getServerApi().getBalance(userAddress)));
+        }
+
+        return Observable.from(balanceRequests).flatMap(result -> result.second.subscribeOn(Schedulers.newThread()), Pair::new)
+                .map(result -> {
+                    Pair<String, String> returnResult = new Pair<>(result.first.first, result.second);
+                    return returnResult;
+                })
+
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+
+
     }
 
     private UserBalance onNext(Pair<String, CryptoPriceResponse> resultPair) {

@@ -170,6 +170,7 @@
     <string name="or_user_your_fingerprint">Or user your fingerprint</string>
     <string name="open_app_info">to app</string>
     <string name="your_balance_is">Your balance:\n%1$s  ETH</string>
+    <string name="balance_field_with_eth">%1$s ETH</string>
     <string name="send_message">Send message</string>
     <string name="read_more">Read more</string>
 
@@ -339,5 +340,6 @@
     <string name="import_wallet">Import wallet</string>
     <string name="cant_delete_last_Account">You cant delete last Account</string>
     <string name="to_delete_account_enter_password">To delete account enter password</string>
+    <string name="dividends_balance">Dividends balance:</string>
 
 </resources>

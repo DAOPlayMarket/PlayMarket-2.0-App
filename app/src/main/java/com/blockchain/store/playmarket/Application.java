@@ -101,7 +101,7 @@ public class Application extends MultiDexApplication {
         }).build();
         performMigrationIntoMultiAccounting();
         setUpFresco();
-//        setUpAWS();
+        setUpAWS();
     }
 
     private void performMigrationIntoMultiAccounting() {
