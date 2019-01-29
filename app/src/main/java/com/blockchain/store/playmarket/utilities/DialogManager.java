@@ -20,9 +20,7 @@ import com.blockchain.store.dao.interfaces.Callbacks;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
-import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.mtramin.rxfingerprint.RxFingerprint;
-import com.orhanobut.hawk.Hawk;
 
 import java.math.BigDecimal;
 
@@ -87,8 +85,12 @@ public class DialogManager {
                             case HELP:
                                 break;
                             case AUTHENTICATED:
-                                //todo add check if comment isn't empty
+
                                 if (new BigDecimal(accountBalanceInWei).compareTo(new BigDecimal("0")) == 1) {
+                                    if (commentary.getText().toString().trim().isEmpty()) {
+                                        commentary.setError("Empty field");
+                                        return;
+                                    }
                                     try {
                                         passwordField.setText(fingerprintDecryptionResult.getDecrypted());
                                         AccountManager.getKeyStore().unlock(AccountManager.getAccount(), passwordField.getText().toString());
@@ -110,6 +112,10 @@ public class DialogManager {
 
         closeButton.setOnClickListener(v -> dialog.dismiss());
         continueButton.setOnClickListener(v -> {
+            if (commentary.getText().toString().trim().isEmpty()) {
+                commentary.setError("Empty field");
+                return;
+            }
             if (new BigDecimal(accountBalanceInWei).compareTo(new BigDecimal("0")) == 1) {
                 try {
                     AccountManager.getKeyStore().unlock(AccountManager.getAccount(), passwordField.getText().toString());
@@ -295,7 +301,8 @@ public class DialogManager {
         });
 
         alertDialog.findViewById(R.id.cancel_button).setOnClickListener(v -> {
-            if (FingerprintUtils.isFingerprintAvailibility(context)) fingerprintDisposable.dispose();
+            if (FingerprintUtils.isFingerprintAvailibility(context))
+                fingerprintDisposable.dispose();
             alertDialog.dismiss();
         });
     }

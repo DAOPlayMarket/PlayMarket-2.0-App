@@ -6,29 +6,32 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.UserReviewAdapter;
+import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.UserReview;
-import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailContract;
-import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailPresenter;
 import com.blockchain.store.playmarket.utilities.DialogManager;
+import com.blockchain.store.playmarket.utilities.ToastUtil;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AllReviewsActivity extends AppCompatActivity implements UserReviewAdapter.UserReviewCallback{
+public class AllReviewsActivity extends AppCompatActivity implements UserReviewAdapter.UserReviewCallback, AllReviewsContract.View {
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     private UserReviewAdapter adapter;
     private ArrayList<UserReview> userReviews;
-    private AppDetailPresenter presenter;
+    private AllReviewPresenter presenter;
+    private App app;
 
-    public static void start(Context context, ArrayList<UserReview> userReviews) {
+    public static void start(Context context, ArrayList<UserReview> userReviews, App app) {
         Intent starter = new Intent(context, AllReviewsActivity.class);
         starter.putExtra("reviews", userReviews);
+        starter.putExtra("app", app);
         context.startActivity(starter);
     }
 
@@ -39,17 +42,18 @@ public class AllReviewsActivity extends AppCompatActivity implements UserReviewA
         ButterKnife.bind(this);
         attachPresenter();
         userReviews = getIntent().getParcelableArrayListExtra("reviews");
+        app = getIntent().getParcelableExtra("app");
         initRecyclerView();
     }
 
     private void attachPresenter() {
-        presenter =new AppDetailPresenter();
-        presenter.init(this);
+        presenter = new AllReviewPresenter();
+        presenter.init(this, app);
     }
 
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new UserReviewAdapter(userReviews, this, true);
+        adapter = new UserReviewAdapter(userReviews, this, false);
 
         recyclerView.setAdapter(adapter);
 
@@ -73,6 +77,15 @@ public class AllReviewsActivity extends AppCompatActivity implements UserReviewA
 
     @Override
     public void onReadMoreClicked(ArrayList<UserReview> userReviews) {
+    }
 
+    @Override
+    public void onReviewError(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onReviewSendSuccessfully() {
+        ToastUtil.showToast(R.string.successfully_review_send);
     }
 }

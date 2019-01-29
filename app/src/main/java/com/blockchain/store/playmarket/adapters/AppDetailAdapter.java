@@ -232,7 +232,7 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void bind(AppReviewsData data) {
-            UserReviewAdapter userReviewAdapter = new UserReviewAdapter(data.userReviews, (UserReviewAdapter.UserReviewCallback) activity, false);
+            UserReviewAdapter userReviewAdapter = new UserReviewAdapter(data.userReviews, (UserReviewAdapter.UserReviewCallback) activity, true);
             reviewsRecyclerView.setHasFixedSize(true);
             reviewsRecyclerView.setNestedScrollingEnabled(true);
             LinearLayoutManager layout = new LinearLayoutManager(activity);

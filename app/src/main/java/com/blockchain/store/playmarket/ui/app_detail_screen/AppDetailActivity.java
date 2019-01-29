@@ -374,7 +374,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
 
     @Override
     public void onReadMoreClicked(ArrayList<UserReview> userReviews) {
-        AllReviewsActivity.start(this, userReviews);
+        AllReviewsActivity.start(this, userReviews, app);
     }
 
     @Override

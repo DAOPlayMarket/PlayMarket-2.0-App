@@ -55,7 +55,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             return TYPE_REPLY;
         }
         if (isNeedToConcatItems) {
-            if (position == MAX_REVIEWS_COUNT) {
+            if (position == MAX_REVIEWS_COUNT -1) {
                 return READ_MORE;
             }
         }
