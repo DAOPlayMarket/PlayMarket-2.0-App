@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -30,10 +31,15 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int TYPE_USER_REPLY = 0;
     private static final int TYPE_USER_REVIEW = 1;
     private static final int TYPE_REPLY = 2;
-    ArrayList<UserReview> userReviews;
-    int expandedItem = -1;
-    UserReviewCallback callback;
-    String userAddress;
+    private static final int READ_MORE = 3;
+
+    private static final int MAX_REVIEWS_COUNT = 5;
+    private ArrayList<UserReview> userReviews;
+    private int expandedItem = -1;
+    private UserReviewCallback callback;
+    private String userAddress;
+    private boolean isNeedToConcatItems = false;
+
 
     public UserReviewAdapter(ArrayList<UserReview> userReviews, UserReviewCallback callback) {
         this.callback = callback;
@@ -47,6 +53,11 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public int getItemViewType(int position) {
         if (position == 0) {
             return TYPE_REPLY;
+        }
+        if (isNeedToConcatItems) {
+            if (position == MAX_REVIEWS_COUNT) {
+                return READ_MORE;
+            }
         }
         if (!userReviews.get(position).author.equalsIgnoreCase(userAddress)) {
             return TYPE_USER_REVIEW;
@@ -67,6 +78,9 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         } else if (viewType == TYPE_REPLY) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.review_reply, parent, false);
             return new ReplyViewHolder(view);
+        } else if (viewType == READ_MORE) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.read_more_item, parent, false);
+            return new ReadMoreViewHolder(view);
         }
         return null;
     }
@@ -83,6 +97,11 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
+        if (isNeedToConcatItems) {
+            if (userReviews.size() > MAX_REVIEWS_COUNT) {
+                return MAX_REVIEWS_COUNT;
+            }
+        }
         return userReviews.size();
     }
 
@@ -186,9 +205,25 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    class ReadMoreViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.read_all_reviews) TextView readAll;
+
+        public ReadMoreViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        @OnClick(R.id.read_all_reviews)
+        void onReadAllClicked() {
+            callback.onReadMoreClicked();
+        }
+    }
+
     public interface UserReviewCallback {
         void onReplyClicked();
 
         void onReplyOnReviewClicked(UserReview userReview);
+
+        void onReadMoreClicked();
     }
 }
