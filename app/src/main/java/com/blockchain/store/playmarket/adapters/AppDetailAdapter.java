@@ -43,7 +43,6 @@ import com.stfalcon.frescoimageviewer.ImageViewer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -233,7 +232,7 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void bind(AppReviewsData data) {
-            UserReviewAdapter userReviewAdapter = new UserReviewAdapter(data.userReviews, (UserReviewAdapter.UserReviewCallback) activity);
+            UserReviewAdapter userReviewAdapter = new UserReviewAdapter(data.userReviews, (UserReviewAdapter.UserReviewCallback) activity, false);
             reviewsRecyclerView.setHasFixedSize(true);
             reviewsRecyclerView.setNestedScrollingEnabled(true);
             LinearLayoutManager layout = new LinearLayoutManager(activity);

@@ -40,8 +40,8 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private String userAddress;
     private boolean isNeedToConcatItems = false;
 
-
-    public UserReviewAdapter(ArrayList<UserReview> userReviews, UserReviewCallback callback) {
+    public UserReviewAdapter(ArrayList<UserReview> userReviews, UserReviewCallback callback, boolean isNeedToConcatItems) {
+        this.isNeedToConcatItems = isNeedToConcatItems;
         this.callback = callback;
         this.userReviews = userReviews;
         if (this.userReviews.size() > 0 && this.userReviews.get(0) != null || this.userReviews.isEmpty())
@@ -215,7 +215,7 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         @OnClick(R.id.read_all_reviews)
         void onReadAllClicked() {
-            callback.onReadMoreClicked();
+            callback.onReadMoreClicked(userReviews);
         }
     }
 
@@ -224,6 +224,6 @@ public class UserReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         void onReplyOnReviewClicked(UserReview userReview);
 
-        void onReadMoreClicked();
+        void onReadMoreClicked(ArrayList<UserReview> userReviews);
     }
 }
