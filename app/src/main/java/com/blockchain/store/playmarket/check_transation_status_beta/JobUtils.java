@@ -66,7 +66,6 @@ public class JobUtils {
                 .setPeriodic(ONE_DAY_INTERVAL)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .setBackoffCriteria(TimeUnit.HOURS.toMillis(1), JobInfo.BACKOFF_POLICY_EXPONENTIAL);
-
         jobScheduler.schedule(exerciseJobBuilder.build());
     }
 
