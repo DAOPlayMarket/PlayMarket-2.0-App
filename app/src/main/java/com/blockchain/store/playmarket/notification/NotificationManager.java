@@ -233,7 +233,7 @@ public class NotificationManager {
 
     private void reportUpdateProgress(NotificationObject notificationObject) {
         for (Pair<Integer, NotificationManagerCallbacks> object : this.callbacks) {
-            if (object.first == notificationObject.getItem().getId()) {
+            if (object.first == notificationObject.getItem().getId() && notificationObject.getItem() instanceof App) {
                 object.second.onAppDownloadProgressChanged((App) notificationObject.getItem(), notificationObject.getProgress());
             }
         }

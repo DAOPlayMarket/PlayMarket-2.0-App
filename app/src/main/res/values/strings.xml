@@ -341,5 +341,6 @@
     <string name="cant_delete_last_Account">You cant delete last Account</string>
     <string name="to_delete_account_enter_password">To delete account enter password</string>
     <string name="dividends_balance">Dividends balance:</string>
+    <string name="leave_feedback">Leave feedback</string>
 
 </resources>

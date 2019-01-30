@@ -110,7 +110,6 @@ public class DaoToken implements Parcelable {
         daoToken.name = "DAO PlayMarket 2.0";
         daoToken.symbol = "PMT";
         daoToken.address = "0xcf42d66172f8fdec2b42515f0f0289049e4011c2";
-//        daoToken.address = "0xc1322d8ae3b0e2e437e0ae36388d0cfd2c02f1c9";
         daoToken.decimals = 4;
         return daoToken;
     }
