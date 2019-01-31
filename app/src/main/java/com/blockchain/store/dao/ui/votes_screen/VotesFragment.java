@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.blockchain.store.dao.adapters.ProposalsAdapter;
 import com.blockchain.store.dao.database.model.Proposal;
@@ -20,7 +19,6 @@ import com.blockchain.store.dao.interfaces.Callbacks;
 import com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
-import com.blockchain.store.playmarket.utilities.EndlessRecyclerOnScrollListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,11 +58,12 @@ public class VotesFragment extends Fragment implements Callbacks.ProposalCallbac
         ButterKnife.bind(this, view);
         if (getArguments() != null) {
             ArrayList<Proposal> proposals = getArguments().getParcelableArrayList("Proposals");
+            getArguments().clear();
             showProposals(proposals);
         }
     }
 
-    private void showProposals(ArrayList<Proposal> proposals) {
+    public void showProposals(ArrayList<Proposal> proposals) {
         if (adapter == null) {
             proposalsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             adapter = new ProposalsAdapter(proposals, this);
@@ -78,13 +77,12 @@ public class VotesFragment extends Fragment implements Callbacks.ProposalCallbac
                 }
             });
         } else {
-            adapter.setItems(proposals);
+            adapter.updateItems(proposals);
         }
     }
 
     @Override
     public void onItemClicked(Proposal proposal) {
-        navigationCallback.onProposalDetailsClicked(proposal);
+        navigationCallback.onProposalClicked(proposal);
     }
-
 }

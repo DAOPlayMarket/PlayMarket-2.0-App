@@ -130,7 +130,7 @@ public class NodeUtils {
                         return;
                     }
                 }
-                subscriber.onError(new Exception("Failed to find node"));
+                subscriber.onError(new Exception("Unexecutable to find node"));
             } catch (Exception e) {
                 subscriber.onError(e);
             }

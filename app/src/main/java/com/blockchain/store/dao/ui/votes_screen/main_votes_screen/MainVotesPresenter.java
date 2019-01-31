@@ -8,7 +8,6 @@ import android.util.Pair;
 
 import com.blockchain.store.dao.database.DaoDatabase;
 import com.blockchain.store.dao.database.model.Proposal;
-import com.blockchain.store.dao.database.model.Rules;
 import com.blockchain.store.dao.services.DaoContractService;
 import com.blockchain.store.playmarket.Application;
 
@@ -41,9 +40,9 @@ public class MainVotesPresenter implements MainVotesContract.Presenter {
     private Pair<ArrayList<Proposal>, ArrayList<Proposal>> sortProposals(List<Proposal> proposals) {
         ArrayList<Proposal> archiveProposals = new ArrayList<>();
         ArrayList<Proposal> ongoingProposals = new ArrayList<>();
-        Rules rules = daoDatabase.rulesDao().getRules();
         for (Proposal proposal : proposals) {
-            if (proposal.isExecuted || ((proposal.endTimeOfVoting * 1000) < System.currentTimeMillis() && proposal.numberOfVotes <= rules.minimumQuorum))
+            Proposal.ProposalType proposalType = proposal.getProposalType();
+            if (proposalType.equals(Proposal.ProposalType.Executed) || proposalType.equals(Proposal.ProposalType.Unexecutable))
                 archiveProposals.add(proposal);
             else
                 ongoingProposals.add(proposal);
@@ -55,11 +54,11 @@ public class MainVotesPresenter implements MainVotesContract.Presenter {
     public void init(MainVotesContract.View view, Context context) {
         this.view = view;
         this.context = context;
-        registerBroadcastReceiver();
     }
 
     @Override
     public void startDaoService() {
+        registerBroadcastReceiver();
         context.startService(new Intent(context, DaoContractService.class));
     }
 

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainVotesFragment extends Fragment implements MainVotesContract.View {
+public class MainVotesFragment extends Fragment implements MainVotesContract.View, SwipeRefreshLayout.OnRefreshListener {
 
     private NavigationCallback navigationCallback;
     private ViewPagerAdapter viewPagerAdapter;
@@ -42,6 +43,7 @@ public class MainVotesFragment extends Fragment implements MainVotesContract.Vie
     @BindView(R.id.votes_viewPager) NonSwipeableViewPager votesViewPager;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.addProposal_button) Button addProposalButton;
+    @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onAttach(Context context) {
@@ -58,6 +60,7 @@ public class MainVotesFragment extends Fragment implements MainVotesContract.Vie
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        swipeRefreshLayout.setOnRefreshListener(this);
         progressBar.setVisibility(View.VISIBLE);
         presenter.init(this, getContext());
         presenter.startDaoService();
@@ -72,6 +75,11 @@ public class MainVotesFragment extends Fragment implements MainVotesContract.Vie
 
     @Override
     public void initTabLayout(Pair<ArrayList<Proposal>, ArrayList<Proposal>> proposalsPair) {
+        if (viewPagerAdapter != null) {
+            ((VotesFragment)viewPagerAdapter.getItem(0)).showProposals(proposalsPair.first);
+            ((VotesFragment)viewPagerAdapter.getItem(1)).showProposals(proposalsPair.second);
+            return;
+        }
         viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
 
         viewPagerAdapter.addFragment(VotesFragment.newInstance(proposalsPair.first));
@@ -88,6 +96,7 @@ public class MainVotesFragment extends Fragment implements MainVotesContract.Vie
     @Override
     public void hideProgressBar() {
         progressBar.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @OnClick(R.id.addProposal_button)
@@ -100,27 +109,29 @@ public class MainVotesFragment extends Fragment implements MainVotesContract.Vie
         if (getActivity() != null) getActivity().onBackPressed();
     }
 
-    public void setButtonVisibility(int visibility) {
-        addProposalButton.setVisibility(visibility);
-    }
-
     public void onScroll(int dy) {
         if (dy >= 3) {
             if (addProposalButton.getVisibility() != View.GONE) {
                 TranslateAnimation animate = new TranslateAnimation(0, 0, 0, 250);
                 animate.setDuration(200);
-                animate.setFillAfter(true);
                 addProposalButton.startAnimation(animate);
-                setButtonVisibility(View.GONE);
+                addProposalButton.setVisibility(View.GONE);
             }
         } else if (dy <= -3) {
             if (addProposalButton.getVisibility() != View.VISIBLE) {
-                setButtonVisibility(View.VISIBLE);
+                addProposalButton.setVisibility(View.VISIBLE);
                 TranslateAnimation animate = new TranslateAnimation(0, 0, 250, 0);
                 animate.setDuration(200);
-                animate.setFillAfter(true);
                 addProposalButton.startAnimation(animate);
             }
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        viewPagerAdapter.getItem(0).onDestroy();
+        viewPagerAdapter.getItem(1).onDestroy();
+        progressBar.setVisibility(View.VISIBLE);
+        presenter.startDaoService();
     }
 }

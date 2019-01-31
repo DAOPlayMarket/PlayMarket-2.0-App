@@ -4,11 +4,7 @@ import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.crypto.GenerateTransactionData;
 
-import org.web3j.abi.datatypes.Bytes;
 import org.web3j.abi.datatypes.DynamicBytes;
-import org.web3j.abi.datatypes.Int;
-import org.web3j.abi.datatypes.Uint;
-import org.web3j.abi.datatypes.generated.Bytes32;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.utils.Numeric;
 
@@ -26,14 +22,14 @@ public class ProposalCreationPresenter implements ProposalCreationContract.Prese
     @Override
     public void createProposal(String recipient, String amount, String description, String fullDescHash, String transactionByteCode) {
         String amountInWeiStr = new EthereumPrice(amount, EthereumPrice.Currency.ETHER).inWeiString();
-        BigInteger amountInWei = new BigInteger(amountInWeiStr);
+        byte[] bytes = Numeric.hexStringToByteArray(transactionByteCode);
         byte[] txData = new GenerateTransactionData()
                 .setMethod("addProposal")
                 .putAddress(recipient)
-                .putInt(new Uint256(amountInWei))
+                .putInt(new Uint256(new BigInteger(amountInWeiStr)))
                 .putString(description)
                 .putString(fullDescHash)
-                .putTypeData(new DynamicBytes(transactionByteCode.getBytes()))
+                .putTypeData(new DynamicBytes(bytes))
                 .build();
         new CryptoUtils().sendTx(txData);
     }

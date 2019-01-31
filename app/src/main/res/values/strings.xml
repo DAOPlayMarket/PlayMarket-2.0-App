@@ -342,5 +342,16 @@
     <string name="to_delete_account_enter_password">To delete account enter password</string>
     <string name="dividends_balance">Dividends balance:</string>
     <string name="leave_feedback">Leave feedback</string>
+    <string name="accepted">Accepted</string>
+    <string name="not_accepted">Not accepted</string>
+    <string name="executed">Executed</string>
+    <string name="not_executed">Not executed</string>
+    <string name="pmt">PMT</string>
+    <string name="proposal_details">Proposal details</string>
+
+    <string-array name="contract_functions">
+        <item>Sent ethereum</item>
+        <item>Venus</item>
+    </string-array>
 
 </resources>

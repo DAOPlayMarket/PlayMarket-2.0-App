@@ -9,6 +9,7 @@ import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
 import com.blockchain.store.dao.database.DaoDatabase;
+import com.blockchain.store.dao.repository.DaoTokenRepository;
 import com.blockchain.store.playmarket.data.content.AppsDispatcher;
 import com.blockchain.store.playmarket.data.content.AppsManager;
 import com.blockchain.store.playmarket.data.entities.AppBuyTransactionModel;
@@ -46,6 +47,7 @@ public class Application extends MultiDexApplication {
     private static Application instance;
     private static PinpointManager pinpointManager;
     private static DaoDatabase daoDatabase;
+    private static DaoTokenRepository daoTokenRepository;
 
     @Override
     public void onCreate() {
@@ -60,6 +62,8 @@ public class Application extends MultiDexApplication {
                 .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()
                 .build();
+
+        daoTokenRepository = new DaoTokenRepository();
 
         Hawk.init(this).setParser(new Parser() {
             @Override
@@ -133,6 +137,10 @@ public class Application extends MultiDexApplication {
 
     public static DaoDatabase getDaoDatabase() {
         return daoDatabase;
+    }
+
+    public static DaoTokenRepository getDaoTokenRepository() {
+        return daoTokenRepository;
     }
 
     public static Application getInstance() {

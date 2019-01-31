@@ -7,6 +7,7 @@
     tools:context="com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment">
 
     <View
+        android:id="@+id/view5"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:background="@color/colorPrimary70"
@@ -56,15 +57,27 @@
         app:tabSelectedTextColor="@color/white"
         app:tabTextColor="@color/white60" />
 
-    <com.blockchain.store.playmarket.utilities.NonSwipeableViewPager
-        android:id="@+id/votes_viewPager"
-        android:layout_width="0dp"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/votes_tabLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/votes_tabLayout">
+
+        <com.blockchain.store.playmarket.utilities.NonSwipeableViewPager
+            android:id="@+id/votes_viewPager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/votes_tabLayout" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
     <Button
         android:id="@+id/addProposal_button"
