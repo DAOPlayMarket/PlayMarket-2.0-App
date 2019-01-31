@@ -206,7 +206,7 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
                 case STATE_UPDATE_DOWNLOADED_NOT_INSTALLED:
                     actionBtn.setVisibility(View.VISIBLE);
                     status.setVisibility(View.VISIBLE);
-                    status.setText("Install update");
+                    status.setText(R.string.install_update);
                     break;
 
             }

@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:paddingBottom="5dp"
-        android:text="Balance:"
+        android:text="@string/balance"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/name"
         app:layout_constraintTop_toBottomOf="@+id/name" />

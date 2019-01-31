@@ -122,9 +122,9 @@ public class TokenTransferFragment extends Fragment {
         tokenTextView.setText(daoToken.symbol);
         token2TextView.setText(daoToken.symbol);
         if (daoToken.isWithdrawBlocked) {
-            lockedAmount.setText("All token are locked");
+            lockedAmount.setText(R.string.all_token_are_locked);
         } else {
-            lockedAmount.setText(daoToken.getDaoBalance() - daoToken.getNotLockedBalance() + " tokens are locked.");
+            lockedAmount.setText(String.format(getString(R.string.token_are_locked), daoToken.getDaoBalance() - daoToken.getNotLockedBalance()));
         }
     }
 
@@ -132,10 +132,10 @@ public class TokenTransferFragment extends Fragment {
         tokenTitleTextView.setText(daoToken.name);
         balanceTextView.setText(String.valueOf(daoToken.getBalanceWithDecimals()));
         tokenTextView.setText(daoToken.symbol);
-        token2TextView.setText("ETH");
+        token2TextView.setText(getString(R.string.eth));
 
         balanceRepositoryTitle.setText(getActivity().getString(R.string.dividends_balance));
-        repositoryBalanceTextView.setText(daoToken.getOwnersBal() + " ETH");
+        repositoryBalanceTextView.setText(daoToken.getOwnersBal() + getString(R.string.eth));
 
         repositoryButton.setVisibility(View.GONE);
         customAddressButton.setVisibility(View.GONE);
@@ -154,11 +154,11 @@ public class TokenTransferFragment extends Fragment {
 
         TabLayout.Tab sendTab = tabLayout.getTabAt(0);
         if (sendTab != null) {
-            sendTab.setText("SEND");
+            sendTab.setText(R.string.send);
         }
 
         TabLayout.Tab withdrawTab = tabLayout.getTabAt(1);
-        if (withdrawTab != null) withdrawTab.setText("WITHDRAW");
+        if (withdrawTab != null) withdrawTab.setText(R.string.withdraw);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -217,7 +217,7 @@ public class TokenTransferFragment extends Fragment {
         if (repositoryTextView.getText() == "")
             repositoryTextView.setText(AccountManager.getAddress().getHex());
         sendInputLayout.setHint(getResources().getString(R.string.withdraw_amount));
-        if (isOpenAsCryptoDuelToken) token2TextView.setText("ETH");
+        if (isOpenAsCryptoDuelToken) token2TextView.setText(R.string.eth);
     }
 
     @Override
@@ -244,12 +244,12 @@ public class TokenTransferFragment extends Fragment {
         }
 
         if (!AccountManager.getUserBalance().equalsIgnoreCase("-1") && Long.valueOf(AccountManager.getUserBalance()) == 0) {
-            sendEditText.setError("Not enough balance to send transaction");
+            sendEditText.setError(getString(R.string.not_enough_balance));
             return false;
         }
 
         if (sendAmount == 0) {
-            sendEditText.setError("Wrong amount");
+            sendEditText.setError(getString(R.string.wrong_invest_amout));
             return false;
         }
 
@@ -257,13 +257,13 @@ public class TokenTransferFragment extends Fragment {
 
             if (currentTabPosition == 0) {
                 if (sendAmount > daoToken.getBalanceWithDecimals()) {
-                    sendEditText.setError("You can send only " + daoToken.getBalanceWithDecimals() + " tokens");
+                    sendEditText.setError(String.format(getString(R.string.wrong_send_token_number), daoToken.getBalanceWithDecimals()));
                     return false;
                 }
             }
             if (currentTabPosition == 1) {
                 if (sendAmount > Double.valueOf(daoToken.getOwnersBal())) {
-                    sendEditText.setError("You can send only " + daoToken.getOwnersBal() + " tokens");
+                    sendEditText.setError(String.format(getString(R.string.wrong_send_token_number), daoToken.getBalanceWithDecimals()));
                     return false;
                 }
             }
@@ -275,21 +275,22 @@ public class TokenTransferFragment extends Fragment {
         if (currentTabPosition == 0) {
             if (repositoryButton.isChecked()) {
                 if (sendAmount > daoToken.getApprovalWithDecimals() && daoToken.getApprovalWithDecimals() != 0) {
-                    Toast.makeText(getActivity(), "You already has " + daoToken.getApprovalWithDecimals() + " token approval. Send tokens below this value.", Toast.LENGTH_SHORT).show();
+                    String errorMsg = String.format(getString(R.string.you_already_has_approval_tokens), daoToken.getApprovalWithDecimals());
+                    Toast.makeText(getActivity(), errorMsg, Toast.LENGTH_SHORT).show();
                     return false;
                 }
                 if (sendAmount > Double.valueOf(daoToken.getBalanceWithDecimals())) {
-                    sendEditText.setError("You can send only " + daoToken.getBalanceWithDecimals() + " tokens");
+                    sendEditText.setError(String.format(getString(R.string.wrong_send_token_number), daoToken.getBalanceWithDecimals()));
                     return false;
                 }
             }
             if (customAddressButton.isChecked()) {
                 if (recipientEditText.getText().toString().isEmpty()) {
-                    recipientEditText.setError("Empty field");
+                    recipientEditText.setError(getString(R.string.empty_field));
                     return false;
                 }
                 if (sendAmount > daoToken.getBalanceWithDecimals()) {
-                    sendEditText.setError("You can send only " + daoToken.getBalanceWithDecimals() + " tokens");
+                    sendEditText.setError(String.format(getString(R.string.wrong_send_token_number), daoToken.getBalanceWithDecimals()));
                     return false;
                 }
             }
@@ -297,12 +298,13 @@ public class TokenTransferFragment extends Fragment {
         if (currentTabPosition == 1) {/*withdraw*/
 
             if (daoToken.isWithdrawBlocked) {
-                ToastUtil.showToast("Withdraw is blocked!");
+                ToastUtil.showToast(R.string.withdraw_is_blocked);
                 return false;
             }
 
             if (sendAmount > Double.valueOf(daoToken.getNotLockedBalanceWithDecimals())) {
-                sendEditText.setError("You can withdraw only " + String.valueOf(daoToken.getNotLockedBalanceWithDecimals()) + " tokens");
+                String format = String.format(getString(R.string.can_withdraw),Long.valueOf(daoToken.getNotLockedBalanceWithDecimals()));
+                sendEditText.setError(format);
                 return false;
             }
         }
@@ -312,7 +314,7 @@ public class TokenTransferFragment extends Fragment {
 
     private void sendTokenToUser(Long amount) {
         if (recipientEditText.getText().toString().isEmpty()) {
-            recipientEditText.setError("Empty value");
+            recipientEditText.setError(getString(R.string.empty_field));
             return;
         }
         new DialogManager().showDividendsDialog(getActivity(), () -> RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
@@ -378,7 +380,7 @@ public class TokenTransferFragment extends Fragment {
 
     private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
         try {
-            Toast.makeText(getActivity(), "Transaction successfully sent!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.transaction_sent, Toast.LENGTH_SHORT).show();
             getActivity().onBackPressed();
         } catch (Exception e) {
             e.printStackTrace();
@@ -455,7 +457,7 @@ public class TokenTransferFragment extends Fragment {
                 Double value = Double.valueOf(sendEditText.getText().toString()) * Math.pow(10, daoToken.decimals);
                 amount = value.longValue();
             } catch (Exception e) {
-                sendEditText.setError("Wrong amount");
+                sendEditText.setError(getString(R.string.wrong_invest_amout));
                 return;
             }
             sendTokenToUser(amount);
@@ -471,7 +473,7 @@ public class TokenTransferFragment extends Fragment {
             Double value = Double.valueOf(sendEditText.getText().toString()) * Math.pow(10, daoToken.decimals);
             amount = value.longValue();
         } catch (Exception e) {
-            sendEditText.setError("Wrong amount");
+            sendEditText.setError(getString(R.string.wrong_invest_amout));
             return;
         }
 

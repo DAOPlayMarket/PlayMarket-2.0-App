@@ -77,7 +77,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:text="will be used from repository to"
+        android:text="@string/will_be_used_from_repository_to"
         android:textSize="12sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/token_textView"
         app:layout_constraintStart_toEndOf="@+id/token_textView" />
@@ -87,7 +87,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:text="the proposal"
+        android:text="@string/the_proposal"
         android:textSize="12sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/isSupport_textView"
         app:layout_constraintStart_toEndOf="@+id/isSupport_textView" />

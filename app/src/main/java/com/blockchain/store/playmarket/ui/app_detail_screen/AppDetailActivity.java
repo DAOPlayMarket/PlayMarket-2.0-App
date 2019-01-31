@@ -153,7 +153,7 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         if (app.rating == null || app.rating.ratingCount == 0) {
             marksCountTextView.setVisibility(View.GONE);
         } else {
-            marksCountTextView.setText(app.rating.ratingCount + " marks");
+            marksCountTextView.setText(app.rating.ratingCount + getString(R.string.marks));
         }
     }
 

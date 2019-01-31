@@ -89,8 +89,8 @@ public class MainVotesFragment extends Fragment implements MainVotesContract.Vie
         votesViewPager.setOffscreenPageLimit(1);
 
         votesTabLayout.setupWithViewPager(votesViewPager);
-        votesTabLayout.getTabAt(0).setText("Ongoing");
-        votesTabLayout.getTabAt(1).setText("Archive");
+        votesTabLayout.getTabAt(0).setText(R.string.ongoing);
+        votesTabLayout.getTabAt(1).setText(R.string.archive);
     }
 
     @Override

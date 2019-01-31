@@ -342,12 +342,39 @@
     <string name="to_delete_account_enter_password">To delete account enter password</string>
     <string name="dividends_balance">Dividends balance:</string>
     <string name="leave_feedback">Leave feedback</string>
+
     <string name="accepted">Accepted</string>
     <string name="not_accepted">Not accepted</string>
     <string name="executed">Executed</string>
     <string name="not_executed">Not executed</string>
     <string name="pmt">PMT</string>
     <string name="proposal_details">Proposal details</string>
+
+
+    <string name="withdraw">WITHDRAW</string>
+    <string name="not_enough_balance">Not enough balance to send transaction</string>
+    <string name="wrong_send_token_number">You can only send %1$f tokens</string>
+    <string name="wrong_send_token_number">You can only send %1$f tokens</string>
+    <string name="withdraw_is_blocked">Withdraw is blocked!</string>
+    <string name="all_token_are_locked">All tokens are locked</string>
+    <string name="token_are_locked">%1$f tokens are locked</string>
+    <string name="you_already_has_approval_tokens">You already has %1$f token approval. Send tokens below this value.</string>
+    <string name="can_withdraw">"You can withdraw only %1$f tokens"</string>
+    <string name="transaction_sent">Transaction successfully sent!</string>
+    <string name="add_custom_token">Add custom token</string>
+    <string name="ongoing">Ongoing</string>
+    <string name="archive">Archive</string>
+    <string name="add_custom_token">Add custom token</string>
+    <string name="repeat_request">Repeat request</string>
+    <string name="delete_account">Delete account</string>
+    <string name="will_be_used_from_repository_to">will be used from repository to</string>
+    <string name="the_proposal">the proposal</string>
+    <string name="change_account">Change account</string>
+    <string name="enter_your_response_here">Enter your response here...</string>
+    <string name="account_balance">Account Balance</string>
+    <string name="read_all_reviews">Read all reviews</string>
+    <string name="marks">marks</string>
+    <string name="install_update">Install update</string>
 
     <string-array name="contract_functions">
         <item>Sent ethereum</item>

@@ -27,7 +27,6 @@ import com.blockchain.store.dao.ui.DaoTokenTransfer;
 import com.blockchain.store.dao.ui.dividends_screen.DividendsFragment;
 import com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment;
 import com.blockchain.store.dao.ui.votes_screen.proposal_creation_screen.ProposalCreationFragment;
-import com.blockchain.store.dao.ui.votes_screen.proposal_details_screen.ProposalDetailsFragment;
 import com.blockchain.store.dao.ui.votes_screen.proposal_details_screen.VoteDetailsFragment;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
@@ -102,7 +101,8 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         setSearchViewDebounce();
     }
 
-    @OnClick(R.id.open_test) void onOpenTestClicked(){
+    @OnClick(R.id.open_test)
+    void onOpenTestClicked() {
         startActivity(new Intent(this, DaoTokenTransfer.class));
     }
 
@@ -228,7 +228,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @Override
     public void onCategoryLoadFailed(Throwable throwable) {
         errorHolder.setVisibility(View.VISIBLE);
-        ToastUtil.showToast("Category load failed! " + throwable.getMessage());
+        ToastUtil.showToast(getString(R.string.load_failed) + throwable.getMessage());
     }
 
     @Override

@@ -23,7 +23,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
-        android:text="Change account"
+        android:text="@string/change_account"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/close_button"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -69,7 +69,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Test unlock Account"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
