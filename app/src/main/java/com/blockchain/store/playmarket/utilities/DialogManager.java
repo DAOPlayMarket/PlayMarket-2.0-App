@@ -299,4 +299,69 @@ public class DialogManager {
             alertDialog.dismiss();
         });
     }
+
+    @SuppressLint("CheckResult")
+    public void showVotingDialog(boolean isSupport, String repositoryBalance, Context context, Callbacks.PasswordCallback callback) {
+
+        AlertDialog alertDialog = new AlertDialog.Builder(context)
+                .setCancelable(false)
+                .setView(R.layout.dialog_voting)
+                .create();
+        alertDialog.show();
+
+        TextInputEditText passwordEditText = alertDialog.findViewById(R.id.password_editText);
+        TextInputLayout passwordLayout = alertDialog.findViewById(R.id.password_inputLayout);
+
+        TextView isSupportTextView = alertDialog.findViewById(R.id.isSupport_textView);
+        TextView amountTextView = alertDialog.findViewById(R.id.amount_textView);
+
+        amountTextView.setText(repositoryBalance);
+        if (isSupport) {
+            isSupportTextView.setText(context.getResources().getString(R.string.vote_for_support));
+            isSupportTextView.setTextColor(context.getResources().getColor(R.color.colorGreen));
+        } else {
+            isSupportTextView.setText(context.getResources().getString(R.string.vote_against));
+            isSupportTextView.setTextColor(context.getResources().getColor(R.color.colorRed));
+        }
+
+        alertDialog.findViewById(R.id.confirm_button).setOnClickListener(v -> {
+            boolean isUnlock = AccountManager.unlockKeystore(passwordEditText.getText().toString());
+            if (isUnlock) {
+                callback.onAccountUnlock(true);
+                alertDialog.dismiss();
+            } else {
+                passwordLayout.setError("Wrong password");
+            }
+        });
+
+        if (FingerprintUtils.isFingerprintAvailibility(context)) {
+            alertDialog.findViewById(R.id.passwordGroup).setVisibility(View.GONE);
+            alertDialog.findViewById(R.id.fingerprintGroup).setVisibility(View.VISIBLE);
+            fingerprintDisposable = RxFingerprint.decrypt(context, FingerprintUtils.getEncryptedPassword())
+                    .subscribe(fingerprintDecryptionResult -> {
+                        switch (fingerprintDecryptionResult.getResult()) {
+                            case FAILED:
+                                break;
+                            case AUTHENTICATED:
+                                callback.onAccountUnlock(AccountManager.unlockKeystore(fingerprintDecryptionResult.getDecrypted()));
+                                alertDialog.dismiss();
+                                fingerprintDisposable.dispose();
+                        }
+                    }, throwable -> Log.e("ERROR", "decrypt", throwable));
+        } else {
+            alertDialog.findViewById(R.id.passwordGroup).setVisibility(View.VISIBLE);
+            alertDialog.findViewById(R.id.fingerprintGroup).setVisibility(View.GONE);
+        }
+
+        alertDialog.findViewById(R.id.usePassword_button).setOnClickListener(v -> {
+            fingerprintDisposable.dispose();
+            alertDialog.findViewById(R.id.passwordGroup).setVisibility(View.VISIBLE);
+            alertDialog.findViewById(R.id.fingerprintGroup).setVisibility(View.GONE);
+        });
+
+        alertDialog.findViewById(R.id.cancel_button).setOnClickListener(v -> {
+            if (FingerprintUtils.isFingerprintAvailibility(context)) fingerprintDisposable.dispose();
+            alertDialog.dismiss();
+        });
+    }
 }

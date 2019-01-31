@@ -2,23 +2,28 @@ package com.blockchain.store.dao.database.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverters;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.blockchain.store.dao.database.database_converters.VotesConverter;
-
-import java.util.ArrayList;
+import com.blockchain.store.playmarket.Application;
 
 @Entity
 public class Proposal implements Parcelable {
+
+    public enum ProposalType {
+        Ongoing,
+        Unexecutable,
+        NotExecutedAccepted,
+        NotExecutedNotAccepted,
+        Executed,
+    }
 
     @PrimaryKey
     public int proposalID;
     public long endTimeOfVoting;
     public boolean isExecuted;
     public boolean proposalPassed;
-    public int numberOfVotes;
+    public long numberOfVotes;
     public long votesSupport;
     public long votesAgainst;
     public String recipient;
@@ -27,6 +32,26 @@ public class Proposal implements Parcelable {
     public String fullDescriptionHash;
 
     public Proposal() {
+    }
+
+    public ProposalType getProposalType() {
+        Rules rules = Application.getDaoDatabase().rulesDao().getRules();
+        if (!isExecuted) {
+            if ((endTimeOfVoting * 1000) > System.currentTimeMillis()) return ProposalType.Ongoing;
+            else if ((endTimeOfVoting * 1000) < System.currentTimeMillis()) {
+                if (numberOfVotes >= rules.minimumQuorum) {
+                    if (votesSupport >= rules.requisiteMajority) {
+                        return ProposalType.NotExecutedAccepted;
+                    }
+                    else {
+                        return ProposalType.NotExecutedNotAccepted;
+                    }
+                } else {
+                    return ProposalType.Unexecutable;
+                }
+            }
+        } else return ProposalType.Executed;
+        return null;
     }
 
     @Override
@@ -40,7 +65,7 @@ public class Proposal implements Parcelable {
         dest.writeLong(this.endTimeOfVoting);
         dest.writeByte(this.isExecuted ? (byte) 1 : (byte) 0);
         dest.writeByte(this.proposalPassed ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.numberOfVotes);
+        dest.writeLong(this.numberOfVotes);
         dest.writeLong(this.votesSupport);
         dest.writeLong(this.votesAgainst);
         dest.writeString(this.recipient);

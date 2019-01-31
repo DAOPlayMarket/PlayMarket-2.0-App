@@ -39,6 +39,7 @@ public class DaoConstants {
     public static final String TOKEN_HOLDER_USED_FOR_TEST = "0x4aC145CB8033649C3727BDe0b1BfAcfc3A3a9A9a";
 
     public static final String DAO_BLOCK_NUMBER = "6955312";
+    public static final String TOTAL_DAO_TOKEN = "30000000000";
     public static final String DAO_BLOCK_NUMBER_HEX = Numeric.toHexStringWithPrefixSafe(new BigInteger(DAO_BLOCK_NUMBER));
 
 

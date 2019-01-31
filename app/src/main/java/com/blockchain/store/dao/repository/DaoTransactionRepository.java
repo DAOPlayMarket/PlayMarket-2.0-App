@@ -100,14 +100,13 @@ public class DaoTransactionRepository {
     public static Observable<Pair<String, String>> getUserData() {
         init(DaoConstants.DAO, AccountManager.getAddress().getHex());
         return Observable.zip(
-                getEthCallObservable(getBalance(), DaoConstants.Repository),
-                getEthCallObservable(getNotLockedBalance(), DaoConstants.Repository), (balanceCall, getNotLockedBalance) -> {
-                    String balance = decodeFunction(balanceCall, getBalance()).toString();
-                    String notLockedBalance = decodeFunction(getNotLockedBalance, getBalance()).toString();
-                    return new Pair<>(balance, notLockedBalance);
+                getEthCallObservable(getTokenBalanceOfFunction(), DaoConstants.PlayMarket_token_contract),
+                getEthCallObservable(getBalance(), DaoConstants.Repository), (local, repository) -> {
+                    String localBalance = decodeFunction(local, getBalance()).toString();
+                    String repositoryBalance = decodeFunction(repository, getBalance()).toString();
+                    return new Pair<>(localBalance, repositoryBalance);
                 }
         ).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread());
-
     }
 
     public static Observable<List<DaoToken>> getOnlyPmtToken() {

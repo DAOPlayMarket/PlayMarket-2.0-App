@@ -338,5 +338,16 @@
     <string name="create_new_wallet">Create new wallet</string>
     <string name="import_wallet">Import wallet</string>
     <string name="cant_delete_last_Account">You cant delete last Account</string>
+    <string name="accepted">Accepted</string>
+    <string name="not_accepted">Not accepted</string>
+    <string name="executed">Executed</string>
+    <string name="not_executed">Not executed</string>
+    <string name="pmt">PMT</string>
+    <string name="proposal_details">Proposal details</string>
+
+    <string-array name="contract_functions">
+        <item>Sent ethereum</item>
+        <item>Venus</item>
+    </string-array>
 
 </resources>

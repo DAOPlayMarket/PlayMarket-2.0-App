@@ -6,7 +6,7 @@
     android:background="@color/colorPrimary"
     android:clickable="true"
     android:focusable="true"
-    tools:context="com.blockchain.store.dao.ui.votes_screen.proposal_details_screen.ProposalDetailsFragment">
+    tools:context="com.blockchain.store.dao.ui.votes_screen.proposal_details_screen.VoteDetailsFragment">
 
     <View
         android:id="@+id/view4"
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/proposal"
-        android:textSize="20sp"
+        android:textSize="26sp"
         android:layout_marginStart="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/close_image_button"
         app:layout_constraintStart_toEndOf="@+id/close_image_button"
@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:textSize="20sp"
+        android:textSize="26sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView1"
         app:layout_constraintStart_toEndOf="@+id/textView1"
         tools:text="324" />
@@ -77,7 +77,7 @@
         tools:text="test"/>
 
     <TextView
-        android:id="@+id/seeDetails_button"
+        android:id="@+id/details_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -86,6 +86,8 @@
         android:paddingTop="5dp"
         android:paddingEnd="15dp"
         android:paddingBottom="5dp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
         android:text="@string/see_details"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@+id/description_textView"
@@ -100,7 +102,7 @@
         android:text="@string/total_voted"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/description_textView"
-        app:layout_constraintTop_toBottomOf="@+id/seeDetails_button" />
+        app:layout_constraintTop_toBottomOf="@+id/details_button" />
 
     <TextView
         android:id="@+id/totalVoted_textView"
@@ -118,7 +120,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:progress="30"
-        app:layout_constraintEnd_toEndOf="@+id/seeDetails_button"
+        app:layout_constraintEnd_toEndOf="@+id/details_button"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -195,7 +197,6 @@
         style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:progress="80"
         app:layout_constraintEnd_toEndOf="@+id/quorum_progressBar"
         app:layout_constraintStart_toStartOf="@+id/textView4"
@@ -228,16 +229,16 @@
         android:textAllCaps="true"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
+        android:text="@string/pmt"
         app:layout_constraintBaseline_toBaselineOf="@+id/localBalance_textView"
-        app:layout_constraintStart_toEndOf="@+id/localBalance_textView"
-        tools:text="pmt" />
+        app:layout_constraintStart_toEndOf="@+id/localBalance_textView"/>
 
     <TextView
         android:id="@id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/balance"
+        android:text="@string/local_balance"
         android:textColor="@color/lightBlue"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/textView5"
@@ -254,6 +255,15 @@
         app:layout_constraintStart_toEndOf="@+id/textView7"
         tools:text="1938.7894" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/majority_progressBar" />
+
     <TextView
         android:id="@id/textView8"
         android:layout_width="wrap_content"
@@ -261,7 +271,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/repository_balance"
         android:textColor="@color/lightBlue"
-        android:textSize="12sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -270,7 +280,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:textSize="12sp"
+        android:textSize="18sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView8"
         app:layout_constraintStart_toEndOf="@+id/textView8"
         tools:text="500.0023" />
@@ -282,10 +292,10 @@
         android:layout_marginStart="8dp"
         android:textAllCaps="true"
         android:textColor="@color/colorAccent"
-        android:textSize="12sp"
+        android:textSize="18sp"
+        android:text="@string/pmt"
         app:layout_constraintBaseline_toBaselineOf="@+id/repositoryBalance_textView"
-        app:layout_constraintStart_toEndOf="@+id/repositoryBalance_textView"
-        tools:text="pmt" />
+        app:layout_constraintStart_toEndOf="@+id/repositoryBalance_textView"/>
 
     <TextView
         android:id="@+id/textView6"
@@ -330,7 +340,7 @@
         app:layout_constraintGuide_percent="0.5"/>
 
     <Button
-        android:id="@+id/accept_button"
+        android:id="@+id/voteAgainst_button"
         style="@style/positiveButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -342,18 +352,17 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <Button
-        android:id="@+id/decline_button"
+        android:id="@+id/voteForSupport_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20sp"
         android:layout_marginEnd="10sp"
         android:layout_marginBottom="20sp"
         android:background="@drawable/round_green_button"
-        android:text="@string/execute"
+        android:text="@string/vote_for_support"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
@@ -371,19 +380,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"/>
 
     <android.support.constraint.Group
-        android:id="@+id/not_executed_group"
+        android:id="@+id/ongoing_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="token_textView,textView5,token2_textView,repositoryBalance_textView,textView7,localBalance_textView,textView8,decline_button,accept_button" />
+        app:constraint_referenced_ids="token_textView,textView5,token2_textView,repositoryBalance_textView,textView7,localBalance_textView,textView8,voteForSupport_button,voteAgainst_button" />
 
     <android.support.constraint.Group
-        android:id="@+id/executed_group"
+        android:id="@+id/finish_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="execute_button,textView6,isExecuted_textView,isAccepted_textView" />
+        app:constraint_referenced_ids="textView6,isExecuted_textView,isAccepted_textView" />
 
 
 </android.support.constraint.ConstraintLayout>

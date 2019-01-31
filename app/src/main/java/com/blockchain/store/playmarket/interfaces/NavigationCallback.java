@@ -13,6 +13,8 @@ public interface NavigationCallback {
 
     void onNewProposalClicked();
 
+    void onProposalClicked(Proposal proposal);
+
     void onProposalDetailsClicked(Proposal proposal);
 
     void onTokenTransferClicked(DaoToken daoToken);

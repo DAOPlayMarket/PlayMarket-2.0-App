@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.blockchain.store.dao.database.DaoDatabase;
 import com.blockchain.store.dao.database.model.Proposal;
-import com.blockchain.store.dao.database.model.Rules;
 import com.blockchain.store.dao.interfaces.Callbacks;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
@@ -50,12 +49,14 @@ public class ProposalsAdapter extends RecyclerView.Adapter<ProposalsAdapter.View
         return proposals.size();
     }
 
-    public void setItems(ArrayList<Proposal> proposals) {
+    public void updateItems(ArrayList<Proposal> proposals) {
         this.proposals = proposals;
         notifyDataSetChanged();
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
+
+        private View itemView;
 
         @BindView(R.id.id_textView) TextView idTextView;
         @BindView(R.id.description_textView) TextView descriptionTextView;
@@ -67,39 +68,60 @@ public class ProposalsAdapter extends RecyclerView.Adapter<ProposalsAdapter.View
 
         protected ViewHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
             ButterKnife.bind(this, itemView);
         }
 
         protected void bind(Proposal proposal) {
             idTextView.setText(String.valueOf(proposal.proposalID));
             descriptionTextView.setText(proposal.description);
-            if ((proposal.endTimeOfVoting * 1000) < System.currentTimeMillis()) {
-                statusGroup.setVisibility(View.VISIBLE);
-                timeGroup.setVisibility(View.GONE);
-                if (proposal.proposalPassed) {
-                    isAcceptedTextView.setText("Accepted");
-                    isAcceptedTextView.setTextColor(itemView.getResources().getColor(R.color.colorGreen));
-                } else {
-                    isAcceptedTextView.setText("Not accepted");
-                    isAcceptedTextView.setTextColor(itemView.getResources().getColor(R.color.colorRed));
-                }
-
-                if (proposal.isExecuted) {
-                    isExecutedTextView.setText("Executed");
-                    isExecutedTextView.setTextColor(itemView.getResources().getColor(R.color.colorGreen));
-                } else {
-                    isExecutedTextView.setText("Not executed");
-                    isExecutedTextView.setTextColor(itemView.getResources().getColor(R.color.colorRed));
-                }
-            } else {
-                statusGroup.setVisibility(View.GONE);
-                timeGroup.setVisibility(View.VISIBLE);
-                votingEndTimeTextView.setText(timeConverter((proposal.endTimeOfVoting * 1000) - System.currentTimeMillis()));
-            }
-
-
             itemView.setOnClickListener(v -> proposalCallback.onItemClicked(proposal));
 
+            Proposal.ProposalType proposalType = proposal.getProposalType();
+            switch (proposalType) {
+                case Ongoing:
+                    statusGroup.setVisibility(View.GONE);
+                    timeGroup.setVisibility(View.VISIBLE);
+                    votingEndTimeTextView.setText(timeConverter((proposal.endTimeOfVoting * 1000) - System.currentTimeMillis()));
+                    break;
+                case NotExecutedAccepted:
+                    statusGroup.setVisibility(View.VISIBLE);
+                    timeGroup.setVisibility(View.GONE);
+                    isExecutedTextView.setText(itemView.getResources().getString(R.string.not_executed));
+                    isAcceptedTextView.setText(itemView.getResources().getString(R.string.accepted));
+                    isAcceptedTextView.setTextColor(itemView.getResources().getColor(R.color.colorGreen));
+                    isExecutedTextView.setTextColor(itemView.getResources().getColor(R.color.colorRed));
+                    break;
+                case NotExecutedNotAccepted:
+                    statusGroup.setVisibility(View.VISIBLE);
+                    timeGroup.setVisibility(View.GONE);
+                    isExecutedTextView.setText(itemView.getResources().getString(R.string.not_executed));
+                    isAcceptedTextView.setText(itemView.getResources().getString(R.string.not_accepted));
+                    isAcceptedTextView.setTextColor(itemView.getResources().getColor(R.color.colorRed));
+                    isExecutedTextView.setTextColor(itemView.getResources().getColor(R.color.colorRed));
+                    break;
+                case Executed:
+                    statusGroup.setVisibility(View.VISIBLE);
+                    timeGroup.setVisibility(View.GONE);
+                    if (proposal.proposalPassed) {
+                        isAcceptedTextView.setText(itemView.getResources().getString(R.string.accepted));
+                        isAcceptedTextView.setTextColor(itemView.getResources().getColor(R.color.colorGreen));
+                    } else {
+                        isAcceptedTextView.setText(itemView.getResources().getString(R.string.not_accepted));
+                        isAcceptedTextView.setTextColor(itemView.getResources().getColor(R.color.colorRed));
+                    }
+                    isExecutedTextView.setText(itemView.getResources().getString(R.string.executed));
+                    isExecutedTextView.setTextColor(itemView.getResources().getColor(R.color.colorGreen));
+                    break;
+                case Unexecutable:
+                    statusGroup.setVisibility(View.VISIBLE);
+                    timeGroup.setVisibility(View.GONE);
+                    isExecutedTextView.setText(itemView.getResources().getString(R.string.not_executed));
+                    isAcceptedTextView.setText(itemView.getResources().getString(R.string.not_accepted));
+                    isAcceptedTextView.setTextColor(itemView.getResources().getColor(R.color.colorRed));
+                    isExecutedTextView.setTextColor(itemView.getResources().getColor(R.color.colorRed));
+                    break;
+            }
         }
     }
 
