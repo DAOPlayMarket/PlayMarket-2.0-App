@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.ui.DaoConstants;
+import com.blockchain.store.dao.ui.DaoTokenTransfer;
 import com.blockchain.store.dao.ui.dividends_screen.DividendsFragment;
 import com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment;
 import com.blockchain.store.dao.ui.votes_screen.proposal_creation_screen.ProposalCreationFragment;
@@ -98,6 +99,10 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         initViews();
         replaceNavViewFragment(new NavigationViewFragment());
         setSearchViewDebounce();
+    }
+
+    @OnClick(R.id.open_test) void onOpenTestClicked(){
+        startActivity(new Intent(this, DaoTokenTransfer.class));
     }
 
     private void attachPresenter() {

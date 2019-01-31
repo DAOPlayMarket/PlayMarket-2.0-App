@@ -9,6 +9,14 @@
     tools:context="com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity">
 
 
+    <Button
+        android:layout_marginTop="50dp"
+        android:text="open_test"
+        android:id="@+id/open_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
@@ -144,7 +152,7 @@
                 android:layout_marginBottom="4dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Exchange"
+                android:text="@string/fragment_exchange_title"
                 android:textAppearance="@style/tabTextAppearance"
                 android:textColor="@color/tab_text_color"
                 android:visibility="visible" />

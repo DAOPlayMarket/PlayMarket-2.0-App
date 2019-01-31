@@ -126,7 +126,7 @@
     <string name="exchange_source">Select the source of the deposit:</string>
     <string name="send_amount">Send amount:\n(Minimum amount: %1$s)</string>
     <string name="transaction_details">transaction details:</string>
-    <string name="exchange_details_currency">Exchange %1$s to ETC</string>
+    <string name="exchange_details_currency">Exchange %1$s to ETH</string>
     <string name="exchange_details_amount">%1$s %2$s >> %3$s %4$s</string>
     <string name="exchange_details_fee">* fee included (0.5%)</string>
     <string name="exchange_confirm_transaction">To complete the transaction, make a transfer of %1$s %2$s to the account:</string>
@@ -167,7 +167,7 @@
     <string name="enter_password_to_proceed">Enter password to proceed.</string>
 
     <string name="review_dialog_title">Enter password to proceed.</string>
-    <string name="or_user_your_fingerprint">Or user your fingerprint</string>
+    <string name="or_user_your_fingerprint">Or use your fingerprint</string>
     <string name="open_app_info">to app</string>
     <string name="your_balance_is">Your balance:\n%1$s  ETH</string>
     <string name="balance_field_with_eth">%1$s ETH</string>

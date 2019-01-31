@@ -12,6 +12,10 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import com.google.gson.annotations.SerializedName;
 import com.orhanobut.hawk.Hawk;
 
+import org.web3j.abi.TypeEncoder;
+import org.web3j.abi.datatypes.DynamicBytes;
+import org.web3j.utils.Numeric;
+
 import java.util.ArrayList;
 
 /**

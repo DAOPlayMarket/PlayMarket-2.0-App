@@ -17,6 +17,7 @@ import com.blockchain.store.playmarket.data.entities.UserReview;
 
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -109,5 +110,8 @@ public interface ServerApi {
 
     @GET("https://pex-balancer.playmarket.io/api/history?symbol=PMT&resolution=1D&from=1513577768&to=1544681828")
     Observable<PexHistory> getPexHistory();
+
+//    @GET("https://pex-balancer.playmarket.io/api/history?symbol=PMT&resolution=1D&from=1513577768&to=1544681828")
+//    Observable<ResponseBody> getPexHistory();
 
 }

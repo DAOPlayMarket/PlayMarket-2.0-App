@@ -18,6 +18,7 @@ public class JobUtils {
 
 
     private static final long ONE_DAY_INTERVAL = 24 * 60 * 60 * 1000L;
+    private static final long TEN_MINUTES = 600000;
 
     public static void scheduleCheckTransactionJobs(Context context, String transactionHash, String secondTransactionHash, String secondRawTransaction, Constants.TransactionTypes transactionType) {
         ComponentName jobService = new ComponentName(context, GetTransactionStatusJobService.class);
@@ -57,15 +58,15 @@ public class JobUtils {
 
     public static void scheduleCheckUpdateJob(Context context) {
         JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        if (checkIfJobAlreadyRunning(jobScheduler)) {
-            return;
-        }
+//        if (checkIfJobAlreadyRunning(jobScheduler)) {
+//            return;
+//        }
         ComponentName jobService = new ComponentName(context, CheckUpdateJobService.class);
         JobInfo.Builder exerciseJobBuilder = new JobInfo.Builder(AUTO_UPDATE_JOB_ID, jobService)
-                .setRequiresCharging(true)
-                .setPeriodic(ONE_DAY_INTERVAL)
+//                .setRequiresCharging(true)
+                .setPeriodic(TEN_MINUTES)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .setBackoffCriteria(TimeUnit.HOURS.toMillis(1), JobInfo.BACKOFF_POLICY_EXPONENTIAL);
+                .setBackoffCriteria(TimeUnit.MINUTES.toMillis(10), JobInfo.BACKOFF_POLICY_EXPONENTIAL);
         jobScheduler.schedule(exerciseJobBuilder.build());
     }
 

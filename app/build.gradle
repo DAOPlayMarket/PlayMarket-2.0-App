@@ -22,8 +22,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         multiDexEnabled true
-        versionCode 91
-        versionName '1.3.18'
+        versionCode 90
+        versionName '1.3.17'
     }
     buildTypes {
         release {
