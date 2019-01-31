@@ -70,20 +70,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="8dp"
-        android:text="Dividends balance:"
+        android:text="@string/dividends_balance"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@+id/token_balance_field"
-        app:layout_constraintTop_toBottomOf="@+id/token_balance_field" />
+        app:layout_constraintTop_toBottomOf="@+id/token_balance_field"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/dividends_amount"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:singleLine="true"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="14dp"
         android:visibility="gone"
         app:layout_constraintBaseline_toBaselineOf="@+id/dividends_amount_field"
+        app:layout_constraintEnd_toStartOf="@+id/touch_helper"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/dividends_amount_field"
-        tools:text="jksfda;kfsd;klfd" />
+        tools:text="0.123456678788765765567"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/token_balance"

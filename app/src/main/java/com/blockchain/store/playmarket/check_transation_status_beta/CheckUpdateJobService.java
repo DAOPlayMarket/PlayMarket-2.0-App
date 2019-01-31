@@ -6,9 +6,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.blockchain.store.playmarket.BuildConfig;
-import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.App;
-import com.blockchain.store.playmarket.data.entities.AppLibrary;
 import com.blockchain.store.playmarket.data.entities.AppUpdateNotification;
 import com.blockchain.store.playmarket.data.entities.PlayMarketUpdateNotification;
 import com.blockchain.store.playmarket.notification.NotificationManager;
@@ -17,9 +15,6 @@ import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
-
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static com.blockchain.store.playmarket.utilities.Constants.DOWNLOAD_NEW_VERSION_WITHOUT_PROMPT;
 
@@ -32,6 +27,7 @@ public class CheckUpdateJobService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
+        Log.d(TAG, "Check update job service started");
         String s = MyPackageManager.prepareApplicationInfoForRequest();
         new MyAppsRepository().getApps()
                 .subscribe(result -> onGetAppsReady(result, params),

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/root_view"
     android:orientation="vertical"
     tools:background="@color/colorPrimary">
 
@@ -11,20 +12,61 @@
         android:id="@+id/account_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:ellipsize="middle"
         android:fontFamily="monospace"
         android:paddingLeft="20dp"
         android:paddingTop="20dp"
         android:paddingRight="10dp"
-        android:paddingBottom="20dp"
+        android:paddingBottom="8dp"
         android:singleLine="true"
         android:text="0x12345678901234567891234567890123456789123123312312321310"
         android:textSize="16sp" />
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_eth" />
+
+        <TextView
+            android:id="@+id/balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:textSize="18sp"
+            android:visibility="gone"
+            tools:text="0.00123 ETH"
+            tools:visibility="visible" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginLeft="30dp" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/divider_gradient_color" />
 
     <net.cachapa.expandablelayout.ExpandableLayout
         android:id="@+id/expandedLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:el_expanded="false">
 
 

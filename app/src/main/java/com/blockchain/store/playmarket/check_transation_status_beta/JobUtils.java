@@ -66,12 +66,6 @@ public class JobUtils {
                 .setPeriodic(ONE_DAY_INTERVAL)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .setBackoffCriteria(TimeUnit.HOURS.toMillis(1), JobInfo.BACKOFF_POLICY_EXPONENTIAL);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            exerciseJobBuilder.setRequiresBatteryNotLow(true)
-                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_NOT_ROAMING);
-        }
-
         jobScheduler.schedule(exerciseJobBuilder.build());
     }
 

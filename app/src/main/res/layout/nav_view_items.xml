@@ -61,6 +61,7 @@
 
     <LinearLayout
         android:id="@+id/votes_layout"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/nav_drawer_menu_height"
         android:layout_marginBottom="@dimen/navigation_view_indents"

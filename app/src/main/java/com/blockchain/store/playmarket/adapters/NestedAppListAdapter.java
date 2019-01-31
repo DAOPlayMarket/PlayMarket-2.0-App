@@ -18,6 +18,7 @@ import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppDispatcherType;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.interfaces.AppListHolderCallback;
+import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import butterknife.BindView;
@@ -140,6 +141,7 @@ public class NestedAppListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ratingStar.setVisibility(View.GONE);
             }
             imageView.setImageURI(Uri.parse(app.getIconUrl()));
+            imageView.getHierarchy().setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER);
             if (app.isFree()) {
                 price.setText(R.string.app_free);
             } else {

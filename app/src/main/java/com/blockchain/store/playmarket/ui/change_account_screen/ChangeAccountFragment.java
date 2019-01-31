@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.DialogManager;
+import com.blockchain.store.playmarket.views.DeleteAccountDialog;
 
 import org.ethereum.geth.Account;
 
@@ -32,11 +34,12 @@ import static com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivi
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChangeAccountFragment extends Fragment {
+public class ChangeAccountFragment extends Fragment implements ChangeAccountContract.View {
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     private ChangeAccountAdapter adapter;
+    private ChangeAccountPresenter presenter;
 
     public ChangeAccountFragment() {
         // Required empty public constructor
@@ -50,7 +53,19 @@ public class ChangeAccountFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_change_account, container, false);
         ButterKnife.bind(this, view);
         initAdapter();
+        attachPresenter();
         return view;
+    }
+
+    private void attachPresenter() {
+        presenter = new ChangeAccountPresenter();
+        presenter.init(this);
+        presenter.loadBalances();
+    }
+
+    @Override
+    public void onBalanceReady(Pair<String, String> pair) {
+        adapter.updateAccount(pair);
     }
 
     private void initAdapter() {
@@ -62,7 +77,14 @@ public class ChangeAccountFragment extends Fragment {
 
             @Override
             public void onDeleteAccountClicked(Account account) {
+                DeleteAccountDialog deleteAccountDialog = new DeleteAccountDialog(getActivity(), account);
+                deleteAccountDialog.setCallback(() -> updateAdapter());
+                deleteAccountDialog.show();
+            }
 
+            @Override
+            public void onNewAccountDetected(String address) {
+                presenter.updateBalance(address);
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -102,6 +124,10 @@ public class ChangeAccountFragment extends Fragment {
     }
 
     public void updateAdapter() {
-        initAdapter();
+        if (adapter != null) {
+            adapter.refreshAccounts();
+        }
     }
+
+
 }

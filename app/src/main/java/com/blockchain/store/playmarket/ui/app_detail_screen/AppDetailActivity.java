@@ -29,7 +29,7 @@ import com.blockchain.store.playmarket.data.entities.AppReviewsData;
 import com.blockchain.store.playmarket.data.entities.IcoLocalData;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.interfaces.AppDetailsImpl;
-import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
+import com.blockchain.store.playmarket.ui.all_reviews_screen.AllReviewsActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
@@ -370,6 +370,11 @@ public class AppDetailActivity extends AppCompatActivity implements AppDetailCon
         new DialogManager().showReviewDialog(userReview, this, (review, rating) -> {
             presenter.onSendReviewClicked(review, userReview.rating, userReview.hashTx);
         });
+    }
+
+    @Override
+    public void onReadMoreClicked(ArrayList<UserReview> userReviews) {
+        AllReviewsActivity.start(this, userReviews, app);
     }
 
     @Override

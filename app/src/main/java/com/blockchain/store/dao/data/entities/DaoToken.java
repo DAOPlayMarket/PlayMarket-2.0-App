@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Locale;
+
 public class DaoToken implements Parcelable {
     @SerializedName("contract")
     public String address;
@@ -35,7 +37,7 @@ public class DaoToken implements Parcelable {
     public String getOwnersBal() {
         if (ownersBal.equalsIgnoreCase("0"))
             return "0";
-        return String.format("%.8f", new EthereumPrice(ownersBal).inEther().floatValue());
+        return String.format(Locale.CANADA, "%.8f", new EthereumPrice(ownersBal).inEther().floatValue());
     }
 
     public long getDaoBalance() {
@@ -108,7 +110,6 @@ public class DaoToken implements Parcelable {
         daoToken.name = "DAO PlayMarket 2.0";
         daoToken.symbol = "PMT";
         daoToken.address = "0xcf42d66172f8fdec2b42515f0f0289049e4011c2";
-//        daoToken.address = "0xc1322d8ae3b0e2e437e0ae36388d0cfd2c02f1c9";
         daoToken.decimals = 4;
         return daoToken;
     }

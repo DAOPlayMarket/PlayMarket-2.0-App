@@ -29,19 +29,12 @@ import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Bytes32;
 import org.web3j.abi.datatypes.generated.Uint256;
-import org.web3j.protocol.Web3j;
-import org.web3j.protocol.Web3jFactory;
-import org.web3j.protocol.Web3jService;
-import org.web3j.protocol.core.Request;
-import org.web3j.protocol.core.Response;
 import org.web3j.utils.Numeric;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -113,7 +106,7 @@ public class CryptoUtils {
     }
 
 
-    public void sendTx(byte[] txData){
+    public void sendTx(byte[] txData) {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .flatMap(result -> {
                     String rawTx = CryptoUtils.generateTx(result, txData);
@@ -245,13 +238,13 @@ public class CryptoUtils {
     public static Pair<Transaction, Transaction> generateDaoTransferTransactions(AccountInfoResponse accountInfo, DaoToken token) throws Exception {
         BigInt price = new BigInt(0);
         Account account = AccountManager.getAccount();
-        byte[] tokens =  new GenerateTransactionData().getTokens(0, token.totalTokensLength);
-        byte[] withdraw =  new GenerateTransactionData().withdraw(token.address, token.countToken());
+        byte[] tokens = new GenerateTransactionData().getTokens(0, token.totalTokensLength);
+        byte[] withdraw = new GenerateTransactionData().withdraw(token.address, token.countToken());
 
         Transaction getTokensTransaction = new Transaction(accountInfo.count, new Address(DaoConstants.Foundation),
-                price, GAS_LIMIT,  new BigInt(Long.valueOf(accountInfo.getGasPrice())), tokens);
+                price, GAS_LIMIT, new BigInt(Long.valueOf(accountInfo.getGasPrice())), tokens);
         Transaction withdrawTransaction = new Transaction(accountInfo.count + 1, new Address(DaoConstants.Foundation),
-                price, GAS_LIMIT,  new BigInt(Long.valueOf(accountInfo.getGasPrice())), withdraw);
+                price, GAS_LIMIT, new BigInt(Long.valueOf(accountInfo.getGasPrice())), withdraw);
         Transaction getTokenSignedTx = keyManager.getKeystore().signTx(account, getTokensTransaction, new BigInt(USER_ETHERSCAN_ID));
         Transaction withdrawSignedTx = keyManager.getKeystore().signTx(account, withdrawTransaction, new BigInt(USER_ETHERSCAN_ID));
 
@@ -380,7 +373,25 @@ public class CryptoUtils {
             return null;
         }
     }
- public static Transaction test111(AccountInfoResponse accountInfo, long amount) {
+
+    public static Transaction generateWithDrawCDLTTokens(AccountInfoResponse accountInfo, Long amount) {
+        KeyStore keystore = AccountManager.getKeyManager().getKeystore();
+        Account account = AccountManager.getAccount();
+
+        BigInt price = new BigInt(0);
+        BigInt gasPrice = new BigInt(Long.parseLong(accountInfo.getGasPrice()));
+        byte[] txData = new GenerateTransactionData().withdrawCdlt(amount);
+        Transaction transaction = new Transaction(accountInfo.count, new Address(DaoConstants.CRYPTO_DUEL_CONTRACT), price, GAS_LIMIT, gasPrice, txData);
+        try {
+            transaction = keystore.signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
+            return transaction;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Transaction test111(AccountInfoResponse accountInfo, long amount) {
         KeyStore keystore = AccountManager.getKeyManager().getKeystore();
         Account account = AccountManager.getAccount();
 
@@ -424,7 +435,7 @@ public class CryptoUtils {
 
             depositTransaction = keystore.signTx(account, depositTransaction, new BigInt(USER_ETHERSCAN_ID));
 
-            return  depositTransaction;
+            return depositTransaction;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -444,6 +455,18 @@ public class CryptoUtils {
 
     }
 
+    public static Transaction generateCDLTSendTokenToUser(AccountInfoResponse accountInfo, String userAddress, String amount) throws Exception {
+        KeyStore keystore = AccountManager.getKeyManager().getKeystore();
+        Account account = AccountManager.getAccount();
+        BigInt price = new BigInt(0);
+        BigInt gasPrice = new BigInt(Long.parseLong(accountInfo.getGasPrice()));
+
+        byte[] sentTokenTransactionBytes = createSentTokenTransactionBytes(userAddress, String.valueOf(amount));
+        Transaction sendTokenTx = new Transaction(accountInfo.count, new Address(DaoConstants.CRYPTO_DUEL_CONTRACT), price, GAS_LIMIT, gasPrice, sentTokenTransactionBytes);
+        Transaction signedTx = keyManager.getKeystore().signTx(account, sendTokenTx, new BigInt(USER_ETHERSCAN_ID));
+        return signedTx;
+
+    }
 
 
 }

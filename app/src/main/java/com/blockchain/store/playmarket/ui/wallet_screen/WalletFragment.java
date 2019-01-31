@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
+import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.DaoTokenAdapter;
@@ -162,7 +163,11 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
 
             @Override
             public void onDaoTokenClicked(DaoToken daoToken) {
-                TransferActivity.startAsTokenTransfer(getActivity(), daoToken);
+                if (daoToken.address.equalsIgnoreCase(DaoConstants.CRYPTO_DUEL_CONTRACT)) {
+                    ((MainMenuActivity) getActivity()).onTokenTransferClicked(daoToken);
+                } else {
+                    TransferActivity.startAsTokenTransfer(getActivity(), daoToken);
+                }
             }
         }, true);
         recyclerView.setAdapter(daoTokenAdapter);
