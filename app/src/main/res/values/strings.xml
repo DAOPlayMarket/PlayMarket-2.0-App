@@ -354,14 +354,12 @@
     <string name="withdraw">WITHDRAW</string>
     <string name="not_enough_balance">Not enough balance to send transaction</string>
     <string name="wrong_send_token_number">You can only send %1$f tokens</string>
-    <string name="wrong_send_token_number">You can only send %1$f tokens</string>
     <string name="withdraw_is_blocked">Withdraw is blocked!</string>
     <string name="all_token_are_locked">All tokens are locked</string>
     <string name="token_are_locked">%1$f tokens are locked</string>
     <string name="you_already_has_approval_tokens">You already has %1$f token approval. Send tokens below this value.</string>
     <string name="can_withdraw">"You can withdraw only %1$f tokens"</string>
     <string name="transaction_sent">Transaction successfully sent!</string>
-    <string name="add_custom_token">Add custom token</string>
     <string name="ongoing">Ongoing</string>
     <string name="archive">Archive</string>
     <string name="add_custom_token">Add custom token</string>
