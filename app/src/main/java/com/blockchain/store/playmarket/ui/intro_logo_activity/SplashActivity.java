@@ -60,7 +60,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         setLogoTextFont();
         setupAndPlayVideo();
         checkLocationPermission();
-//        showGif();
     }
 
     @Override
@@ -105,13 +104,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         logoTextView.setTypeface(tf);
 
     }
-
-
-    private void showGif() {
-        String path = "android.resource://" + getPackageName() + "/" + R.raw.loading_gif;
-        Glide.with(this).load(path).into(gif);
-    }
-
 
     protected void setupAndPlayVideo() {
         String path = "android.resource://" + getPackageName() + "/" + R.raw.image;
