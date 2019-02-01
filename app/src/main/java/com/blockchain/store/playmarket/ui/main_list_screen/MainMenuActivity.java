@@ -43,7 +43,7 @@ import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment
 import com.blockchain.store.playmarket.ui.pex_screen.PexActivity;
 import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
 import com.blockchain.store.playmarket.ui.tokens_screen.TokenListFragment;
-import com.blockchain.store.playmarket.ui.wallet_screen.TokenTransferFragment;
+import com.blockchain.store.playmarket.ui.token_transfer_screen.TokenTransferFragment;
 import com.blockchain.store.playmarket.ui.wallet_screen.WalletFragment;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;

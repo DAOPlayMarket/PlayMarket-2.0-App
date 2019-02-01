@@ -32,7 +32,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     private static final int PERMISSION_REQUEST_CODE = 101;
     public static final int LOCATION_DIALOG_REQUEST = 102;
 
-    @BindView(R.id.LogoTextView) TextView logoTextView;
     @BindView(R.id.network_status) TextView networkStatus;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
 
@@ -46,7 +45,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         ButterKnife.bind(this);
         presenter = new SplashPresenter();
         presenter.init(this);
-        setLogoTextFont();
         checkLocationPermission();
     }
 
@@ -85,12 +83,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
                 presenter.requestUserLocation(this);
             }
         }
-    }
-
-    protected void setLogoTextFont() {
-        Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/roboto.ttf");
-        logoTextView.setTypeface(tf);
-
     }
 
     protected void openLoginPromptActivity() {

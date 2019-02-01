@@ -161,7 +161,7 @@
                     android:id="@+id/cancelButton"
                     style="@style/secondaryButton"
                     android:layout_width="0dp"
-                    android:layout_height="35dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@color/Clear"
@@ -173,8 +173,10 @@
                     android:id="@+id/continue_button"
                     style="@style/positiveButton"
                     android:layout_width="0dp"
-                    android:layout_height="35dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:layout_weight="1"
                     android:text="@string/send_message" />
 

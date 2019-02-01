@@ -1,4 +1,4 @@
-package com.blockchain.store.playmarket.ui.wallet_screen;
+package com.blockchain.store.playmarket.ui.token_transfer_screen;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -43,7 +43,7 @@ import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class TokenTransferFragment extends Fragment {
+public class TokenTransferFragment extends Fragment implements TokenTransferContract.View {
 
     private static String TOKEN_TAG = "token";
     private static String CRYPTODUEL_TAG = "cryptoduel_tag";
@@ -73,6 +73,7 @@ public class TokenTransferFragment extends Fragment {
     private boolean isOpenAsCryptoDuelToken = false;
     private int currentTabPosition = 0;
     private DaoToken daoToken;
+    private TokenTransferPresenter presenter;
 
     public static TokenTransferFragment newInstance(DaoToken daoToken) {
         Bundle args = new Bundle();
@@ -100,6 +101,7 @@ public class TokenTransferFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        attachPresenter();
         if (getArguments() != null) {
             this.daoToken = getArguments().getParcelable(TOKEN_TAG);
             this.isOpenAsCryptoDuelToken = getArguments().getBoolean(CRYPTODUEL_TAG, false);
@@ -113,6 +115,11 @@ public class TokenTransferFragment extends Fragment {
 
         initTabLayout();
         initRadioGroup();
+    }
+
+    private void attachPresenter() {
+        presenter = new TokenTransferPresenter();
+        presenter.init(this);
     }
 
     private void initAsDaoTokenProvided(DaoToken daoToken) {
@@ -303,7 +310,7 @@ public class TokenTransferFragment extends Fragment {
             }
 
             if (sendAmount > Double.valueOf(daoToken.getNotLockedBalanceWithDecimals())) {
-                String format = String.format(getString(R.string.can_withdraw),Long.valueOf(daoToken.getNotLockedBalanceWithDecimals()));
+                String format = String.format(getString(R.string.can_withdraw), Long.valueOf(daoToken.getNotLockedBalanceWithDecimals()));
                 sendEditText.setError(format);
                 return false;
             }
@@ -317,26 +324,9 @@ public class TokenTransferFragment extends Fragment {
             recipientEditText.setError(getString(R.string.empty_field));
             return;
         }
-        new DialogManager().showDividendsDialog(getActivity(), () -> RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-                .flatMap(result -> {
-                    try {
-                        Transaction signedTx;
-                        if (isOpenAsCryptoDuelToken) {
-                            signedTx = CryptoUtils.generateCDLTSendTokenToUser(result, recipientEditText.getText().toString(), String.valueOf(amount));
-                        } else {
-                            signedTx = CryptoUtils.generateDaoSendTokenToUser(result, recipientEditText.getText().toString(), String.valueOf(amount));
-                        }
-                        String rawTx = CryptoUtils.getRawTransaction(signedTx);
-                        TransactionInteractor.addToJobSchedule(signedTx.getHash().getHex(), Constants.TransactionTypes.TRANSFER_TOKEN);
-                        return RestApi.getServerApi().deployTransaction(rawTx);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        throw new RuntimeException("111");
-                    }
-                })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> transferSuccess(response), error -> transferFailed(error)));
+        new DialogManager().showDividendsDialog(getActivity(), () ->
+                presenter.sendTokenToUser(amount, recipientEditText.getText().toString(), isOpenAsCryptoDuelToken)
+        );
 
     }
 
@@ -344,11 +334,13 @@ public class TokenTransferFragment extends Fragment {
         new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
             @Override
             public void onAccountUnlocked() {
+//                presenter.sendTokenToRepository(daoToken.getApprovalWithoutDecimal(),amount);
                 RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                         .flatMap(result -> {
                             try {
                                 String rawTransaction;
                                 Long approvalWithoutDecimal = daoToken.getApprovalWithoutDecimal();
+
                                 if (approvalWithoutDecimal >= amount && approvalWithoutDecimal != 0) {
                                     Transaction transaction = CryptoUtils.generateDepositOnlyTokenToRepositoryTx(result, amount);
                                     TransactionInteractor.addToJobSchedule(transaction.getHash().getHex(), Constants.TransactionTypes.SEND_INTO_REPOSITORY);

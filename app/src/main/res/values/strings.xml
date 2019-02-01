@@ -131,7 +131,7 @@
     <string name="exchange_details_fee">* fee included (0.5%)</string>
     <string name="exchange_confirm_transaction">To complete the transaction, make a transfer of %1$s %2$s to the account:</string>
     <string name="transfer_confirm_transaction">To complete transaction input your password:</string>
-    <string name="exchange_step_field">Step %1$d of 2</string>
+    <string name="exchange_step_field">Step %1$s of 2</string>
     <string name="load_failed">Load failed</string>
     <string name="another_exchange">Another exchange</string>
     <string name="search_for_node_fail">Search for the nearest node fail. Tap for more details\</string>
@@ -369,6 +369,7 @@
     <string name="the_proposal">the proposal</string>
     <string name="change_account">Change account</string>
     <string name="enter_your_response_here">Enter your response here...</string>
+    <string name="enter_your_comment_here">Enter your comment here...</string>
     <string name="account_balance">Account Balance</string>
     <string name="read_all_reviews">Read all reviews</string>
     <string name="marks">marks</string>
@@ -376,6 +377,11 @@
     <string name="category_apps">Apps</string>
     <string name="category_games">Games</string>
     <string name="category_sto">STO</string>
+
+    <string name="history_title_history">All</string>
+    <string name="history_title_pending">Pending</string>
+    <string name="history_title_succeed">Succeed</string>
+    <string name="history_title_failed">Failed</string>
 
     <string-array name="contract_functions">
         <item>Sent ethereum</item>

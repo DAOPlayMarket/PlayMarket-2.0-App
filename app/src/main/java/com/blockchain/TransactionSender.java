@@ -1,8 +1,6 @@
 package com.blockchain;
 
 import com.blockchain.store.dao.ui.DaoConstants;
-import com.blockchain.store.playmarket.api.RestApi;
-import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
@@ -32,13 +30,14 @@ public class TransactionSender {
     private static final String TAG = "TransactionSender";
     private Web3j web3j;
 
-    public void test(Transaction notSignedTransaction) {
+    public void setSecondTx()
+
+    public Observable<String> send(Transaction notSignedTransaction) {
         web3j = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
-        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-                .flatMap(result -> mapWithEstimateGas(result, notSignedTransaction))
+        return mapWithEstimateGas(notSignedTransaction)
                 .map(this::mapEstimateResult)
-                .map(result -> mapWithAddGasLimitToTx(result,notSignedTransaction))
-                .flatMap(result->result)
+                .map(result -> mapWithAddGasLimitToTx(result, notSignedTransaction))
+                .flatMap(result -> result)
                 .map(result -> {
                     if (result.getError() == null) {
                         throw new IllegalArgumentException(result.getError().getMessage());
@@ -50,13 +49,13 @@ public class TransactionSender {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<EthEstimateGas> mapWithEstimateGas(AccountInfoResponse result, Transaction notSignedTransaction) {
+    public Observable<EthEstimateGas> mapWithEstimateGas(Transaction notSignedTransaction) {
         Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
         String numericData = Numeric.toHexString(notSignedTransaction.getData());
         org.web3j.protocol.core.methods.request.Transaction tx = createFunctionCallTransaction(
                 AccountManager.getAddress().getHex(),
-                new BigInteger(String.valueOf(result.count)),
-                new BigInteger(result.getGasPrice()),
+                new BigInteger(String.valueOf(notSignedTransaction.getNonce())),
+                new BigInteger(String.valueOf(notSignedTransaction.getGasPrice())),
                 new BigInteger(String.valueOf(Constants.GAS_LIMIT)),
                 DaoConstants.Repository,
                 numericData);
