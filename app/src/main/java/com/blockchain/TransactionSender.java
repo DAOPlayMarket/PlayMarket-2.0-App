@@ -30,8 +30,6 @@ public class TransactionSender {
     private static final String TAG = "TransactionSender";
     private Web3j web3j;
 
-    public void setSecondTx()
-
     public Observable<String> send(Transaction notSignedTransaction) {
         web3j = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
         return mapWithEstimateGas(notSignedTransaction)

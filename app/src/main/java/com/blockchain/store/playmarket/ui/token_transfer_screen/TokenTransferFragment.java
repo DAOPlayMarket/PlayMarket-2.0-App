@@ -381,6 +381,7 @@ public class TokenTransferFragment extends Fragment implements TokenTransferCont
     }
 
     private void proceedWithWithdraw(Long amount) {/*WORKS need refactor*/
+//        presenter.withdraw(amount,isOpenAsCryptoDuelToken);
         new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
             @Override
             public void onAccountUnlocked() {
