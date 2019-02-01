@@ -373,6 +373,9 @@
     <string name="read_all_reviews">Read all reviews</string>
     <string name="marks">marks</string>
     <string name="install_update">Install update</string>
+    <string name="category_apps">Apps</string>
+    <string name="category_games">Games</string>
+    <string name="category_sto">STO</string>
 
     <string-array name="contract_functions">
         <item>Sent ethereum</item>

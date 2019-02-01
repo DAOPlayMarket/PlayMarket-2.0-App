@@ -361,4 +361,8 @@
 <string name="read_all_reviews">"Читать все отзывы"</string>
 <string name="marks">"Метки"</string>
 <string name="install_update">"Установить обновление"</string>
+
+<string name="category_apps">Приложения</string>
+<string name="category_games">Игры</string>
+<string name="category_sto">STO</string>
 </resources>

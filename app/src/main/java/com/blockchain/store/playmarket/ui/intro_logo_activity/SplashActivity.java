@@ -56,7 +56,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro_logo);
         ButterKnife.bind(this);
-//        test();
         presenter = new SplashPresenter();
         presenter.init(this);
         setLogoTextFont();
@@ -71,10 +70,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         Log.d(TAG, "onNewIntent: ");
     }
 
-    private void test() {
-        TransactionRepository.getLocalIcoData(Constants.CRYPTO_DUEL_CONTRACT_CROWDSALE, AccountManager.getAddress().getHex())
-                .subscribe(this::onOk, this::onError);
-    }
 
     private void onOk(IcoLocalData icoLocalData) {
         Log.d(TAG, "onOk: ");

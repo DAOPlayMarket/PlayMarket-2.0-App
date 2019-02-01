@@ -29,6 +29,7 @@ import com.orhanobut.hawk.Hawk;
 import com.orhanobut.hawk.Parser;
 
 import java.lang.reflect.Type;
+import java.util.Locale;
 
 import io.ethmobile.ethdroid.KeyManager;
 import io.fabric.sdk.android.Fabric;
@@ -52,6 +53,7 @@ public class Application extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        setUpLocale();
         Fabric.with(this, new Crashlytics());
         instance = this;
         MultiDex.install(this);
@@ -64,49 +66,16 @@ public class Application extends MultiDexApplication {
                 .build();
 
         daoTokenRepository = new DaoTokenRepository();
-
-        Hawk.init(this).setParser(new Parser() {
-            @Override
-            public <T> T fromJson(String content, Type type) {
-                if (TextUtils.isEmpty(content)) {
-                    return null;
-                }
-                try {
-                    JsonObject object = new Gson().fromJson(content, JsonObject.class);
-                    if (object.has("TransactionType")) {
-                        int viewType = object.get("TransactionType").getAsInt();
-
-                        if (viewType == Constants.TransactionTypes.BUY_APP.ordinal()) {
-                            return new Gson().fromJson(content, (Class<T>) AppBuyTransactionModel.class);
-                        }
-                        if (viewType == Constants.TransactionTypes.INVEST.ordinal()) {
-                            return new Gson().fromJson(content, (Class<T>) InvestTransactionModel.class);
-                        }
-                        if (viewType == Constants.TransactionTypes.TRANSFER.ordinal()) {
-                            return new Gson().fromJson(content, (Class<T>) SendEthereumTransactionModel.class);
-                        }
-                        if (viewType == Constants.TransactionTypes.TRANSFER_TOKEN.ordinal()) {
-                            return new Gson().fromJson(content, (Class<T>) SendTokenTransactionModel.class);
-                        }
-                        if (viewType == Constants.TransactionTypes.SEND_REVIEW.ordinal()) {
-                            return new Gson().fromJson(content, (Class<T>) SendReviewTransactionModel.class);
-                        }
-                    }
-                } catch (Exception ignored) {
-                }
-
-                return new Gson().fromJson(content, type);
-            }
-
-            @Override
-            public String toJson(Object body) {
-                return new Gson().toJson(body);
-            }
-        }).build();
+        initHawk();
         performMigrationIntoMultiAccounting();
         setUpFresco();
         setUpAWS();
     }
+
+    private void setUpLocale() {
+
+    }
+
 
     private void performMigrationIntoMultiAccounting() {
         String password = Hawk.get(ENCRYPTED_PASSWORD);
@@ -169,5 +138,44 @@ public class Application extends MultiDexApplication {
         pinpointManager.getAnalyticsClient().submitEvents();
     }
 
+    private void initHawk() {
+        Hawk.init(this).setParser(new Parser() {
+            @Override
+            public <T> T fromJson(String content, Type type) {
+                if (TextUtils.isEmpty(content)) {
+                    return null;
+                }
+                try {
+                    JsonObject object = new Gson().fromJson(content, JsonObject.class);
+                    if (object.has("TransactionType")) {
+                        int viewType = object.get("TransactionType").getAsInt();
 
+                        if (viewType == Constants.TransactionTypes.BUY_APP.ordinal()) {
+                            return new Gson().fromJson(content, (Class<T>) AppBuyTransactionModel.class);
+                        }
+                        if (viewType == Constants.TransactionTypes.INVEST.ordinal()) {
+                            return new Gson().fromJson(content, (Class<T>) InvestTransactionModel.class);
+                        }
+                        if (viewType == Constants.TransactionTypes.TRANSFER.ordinal()) {
+                            return new Gson().fromJson(content, (Class<T>) SendEthereumTransactionModel.class);
+                        }
+                        if (viewType == Constants.TransactionTypes.TRANSFER_TOKEN.ordinal()) {
+                            return new Gson().fromJson(content, (Class<T>) SendTokenTransactionModel.class);
+                        }
+                        if (viewType == Constants.TransactionTypes.SEND_REVIEW.ordinal()) {
+                            return new Gson().fromJson(content, (Class<T>) SendReviewTransactionModel.class);
+                        }
+                    }
+                } catch (Exception ignored) {
+                }
+
+                return new Gson().fromJson(content, type);
+            }
+
+            @Override
+            public String toJson(Object body) {
+                return new Gson().toJson(body);
+            }
+        }).build();
+    }
 }

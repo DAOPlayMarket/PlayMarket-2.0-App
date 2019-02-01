@@ -201,9 +201,9 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(getResources().getDrawable(R.drawable.apps_icon));
-        tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.games_icon));
-        tabLayout.getTabAt(2).setIcon(getResources().getDrawable(R.drawable.ico_icon));
+        tabLayout.getTabAt(0).setIcon(getResources().getDrawable(R.drawable.apps_icon)).setText(R.string.category_apps);
+        tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.games_icon)).setText(R.string.category_games);
+        tabLayout.getTabAt(2).setIcon(getResources().getDrawable(R.drawable.ico_icon)).setText(R.string.category_sto);
         removeIconMargin(tabLayout);
     }
 
