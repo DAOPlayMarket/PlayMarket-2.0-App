@@ -43,7 +43,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     public static final int LOCATION_DIALOG_REQUEST = 102;
 
     @BindView(R.id.LogoTextView) TextView logoTextView;
-    @BindView(R.id.LogoVideoView) VideoView logoVideoView;
     @BindView(R.id.network_status) TextView networkStatus;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
 
@@ -58,7 +57,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         presenter = new SplashPresenter();
         presenter.init(this);
         setLogoTextFont();
-        setupAndPlayVideo();
         checkLocationPermission();
     }
 
@@ -105,13 +103,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
 
     }
 
-    protected void setupAndPlayVideo() {
-        String path = "android.resource://" + getPackageName() + "/" + R.raw.image;
-        logoVideoView.setVideoURI(Uri.parse(path));
-        logoVideoView.setOnPreparedListener(mp -> mp.setLooping(true));
-        logoVideoView.start();
-    }
-
     protected void openLoginPromptActivity() {
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
@@ -125,7 +116,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
             } else {
                 myIntent = new Intent(getApplicationContext(), PermissionsPromptActivity.class);
             }
-            logoVideoView.stopPlayback();
 
             startActivity(myIntent);
             this.finish();
