@@ -22,7 +22,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         multiDexEnabled true
-        versionCode 91
+        versionCode 92
         versionName '1.4.0'
     }
     buildTypes {
