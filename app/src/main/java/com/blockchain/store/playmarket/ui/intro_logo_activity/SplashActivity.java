@@ -46,7 +46,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     @BindView(R.id.LogoVideoView) VideoView logoVideoView;
     @BindView(R.id.network_status) TextView networkStatus;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
-    @BindView(R.id.gif) ImageView gif;
 
     private SplashPresenter presenter;
     private String errorString = null;
@@ -68,16 +67,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         Log.d(TAG, "onNewIntent: ");
-    }
-
-
-    private void onOk(IcoLocalData icoLocalData) {
-        Log.d(TAG, "onOk: ");
-    }
-
-
-    private void onError(Throwable throwable) {
-        Log.d(TAG, "onError: ");
     }
 
     private void checkLocationPermission() {
