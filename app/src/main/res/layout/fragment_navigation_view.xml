@@ -25,7 +25,6 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:contentDescription="@string/todo"
-        android:scaleType="fitXY"
         android:src="@drawable/pm2_logo_small"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
