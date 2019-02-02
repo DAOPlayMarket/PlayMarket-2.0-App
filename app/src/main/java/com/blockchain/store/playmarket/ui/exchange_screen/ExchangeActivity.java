@@ -58,7 +58,8 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
 
             @Override
             public void onPageSelected(int position) {
-                stepField.setText(String.format(getString(R.string.exchange_step_field), position + 1));
+                int pos = position + 1;
+                stepField.setText(String.format(getString(R.string.exchange_step_field), String.valueOf(pos)));
                 exchangeCancel.setText(position == 0 ? getString(R.string.cancel_btn) : getString(R.string.another_exchange));
                 exchangeContinue.setText(position == 0 ? getString(R.string.continue_btn) : getString(R.string.cancel_btn));
             }
@@ -74,7 +75,7 @@ public class ExchangeActivity extends AppCompatActivity implements ExchangeActiv
         presenter = new ExchangeActivityPresenter();
         presenter.init(this);
         presenter.loadCurrencies();
-        stepField.setText(String.format(getString(R.string.exchange_step_field), 1));
+        stepField.setText(String.format(getString(R.string.exchange_step_field), "1"));
     }
 
 

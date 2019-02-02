@@ -127,12 +127,12 @@
     <string name="exchange_source">Select the source of the deposit:</string>
     <string name="send_amount">Send amount:\n(Minimum amount: %1$s)</string>
     <string name="transaction_details">transaction details:</string>
-    <string name="exchange_details_currency">Exchange %1$s to ETC</string>
+    <string name="exchange_details_currency">Exchange %1$s to ETH</string>
     <string name="exchange_details_amount">%1$s %2$s >> %3$s %4$s</string>
     <string name="exchange_details_fee">* fee included (0.5%)</string>
     <string name="exchange_confirm_transaction">To complete the transaction, make a transfer of %1$s %2$s to the account:</string>
     <string name="transfer_confirm_transaction">To complete transaction input your password:</string>
-    <string name="exchange_step_field">Step %1$d of 2</string>
+    <string name="exchange_step_field">Step %1$s of 2</string>
     <string name="load_failed">Load failed</string>
     <string name="another_exchange">Another exchange</string>
     <string name="search_for_node_fail">Search for the nearest node fail. Tap for more details\</string>
@@ -168,7 +168,7 @@
     <string name="enter_password_to_proceed">Enter password to proceed.</string>
 
     <string name="review_dialog_title">Enter password to proceed.</string>
-    <string name="or_user_your_fingerprint">Or user your fingerprint</string>
+    <string name="or_user_your_fingerprint">Or use your fingerprint</string>
     <string name="open_app_info">to app</string>
     <string name="your_balance_is">Your balance:\n%1$s  ETH</string>
     <string name="balance_field_with_eth">%1$s ETH</string>
@@ -343,6 +343,7 @@
     <string name="to_delete_account_enter_password">To delete account enter password</string>
     <string name="dividends_balance">Dividends balance:</string>
     <string name="leave_feedback">Leave feedback</string>
+
     <string name="accepted">Accepted</string>
     <string name="not_accepted">Not accepted</string>
     <string name="executed">Executed</string>
@@ -356,6 +357,39 @@
     <string name="proposal_id">Proposal ID:</string>
     <string name="voting">Voting</string>
     <string name="slash">/</string>
+
+
+    <string name="withdraw">WITHDRAW</string>
+    <string name="not_enough_balance">Not enough balance to send transaction</string>
+    <string name="wrong_send_token_number">You can only send %1$f tokens</string>
+    <string name="withdraw_is_blocked">Withdraw is blocked!</string>
+    <string name="all_token_are_locked">All tokens are locked</string>
+    <string name="token_are_locked">%1$f tokens are locked</string>
+    <string name="you_already_has_approval_tokens">You already has %1$f token approval. Send tokens below this value.</string>
+    <string name="can_withdraw">"You can withdraw only %1$f tokens"</string>
+    <string name="transaction_sent">Transaction successfully sent!</string>
+    <string name="ongoing">Ongoing</string>
+    <string name="archive">Archive</string>
+    <string name="add_custom_token">Add custom token</string>
+    <string name="repeat_request">Repeat request</string>
+    <string name="delete_account">Delete account</string>
+    <string name="will_be_used_from_repository_to">will be used from repository to</string>
+    <string name="the_proposal">the proposal</string>
+    <string name="change_account">Change account</string>
+    <string name="enter_your_response_here">Enter your response here...</string>
+    <string name="enter_your_comment_here">Enter your comment here...</string>
+    <string name="account_balance">Account Balance</string>
+    <string name="read_all_reviews">Read all reviews</string>
+    <string name="marks">marks</string>
+    <string name="install_update">Install update</string>
+    <string name="category_apps">Apps</string>
+    <string name="category_games">Games</string>
+    <string name="category_sto">STO</string>
+
+    <string name="history_title_history">All</string>
+    <string name="history_title_pending">Pending</string>
+    <string name="history_title_succeed">Succeed</string>
+    <string name="history_title_failed">Failed</string>
 
     <string-array name="contract_functions">
         <item>Sent ethereum</item>

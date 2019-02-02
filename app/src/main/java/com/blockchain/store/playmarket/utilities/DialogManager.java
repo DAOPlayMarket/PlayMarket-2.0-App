@@ -64,7 +64,9 @@ public class DialogManager {
 
         if (userReview == null) {
             replayReviewHolder.setVisibility(View.GONE);
+            commentary.setHint(R.string.enter_your_comment_here);
         } else {
+            commentary.setHint(R.string.enter_your_response_here);
             userName.setText(userReview.author);
             userCommentary.setText(userReview.text);
             ratingBar.setVisibility(View.GONE);
@@ -367,7 +369,8 @@ public class DialogManager {
         });
 
         alertDialog.findViewById(R.id.cancel_button).setOnClickListener(v -> {
-            if (FingerprintUtils.isFingerprintAvailibility(context)) fingerprintDisposable.dispose();
+            if (FingerprintUtils.isFingerprintAvailibility(context))
+                fingerprintDisposable.dispose();
             alertDialog.dismiss();
         });
     }

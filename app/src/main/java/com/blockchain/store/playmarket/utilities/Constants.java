@@ -83,6 +83,8 @@ public class Constants {
     public static final String WELCOME_ACTIVITY_ADDRESS_EXTRA = "welcome_activity_address_extra";
     public static final String WELCOME_ACTIVITY_IS_LUANCHED_FROM_SETTINGS_EXTRA = "welcome_activity_is_launched_from_settings_extra";
 
+    public static final int GAS_LIMIT_ADDITION = 21_000;
+
     public static final int DOWNLOAD_APPS_PER_REQUEST = 40;
     public static final int GAS_LIMIT = 500_000;
 
@@ -132,7 +134,7 @@ public class Constants {
     public static final String NAV_VIEW_FRAGMENT_TAG = "nav_view_fragment_tag";
     public static final String ENCRYPTED_PASSWORD = "encrypted_account_password";
     public static final String ENCRYPTED_PASSWORD_MAP = "encrypted_account_password_map";
-    public static final String USER_ACCOUNT_POSITION ="user_account_position";
+    public static final String USER_ACCOUNT_POSITION = "user_account_position";
 
     /*Social titles*/
     public static final String social_google_plus = "google-plus";

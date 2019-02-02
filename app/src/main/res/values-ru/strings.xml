@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Font awesome -->
+    <string name="fa_icon_google_plus">""</string>
+    <string name="fa_icon_fbs">""</string>
+    <string name="fa_icon_linkedin">""</string>
+    <string name="fa_icon_twitter">""</string>
+    <string name="fa_icon_instagram">""</string>
+    <string name="fa_icon_vk">""</string>
+    <string name="fa_icon_youtube">""</string>
+    <string name="fa_icon_telegram">""</string>
+    <string name="fa_icon_git">""</string>
+    <string name="fa_share_icon">""</string>
+    <string name="fa_back_arrow">""</string>
+    <string name="app_name">"DAO PlayMarket 2.0"</string>
+    <string name="navigation_drawer_open">"Open navigation drawer"</string>
+    <string name="navigation_drawer_close">"Close navigation drawer"</string>
+    <string name="title_activity_main_menu">"MainMenuActivity"</string>
+    <string name="playmarket">"DAO PLAYMARKET 2.0"</string>
+    <string name="activity_permission_msg">"Для работы приложения DAO PlayMarket 2.0 необходим доступ к файловой системе смартфона.\n\nДоступ используется только для сохранения Ваших кошельков."</string>
+    <string name="got_it_btn">"Понятно!"</string>
+    <string name="import_successful">"Импорт успешно завершен!"</string>
+    <string name="address_copied">"Адрес скопирован!"</string>
+    <string name="wallet_backup_copied">"Wallet Backup Copied!"</string>
+    <string name="search">"ПОИСК"</string>
+    <string name="error_view_msg">"Возникла проблема при подключении к серверу. Попробуйте позже."</string>
+    <string name="error_btn_msg">"Попробовать снова"</string>
+    <string name="download_msg">"Загрузка ..."</string>
+
+    <!-- fragment_navigation_view -->
+    <string name="exchange">"Пополнить"</string>
+    <string name="wishlist">"Список пожеланий"</string>
+    <string name="library">"Библиотека"</string>
+    <string name="news">"Новости"</string>
+    <string name="history">"История"</string>
+    <string name="settings">"Настройки"</string>
+    <string name="ether_exchange">"ether_exchange"</string>
+    <string name="my_ico">"Мои STO"</string>
+    <string name="about">"О приложении"</string>
+
+    <!-- activity_login_prompt -->
+    <string name="welcome">"Добро пожаловать! Вы использовали приложение раньше?"</string>
+    <string name="new_account_button">"Создать аккаунт"</string>
+    <string name="import_account_button">"&lt;u&gt;Импортировать аккаунт&lt;/u&gt;"</string>
+
+    <!-- activity_new_user_welcome -->
+    <string name="congratulations_title">"Поздравляем, создан новый пользователь!"</string>
+    <string name="save_key_title">"Внимание! Обязательно сохраните копию ключа в надежном месте! В случае потери ключа, Вы не сможете восстановить доступ."</string>
+    <string name="save">"Сохранить"</string>
+    <string name="continue_btn">"Продолжить"</string>
+    <string name="configure_fingerprint">"Настроить отпечаток пальца"</string>
+
+    <!-- send_mail_dialog -->
+    <string name="found_json_keystore">"Найден JSON файл с ключем"</string>
+    <string name="import_message">"Мы нашли JSON файлы ключей на вашем устройстве. Если хотите, можете выбрать один и импортировать его.
+"</string>
+    <string name="import_button">"Импорт"</string>
+    <string name="chose_folder">"Выберите папку для сохранения JSON файла с ключем"</string>
+    <string name="chose_file">"Выберите JSON файл для импорта"</string>
+
+    <!-- dialog strings -->
+    <string name="enter_your_password">"Введите пароль"</string>
+    <string name="enter_your_password_first">"Введите пароль"</string>
+    <string name="enter_folder_name">"Введите название папки"</string>
+    <string name="empty_password">"Пароль не может быть пустым"</string>
+    <string name="empty_field">"Поле не может быть пустым"</string>
+    <string name="insufficient_funds">"Не хватает средств"</string>
+    <string name="short_password">"Пароль не может быть меньше 7 символов"</string>
+    <string name="short_account">"Адрес не может быть меньше 42 символов"</string>
+    <string name="create_folder">"Создать новую папку"</string>
+
+    <!-- Toast messages -->
+    <string name="success_autosave_message">"Копия JSON файла с ключем успешно сохранена в папке приложения /PlayMarket2.0/Accounts/"</string>
+    <string name="failed_autosave_message">"Не удалось автоматически сохранить JSON файл с ключем"</string>
+    <string name="success_save_message">"Копия JSON файла с ключем успешно сохранена"</string>
+    <string name="failed_save_message">"Не удалось сохранить JSON файл с ключем"</string>
+    <string name="transaction_success">"Транзакция успешно выполнена"</string>
+    <string name="btn_install">"Установить"</string>
+    <string name="btn_download">"Загрузить"</string>
+    <string name="btn_open">"Открыть"</string>
+    <string name="btn_invest">"Инвестировать"</string>
+    <string name="delete_with_underscore">"&lt;u&gt;Удалить&lt;/&gt;"</string>
+    <string name="app_free">"БЕСПЛАТНО"</string>
+    <string name="dialog_app_purchase_body">"Для подтверждения покупки, нажмите продолжить"</string>
+    <string name="not_enought_balance">"Недостаточно средств"</string>
+    <string name="cancel_btn">"Отмена"</string>
+    <string name="password">"Пароль"</string>
+    <string name="wrong_password">"Неверный пароль"</string>
+    <string name="no_items">"Нет элементов"</string>
+    <string name="recycler_empty_view">"Ничего не найдено!"</string>
+    <string name="successfully_paid">"Успешно оплачено"</string>
+    <string name="setting_autoinstall">"Автоматически устанавливать приложения после загрузки."</string>
+    <string name="settings_title">"Настройки"</string>
+    <string name="library_screen_title">"Мои приложения"</string>
+    <string name="double_tap_msg">"Нажмите \"назад\" еще раз чтобы выйти"</string>
+    <string name="continue_without_location">"Продолжить без местоположения"</string>
+    <string name="account">"Аккаунт"</string>
+    <string name="back">"Назад"</string>
+    <string name="invest_btn_text">"Инвестировать"</string>
+    <string name="wrong_invest_amout">"Неверное количество!"</string>
+    <string name="network_status_location_search">"Поиск местоположения пользователя ..."</string>
+    <string name="network_status_node_search">"Поиск ближайшего узла"</string>
+    <string name="todo">"TODO"</string>
+    <string name="confirm_button">"Подтвердить"</string>
+    <string name="nav_view_transfer">"Перевод"</string>
+    <string name="ethereum_name">"ETH"</string>
+    <string name="performing_action">"Для выполнения этого действия требуется пароль. Пожалуйста, введите его ниже."</string>
+
+    <!-- hints -->
+    <string name="recipient_address">"Адрес получателя"</string>
+    <string name="recipient_address_field">"Адрес получателя:"</string>
+    <string name="amount">"Отправить сумму"</string>
+    <string name="wei">"WEI"</string>
+    <string name="eth">"ETH"</string>
+    <string name="send_info">"Ваша сумма отправки:"</string>
+    <string name="your_address">"С вашего ETH адреса:"</string>
+    <string name="to">"На адрес получателя:"</string>
+    <string name="your_eth_address">"Ваш ETH адрес"</string>
+    <string name="current_balance">"Текущий баланс"</string>
+    <string name="below_minimum_amount_error">"Пожалуйста, введите сумму выше минимальной"</string>
+    <string name="exchange_source">"Выберите источник пополнения:"</string>
+    <string name="send_amount">"Отправить сумму:\n(Минимальная сумма: %1$s)"</string>
+    <string name="transaction_details">"Детали транзакции:"</string>
+    <string name="exchange_details_currency">"Обмен %1$s на ETH"</string>
+    <string name="exchange_details_amount">"%1$s %2$s &gt;&gt; %3$s %4$s"</string>
+    <string name="exchange_details_fee">"* комиссия включена (0,5%)"</string>
+    <string name="exchange_confirm_transaction">"Для завершения транзакции сделайте перевод %1$s %2$ s на счет:"</string>
+    <string name="transfer_confirm_transaction">"Для завершения транзакции введите свой пароль:"</string>
+    <string name="exchange_step_field">"Шаг %1$s из 2"</string>
+    <string name="load_failed">"Загрузка не удалась"</string>
+    <string name="another_exchange">"Другой обмен"</string>
+    <string name="search_for_node_fail">"Не удалось найти ближайший узел. Нажмите для более подробной информации \"</string>
+
+    <!-- Fingerprint Scanner -->
+    <string name="press_sensor">"Нажмите на датчик"</string>
+    <string name="about_activate">"Чтобы включить аутентификацию по отпечаткам пальцев, нажмите на сканер "</string>
+    <string name="do_not_activate">"Не активировать"</string>
+    <string name="press_sensor_to_complete">"Чтобы совершить транзакцию\nнажмите на сканер"</string>
+    <string name="use_password">"&lt;u&gt; Использовать пароль &lt;/ u&gt;"</string>
+    <string name="is_available">"Вы можете использовать отпечаток пальца\nдля аутентификации"</string>
+    <string name="is_not_configured">"Сканер отпечатка пальцев поддерживается\nно не настроен"</string>
+    <string name="configure_button">"Настроить сканер отпечатков пальцев?"</string>
+    <string name="fingerprint_success">"Пароль успешно зашифрован!"</string>
+    <string name="fingerprint_not_recognized">"Отпечаток не распознан, попробуйте еще раз!"</string>
+    <string name="invest_earned_message">"Заработанно, "</string>
+    <string name="invest_hardcap">"HardCap"</string>
+    <string name="hello_blank_fragment">"Hello blank fragment"</string>
+    <string name="fragment_ico_title">"STO"</string>
+    <string name="tokens_bought">"Токенов куплено"</string>
+    <string name="more">"больше"</string>
+    <string name="read_less">"меньше"</string>
+    <string name="my_apps_fragment_title">"Мои приложения"</string>
+    <string name="my_apps_update_fragment_title">"Обновления"</string>
+    <string name="reply">"Ответить"</string>
+    <string name="reply_hide">"Скрыть"</string>
+    <string name="send">"Отправить"</string>
+    <string name="successfully_review_send">"Отзыв успешно создан!"</string>
+    <string name="update">"Обновить"</string>
+    <string name="no_marks">"Нет отметок"</string>
+    <string name="age">"Возраст"</string>
+    <string name="enter_password_to_proceed">"Введите пароль, чтобы продолжить."</string>
+    <string name="review_dialog_title">"Введите пароль, чтобы продолжить."</string>
+    <string name="or_user_your_fingerprint">"Или используйте свой отпечаток пальца"</string>
+    <string name="open_app_info">"К приложению"</string>
+    <string name="your_balance_is">"Ваш баланс:\n%1$s ETH"</string>
+    <string name="balance_field_with_eth">"%1$s ETH"</string>
+    <string name="send_message">"Отправить сообщение"</string>
+    <string name="read_more">"Прочитайте больше"</string>
+
+    <!-- My apps screen -->
+    <string name="my_apps">"Мои приложения"</string>
+    <string name="update_all_apps">"Обновить всё"</string>
+    <string name="has_update">"Есть обновления"</string>
+    <string name="my_apps_update_snackbar_text">"Выбрано %1$d/%2$d приложений."</string>
+    <string name="chosed">"Выбрано"</string>
+    <string name="transfer_tokens">"Перевод токенов"</string>
+    <string name="uninstall">"Удалить"</string>
+
+    <!-- About app screen -->
+    <string name="about_playmarket_2_0">"© %1$d DAO PlayMarket 2.0"</string>
+    <string name="privacy_policy">"Политика конфиденциальности"</string>
+    <string name="terms_and_conditions">"Условия и положения"</string>
+    <string name="investment_declaration">"Инвестиционная декларация"</string>
+    <string name="organizational_structure">"Организационная структура"</string>
+    <string name="browser_version">"Версия браузера"</string>
+    <string name="our_site">"Наш сайт"</string>
+    <string name="ver">"вер."</string>
+    <string name="transaction_history_title">"Транзакции"</string>
+    <string name="no_items_found">"Ничего не найдено!"</string>
+    <string name="status">"Статус:"</string>
+    <string name="hash">"Хеш:"</string>
+    <string name="details">"Подробности:"</string>
+    <string name="etherscan_link">"&lt;u&gt;Etherscan&lt;/u&gt;"</string>
+    <string name="you_have">"У Вас есть:"</string>
+    <string name="start_buying">"Начните покупать"</string>
+    <string name="token_goal">"Цель: %1$s %2$s токенов"</string>
+    <string name="local_currency">"%1$s: %2$s"</string>
+    <string name="token_activity_title">"Токены"</string>
+    <string name="token_empty_view">"Список пуст, нажмите, чтобы добавить новый Токен."</string>
+    <string name="token_dialog_enter_address">"Введите адрес или имя/символ, чтобы найти Токен"</string>
+    <string name="token_dialog_find">"Поиск"</string>
+
+    <!-- Auto Update -->
+    <string name="auto_update_title">"Для продолжения введите свой пароль."</string>
+    <string name="auto_update_body">"Доступна новая версия\nХотите обновить?"</string>
+    <string name="fragment_exchange_title">"Биржа"</string>
+
+    <!-- ICO NEW -->
+    <string name="ico_detail">"Подробности"</string>
+    <string name="step_counter">"Этап %1$d/%2$d"</string>
+    <string name="playmarket_dex">"&lt;u&gt;PlayMarket DEX&lt;/u&gt;"</string>
+    <string name="company_cost">"Стоимость компании:"</string>
+    <string name="token_cost">"Цена токена:"</string>
+    <string name="advertisement_budget">"Рекламный бюджет:"</string>
+    <string name="ico_app_name">"Название"</string>
+    <string name="ico_token">"Токен КриптоДуэль"</string>
+    <string name="ico_ticker">"Тикер:"</string>
+    <string name="ico_cdlt">"CDLT"</string>
+    <string name="ico_token_type">"Тип токена"</string>
+    <string name="ico_token_name_security">"Ценная бумага"</string>
+    <string name="ico_dividends">"Дивиденды"</string>
+    <string name="ico_dividens_length">"Каждые 30 дней"</string>
+    <string name="ico_dividends_valute">"Валюта дивидендов"</string>
+    <string name="ico_valute_eth">"ETH"</string>
+    <string name="token_funds">"Выручка от продажи токенов:"</string>
+    <string name="ico_attracting_new_users">"Привлечение новых пользователей"</string>
+    <string name="ico_earned">"Заработано"</string>
+    <string name="ico_one_token_price">"Цена 1 токена"</string>
+    <string name="ico_day">"Дней"</string>
+    <string name="ico_hour">"Часов"</string>
+    <string name="ico_minute">"Минут"</string>
+    <string name="ico_buy_tokens">"Купить"</string>
+    <string name="ico_sold_tokens">"Продано токенов"</string>
+    <string name="ico_actual_price">"Цена действительна до:"</string>
+    <string name="ico_company_dynamics">"Динамика компании:"</string>
+    <string name="ico_company_time_from_ends">"Этап закончился:"</string>
+    <string name="ico_tokens_count">"Количество токенов:"</string>
+    <string name="ico_stages_count">"Количество периодов:"</string>
+    <string name="ico_stages_text">"8 по 30 дней"</string>
+    <string name="ico_number_of_tokens_per_stage">"Токенов в периоде"</string>
+    <string name="ico_5_percent">"5,000 (5% от общего количества)"</string>
+    <string name="ico_team_tokens">"Командные токены:"</string>
+    <string name="ico_team_tokens_exaplained">"55,000 (55% от общего количества) заморожены на 270 дней. Дивиденды по ним начисляются."</string>
+    <string name="ico_tokens_for_sale">"Токенов для продажи"</string>
+    <string name="ico_token_for_sale_explained">"40,000 (40% от общего количества) на 8 этапов"</string>
+    <string name="ico_dao_playmarket">"DAO PlayMarket 2.0:"</string>
+    <string name="ico_dao_playmarket_explained">"5,000 (5% от общего количества)"</string>
+    <string name="ico_token_rate">"Курс токена"</string>
+    <string name="ico_profit">"Доход"</string>
+    <string name="ico_token_listing_part1">"Автоматический листинг Токенов будет на "</string>
+    <string name="ico_token_listing_part_2">"с момента выпуска"</string>
+    <string name="company_budget_details">"Стоимость компании рассчитывается по следующей формуле:
+Выручка компании за последние 30 дней умножается на 6."</string>
+    <string name="token_budget_details">"Цена за один токен рассчитывается по следующей формуле:
+Выручка компании за последние 30 дней умножается на 6 и делится на 100 000. Перерасчет каждые 30 дней."</string>
+    <string name="adver_budget_details">"Выручка от продажи токенов акций.
+Все средства будут потрачены на привлечение новых пользователей, расходы контролируются смарт-контрактом."</string>
+    <string name="ico_time_to_start">"Время до старта"</string>
+    <string name="user_feedback">"Отзывы пользователей:"</string>
+    <string name="no_feedback_yet">"Отзывов пока еще нет"</string>
+    <string name="delete">"Удалить"</string>
+    <plurals name="days">
+        <item quantity="one">"день"</item>
+        <item quantity="few">"дней"</item>
+        <item quantity="many">"дней"</item>
+        <item quantity="other">"дней"</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">"минута"</item>
+        <item quantity="few">"минут"</item>
+        <item quantity="many">"минут"</item>
+        <item quantity="other">"минут"</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">"час"</item>
+        <item quantity="few">"часов"</item>
+        <item quantity="many">"часов"</item>
+        <item quantity="other">"часов"</item>
+    </plurals>
+    <string name="transfer_minimum_value_error">"Пожалуйста, введите значение выше, чем %1$f"</string>
+    <string name="transfer_maximum_value_error">"Пожалуйста, введите значение ниже, чем %1$f"</string>
+    <string name="title_dao">"Название модуля"</string>
+    <string name="wallet">"Кошелек"</string>
+    <string name="dividends">"Дивиденды"</string>
+    <string name="votes">"Голосование"</string>
+    <string name="your_account">"Ваш аккаунт:"</string>
+    <string name="add_new_proposal">"Добавить новое предложение"</string>
+    <string name="description">"Описание:"</string>
+    <string name="full_description_hash">"Хеш полного описания"</string>
+    <string name="transaction_bytecode">"Байт-код транзакции"</string>
+    <string name="proposal">"Предложение"</string>
+    <string name="see_details">"Смотрите подробности"</string>
+    <string name="total_voted">"Всего проголосовало:"</string>
+    <string name="quorum">"Кворум:"</string>
+    <string name="requisite_majority">"Требуемое большинство:"</string>
+    <string name="dao_playmarket_2_0">"DAO PlayMarket 2.0"</string>
+    <string name="token_symbol">"Символ токена:"</string>
+    <string name="local_balance">"Локальный баланс"</string>
+    <string name="accept">"Принять"</string>
+    <string name="decline">"отказать"</string>
+    <string name="dividends_amount">"Сумма дивидендов:"</string>
+    <string name="transfer">"Перевод"</string>
+    <string name="receive">"Получить"</string>
+    <string name="repository_balance">"Баланс в репозитории:"</string>
+    <string name="playmarket_token">"DAO PlayMarket 2.0 токен"</string>
+    <string name="balance">"Баланс:"</string>
+    <string name="recipient">"Получатель"</string>
+    <string name="repository">"Репозиторий"</string>
+    <string name="custom_address">"Пользовательский адрес"</string>
+    <string name="all">"все"</string>
+    <string name="withdraw_amount">"Сумма снятия"</string>
+    <string name="receive_dividends">"Получить дивиденды"</string>
+    <string name="to_receive_dividends_please_enter_password">"Чтобы получить дивиденды, введите пароль."</string>
+    <string name="you_send_amount">"Вы отправляете сумму:"</string>
+    <string name="to_recipient_address">"На адрес получателя:"</string>
+    <string name="confirm_transaction">"Подтвердите транзакцию"</string>
+    <string name="new_proposal">"Новое предложение"</string>
+    <string name="id">"id:"</string>
+    <string name="vote_for_support">"Голосовать за"</string>
+    <string name="vote_against">"Голосовать против"</string>
+    <string name="create_proposal">"Создать предложение"</string>
+    <string name="time_to_end_voting">"Время до окончания голосования"</string>
+    <string name="execute">"Выполнить"</string>
+    <string name="your_accounts">"Ваши аккаунты:"</string>
+    <string name="add_token">"Добавить токен"</string>
+    <string name="token_added">"Токен добавлен"</string>
+    <string name="choose_token_from_list_below">"Выберите токен из списка"</string>
+    <string name="remove">"Убрать"</string>
+    <string name="create_new_wallet">"Создать новый кошелек"</string>
+    <string name="import_wallet">"Импортировать кошелек"</string>
+    <string name="cant_delete_last_Account">"Вы не можете удалить последний аккаунт"</string>
+    <string name="to_delete_account_enter_password">"Чтобы удалить аккаунт, введите пароль"</string>
+    <string name="dividends_balance">"Баланс дивидендов:"</string>
+    <string name="leave_feedback">"Оставьте отзыв"</string>
+    <string name="accepted">"Принято"</string>
+    <string name="not_accepted">"Не принято"</string>
+    <string name="executed">"Выполнено"</string>
+    <string name="not_executed">"Не выполнено"</string>
+    <string name="pmt">"PMT"</string>
+    <string name="proposal_details">"Детали предложения"</string>
+    <string name="withdraw">"ВЫВЕСТИ"</string>
+    <string name="not_enough_balance">"Недостаточно средств для отправки транзакции"</string>
+    <string name="wrong_send_token_number">"Вы можете отправить только %1$f токенов"</string>
+    <string name="withdraw_is_blocked">"Вывод заблокирован"</string>
+    <string name="all_token_are_locked">"Все токены заблокированы"</string>
+    <string name="token_are_locked">"%1$f токенов заблокировано"</string>
+    <string name="you_already_has_approval_tokens">"У вас уже есть токены в процессе отправки %1$f. Укажите  количество меньше или равное этому."</string>
+    <string name="can_withdraw">"Вы можете вывести только %1$f токенов"</string>
+    <string name="transaction_sent">"Транзакция успешно отправлена!"</string>
+    <string name="ongoing">"Текущие"</string>
+    <string name="archive">"Завершенные"</string>
+    <string name="add_custom_token">"Добавить собственный токен"</string>
+    <string name="repeat_request">"Повторить запрос"</string>
+    <string name="delete_account">"Удалить аккаунт"</string>
+    <string name="will_be_used_from_repository_to">"будет использоваться из репозитория в"</string>
+    <string name="the_proposal">"предложение"</string>
+    <string name="change_account">"Изменить аккаунт"</string>
+    <string name="enter_your_response_here">"Введите свой ответ здесь ..."</string>
+    <string name="enter_your_comment_here">Введите свой комментарий здесь ...</string>
+    <string name="account_balance">"Баланс"</string>
+    <string name="read_all_reviews">"Читать все отзывы"</string>
+    <string name="marks">"Метки"</string>
+    <string name="install_update">"Установить обновление"</string>
+
+    <string name="category_apps">Приложения</string>
+    <string name="category_games">Игры</string>
+    <string name="category_sto">STO</string>
+
+    <string name="history_title_history">Все</string>
+    <string name="history_title_pending">В процессе</string>
+    <string name="history_title_succeed">Успешные</string>
+    <string name="history_title_failed">Неудачные</string>
+
+</resources>

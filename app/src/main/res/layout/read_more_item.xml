@@ -15,7 +15,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="84dp"
         android:layout_marginBottom="20dp"
-        android:text="Read all reviews"
+        android:text="@string/read_all_reviews"
         android:textAllCaps="false" />
 
 </LinearLayout>

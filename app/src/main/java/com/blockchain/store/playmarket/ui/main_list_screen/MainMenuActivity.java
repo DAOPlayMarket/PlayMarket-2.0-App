@@ -23,11 +23,13 @@ import android.widget.ProgressBar;
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.ui.DaoConstants;
+import com.blockchain.store.dao.ui.DaoTokenTransfer;
 import com.blockchain.store.dao.ui.dividends_screen.DividendsFragment;
 import com.blockchain.store.dao.ui.votes_screen.ProposalDetailsFragment;
 import com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment;
 import com.blockchain.store.dao.ui.votes_screen.proposal_creation_screen.ProposalCreationFragment;
 import com.blockchain.store.dao.ui.votes_screen.voting_screen.VotingFragment;
+import com.blockchain.store.dao.ui.votes_screen.proposal_details_screen.VoteDetailsFragment;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -43,7 +45,7 @@ import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment
 import com.blockchain.store.playmarket.ui.pex_screen.PexActivity;
 import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
 import com.blockchain.store.playmarket.ui.tokens_screen.TokenListFragment;
-import com.blockchain.store.playmarket.ui.wallet_screen.TokenTransferFragment;
+import com.blockchain.store.playmarket.ui.token_transfer_screen.TokenTransferFragment;
 import com.blockchain.store.playmarket.ui.wallet_screen.WalletFragment;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
@@ -99,6 +101,11 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         initViews();
         replaceNavViewFragment(new NavigationViewFragment());
         setSearchViewDebounce();
+    }
+
+    @OnClick(R.id.open_test)
+    void onOpenTestClicked() {
+        startActivity(new Intent(this, DaoTokenTransfer.class));
     }
 
     private void attachPresenter() {
@@ -196,9 +203,9 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(getResources().getDrawable(R.drawable.apps_icon));
-        tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.games_icon));
-        tabLayout.getTabAt(2).setIcon(getResources().getDrawable(R.drawable.ico_icon));
+        tabLayout.getTabAt(0).setIcon(getResources().getDrawable(R.drawable.apps_icon)).setText(R.string.category_apps);
+        tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.games_icon)).setText(R.string.category_games);
+        tabLayout.getTabAt(2).setIcon(getResources().getDrawable(R.drawable.ico_icon)).setText(R.string.category_sto);
         removeIconMargin(tabLayout);
     }
 
@@ -223,7 +230,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
     @Override
     public void onCategoryLoadFailed(Throwable throwable) {
         errorHolder.setVisibility(View.VISIBLE);
-        ToastUtil.showToast("Category load failed! " + throwable.getMessage());
+        ToastUtil.showToast(getString(R.string.load_failed) + throwable.getMessage());
     }
 
     @Override

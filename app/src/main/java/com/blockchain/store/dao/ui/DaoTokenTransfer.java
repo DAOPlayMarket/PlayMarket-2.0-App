@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Pair;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,26 +19,30 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.FingerprintUtils;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.mtramin.rxfingerprint.RxFingerprint;
-import com.orhanobut.hawk.Hawk;
 
 import org.ethereum.geth.Account;
+import org.ethereum.geth.BigInt;
 import org.ethereum.geth.Transaction;
+import org.json.JSONObject;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
-import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.methods.response.EthEstimateGas;
+import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.http.HttpService;
+import org.web3j.utils.Numeric;
+
+import java.math.BigInteger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA;
-import static org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction;
+import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA_RINKEBY;
+import static com.blockchain.store.playmarket.utilities.Constants.USER_ETHERSCAN_ID;
+import static org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction;
 
 public class DaoTokenTransfer extends AppCompatActivity {
     private static final String TAG = "DaoTokenTransfer";
@@ -101,23 +106,73 @@ public class DaoTokenTransfer extends AppCompatActivity {
         }
     }
 
+    public static Transaction transactionTest = null;
+
     @OnClick(R.id.button)
     public void button() {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .flatMap(result -> {
-                    Transaction transaction = CryptoUtils.test111(result, 10000L);
-                    Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
-                    return build.ethEstimateGas(createEthCallTransaction(AccountManager.getAddress().getHex(),DaoConstants.Repository,new String(transaction.getData()))).observable();
+                    Pair<Transaction, Transaction> transaction = CryptoUtils.test111(result, 50);
+                    transactionTest = transaction.first;
+                    Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA_RINKEBY));
+                    String numericData = Numeric.toHexString(transaction.first.getData());
+                    org.web3j.protocol.core.methods.request.Transaction tx = createFunctionCallTransaction(
+                            AccountManager.getAddress().getHex(),
+                            new BigInteger(String.valueOf(result.count)),
+                            new BigInteger(result.getGasPrice()),
+                            new BigInteger(String.valueOf(Constants.GAS_LIMIT)),
+                            DaoConstants.Repository,
+                            numericData);
+                    return build.ethEstimateGas(tx).observable();
 
                 })
-                .map(result -> result)
+                .map(this::mapEstimateResult)
+                .map(result -> mapWithAddGasLimitToTx(result, transactionTest))
+                .flatMap(result -> result)
+                .map(result -> {
+                    if (result.getError() == null) {
+                        throw new IllegalArgumentException(result.getError().getMessage());
+                    } else {
+                        return result.getTransactionHash();
+                    }
+                })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::transferSuccess, this::transferFailed);
     }
 
+    private void transferSuccess(Object o) {
+
+    }
+
+    public BigInteger mapEstimateResult(EthEstimateGas result) {
+        if (result.getError() == null) {
+            BigInteger amountUsed = result.getAmountUsed();
+            amountUsed = amountUsed.add(new BigInteger(String.valueOf(Constants.GAS_LIMIT_ADDITION)));
+            return amountUsed;
+        } else {
+            throw new RuntimeException(result.getError().getMessage());
+        }
+    }
+
+    public Observable<EthSendTransaction> mapWithAddGasLimitToTx(BigInteger gasLimit, Transaction signedTransaction) {
+        try {
+            String encodedJson = signedTransaction.encodeJSON();
+            JSONObject json = new JSONObject(encodedJson);
+            json.put("gas", Numeric.toHexStringWithPrefix(gasLimit));
+            Transaction transaction = new Transaction(json.toString());
+            Transaction signedTx = CryptoUtils.keyManager.getKeystore().signTx(AccountManager.getAccount(), transaction, new BigInt(USER_ETHERSCAN_ID));
+            Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA_RINKEBY));
+            return build.ethSendRawTransaction("0x" + CryptoUtils.getRawTransaction(signedTx)).observable();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void transferSuccess(EthEstimateGas ethEstimateGas) {
-        Log.d(TAG, "transferSuccess: ");
+        BigInteger bigInteger = Numeric.toBigInt(String.valueOf(ethEstimateGas.getAmountUsed()));
+        Log.d(TAG, "transferSuccess: " + bigInteger);
     }
 
     private void transferFailed(Throwable t) {

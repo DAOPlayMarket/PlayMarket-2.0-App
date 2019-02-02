@@ -20,7 +20,7 @@
         android:paddingRight="10dp"
         android:paddingBottom="8dp"
         android:singleLine="true"
-        android:text="0x12345678901234567891234567890123456789123123312312321310"
+        tools:text="0x12345678901234567891234567890123456789123123312312321310"
         android:textSize="16sp" />
 
     <LinearLayout

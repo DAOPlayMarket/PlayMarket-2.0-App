@@ -10,6 +10,7 @@ import android.support.transition.TransitionManager;
 import android.support.transition.TransitionSet;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -134,6 +135,7 @@ public class TransactionHistoryAdapter extends RecyclerView.Adapter<RecyclerView
 
                 notifyDataSetChanged();
             });
+            etherlink.setText(Html.fromHtml(context.getString(R.string.etherscan_link)));
             etherlink.setOnClickListener(v -> {
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(model.transactionLink));

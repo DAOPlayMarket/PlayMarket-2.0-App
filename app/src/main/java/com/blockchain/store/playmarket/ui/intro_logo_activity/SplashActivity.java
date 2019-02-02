@@ -3,7 +3,6 @@ package com.blockchain.store.playmarket.ui.intro_logo_activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -13,24 +12,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.data.entities.IcoLocalData;
-import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
-import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
-import com.bumptech.glide.Glide;
-
-import org.web3j.crypto.ECKeyPair;
-import org.web3j.crypto.WalletUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,11 +32,8 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
     private static final int PERMISSION_REQUEST_CODE = 101;
     public static final int LOCATION_DIALOG_REQUEST = 102;
 
-    @BindView(R.id.LogoTextView) TextView logoTextView;
-    @BindView(R.id.LogoVideoView) VideoView logoVideoView;
     @BindView(R.id.network_status) TextView networkStatus;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
-    @BindView(R.id.gif) ImageView gif;
 
     private SplashPresenter presenter;
     private String errorString = null;
@@ -56,33 +43,15 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro_logo);
         ButterKnife.bind(this);
-//        test();
         presenter = new SplashPresenter();
         presenter.init(this);
-        setLogoTextFont();
-        setupAndPlayVideo();
         checkLocationPermission();
-//        showGif();
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         Log.d(TAG, "onNewIntent: ");
-    }
-
-    private void test() {
-        TransactionRepository.getLocalIcoData(Constants.CRYPTO_DUEL_CONTRACT_CROWDSALE, AccountManager.getAddress().getHex())
-                .subscribe(this::onOk, this::onError);
-    }
-
-    private void onOk(IcoLocalData icoLocalData) {
-        Log.d(TAG, "onOk: ");
-    }
-
-
-    private void onError(Throwable throwable) {
-        Log.d(TAG, "onError: ");
     }
 
     private void checkLocationPermission() {
@@ -116,26 +85,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
         }
     }
 
-    protected void setLogoTextFont() {
-        Typeface tf = Typeface.createFromAsset(getApplicationContext().getAssets(), "fonts/roboto.ttf");
-        logoTextView.setTypeface(tf);
-
-    }
-
-
-    private void showGif() {
-        String path = "android.resource://" + getPackageName() + "/" + R.raw.loading_gif;
-        Glide.with(this).load(path).into(gif);
-    }
-
-
-    protected void setupAndPlayVideo() {
-        String path = "android.resource://" + getPackageName() + "/" + R.raw.image;
-        logoVideoView.setVideoURI(Uri.parse(path));
-        logoVideoView.setOnPreparedListener(mp -> mp.setLooping(true));
-        logoVideoView.start();
-    }
-
     protected void openLoginPromptActivity() {
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
@@ -149,7 +98,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContracts
             } else {
                 myIntent = new Intent(getApplicationContext(), PermissionsPromptActivity.class);
             }
-            logoVideoView.stopPlayback();
 
             startActivity(myIntent);
             this.finish();

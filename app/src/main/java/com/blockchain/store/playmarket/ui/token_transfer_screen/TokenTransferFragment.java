@@ -1,4 +1,4 @@
-package com.blockchain.store.playmarket.ui.wallet_screen;
+package com.blockchain.store.playmarket.ui.token_transfer_screen;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -43,7 +43,7 @@ import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class TokenTransferFragment extends Fragment {
+public class TokenTransferFragment extends Fragment implements TokenTransferContract.View {
 
     private static String TOKEN_TAG = "token";
     private static String CRYPTODUEL_TAG = "cryptoduel_tag";
@@ -73,6 +73,7 @@ public class TokenTransferFragment extends Fragment {
     private boolean isOpenAsCryptoDuelToken = false;
     private int currentTabPosition = 0;
     private DaoToken daoToken;
+    private TokenTransferPresenter presenter;
 
     public static TokenTransferFragment newInstance(DaoToken daoToken) {
         Bundle args = new Bundle();
@@ -100,6 +101,7 @@ public class TokenTransferFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        attachPresenter();
         if (getArguments() != null) {
             this.daoToken = getArguments().getParcelable(TOKEN_TAG);
             this.isOpenAsCryptoDuelToken = getArguments().getBoolean(CRYPTODUEL_TAG, false);
@@ -115,6 +117,11 @@ public class TokenTransferFragment extends Fragment {
         initRadioGroup();
     }
 
+    private void attachPresenter() {
+        presenter = new TokenTransferPresenter();
+        presenter.init(this);
+    }
+
     private void initAsDaoTokenProvided(DaoToken daoToken) {
         tokenTitleTextView.setText(daoToken.name);
         balanceTextView.setText(String.valueOf(daoToken.getBalanceWithDecimals()));
@@ -122,9 +129,9 @@ public class TokenTransferFragment extends Fragment {
         tokenTextView.setText(daoToken.symbol);
         token2TextView.setText(daoToken.symbol);
         if (daoToken.isWithdrawBlocked) {
-            lockedAmount.setText("All token are locked");
+            lockedAmount.setText(R.string.all_token_are_locked);
         } else {
-            lockedAmount.setText(daoToken.getDaoBalance() - daoToken.getNotLockedBalance() + " tokens are locked.");
+            lockedAmount.setText(String.format(getString(R.string.token_are_locked), daoToken.getDaoBalance() - daoToken.getNotLockedBalance()));
         }
     }
 
@@ -132,10 +139,10 @@ public class TokenTransferFragment extends Fragment {
         tokenTitleTextView.setText(daoToken.name);
         balanceTextView.setText(String.valueOf(daoToken.getBalanceWithDecimals()));
         tokenTextView.setText(daoToken.symbol);
-        token2TextView.setText("ETH");
+        token2TextView.setText(getString(R.string.eth));
 
         balanceRepositoryTitle.setText(getActivity().getString(R.string.dividends_balance));
-        repositoryBalanceTextView.setText(daoToken.getOwnersBal() + " ETH");
+        repositoryBalanceTextView.setText(daoToken.getOwnersBal() + getString(R.string.eth));
 
         repositoryButton.setVisibility(View.GONE);
         customAddressButton.setVisibility(View.GONE);
@@ -154,11 +161,11 @@ public class TokenTransferFragment extends Fragment {
 
         TabLayout.Tab sendTab = tabLayout.getTabAt(0);
         if (sendTab != null) {
-            sendTab.setText("SEND");
+            sendTab.setText(R.string.send);
         }
 
         TabLayout.Tab withdrawTab = tabLayout.getTabAt(1);
-        if (withdrawTab != null) withdrawTab.setText("WITHDRAW");
+        if (withdrawTab != null) withdrawTab.setText(R.string.withdraw);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -217,7 +224,7 @@ public class TokenTransferFragment extends Fragment {
         if (repositoryTextView.getText() == "")
             repositoryTextView.setText(AccountManager.getAddress().getHex());
         sendInputLayout.setHint(getResources().getString(R.string.withdraw_amount));
-        if (isOpenAsCryptoDuelToken) token2TextView.setText("ETH");
+        if (isOpenAsCryptoDuelToken) token2TextView.setText(R.string.eth);
     }
 
     @Override
@@ -244,12 +251,12 @@ public class TokenTransferFragment extends Fragment {
         }
 
         if (!AccountManager.getUserBalance().equalsIgnoreCase("-1") && Long.valueOf(AccountManager.getUserBalance()) == 0) {
-            sendEditText.setError("Not enough balance to send transaction");
+            sendEditText.setError(getString(R.string.not_enough_balance));
             return false;
         }
 
         if (sendAmount == 0) {
-            sendEditText.setError("Wrong amount");
+            sendEditText.setError(getString(R.string.wrong_invest_amout));
             return false;
         }
 
@@ -257,13 +264,13 @@ public class TokenTransferFragment extends Fragment {
 
             if (currentTabPosition == 0) {
                 if (sendAmount > daoToken.getBalanceWithDecimals()) {
-                    sendEditText.setError("You can send only " + daoToken.getBalanceWithDecimals() + " tokens");
+                    sendEditText.setError(String.format(getString(R.string.wrong_send_token_number), daoToken.getBalanceWithDecimals()));
                     return false;
                 }
             }
             if (currentTabPosition == 1) {
                 if (sendAmount > Double.valueOf(daoToken.getOwnersBal())) {
-                    sendEditText.setError("You can send only " + daoToken.getOwnersBal() + " tokens");
+                    sendEditText.setError(String.format(getString(R.string.wrong_send_token_number), daoToken.getBalanceWithDecimals()));
                     return false;
                 }
             }
@@ -275,21 +282,22 @@ public class TokenTransferFragment extends Fragment {
         if (currentTabPosition == 0) {
             if (repositoryButton.isChecked()) {
                 if (sendAmount > daoToken.getApprovalWithDecimals() && daoToken.getApprovalWithDecimals() != 0) {
-                    Toast.makeText(getActivity(), "You already has " + daoToken.getApprovalWithDecimals() + " token approval. Send tokens below this value.", Toast.LENGTH_SHORT).show();
+                    String errorMsg = String.format(getString(R.string.you_already_has_approval_tokens), daoToken.getApprovalWithDecimals());
+                    Toast.makeText(getActivity(), errorMsg, Toast.LENGTH_SHORT).show();
                     return false;
                 }
                 if (sendAmount > Double.valueOf(daoToken.getBalanceWithDecimals())) {
-                    sendEditText.setError("You can send only " + daoToken.getBalanceWithDecimals() + " tokens");
+                    sendEditText.setError(String.format(getString(R.string.wrong_send_token_number), daoToken.getBalanceWithDecimals()));
                     return false;
                 }
             }
             if (customAddressButton.isChecked()) {
                 if (recipientEditText.getText().toString().isEmpty()) {
-                    recipientEditText.setError("Empty field");
+                    recipientEditText.setError(getString(R.string.empty_field));
                     return false;
                 }
                 if (sendAmount > daoToken.getBalanceWithDecimals()) {
-                    sendEditText.setError("You can send only " + daoToken.getBalanceWithDecimals() + " tokens");
+                    sendEditText.setError(String.format(getString(R.string.wrong_send_token_number), daoToken.getBalanceWithDecimals()));
                     return false;
                 }
             }
@@ -297,12 +305,13 @@ public class TokenTransferFragment extends Fragment {
         if (currentTabPosition == 1) {/*withdraw*/
 
             if (daoToken.isWithdrawBlocked) {
-                ToastUtil.showToast("Withdraw is blocked!");
+                ToastUtil.showToast(R.string.withdraw_is_blocked);
                 return false;
             }
 
             if (sendAmount > Double.valueOf(daoToken.getNotLockedBalanceWithDecimals())) {
-                sendEditText.setError("You can withdraw only " + String.valueOf(daoToken.getNotLockedBalanceWithDecimals()) + " tokens");
+                String format = String.format(getString(R.string.can_withdraw), Long.valueOf(daoToken.getNotLockedBalanceWithDecimals()));
+                sendEditText.setError(format);
                 return false;
             }
         }
@@ -312,29 +321,12 @@ public class TokenTransferFragment extends Fragment {
 
     private void sendTokenToUser(Long amount) {
         if (recipientEditText.getText().toString().isEmpty()) {
-            recipientEditText.setError("Empty value");
+            recipientEditText.setError(getString(R.string.empty_field));
             return;
         }
-        new DialogManager().showDividendsDialog(getActivity(), () -> RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-                .flatMap(result -> {
-                    try {
-                        Transaction signedTx;
-                        if (isOpenAsCryptoDuelToken) {
-                            signedTx = CryptoUtils.generateCDLTSendTokenToUser(result, recipientEditText.getText().toString(), String.valueOf(amount));
-                        } else {
-                            signedTx = CryptoUtils.generateDaoSendTokenToUser(result, recipientEditText.getText().toString(), String.valueOf(amount));
-                        }
-                        String rawTx = CryptoUtils.getRawTransaction(signedTx);
-                        TransactionInteractor.addToJobSchedule(signedTx.getHash().getHex(), Constants.TransactionTypes.TRANSFER_TOKEN);
-                        return RestApi.getServerApi().deployTransaction(rawTx);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        throw new RuntimeException("111");
-                    }
-                })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> transferSuccess(response), error -> transferFailed(error)));
+        new DialogManager().showDividendsDialog(getActivity(), () ->
+                presenter.sendTokenToUser(amount, recipientEditText.getText().toString(), isOpenAsCryptoDuelToken)
+        );
 
     }
 
@@ -342,11 +334,13 @@ public class TokenTransferFragment extends Fragment {
         new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
             @Override
             public void onAccountUnlocked() {
+//                presenter.sendTokenToRepository(daoToken.getApprovalWithoutDecimal(),amount);
                 RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                         .flatMap(result -> {
                             try {
                                 String rawTransaction;
                                 Long approvalWithoutDecimal = daoToken.getApprovalWithoutDecimal();
+
                                 if (approvalWithoutDecimal >= amount && approvalWithoutDecimal != 0) {
                                     Transaction transaction = CryptoUtils.generateDepositOnlyTokenToRepositoryTx(result, amount);
                                     TransactionInteractor.addToJobSchedule(transaction.getHash().getHex(), Constants.TransactionTypes.SEND_INTO_REPOSITORY);
@@ -378,7 +372,7 @@ public class TokenTransferFragment extends Fragment {
 
     private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
         try {
-            Toast.makeText(getActivity(), "Transaction successfully sent!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.transaction_sent, Toast.LENGTH_SHORT).show();
             getActivity().onBackPressed();
         } catch (Exception e) {
             e.printStackTrace();
@@ -387,6 +381,7 @@ public class TokenTransferFragment extends Fragment {
     }
 
     private void proceedWithWithdraw(Long amount) {/*WORKS need refactor*/
+//        presenter.withdraw(amount,isOpenAsCryptoDuelToken);
         new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
             @Override
             public void onAccountUnlocked() {
@@ -455,7 +450,7 @@ public class TokenTransferFragment extends Fragment {
                 Double value = Double.valueOf(sendEditText.getText().toString()) * Math.pow(10, daoToken.decimals);
                 amount = value.longValue();
             } catch (Exception e) {
-                sendEditText.setError("Wrong amount");
+                sendEditText.setError(getString(R.string.wrong_invest_amout));
                 return;
             }
             sendTokenToUser(amount);
@@ -471,7 +466,7 @@ public class TokenTransferFragment extends Fragment {
             Double value = Double.valueOf(sendEditText.getText().toString()) * Math.pow(10, daoToken.decimals);
             amount = value.longValue();
         } catch (Exception e) {
-            sendEditText.setError("Wrong amount");
+            sendEditText.setError(getString(R.string.wrong_invest_amout));
             return;
         }
 

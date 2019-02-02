@@ -121,4 +121,7 @@ public interface ServerApi {
     @GET("https://pex-balancer.playmarket.io/api/history?symbol=PMT&resolution=1D&from=1513577768&to=1544681828")
     Observable<PexHistory> getPexHistory();
 
+//    @GET("https://pex-balancer.playmarket.io/api/history?symbol=PMT&resolution=1D&from=1513577768&to=1544681828")
+//    Observable<ResponseBody> getPexHistory();
+
 }

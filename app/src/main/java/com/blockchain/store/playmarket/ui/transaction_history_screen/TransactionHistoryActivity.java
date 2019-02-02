@@ -68,10 +68,10 @@ public class TransactionHistoryActivity extends AppCompatActivity implements Vie
 
     private void initViewPager() {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(TransactionHistoryFragment.instance(Constants.TransactionStatus.ALL), "History");
-        viewPagerAdapter.addFragment(TransactionHistoryFragment.instance(Constants.TransactionStatus.PENDING), "Pending");
-        viewPagerAdapter.addFragment(TransactionHistoryFragment.instance(Constants.TransactionStatus.SUCCEES), "Succeed");
-        viewPagerAdapter.addFragment(TransactionHistoryFragment.instance(Constants.TransactionStatus.FAILED), "Unexecutable");
+        viewPagerAdapter.addFragment(TransactionHistoryFragment.instance(Constants.TransactionStatus.ALL), getString(R.string.history_title_history));
+        viewPagerAdapter.addFragment(TransactionHistoryFragment.instance(Constants.TransactionStatus.PENDING), getString(R.string.history_title_pending));
+        viewPagerAdapter.addFragment(TransactionHistoryFragment.instance(Constants.TransactionStatus.SUCCEES), getString(R.string.history_title_succeed));
+        viewPagerAdapter.addFragment(TransactionHistoryFragment.instance(Constants.TransactionStatus.FAILED), getString(R.string.history_title_failed));
 
         viewPager.setOffscreenPageLimit(4);
         viewPager.setAdapter(viewPagerAdapter);

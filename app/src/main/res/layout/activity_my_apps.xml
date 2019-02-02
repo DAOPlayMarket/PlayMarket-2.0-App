@@ -17,17 +17,18 @@
         android:minHeight="48dp"
         android:orientation="horizontal">
 
-        <com.blockchain.store.playmarket.views.FonAwesomeTextViewSolid
+
+        <ImageView
             android:id="@+id/top_layout_back_arrow"
             android:layout_width="70dp"
+            android:padding="16dp"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp"
-            android:text="@string/fa_back_arrow"
-            android:textColor="#7a8784"
-            android:textSize="20sp"
-            android:visibility="visible" />
+            android:contentDescription="@string/todo"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toBottomOf="@+id/textView1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView1" />
+
 
         <TextView
             android:id="@+id/top_layout_app_name"
