@@ -1,4 +1,4 @@
-package com.blockchain.store.dao.ui.votes_screen.proposal_details_screen;
+package com.blockchain.store.dao.ui.votes_screen.voting_screen;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.database.model.Rules;
 import com.blockchain.store.dao.ui.DaoConstants;
-import com.blockchain.store.dao.ui.votes_screen.proposal_creation_screen.ProposalCreationFragment;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
 import com.blockchain.store.playmarket.utilities.DialogManager;
@@ -28,25 +27,28 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class VoteDetailsFragment extends Fragment implements VoteDetailsContract.View {
+public class VotingFragment extends Fragment implements VotingContract.View {
 
-    private VoteDetailsPresenter presenter = new VoteDetailsPresenter();
+    private VotingPresenter presenter = new VotingPresenter();
     private NavigationCallback callback;
 
     private static String PROPOSAL_TAG = "Proposal";
     private String localBalance;
     private String repositoryBalance;
-    private  Proposal proposal;
+    private Proposal proposal;
 
-    @BindView(R.id.id_textView) TextView idTextView;
     @BindView(R.id.description_textView) TextView descriptionTextView;
     @BindView(R.id.totalVoted_progressBar) ProgressBar totalVotedProgressBar;
     @BindView(R.id.totalVoted_textView) TextView totalVotedTextView;
+    @BindView(R.id.totalVotes_textView) TextView totalVotesTextView;
+    @BindView(R.id.votes_textView) TextView votesTextView;
     @BindView(R.id.quorum_progressBar) ProgressBar quorumProgressBar;
     @BindView(R.id.quorumPercent_textView) TextView quorumPercentTextView;
+    @BindView(R.id.minQuorum_textView) TextView minQuorumTextView;
     @BindView(R.id.quorum_textView) TextView quorumTextView;
     @BindView(R.id.majority_progressBar) ProgressBar majorityProgressBar;
     @BindView(R.id.majorityPercent_textView) TextView majorityPercentTextView;
+    @BindView(R.id.minMajority_textView) TextView minMajorityTextView;
     @BindView(R.id.majority_textView) TextView majorityTextView;
     @BindView(R.id.ongoing_group) Group ongoingGroup;
     @BindView(R.id.finish_group) Group finishGroup;
@@ -58,7 +60,7 @@ public class VoteDetailsFragment extends Fragment implements VoteDetailsContract
     @BindView(R.id.progressBar) ProgressBar progressbar;
 
     public static Fragment newInstance(Proposal proposal) {
-        Fragment fragment = new VoteDetailsFragment();
+        Fragment fragment = new VotingFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(PROPOSAL_TAG, proposal);
         fragment.setArguments(bundle);
@@ -73,7 +75,7 @@ public class VoteDetailsFragment extends Fragment implements VoteDetailsContract
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_vote_details, container, false);
+        return inflater.inflate(R.layout.fragment_voting, container, false);
     }
 
     @Override
@@ -134,50 +136,52 @@ public class VoteDetailsFragment extends Fragment implements VoteDetailsContract
     }
 
     @OnClick(R.id.execute_button)
-    void onExecuteClicked(){
-        new DialogManager().showVotingDialog(false, repositoryBalance, getContext(), (isUnlock) -> {
+    void onExecuteClicked() {
+        new DialogManager().showConfirmDialog(getContext(), (isUnlock) -> {
             if (isUnlock) {
-                presenter.executeProposal(proposal.proposalID, proposal.fullDescriptionHash);
+                presenter.executeProposal(proposal);
                 if (getActivity() != null) getActivity().onBackPressed();
             } else Toast.makeText(getContext(), "Wrong password", Toast.LENGTH_SHORT).show();
         });
     }
 
     @OnClick(R.id.details_button)
-    void onDetailsClicked(){
+    void onDetailsClicked() {
         callback.onProposalDetailsClicked(proposal);
     }
 
 
-    private void bindData(Proposal proposal){
+    private void bindData(Proposal proposal) {
 
         Rules rules = presenter.getRules();
 
-        idTextView.setText(String.valueOf(proposal.proposalID));
         descriptionTextView.setText(proposal.description);
 
         String totalPercentage = presenter.obtainPercentage(String.valueOf(proposal.numberOfVotes), DaoConstants.TOTAL_DAO_TOKEN);
-
+        totalVotesTextView.setText(String.valueOf(getTokenWithDecimals(DaoConstants.TOTAL_DAO_TOKEN)));
         totalVotedProgressBar.setProgress(Integer.valueOf(totalPercentage));
         totalVotedTextView.setText(totalPercentage + " %");
+        votesTextView.setText(String.valueOf(presenter.getTokenDecimals(proposal.numberOfVotes)));
 
         String quorumPercentage = presenter.obtainPercentage(String.valueOf(proposal.numberOfVotes), String.valueOf(rules.minimumQuorum));
         quorumProgressBar.setProgress(Integer.valueOf(quorumPercentage));
         quorumPercentTextView.setText(quorumPercentage + " %");
+        minQuorumTextView.setText(String.valueOf(presenter.getTokenDecimals(rules.minimumQuorum)));
         quorumTextView.setText(String.valueOf(presenter.getTokenDecimals(proposal.numberOfVotes)));
 
         String majorityPercentage = presenter.obtainPercentage(String.valueOf(proposal.votesSupport), String.valueOf(rules.requisiteMajority));
         majorityProgressBar.setProgress(Integer.valueOf(majorityPercentage));
         majorityPercentTextView.setText(majorityPercentage + " %");
+        minMajorityTextView.setText(String.valueOf(presenter.getTokenDecimals(rules.requisiteMajority)));
         majorityTextView.setText(String.valueOf(presenter.getTokenDecimals(proposal.votesSupport)));
     }
 
-    private void showOngoingProposal(){
+    private void showOngoingProposal() {
         showComponents(progressbar);
         presenter.getDaoTokenBalance();
     }
 
-    private void showFailedProposal(){
+    private void showFailedProposal() {
         isAcceptedTextView.setText(getResources().getString(R.string.not_accepted));
         isExecutedTextView.setText(getResources().getString(R.string.not_executed));
         isAcceptedTextView.setTextColor(getResources().getColor(R.color.colorRed));
@@ -185,7 +189,7 @@ public class VoteDetailsFragment extends Fragment implements VoteDetailsContract
         showComponents(finishGroup);
     }
 
-    private void showNotExecutedNotAcceptedProposal(){
+    private void showNotExecutedNotAcceptedProposal() {
         isAcceptedTextView.setText(getResources().getString(R.string.not_accepted));
         isExecutedTextView.setText(getResources().getString(R.string.not_executed));
         isAcceptedTextView.setTextColor(getResources().getColor(R.color.colorRed));
@@ -193,7 +197,7 @@ public class VoteDetailsFragment extends Fragment implements VoteDetailsContract
         showComponents(finishGroup, executeButton);
     }
 
-    private void showNotExecutedAcceptedProposal(){
+    private void showNotExecutedAcceptedProposal() {
         isAcceptedTextView.setText(getResources().getString(R.string.accepted));
         isExecutedTextView.setText(getResources().getString(R.string.not_executed));
         isAcceptedTextView.setTextColor(getResources().getColor(R.color.colorGreen));
@@ -201,14 +205,13 @@ public class VoteDetailsFragment extends Fragment implements VoteDetailsContract
         showComponents(finishGroup, executeButton);
     }
 
-    private void showExecutedProposal(Proposal proposal){
+    private void showExecutedProposal(Proposal proposal) {
         isExecutedTextView.setText(getResources().getString(R.string.executed));
         isExecutedTextView.setTextColor(getResources().getColor(R.color.colorGreen));
         if (proposal.proposalPassed) {
             isAcceptedTextView.setText(getResources().getString(R.string.accepted));
             isAcceptedTextView.setTextColor(getResources().getColor(R.color.colorGreen));
-        }
-        else {
+        } else {
             isAcceptedTextView.setText(getResources().getString(R.string.not_accepted));
             isAcceptedTextView.setTextColor(getResources().getColor(R.color.colorRed));
         }
@@ -233,10 +236,17 @@ public class VoteDetailsFragment extends Fragment implements VoteDetailsContract
     }
 
     private void showComponents(View... views) {
-        if (ArrayUtils.contains(views, ongoingGroup)) ongoingGroup.setVisibility(View.VISIBLE); else { ongoingGroup.setVisibility(View.GONE); }
-        if (ArrayUtils.contains(views, finishGroup)) finishGroup.setVisibility(View.VISIBLE); else { finishGroup.setVisibility(View.GONE); }
-        if (ArrayUtils.contains(views, executeButton)) executeButton.setVisibility(View.VISIBLE); else { executeButton.setVisibility(View.GONE); }
-        if (ArrayUtils.contains(views, progressbar)) progressbar.setVisibility(View.VISIBLE); else { progressbar.setVisibility(View.GONE); }
+        if (ArrayUtils.contains(views, ongoingGroup)) ongoingGroup.setVisibility(View.VISIBLE);
+        else ongoingGroup.setVisibility(View.GONE);
+
+        if (ArrayUtils.contains(views, finishGroup)) finishGroup.setVisibility(View.VISIBLE);
+        else finishGroup.setVisibility(View.GONE);
+
+        if (ArrayUtils.contains(views, executeButton)) executeButton.setVisibility(View.VISIBLE);
+        else executeButton.setVisibility(View.GONE);
+
+        if (ArrayUtils.contains(views, progressbar)) progressbar.setVisibility(View.VISIBLE);
+        else progressbar.setVisibility(View.GONE);
     }
 
 }

@@ -1,10 +1,11 @@
-package com.blockchain.store.dao.ui.votes_screen.proposal_details_screen;
+package com.blockchain.store.dao.ui.votes_screen.voting_screen;
 
 import android.util.Pair;
 
+import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.database.model.Rules;
 
-class VoteDetailsContract {
+class VotingContract {
 
     interface View {
 
@@ -24,7 +25,7 @@ class VoteDetailsContract {
 
         void votingForProposal(int id, boolean isSupport, String justificationText);
 
-        void executeProposal(int id, String transactionByteCode);
+        void executeProposal(Proposal proposal);
 
         double getTokenDecimals(long tokenBalance);
     }

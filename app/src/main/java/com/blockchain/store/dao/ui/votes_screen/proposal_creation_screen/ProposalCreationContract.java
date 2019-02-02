@@ -1,5 +1,7 @@
 package com.blockchain.store.dao.ui.votes_screen.proposal_creation_screen;
 
+import com.blockchain.store.dao.database.model.Proposal;
+
 public class ProposalCreationContract {
 
     interface View {
@@ -10,8 +12,7 @@ public class ProposalCreationContract {
 
         void init(View view);
 
-        void createProposal(String recipient, String amount, String description, String fullDescHash, String transactionByteCode);
-
+        void createProposal(Proposal proposal);
     }
 
 }

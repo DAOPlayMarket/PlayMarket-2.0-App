@@ -1,10 +1,8 @@
 package com.blockchain.store.dao.ui.votes_screen.main_votes_screen;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,8 +10,6 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -26,7 +22,6 @@ import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,11 +34,16 @@ public class MainVotesFragment extends Fragment implements MainVotesContract.Vie
     private MainVotesPresenter presenter = new MainVotesPresenter();
     public static String BROADCAST_ACTION = "SyncState";
 
-    @BindView(R.id.votes_tabLayout) TabLayout votesTabLayout;
-    @BindView(R.id.votes_viewPager) NonSwipeableViewPager votesViewPager;
-    @BindView(R.id.progress_bar) ProgressBar progressBar;
-    @BindView(R.id.addProposal_button) Button addProposalButton;
-    @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.votes_tabLayout)
+    TabLayout votesTabLayout;
+    @BindView(R.id.votes_viewPager)
+    NonSwipeableViewPager votesViewPager;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    @BindView(R.id.addProposal_button)
+    Button addProposalButton;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onAttach(Context context) {
@@ -53,17 +53,32 @@ public class MainVotesFragment extends Fragment implements MainVotesContract.Vie
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main_votes, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_main_votes, container, false);
         ButterKnife.bind(this, view);
         swipeRefreshLayout.setOnRefreshListener(this);
         progressBar.setVisibility(View.VISIBLE);
         presenter.init(this, getContext());
         presenter.startDaoService();
+
+        votesTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (addProposalButton.getVisibility() == View.GONE) showCreationButton();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        return view;
     }
 
     @Override
@@ -76,8 +91,8 @@ public class MainVotesFragment extends Fragment implements MainVotesContract.Vie
     @Override
     public void initTabLayout(Pair<ArrayList<Proposal>, ArrayList<Proposal>> proposalsPair) {
         if (viewPagerAdapter != null) {
-            ((VotesFragment)viewPagerAdapter.getItem(0)).showProposals(proposalsPair.first);
-            ((VotesFragment)viewPagerAdapter.getItem(1)).showProposals(proposalsPair.second);
+            ((VotesFragment) viewPagerAdapter.getItem(0)).showProposals(proposalsPair.first);
+            ((VotesFragment) viewPagerAdapter.getItem(1)).showProposals(proposalsPair.second);
             return;
         }
         viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
@@ -109,22 +124,36 @@ public class MainVotesFragment extends Fragment implements MainVotesContract.Vie
         if (getActivity() != null) getActivity().onBackPressed();
     }
 
+    private int position = 0;
     public void onScroll(int dy) {
-        if (dy >= 3) {
-            if (addProposalButton.getVisibility() != View.GONE) {
-                TranslateAnimation animate = new TranslateAnimation(0, 0, 0, 250);
-                animate.setDuration(200);
-                addProposalButton.startAnimation(animate);
-                addProposalButton.setVisibility(View.GONE);
-            }
-        } else if (dy <= -3) {
-            if (addProposalButton.getVisibility() != View.VISIBLE) {
-                addProposalButton.setVisibility(View.VISIBLE);
-                TranslateAnimation animate = new TranslateAnimation(0, 0, 250, 0);
-                animate.setDuration(200);
-                addProposalButton.startAnimation(animate);
+        if (dy >= 5) {
+            if (addProposalButton.getVisibility() != View.GONE) hideCreationButton();
+        } else if (dy <= -5) {
+            if (addProposalButton.getVisibility() != View.VISIBLE) showCreationButton();
+        } else {
+            position += dy;
+            if (position > 30) {
+                position = 0;
+                if (addProposalButton.getVisibility() != View.GONE) hideCreationButton();
+            } else if (position < -20) {
+                position = 0;
+                if (addProposalButton.getVisibility() != View.VISIBLE) showCreationButton();
             }
         }
+    }
+
+    private void hideCreationButton() {
+        TranslateAnimation animate = new TranslateAnimation(0, 0, 0, 250);
+        animate.setDuration(200);
+        addProposalButton.startAnimation(animate);
+        addProposalButton.setVisibility(View.GONE);
+    }
+
+    private void showCreationButton() {
+        addProposalButton.setVisibility(View.VISIBLE);
+        TranslateAnimation animate = new TranslateAnimation(0, 0, 250, 0);
+        animate.setDuration(200);
+        addProposalButton.startAnimation(animate);
     }
 
     @Override

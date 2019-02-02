@@ -3,6 +3,7 @@ package com.blockchain.store.dao.repository;
 import android.util.Pair;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
+import com.blockchain.store.dao.data.entities.ProposalDescriptions;
 import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.database.model.Rules;
 import com.blockchain.store.dao.database.model.Vote;
@@ -12,6 +13,8 @@ import com.blockchain.store.playmarket.repositories.TokenRepository;
 import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
@@ -38,7 +41,6 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import rx.Observable;
-import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -316,8 +318,30 @@ public class DaoTransactionRepository {
         return Observable.range(startId, 10000)
                 .map(position -> new Pair<>(position, getEthCallObservable(proposalFunction(position), DaoConstants.DAO)))
                 .flatMap(proposal -> proposal.second.map(result -> new Pair<>(proposal.first, result)))
-                //.flatMap(proposal -> proposal.second)
                 .map(result -> decodeProposal(result.first, result.second.getValue(), proposalFunction(0)))
+                .flatMap(proposal -> {
+                    if (proposal != null && proposal.fullDescriptionHash.length() == 46)
+                        return RestApi.getServerApi().getProposalDescriptions(proposal.fullDescriptionHash);
+                    else return Observable.just(1);
+                }, Pair::new)
+                .map(pair -> {
+                    String str = pair.second.toString();
+                    if (str.contains("description") && str.contains("transactionByteCode")) {
+                        try {
+                            ProposalDescriptions descriptions = new ProposalDescriptions();
+                            JSONObject jsonobject = new JSONObject(str);
+                            descriptions.transactionByteCode = jsonobject.getString("transactionByteCode");
+                            pair.first.transactionBytecode = descriptions.transactionByteCode;
+                            return pair.first;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        if (pair.first != null) pair.first.transactionBytecode = "";
+                        return pair.first;
+                    }
+                    return null;
+                })
                 .takeWhile(proposal -> proposal != null)
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())

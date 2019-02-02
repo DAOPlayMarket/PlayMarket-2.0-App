@@ -22,6 +22,7 @@
     <string name="got_it_btn">Got it!</string>
     <string name="import_successful">Import Successful!</string>
     <string name="address_copied">Address Copied!</string>
+    <string name="bytecode_copied">Bytecode Copied!</string>
     <string name="wallet_backup_copied">Wallet Backup Copied!</string>
     <string name="search">SEARCH</string>
     <string name="error_view_msg">There was a problem connecting to the server. Please try again.</string>
@@ -111,9 +112,9 @@
     <string name="performing_action">For performing this action, a password is required. Please enter it below.</string>
 
     <!--hints-->
-    <string name="recipient_address">Recipient address</string>
+    <string name="recipient_address">Recipient address:</string>
     <string name="recipient_address_field">Recipient address:</string>
-    <string name="amount">Send amount</string>
+    <string name="amount">Send amount:</string>
     <string name="wei">WEI</string>
     <string name="eth">ETH</string>
     <string name="send_info">Your send amount:</string>
@@ -141,7 +142,7 @@
     <string name="about_activate">Touch the fingerprint scanner to activate the fingerprint authentication</string>
     <string name="do_not_activate">Do not activate</string>
     <string name="press_sensor_to_complete">Press your sensor \nto complete transaction</string>
-    <string name="use_password"><u>Use password</u></string>
+    <string name="use_password">Use password</string>
     <string name="is_available">You can use fingerprint \nauthentication</string>
     <string name="is_not_configured">Fingerprint supported \nbut not configured for device</string>
     <string name="configure_button">Configure fingerprint?</string>
@@ -197,7 +198,7 @@
     <string name="no_items_found">No items found!</string>
     <string name="status">Status:</string>
     <string name="hash">Hash:</string>
-    <string name="details">Details:</string>
+    <string name="details">Details</string>
     <string name="etherscan_link"><u>Etherscan link</u></string>
     <string name="you_have">You have:</string>
     <string name="start_buying">Start buying</string>
@@ -296,7 +297,7 @@
     <string name="add_new_proposal">Add new proposal</string>
     <string name="description">Description:</string>
     <string name="full_description_hash">Full description hash</string>
-    <string name="transaction_bytecode">Transaction bytecode</string>
+    <string name="transaction_bytecode">Transaction bytecode:</string>
     <string name="proposal">Proposal</string>
     <string name="see_details">See details</string>
     <string name="total_voted">Total voted:</string>
@@ -348,6 +349,13 @@
     <string name="not_executed">Not executed</string>
     <string name="pmt">PMT</string>
     <string name="proposal_details">Proposal details</string>
+    <string name="confirm_your_action">Confirm your action</string>
+    <string name="proposal_voting">Proposal voting</string>
+    <string name="copy_bytecode">Copy bytecode</string>
+    <string name="end_time_of_voting">End time of voting:</string>
+    <string name="proposal_id">Proposal ID:</string>
+    <string name="voting">Voting</string>
+    <string name="slash">/</string>
 
     <string-array name="contract_functions">
         <item>Sent ethereum</item>

@@ -36,11 +36,12 @@ public class DaoContractService extends Service {
         List<Proposal> proposals = daoDatabase.proposalDao().getAll();
         if (!proposals.isEmpty()) {
             for (Proposal proposal : proposals) {
-                if (proposal.isExecuted || (proposal.endTimeOfVoting * 1000 > System.currentTimeMillis() && proposal.numberOfVotes > rules.minimumQuorum)) {
+                if (proposal.getProposalType() == Proposal.ProposalType.Executed || proposal.getProposalType() == Proposal.ProposalType.Unexecutable) {
                     id = proposal.proposalID;
                 }
             }
         }
+        id++;
         DaoTransactionRepository.getProposals(id).subscribe(this::onProposalsLoaded, this::onProposalsError);
     }
 
