@@ -144,6 +144,8 @@
     <color name="white40">#66FFFFFF</color>
     <color name="white60">#99FFFFFF</color>
     <color name="lightBlue">#0EA2FA</color>
+    <color name="lightBlue70">#B30EA2FA</color>
+    <color name="lightBlue90">#F20EA2FA</color>
     <color name="colorGreen">#27AE60</color>
 
     <color name="colorPrimaryLight">#153A55</color>

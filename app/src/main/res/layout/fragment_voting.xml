@@ -45,7 +45,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="@string/description"
-        android:textColor="@color/colorPrimary90"
+        android:textColor="@color/lightBlue70"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/close_image_button"
         app:layout_constraintTop_toBottomOf="@+id/view" />
@@ -86,8 +86,9 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:text="@string/total_voted"
-        android:textColor="@color/colorPrimary90"
+        android:textColor="@color/lightBlue70"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/description_textView"
         app:layout_constraintTop_toBottomOf="@+id/details_button" />
@@ -173,7 +174,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/quorum"
-        android:textColor="@color/colorPrimary90"
+        android:textColor="@color/lightBlue70"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/totalVoted_progressBar"
         app:layout_constraintTop_toBottomOf="@+id/pmt6_textView" />
@@ -260,7 +261,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/requisite_majority"
-        android:textColor="@color/colorPrimary90"
+        android:textColor="@color/lightBlue70"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/quorum_progressBar"
         app:layout_constraintTop_toBottomOf="@+id/pmt2_textView" />
@@ -381,7 +382,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/local_balance"
-        android:textColor="@color/colorPrimary90"
+        android:textColor="@color/lightBlue70"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -401,7 +402,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/repository_balance"
-        android:textColor="@color/colorPrimary90"
+        android:textColor="@color/lightBlue70"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -435,7 +436,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/status"
-        android:textColor="@color/colorPrimary90"
+        android:textColor="@color/lightBlue70"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/majority_progressBar"
         app:layout_constraintTop_toBottomOf="@+id/pmt4_textView" />

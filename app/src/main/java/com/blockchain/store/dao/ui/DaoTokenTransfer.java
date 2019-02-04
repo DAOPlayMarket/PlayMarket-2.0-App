@@ -47,10 +47,8 @@ import static org.web3j.protocol.core.methods.request.Transaction.createFunction
 public class DaoTokenTransfer extends AppCompatActivity {
     private static final String TAG = "DaoTokenTransfer";
 
-    @BindView(R.id.unlock_account)
-    EditText unlock_account;
-    @BindView(R.id.unlock_account_btn)
-    Button unlock_account_btn;
+    @BindView(R.id.unlock_account) EditText unlock_account;
+    @BindView(R.id.unlock_account_btn) Button unlock_account_btn;
     @BindView(R.id.withdraw_amount) EditText withdraw_amount;
     @BindView(R.id.button) Button button;
 

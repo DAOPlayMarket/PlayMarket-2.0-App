@@ -13,6 +13,7 @@ import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.CryptoPriceResponse;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
+import com.blockchain.store.playmarket.repositories.TransactionInteractor;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 
@@ -111,7 +112,6 @@ public class CryptoUtils {
                 .flatMap(result -> {
                     String rawTx = CryptoUtils.generateTx(result, txData);
                     return RestApi.getServerApi().deployTransaction(rawTx);
-
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -124,7 +124,7 @@ public class CryptoUtils {
     private void onSentSuccess(PurchaseAppResponse purchaseAppResponse) {
     }
 
-    public static String generateTx(AccountInfoResponse accountInfo, byte[] txData) {
+    private static String generateTx(AccountInfoResponse accountInfo, byte[] txData) {
         KeyStore keystore = AccountManager.getKeyManager().getKeystore();
         Account account = AccountManager.getAccount();
 

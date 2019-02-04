@@ -38,10 +38,12 @@ public class DaoContractService extends Service {
             for (Proposal proposal : proposals) {
                 if (proposal.getProposalType() == Proposal.ProposalType.Executed || proposal.getProposalType() == Proposal.ProposalType.Unexecutable) {
                     id = proposal.proposalID;
+                } else {
+                    id = proposal.proposalID;
+                    break;
                 }
             }
         }
-        id++;
         DaoTransactionRepository.getProposals(id).subscribe(this::onProposalsLoaded, this::onProposalsError);
     }
 
