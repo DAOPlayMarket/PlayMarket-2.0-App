@@ -1,33 +1,36 @@
 package com.blockchain.store.dao.repository;
 
-import android.util.Pair;
-
+import com.blockchain.store.dao.data.TokenBalance;
 import com.blockchain.store.dao.interfaces.Callbacks;
 
 public class DaoTokenRepository {
 
-    private Pair<String, String> tokenBalancePair;
+    private TokenBalance tokenBalance;
     private Callbacks.DaoTokenCallback callback;
     private long lastRequestTimeMillis = 0;
 
     public void getDaoTokenBalance(Callbacks.DaoTokenCallback callback) {
         this.callback = callback;
-        if (tokenBalancePair != null && System.currentTimeMillis() - lastRequestTimeMillis < 600000) {
-            callback.onBalanceReady(tokenBalancePair);
+        if ((tokenBalance != null && System.currentTimeMillis() - lastRequestTimeMillis < 600000) || lastRequestTimeMillis != 0) {
+            callback.onBalanceReady(tokenBalance);
         } else {
             DaoTransactionRepository.getUserData().subscribe(this::getUserDataSuccess, this::getUserDataFailed);
         }
     }
 
-    private void getUserDataSuccess(Pair<String, String> stringStringPair) {
+    public void resetLastRequestTime(){
+        lastRequestTimeMillis = 0;
+    }
+
+    private void getUserDataSuccess(TokenBalance tokenBalance) {
         lastRequestTimeMillis = System.currentTimeMillis();
-        tokenBalancePair = stringStringPair;
-        callback.onBalanceReady(tokenBalancePair);
+        this.tokenBalance = tokenBalance;
+        callback.onBalanceReady(tokenBalance);
     }
 
     private void getUserDataFailed(Throwable throwable) {
-        if (tokenBalancePair != null) {
-            callback.onBalanceReady(tokenBalancePair);
+        if (tokenBalance != null) {
+            callback.onBalanceReady(tokenBalance);
         } else {
             throwable.printStackTrace();
         }

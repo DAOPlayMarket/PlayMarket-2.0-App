@@ -2,6 +2,7 @@ package com.blockchain.store.dao.interfaces;
 
 import android.util.Pair;
 
+import com.blockchain.store.dao.data.TokenBalance;
 import com.blockchain.store.dao.database.model.Proposal;
 
 public abstract class Callbacks {
@@ -26,7 +27,7 @@ public abstract class Callbacks {
 
     public interface DaoTokenCallback {
 
-        void onBalanceReady(Pair<String, String> tokenBalancePair);
+        void onBalanceReady(TokenBalance tokenBalance);
 
         void onBalanceFailed(Throwable throwable);
 

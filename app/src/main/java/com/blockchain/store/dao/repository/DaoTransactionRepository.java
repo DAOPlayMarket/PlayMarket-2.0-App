@@ -2,6 +2,7 @@ package com.blockchain.store.dao.repository;
 
 import android.util.Pair;
 
+import com.blockchain.store.dao.data.TokenBalance;
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.data.entities.ProposalDescriptions;
 import com.blockchain.store.dao.database.model.Proposal;
@@ -99,14 +100,19 @@ public class DaoTransactionRepository {
         return web3j.ethCall(createEthCallTransaction(DaoTransactionRepository.userAddress, contractAddress, FunctionEncoder.encode(dataFunction)), DefaultBlockParameterName.LATEST).observable();
     }
 
-    public static Observable<Pair<String, String>> getUserData() {
+    public static Observable<TokenBalance> getUserData() {
         init(DaoConstants.DAO, AccountManager.getAddress().getHex());
         return Observable.zip(
                 getEthCallObservable(getTokenBalanceOfFunction(), DaoConstants.PlayMarket_token_contract),
-                getEthCallObservable(getBalance(), DaoConstants.Repository), (local, repository) -> {
-                    String localBalance = decodeFunction(local, getBalance()).toString();
-                    String repositoryBalance = decodeFunction(repository, getBalance()).toString();
-                    return new Pair<>(localBalance, repositoryBalance);
+                getEthCallObservable(getBalance(), DaoConstants.Repository),
+                getEthCallObservable(getNotLockedBalance(), DaoConstants.Repository), (local, repository, notLocked) -> {
+                    TokenBalance tokenBalance = new TokenBalance();
+                    tokenBalance.setTotalPmt("30000000000");
+                    tokenBalance.setLocalBalance(decodeFunction(local, getBalance()).toString());
+                    tokenBalance.setRepositoryBalance(decodeFunction(repository, getBalance()).toString());
+                    tokenBalance.setNotLockedBalance(decodeFunction(notLocked, getBalance()).toString());
+                    tokenBalance.setMinBalance("20000000");
+                    return tokenBalance;
                 }
         ).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread());
     }
@@ -384,10 +390,15 @@ public class DaoTransactionRepository {
         }));
     }
 
-    public static Function getNotLockedBalance() {/*returns uints*/
+    public static Function getNotLockedBalance() {
         ArrayList<Type> inputParameters = new ArrayList<>();
         inputParameters.add(new Address(DaoTransactionRepository.userAddress));
         return new Function("getNotLockedBalance", inputParameters, Collections.singletonList(new TypeReference<Uint256>() {
+        }));
+    }
+
+    public static Function getMinBalance() {
+        return new Function("minBalance", new ArrayList<>(), Collections.singletonList(new TypeReference<Uint256>() {
         }));
     }
 

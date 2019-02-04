@@ -1,7 +1,6 @@
 package com.blockchain.store.dao.ui.votes_screen.voting_screen;
 
-import android.util.Pair;
-
+import com.blockchain.store.dao.data.TokenBalance;
 import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.database.model.Rules;
 
@@ -9,7 +8,7 @@ class VotingContract {
 
     interface View {
 
-        void setDaoTokenBalance(Pair<String, String> tokenBalancePair);
+        void setDaoTokenBalance(TokenBalance tokenBalance);
 
     }
 
