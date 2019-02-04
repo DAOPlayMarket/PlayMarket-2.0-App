@@ -70,7 +70,26 @@ public class Constants {
             public String toString() {
                 return "get dividends";
             }
-        }
+        },
+        CREATE_PROPOSAL {
+            @Override
+            public String toString() {
+                return "create proposal";
+            }
+        },
+        VOTE_FOR_PROPOSAL {
+            @Override
+            public String toString() {
+                return "vote for proposal";
+            }
+        },
+        EXECUTE_RPOPOSAL {
+            @Override
+            public String toString() {
+                return "execute for proposal";
+            }
+        },
+
 
     }
 
@@ -83,7 +102,7 @@ public class Constants {
     public static final String WELCOME_ACTIVITY_ADDRESS_EXTRA = "welcome_activity_address_extra";
     public static final String WELCOME_ACTIVITY_IS_LUANCHED_FROM_SETTINGS_EXTRA = "welcome_activity_is_launched_from_settings_extra";
 
-    public static final int GAS_LIMIT_ADDITION = 21_000;
+    public static final int GAS_LIMIT_ADDITION = 100_000;
 
     public static final int DOWNLOAD_APPS_PER_REQUEST = 40;
     public static final int GAS_LIMIT = 500_000;

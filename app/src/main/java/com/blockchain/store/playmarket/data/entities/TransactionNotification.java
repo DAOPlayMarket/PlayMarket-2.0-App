@@ -1,5 +1,8 @@
 package com.blockchain.store.playmarket.data.entities;
 
+import android.content.Context;
+
+import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.blockchain.store.playmarket.utilities.Constants;
 
@@ -23,6 +26,7 @@ public class TransactionNotification implements NotificationImpl {
 
     @Override
     public String getTitleName() {
+        Context context = Application.getInstance().getApplicationContext();
         switch (getTransactionTypes()) {
             case BUY_APP:
                 return "Buy app transaction pending";
@@ -41,12 +45,20 @@ public class TransactionNotification implements NotificationImpl {
                 return "Withdrawing tokens";
             case GET_DIVIDENDS:
                 return "Collecting dividends";
+
+            case CREATE_PROPOSAL:
+                return "Create proposal transaction pending";
+            case VOTE_FOR_PROPOSAL:
+                return "Vote for proposal transaction pending";
+            case EXECUTE_RPOPOSAL:
+                return "Execute proposal transaction prending";
         }
         return "Transaction";
     }
 
     @Override
     public String getSuccessResultName() {
+        Context context = Application.getInstance().getApplicationContext();
         switch (getTransactionTypes()) {
             case BUY_APP:
                 return "Buy app transaction complete with success";
@@ -65,6 +77,13 @@ public class TransactionNotification implements NotificationImpl {
                 return "Tokens successfully withdrawn";
             case GET_DIVIDENDS:
                 return "Dividends successfully collected";
+
+            case CREATE_PROPOSAL:
+                return "Proposal created!";
+            case VOTE_FOR_PROPOSAL:
+                return "You are voted for proposal!";
+            case EXECUTE_RPOPOSAL:
+                return "Proposal executed";
         }
 
         return "Unknown transaction complete";
@@ -72,6 +91,7 @@ public class TransactionNotification implements NotificationImpl {
 
     @Override
     public String getFailedResultName() {
+        Context context = Application.getInstance().getApplicationContext();
         switch (getTransactionTypes()) {
             case BUY_APP:
                 return "Buy app transaction complete with failure";
@@ -89,6 +109,13 @@ public class TransactionNotification implements NotificationImpl {
                 return "Withdrawing tokens ends with error";
             case GET_DIVIDENDS:
                 return "Collecting dividends ends with error";
+
+            case CREATE_PROPOSAL:
+                return "Proposal creation failed";
+            case VOTE_FOR_PROPOSAL:
+                return "Voting for proposal failed";
+            case EXECUTE_RPOPOSAL:
+                return "Proposal execution failed";
         }
         return "Unknown transaction error";
     }
@@ -117,6 +144,15 @@ public class TransactionNotification implements NotificationImpl {
             return Constants.TransactionTypes.WITHDRAW_TOKEN;
         }
         if (transactionTypeOrdinal == Constants.TransactionTypes.GET_DIVIDENDS.ordinal()) {
+            return Constants.TransactionTypes.GET_DIVIDENDS;
+        }
+        if (transactionTypeOrdinal == Constants.TransactionTypes.CREATE_PROPOSAL.ordinal()) {
+            return Constants.TransactionTypes.GET_DIVIDENDS;
+        }
+        if (transactionTypeOrdinal == Constants.TransactionTypes.VOTE_FOR_PROPOSAL.ordinal()) {
+            return Constants.TransactionTypes.GET_DIVIDENDS;
+        }
+        if (transactionTypeOrdinal == Constants.TransactionTypes.EXECUTE_RPOPOSAL.ordinal()) {
             return Constants.TransactionTypes.GET_DIVIDENDS;
         }
 

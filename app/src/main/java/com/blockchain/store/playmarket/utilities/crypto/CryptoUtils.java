@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.utilities.crypto;
 import android.util.Log;
 import android.util.Pair;
 
+import com.blockchain.TransactionSender;
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.playmarket.PurchaseSDK.entities.TransferObject;
@@ -11,7 +12,6 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.CryptoPriceResponse;
-import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -40,6 +40,7 @@ import java.util.regex.Pattern;
 
 import io.ethmobile.ethdroid.EthDroid;
 import io.ethmobile.ethdroid.KeyManager;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -106,25 +107,18 @@ public class CryptoUtils {
     }
 
 
-    public void sendTx(byte[] txData) {
-        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
+    public Observable<String> sendTx(byte[] txData) {
+        return RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .flatMap(result -> {
-                    String rawTx = CryptoUtils.generateTx(result, txData);
-                    return RestApi.getServerApi().deployTransaction(rawTx);
+                    Transaction rawTx = CryptoUtils.generateTx(result, txData);
+                    return new TransactionSender().send(rawTx);
 
                 })
                 .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onSentSuccess, this::onSentFailed);
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
-    private void onSentFailed(Throwable throwable) {
-    }
-
-    private void onSentSuccess(PurchaseAppResponse purchaseAppResponse) {
-    }
-
-    public static String generateTx(AccountInfoResponse accountInfo, byte[] txData) {
+    public static Transaction generateTx(AccountInfoResponse accountInfo, byte[] txData) {
         KeyStore keystore = AccountManager.getKeyManager().getKeystore();
         Account account = AccountManager.getAccount();
 
@@ -133,7 +127,8 @@ public class CryptoUtils {
         Transaction transaction = new Transaction(accountInfo.count, new Address(DaoConstants.DAO), price, GAS_LIMIT, gasPrice, txData);
         try {
             transaction = keystore.signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
-            return getRawTransaction(transaction);
+            return transaction;
+//            return getRawTransaction(transaction);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
