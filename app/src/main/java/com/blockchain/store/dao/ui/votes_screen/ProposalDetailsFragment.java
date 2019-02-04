@@ -54,8 +54,13 @@ public class ProposalDetailsFragment extends Fragment {
         ToastUtil.showToast(R.string.bytecode_copied);
     }
 
+    @OnClick(R.id.close_button)
+    void onCloseClicked(){
+        if (getActivity() != null) getActivity().onBackPressed();
+    }
+
     private void bindData(Proposal proposal) {
-        String dt = new java.util.Date(proposal.endTimeOfVoting).toString();
+        String dt = new java.util.Date(proposal.endTimeOfVoting * 1000).toString();
         endTimeTextView.setText(dt);
         idTextView.setText(String.valueOf(proposal.proposalID));
         recipientTextView.setText(proposal.recipient);

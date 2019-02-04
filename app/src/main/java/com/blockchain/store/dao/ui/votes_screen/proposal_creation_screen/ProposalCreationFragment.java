@@ -60,19 +60,21 @@ public class ProposalCreationFragment extends Fragment implements ProposalCreati
 
     @OnClick(R.id.continue_button)
     void onContinueButtonClicked() {
-        new DialogManager().showConfirmDialog(getContext(), (isUnlock) -> {
-            if (isUnlock) {
-                Proposal proposal = new Proposal();
-                proposal.recipient = recipientEditText.getText().toString();
-                proposal.amount = Long.valueOf(amountEditText.getText().toString());
-                proposal.description = descriptionEditText.getText().toString();
-                proposal.transactionBytecode = transactionBytecodeEditText.getText().toString();
-                presenter.createProposal(proposal);
-                if (getActivity() != null) getActivity().onBackPressed();
-            } else {
-                Toast.makeText(getContext(), "Wrong password", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (presenter.isHasNoErrors(recipientEditText.getText().toString(), amountEditText.getText().toString())) {
+            new DialogManager().showConfirmDialog(getContext(), (isUnlock) -> {
+                if (isUnlock) {
+                    Proposal proposal = new Proposal();
+                    proposal.recipient = recipientEditText.getText().toString();
+                    proposal.amount = Long.valueOf(amountEditText.getText().toString());
+                    proposal.description = descriptionEditText.getText().toString();
+                    proposal.transactionBytecode = transactionBytecodeEditText.getText().toString();
+                    presenter.createProposal(proposal);
+                    if (getActivity() != null) getActivity().onBackPressed();
+                } else {
+                    Toast.makeText(getContext(), "Wrong password", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @Override
@@ -80,5 +82,15 @@ public class ProposalCreationFragment extends Fragment implements ProposalCreati
         super.onActivityResult(requestCode, resultCode, data);
         if (data == null) return;
         recipientEditText.setText(data.getStringExtra("qrResult"));
+    }
+
+    @Override
+    public void setRecipientError(String errorText) {
+        recipientInputLayout.setError(errorText);
+    }
+
+    @Override
+    public void setAmountError(String errorText) {
+        amountInputLayout.setError(errorText);
     }
 }

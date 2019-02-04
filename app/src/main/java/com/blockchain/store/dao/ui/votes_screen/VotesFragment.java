@@ -68,7 +68,6 @@ public class VotesFragment extends Fragment implements Callbacks.ProposalCallbac
             proposalsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             adapter = new ProposalsAdapter(proposals, this);
             proposalsRecyclerView.setAdapter(adapter);
-
             proposalsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

@@ -59,7 +59,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:text="@string/recipient_address"
-                android:textColor="@color/colorPrimary90"
+                android:textColor="@color/lightBlue70"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -81,10 +81,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/lightBlue"
-                    android:singleLine="true"
-                    android:text="0xc8237d8d429f1d895569daa3a85ef950d68ec0f6"
+                    android:inputType="text"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:singleLine="true"
+                    tools:text="0xc8237d8d429f1d895569daa3a85ef950d68ec0f6"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -101,9 +102,9 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:text="@string/amount"
-                android:textColor="@color/colorPrimary90"
+                android:textColor="@color/lightBlue70"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/recipient_inputLayout"
                 app:layout_constraintTop_toBottomOf="@+id/recipient_inputLayout" />
@@ -150,9 +151,9 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:text="@string/description"
-                android:textColor="@color/colorPrimary90"
+                android:textColor="@color/lightBlue70"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/amount_inputLayout"
                 app:layout_constraintTop_toBottomOf="@+id/amount_inputLayout" />
@@ -175,9 +176,9 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:text="@string/transaction_bytecode"
-                android:textColor="@color/colorPrimary90"
+                android:textColor="@color/lightBlue70"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/description_editText"
                 app:layout_constraintTop_toBottomOf="@+id/description_editText" />
