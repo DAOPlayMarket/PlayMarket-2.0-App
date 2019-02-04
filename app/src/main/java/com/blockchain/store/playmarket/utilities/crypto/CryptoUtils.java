@@ -255,7 +255,7 @@ public class CryptoUtils {
 
     }
 
-    public static Transaction generateDaoWithdraw(AccountInfoResponse result, DaoToken token) throws Exception {
+    public static Transaction generateDaoWithdraw(AccountInfoResponse result, DaoToken token)  {
         BigInt price = new BigInt(0);
         Account account = AccountManager.getAccount();
         GenerateTransactionData generateTransactionData = new GenerateTransactionData();
@@ -263,11 +263,11 @@ public class CryptoUtils {
 
         Transaction withdrawTransaction = new Transaction(result.count, new Address(DaoConstants.Foundation),
                 price, GAS_LIMIT, new BigInt(Long.valueOf(result.getGasPrice())), withdraw);
-        Transaction withdrawSignedTx = keyManager.getKeystore().signTx(account, withdrawTransaction, new BigInt(USER_ETHERSCAN_ID));
+//        Transaction withdrawSignedTx = keyManager.getKeystore().signTx(account, withdrawTransaction, new BigInt(USER_ETHERSCAN_ID));
 
-        String withdrawRawTx = getRawTransaction(withdrawSignedTx);
+//        String withdrawRawTx = getRawTransaction(withdrawSignedTx);
 
-        return withdrawSignedTx;
+        return withdrawTransaction;
 
     }
 

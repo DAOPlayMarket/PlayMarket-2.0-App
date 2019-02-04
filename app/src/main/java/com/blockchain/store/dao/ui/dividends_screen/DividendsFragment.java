@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.blockchain.TransactionSender;
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.repository.DaoTransactionRepository;
 import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
@@ -133,50 +134,49 @@ public class DividendsFragment extends Fragment {
 
     private void runSingleTx(DaoToken daoToken) {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-                .flatMap(result -> {
-                    try {
-                        Transaction tx = CryptoUtils.generateDaoWithdraw(result, daoToken);
-                        TransactionInteractor.addToJobSchedule(tx.getHash().getHex(), Constants.TransactionTypes.GET_DIVIDENDS);
-                        return RestApi.getServerApi().deployTransaction(CryptoUtils.getRawTransaction(tx));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
+                .map(result -> {
+                    Transaction tx = CryptoUtils.generateDaoWithdraw(result, daoToken);
+                    return tx;
+                })
+                .flatMap(result -> new TransactionSender().send(result))
+                .map(result -> {
+                    TransactionInteractor.addToJobSchedule(result, Constants.TransactionTypes.GET_DIVIDENDS);
+                    return result;
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::receive, this::transferFailed);
     }
 
-    private void receive(PurchaseAppResponse purchaseAppResponse) {
-        Log.d(TAG, "receive() called with: purchaseAppResponse = [" + purchaseAppResponse + "]");
+    private void receive(String result) {
+        ToastUtil.showToast(R.string.transaction_sent);
+        Log.d(TAG, "receive() called with: o = [" + result + "]");
     }
 
     private void runDoubleTx(DaoToken daoToken) {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-                .flatMap(result -> {
+                .map(result -> {
                     try {
                         Pair<Transaction, Transaction> stringStringPair = CryptoUtils.generateDaoTransferTransactions(result, daoToken);
-                        String rawTransaction = CryptoUtils.getRawTransaction(stringStringPair.first);
-                        String rawSecondTransaction = CryptoUtils.getRawTransaction(stringStringPair.second);
-                        TransactionInteractor.addToJobSchedule(stringStringPair.first.getHash().getHex(), stringStringPair.second.getHash().getHex(), rawSecondTransaction, Constants.TransactionTypes.GET_DIVIDENDS);
-                        return RestApi.getServerApi().deployTransaction(rawTransaction);
+                        return new Pair<>(stringStringPair.first, stringStringPair.second);
                     } catch (Exception e) {
                         e.printStackTrace();
                         throw new RuntimeException("111");
                     }
                 })
+                .flatMap(result -> new TransactionSender().send(result.first), Pair::new)
+                .map(result -> {
+                    String rawSecondTransaction = CryptoUtils.getRawTransaction(result.first.second);
+                    TransactionInteractor.addToJobSchedule(result.second, result.first.second.getHash().getHex(), rawSecondTransaction, Constants.TransactionTypes.GET_DIVIDENDS);
+                    return result.second;
+                })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::transferSuccess, this::transferFailed);
+                .subscribe(this::receive, this::transferFailed);
     }
 
     private void transferFailed(Throwable throwable) {
         Log.d(TAG, "transferFailed() called with: throwable = [" + throwable + "]");
-    }
-
-    private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
-        Log.d(TAG, "transferSuccess() called with: purchaseAppResponse = [" + purchaseAppResponse + "]");
     }
 
 }
