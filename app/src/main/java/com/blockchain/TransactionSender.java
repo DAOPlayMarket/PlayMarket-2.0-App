@@ -1,6 +1,5 @@
 package com.blockchain;
 
-import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
@@ -8,7 +7,6 @@ import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import org.ethereum.geth.Account;
 import org.ethereum.geth.BigInt;
 import org.ethereum.geth.Transaction;
-import org.json.JSONObject;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.methods.response.EthEstimateGas;
@@ -38,9 +36,9 @@ public class TransactionSender {
                 .flatMap(result -> result)
                 .map(result -> {
                     if (result.getError() == null) {
-                        throw new IllegalArgumentException(result.getError().getMessage());
-                    } else {
                         return result.getTransactionHash();
+                    } else {
+                        throw new IllegalArgumentException(result.getError().getMessage());
                     }
                 })
                 .subscribeOn(Schedulers.newThread())
@@ -49,13 +47,19 @@ public class TransactionSender {
 
     public Observable<EthEstimateGas> mapWithEstimateGas(Transaction notSignedTransaction) {
         Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
-        String numericData = Numeric.toHexString(notSignedTransaction.getData());
+        String numericData = null;
+        try {
+            numericData = Numeric.toHexString(notSignedTransaction.getData());
+        } catch (Exception e) {
+
+        }
+
         org.web3j.protocol.core.methods.request.Transaction tx = createFunctionCallTransaction(
                 AccountManager.getAddress().getHex(),
                 new BigInteger(String.valueOf(notSignedTransaction.getNonce())),
-                new BigInteger(String.valueOf(notSignedTransaction.getGasPrice())),
-                new BigInteger(String.valueOf(Constants.GAS_LIMIT)),
-                DaoConstants.Repository,
+                null,
+                null,
+                notSignedTransaction.getTo().getHex(),
                 numericData);
         return build.ethEstimateGas(tx).observable();
     }
@@ -67,16 +71,20 @@ public class TransactionSender {
             amountUsed = amountUsed.add(new BigInteger(String.valueOf(Constants.GAS_LIMIT_ADDITION)));
             return amountUsed;
         } else {
-            throw new RuntimeException(result.getError().getMessage());
+            throw new RuntimeException(result.getError().toString());
         }
     }
 
     public Observable<EthSendTransaction> mapWithAddGasLimitToTx(BigInteger gasLimit, Transaction notSignedTx) {
         try {
-            String encodedJson = notSignedTx.encodeJSON();
-            JSONObject json = new JSONObject(encodedJson);
-            json.put("gas", Numeric.toHexStringWithPrefix(gasLimit));
-            Transaction transaction = new Transaction(json.toString());
+            Transaction transaction = new Transaction(notSignedTx.getNonce(),
+                    notSignedTx.getTo(),
+                    notSignedTx.getValue(),
+                    gasLimit.longValue(),
+                    notSignedTx.getGasPrice(),
+                    notSignedTx.getData());
+
+
             Account account = AccountManager.getAccount();
             Transaction signedTx = CryptoUtils.keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
             return web3j.ethSendRawTransaction("0x" + CryptoUtils.getRawTransaction(signedTx)).observable();

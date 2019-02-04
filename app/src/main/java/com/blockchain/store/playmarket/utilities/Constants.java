@@ -70,7 +70,26 @@ public class Constants {
             public String toString() {
                 return "get dividends";
             }
-        }
+        },
+        CREATE_PROPOSAL {
+            @Override
+            public String toString() {
+                return "create proposal";
+            }
+        },
+        VOTE_FOR_PROPOSAL {
+            @Override
+            public String toString() {
+                return "vote for proposal";
+            }
+        },
+        EXECUTE_RPOPOSAL {
+            @Override
+            public String toString() {
+                return "execute for proposal";
+            }
+        },
+
 
     }
 
@@ -104,6 +123,10 @@ public class Constants {
     public static final String PLAY_MARKET_ADDRESS_TESTNET = "0x5245b2014e888b93418688cb9c9477b1b65c4630";
     public static final String PLAY_MARKET_ADDRESS_MAINNET = "0x839ea7b29be3075a463cab3b065a828d8c37cfaf";
     public static final String PLAY_MARKET_ADDRESS = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? PLAY_MARKET_ADDRESS_MAINNET : PLAY_MARKET_ADDRESS_TESTNET);
+
+    public static final String ETHER_SCAN_TX_URL_TESTNET= "https://rinkeby.etherscan.io/tx/";
+    public static final String ETHER_SCAN_TX_URL_MAINNET = "https://etherscan.io/tx";
+    public static final String ETHER_SCAN_TX_URL=(BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? ETHER_SCAN_TX_URL_MAINNET : ETHER_SCAN_TX_URL_TESTNET);
 
     public static final String CRYPTO_DUEL_CONTRACT_CROWDSALE = "0x2ab54369795266fc84e12270A0219d2e7d21F70f";
     public static final String CRYPTO_DUEL_CONTRACT = "0x869eb8a1a479a80f9907673eae8336625dc3e526";

@@ -1,18 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- Font awesome -->
-    <string name="fa_icon_google_plus">""</string>
-    <string name="fa_icon_fbs">""</string>
-    <string name="fa_icon_linkedin">""</string>
-    <string name="fa_icon_twitter">""</string>
-    <string name="fa_icon_instagram">""</string>
-    <string name="fa_icon_vk">""</string>
-    <string name="fa_icon_youtube">""</string>
-    <string name="fa_icon_telegram">""</string>
-    <string name="fa_icon_git">""</string>
-    <string name="fa_share_icon">""</string>
-    <string name="fa_back_arrow">""</string>
     <string name="app_name">"DAO PlayMarket 2.0"</string>
     <string name="navigation_drawer_open">"Open navigation drawer"</string>
     <string name="navigation_drawer_close">"Close navigation drawer"</string>
@@ -22,7 +9,6 @@
     <string name="got_it_btn">"Понятно!"</string>
     <string name="import_successful">"Импорт успешно завершен!"</string>
     <string name="address_copied">"Адрес скопирован!"</string>
-    <string name="wallet_backup_copied">"Wallet Backup Copied!"</string>
     <string name="search">"ПОИСК"</string>
     <string name="error_view_msg">"Возникла проблема при подключении к серверу. Попробуйте позже."</string>
     <string name="error_btn_msg">"Попробовать снова"</string>
@@ -35,12 +21,12 @@
     <string name="news">"Новости"</string>
     <string name="history">"История"</string>
     <string name="settings">"Настройки"</string>
-    <string name="ether_exchange">"ether_exchange"</string>
     <string name="my_ico">"Мои STO"</string>
     <string name="about">"О приложении"</string>
 
     <!-- activity_login_prompt -->
-    <string name="welcome">"Добро пожаловать! Вы использовали приложение раньше?"</string>
+    <string name="welcome">"Добро пожаловать!
+Вы использовали приложение раньше?"</string>
     <string name="new_account_button">"Создать аккаунт"</string>
     <string name="import_account_button">"&lt;u&gt;Импортировать аккаунт&lt;/u&gt;"</string>
 
@@ -53,8 +39,7 @@
 
     <!-- send_mail_dialog -->
     <string name="found_json_keystore">"Найден JSON файл с ключем"</string>
-    <string name="import_message">"Мы нашли JSON файлы ключей на вашем устройстве. Если хотите, можете выбрать один и импортировать его.
-"</string>
+    <string name="import_message">"Мы нашли JSON файлы ключей на вашем устройстве. Если хотите, можете выбрать один и импортировать его."</string>
     <string name="import_button">"Импорт"</string>
     <string name="chose_folder">"Выберите папку для сохранения JSON файла с ключем"</string>
     <string name="chose_file">"Выберите JSON файл для импорта"</string>
@@ -80,7 +65,7 @@
     <string name="btn_download">"Загрузить"</string>
     <string name="btn_open">"Открыть"</string>
     <string name="btn_invest">"Инвестировать"</string>
-    <string name="delete_with_underscore">"&lt;u&gt;Удалить&lt;/&gt;"</string>
+    <string name="delete_with_underscore">"&lt;u&gt;Удалить&lt;u/&gt;"</string>
     <string name="app_free">"БЕСПЛАТНО"</string>
     <string name="dialog_app_purchase_body">"Для подтверждения покупки, нажмите продолжить"</string>
     <string name="not_enought_balance">"Недостаточно средств"</string>
@@ -108,8 +93,11 @@
     <string name="performing_action">"Для выполнения этого действия требуется пароль. Пожалуйста, введите его ниже."</string>
 
     <!-- hints -->
+    <!-- Fuzzy -->
     <string name="recipient_address">"Адрес получателя"</string>
     <string name="recipient_address_field">"Адрес получателя:"</string>
+
+    <!-- Fuzzy -->
     <string name="amount">"Отправить сумму"</string>
     <string name="wei">"WEI"</string>
     <string name="eth">"ETH"</string>
@@ -122,11 +110,15 @@
     <string name="exchange_source">"Выберите источник пополнения:"</string>
     <string name="send_amount">"Отправить сумму:\n(Минимальная сумма: %1$s)"</string>
     <string name="transaction_details">"Детали транзакции:"</string>
+
+    <!-- Fuzzy -->
     <string name="exchange_details_currency">"Обмен %1$s на ETH"</string>
     <string name="exchange_details_amount">"%1$s %2$s &gt;&gt; %3$s %4$s"</string>
     <string name="exchange_details_fee">"* комиссия включена (0,5%)"</string>
-    <string name="exchange_confirm_transaction">"Для завершения транзакции сделайте перевод %1$s %2$ s на счет:"</string>
+    <string name="exchange_confirm_transaction">"Для завершения транзакции сделайте перевод %1$s %2$s на счет:"</string>
     <string name="transfer_confirm_transaction">"Для завершения транзакции введите свой пароль:"</string>
+
+    <!-- Fuzzy -->
     <string name="exchange_step_field">"Шаг %1$s из 2"</string>
     <string name="load_failed">"Загрузка не удалась"</string>
     <string name="another_exchange">"Другой обмен"</string>
@@ -137,7 +129,9 @@
     <string name="about_activate">"Чтобы включить аутентификацию по отпечаткам пальцев, нажмите на сканер "</string>
     <string name="do_not_activate">"Не активировать"</string>
     <string name="press_sensor_to_complete">"Чтобы совершить транзакцию\nнажмите на сканер"</string>
-    <string name="use_password">"&lt;u&gt; Использовать пароль &lt;/ u&gt;"</string>
+
+    <!-- Fuzzy -->
+    <string name="use_password">"Использовать пароль"</string>
     <string name="is_available">"Вы можете использовать отпечаток пальца\nдля аутентификации"</string>
     <string name="is_not_configured">"Сканер отпечатка пальцев поддерживается\nно не настроен"</string>
     <string name="configure_button">"Настроить сканер отпечатков пальцев?"</string>
@@ -145,7 +139,6 @@
     <string name="fingerprint_not_recognized">"Отпечаток не распознан, попробуйте еще раз!"</string>
     <string name="invest_earned_message">"Заработанно, "</string>
     <string name="invest_hardcap">"HardCap"</string>
-    <string name="hello_blank_fragment">"Hello blank fragment"</string>
     <string name="fragment_ico_title">"STO"</string>
     <string name="tokens_bought">"Токенов куплено"</string>
     <string name="more">"больше"</string>
@@ -161,6 +154,8 @@
     <string name="age">"Возраст"</string>
     <string name="enter_password_to_proceed">"Введите пароль, чтобы продолжить."</string>
     <string name="review_dialog_title">"Введите пароль, чтобы продолжить."</string>
+
+    <!-- Fuzzy -->
     <string name="or_user_your_fingerprint">"Или используйте свой отпечаток пальца"</string>
     <string name="open_app_info">"К приложению"</string>
     <string name="your_balance_is">"Ваш баланс:\n%1$s ETH"</string>
@@ -190,6 +185,8 @@
     <string name="no_items_found">"Ничего не найдено!"</string>
     <string name="status">"Статус:"</string>
     <string name="hash">"Хеш:"</string>
+
+    <!-- Fuzzy -->
     <string name="details">"Подробности:"</string>
     <string name="etherscan_link">"&lt;u&gt;Etherscan&lt;/u&gt;"</string>
     <string name="you_have">"У Вас есть:"</string>
@@ -288,6 +285,8 @@
     <string name="add_new_proposal">"Добавить новое предложение"</string>
     <string name="description">"Описание:"</string>
     <string name="full_description_hash">"Хеш полного описания"</string>
+
+    <!-- Fuzzy -->
     <string name="transaction_bytecode">"Байт-код транзакции"</string>
     <string name="proposal">"Предложение"</string>
     <string name="see_details">"Смотрите подробности"</string>
@@ -357,30 +356,78 @@
     <string name="the_proposal">"предложение"</string>
     <string name="change_account">"Изменить аккаунт"</string>
     <string name="enter_your_response_here">"Введите свой ответ здесь ..."</string>
-    <string name="enter_your_comment_here">Введите свой комментарий здесь ...</string>
     <string name="account_balance">"Баланс"</string>
     <string name="read_all_reviews">"Читать все отзывы"</string>
     <string name="marks">"Метки"</string>
     <string name="install_update">"Установить обновление"</string>
+    <string name="bytecode_copied">"Байт-код скопирован!"</string>
+    <string name="confirm_your_action">"Подтвердите Ваши действия"</string>
+    <string name="proposal_voting">"Голосование за предложение"</string>
+    <string name="copy_bytecode">"Скопировать байт-код"</string>
+    <string name="end_time_of_voting">"Время до окончания голосования:"</string>
+    <string name="proposal_id">"ID Предложения:"</string>
+    <string name="voting">"Голосование"</string>
+    <string name="slash">"/"</string>
+    <string name="enter_your_comment_here">"Введите Ваш отзыв здесь..."</string>
+    <string name="category_apps">"Приложения"</string>
+    <string name="category_games">"Игры"</string>
+    <string name="category_sto">"STO"</string>
+    <string name="history_title_history">"Все"</string>
+    <string name="history_title_pending">"В процессе"</string>
+    <string name="history_title_succeed">"Успешные"</string>
+    <string name="history_title_failed">"Неудачные"</string>
+    <string name="incorrect_address">"Неверный адрес"</string>
 
-    <string name="category_apps">Приложения</string>
-    <string name="category_games">Игры</string>
-    <string name="category_sto">STO</string>
+    <!-- Transaction's strings -->
+    <string name="buy_app_tx_pending">"Ожидание завершения транзакции покупки приложения"</string>
+    <string name="invest_tx_pending">"Ожидание завершения транзакции покупки токенов"</string>
+    <string name="transfer_tx_pending">"Ожидание завершения транзакции перевода"</string>
+    <string name="token_transfer_tx_pending">"Ожидание завершения транзакции перевода токенов"</string>
+    <string name="create_review_tx_pending">"Ожидание завершения транзакции отправки отзыва"</string>
+    <string name="sending_tokens_into_repository">"Отправка токенов в репозиторий"</string>
+    <string name="withdraw_tokens">"Вывод токенов"</string>
+    <string name="collecting_dividends">"Получение дивидендов"</string>
+    <string name="create_proposal_tx_pending">"Ожидание завершения транзакции создания Предложения в DAO"</string>
+    <string name="vote_for_proposal_tx_pending">"Ожидание завершения транзакции голосования за Предложение в DAO"</string>
+    <string name="execute_proposal_tx_pending">"Ожидание завершения транзакции выполнения Предложения в DAO"</string>
+    <string name="buy_app_tx_success">"Транзакция покупки приложения успешно завершена"</string>
+    <string name="invest_tx_success">"Транзакция покупки токенов успешно завершена"</string>
+    <string name="transfer_tx_success">"Транзакция перевода успешно завершена"</string>
+    <string name="token_transfer_tx_success">"Транзакция перевода токенов успешно завершена"</string>
+    <string name="create_review_tx_success">"Транзакция отправки отзыва успешно завершена"</string>
+    <string name="token_are_sent">"Токены успешно отправлены в репозиторий"</string>
+    <string name="tokenst_withdraw_tx_success">"Токены успешно выведены"</string>
 
-    <string name="confirm_your_action">Подтвердите действие</string>
-    <string name="proposal_voting">Proposal voting</string>
-    <string name="copy_bytecode">Копировать байткод</string>
-    <string name="end_time_of_voting">Время окончания голосования:</string>
-    <string name="proposal_id">Идентификатор предложения:</string>
-    <string name="voting">Голосование</string>
-    <string name="slash">/</string>
+    <!-- Font awesome -->
+    <string name="fa_icon_google_plus">""</string>
+    <string name="fa_icon_fbs">""</string>
+    <string name="fa_icon_linkedin">""</string>
+    <string name="fa_icon_twitter">""</string>
+    <string name="fa_icon_instagram">""</string>
+    <string name="fa_icon_vk">""</string>
+    <string name="fa_icon_youtube">""</string>
+    <string name="fa_icon_telegram">""</string>
+    <string name="fa_icon_git">""</string>
+    <string name="fa_share_icon">""</string>
+    <string name="fa_back_arrow">""</string>
+    <string name="dividends_collect__tx_success">"Дивиденды успешно получены"</string>
+    <string name="proposal_created_tx_success">"Предложение в DAO создано!"</string>
+    <string name="you_are_voted__tx_success">"Вы проголосовали за Предложение в DAO!"</string>
+    <string name="proposal_executed_tx_success">"Предложение выполнено"</string>
+    <string name="buy_app_tx_failed">"Транзакция покупки приложения завершилась с ошибкой"</string>
+    <string name="invest_tx_failed">"Транзакция покупки токенов завершилась с ошибкой"</string>
+    <string name="transfer_tx_failed">"Транзакция перевода завершилась с ошибкой"</string>
+    <string name="token_transfer_tx_failed">"Транзакция перевода токенов завершилась с ошибкой"</string>
+    <string name="create_review_tx_failed">"Транзакция отправки отзыва завершилась с ошибкой"</string>
+    <string name="sending_token_tx_failed">"Транзакция отправки токенов в репозиторий завершилась с ошибкой"</string>
+    <string name="withdrawing_token_tx_failed">"Транзакция вывода токенов завершилась с ошибкой"</string>
+    <string name="collecting_dividends_tx_failed">"Транзакция получения дивидендов токенов завершилась с ошибкой"</string>
+    <string name="proposal_creation_tx_failed">"Транзакция создания Предложения в DAO завершилась с ошибкой"</string>
+    <string name="votint_for_proposal_failed_tx_failed">"Транзакция голосования за Предложение в DAO завершилась с ошибкой"</string>
+    <string name="proposal_execution_tx_failed">"Транзакция выполнения Предложения в DAO завершилась с ошибкой"</string>
 
     <string name="not_locked_balance">Незаблокировано:</string>
     <string name="no_tokens">У вас не хватает токенов</string>
 
-    <string name="history_title_history">Все</string>
-    <string name="history_title_pending">В процессе</string>
-    <string name="history_title_succeed">Успешные</string>
-    <string name="history_title_failed">Неудачные</string>
 
 </resources>

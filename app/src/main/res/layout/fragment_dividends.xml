@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="126dp"
         android:background="#153A55"
-        android:text="@string/hello_blank_fragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

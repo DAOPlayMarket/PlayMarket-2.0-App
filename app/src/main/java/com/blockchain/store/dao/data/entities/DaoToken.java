@@ -56,8 +56,8 @@ public class DaoToken implements Parcelable {
         return (long) (Long.valueOf(approval));
     }
 
-    public Long getApprovalWithDecimals() {
-        return (long) (Double.parseDouble(approval) / Math.pow(10, decimals));
+    public double getApprovalWithDecimals() {
+        return (double) (Double.parseDouble(approval) / Math.pow(10, decimals));
     }
 
     public long getWithdraw() {

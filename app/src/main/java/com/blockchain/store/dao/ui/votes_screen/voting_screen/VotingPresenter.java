@@ -9,6 +9,8 @@ import com.blockchain.store.dao.database.model.Rules;
 import com.blockchain.store.dao.interfaces.Callbacks;
 import com.blockchain.store.dao.repository.DaoTokenRepository;
 import com.blockchain.store.playmarket.Application;
+import com.blockchain.store.playmarket.repositories.TransactionInteractor;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.crypto.GenerateTransactionData;
 
@@ -54,6 +56,11 @@ public class VotingPresenter implements VotingContract.Presenter, Callbacks.DaoT
                 .putTypeData(new Bool(isSupport))
                 .putString(justificationText)
                 .build();
+        new CryptoUtils().sendTx(txData)
+                .map(result -> {
+                    TransactionInteractor.addToJobSchedule(result, Constants.TransactionTypes.VOTE_FOR_PROPOSAL);
+                    return result;
+                }).subscribe(this::onTransactionSend, this::onTransactionFailed);
         new CryptoUtils().sendTx(txData);
         Application.getDaoTokenRepository().resetLastRequestTime();
     }
@@ -75,7 +82,11 @@ public class VotingPresenter implements VotingContract.Presenter, Callbacks.DaoT
                 .putInt(new Uint256(proposal.proposalID))
                 .putTypeData(new DynamicBytes(bytes))
                 .build();
-        new CryptoUtils().sendTx(txData);
+        new CryptoUtils().sendTx(txData)
+                .map(result -> {
+                    TransactionInteractor.addToJobSchedule(result, Constants.TransactionTypes.EXECUTE_RPOPOSAL);
+                    return result;
+                }).subscribe(this::onTransactionSend, this::onTransactionFailed);
     }
 
     @Override
@@ -87,4 +98,13 @@ public class VotingPresenter implements VotingContract.Presenter, Callbacks.DaoT
     public void onBalanceFailed(Throwable throwable) {
 
     }
+
+    private void onTransactionFailed(Throwable throwable) {
+
+    }
+
+    private void onTransactionSend(String s) {
+
+    }
+
 }

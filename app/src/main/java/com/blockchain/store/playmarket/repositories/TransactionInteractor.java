@@ -23,6 +23,14 @@ public class TransactionInteractor {
         return response;
     }
 
+    public static String mapWithJobService(String hash, TransactionModel transactionModel) {
+        transactionModel.transactionHash = hash;
+        transactionModel.transactionLink = Constants.ETHER_SCAN_TX_URL + hash;
+        addToJobSchedule(hash, transactionModel);
+        TransactionPrefsUtil.addToSharePrefs(transactionModel);
+        return hash;
+    }
+
     public static void addToJobSchedule(String firstHash, String secondHash, String secondRawTransaction) {
         JobUtils.scheduleCheckTransactionJobs(Application.getInstance(), firstHash, secondHash, secondRawTransaction, null);
     }

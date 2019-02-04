@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.utilities.crypto;
 import android.util.Log;
 import android.util.Pair;
 
+import com.blockchain.TransactionSender;
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.playmarket.Application;
@@ -12,9 +13,7 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.CryptoPriceResponse;
-import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
-import com.blockchain.store.playmarket.repositories.TransactionInteractor;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 
@@ -42,6 +41,7 @@ import java.util.regex.Pattern;
 
 import io.ethmobile.ethdroid.EthDroid;
 import io.ethmobile.ethdroid.KeyManager;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -108,24 +108,18 @@ public class CryptoUtils {
     }
 
 
-    public void sendTx(byte[] txData) {
-        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
+    public Observable<String> sendTx(byte[] txData) {
+        return RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .flatMap(result -> {
-                    String rawTx = CryptoUtils.generateTx(result, txData);
-                    return RestApi.getServerApi().deployTransaction(rawTx);
+                    Transaction rawTx = CryptoUtils.generateTx(result, txData);
+                    return new TransactionSender().send(rawTx);
+
                 })
                 .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onSentSuccess, this::onSentFailed);
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
-    private void onSentFailed(Throwable throwable) {
-    }
-
-    private void onSentSuccess(PurchaseAppResponse purchaseAppResponse) {
-    }
-
-    private static String generateTx(AccountInfoResponse accountInfo, byte[] txData) {
+    public static Transaction generateTx(AccountInfoResponse accountInfo, byte[] txData) {
         KeyStore keystore = AccountManager.getKeyManager().getKeystore();
         Account account = AccountManager.getAccount();
 
@@ -134,7 +128,8 @@ public class CryptoUtils {
         Transaction transaction = new Transaction(accountInfo.count, new Address(DaoConstants.DAO), price, GAS_LIMIT, gasPrice, txData);
         try {
             transaction = keystore.signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
-            return getRawTransaction(transaction);
+            return transaction;
+//            return getRawTransaction(transaction);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -178,7 +173,7 @@ public class CryptoUtils {
         return b;
     }
 
-    public static String generateAppBuyTransaction(int nonce, BigInt gasPrice, App app, String adrNode, CryptoPriceResponse cryptoPriceResponse) throws Exception {
+    public static Transaction generateAppBuyTransaction(int nonce, BigInt gasPrice, App app, String adrNode, CryptoPriceResponse cryptoPriceResponse) {
         Account account = AccountManager.getAccount();
 
         BigInt price = new BigInt(0);
@@ -194,12 +189,10 @@ public class CryptoUtils {
         Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
                 price, GAS_LIMIT, gasPrice,
                 transactionData);
-
-        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
-        return getRawTransaction(signedTransaction);
+        return transaction;
     }
 
-    public static String generateTransferTransaction(int nonce, String gasPrice, String transferAmount, String recipientAddress) throws Exception {
+    public static Transaction generateTransferTransaction(int nonce, String gasPrice, String transferAmount, String recipientAddress) {
         BigInt price = new BigInt(0);
         price.setString(transferAmount, 10);
 
@@ -207,10 +200,7 @@ public class CryptoUtils {
 
         Transaction transaction = new Transaction(nonce, new Address(recipientAddress),
                 price, GAS_LIMIT, new BigInt(Long.parseLong(gasPrice)), null);
-        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
-        String hash = signedTransaction.getHash().getHex();
-        String sigHash = signedTransaction.getSigHash().getHex();
-        return getRawTransaction(signedTransaction);
+        return transaction;
     }
 
     public static Transaction generateTransferTransactionRaw(int nonce, String gasPrice, String transferAmount, String recipientAddress) throws Exception {
@@ -256,7 +246,7 @@ public class CryptoUtils {
 
     }
 
-    public static Transaction generateDaoWithdraw(AccountInfoResponse result, DaoToken token) throws Exception {
+    public static Transaction generateDaoWithdraw(AccountInfoResponse result, DaoToken token)  {
         BigInt price = new BigInt(0);
         Account account = AccountManager.getAccount();
         GenerateTransactionData generateTransactionData = new GenerateTransactionData();
@@ -264,11 +254,11 @@ public class CryptoUtils {
 
         Transaction withdrawTransaction = new Transaction(result.count, new Address(DaoConstants.Foundation),
                 price, GAS_LIMIT, new BigInt(Long.valueOf(result.getGasPrice())), withdraw);
-        Transaction withdrawSignedTx = keyManager.getKeystore().signTx(account, withdrawTransaction, new BigInt(USER_ETHERSCAN_ID));
+//        Transaction withdrawSignedTx = keyManager.getKeystore().signTx(account, withdrawTransaction, new BigInt(USER_ETHERSCAN_ID));
 
-        String withdrawRawTx = getRawTransaction(withdrawSignedTx);
+//        String withdrawRawTx = getRawTransaction(withdrawSignedTx);
 
-        return withdrawSignedTx;
+        return withdrawTransaction;
 
     }
 
@@ -285,16 +275,12 @@ public class CryptoUtils {
         return getRawTransaction(signedTransaction);
     }
 
-    public static String generateSendTokenTransaction(int nonce, BigInt gasPrice, String transferAmount, String recipientAddress, String icoAddress) throws Exception {
-        Account account = AccountManager.getAccount();
-
+    public static Transaction generateSendTokenTransaction(int nonce, BigInt gasPrice, String transferAmount, String recipientAddress, String icoAddress)   {
         BigInt price = new BigInt(0);
         Transaction transaction = new Transaction(nonce, new Address(icoAddress),
                 price, GAS_LIMIT, gasPrice,
                 createSentTokenTransactionBytes(recipientAddress, transferAmount));
-
-        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
-        return getRawTransaction(signedTransaction);
+        return transaction;
 
     }
 

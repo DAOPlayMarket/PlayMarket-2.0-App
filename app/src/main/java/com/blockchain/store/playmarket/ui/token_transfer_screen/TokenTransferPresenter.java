@@ -47,11 +47,11 @@ public class TokenTransferPresenter implements Presenter {
     }
 
     private void transferFailed(Throwable error) {
-
+        view.transferFailed(error);
     }
 
     private void transferSuccess(String response) {
-
+        view.transferSuccess(response);
     }
 
     static Pair<Transaction, Transaction> pair;
@@ -64,11 +64,9 @@ public class TokenTransferPresenter implements Presenter {
                         Transaction transaction = null;
                         if (approvalWithoutDecimal >= amount && approvalWithoutDecimal != 0) {
                             transaction = CryptoUtils.generateDepositOnlyTokenToRepositoryTx(result, amount);
-                            TransactionInteractor.addToJobSchedule(transaction.getHash().getHex(), Constants.TransactionTypes.SEND_INTO_REPOSITORY);
                         } else {
                             pair = CryptoUtils.generateDepositTokenToRepositoryTx(result, amount);
-                            String rawSecondTransaction = CryptoUtils.getRawTransaction(pair.second);
-                            TransactionInteractor.addToJobSchedule(pair.first.getHash().getHex(), pair.second.getHash().getHex(), rawSecondTransaction, Constants.TransactionTypes.SEND_INTO_REPOSITORY);
+                            transaction = pair.first;
                         }
                         return transaction;
                     } catch (Exception e) {
@@ -77,6 +75,15 @@ public class TokenTransferPresenter implements Presenter {
                     }
                 })
                 .flatMap(result -> new TransactionSender().send(result))
+                .map(result -> {
+                    if (pair == null) {
+                        TransactionInteractor.addToJobSchedule(result, Constants.TransactionTypes.SEND_INTO_REPOSITORY);
+                    } else {
+                        String rawSecondTransaction = CryptoUtils.getRawTransaction(pair.second);
+                        TransactionInteractor.addToJobSchedule(result, pair.second.getHash().getHex(), rawSecondTransaction, Constants.TransactionTypes.SEND_INTO_REPOSITORY);
+                    }
+                    return result;
+                })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::transferSuccess, this::transferFailed);

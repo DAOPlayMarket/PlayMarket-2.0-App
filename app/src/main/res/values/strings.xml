@@ -23,7 +23,6 @@
     <string name="import_successful">Import Successful!</string>
     <string name="address_copied">Address Copied!</string>
     <string name="bytecode_copied">Bytecode Copied!</string>
-    <string name="wallet_backup_copied">Wallet Backup Copied!</string>
     <string name="search">SEARCH</string>
     <string name="error_view_msg">There was a problem connecting to the server. Please try again.</string>
     <string name="error_btn_msg">Try again</string>
@@ -151,7 +150,6 @@
     <string name="invest_earned_message">Earned, </string>
     <string name="invest_hardcap">HardCap</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_ico_title">STO</string>
     <string name="tokens_bought">Tokens bought</string>
     <string name="more">more</string>
@@ -390,6 +388,45 @@
     <string name="history_title_pending">Pending</string>
     <string name="history_title_succeed">Succeed</string>
     <string name="history_title_failed">Failed</string>
+    <string name="incorrect_address">Incorrect address</string>
+
+    <!--Transaction's strings-->
+
+    <string name="buy_app_tx_pending">Buy app transaction pending</string>
+    <string name="invest_tx_pending">Invest transaction pending</string>
+    <string name="transfer_tx_pending">Transfer transaction pending</string>
+    <string name="token_transfer_tx_pending">Token transfer transaction pending</string>
+    <string name="create_review_tx_pending">Create review transaction pending</string>
+    <string name="sending_tokens_into_repository">Sending tokens into repository</string>
+    <string name="withdraw_tokens">Withdrawing tokens</string>
+    <string name="collecting_dividends">Collecting dividends</string>
+    <string name="create_proposal_tx_pending">Create proposal transaction pending</string>
+    <string name="vote_for_proposal_tx_pending">Vote for proposal transaction pending</string>
+    <string name="execute_proposal_tx_pending">Execute proposal transaction pending</string>
+
+    <string name="buy_app_tx_success">Buy app transaction complete with success</string>
+    <string name="invest_tx_success">Invest transaction complete with success</string>
+    <string name="transfer_tx_success">Transfer transaction complete with success</string>
+    <string name="token_transfer_tx_success">Token transfer transaction complete with success</string>
+    <string name="create_review_tx_success">Create review transaction complete with success</string>
+    <string name="token_are_sent">Tokens are sent to the repository</string>
+    <string name="tokenst_withdraw_tx_success">Tokens successfully withdrawn</string>
+    <string name="dividends_collect__tx_success">Dividends successfully collected</string>
+    <string name="proposal_created_tx_success">Proposal created!</string>
+    <string name="you_are_voted__tx_success">You are voted for proposal!</string>
+    <string name="proposal_executed_tx_success">Proposal executed</string>
+
+    <string name="buy_app_tx_failed">Buy app transaction complete with failure</string>
+    <string name="invest_tx_failed">Invest transaction complete with failure</string>
+    <string name="transfer_tx_failed">Transfer transaction complete with failure</string>
+    <string name="token_transfer_tx_failed">Token transfer transaction complete with failure</string>
+    <string name="create_review_tx_failed">Create review transaction complete with failure</string>
+    <string name="sending_token_tx_failed">Sending tokens into repository ends with error</string>
+    <string name="withdrawing_token_tx_failed">Withdrawing tokens ends with error</string>
+    <string name="collecting_dividends_tx_failed">Collecting dividends ends with error</string>
+    <string name="proposal_creation_tx_failed">Proposal creation failed</string>
+    <string name="votint_for_proposal_failed_tx_failed">Voting for proposal failed</string>
+    <string name="proposal_execution_tx_failed">Proposal execution failed</string>
     <string name="not_locked_balance">Not locked balance:</string>
     <string name="no_tokens">You don`t have enough tokens</string>
 
