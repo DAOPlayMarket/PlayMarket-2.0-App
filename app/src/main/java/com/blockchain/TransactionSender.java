@@ -8,7 +8,6 @@ import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import org.ethereum.geth.Account;
 import org.ethereum.geth.BigInt;
 import org.ethereum.geth.Transaction;
-import org.json.JSONObject;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.methods.response.EthEstimateGas;
@@ -38,9 +37,9 @@ public class TransactionSender {
                 .flatMap(result -> result)
                 .map(result -> {
                     if (result.getError() == null) {
-                        throw new IllegalArgumentException(result.getError().getMessage());
-                    } else {
                         return result.getTransactionHash();
+                    } else {
+                        throw new IllegalArgumentException(result.getError().getMessage());
                     }
                 })
                 .subscribeOn(Schedulers.newThread())
@@ -67,16 +66,25 @@ public class TransactionSender {
             amountUsed = amountUsed.add(new BigInteger(String.valueOf(Constants.GAS_LIMIT_ADDITION)));
             return amountUsed;
         } else {
-            throw new RuntimeException(result.getError().getMessage());
+            throw new RuntimeException(result.getError().toString());
         }
     }
 
     public Observable<EthSendTransaction> mapWithAddGasLimitToTx(BigInteger gasLimit, Transaction notSignedTx) {
         try {
-            String encodedJson = notSignedTx.encodeJSON();
-            JSONObject json = new JSONObject(encodedJson);
-            json.put("gas", Numeric.toHexStringWithPrefix(gasLimit));
-            Transaction transaction = new Transaction(json.toString());
+//            String encodedJson = notSignedTx.encodeJSON();
+//            JSONObject json = new JSONObject(encodedJson);
+//            json.put("gas", Numeric.toHexStringWithPrefix(gasLimit));
+//            Transaction transaction = new Transaction(json.toString());
+
+            Transaction transaction = new Transaction(notSignedTx.getNonce(),
+                    notSignedTx.getTo(),
+                    notSignedTx.getValue(),
+                    gasLimit.longValue(),
+                    notSignedTx.getGasPrice(),
+                    notSignedTx.getData());
+
+
             Account account = AccountManager.getAccount();
             Transaction signedTx = CryptoUtils.keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
             return web3j.ethSendRawTransaction("0x" + CryptoUtils.getRawTransaction(signedTx)).observable();

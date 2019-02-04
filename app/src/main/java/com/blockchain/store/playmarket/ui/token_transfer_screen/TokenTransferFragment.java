@@ -9,8 +9,6 @@ import android.support.design.widget.TabLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,24 +22,15 @@ import android.widget.Toast;
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.playmarket.R;
-import com.blockchain.store.playmarket.api.RestApi;
-import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
-import com.blockchain.store.playmarket.repositories.TransactionInteractor;
 import com.blockchain.store.playmarket.utilities.AccountManager;
-import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.QRCodeScannerActivity;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
-import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
-
-import org.ethereum.geth.Transaction;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class TokenTransferFragment extends Fragment implements TokenTransferContract.View {
 
@@ -334,81 +323,68 @@ public class TokenTransferFragment extends Fragment implements TokenTransferCont
         new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
             @Override
             public void onAccountUnlocked() {
-//                presenter.sendTokenToRepository(daoToken.getApprovalWithoutDecimal(),amount);
-                RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-                        .flatMap(result -> {
-                            try {
-                                String rawTransaction;
-                                Long approvalWithoutDecimal = daoToken.getApprovalWithoutDecimal();
-
-                                if (approvalWithoutDecimal >= amount && approvalWithoutDecimal != 0) {
-                                    Transaction transaction = CryptoUtils.generateDepositOnlyTokenToRepositoryTx(result, amount);
-                                    TransactionInteractor.addToJobSchedule(transaction.getHash().getHex(), Constants.TransactionTypes.SEND_INTO_REPOSITORY);
-                                    rawTransaction = CryptoUtils.getRawTransaction(transaction);
-                                } else {
-                                    Pair<Transaction, Transaction> stringStringPair = CryptoUtils.generateDepositTokenToRepositoryTx(result, amount);
-                                    rawTransaction = CryptoUtils.getRawTransaction(stringStringPair.first);
-                                    String rawSecondTransaction = CryptoUtils.getRawTransaction(stringStringPair.second);
-                                    TransactionInteractor.addToJobSchedule(stringStringPair.first.getHash().getHex(), stringStringPair.second.getHash().getHex(), rawSecondTransaction, Constants.TransactionTypes.SEND_INTO_REPOSITORY);
-                                }
-                                return RestApi.getServerApi().deployTransaction(rawTransaction);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                throw new RuntimeException("111");
-                            }
-                        })
-                        .subscribeOn(Schedulers.newThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(response -> transferSuccess(response), error -> transferFailed(error));
+                presenter.sendTokenToRepository(daoToken.getApprovalWithoutDecimal(), amount);
+//                RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
+//                        .flatMap(result -> {
+//                            try {
+//                                String rawTransaction;
+//                                Long approvalWithoutDecimal = daoToken.getApprovalWithoutDecimal();
+//
+//                                if (approvalWithoutDecimal >= amount && approvalWithoutDecimal != 0) {
+//                                    Transaction transaction = CryptoUtils.generateDepositOnlyTokenToRepositoryTx(result, amount);
+//                                    TransactionInteractor.addToJobSchedule(transaction.getHash().getHex(), Constants.TransactionTypes.SEND_INTO_REPOSITORY);
+//                                    rawTransaction = CryptoUtils.getRawTransaction(transaction);
+//                                } else {
+//                                    Pair<Transaction, Transaction> stringStringPair = CryptoUtils.generateDepositTokenToRepositoryTx(result, amount);
+//                                    rawTransaction = CryptoUtils.getRawTransaction(stringStringPair.first);
+//                                    String rawSecondTransaction = CryptoUtils.getRawTransaction(stringStringPair.second);
+//                                    TransactionInteractor.addToJobSchedule(stringStringPair.first.getHash().getHex(), stringStringPair.second.getHash().getHex(), rawSecondTransaction, Constants.TransactionTypes.SEND_INTO_REPOSITORY);
+//                                }
+//                                return RestApi.getServerApi().deployTransaction(rawTransaction);
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                                throw new RuntimeException("111");
+//                            }
+//                        })
+//                        .subscribeOn(Schedulers.newThread())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(response -> transferSuccess(response), error -> transferFailed(error));
             }
 
         });
 
     }
 
-    private void transferFailed(Throwable throwable) {
-        Log.d(TAG, "transferFailed() called with: throwable = [" + throwable + "]");
-    }
-
-    private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
-        try {
-            Toast.makeText(getActivity(), R.string.transaction_sent, Toast.LENGTH_SHORT).show();
-            getActivity().onBackPressed();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Log.d(TAG, "transferSuccess() called with: purchaseAppResponse = [" + purchaseAppResponse + "]");
-    }
 
     private void proceedWithWithdraw(Long amount) {/*WORKS need refactor*/
-//        presenter.withdraw(amount,isOpenAsCryptoDuelToken);
-        new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
-            @Override
-            public void onAccountUnlocked() {
-                RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-                        .flatMap(result -> {
-                            try {
-                                Transaction tx;
-                                if (isOpenAsCryptoDuelToken) {
-                                    tx = CryptoUtils.generateWithDrawCDLTTokens(result, amount);
-                                } else {
-                                    tx = CryptoUtils.generateWithDrawPmtTokens(result, amount);
-                                }
-
-                                String rawTx = CryptoUtils.getRawTransaction(tx);
-                                new TransactionInteractor().addToJobSchedule(tx.getHash().getHex(), Constants.TransactionTypes.WITHDRAW_TOKEN);
-                                return RestApi.getServerApi().deployTransaction(rawTx);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                throw new RuntimeException("111");
-                            }
-                        })
-                        .subscribeOn(Schedulers.newThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(response -> transferSuccess(response), error -> transferFailed(error));
-            }
-
-        });
+        presenter.withdraw(amount, isOpenAsCryptoDuelToken);
+//        new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
+//            @Override
+//            public void onAccountUnlocked() {
+//                RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
+//                        .flatMap(result -> {
+//                            try {
+//                                Transaction tx;
+//                                if (isOpenAsCryptoDuelToken) {
+//                                    tx = CryptoUtils.generateWithDrawCDLTTokens(result, amount);
+//                                } else {
+//                                    tx = CryptoUtils.generateWithDrawPmtTokens(result, amount);
+//                                }
+//
+//                                String rawTx = CryptoUtils.getRawTransaction(tx);
+//                                new TransactionInteractor().addToJobSchedule(tx.getHash().getHex(), Constants.TransactionTypes.WITHDRAW_TOKEN);
+//                                return RestApi.getServerApi().deployTransaction(rawTx);
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                                throw new RuntimeException("111");
+//                            }
+//                        })
+//                        .subscribeOn(Schedulers.newThread())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(response -> transferSuccess(response), error -> transferFailed(error));
+//            }
+//
+//        });
 
     }
 
@@ -514,5 +490,20 @@ public class TokenTransferFragment extends Fragment implements TokenTransferCont
         if (currentTabPosition == 1) {/*withdraw*/
             sendEditText.setText(String.valueOf(daoToken.getNotLockedBalanceWithDecimals()));
         }
+    }
+
+    @Override
+    public void transferSuccess(String response) {
+        try {
+            ToastUtil.showToast(R.string.transaction_sent);
+            getActivity().onBackPressed();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void transferFailed(Throwable error) {
+        ToastUtil.showToast(error.getMessage());
     }
 }
