@@ -12,6 +12,7 @@ import com.blockchain.store.dao.services.DaoContractService;
 import com.blockchain.store.playmarket.Application;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment.BROADCAST_ACTION;
@@ -38,6 +39,7 @@ public class MainVotesPresenter implements MainVotesContract.Presenter {
     };
 
     private Pair<ArrayList<Proposal>, ArrayList<Proposal>> sortProposals(List<Proposal> proposals) {
+        Collections.sort(proposals);
         ArrayList<Proposal> archiveProposals = new ArrayList<>();
         ArrayList<Proposal> ongoingProposals = new ArrayList<>();
         for (Proposal proposal : proposals) {

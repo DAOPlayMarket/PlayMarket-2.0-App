@@ -80,29 +80,27 @@ public class ProposalsAdapter extends RecyclerView.Adapter<ProposalsAdapter.View
             Proposal.ProposalType proposalType = proposal.getProposalType();
             switch (proposalType) {
                 case Ongoing:
+                    votingEndTimeTextView.setText(timeConverter((proposal.endTimeOfVoting * 1000) - System.currentTimeMillis()));
                     statusGroup.setVisibility(View.GONE);
                     timeGroup.setVisibility(View.VISIBLE);
-                    votingEndTimeTextView.setText(timeConverter((proposal.endTimeOfVoting * 1000) - System.currentTimeMillis()));
                     break;
                 case NotExecutedAccepted:
-                    statusGroup.setVisibility(View.VISIBLE);
-                    timeGroup.setVisibility(View.GONE);
                     isExecutedTextView.setText(itemView.getResources().getString(R.string.not_executed));
                     isAcceptedTextView.setText(itemView.getResources().getString(R.string.accepted));
                     isAcceptedTextView.setTextColor(itemView.getResources().getColor(R.color.colorGreen));
                     isExecutedTextView.setTextColor(itemView.getResources().getColor(R.color.colorRed));
-                    break;
-                case NotExecutedNotAccepted:
                     statusGroup.setVisibility(View.VISIBLE);
                     timeGroup.setVisibility(View.GONE);
+                    break;
+                case NotExecutedNotAccepted:
                     isExecutedTextView.setText(itemView.getResources().getString(R.string.not_executed));
                     isAcceptedTextView.setText(itemView.getResources().getString(R.string.not_accepted));
                     isAcceptedTextView.setTextColor(itemView.getResources().getColor(R.color.colorRed));
                     isExecutedTextView.setTextColor(itemView.getResources().getColor(R.color.colorRed));
-                    break;
-                case Executed:
                     statusGroup.setVisibility(View.VISIBLE);
                     timeGroup.setVisibility(View.GONE);
+                    break;
+                case Executed:
                     if (proposal.proposalPassed) {
                         isAcceptedTextView.setText(itemView.getResources().getString(R.string.accepted));
                         isAcceptedTextView.setTextColor(itemView.getResources().getColor(R.color.colorGreen));
@@ -112,14 +110,16 @@ public class ProposalsAdapter extends RecyclerView.Adapter<ProposalsAdapter.View
                     }
                     isExecutedTextView.setText(itemView.getResources().getString(R.string.executed));
                     isExecutedTextView.setTextColor(itemView.getResources().getColor(R.color.colorGreen));
-                    break;
-                case Unexecutable:
                     statusGroup.setVisibility(View.VISIBLE);
                     timeGroup.setVisibility(View.GONE);
+                    break;
+                case Unexecutable:
                     isExecutedTextView.setText(itemView.getResources().getString(R.string.not_executed));
                     isAcceptedTextView.setText(itemView.getResources().getString(R.string.not_accepted));
                     isAcceptedTextView.setTextColor(itemView.getResources().getColor(R.color.colorRed));
                     isExecutedTextView.setTextColor(itemView.getResources().getColor(R.color.colorRed));
+                    statusGroup.setVisibility(View.VISIBLE);
+                    timeGroup.setVisibility(View.GONE);
                     break;
             }
         }

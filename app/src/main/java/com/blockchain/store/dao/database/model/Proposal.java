@@ -4,11 +4,12 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.blockchain.store.playmarket.Application;
 
 @Entity
-public class Proposal implements Parcelable {
+public class Proposal implements Parcelable, Comparable<Proposal> {
 
     public enum ProposalType {
         Ongoing,
@@ -43,8 +44,7 @@ public class Proposal implements Parcelable {
                 if (numberOfVotes >= rules.minimumQuorum) {
                     if (votesSupport >= rules.requisiteMajority) {
                         return ProposalType.NotExecutedAccepted;
-                    }
-                    else {
+                    } else {
                         return ProposalType.NotExecutedNotAccepted;
                     }
                 } else {
@@ -102,4 +102,13 @@ public class Proposal implements Parcelable {
             return new Proposal[size];
         }
     };
+
+
+    @Override
+    public int compareTo(@NonNull Proposal proposal) {
+        Integer thisValue = this.proposalID;
+        Integer otherValue = proposal.proposalID;
+        return otherValue.compareTo(thisValue);
+    }
+
 }

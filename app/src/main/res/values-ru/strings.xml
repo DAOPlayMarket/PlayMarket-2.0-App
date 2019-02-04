@@ -317,8 +317,8 @@
     <string name="confirm_transaction">"Подтвердите транзакцию"</string>
     <string name="new_proposal">"Новое предложение"</string>
     <string name="id">"id:"</string>
-    <string name="vote_for_support">"Голосовать за"</string>
-    <string name="vote_against">"Голосовать против"</string>
+    <string name="vote_for_support">"За"</string>
+    <string name="vote_against">"Против"</string>
     <string name="create_proposal">"Создать предложение"</string>
     <string name="time_to_end_voting">"Время до окончания голосования"</string>
     <string name="execute">"Выполнить"</string>
@@ -375,7 +375,7 @@
     <string name="voting">Голосование</string>
     <string name="slash">/</string>
 
-    <string name="not_locked_balance">Незаблокированный баланс:</string>
+    <string name="not_locked_balance">Незаблокировано:</string>
     <string name="no_tokens">У вас не хватает токенов</string>
 
     <string name="history_title_history">Все</string>
