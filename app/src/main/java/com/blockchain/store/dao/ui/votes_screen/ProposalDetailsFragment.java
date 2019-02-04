@@ -14,6 +14,9 @@ import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -49,19 +52,21 @@ public class ProposalDetailsFragment extends Fragment {
     }
 
     @OnClick(R.id.copyBytecode_button)
-    void onCopyBytecodeClicked(){
+    void onCopyBytecodeClicked() {
         ClipboardUtils.copyToClipboard(getActivity(), transactionBytecodeTextView.getText().toString().replaceAll(" ", ""));
         ToastUtil.showToast(R.string.bytecode_copied);
     }
 
     @OnClick(R.id.close_button)
-    void onCloseClicked(){
+    void onCloseClicked() {
         if (getActivity() != null) getActivity().onBackPressed();
     }
 
     private void bindData(Proposal proposal) {
-        String dt = new java.util.Date(proposal.endTimeOfVoting * 1000).toString();
-        endTimeTextView.setText(dt);
+        Date date = new Date(proposal.endTimeOfVoting * 1000);
+        DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getActivity());
+//        String dt = new java.util.Date(proposal.endTimeOfVoting * 1000).toString();
+        endTimeTextView.setText(dateFormat.format(date));
         idTextView.setText(String.valueOf(proposal.proposalID));
         recipientTextView.setText(proposal.recipient);
         String amountEth = new EthereumPrice(String.valueOf(proposal.amount), EthereumPrice.Currency.WEI).inEther().toString();
