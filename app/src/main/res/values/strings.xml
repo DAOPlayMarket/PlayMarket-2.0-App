@@ -390,6 +390,8 @@
     <string name="history_title_pending">Pending</string>
     <string name="history_title_succeed">Succeed</string>
     <string name="history_title_failed">Failed</string>
+    <string name="not_locked_balance">Not locked balance:</string>
+    <string name="no_tokens">You don`t have enough tokens</string>
 
     <string-array name="contract_functions">
         <item>Sent ethereum</item>

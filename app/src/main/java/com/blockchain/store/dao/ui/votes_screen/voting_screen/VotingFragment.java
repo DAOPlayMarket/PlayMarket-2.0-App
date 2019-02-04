@@ -15,12 +15,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blockchain.store.dao.data.TokenBalance;
 import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.database.model.Rules;
 import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
 import com.blockchain.store.playmarket.utilities.DialogManager;
+import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.google.android.gms.common.util.ArrayUtils;
 
 import butterknife.BindView;
@@ -33,8 +35,7 @@ public class VotingFragment extends Fragment implements VotingContract.View {
     private NavigationCallback callback;
 
     private static String PROPOSAL_TAG = "Proposal";
-    private String localBalance;
-    private String repositoryBalance;
+    private TokenBalance tokenBalance;
     private Proposal proposal;
 
     @BindView(R.id.description_textView) TextView descriptionTextView;
@@ -50,14 +51,17 @@ public class VotingFragment extends Fragment implements VotingContract.View {
     @BindView(R.id.majorityPercent_textView) TextView majorityPercentTextView;
     @BindView(R.id.minMajority_textView) TextView minMajorityTextView;
     @BindView(R.id.majority_textView) TextView majorityTextView;
-    @BindView(R.id.ongoing_group) Group ongoingGroup;
-    @BindView(R.id.finish_group) Group finishGroup;
+    @BindView(R.id.ongoingGroup) Group ongoingGroup;
+    @BindView(R.id.finishGroup) Group finishGroup;
+    @BindView(R.id.voteForSupport_button) Button voteForSupportButton;
+    @BindView(R.id.voteAgainst_button) Button voteAgainstButton;
     @BindView(R.id.execute_button) Button executeButton;
     @BindView(R.id.isAccepted_textView) TextView isAcceptedTextView;
     @BindView(R.id.isExecuted_textView) TextView isExecutedTextView;
     @BindView(R.id.localBalance_textView) TextView localBalanceTextView;
     @BindView(R.id.repositoryBalance_textView) TextView repositoryBalanceTextView;
     @BindView(R.id.progressBar) ProgressBar progressbar;
+    @BindView(R.id.notLockedBalance_textView) TextView notLockedBalanceTextView;
 
     public static Fragment newInstance(Proposal proposal) {
         Fragment fragment = new VotingFragment();
@@ -116,17 +120,21 @@ public class VotingFragment extends Fragment implements VotingContract.View {
 
     @OnClick(R.id.voteForSupport_button)
     void onSupportClicked() {
-        new DialogManager().showVotingDialog(true, repositoryBalance, getContext(), (isUnlock) -> {
-            if (isUnlock) {
-                presenter.votingForProposal(proposal.proposalID, true, "");
-                if (getActivity() != null) getActivity().onBackPressed();
-            } else Toast.makeText(getContext(), "Wrong password", Toast.LENGTH_SHORT).show();
-        });
+        if (tokenBalance.getRepositoryBalance().equals("0.0")){
+            ToastUtil.showToast("You have no tokens in repository");
+        } else if (tokenBalance.getNotLockedBalance().equals("0.0")) {
+            new DialogManager().showVotingDialog(true, tokenBalance.getRepositoryBalance(), getContext(), (isUnlock) -> {
+                if (isUnlock) {
+                    presenter.votingForProposal(proposal.proposalID, true, "");
+                    if (getActivity() != null) getActivity().onBackPressed();
+                } else Toast.makeText(getContext(), "Wrong password", Toast.LENGTH_SHORT).show();
+            });
+        }
     }
 
     @OnClick(R.id.voteAgainst_button)
     void onAgainstClicked() {
-        new DialogManager().showVotingDialog(false, repositoryBalance, getContext(), (isUnlock) -> {
+        new DialogManager().showVotingDialog(false, tokenBalance.getRepositoryBalance(), getContext(), (isUnlock) -> {
             if (isUnlock) {
                 presenter.votingForProposal(proposal.proposalID, false, "");
                 if (getActivity() != null) getActivity().onBackPressed();
@@ -219,20 +227,12 @@ public class VotingFragment extends Fragment implements VotingContract.View {
     }
 
     @Override
-    public void setDaoTokenBalance(Pair<String, String> tokenBalancePair) {
-        localBalance = String.valueOf(getTokenWithDecimals(tokenBalancePair.first));
-        repositoryBalance = String.valueOf(getTokenWithDecimals(tokenBalancePair.second));
-        localBalanceTextView.setText(localBalance);
-        repositoryBalanceTextView.setText(repositoryBalance);
-        showComponents(ongoingGroup);
-    }
-
-    private double getTokenWithDecimals(String balance) {
-        if (Long.valueOf(balance) == 0) {
-            return 0;
-        } else {
-            return (Double.valueOf(balance) / Math.pow(10, 4));
-        }
+    public void setDaoTokenBalance(TokenBalance tokenBalance) {
+        this.tokenBalance = tokenBalance;
+        localBalanceTextView.setText(this.tokenBalance.getLocalBalance());
+        repositoryBalanceTextView.setText(this.tokenBalance.getRepositoryBalance());
+        notLockedBalanceTextView.setText(this.tokenBalance.getNotLockedBalance());
+        showComponents(ongoingGroup, voteForSupportButton, voteAgainstButton);
     }
 
     private void showComponents(View... views) {
@@ -242,11 +242,25 @@ public class VotingFragment extends Fragment implements VotingContract.View {
         if (ArrayUtils.contains(views, finishGroup)) finishGroup.setVisibility(View.VISIBLE);
         else finishGroup.setVisibility(View.GONE);
 
+        if (ArrayUtils.contains(views, voteForSupportButton)) voteForSupportButton.setVisibility(View.VISIBLE);
+        else voteForSupportButton.setVisibility(View.GONE);
+
+        if (ArrayUtils.contains(views, voteAgainstButton)) voteAgainstButton.setVisibility(View.VISIBLE);
+        else voteAgainstButton.setVisibility(View.GONE);
+
         if (ArrayUtils.contains(views, executeButton)) executeButton.setVisibility(View.VISIBLE);
         else executeButton.setVisibility(View.GONE);
 
         if (ArrayUtils.contains(views, progressbar)) progressbar.setVisibility(View.VISIBLE);
         else progressbar.setVisibility(View.GONE);
+    }
+
+    private double getTokenWithDecimals(String balance) {
+        if (Long.valueOf(balance) == 0) {
+            return 0;
+        } else {
+            return (Double.valueOf(balance) / Math.pow(10, 4));
+        }
     }
 
 }

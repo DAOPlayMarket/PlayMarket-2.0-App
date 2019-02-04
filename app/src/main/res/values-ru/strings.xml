@@ -367,6 +367,17 @@
     <string name="category_games">Игры</string>
     <string name="category_sto">STO</string>
 
+    <string name="confirm_your_action">Подтвердите действие</string>
+    <string name="proposal_voting">Proposal voting</string>
+    <string name="copy_bytecode">Копировать байткод</string>
+    <string name="end_time_of_voting">Время окончания голосования:</string>
+    <string name="proposal_id">Идентификатор предложения:</string>
+    <string name="voting">Голосование</string>
+    <string name="slash">/</string>
+
+    <string name="not_locked_balance">Незаблокированный баланс:</string>
+    <string name="no_tokens">У вас не хватает токенов</string>
+
     <string name="history_title_history">Все</string>
     <string name="history_title_pending">В процессе</string>
     <string name="history_title_succeed">Успешные</string>

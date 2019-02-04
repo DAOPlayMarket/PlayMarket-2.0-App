@@ -2,6 +2,7 @@ package com.blockchain.store.dao.ui.votes_screen.voting_screen;
 
 import android.util.Pair;
 
+import com.blockchain.store.dao.data.TokenBalance;
 import com.blockchain.store.dao.database.DaoDatabase;
 import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.database.model.Rules;
@@ -54,6 +55,7 @@ public class VotingPresenter implements VotingContract.Presenter, Callbacks.DaoT
                 .putString(justificationText)
                 .build();
         new CryptoUtils().sendTx(txData);
+        Application.getDaoTokenRepository().resetLastRequestTime();
     }
 
     @Override
@@ -77,8 +79,8 @@ public class VotingPresenter implements VotingContract.Presenter, Callbacks.DaoT
     }
 
     @Override
-    public void onBalanceReady(Pair<String, String> tokenBalancePair) {
-        view.setDaoTokenBalance(tokenBalancePair);
+    public void onBalanceReady(TokenBalance tokenBalance) {
+        view.setDaoTokenBalance(tokenBalance);
     }
 
     @Override
