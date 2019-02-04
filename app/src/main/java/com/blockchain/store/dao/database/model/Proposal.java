@@ -30,6 +30,7 @@ public class Proposal implements Parcelable {
     public long amount;
     public String description;
     public String fullDescriptionHash;
+    public String transactionBytecode;
 
     public Proposal() {
     }
@@ -72,6 +73,7 @@ public class Proposal implements Parcelable {
         dest.writeLong(this.amount);
         dest.writeString(this.description);
         dest.writeString(this.fullDescriptionHash);
+        dest.writeString(this.transactionBytecode);
     }
 
     protected Proposal(Parcel in) {
@@ -79,13 +81,14 @@ public class Proposal implements Parcelable {
         this.endTimeOfVoting = in.readLong();
         this.isExecuted = in.readByte() != 0;
         this.proposalPassed = in.readByte() != 0;
-        this.numberOfVotes = in.readInt();
+        this.numberOfVotes = in.readLong();
         this.votesSupport = in.readLong();
         this.votesAgainst = in.readLong();
         this.recipient = in.readString();
         this.amount = in.readLong();
         this.description = in.readString();
         this.fullDescriptionHash = in.readString();
+        this.transactionBytecode = in.readString();
     }
 
     public static final Creator<Proposal> CREATOR = new Creator<Proposal>() {

@@ -70,7 +70,7 @@
 
         <ImageView
             style="@style/navViewImageItem"
-            android:src="@drawable/ic_myicoicon" />
+            android:src="@drawable/ic_voting" />
 
         <TextView
             style="@style/navViewTextItem"

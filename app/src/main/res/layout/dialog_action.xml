@@ -38,66 +38,11 @@
         app:layout_constraintStart_toEndOf="@+id/cancel_button"
         app:layout_constraintTop_toTopOf="@+id/cancel_button" />
 
-    <TextView
-        android:id="@+id/amount_textView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/cancel_button"
-        app:layout_constraintTop_toBottomOf="@+id/cancel_button"
-        tools:text="89321" />
-
-    <TextView
-        android:id="@+id/token_textView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:textColor="@color/lightBlue"
-        android:textStyle="bold"
-        android:text="@string/pmt"
-        android:textAllCaps="true"
-        app:layout_constraintBaseline_toBaselineOf="@+id/amount_textView"
-        app:layout_constraintStart_toEndOf="@+id/amount_textView" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:text="@string/will_be_used_from_repository_to"
-        android:textSize="12sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/token_textView"
-        app:layout_constraintStart_toEndOf="@+id/token_textView" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:text="@string/the_proposal"
-        android:textSize="12sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/isSupport_textView"
-        app:layout_constraintStart_toEndOf="@+id/isSupport_textView" />
-
-    <TextView
-        android:id="@+id/isSupport_textView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/colorGreen"
-        android:textStyle="bold"
-        android:textAllCaps="true"
-        app:layout_constraintStart_toStartOf="@+id/amount_textView"
-        app:layout_constraintTop_toBottomOf="@+id/amount_textView"
-        tools:text="VOTE FORE SUPPORT" />
-
     <android.support.design.widget.TextInputLayout
         android:id="@+id/password_inputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
+        android:layout_margin="20dp"
         android:hint="@string/enter_your_password"
         android:textColorHint="@color/white"
         app:errorEnabled="true"
@@ -105,8 +50,8 @@
         app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/isSupport_textView"
-        app:layout_constraintTop_toBottomOf="@+id/isSupport_textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2"
         app:passwordToggleEnabled="true"
         app:passwordToggleTint="@color/lightBlue">
 

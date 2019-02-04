@@ -18,6 +18,8 @@
 
     <color name="colorPrimary">#131E2B</color>
     <color name="colorPrimary70">#B3174362</color>
+    <color name="colorPrimary40">#66174362</color>
+    <color name="colorPrimary90">#F2174362</color>
 
     <color name="colorPrimaryDark">#101823</color>
     <color name="colorSelectItem">#e0f1ee</color>

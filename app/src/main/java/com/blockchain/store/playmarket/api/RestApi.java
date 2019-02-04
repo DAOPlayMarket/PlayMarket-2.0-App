@@ -21,6 +21,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RestApi {
     public static final String BASE_URL_INFURA_RINKEBY = "https://rinkeby.infura.io/iYGysj5Sns7HV42MdiXi/";
     public static final String BASE_URL_INFURA_MAINNET_ = "https://mainnet.infura.io/iYGysj5Sns7HV42MdiXi/";
+
+    public static final String INFURA_IPFS_URL = "https://ipfs.infura.io:5001/";
+
     public static final String BASE_URL_INFURA = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? BASE_URL_INFURA_MAINNET_ : BASE_URL_INFURA_RINKEBY);
 
     public static final String CHANGELLY_ENDPOINT = "https://api.changelly.com";
@@ -65,7 +68,6 @@ public class RestApi {
     public ServerApi getCustomUrlApi(String url) {
         return setupWithCustomUrl(url);
     }
-
 
     private static void setupWithRest() {
         checkIfBaseUrlIsEmptyAndSetup(SERVER_ENDPOINT);

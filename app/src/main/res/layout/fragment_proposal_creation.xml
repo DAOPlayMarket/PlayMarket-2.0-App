@@ -11,7 +11,7 @@
     <View
         android:id="@+id/view"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="63dp"
         android:background="@color/colorPrimary70"
         app:layout_constraintBottom_toBottomOf="@+id/close_button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,12 +30,11 @@
 
 
     <TextView
-        android:id="@+id/title_textView"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
         android:text="@string/create_proposal"
-        android:textSize="24sp"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="@+id/close_button"
         app:layout_constraintStart_toEndOf="@+id/close_button"
         app:layout_constraintTop_toTopOf="@+id/close_button" />
@@ -54,64 +53,49 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/id"
-                android:textAllCaps="true"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/id_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                tools:text="1"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView"
-                app:layout_constraintStart_toEndOf="@+id/textView" />
-
-            <TextView
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:text="@string/recipient_address"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                android:textStyle="bold"
+                android:textColor="@color/colorPrimary90"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/recipient_editText"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/recipient_inputLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="25dp"
-                android:backgroundTint="@color/colorAccent"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                app:errorTextAppearance="@style/error_appearance"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toStartOf="@+id/qrScanner_button"
                 app:layout_constraintStart_toStartOf="@+id/textView1"
-                app:layout_constraintTop_toBottomOf="@+id/textView1" />
+                app:layout_constraintTop_toBottomOf="@+id/textView1">
+
+                <EditText
+                    android:id="@+id/recipient_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/lightBlue"
+                    android:singleLine="true"
+                    android:text="0xc8237d8d429f1d895569daa3a85ef950d68ec0f6"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <ImageView
                 android:id="@+id/qrScanner_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
                 android:src="@drawable/ic_qr_code"
-                app:layout_constraintEnd_toEndOf="@+id/recipient_editText"
-                app:layout_constraintTop_toTopOf="@+id/recipient_editText" />
+                app:layout_constraintBottom_toBottomOf="@+id/recipient_inputLayout"
+                app:layout_constraintStart_toStartOf="@+id/textView6"
+                app:layout_constraintTop_toTopOf="@+id/recipient_inputLayout" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -119,35 +103,48 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/amount"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/recipient_editText"
-                app:layout_constraintTop_toBottomOf="@+id/recipient_editText" />
+                android:textColor="@color/colorPrimary90"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/recipient_inputLayout"
+                app:layout_constraintTop_toBottomOf="@+id/recipient_inputLayout" />
 
-            <EditText
-                android:id="@+id/amount_editText"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/amount_inputLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:errorTextAppearance="@style/error_appearance"
                 android:layout_marginTop="5dp"
-                android:backgroundTint="@color/colorAccent"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="@+id/recipient_editText"
-                app:layout_constraintHorizontal_bias="0.0"
+                android:layout_marginEnd="8dp"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toStartOf="@+id/textView6"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+                <EditText
+                    android:id="@+id/amount_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/colorAccent"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    tools:text="1" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/lightBlue"
+                android:layout_marginEnd="20dp"
                 android:text="@string/eth"
-                app:layout_constraintEnd_toEndOf="@+id/amount_editText"
-                app:layout_constraintTop_toTopOf="@+id/amount_editText" />
+                android:textColor="@color/lightBlue"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/amount_inputLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/amount_inputLayout" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -155,35 +152,33 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/description"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="@+id/amount_editText"
-                app:layout_constraintTop_toBottomOf="@+id/amount_editText" />
+                android:textColor="@color/colorPrimary90"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/amount_inputLayout"
+                app:layout_constraintTop_toBottomOf="@+id/amount_inputLayout" />
 
             <EditText
                 android:id="@+id/description_editText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/outline_background"
+                android:background="@drawable/descriptions_bg"
                 android:padding="10dp"
                 android:textColor="@color/white"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="@+id/amount_editText"
-                app:layout_constraintHorizontal_bias="1.0"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/textView6"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textView3"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/transaction_bytecode"
-                android:textColor="@color/colorAccent"
-                android:textSize="12sp"
-                android:textStyle="bold"
+                android:textColor="@color/colorPrimary90"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/description_editText"
                 app:layout_constraintTop_toBottomOf="@+id/description_editText" />
 
@@ -191,14 +186,16 @@
                 android:id="@+id/transactionBytecode_editText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/outline_background"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/descriptions_bg"
                 android:padding="10dp"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/description_editText"
-                app:layout_constraintStart_toStartOf="@+id/textView5"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+                app:layout_constraintStart_toStartOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
 
         </android.support.constraint.ConstraintLayout>
@@ -214,26 +211,25 @@
 
     <Button
         android:id="@+id/continue_button"
-        style="@style/positiveButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_margin="20dp"
         android:text="@string/continue_btn"
+        android:background="@drawable/round_corner_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <Button
         android:id="@+id/cancel_button"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_margin="20dp"
         android:background="@color/Clear"
         android:text="@string/cancel_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>

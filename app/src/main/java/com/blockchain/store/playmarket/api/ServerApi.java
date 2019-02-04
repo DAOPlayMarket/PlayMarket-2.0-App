@@ -1,13 +1,13 @@
 package com.blockchain.store.playmarket.api;
 
+import com.blockchain.store.dao.data.IpfsData;
+import com.blockchain.store.dao.data.entities.ProposalDescriptions;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.data.entities.CryptoPriceResponse;
-import com.blockchain.store.playmarket.data.entities.CurrentInfo;
 import com.blockchain.store.playmarket.data.entities.ExchangeRate;
-import com.blockchain.store.playmarket.data.entities.IcoBalance;
 import com.blockchain.store.playmarket.data.entities.IcoInfoResponse;
 import com.blockchain.store.playmarket.data.entities.PexHistory;
 import com.blockchain.store.playmarket.data.entities.PlaymarketFeed;
@@ -22,7 +22,9 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -51,6 +53,12 @@ public interface ServerApi {
                                        @Field("subCategory") int subCategoryId,
                                        @Field("newFirst") boolean isNewFirst);
 
+    @Multipart
+    @POST("https://ipfs.infura.io:5001/api/v0/add?")
+    Observable<IpfsData> getFullDescriptionHash(@Part("file") String jsonData);
+
+    @GET("https://ipfs.infura.io:5001/api/v0/cat?")
+    Observable<String> getProposalDescriptions(@Query("arg") String multihash);
 
     @FormUrlEncoded
     @POST("deploy")
@@ -60,6 +68,7 @@ public interface ServerApi {
     Observable<String> getGasPrice();
 
     @FormUrlEncoded
+
     @POST("get-address-balance")
     Observable<String> getBalance(@Field("address") String address);
 
@@ -82,6 +91,7 @@ public interface ServerApi {
     @FormUrlEncoded
     @POST("get-apps-by-package-name")
     Observable<ArrayList<App>> getAppsByPackage(@Field("packageNameArr") String arrayOfString);
+
     @FormUrlEncoded
     @POST("get-apps-by-package-name")
     Observable<ArrayList<AppInfo>> getAppsByPackageGetAsAppInfo(@Field("packageNameArr") String arrayOfString);

@@ -1,8 +1,9 @@
-package com.blockchain.store.dao.ui.votes_screen.proposal_details_screen;
+package com.blockchain.store.dao.ui.votes_screen.voting_screen;
 
 import android.util.Pair;
 
 import com.blockchain.store.dao.database.DaoDatabase;
+import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.database.model.Rules;
 import com.blockchain.store.dao.interfaces.Callbacks;
 import com.blockchain.store.dao.repository.DaoTokenRepository;
@@ -13,15 +14,16 @@ import com.blockchain.store.playmarket.utilities.crypto.GenerateTransactionData;
 import org.web3j.abi.datatypes.Bool;
 import org.web3j.abi.datatypes.DynamicBytes;
 import org.web3j.abi.datatypes.generated.Uint256;
+import org.web3j.utils.Numeric;
 
-public class VoteDetailsPresenter implements VoteDetailsContract.Presenter, Callbacks.DaoTokenCallback {
+public class VotingPresenter implements VotingContract.Presenter, Callbacks.DaoTokenCallback {
 
-    private VoteDetailsContract.View view;
+    private VotingContract.View view;
     private DaoDatabase daoDatabase;
     private DaoTokenRepository daoTokenRepository;
 
     @Override
-    public void init(VoteDetailsContract.View view) {
+    public void init(VotingContract.View view) {
         this.view = view;
         daoDatabase = Application.getDaoDatabase();
         daoTokenRepository = Application.getDaoTokenRepository();
@@ -64,11 +66,12 @@ public class VoteDetailsPresenter implements VoteDetailsContract.Presenter, Call
     }
 
     @Override
-    public void executeProposal(int id, String transactionByteCode) {
+    public void executeProposal(Proposal proposal) {
+        byte[] bytes = Numeric.hexStringToByteArray(proposal.transactionBytecode);
         byte[] txData = new GenerateTransactionData()
                 .setMethod("executeProposal")
-                .putInt(new Uint256(id))
-                .putTypeData(new DynamicBytes(transactionByteCode.getBytes()))
+                .putInt(new Uint256(proposal.proposalID))
+                .putTypeData(new DynamicBytes(bytes))
                 .build();
         new CryptoUtils().sendTx(txData);
     }

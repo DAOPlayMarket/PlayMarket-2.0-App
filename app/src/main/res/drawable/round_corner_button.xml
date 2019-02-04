@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <corners
-        android:radius="7dp" />
-
+        android:radius="3dp" />
     <solid android:color="@color/lightBlue"/>
 
 </shape>

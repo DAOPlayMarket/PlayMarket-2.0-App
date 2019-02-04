@@ -6,10 +6,10 @@
     android:background="@color/colorPrimary"
     android:clickable="true"
     android:focusable="true"
-    tools:context="com.blockchain.store.dao.ui.votes_screen.proposal_details_screen.VoteDetailsFragment">
+    tools:context="com.blockchain.store.dao.ui.votes_screen.voting_screen.VotingFragment">
 
     <View
-        android:id="@+id/view4"
+        android:id="@+id/view"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:background="@color/colorPrimary70"
@@ -29,67 +29,56 @@
         app:srcCompat="@drawable/ic_back" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/proposal"
-        android:textSize="26sp"
-        android:layout_marginStart="10dp"
+        android:text="@string/voting"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="@+id/close_image_button"
         app:layout_constraintStart_toEndOf="@+id/close_image_button"
         app:layout_constraintTop_toTopOf="@+id/close_image_button" />
 
     <TextView
-        android:id="@+id/id_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:textSize="26sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView1"
-        app:layout_constraintStart_toEndOf="@+id/textView1"
-        tools:text="324" />
-
-    <TextView
-        android:id="@id/textView10"
+        android:id="@id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="@string/description"
-        android:textColor="@color/lightBlue"
-        android:textSize="12sp"
-        android:textStyle="bold"
+        android:textColor="@color/colorPrimary90"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/close_image_button"
-        app:layout_constraintTop_toBottomOf="@+id/view4" />
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <TextView
         android:id="@+id/description_textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/outline_background"
+        android:background="@drawable/descriptions_bg"
+        android:singleLine="true"
         android:padding="15dp"
-        android:textSize="12sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/textView10"
-        tools:text="test"/>
+        app:layout_constraintStart_toStartOf="@+id/textView1"
+        app:layout_constraintTop_toBottomOf="@+id/textView1"
+        tools:text="test" />
 
     <TextView
         android:id="@+id/details_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/round_corner_button"
         android:paddingStart="15dp"
         android:paddingTop="5dp"
         android:paddingEnd="15dp"
         android:paddingBottom="5dp"
-        android:textStyle="bold"
+        android:text="@string/details"
         android:textAllCaps="true"
-        android:text="@string/see_details"
         android:textSize="12sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/description_textView"
         app:layout_constraintTop_toBottomOf="@+id/description_textView" />
 
@@ -97,9 +86,8 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
         android:text="@string/total_voted"
+        android:textColor="@color/colorPrimary90"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/description_textView"
         app:layout_constraintTop_toBottomOf="@+id/details_button" />
@@ -125,13 +113,59 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/votes_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="3000000"
+        android:layout_marginEnd="4dp"
         android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/pmt5_textView"
+        app:layout_constraintEnd_toStartOf="@+id/pmt5_textView"
+        tools:text="20000" />
+
+    <TextView
+        android:id="@+id/pmt5_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="@string/pmt"
+        android:textAllCaps="true"
+        android:textColor="@color/lightBlue"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView17"
+        app:layout_constraintEnd_toStartOf="@+id/textView17" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="@string/slash"
+        android:textAllCaps="true"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/totalVotes_textView"
+        app:layout_constraintEnd_toStartOf="@+id/totalVotes_textView" />
+
+    <TextView
+        android:id="@+id/totalVotes_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/pmt6_textView"
+        app:layout_constraintEnd_toStartOf="@+id/pmt6_textView" />
+
+    <TextView
+        android:id="@+id/pmt6_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pmt"
+        android:textColor="@color/lightBlue"
+        android:textSize="12sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/totalVoted_progressBar"
         app:layout_constraintTop_toBottomOf="@+id/totalVoted_progressBar" />
+
 
     <TextView
         android:id="@+id/textView3"
@@ -139,9 +173,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/quorum"
+        android:textColor="@color/colorPrimary90"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/totalVoted_progressBar"
-        app:layout_constraintTop_toBottomOf="@+id/totalVoted_progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/pmt6_textView" />
 
     <TextView
         android:id="@+id/quorumPercent_textView"
@@ -167,7 +202,54 @@
         android:id="@+id/quorum_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
         android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/pmt1_textView"
+        app:layout_constraintEnd_toStartOf="@+id/pmt1_textView"
+        tools:text="20000" />
+
+    <TextView
+        android:id="@+id/pmt1_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="@string/pmt"
+        android:textAllCaps="true"
+        android:textColor="@color/lightBlue"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView15"
+        app:layout_constraintEnd_toStartOf="@+id/textView15" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="@string/slash"
+        android:textAllCaps="true"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/minQuorum_textView"
+        app:layout_constraintEnd_toStartOf="@+id/minQuorum_textView" />
+
+    <TextView
+        android:id="@+id/minQuorum_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/pmt2_textView"
+        app:layout_constraintEnd_toStartOf="@+id/pmt2_textView"
+        tools:text="1000" />
+
+    <TextView
+        android:id="@+id/pmt2_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pmt"
+        android:textColor="@color/lightBlue"
+        android:textSize="12sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/quorum_progressBar"
         app:layout_constraintTop_toBottomOf="@+id/quorum_progressBar" />
 
@@ -178,9 +260,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/requisite_majority"
+        android:textColor="@color/colorPrimary90"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/quorum_progressBar"
-        app:layout_constraintTop_toBottomOf="@+id/quorum_progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/pmt2_textView" />
 
     <TextView
         android:id="@+id/majorityPercent_textView"
@@ -206,7 +289,54 @@
         android:id="@+id/majority_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
         android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/pmt3_textView"
+        app:layout_constraintEnd_toStartOf="@+id/pmt3_textView"
+        tools:text="20000" />
+
+    <TextView
+        android:id="@+id/pmt3_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="@string/pmt"
+        android:textAllCaps="true"
+        android:textColor="@color/lightBlue"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView16"
+        app:layout_constraintEnd_toStartOf="@+id/textView16" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="@string/slash"
+        android:textAllCaps="true"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/minMajority_textView"
+        app:layout_constraintEnd_toStartOf="@+id/minMajority_textView" />
+
+    <TextView
+        android:id="@+id/minMajority_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/pmt4_textView"
+        app:layout_constraintEnd_toStartOf="@+id/pmt4_textView"
+        tools:text="1000" />
+
+    <TextView
+        android:id="@+id/pmt4_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pmt"
+        android:textColor="@color/lightBlue"
+        android:textSize="12sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/majority_progressBar"
         app:layout_constraintTop_toBottomOf="@+id/majority_progressBar" />
 
@@ -218,31 +348,8 @@
         android:text="@string/dao_playmarket_2_0"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/majority_progressBar"
-        app:layout_constraintTop_toBottomOf="@+id/majority_progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/pmt4_textView" />
 
-
-    <TextView
-        android:id="@+id/token_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textAllCaps="true"
-        android:textColor="@color/colorAccent"
-        android:textSize="18sp"
-        android:text="@string/pmt"
-        app:layout_constraintBaseline_toBaselineOf="@+id/localBalance_textView"
-        app:layout_constraintStart_toEndOf="@+id/localBalance_textView"/>
-
-    <TextView
-        android:id="@id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/local_balance"
-        android:textColor="@color/lightBlue"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <TextView
         android:id="@+id/localBalance_textView"
@@ -255,14 +362,38 @@
         app:layout_constraintStart_toEndOf="@+id/textView7"
         tools:text="1938.7894" />
 
+    <TextView
+        android:id="@+id/token_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/pmt"
+        android:textAllCaps="true"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/localBalance_textView"
+        app:layout_constraintStart_toEndOf="@+id/localBalance_textView" />
+
+    <TextView
+        android:id="@id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/local_balance"
+        android:textColor="@color/colorPrimary90"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/majority_progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/pmt4_textView" />
 
     <TextView
         android:id="@id/textView8"
@@ -270,7 +401,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/repository_balance"
-        android:textColor="@color/lightBlue"
+        android:textColor="@color/colorPrimary90"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -290,12 +421,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:text="@string/pmt"
         android:textAllCaps="true"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
-        android:text="@string/pmt"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/repositoryBalance_textView"
-        app:layout_constraintStart_toEndOf="@+id/repositoryBalance_textView"/>
+        app:layout_constraintStart_toEndOf="@+id/repositoryBalance_textView" />
 
     <TextView
         android:id="@+id/textView6"
@@ -303,10 +435,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/status"
-        android:textColor="@color/lightBlue"
+        android:textColor="@color/colorPrimary90"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/majority_progressBar"
-        app:layout_constraintTop_toBottomOf="@+id/majority_progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/pmt4_textView" />
 
     <TextView
         android:id="@+id/isAccepted_textView"
@@ -316,6 +448,7 @@
         android:layout_marginStart="8dp"
         android:textColor="@color/colorGreen"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView6"
         app:layout_constraintStart_toEndOf="@+id/textView6"
         tools:text="Accepted" />
@@ -328,6 +461,7 @@
         android:layout_marginStart="8dp"
         android:textColor="@color/colorRed"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/isAccepted_textView"
         app:layout_constraintStart_toEndOf="@+id/isAccepted_textView"
         tools:text="Not executed" />
@@ -337,13 +471,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5"/>
+        app:layout_constraintGuide_percent="0.5" />
 
     <Button
         android:id="@+id/voteAgainst_button"
         style="@style/positiveButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginStart="10sp"
         android:layout_marginEnd="20sp"
         android:layout_marginBottom="20sp"
@@ -357,7 +491,7 @@
     <Button
         android:id="@+id/voteForSupport_button"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginStart="20sp"
         android:layout_marginEnd="10sp"
         android:layout_marginBottom="20sp"
@@ -377,23 +511,22 @@
         android:background="@drawable/round_green_button"
         android:text="@string/execute"
         android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        android:visibility="gone"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.constraint.Group
         android:id="@+id/ongoing_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="token_textView,textView5,token2_textView,repositoryBalance_textView,textView7,localBalance_textView,textView8,voteForSupport_button,voteAgainst_button" />
+        app:constraint_referenced_ids="textView7,textView8,voteForSupport_button,voteAgainst_button,token2_textView,repositoryBalance_textView,textView5,localBalance_textView,token_textView" />
 
     <android.support.constraint.Group
         android:id="@+id/finish_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="textView6,isExecuted_textView,isAccepted_textView" />
-
+        app:constraint_referenced_ids="isExecuted_textView,textView6,isAccepted_textView" />
 
 </android.support.constraint.ConstraintLayout>

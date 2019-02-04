@@ -1,5 +1,8 @@
 package com.blockchain.store.playmarket.api;
 
+import android.util.Log;
+
+import com.blockchain.store.dao.data.entities.ProposalDescriptions;
 import com.blockchain.store.playmarket.data.entities.IcoInfo;
 import com.blockchain.store.playmarket.data.entities.IcoTeam;
 import com.google.gson.Gson;
@@ -18,7 +21,7 @@ import java.io.IOException;
  */
 
 public class ResultAdapterFactory implements TypeAdapterFactory {
-
+    private static final String TAG = "ResultAdapterFactory";
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
         final TypeAdapter<T> delegate = gson.getDelegateAdapter(this, type);
@@ -41,6 +44,11 @@ public class ResultAdapterFactory implements TypeAdapterFactory {
                         throw new IOException(jsonObject.get("message").getAsString());
                     }
                 }
+//                String string = jsonElement.toString();
+//                if (string.contains("description") && string.contains("transactionByteCode")) {
+//                    Log.d(TAG, "read: " + string);
+//                    return (T) new ProposalDescriptions();
+//                }
                 try {
                     return delegate.fromJsonTree(jsonElement);
                 } catch (Exception e) {

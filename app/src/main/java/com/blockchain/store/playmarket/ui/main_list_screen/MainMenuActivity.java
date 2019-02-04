@@ -25,8 +25,10 @@ import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.dao.ui.DaoTokenTransfer;
 import com.blockchain.store.dao.ui.dividends_screen.DividendsFragment;
+import com.blockchain.store.dao.ui.votes_screen.ProposalDetailsFragment;
 import com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment;
 import com.blockchain.store.dao.ui.votes_screen.proposal_creation_screen.ProposalCreationFragment;
+import com.blockchain.store.dao.ui.votes_screen.voting_screen.VotingFragment;
 import com.blockchain.store.dao.ui.votes_screen.proposal_details_screen.VoteDetailsFragment;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
@@ -338,12 +340,12 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @Override
     public void onProposalClicked(Proposal proposal) {
-        addNavViewFragment(VoteDetailsFragment.newInstance(proposal));
+        addNavViewFragment(VotingFragment.newInstance(proposal));
     }
 
     @Override
     public void onProposalDetailsClicked(Proposal proposal) {
-        addNavViewFragment(ProposalCreationFragment.newInstance(proposal));
+        addNavViewFragment(ProposalDetailsFragment.newInstance(proposal));
     }
 
     @Override
