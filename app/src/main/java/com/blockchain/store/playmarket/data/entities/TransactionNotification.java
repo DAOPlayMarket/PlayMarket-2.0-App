@@ -3,6 +3,7 @@ package com.blockchain.store.playmarket.data.entities;
 import android.content.Context;
 
 import com.blockchain.store.playmarket.Application;
+import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.blockchain.store.playmarket.utilities.Constants;
 
@@ -29,31 +30,29 @@ public class TransactionNotification implements NotificationImpl {
         Context context = Application.getInstance().getApplicationContext();
         switch (getTransactionTypes()) {
             case BUY_APP:
-                return "Buy app transaction pending";
+                return context.getString(R.string.buy_app_tx_pending);
             case INVEST:
-                return "Invest transaction pending";
+                return context.getString(R.string.invest_tx_pending);
             case TRANSFER:
-                return "Transfer transaction pending";
+                return context.getString(R.string.transfer_tx_pending);
             case TRANSFER_TOKEN:
-                return "Token transfer transaction pending";
+                return context.getString(R.string.token_transfer_tx_pending);
             case SEND_REVIEW:
-                return "Create review transaction pending";
-
+                return context.getString(R.string.create_review_tx_pending);
             case SEND_INTO_REPOSITORY:
-                return "Sending tokens into repository";
+                return context.getString(R.string.sending_tokens_into_repository);
             case WITHDRAW_TOKEN:
-                return "Withdrawing tokens";
+                return context.getString(R.string.withdraw_tokens);
             case GET_DIVIDENDS:
-                return "Collecting dividends";
-
+                return context.getString(R.string.collecting_dividends);
             case CREATE_PROPOSAL:
-                return "Create proposal transaction pending";
+                return context.getString(R.string.create_proposal_tx_pending);
             case VOTE_FOR_PROPOSAL:
-                return "Vote for proposal transaction pending";
+                return context.getString(R.string.vote_for_proposal_tx_pending);
             case EXECUTE_RPOPOSAL:
-                return "Execute proposal transaction prending";
+                return context.getString(R.string.execute_proposal_tx_pending);
         }
-        return "Transaction";
+        return "";
     }
 
     @Override
@@ -61,32 +60,32 @@ public class TransactionNotification implements NotificationImpl {
         Context context = Application.getInstance().getApplicationContext();
         switch (getTransactionTypes()) {
             case BUY_APP:
-                return "Buy app transaction complete with success";
+                return context.getString(R.string.buy_app_tx_success);
             case INVEST:
-                return "Invest transaction complete with success";
+                return context.getString(R.string.invest_tx_success);
             case TRANSFER:
-                return "Transfer transaction complete with success";
+                return context.getString(R.string.transfer_tx_success);
             case TRANSFER_TOKEN:
-                return "Token transfer transaction complete with success";
+                return context.getString(R.string.token_transfer_tx_success);
             case SEND_REVIEW:
-                return "Create review transaction complete with success";
+                return context.getString(R.string.create_review_tx_success);
 
             case SEND_INTO_REPOSITORY:
-                return "Tokens are sent to the repository";
+                return context.getString(R.string.token_are_sent);
             case WITHDRAW_TOKEN:
-                return "Tokens successfully withdrawn";
+                return context.getString(R.string.tokenst_withdraw_tx_success);
             case GET_DIVIDENDS:
-                return "Dividends successfully collected";
+                return context.getString(R.string.dividends_collect__tx_success);
 
             case CREATE_PROPOSAL:
-                return "Proposal created!";
+                return context.getString(R.string.proposal_created_tx_success);
             case VOTE_FOR_PROPOSAL:
-                return "You are voted for proposal!";
+                return context.getString(R.string.you_are_voted__tx_success);
             case EXECUTE_RPOPOSAL:
-                return "Proposal executed";
+                return context.getString(R.string.proposal_executed_tx_success);
         }
 
-        return "Unknown transaction complete";
+        return "";
     }
 
     @Override
@@ -94,30 +93,30 @@ public class TransactionNotification implements NotificationImpl {
         Context context = Application.getInstance().getApplicationContext();
         switch (getTransactionTypes()) {
             case BUY_APP:
-                return "Buy app transaction complete with failure";
+                return context.getString(R.string.buy_app_tx_failed);
             case INVEST:
-                return "Invest transaction complete with failure";
+                return context.getString(R.string.invest_tx_failed);
             case TRANSFER:
-                return "Transfer transaction complete with failure";
+                return context.getString(R.string.transfer_tx_failed);
             case TRANSFER_TOKEN:
-                return "Token transfer transaction complete with failure";
+                return context.getString(R.string.token_transfer_tx_failed);
             case SEND_REVIEW:
-                return "Create review transaction complete with failure";
+                return context.getString(R.string.create_review_tx_failed);
             case SEND_INTO_REPOSITORY:
-                return "Sending tokens into repository ends with error";
+                return context.getString(R.string.sending_token_tx_failed);
             case WITHDRAW_TOKEN:
-                return "Withdrawing tokens ends with error";
+                return context.getString(R.string.withdrawing_token_tx_failed);
             case GET_DIVIDENDS:
-                return "Collecting dividends ends with error";
+                return context.getString(R.string.collecting_dividends_tx_failed);
 
             case CREATE_PROPOSAL:
-                return "Proposal creation failed";
+                return context.getString(R.string.proposal_creation_tx_failed);
             case VOTE_FOR_PROPOSAL:
-                return "Voting for proposal failed";
+                return context.getString(R.string.votint_for_proposal_failed_tx_failed);
             case EXECUTE_RPOPOSAL:
-                return "Proposal execution failed";
+                return context.getString(R.string.proposal_execution_tx_failed);
         }
-        return "Unknown transaction error";
+        return "";
     }
 
     private Constants.TransactionTypes getTransactionTypes() {
@@ -147,13 +146,13 @@ public class TransactionNotification implements NotificationImpl {
             return Constants.TransactionTypes.GET_DIVIDENDS;
         }
         if (transactionTypeOrdinal == Constants.TransactionTypes.CREATE_PROPOSAL.ordinal()) {
-            return Constants.TransactionTypes.GET_DIVIDENDS;
+            return Constants.TransactionTypes.CREATE_PROPOSAL;
         }
         if (transactionTypeOrdinal == Constants.TransactionTypes.VOTE_FOR_PROPOSAL.ordinal()) {
-            return Constants.TransactionTypes.GET_DIVIDENDS;
+            return Constants.TransactionTypes.VOTE_FOR_PROPOSAL;
         }
         if (transactionTypeOrdinal == Constants.TransactionTypes.EXECUTE_RPOPOSAL.ordinal()) {
-            return Constants.TransactionTypes.GET_DIVIDENDS;
+            return Constants.TransactionTypes.EXECUTE_RPOPOSAL;
         }
 
         return Constants.TransactionTypes.BUY_APP;

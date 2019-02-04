@@ -13,7 +13,6 @@ import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.CryptoPriceResponse;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
-import com.blockchain.store.playmarket.repositories.TransactionInteractor;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 
@@ -173,7 +172,7 @@ public class CryptoUtils {
         return b;
     }
 
-    public static String generateAppBuyTransaction(int nonce, BigInt gasPrice, App app, String adrNode, CryptoPriceResponse cryptoPriceResponse) throws Exception {
+    public static Transaction generateAppBuyTransaction(int nonce, BigInt gasPrice, App app, String adrNode, CryptoPriceResponse cryptoPriceResponse) {
         Account account = AccountManager.getAccount();
 
         BigInt price = new BigInt(0);
@@ -189,12 +188,10 @@ public class CryptoUtils {
         Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
                 price, GAS_LIMIT, gasPrice,
                 transactionData);
-
-        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
-        return getRawTransaction(signedTransaction);
+        return transaction;
     }
 
-    public static String generateTransferTransaction(int nonce, String gasPrice, String transferAmount, String recipientAddress) throws Exception {
+    public static Transaction generateTransferTransaction(int nonce, String gasPrice, String transferAmount, String recipientAddress) {
         BigInt price = new BigInt(0);
         price.setString(transferAmount, 10);
 
@@ -202,10 +199,7 @@ public class CryptoUtils {
 
         Transaction transaction = new Transaction(nonce, new Address(recipientAddress),
                 price, GAS_LIMIT, new BigInt(Long.parseLong(gasPrice)), null);
-        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
-        String hash = signedTransaction.getHash().getHex();
-        String sigHash = signedTransaction.getSigHash().getHex();
-        return getRawTransaction(signedTransaction);
+        return transaction;
     }
 
     public static Transaction generateTransferTransactionRaw(int nonce, String gasPrice, String transferAmount, String recipientAddress) throws Exception {
@@ -280,16 +274,12 @@ public class CryptoUtils {
         return getRawTransaction(signedTransaction);
     }
 
-    public static String generateSendTokenTransaction(int nonce, BigInt gasPrice, String transferAmount, String recipientAddress, String icoAddress) throws Exception {
-        Account account = AccountManager.getAccount();
-
+    public static Transaction generateSendTokenTransaction(int nonce, BigInt gasPrice, String transferAmount, String recipientAddress, String icoAddress)   {
         BigInt price = new BigInt(0);
         Transaction transaction = new Transaction(nonce, new Address(icoAddress),
                 price, GAS_LIMIT, gasPrice,
                 createSentTokenTransactionBytes(recipientAddress, transferAmount));
-
-        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
-        return getRawTransaction(signedTransaction);
+        return transaction;
 
     }
 

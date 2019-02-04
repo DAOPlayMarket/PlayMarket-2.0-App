@@ -1,7 +1,11 @@
 package com.blockchain.store.dao.ui.votes_screen.proposal_creation_screen;
 
+import android.content.Context;
+
 import com.blockchain.store.dao.data.entities.ProposalDescriptions;
 import com.blockchain.store.dao.database.model.Proposal;
+import com.blockchain.store.playmarket.Application;
+import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.check_transation_status_beta.JobUtils;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
@@ -62,7 +66,7 @@ public class ProposalCreationPresenter implements ProposalCreationContract.Prese
                 .build();
         new CryptoUtils().sendTx(txData)
                 .map(result-> {
-                    TransactionInteractor.addToJobSchedule(result, Constants.TransactionTypes.GET_DIVIDENDS);
+                    TransactionInteractor.addToJobSchedule(result, Constants.TransactionTypes.CREATE_PROPOSAL);
                     return result;
                 }).subscribe(this::onTransactionSend,this::onTransactionFailed);
 
@@ -79,18 +83,19 @@ public class ProposalCreationPresenter implements ProposalCreationContract.Prese
 
     @Override
     public boolean isHasNoErrors(String recipient, String amount) {
+        Context context = Application.getInstance().getApplicationContext();
         boolean hasNoErrors = true;
         if (recipient.isEmpty()) {
-            view.setRecipientError("This field can not be empty");
+            view.setRecipientError(context.getString(R.string.empty_field));
             hasNoErrors = false;
         } else {
             if (recipient.length() != 42) {
-                view.setRecipientError("Incorrect address");
+                view.setRecipientError(context.getString(R.string.incorrect_address));
                 hasNoErrors = false;
             } else view.setRecipientError("");
         }
         if (amount.isEmpty()) {
-            view.setAmountError("This field can not be empty");
+            view.setRecipientError(context.getString(R.string.empty_field));
             hasNoErrors = false;
         } else view.setAmountError("");
 

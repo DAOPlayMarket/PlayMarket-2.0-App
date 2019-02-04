@@ -1,6 +1,5 @@
 package com.blockchain;
 
-import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
@@ -48,13 +47,19 @@ public class TransactionSender {
 
     public Observable<EthEstimateGas> mapWithEstimateGas(Transaction notSignedTransaction) {
         Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
-        String numericData = Numeric.toHexString(notSignedTransaction.getData());
+        String numericData = null;
+        try {
+            numericData = Numeric.toHexString(notSignedTransaction.getData());
+        } catch (Exception e) {
+
+        }
+
         org.web3j.protocol.core.methods.request.Transaction tx = createFunctionCallTransaction(
                 AccountManager.getAddress().getHex(),
                 new BigInteger(String.valueOf(notSignedTransaction.getNonce())),
-                new BigInteger(String.valueOf(notSignedTransaction.getGasPrice())),
-                new BigInteger(String.valueOf(Constants.GAS_LIMIT)),
-                DaoConstants.Repository,
+                null,
+                null,
+                notSignedTransaction.getTo().getHex(),
                 numericData);
         return build.ethEstimateGas(tx).observable();
     }
@@ -72,11 +77,6 @@ public class TransactionSender {
 
     public Observable<EthSendTransaction> mapWithAddGasLimitToTx(BigInteger gasLimit, Transaction notSignedTx) {
         try {
-//            String encodedJson = notSignedTx.encodeJSON();
-//            JSONObject json = new JSONObject(encodedJson);
-//            json.put("gas", Numeric.toHexStringWithPrefix(gasLimit));
-//            Transaction transaction = new Transaction(json.toString());
-
             Transaction transaction = new Transaction(notSignedTx.getNonce(),
                     notSignedTx.getTo(),
                     notSignedTx.getValue(),

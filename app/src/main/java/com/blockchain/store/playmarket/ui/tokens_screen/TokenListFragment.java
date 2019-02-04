@@ -99,7 +99,7 @@ public class TokenListFragment extends Fragment implements TokenListContract.Vie
     @Override
     public void onNewTokenReady(DaoToken token) {
         TokenRepository.addToken(token);
-        Toast.makeText(getActivity(), "Token " + token.name + " added!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "Token " + token.name + " added!", Toast.LENGTH_SHORT).show();
         if (!isDetached()) {
             getActivity().onBackPressed();
         }

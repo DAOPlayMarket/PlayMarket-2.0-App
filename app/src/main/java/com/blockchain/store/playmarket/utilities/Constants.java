@@ -102,7 +102,7 @@ public class Constants {
     public static final String WELCOME_ACTIVITY_ADDRESS_EXTRA = "welcome_activity_address_extra";
     public static final String WELCOME_ACTIVITY_IS_LUANCHED_FROM_SETTINGS_EXTRA = "welcome_activity_is_launched_from_settings_extra";
 
-    public static final int GAS_LIMIT_ADDITION = 100_000;
+    public static final int GAS_LIMIT_ADDITION = 21_000;
 
     public static final int DOWNLOAD_APPS_PER_REQUEST = 40;
     public static final int GAS_LIMIT = 500_000;
@@ -123,6 +123,10 @@ public class Constants {
     public static final String PLAY_MARKET_ADDRESS_TESTNET = "0x5245b2014e888b93418688cb9c9477b1b65c4630";
     public static final String PLAY_MARKET_ADDRESS_MAINNET = "0x839ea7b29be3075a463cab3b065a828d8c37cfaf";
     public static final String PLAY_MARKET_ADDRESS = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? PLAY_MARKET_ADDRESS_MAINNET : PLAY_MARKET_ADDRESS_TESTNET);
+
+    public static final String ETHER_SCAN_TX_URL_TESTNET= "https://rinkeby.etherscan.io/tx/";
+    public static final String ETHER_SCAN_TX_URL_MAINNET = "https://etherscan.io/tx";
+    public static final String ETHER_SCAN_TX_URL=(BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? ETHER_SCAN_TX_URL_MAINNET : ETHER_SCAN_TX_URL_TESTNET);
 
     public static final String CRYPTO_DUEL_CONTRACT_CROWDSALE = "0x2ab54369795266fc84e12270A0219d2e7d21F70f";
     public static final String CRYPTO_DUEL_CONTRACT = "0x869eb8a1a479a80f9907673eae8336625dc3e526";

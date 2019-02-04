@@ -5,25 +5,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.interfaces.LoginPromptCallback;
 import com.blockchain.store.playmarket.ui.file_manager_screen.FileManagerActivity;
 import com.blockchain.store.playmarket.ui.login_screen.LoginViewModel;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class WelcomeFragment extends Fragment {
+    @BindView(R.id.import_account_button) TextView importAccount;
     private LoginPromptCallback loginPromptCallback;
     private LoginViewModel loginViewModel;
 
@@ -43,6 +41,7 @@ public class WelcomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_welcome, container, false);
         ButterKnife.bind(this, view);
+        importAccount.setText(Html.fromHtml(getString(R.string.import_account_button)));
         loginViewModel = ViewModelProviders.of(getActivity()).get(LoginViewModel.class);
         return view;
     }
@@ -70,7 +69,7 @@ public class WelcomeFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data != null){
+        if (data != null) {
             String jsonData = data.getStringExtra("json_data");
             loginViewModel.jsonData.setValue(jsonData);
             loginPromptCallback.openPasswordPromptFragment();

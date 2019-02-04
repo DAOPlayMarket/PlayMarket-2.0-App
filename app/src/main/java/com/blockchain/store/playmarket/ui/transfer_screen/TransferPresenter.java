@@ -3,7 +3,7 @@ package com.blockchain.store.playmarket.ui.transfer_screen;
 import android.content.Context;
 import android.util.Pair;
 
-import com.blockchain.store.playmarket.Application;
+import com.blockchain.TransactionSender;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -17,6 +17,7 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
 import org.ethereum.geth.BigInt;
+import org.ethereum.geth.Transaction;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -53,24 +54,20 @@ public class TransferPresenter implements TransferContract.Presenter {
         Observable<AccountInfoResponse> accountInfoResponseObservable = RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex());
         accountInfoResponseObservable
                 .flatMap(accountInfoResponse -> {
-                    String transaction = generateTransaction(accountInfoResponse, transferAmount, recipientAddress);
-                    return RestApi.getServerApi().deployTransaction(transaction);
+                    Transaction transaction = generateTransaction(accountInfoResponse, transferAmount, recipientAddress);
+                    return new TransactionSender().send(transaction);
                 })
+
                 .map(result -> TransactionInteractor.mapWithJobService(result, transactionModel))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::transferSuccess, this::transferFailed);
     }
 
-    private String generateTransaction(AccountInfoResponse accountInfoResponse, String transferAmount, String address) {
-        String rawTransaction;
-        try {
-            rawTransaction = CryptoUtils.generateTransferTransaction(accountInfoResponse.count, accountInfoResponse.getGasPrice(), transferAmount, address);
-            return rawTransaction;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+
+    private Transaction generateTransaction(AccountInfoResponse accountInfoResponse, String transferAmount, String address) {
+        return CryptoUtils.generateTransferTransaction(accountInfoResponse.count, accountInfoResponse.getGasPrice(), transferAmount, address);
+
     }
 
 
@@ -86,7 +83,7 @@ public class TransferPresenter implements TransferContract.Presenter {
                 .subscribe(this::transferSuccess, this::transferFailed);
     }
 
-    private void transferSuccess(PurchaseAppResponse purchaseAppResponse) {
+    private void transferSuccess(Object o) {
         view.closeTransferActivity();
     }
 
@@ -94,18 +91,12 @@ public class TransferPresenter implements TransferContract.Presenter {
         view.showToast(throwable.getMessage());
     }
 
-    private Observable<PurchaseAppResponse> mapAppBuyTransaction(Pair<AccountInfoResponse, CryptoPriceResponse> accountInfo, App app) {
-        String rawTransaction = "";
-        try {
-            rawTransaction = CryptoUtils.generateAppBuyTransaction(
-                    accountInfo.first.count,
-                    new BigInt(Long.parseLong(accountInfo.first.getGasPrice())),
-                    app, accountInfo.first.adrNode, accountInfo.second);
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        return RestApi.getServerApi().deployTransaction(rawTransaction);
+    private Observable<String> mapAppBuyTransaction(Pair<AccountInfoResponse, CryptoPriceResponse> accountInfo, App app) {
+        Transaction tx = CryptoUtils.generateAppBuyTransaction(
+                accountInfo.first.count,
+                new BigInt(Long.parseLong(accountInfo.first.getGasPrice())),
+                app, accountInfo.first.adrNode, accountInfo.second);
+        return new TransactionSender().send(tx);
 
     }
 
@@ -121,19 +112,13 @@ public class TransferPresenter implements TransferContract.Presenter {
 
     }
 
-    private Observable<PurchaseAppResponse> mapTokenTransfer(Pair<AccountInfoResponse, String> accountInfo, String transferAmount, String recipientAddress, String icoAddress) {
-        String rawTransaction = "";
-        try {
-            rawTransaction = CryptoUtils.generateSendTokenTransaction(
-                    accountInfo.first.count,
-                    new BigInt(Long.parseLong(accountInfo.second)),
-                    transferAmount,
-                    recipientAddress,
-                    icoAddress);
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        return RestApi.getServerApi().deployTransaction(rawTransaction);
+    private Observable<String> mapTokenTransfer(Pair<AccountInfoResponse, String> accountInfo, String transferAmount, String recipientAddress, String icoAddress) {
+        Transaction rawTransaction = CryptoUtils.generateSendTokenTransaction(
+                accountInfo.first.count,
+                new BigInt(Long.parseLong(accountInfo.second)),
+                transferAmount,
+                recipientAddress,
+                icoAddress);
+        return new TransactionSender().send(rawTransaction);
     }
 }

@@ -6,6 +6,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.content.res.AppCompatResources;
 import android.text.Editable;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +19,8 @@ import android.widget.TextView;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferViewModel;
-import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.FingerprintUtils;
 import com.mtramin.rxfingerprint.RxFingerprint;
-import com.orhanobut.hawk.Hawk;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,7 +39,7 @@ public class TransferConfirmFragment extends Fragment {
     @BindView(R.id.password_editText) EditText passwordEditText;
     @BindView(R.id.password_textInputLayout) TextInputLayout passwordTextInputLayout;
     @BindView(R.id.fingerprint_layout) LinearLayout fingerprintLayout;
-    @BindView(R.id.password_layout)  LinearLayout passwordLayout;
+    @BindView(R.id.password_layout) LinearLayout passwordLayout;
     @BindView(R.id.transaction_state_textView) TextView transactionStateTextView;
     @BindView(R.id.use_password_button) Button usePasswordButton;
 
@@ -55,6 +54,7 @@ public class TransferConfirmFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_transfer_confirm, container, false);
         ButterKnife.bind(this, view);
+        usePasswordButton.setText(Html.fromHtml(getString(R.string.use_password)));
         getDataFromViewModel();
 
         return view;
@@ -65,7 +65,8 @@ public class TransferConfirmFragment extends Fragment {
         transferViewModel.senderPassword.setValue(editable.toString());
     }
 
-    @OnClick(R.id.use_password_button) void usePasswordButtonClicked() {
+    @OnClick(R.id.use_password_button)
+    void usePasswordButtonClicked() {
         initPassword();
     }
 
@@ -122,7 +123,7 @@ public class TransferConfirmFragment extends Fragment {
                 });
     }
 
-    public void disposedFingerprint(){
+    public void disposedFingerprint() {
         fingerprintDisposable.dispose();
     }
 }
