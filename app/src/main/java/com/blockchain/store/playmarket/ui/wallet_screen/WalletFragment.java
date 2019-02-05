@@ -19,11 +19,11 @@ import android.widget.TextView;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.ui.DaoConstants;
-import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.DaoTokenAdapter;
 import com.blockchain.store.playmarket.data.entities.UserBalance;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
+import com.blockchain.store.playmarket.interfaces.DaoAdapterCallback;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
 import com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
@@ -155,7 +155,7 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
 
     private void initAdapter(List<DaoToken> daoTokens) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        DaoTokenAdapter daoTokenAdapter = new DaoTokenAdapter(daoTokens, new DaoActivity.DaoAdapterCallback() {
+        DaoTokenAdapter daoTokenAdapter = new DaoTokenAdapter(daoTokens, new DaoAdapterCallback() {
             @Override
             public void onPmTokenClicked(DaoToken daoToken) {
                 ((MainMenuActivity) getActivity()).onTokenTransferClicked(daoToken);

@@ -12,7 +12,7 @@
     <Button
         android:layout_marginTop="50dp"
         android:text="open_test"
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/open_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

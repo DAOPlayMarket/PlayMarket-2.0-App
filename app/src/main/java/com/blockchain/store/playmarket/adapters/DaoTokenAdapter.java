@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.ui.DaoConstants;
-import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.interfaces.DaoAdapterCallback;
 import com.blockchain.store.playmarket.repositories.TokenRepository;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
@@ -25,16 +25,16 @@ import butterknife.OnClick;
 
 public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<DaoToken> daoTokens;
-    DaoActivity.DaoAdapterCallback callback;
+    DaoAdapterCallback callback;
     private boolean isOpenAsWallet = false;
     private int selectPosition = 0;
 
-    public DaoTokenAdapter(List<DaoToken> daoTokens, DaoActivity.DaoAdapterCallback callback) {
+    public DaoTokenAdapter(List<DaoToken> daoTokens, DaoAdapterCallback callback) {
         this.daoTokens = daoTokens;
         this.callback = callback;
     }
 
-    public DaoTokenAdapter(List<DaoToken> daoTokens, DaoActivity.DaoAdapterCallback callback, boolean openAsDaoWallet) {
+    public DaoTokenAdapter(List<DaoToken> daoTokens, DaoAdapterCallback callback, boolean openAsDaoWallet) {
         this.isOpenAsWallet = openAsDaoWallet;
         this.daoTokens = daoTokens;
         this.callback = callback;

@@ -105,7 +105,7 @@ public class Constants {
     public static final int GAS_LIMIT_ADDITION = 21_000;
 
     public static final int DOWNLOAD_APPS_PER_REQUEST = 40;
-    public static final int GAS_LIMIT = 500_000;
+    public static final int GAS_LIMIT = 200_000;
 
     public static final int USER_ETHERSCAN_ID = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? 1 : 4);
 

@@ -219,7 +219,6 @@
         <activity
             android:name=".ui.local_ico_screen.IcoLocalActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.blockchain.store.dao.ui.dao_activity.DaoActivity" />
     </application>
 
 </manifest>

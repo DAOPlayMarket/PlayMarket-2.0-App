@@ -18,11 +18,10 @@ import android.widget.ProgressBar;
 import com.blockchain.TransactionSender;
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.repository.DaoTransactionRepository;
-import com.blockchain.store.dao.ui.dao_activity.DaoActivity;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.DaoTokenAdapter;
 import com.blockchain.store.playmarket.api.RestApi;
-import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
+import com.blockchain.store.playmarket.interfaces.DaoAdapterCallback;
 import com.blockchain.store.playmarket.repositories.TokenRepository;
 import com.blockchain.store.playmarket.repositories.TransactionInteractor;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
@@ -104,7 +103,7 @@ public class DividendsFragment extends Fragment {
 
     private void initAdapter(List<DaoToken> daoTokens) {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new DaoTokenAdapter(daoTokens, new DaoActivity.DaoAdapterCallback() {
+        adapter = new DaoTokenAdapter(daoTokens, new DaoAdapterCallback() {
             @Override
             public void onPmTokenClicked(DaoToken daoToken) {
                 ((MainMenuActivity) getActivity()).onTokenTransferClicked(daoToken);

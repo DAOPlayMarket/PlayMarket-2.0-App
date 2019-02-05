@@ -15,6 +15,7 @@ repositories {
 }
 
 android {
+
     compileSdkVersion 27
     buildToolsVersion '28.0.3'
     defaultConfig {
@@ -25,24 +26,22 @@ android {
         versionCode 97
         versionName '1.4.1'
     }
+
     buildTypes {
 
         release {
-            matchingFallbacks = ["debug"]
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "app_name_by_gradle", "DAO PlayMarket 2.0"
             resValue "string", "content_provider", "com.blockchain.store.playmarket.fileprovider"
-        }
-        debug {
-            applicationIdSuffix '.testnet'
-            resValue "string", "app_name_by_gradle", "DAO PlayMarket 2.0 testnet"
-            resValue "string", "content_provider", "com.blockchain.store.playmarket.testnet.fileprovider"
-            resValue "string", "package_name", "com.blockchain.store.playmarket.testnet.PurchaseSDK.services.PlayMarketSDK"
+            resValue "string", "package_name", "com.blockchain.store.playmarket.PurchaseSDK.services.PlayMarketSDK"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
-        rinkeby{
-            initWith debug
+        debug {
+            applicationIdSuffix '.rinkeby'
+            resValue "string", "app_name_by_gradle", "DAO PlayMarket 2.0 RinkeBy"
+            resValue "string", "content_provider", "com.blockchain.store.playmarket.testnet.fileprovider"
+            resValue "string", "package_name", "com.blockchain.store.playmarket.rinkeby.PurchaseSDK.services.PlayMarketSDK"
         }
 
         mainnet {
@@ -55,6 +54,21 @@ android {
             jniDebuggable false
             renderscriptDebuggable false
             minifyEnabled false
+        }
+
+        /* DAOPlayMarket2.0-v.1.4.0.apk */
+        applicationVariants.all { variant ->
+            variant.outputs.all { output ->
+                def buildType = variant.variantData.variantConfiguration.buildType.name
+                def newApkName
+                if (buildType == "mainnet") {
+                    newApkName = "DAOPlayMarket2.0-v." + versionName + ".apk"
+                } else {
+                    newApkName = "DAOPlayMarket2.0-v." + versionName + "-" + buildType + ".apk"
+                }
+
+                outputFileName = new File(newApkName)
+            }
         }
 
     }
@@ -76,7 +90,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
 }
 
 dependencies {
@@ -125,7 +138,7 @@ dependencies {
     implementation 'com.android.support:design:27.1.0'
     implementation 'de.measite.minidns:minidns-hla:0.2.4'
     implementation 'com.android.support:multidex:1.0.2'
-    implementation "android.arch.persistence.room:runtime:1.1.1"
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
     implementation 'us.feras.mdv:markdownview:1.1.0'
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
