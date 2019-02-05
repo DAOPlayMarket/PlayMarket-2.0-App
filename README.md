@@ -29,7 +29,7 @@ Developers can:
 The application supports Android 5.0 and above.
 
 
-[![DAO PlayMarket 2.0](docs/photo/btn_available.png)](https://playmarket.io/detail/0)
+[![DAO PlayMarket 2.0](docs/photo/btn_available.png =300x90)](https://playmarket.io/detail/0)
 
 ## How it works
 
