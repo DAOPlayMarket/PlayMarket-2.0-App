@@ -63,8 +63,8 @@ public class JobUtils {
 //        }
         ComponentName jobService = new ComponentName(context, CheckUpdateJobService.class);
         JobInfo.Builder exerciseJobBuilder = new JobInfo.Builder(AUTO_UPDATE_JOB_ID, jobService)
-//                .setRequiresCharging(true)
-                .setPeriodic(TEN_MINUTES)
+                .setRequiresCharging(true)
+                .setPeriodic(ONE_DAY_INTERVAL)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .setBackoffCriteria(TimeUnit.MINUTES.toMillis(10), JobInfo.BACKOFF_POLICY_EXPONENTIAL);
         jobScheduler.schedule(exerciseJobBuilder.build());

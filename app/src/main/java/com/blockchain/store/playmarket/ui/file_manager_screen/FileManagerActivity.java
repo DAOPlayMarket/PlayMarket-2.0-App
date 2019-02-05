@@ -32,7 +32,8 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
     private static final String JSON_DATA = "json_data";
     private static final String PASSWORD = "password";
 
-    private final String basePath = Environment.getExternalStorageDirectory().getPath();
+    private final String basePath = Environment.getExternalStorageDirectory().getPath() + "/PlayMarket2.0/Accounts/";
+    private final String endFolder = Environment.getExternalStorageDirectory().getPath();
     private final String CURRENT_PATH_KEY = "current_path";
     private String fileManagerType;
     private String currentDirectory;
@@ -81,8 +82,15 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
         if (fileManagerType.equals("all_files"))
             infoTextView.setText(getResources().getText(R.string.chose_file));
 
-        pathTextView.setText(currentDirectory);
-        fileList = presenter.getFolderList(currentDirectory, fileManagerType);
+        try {
+            fileList = presenter.getFolderList(currentDirectory, fileManagerType);
+            pathTextView.setText(currentDirectory);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fileList = presenter.getFolderList(endFolder, fileManagerType);
+            pathTextView.setText(endFolder);
+        }
+
         setFoldersRecyclerView(fileList);
     }
 
@@ -181,7 +189,7 @@ public class FileManagerActivity extends AppCompatActivity implements FileManage
 
     @Override
     public void onBackPressed() {
-        if (currentDirectory != null && !currentDirectory.equals(basePath)) {
+        if (currentDirectory != null && !currentDirectory.equals(endFolder)) {
             File file = new File(currentDirectory);
             currentDirectory = file.getParentFile().getPath();
             pathTextView.setText(currentDirectory);
