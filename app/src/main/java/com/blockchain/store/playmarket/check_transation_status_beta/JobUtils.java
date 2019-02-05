@@ -58,15 +58,15 @@ public class JobUtils {
 
     public static void scheduleCheckUpdateJob(Context context) {
         JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-//        if (checkIfJobAlreadyRunning(jobScheduler)) {
-//            return;
-//        }
+        if (checkIfJobAlreadyRunning(jobScheduler)) {
+            return;
+        }
         ComponentName jobService = new ComponentName(context, CheckUpdateJobService.class);
         JobInfo.Builder exerciseJobBuilder = new JobInfo.Builder(AUTO_UPDATE_JOB_ID, jobService)
                 .setRequiresCharging(true)
                 .setPeriodic(ONE_DAY_INTERVAL)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .setBackoffCriteria(TimeUnit.MINUTES.toMillis(10), JobInfo.BACKOFF_POLICY_EXPONENTIAL);
+                .setBackoffCriteria(TimeUnit.MINUTES.toMillis(10), JobInfo.BACKOFF_POLICY_LINEAR);
         jobScheduler.schedule(exerciseJobBuilder.build());
     }
 
