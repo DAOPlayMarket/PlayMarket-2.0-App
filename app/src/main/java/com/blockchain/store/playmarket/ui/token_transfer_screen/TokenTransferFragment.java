@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -59,6 +60,8 @@ public class TokenTransferFragment extends Fragment implements TokenTransferCont
     @BindView(R.id.all_button) TextView allTv;
 
     @BindView(R.id.continue_button) Button continueButton;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
+
     private boolean isOpenAsCryptoDuelToken = false;
     private int currentTabPosition = 0;
     private DaoToken daoToken;
@@ -505,5 +508,11 @@ public class TokenTransferFragment extends Fragment implements TokenTransferCont
     @Override
     public void transferFailed(Throwable error) {
         ToastUtil.showToast(error.getMessage());
+    }
+
+    @Override
+    public void setProgressVisibility(boolean isVisible) {
+        continueButton.setVisibility(isVisible ? View.INVISIBLE : View.VISIBLE);
+        progressBar.setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 }

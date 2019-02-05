@@ -6,6 +6,8 @@ public class TokenTransferContract {
         void transferSuccess(String response);
 
         void transferFailed(Throwable error);
+
+        void setProgressVisibility(boolean isVisible);
     }
     interface Presenter{
         void init(View view);

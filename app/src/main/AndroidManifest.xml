@@ -17,7 +17,8 @@
 
     <application
         android:name=".Application"
-        android:allowBackup="true"
+        android:allowBackup="false"
+        android:fullBackupOnly="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name_by_gradle"
@@ -26,11 +27,14 @@
         android:testOnly="false"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:label">
+        tools:replace="android:label,allowBackup">
         <activity android:name=".ui.all_reviews_screen.AllReviewsActivity"></activity>
         <activity android:name=".ui.qr_screen.QrActivity"></activity>
         <activity android:name="com.blockchain.store.dao.ui.DaoTokenTransfer" />
 
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.contentprovider"

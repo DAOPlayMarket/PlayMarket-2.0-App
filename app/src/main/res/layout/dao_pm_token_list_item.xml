@@ -96,11 +96,15 @@
 
     <TextView
         android:id="@+id/token_repository_amount"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:singleLine="true"
+        android:layout_marginEnd="8dp"
         android:textColor="@color/secondary_btn_text_color"
         app:layout_constraintBaseline_toBaselineOf="@+id/token_repository_amount_field"
+        app:layout_constraintEnd_toStartOf="@+id/touch_helper"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/token_repository_amount_field"
         tools:text="500.000" />
 

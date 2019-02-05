@@ -41,6 +41,8 @@ public class TokenTransferPresenter implements Presenter {
                     TransactionInteractor.addToJobSchedule(result, Constants.TransactionTypes.TRANSFER_TOKEN);
                     return result;
                 })
+//                .doOnSubscribe(() -> view.setProgressVisibility(true))
+//                .doOnTerminate(() -> view.setProgressVisibility(false))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::transferSuccess, this::transferFailed);
@@ -84,6 +86,8 @@ public class TokenTransferPresenter implements Presenter {
                     }
                     return result;
                 })
+//                .doOnSubscribe(() -> view.setProgressVisibility(true))
+//                .doOnTerminate(() -> view.setProgressVisibility(false))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::transferSuccess, this::transferFailed);
@@ -112,6 +116,8 @@ public class TokenTransferPresenter implements Presenter {
                             return result;
                         }
                 )
+//                .doOnSubscribe(() -> view.setProgressVisibility(true))
+//                .doOnTerminate(() -> view.setProgressVisibility(false))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::transferSuccess, this::transferFailed);

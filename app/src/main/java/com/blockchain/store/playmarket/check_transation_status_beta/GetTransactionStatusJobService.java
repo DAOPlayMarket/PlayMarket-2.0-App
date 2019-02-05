@@ -77,6 +77,7 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
         if (!secondTransaction.startsWith("0x")) {
             secondTransaction = "0x" + secondTransaction;
         }
+
         build.ethSendRawTransaction(secondTransaction).observable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
