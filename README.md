@@ -23,9 +23,7 @@ Developers can:
 6. The ability to sell their apps for cryptocurrency
 7. No bureaucracy.
 
-<img src="https://github.com/CryptonStudio/PlayMarket-2.0-App/blob/master/docs/photo/1.png" width="360" height="640">  |  <img src="https://github.com/CryptonStudio/PlayMarket-2.0-App/blob/master/docs/photo/2.png" width="360" height="640">
-
-<img src="https://github.com/CryptonStudio/PlayMarket-2.0-App/blob/master/docs/photo/3.png" width="360" height="640">  |  <img src="https://github.com/CryptonStudio/PlayMarket-2.0-App/blob/master/docs/photo/4.png" width="360" height="640">
+<img src="docs/photo/0.png" width="200">  |  <img src="docs/photo/1.png" width="200"> | <img src="docs/photo/2.png" width="200"> | <img src="docs/photo/3.png" width="200">
 
 
 The application supports Android 5.0 and above.
