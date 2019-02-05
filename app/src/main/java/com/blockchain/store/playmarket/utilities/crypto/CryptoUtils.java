@@ -6,7 +6,6 @@ import android.util.Pair;
 import com.blockchain.TransactionSender;
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.ui.DaoConstants;
-import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.PurchaseSDK.entities.TransferObject;
 import com.blockchain.store.playmarket.PurchaseSDK.services.RemoteConstants;
 import com.blockchain.store.playmarket.api.RestApi;
@@ -262,17 +261,13 @@ public class CryptoUtils {
 
     }
 
-    public static String generateSendReviewTransaction(int nonce, BigInt gasPrice, App app, String vote, String description, String txIndex) throws Exception {
+    public static Transaction generateSendReviewTransaction(int nonce, BigInt gasPrice, App app, String vote, String description, String txIndex) {
         Account account = AccountManager.getAccount();
         BigInt price = new BigInt(0);
-
         Transaction transaction = new Transaction(nonce, new Address(Constants.PLAY_MARKET_ADDRESS),
                 price, GAS_LIMIT, gasPrice,
                 getDataForReviewAnApp(app.appId, account.getAddress().getHex(), vote, description, txIndex));
-        Transaction signedTransaction = keyManager.getKeystore().signTx(account, transaction, new BigInt(USER_ETHERSCAN_ID));
-        String hash = signedTransaction.getHash().getHex();
-        String sigHash = signedTransaction.getSigHash().getHex();
-        return getRawTransaction(signedTransaction);
+        return transaction;
     }
 
     public static Transaction generateSendTokenTransaction(int nonce, BigInt gasPrice, String transferAmount, String recipientAddress, String icoAddress)   {

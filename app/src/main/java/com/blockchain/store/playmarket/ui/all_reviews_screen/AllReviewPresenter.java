@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.ui.all_reviews_screen;
 
 import android.util.Pair;
 
+import com.blockchain.TransactionSender;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -12,6 +13,7 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
 import org.ethereum.geth.BigInt;
+import org.ethereum.geth.Transaction;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -49,7 +51,7 @@ public class AllReviewPresenter implements Presenter {
                 .subscribe(this::onReviewSendSuccessfully, this::onReviewSendFailed);
     }
 
-    private void onReviewSendSuccessfully(PurchaseAppResponse purchaseAppResponse) {
+    private void onReviewSendSuccessfully(Object o) {
         view.onReviewSendSuccessfully();
     }
 
@@ -57,19 +59,12 @@ public class AllReviewPresenter implements Presenter {
         view.onReviewError(throwable);
     }
 
-    private Observable<PurchaseAppResponse> mapReviewCreationTransaction(Pair<AccountInfoResponse, String> accountInfo, String review, String vote, String txIndex) {
-
-        String rawTransaction = "";
-        try {
-            rawTransaction = CryptoUtils.generateSendReviewTransaction(
+    private Observable<String> mapReviewCreationTransaction(Pair<AccountInfoResponse, String> accountInfo, String review, String vote, String txIndex) {
+        Transaction rawTransaction =  CryptoUtils.generateSendReviewTransaction(
                     accountInfo.first.count,
                     new BigInt(Long.parseLong(accountInfo.second)),
                     app, vote, review, txIndex);
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-        return RestApi.getServerApi().deployTransaction(rawTransaction);
+        return new TransactionSender().send(rawTransaction);
 
     }
 }

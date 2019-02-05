@@ -24,6 +24,7 @@ import org.ethereum.geth.Account;
 import org.ethereum.geth.BigInt;
 import org.ethereum.geth.Transaction;
 import org.json.JSONObject;
+import org.web3j.crypto.TransactionUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.methods.response.EthEstimateGas;
@@ -42,7 +43,6 @@ import rx.schedulers.Schedulers;
 
 import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA_RINKEBY;
 import static com.blockchain.store.playmarket.utilities.Constants.USER_ETHERSCAN_ID;
-import static org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction;
 
 public class DaoTokenTransfer extends AppCompatActivity {
     private static final String TAG = "DaoTokenTransfer";
@@ -111,29 +111,12 @@ public class DaoTokenTransfer extends AppCompatActivity {
         RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
                 .flatMap(result -> {
                     Pair<Transaction, Transaction> transaction = CryptoUtils.test111(result, 50);
-                    transactionTest = transaction.first;
-                    Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA_RINKEBY));
-                    String numericData = Numeric.toHexString(transaction.first.getData());
-                    org.web3j.protocol.core.methods.request.Transaction tx = createFunctionCallTransaction(
-                            AccountManager.getAddress().getHex(),
-                            new BigInteger(String.valueOf(result.count)),
-                            new BigInteger(result.getGasPrice()),
-                            new BigInteger(String.valueOf(Constants.GAS_LIMIT)),
-                            DaoConstants.Repository,
-                            numericData);
-                    return build.ethEstimateGas(tx).observable();
+                    String rawTransaction = CryptoUtils.getRawTransaction(transaction.first);
+                    String s = Numeric.toHexStringNoPrefix(rawTransaction.getBytes());
+//                    return new TransactionSender().send(transaction1)
+                    return Observable.just(1);
+                })
 
-                })
-                .map(this::mapEstimateResult)
-                .map(result -> mapWithAddGasLimitToTx(result, transactionTest))
-                .flatMap(result -> result)
-                .map(result -> {
-                    if (result.getError() == null) {
-                        throw new IllegalArgumentException(result.getError().getMessage());
-                    } else {
-                        return result.getTransactionHash();
-                    }
-                })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::transferSuccess, this::transferFailed);

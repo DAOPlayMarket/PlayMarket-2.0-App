@@ -30,78 +30,12 @@ import rx.schedulers.Schedulers;
 public class DaoActivity extends AppCompatActivity {
     private static final String TAG = "DaoActivity";
 
-    @BindView(R.id.recycler_view) RecyclerView recyclerView;
-    DaoTokenAdapter adapter;
-
-    List<DaoToken> daoTokens;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dao);
         ButterKnife.bind(this);
-//        DaoTransactionRepository.getTokens().subscribe(this::onOk, this::onError);
         DaoTokenTransfer.start(DaoActivity.this, null);
-    }
-
-    private void onOk(List<DaoToken> daoTokens) {
-        Log.d(TAG, "onOk: ");
-        this.daoTokens = daoTokens;
-        initAdapter(daoTokens);
-    }
-
-    private void initAdapter(List<DaoToken> daoTokens) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new DaoTokenAdapter(daoTokens, new DaoAdapterCallback() {
-            @Override
-            public void onPmTokenClicked(DaoToken daoToken) {
-                DaoTokenTransfer.start(DaoActivity.this, daoToken);
-            }
-
-            @Override public void onDaoTokenClicked(DaoToken daoToken) {
-
-            }
-        });
-        recyclerView.setAdapter(adapter);
-    }
-
-    private void onError(Throwable throwable) {
-        Log.d(TAG, "onError() called with: throwable = [" + throwable + "]");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @OnClick(R.id.checkTransaction)
-    public void checkTransaction() {
-        RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-                .flatMap(result -> {
-                    try {
-                        Pair<Transaction, Transaction> stringStringPair = CryptoUtils.test(result.count, result.getGasPrice());
-                        String rawTransaction = CryptoUtils.getRawTransaction(stringStringPair.first);
-                        String rawSecondTransaction = CryptoUtils.getRawTransaction(stringStringPair.second);
-                        TransactionInteractor.addToJobSchedule(stringStringPair.first.getHash().getHex(), stringStringPair.second.getHash().getHex(), rawSecondTransaction);
-                        return RestApi.getServerApi().deployTransaction(rawTransaction);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        throw new RuntimeException("111");
-                    }
-                })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::transferSuccess, this::transferFailed);
-
-    }
-
-    private void transferFailed(Throwable throwable) {
-        Log.d(TAG, "transferFailed: ");
-    }
-
-    private void transferSuccess(Object o) {
-        Log.d(TAG, "transferSuccess: ");
     }
 
     public interface DaoAdapterCallback {

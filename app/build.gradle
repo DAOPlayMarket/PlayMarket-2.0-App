@@ -26,6 +26,7 @@ android {
         versionName '1.4.1'
     }
     buildTypes {
+
         release {
             matchingFallbacks = ["debug"]
             minifyEnabled false
@@ -39,6 +40,11 @@ android {
             resValue "string", "content_provider", "com.blockchain.store.playmarket.testnet.fileprovider"
             resValue "string", "package_name", "com.blockchain.store.playmarket.testnet.PurchaseSDK.services.PlayMarketSDK"
         }
+
+        rinkeby{
+            initWith debug
+        }
+
         mainnet {
             initWith debug
             applicationIdSuffix ''
