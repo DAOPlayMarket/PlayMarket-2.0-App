@@ -1,7 +1,6 @@
 package com.blockchain.store.playmarket.api;
 
 import com.blockchain.store.dao.data.IpfsData;
-import com.blockchain.store.dao.data.entities.ProposalDescriptions;
 import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
@@ -121,7 +120,13 @@ public interface ServerApi {
     @GET("https://pex-balancer.playmarket.io/api/history?symbol=PMT&resolution=1D&from=1513577768&to=1544681828")
     Observable<PexHistory> getPexHistory();
 
+
+    @FormUrlEncoded()
+    @POST("app-install-event")
+    Observable<ResponseBody> reportAppInstallEvent(@Field("body") String idApp, @Field("header") String hash);
+
 //    @GET("https://pex-balancer.playmarket.io/api/history?symbol=PMT&resolution=1D&from=1513577768&to=1544681828")
 //    Observable<ResponseBody> getPexHistory();
+
 
 }

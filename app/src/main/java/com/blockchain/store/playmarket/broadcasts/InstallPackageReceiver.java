@@ -5,8 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.blockchain.store.playmarket.Application;
+import com.blockchain.store.playmarket.check_transation_status_beta.JobUtils;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
+import com.blockchain.store.playmarket.utilities.SharedPrefsUtil;
 
 import java.io.File;
 
@@ -19,9 +20,13 @@ public class InstallPackageReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
         try {
-            String packageName = intent.getData().toString();
+            String packageName = intent.getData().toString().replace("package:", "");
+            String appId = SharedPrefsUtil.getDownloadAppIdByPackageName(packageName);
+            Log.d(TAG, "onReceive: appId: " + appId);
+            if (appId != null)
+                JobUtils.scheduleAppInstallJobs(context, appId);
+
             File file = new MyPackageManager().findFileByPackageName(packageName, context);
             if (file != null && file.exists()) {
                 file.delete();

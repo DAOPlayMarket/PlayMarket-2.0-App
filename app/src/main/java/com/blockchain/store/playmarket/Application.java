@@ -1,6 +1,8 @@
 package com.blockchain.store.playmarket;
 
 import android.arch.persistence.room.Room;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
@@ -70,6 +72,21 @@ public class Application extends MultiDexApplication {
         performMigrationIntoMultiAccounting();
         setUpFresco();
         setUpAWS();
+        performChangeLocale();
+    }
+
+    private void performChangeLocale() {
+        Locale locale = new Locale("en");
+        Locale.setDefault(locale);
+
+        Configuration config = getResources().getConfiguration();
+        config.setLocale(locale);
+        createConfigurationContext(config);
+        if (Build.VERSION.SDK_INT >= 21) {
+            getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+        } else {
+
+        }
     }
 
     private void setUpLocale() {

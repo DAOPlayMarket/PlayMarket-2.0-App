@@ -4,7 +4,6 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
-import android.os.Build;
 import android.os.PersistableBundle;
 
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -87,6 +86,7 @@ public class JobUtils {
         exerciseJobBuilder.setExtras(bundle);
     }
 
+
     private static void addExtras(JobInfo.Builder exerciseJobBuilder, String transactionHash, String secondTransactionHash, String secondRawTransaction, Constants.TransactionTypes transactionType) {
         PersistableBundle bundle = new PersistableBundle();
         bundle.putString(Constants.JOB_HASH_EXTRA, transactionHash);
@@ -98,6 +98,25 @@ public class JobUtils {
         if (transactionType != null) {
             bundle.putInt(Constants.JOB_TRANSACTION_TYPE_ORDINAL, transactionType.ordinal());
         }
+        exerciseJobBuilder.setExtras(bundle);
+    }
+
+    public static void scheduleAppInstallJobs(Context context, String appId) {
+        ComponentName jobService = new ComponentName(context, ReportAppInstallJob.class);
+        JobInfo.Builder exerciseJobBuilder = new JobInfo.Builder(TRANSACTION_STATUS_JOB_ID++, jobService);
+        exerciseJobBuilder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+        exerciseJobBuilder.setRequiresDeviceIdle(false);
+        exerciseJobBuilder.setRequiresCharging(false);
+        exerciseJobBuilder.setBackoffCriteria(TimeUnit.HOURS.toMillis(1), JobInfo.BACKOFF_POLICY_LINEAR);
+
+        addExtras(exerciseJobBuilder, appId);
+        JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        jobScheduler.schedule(exerciseJobBuilder.build());
+    }
+
+    private static void addExtras(JobInfo.Builder exerciseJobBuilder, String packageName) {
+        PersistableBundle bundle = new PersistableBundle();
+        bundle.putString(Constants.JOB_APP_ID, packageName);
         exerciseJobBuilder.setExtras(bundle);
     }
 

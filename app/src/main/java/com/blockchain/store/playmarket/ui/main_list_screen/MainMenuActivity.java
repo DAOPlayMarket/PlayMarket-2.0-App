@@ -1,6 +1,9 @@
 package com.blockchain.store.playmarket.ui.main_list_screen;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
@@ -31,6 +34,7 @@ import com.blockchain.store.dao.ui.votes_screen.proposal_creation_screen.Proposa
 import com.blockchain.store.dao.ui.votes_screen.voting_screen.VotingFragment;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.broadcasts.InstallPackageReceiver;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
@@ -100,7 +104,9 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         initViews();
         replaceNavViewFragment(new NavigationViewFragment());
         setSearchViewDebounce();
+        initAppInstallReceiver();
     }
+
 
     @OnClick(R.id.open_test)
     void onOpenTestClicked() {
@@ -386,5 +392,13 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         if (fragment != null && fragment instanceof ChangeAccountFragment) {
             ((ChangeAccountFragment) fragment).updateAdapter();
         }
+    }
+
+    private void initAppInstallReceiver() {
+        BroadcastReceiver br = new InstallPackageReceiver();
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        filter.addAction(Intent.ACTION_PACKAGE_INSTALL);
+        filter.addAction(Intent.ACTION_PACKAGE_ADDED);
+        this.registerReceiver(br, filter);
     }
 }

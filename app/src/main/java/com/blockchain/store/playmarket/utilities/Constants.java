@@ -2,6 +2,8 @@ package com.blockchain.store.playmarket.utilities;
 
 import com.blockchain.store.playmarket.BuildConfig;
 
+import static com.blockchain.store.playmarket.api.RestApi.SERVER_ENDPOINT_WITHOUT_POST;
+
 /**
  * Created by Crypton04 on 26.01.2018.
  */
@@ -10,6 +12,7 @@ public class Constants {
 
     /* Job service extra*/
     public static String JOB_HASH_EXTRA = "job_hash_extra";
+    public static String JOB_APP_ID = "job_app_id";
     public static String JOB_HASH_FIRST_IS_COMPLETED = "job_hash_first_is_completed";
     public static String JOB_SECOND_HASH_EXTRA = "job_second_hash_extra";
     public static String JOB_SECOND_RAW_TX = "JOB_HASH_SECOND_IS_COMPLETED";
@@ -124,9 +127,9 @@ public class Constants {
     public static final String PLAY_MARKET_ADDRESS_MAINNET = "0x839ea7b29be3075a463cab3b065a828d8c37cfaf";
     public static final String PLAY_MARKET_ADDRESS = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? PLAY_MARKET_ADDRESS_MAINNET : PLAY_MARKET_ADDRESS_TESTNET);
 
-    public static final String ETHER_SCAN_TX_URL_TESTNET= "https://rinkeby.etherscan.io/tx/";
+    public static final String ETHER_SCAN_TX_URL_TESTNET = "https://rinkeby.etherscan.io/tx/";
     public static final String ETHER_SCAN_TX_URL_MAINNET = "https://etherscan.io/tx";
-    public static final String ETHER_SCAN_TX_URL=(BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? ETHER_SCAN_TX_URL_MAINNET : ETHER_SCAN_TX_URL_TESTNET);
+    public static final String ETHER_SCAN_TX_URL = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? ETHER_SCAN_TX_URL_MAINNET : ETHER_SCAN_TX_URL_TESTNET);
 
     public static final String CRYPTO_DUEL_CONTRACT_CROWDSALE = "0x2ab54369795266fc84e12270A0219d2e7d21F70f";
     public static final String CRYPTO_DUEL_CONTRACT = "0x869eb8a1a479a80f9907673eae8336625dc3e526";
@@ -159,6 +162,9 @@ public class Constants {
     public static final String ENCRYPTED_PASSWORD_MAP = "encrypted_account_password_map";
     public static final String USER_ACCOUNT_POSITION = "user_account_position";
 
+    public static final String USER_DOWNLOAD_APPS_MAP = "user_download_apps_map";
+
+
     /*Social titles*/
     public static final String social_google_plus = "google-plus";
     public static final String social_facebook = "facebook";
@@ -181,6 +187,7 @@ public class Constants {
     public static final String TOKEN_URL = "http://tokens.playmarket.io";
     public static final String PAX_URL_MAINNET = "https://dex.playmarket.io/";
     public static final String PAX_URL_TESTNET = "https://testdex.playmarket.io/";
+    public static final String DOWNLOAD_APP_URL = SERVER_ENDPOINT_WITHOUT_POST + "/api/download-app?idApp=";
     public static final String PAX_URL = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? PAX_URL_MAINNET : PAX_URL_TESTNET);
 
 }

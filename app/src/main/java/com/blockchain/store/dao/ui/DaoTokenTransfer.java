@@ -3,6 +3,7 @@ package com.blockchain.store.dao.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Pair;
@@ -18,13 +19,15 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.FingerprintUtils;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.ProgressCallback;
 import com.mtramin.rxfingerprint.RxFingerprint;
 
 import org.ethereum.geth.Account;
 import org.ethereum.geth.BigInt;
 import org.ethereum.geth.Transaction;
 import org.json.JSONObject;
-import org.web3j.crypto.TransactionUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.methods.response.EthEstimateGas;
@@ -32,7 +35,10 @@ import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Numeric;
 
+import java.io.File;
 import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +57,7 @@ public class DaoTokenTransfer extends AppCompatActivity {
     @BindView(R.id.unlock_account_btn) Button unlock_account_btn;
     @BindView(R.id.withdraw_amount) EditText withdraw_amount;
     @BindView(R.id.button) Button button;
+    @BindView(R.id.button2) Button button2;
 
     public static void start(Context context, DaoToken daoToken) {
         Intent starter = new Intent(context, DaoTokenTransfer.class);
@@ -58,12 +65,14 @@ public class DaoTokenTransfer extends AppCompatActivity {
         context.startActivity(starter);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dao_token_transfer);
         ButterKnife.bind(this);
         initFingerPrint();
+
     }
 
     private void initFingerPrint() {
@@ -120,6 +129,30 @@ public class DaoTokenTransfer extends AppCompatActivity {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::transferSuccess, this::transferFailed);
+    }
+
+
+    @OnClick(R.id.button2)
+    void onDownloadClicked() {
+        Ion.with(this)
+                .load("https://m000003.playmarket.io/api/download-app?idApp=0")
+                .setHeader("macHash", "macHashTest")
+                .progress(new ProgressCallback() {
+                    @Override
+                    public void onProgress(long downloaded, long total) {
+                        Log.d(TAG, "onProgress() called with: downloaded = [" + downloaded + "], total = [" + total + "]");
+                    }
+                }).write(new File("")).setCallback(new FutureCallback<File>() {
+            @Override
+            public void onCompleted(Exception e, File result) {
+                Log.d(TAG, "onCompleted() called with: e = [" + e + "], result = [" + result + "]");
+            }
+        });
+
+//        RestApi.getServerApi().downloadFile()
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(this::transferSuccess, this::transferFailed);
     }
 
     private void transferSuccess(Object o) {

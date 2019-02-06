@@ -13,6 +13,8 @@ import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.SwitchCompat;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +51,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
+    private static final String TAG = "AppDetailAdapter";
 
     public enum ViewTypes {
         MAIN,
@@ -193,6 +195,12 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return items.size();
     }
 
+    @Override
+    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewRecycled(holder);
+        Log.d(TAG, "onViewRecycled() called with: holder = [" + holder + "]");
+    }
+
     class ScreenShotsViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.screenshots_recycler_view) RecyclerView recyclerView;
@@ -210,7 +218,12 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         public void bind(App app) {
             if (app.files != null && app.getImages() != null && imageAdapter == null) {
-                imageViewerBuilder = new ImageViewer.Builder(context, app.getImages());
+
+                imageViewerBuilder = new ImageViewer
+                        .Builder(context, app.getImages())
+                        .setCustomImageRequestBuilder(ImageViewer.createImageRequestBuilder()
+                                .disableDiskCache().disableMemoryCache());
+
                 imageAdapter = new ImageListAdapter(app.getImages(), position -> imageViewerBuilder.setStartPosition(position).show());
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
                 SnapHelper snapHelper = new LinearSnapHelper();
@@ -415,11 +428,12 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         @BindView(R.id.ico_duel_bot_tv) TextView duelBotTv;
         @BindView(R.id.ico_site_tv) TextView siteTv;
         @BindView(R.id.ico_listing_holder) View icoListingHolder;
+        @BindView(R.id.pm_dex_text) TextView pmDexTextView;
 
         public IcoAboutViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
+            pmDexTextView.setText(Html.fromHtml(itemView.getContext().getResources().getString(R.string.playmarket_dex)));
             icoListingHolder.setOnClickListener(v -> itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://dex.playmarket.io/CDLT/ETH/"))));
             chatDuelTv.setOnClickListener(v -> {
                 itemView.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(chatDuelTv.getText().toString())));
