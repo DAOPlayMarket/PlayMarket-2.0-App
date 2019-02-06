@@ -19,14 +19,15 @@ public class ReportAppInstallJob extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
         String appId = params.getExtras().getString(Constants.JOB_APP_ID);
+        String node = params.getExtras().getString(Constants.JOB_APP_NODE);
         String userId = DownloadService.getHashedAndroidId(this);
         Log.d(TAG, "onStartJob() called with: idApp: " + appId + " userId " + userId);
-        RestApi.getServerApi().reportAppInstallEvent(appId, userId)
+        RestApi.getServerApi().reportAppInstallEvent(node, appId, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> onTransactionReady(result, params),
                         throwable -> onTransactionError(throwable, params));
-        return false;
+        return true;
     }
 
     private void onTransactionReady(ResponseBody result, JobParameters params) {

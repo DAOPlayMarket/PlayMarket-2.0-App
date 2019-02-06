@@ -72,7 +72,7 @@ public class Application extends MultiDexApplication {
         performMigrationIntoMultiAccounting();
         setUpFresco();
         setUpAWS();
-        performChangeLocale();
+//        performChangeLocale();
     }
 
     private void performChangeLocale() {

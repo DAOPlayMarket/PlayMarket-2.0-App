@@ -21,9 +21,11 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -122,8 +124,8 @@ public interface ServerApi {
 
 
     @FormUrlEncoded()
-    @POST("app-install-event")
-    Observable<ResponseBody> reportAppInstallEvent(@Field("body") String idApp, @Field("header") String hash);
+    @POST("https://m{node}.playmarket.io/api/app-install-event")
+    Observable<ResponseBody> reportAppInstallEvent(@Path(value = "node") String node, @Field("idApp") String idApp, @Header("hash") String hash);
 
 //    @GET("https://pex-balancer.playmarket.io/api/history?symbol=PMT&resolution=1D&from=1513577768&to=1544681828")
 //    Observable<ResponseBody> getPexHistory();

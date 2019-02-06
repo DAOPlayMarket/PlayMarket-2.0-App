@@ -101,7 +101,7 @@ public class JobUtils {
         exerciseJobBuilder.setExtras(bundle);
     }
 
-    public static void scheduleAppInstallJobs(Context context, String appId) {
+    public static void scheduleAppInstallJobs(Context context, String appId, String node) {
         ComponentName jobService = new ComponentName(context, ReportAppInstallJob.class);
         JobInfo.Builder exerciseJobBuilder = new JobInfo.Builder(TRANSACTION_STATUS_JOB_ID++, jobService);
         exerciseJobBuilder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
@@ -109,14 +109,15 @@ public class JobUtils {
         exerciseJobBuilder.setRequiresCharging(false);
         exerciseJobBuilder.setBackoffCriteria(TimeUnit.HOURS.toMillis(1), JobInfo.BACKOFF_POLICY_LINEAR);
 
-        addExtras(exerciseJobBuilder, appId);
+        addExtras(exerciseJobBuilder, appId,node);
         JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         jobScheduler.schedule(exerciseJobBuilder.build());
     }
 
-    private static void addExtras(JobInfo.Builder exerciseJobBuilder, String packageName) {
+    private static void addExtras(JobInfo.Builder exerciseJobBuilder, String appId, String node) {
         PersistableBundle bundle = new PersistableBundle();
-        bundle.putString(Constants.JOB_APP_ID, packageName);
+        bundle.putString(Constants.JOB_APP_ID, appId);
+        bundle.putString(Constants.JOB_APP_NODE, node);
         exerciseJobBuilder.setExtras(bundle);
     }
 

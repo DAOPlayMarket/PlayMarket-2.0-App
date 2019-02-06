@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.data.entities.App;
+import com.blockchain.store.playmarket.data.entities.InstalledAppData;
 import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
@@ -18,6 +19,7 @@ import com.orhanobut.hawk.Hawk;
 import java.io.File;
 import java.security.MessageDigest;
 
+import static com.blockchain.store.playmarket.utilities.Constants.BASE_URL;
 import static com.blockchain.store.playmarket.utilities.Constants.DOWNLOAD_APP_URL;
 
 /**
@@ -42,7 +44,11 @@ public class DownloadService extends IntentService {
         if (file.exists()) {
             file.delete();
         }
-        SharedPrefsUtil.addDownloadedApp(app.packageName, app.appId);
+        InstalledAppData appData = new InstalledAppData();
+        appData.setAppId(app.appId);
+        appData.setNode(Hawk.get(BASE_URL));
+        SharedPrefsUtil.addDownloadedApp(app.packageName, appData);
+
         NotificationManager.getManager().registerNewNotification(app);
         Ion.with(getBaseContext())
                 .load(DOWNLOAD_APP_URL + app.appId)

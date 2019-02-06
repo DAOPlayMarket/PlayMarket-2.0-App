@@ -13,6 +13,7 @@ public class Constants {
     /* Job service extra*/
     public static String JOB_HASH_EXTRA = "job_hash_extra";
     public static String JOB_APP_ID = "job_app_id";
+    public static String JOB_APP_NODE = "job_app_node";
     public static String JOB_HASH_FIRST_IS_COMPLETED = "job_hash_first_is_completed";
     public static String JOB_SECOND_HASH_EXTRA = "job_second_hash_extra";
     public static String JOB_SECOND_RAW_TX = "JOB_HASH_SECOND_IS_COMPLETED";
@@ -189,5 +190,6 @@ public class Constants {
     public static final String PAX_URL_TESTNET = "https://testdex.playmarket.io/";
     public static final String DOWNLOAD_APP_URL = SERVER_ENDPOINT_WITHOUT_POST + "/api/download-app?idApp=";
     public static final String PAX_URL = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? PAX_URL_MAINNET : PAX_URL_TESTNET);
+
 
 }
