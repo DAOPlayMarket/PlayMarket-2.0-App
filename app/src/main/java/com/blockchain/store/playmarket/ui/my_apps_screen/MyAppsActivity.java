@@ -18,6 +18,7 @@ import com.blockchain.store.playmarket.adapters.MyAppsAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppLibrary;
 import com.blockchain.store.playmarket.interfaces.AppsAdapterCallback;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MyAppsActivity extends AppCompatActivity implements MyAppsContract.View, AppsAdapterCallback {
+public class MyAppsActivity extends BaseActivity implements MyAppsContract.View, AppsAdapterCallback {
     private static final String TAG = "MyAppsActivity";
 
     @BindView(R.id.top_layout_app_name) TextView toolbarTitle;

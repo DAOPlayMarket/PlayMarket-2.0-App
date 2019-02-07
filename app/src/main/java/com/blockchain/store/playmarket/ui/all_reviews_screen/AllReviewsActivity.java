@@ -12,6 +12,7 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.UserReviewAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.UserReview;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AllReviewsActivity extends AppCompatActivity implements UserReviewAdapter.UserReviewCallback, AllReviewsContract.View {
+public class AllReviewsActivity extends BaseActivity implements UserReviewAdapter.UserReviewCallback, AllReviewsContract.View {
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     private UserReviewAdapter adapter;

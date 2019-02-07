@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.orhanobut.hawk.Hawk;
 
@@ -15,7 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
     private static final String TAG = "SettingsActivity";
 
     @BindView(R.id.top_layout_app_name) TextView toolbarTitle;

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 
 import butterknife.BindView;
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
-public class FingerprintConfiguringActivity extends AppCompatActivity implements FingerprintConfiguringContract.View {
+public class FingerprintConfiguringActivity extends BaseActivity implements FingerprintConfiguringContract.View {
 
     @BindView(R.id.confirm_password_layout) LinearLayout confirmPasswordLinearLayout;
     @BindView(R.id.account_password_textInputLayout) TextInputLayout accountPasswordTextInputLayout;

@@ -22,6 +22,7 @@ import com.blockchain.store.playmarket.data.entities.SendTokenTransactionModel;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.FingerprintUtils;
+import com.blockchain.store.playmarket.utilities.LocaleUtils;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -71,7 +72,7 @@ public class Application extends MultiDexApplication {
         initHawk();
         performMigrationIntoMultiAccounting();
         setUpFresco();
-        setUpAWS();
+//        setUpAWS();
 //        performChangeLocale();
     }
 
@@ -90,9 +91,15 @@ public class Application extends MultiDexApplication {
     }
 
     private void setUpLocale() {
-
+//        LocaleUtils.setLocale(new Locale("en"));
+//        LocaleUtils.updateConfig(this, getBaseContext().getResources().getConfiguration());
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleUtils.updateConfig(this, newConfig);
+    }
 
     private void performMigrationIntoMultiAccounting() {
         String password = Hawk.get(ENCRYPTED_PASSWORD);

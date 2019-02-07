@@ -13,12 +13,13 @@ import android.widget.TextView;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.NewsAdapter;
 import com.blockchain.store.playmarket.data.entities.PlaymarketFeed;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NewsActivity extends AppCompatActivity implements NewsActivityContract.View {
+public class NewsActivity extends BaseActivity implements NewsActivityContract.View {
     private static final String TAG = "NewsActivity";
 
     @BindView(R.id.top_layout_app_name) TextView toolbarTitle;

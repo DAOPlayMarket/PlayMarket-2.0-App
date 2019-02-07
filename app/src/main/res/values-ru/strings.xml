@@ -359,7 +359,7 @@
     <string name="account_balance">"Баланс"</string>
     <string name="read_all_reviews">"Читать все отзывы"</string>
     <string name="marks">"Метки"</string>
-    <string name="install_update">"Установить обновление"</string>
+    <string name="install_update">"Установить"</string>
     <string name="bytecode_copied">"Байт-код скопирован!"</string>
     <string name="confirm_your_action">"Подтвердите Ваши действия"</string>
     <string name="proposal_voting">"Голосование за предложение"</string>

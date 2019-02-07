@@ -12,13 +12,14 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.Token;
 import com.blockchain.store.playmarket.repositories.TransactionRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AddTokenActivity extends AppCompatActivity {
+public class AddTokenActivity extends BaseActivity {
     private static final String TAG = "AddTokenActivity";
 
     @BindView(R.id.address_text) EditText addressText;

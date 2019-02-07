@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.PexHistory;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 import com.github.mikephil.charting.charts.CombinedChart;
@@ -37,7 +38,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PexActivity extends AppCompatActivity implements PexContract.View {
+public class PexActivity extends BaseActivity implements PexContract.View {
 
     private static final String TAG = "PexActivity";
 

@@ -18,6 +18,7 @@ import com.blockchain.store.playmarket.data.entities.ChangellyMinimumAmountRespo
 import com.blockchain.store.playmarket.ui.exchange_screen.exchange_confirm_fragment.ExchangeConfirmFragment;
 import com.blockchain.store.playmarket.ui.exchange_screen.exchange_info_fragment.ExchangeInfoFragment;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
@@ -28,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ExchangeActivity extends AppCompatActivity implements ExchangeActivityContracts.View, LifecycleOwner {
+public class ExchangeActivity extends BaseActivity implements ExchangeActivityContracts.View, LifecycleOwner {
     private static final String TAG = "ExchangeActivity";
 
     @BindView(R.id.view_pager) NonSwipeableViewPager viewPager;

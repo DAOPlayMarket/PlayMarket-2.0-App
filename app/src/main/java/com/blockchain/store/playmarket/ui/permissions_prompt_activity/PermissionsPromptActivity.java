@@ -14,9 +14,10 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
-public class PermissionsPromptActivity extends AppCompatActivity {
+public class PermissionsPromptActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

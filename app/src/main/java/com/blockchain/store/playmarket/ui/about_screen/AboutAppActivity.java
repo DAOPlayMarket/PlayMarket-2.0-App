@@ -10,6 +10,7 @@ import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.ui.webview_screen.WebViewActivity;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 
 import java.util.Calendar;
 
@@ -17,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AboutAppActivity extends AppCompatActivity {
+public class AboutAppActivity extends BaseActivity {
 
     private static final String TAG = "AboutAppActivity";
 

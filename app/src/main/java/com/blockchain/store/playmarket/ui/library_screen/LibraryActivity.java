@@ -19,6 +19,7 @@ import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
 import com.blockchain.store.playmarket.ui.library_screen.my_apps_screen.MyAppsFragment;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuFragment;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 import com.orhanobut.hawk.Hawk;
@@ -29,7 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LibraryActivity extends AppCompatActivity implements AppListCallbacks {
+public class LibraryActivity extends BaseActivity implements AppListCallbacks {
     private static final String TAG = "LibraryActivity";
 
     @BindView(R.id.top_layout_app_name) TextView toolbarTitle;

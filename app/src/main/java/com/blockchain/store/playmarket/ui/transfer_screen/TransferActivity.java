@@ -22,6 +22,7 @@ import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.repositories.UserBalanceRepository;
 import com.blockchain.store.playmarket.ui.transfer_screen.transfer_confirm_screen.TransferConfirmFragment;
 import com.blockchain.store.playmarket.ui.transfer_screen.transfer_info_screen.TransferInfoFragment;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.FingerprintUtils;
 import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
@@ -36,7 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TransferActivity extends AppCompatActivity implements TransferContract.View, LifecycleOwner {
+public class TransferActivity extends BaseActivity implements TransferContract.View, LifecycleOwner {
 
     public static String RECIPIENT_ARG = "recipient_address";
     public static String APP_ARG = "app_address";

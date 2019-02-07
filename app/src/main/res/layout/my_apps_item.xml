@@ -29,24 +29,26 @@
 
         <TextView
             android:id="@+id/my_apps_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:singleLine="true"
             android:text="@string/app_name"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/my_apps_action_btn_area"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/my_apps_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/my_apps_version"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:singleLine="true"
             android:text="@string/app_name"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/my_apps_action_btn_area"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/my_apps_icon"
             app:layout_constraintTop_toBottomOf="@+id/my_apps_title" />
@@ -62,30 +64,24 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
-            <TextView
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/my_apps_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/positiveButton"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
                 android:layout_marginEnd="10dp"
+                android:background="@drawable/my_apps_outline_bg"
+                android:maxLines="1"
+                android:padding="6dp"
                 android:visibility="gone"
+                app:autoSizeMaxTextSize="14sp"
+                app:autoSizeMinTextSize="6sp"
+                app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/my_apps_action_btn"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Has update"
+                tools:text="Есть обновление"
                 tools:visibility="visible" />
 
-            <ImageView
-                android:id="@+id/my_apps_action_btn"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/update"
-                android:tint="@color/colorAccent"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible" />
 
         </LinearLayout>
 

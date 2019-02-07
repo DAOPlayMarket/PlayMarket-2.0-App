@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 
 import net.glxn.qrgen.android.QRCode;
 import net.glxn.qrgen.core.image.ImageType;
@@ -16,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class QrActivity extends AppCompatActivity {
+public class QrActivity extends BaseActivity {
     @BindView(R.id.qrCode) ImageView qrCode;
     @BindView(R.id.user_address) TextView userAddress;
 

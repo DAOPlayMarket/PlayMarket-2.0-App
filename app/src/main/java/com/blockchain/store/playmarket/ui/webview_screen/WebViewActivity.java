@@ -19,12 +19,13 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class WebViewActivity extends AppCompatActivity {
+public class WebViewActivity extends BaseActivity {
     private static final String TAG = "WebViewActivity";
     private static final String EXTRA_ADDRESS_ARG = "address_extra";
 

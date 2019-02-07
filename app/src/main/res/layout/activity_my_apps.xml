@@ -43,8 +43,9 @@
 
         <Button
             android:id="@+id/update_all_btn"
-            android:layout_width="115dp"
-            android:layout_height="30dp"
+            android:layout_width="110dp"
+            android:layout_height="32dp"
+            android:alpha="0.9"
             android:layout_marginRight="15dp"
             android:background="@drawable/rounded_blue_button"
             android:gravity="center"
@@ -52,6 +53,7 @@
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:visibility="gone"
+            tools:text="Обновить всё"
             tools:visibility="visible" />
 
     </LinearLayout>

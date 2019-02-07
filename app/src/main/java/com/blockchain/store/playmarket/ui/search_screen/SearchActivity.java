@@ -17,6 +17,7 @@ import com.blockchain.store.playmarket.adapters.SearchListAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 
@@ -26,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SearchActivity extends AppCompatActivity implements SearchContract.View, AppListCallbacks {
+public class SearchActivity extends BaseActivity implements SearchContract.View, AppListCallbacks {
     private static final String TAG = "SearchActivity";
 
     @BindView(R.id.top_layout_app_name) TextView toolbarTitle;

@@ -31,6 +31,7 @@ import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.interfaces.AppDetailsImpl;
 import com.blockchain.store.playmarket.ui.all_reviews_screen.AllReviewsActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.FrescoUtils;
@@ -47,7 +48,7 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 import static com.blockchain.store.playmarket.utilities.Constants.PLAY_MARKET_ADDRESS;
 
-public class AppDetailActivity extends AppCompatActivity implements AppDetailContract.View, UserReviewAdapter.UserReviewCallback {
+public class AppDetailActivity extends BaseActivity implements AppDetailContract.View, UserReviewAdapter.UserReviewCallback {
     private static final String TAG = "AppDetailActivity";
     private static final String APP_EXTRA = "app_extra";
     private static final String APP_INFO_EXTRA = "app_info_extra";

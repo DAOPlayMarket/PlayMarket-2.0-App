@@ -3,7 +3,9 @@ package com.blockchain.store.playmarket.ui.main_list_screen;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
@@ -50,6 +52,7 @@ import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
 import com.blockchain.store.playmarket.ui.token_transfer_screen.TokenTransferFragment;
 import com.blockchain.store.playmarket.ui.tokens_screen.TokenListFragment;
 import com.blockchain.store.playmarket.ui.wallet_screen.WalletFragment;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 import com.blockchain.store.playmarket.utilities.drawable.HamburgerDrawable;
@@ -57,6 +60,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.net.Proxy;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -69,7 +73,7 @@ import rx.subjects.BehaviorSubject;
 import static com.blockchain.store.playmarket.ui.main_list_screen.MainMenuContract.Presenter;
 import static com.blockchain.store.playmarket.utilities.Constants.OPEN_MY_APPS_EXTRA;
 
-public class MainMenuActivity extends AppCompatActivity implements AppListCallbacks, MainMenuContract.View, MaterialSearchView.OnQueryTextListener, NavigationCallback {
+public class MainMenuActivity extends BaseActivity implements AppListCallbacks, MainMenuContract.View, MaterialSearchView.OnQueryTextListener, NavigationCallback {
     private static final String TAG = "MainMenuActivity";
     private static final int DEBOUNCE_INTERVAL_MILLIS = 1000;
     private static final int DOUBLE_TAP_INTERVAL_MILLIS = 2000;
@@ -112,6 +116,7 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
 
     @OnClick(R.id.open_test)
     void onOpenTestClicked() {
+//        performChangeLocale();
         startActivity(new Intent(this, DaoTokenTransfer.class));
     }
 

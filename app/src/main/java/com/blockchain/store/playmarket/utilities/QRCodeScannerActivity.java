@@ -12,7 +12,7 @@ import android.util.Log;
 
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
-public class QRCodeScannerActivity extends AppCompatActivity implements ZBarScannerView.ResultHandler {
+public class QRCodeScannerActivity extends BaseActivity implements ZBarScannerView.ResultHandler {
     private static final String TAG = "QRCodeScannerActivity";
     private static final int MY_CAMERA_REQUEST_CODE = 100;
 

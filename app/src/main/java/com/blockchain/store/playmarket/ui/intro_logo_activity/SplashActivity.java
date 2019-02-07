@@ -2,7 +2,6 @@ package com.blockchain.store.playmarket.ui.intro_logo_activity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -20,13 +19,15 @@ import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.permissions_prompt_activity.PermissionsPromptActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
+import com.blockchain.store.playmarket.utilities.LocaleUtils;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SplashActivity extends AppCompatActivity implements SplashContracts.View {
+public class SplashActivity extends BaseActivity implements SplashContracts.View {
     private static final String TAG = "SplashActivity";
     private static final int SplashDisplayLength = 500;
     private static final int PERMISSION_REQUEST_CODE = 101;

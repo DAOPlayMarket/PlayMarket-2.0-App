@@ -16,6 +16,7 @@ import com.blockchain.store.playmarket.adapters.TransactionHistoryAdapter;
 import com.blockchain.store.playmarket.data.entities.TransactionModel;
 import com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivityViewModel;
 import com.blockchain.store.playmarket.ui.transaction_history_screen.TransactionHistoryActivityContract.View;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.TransactionPrefsUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
@@ -27,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TransactionHistoryActivity extends AppCompatActivity implements View {
+public class TransactionHistoryActivity extends BaseActivity implements View {
 
     private static final String TAG = "TransactionHistoryActiv";
 

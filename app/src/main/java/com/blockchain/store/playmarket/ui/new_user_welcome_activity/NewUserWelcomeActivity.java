@@ -16,6 +16,7 @@ import com.blockchain.store.playmarket.ui.file_manager_screen.FileManagerActivit
 import com.blockchain.store.playmarket.ui.fingerprint_screen.FingerprintConfiguringActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.FingerprintUtils;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
@@ -29,7 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NewUserWelcomeActivity extends AppCompatActivity implements NewUserWelcomeContract.View {
+public class NewUserWelcomeActivity extends BaseActivity implements NewUserWelcomeContract.View {
     private static final String TAG = "NewUserWelcomeActivity";
     private static final String LAUNCHED_FROM_SETTINGS_PARAM = "launched_from_settings";
     private NewUserWelcomePresenter presenter;

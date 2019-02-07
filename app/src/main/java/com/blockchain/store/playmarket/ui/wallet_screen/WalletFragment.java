@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.ActionBarOverlayLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -124,10 +125,10 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
         AccountManager.setUserBalance(balance.balanceInWei);
         ethBalance.setText(new EthereumPrice(balance.balanceInWei).inEther().toString());
         balanceInLocal.setText(String.format(getString(R.string.local_currency), balance.symbol, balance.getFormattedLocalCurrency()));
-
         progressBar.setVisibility(View.GONE);
         refreshBalance.setVisibility(View.VISIBLE);
     }
+
 
     @Override
     public void onBalanceFail(Throwable throwable) {

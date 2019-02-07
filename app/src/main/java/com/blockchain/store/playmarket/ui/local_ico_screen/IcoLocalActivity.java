@@ -6,11 +6,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class IcoLocalActivity extends AppCompatActivity {
+public class IcoLocalActivity extends BaseActivity {
     private static final String TAG = "IcoLocalActivity";
 
     @BindView(R.id.recycler_view) RecyclerView recyclerView;

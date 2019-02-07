@@ -4,8 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 
-public class UnlockAccountActivity extends AppCompatActivity {
+public class UnlockAccountActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

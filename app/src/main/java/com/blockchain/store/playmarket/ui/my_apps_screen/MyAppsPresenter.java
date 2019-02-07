@@ -57,6 +57,7 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
 
             }
             appLibrary.isHasUpdate = MyPackageManager.isAppHasUpdate(appLibrary.app);
+//            appLibrary.isHasUpdate = true;
             appLibrary.versionName = MyPackageManager.getVersionNameByPackageName(appLibrary.applicationInfo.packageName);
 
             if (isHasLocalCopy && appLibrary.isHasUpdate) {
@@ -148,6 +149,7 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
                 File fileByPackageName = myPackageManager.findFileByPackageName(library.app.packageName, Application.getInstance().getBaseContext());
                 int versionFromFile = myPackageManager.getVersionFromFile(fileByPackageName);
                 library.isHasUpdate = versionFromFile > library.versionName;
+
                 if (versionFromFile <= library.versionName) {
                     library.appState = Constants.APP_STATE.STATE_UNKNOWN;
                 }

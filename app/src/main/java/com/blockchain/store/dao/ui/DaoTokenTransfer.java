@@ -3,8 +3,6 @@ package com.blockchain.store.dao.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Pair;
 import android.widget.Button;
@@ -12,12 +10,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
+import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.FingerprintUtils;
+import com.blockchain.store.playmarket.utilities.LocaleUtils;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -37,8 +38,7 @@ import org.web3j.utils.Numeric;
 
 import java.io.File;
 import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.util.UUID;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +50,7 @@ import rx.schedulers.Schedulers;
 import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA_RINKEBY;
 import static com.blockchain.store.playmarket.utilities.Constants.USER_ETHERSCAN_ID;
 
-public class DaoTokenTransfer extends AppCompatActivity {
+public class DaoTokenTransfer extends BaseActivity {
     private static final String TAG = "DaoTokenTransfer";
 
     @BindView(R.id.unlock_account) EditText unlock_account;
@@ -101,16 +101,23 @@ public class DaoTokenTransfer extends AppCompatActivity {
         }
     }
 
+    private void performChangeLocale() {
+        LocaleUtils.setLocale(new Locale("en"));
+        LocaleUtils.updateConfig((Application) getApplication(), getBaseContext().getResources().getConfiguration());
+        recreate();
+    }
+
     @OnClick(R.id.unlock_account_btn)
     public void unlock_account_btn() {
-        Account account = AccountManager.getAccount();
-        try {
-            AccountManager.getKeyStore().unlock(account, unlock_account.getText().toString());
-            Toast.makeText(this, "Account unlocked!", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, R.string.fingerprint_not_recognized, Toast.LENGTH_SHORT).show();
-        }
+        performChangeLocale();
+//        Account account = AccountManager.getAccount();
+//        try {
+//            AccountManager.getKeyStore().unlock(account, unlock_account.getText().toString());
+//            Toast.makeText(this, "Account unlocked!", Toast.LENGTH_SHORT).show();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            Toast.makeText(this, R.string.fingerprint_not_recognized, Toast.LENGTH_SHORT).show();
+//        }
     }
 
     public static Transaction transactionTest = null;

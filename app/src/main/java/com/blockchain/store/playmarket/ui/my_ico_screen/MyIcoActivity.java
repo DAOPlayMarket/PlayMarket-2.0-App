@@ -18,6 +18,7 @@ import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
 import com.blockchain.store.playmarket.ui.local_ico_screen.IcoLocalActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 
 import java.util.ArrayList;
 
@@ -27,7 +28,7 @@ import butterknife.OnClick;
 
 import static com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity.RECIPIENT_ARG;
 
-public class MyIcoActivity extends AppCompatActivity implements MyIcoContract.View, AppInfoCallback {
+public class MyIcoActivity extends BaseActivity implements MyIcoContract.View, AppInfoCallback {
     private static final String TAG = "MyIcoActivity";
 
     @BindView(R.id.top_layout_app_name) TextView toolbarTitle;

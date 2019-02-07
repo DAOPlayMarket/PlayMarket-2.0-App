@@ -18,6 +18,7 @@ import com.blockchain.store.playmarket.ui.login_screen.password_prompt_screen.Pa
 import com.blockchain.store.playmarket.ui.login_screen.welcome_screen.WelcomeFragment;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.NonSwipeableViewPager;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LoginPromptActivity extends AppCompatActivity implements LoginPromptContract.View, LoginPromptCallback {
+public class LoginPromptActivity extends BaseActivity implements LoginPromptContract.View, LoginPromptCallback {
 
     private LoginPromptPresenter presenter;
     private AlertDialog importDialog;
