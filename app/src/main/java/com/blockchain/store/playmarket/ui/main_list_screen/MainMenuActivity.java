@@ -55,12 +55,14 @@ import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 import com.blockchain.store.playmarket.utilities.drawable.HamburgerDrawable;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import jnr.unixsocket.UnixSocketAddress;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subjects.BehaviorSubject;
 
@@ -399,8 +401,10 @@ public class MainMenuActivity extends AppCompatActivity implements AppListCallba
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         filter.addAction(Intent.ACTION_PACKAGE_INSTALL);
         filter.addAction(Intent.ACTION_PACKAGE_ADDED);
+        filter.addAction(Intent.ACTION_PACKAGE_FIRST_LAUNCH);
         filter.addAction(Intent.ACTION_PACKAGE_CHANGED);
         filter.addAction(Intent.ACTION_PACKAGE_REPLACED);
+        filter.addDataScheme("package");
         this.registerReceiver(br, filter);
     }
 }

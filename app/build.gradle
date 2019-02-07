@@ -15,7 +15,6 @@ repositories {
 }
 
 android {
-
     compileSdkVersion 27
     buildToolsVersion '28.0.3'
     defaultConfig {
@@ -28,7 +27,6 @@ android {
     }
 
     buildTypes {
-
         release {
             resValue "string", "app_name_by_gradle", "DAO PlayMarket 2.0"
             resValue "string", "content_provider", "com.blockchain.store.playmarket.fileprovider"
@@ -97,9 +95,9 @@ dependencies {
     implementation 'com.caverock:androidsvg:1.2.1'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-    implementation('com.amazonaws:aws-android-sdk-mobile-client:2.6.+@aar') { transitive = true }
-    implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.6.+'
-    implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation('com.amazonaws:aws-android-sdk-mobile-client:2.11.1@aar') { transitive = true }
+    implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.11.1'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation 'com.mattprecious.swirl:swirl:1.1.0'
     implementation 'com.mtramin:rxfingerprint:2.2.1'
     implementation 'com.github.kenglxn.QRGen:android:2.5.0'
@@ -107,11 +105,11 @@ dependencies {
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation 'com.github.mancj:MaterialSearchBar:0.7.5'
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
-    implementation 'com.android.support:palette-v7:27.1.0'
+    implementation 'com.android.support:palette-v7:27.1.1'
     implementation 'com.github.stfalcon:frescoimageviewer:0.5.0'
     implementation 'com.facebook.fresco:imagepipeline-okhttp3:1.8.1'
     implementation 'me.zhanghai.android.materialratingbar:library:1.2.0'
-    implementation 'com.koushikdutta.ion:ion:2.+'
+    implementation 'com.koushikdutta.ion:ion:2.2.1'
     implementation 'com.orhanobut:hawk:2.0.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
@@ -139,9 +137,8 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
-    implementation 'us.feras.mdv:markdownview:1.1.0'
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.0@aar') {
-        transitive = true;
+        transitive = true
     }
 }

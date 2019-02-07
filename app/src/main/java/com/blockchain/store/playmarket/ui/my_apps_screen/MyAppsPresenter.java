@@ -1,7 +1,6 @@
 package com.blockchain.store.playmarket.ui.my_apps_screen;
 
 import android.content.pm.ApplicationInfo;
-import android.util.Log;
 import android.util.Pair;
 
 import com.blockchain.store.playmarket.Application;
@@ -148,9 +147,8 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
             if (library.appState == Constants.APP_STATE.STATE_UPDATE_DOWNLOADED_NOT_INSTALLED) {
                 File fileByPackageName = myPackageManager.findFileByPackageName(library.app.packageName, Application.getInstance().getBaseContext());
                 int versionFromFile = myPackageManager.getVersionFromFile(fileByPackageName);
-                if (versionFromFile > library.versionName) {
-
-                } else {
+                library.isHasUpdate = versionFromFile > library.versionName;
+                if (versionFromFile <= library.versionName) {
                     library.appState = Constants.APP_STATE.STATE_UNKNOWN;
                 }
             } else {

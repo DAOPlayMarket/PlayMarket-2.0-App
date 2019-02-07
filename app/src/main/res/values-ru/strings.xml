@@ -166,7 +166,7 @@
     <!-- My apps screen -->
     <string name="my_apps">"Мои приложения"</string>
     <string name="update_all_apps">"Обновить всё"</string>
-    <string name="has_update">"Есть обновления"</string>
+    <string name="has_update">"Есть обновление"</string>
     <string name="my_apps_update_snackbar_text">"Выбрано %1$d/%2$d приложений."</string>
     <string name="chosed">"Выбрано"</string>
     <string name="transfer_tokens">"Перевод токенов"</string>

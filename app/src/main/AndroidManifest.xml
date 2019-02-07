@@ -28,8 +28,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label,allowBackup">
-        <activity android:name=".ui.all_reviews_screen.AllReviewsActivity"></activity>
-        <activity android:name=".ui.qr_screen.QrActivity"></activity>
+        <activity android:name=".ui.all_reviews_screen.AllReviewsActivity" />
+        <activity android:name=".ui.qr_screen.QrActivity" />
         <activity android:name="com.blockchain.store.dao.ui.DaoTokenTransfer" />
 
         <meta-data
@@ -58,9 +58,6 @@
             android:name=".ui.login_screen.LoginPromptActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.account_management_activity.AccountManagementActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.new_user_welcome_activity.NewUserWelcomeActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -79,14 +76,16 @@
             android:exported="true" />
         <service
             android:name=".services.DownloadService"
-            android:exported="true" />
+            android:exported="true"
+            />
 
         <activity
             android:name=".ui.app_detail_screen.AppDetailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="" />
 
-        <receiver android:name=".broadcasts.InstallPackageReceiver">
+        <receiver
+            android:name=".broadcasts.InstallPackageReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_INSTALL" />
 
@@ -210,10 +209,6 @@
         <activity
             android:name=".ui.transaction_history_screen.TransactionHistoryActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.tokens_screen.TokenListFragment"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.add_token_screen.AddTokenActivity"
             android:screenOrientation="portrait" />
