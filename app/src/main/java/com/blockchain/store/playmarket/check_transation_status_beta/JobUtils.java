@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.PersistableBundle;
 
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.concurrent.TimeUnit;
 
@@ -62,7 +63,7 @@ public class JobUtils {
         }
         ComponentName jobService = new ComponentName(context, CheckUpdateJobService.class);
         JobInfo.Builder exerciseJobBuilder = new JobInfo.Builder(AUTO_UPDATE_JOB_ID, jobService)
-                .setRequiresCharging(true)
+                .setRequiresCharging(Hawk.get(Constants.SETTINGS_SEARCH_FOR_UPDATE_ONLY_WHILE_CHARGING, true))
                 .setPeriodic(ONE_DAY_INTERVAL)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
                 .setBackoffCriteria(TimeUnit.MINUTES.toMillis(10), JobInfo.BACKOFF_POLICY_LINEAR);
@@ -109,7 +110,7 @@ public class JobUtils {
         exerciseJobBuilder.setRequiresCharging(false);
         exerciseJobBuilder.setBackoffCriteria(TimeUnit.HOURS.toMillis(1), JobInfo.BACKOFF_POLICY_LINEAR);
 
-        addExtras(exerciseJobBuilder, appId,node);
+        addExtras(exerciseJobBuilder, appId, node);
         JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         jobScheduler.schedule(exerciseJobBuilder.build());
     }

@@ -11,12 +11,11 @@ import com.blockchain.store.playmarket.data.entities.AppUpdateNotification;
 import com.blockchain.store.playmarket.data.entities.PlayMarketUpdateNotification;
 import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.repositories.MyAppsRepository;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
-
-import static com.blockchain.store.playmarket.utilities.Constants.DOWNLOAD_NEW_VERSION_WITHOUT_PROMPT;
 
 /**
  * Created by Crypton04 on 17.10.2018.
@@ -44,7 +43,7 @@ public class CheckUpdateJobService extends JobService {
                 }
             }
 
-            onAppsUpdateAvailiable(result.second);
+            onAppsUpdateAvailable(result.second);
         }
         jobFinished(params, false);
     }
@@ -61,19 +60,20 @@ public class CheckUpdateJobService extends JobService {
     }
 
     private void onPlayMarketNewVersionAvailable(App app) {
-        PlayMarketUpdateNotification playMarketUpdateNotification = new PlayMarketUpdateNotification(app);
-        NotificationManager.getManager().registerNewNotification(playMarketUpdateNotification);
-        if (Hawk.get(DOWNLOAD_NEW_VERSION_WITHOUT_PROMPT, false)) {
-
-        } else {
-
+        if (Hawk.get(Constants.SETTINGS_SHOW_PLAYMARKET_UPDATE_NOTIFICATION, true)) {
+            PlayMarketUpdateNotification playMarketUpdateNotification = new PlayMarketUpdateNotification(app);
+            NotificationManager.getManager().registerNewNotification(playMarketUpdateNotification);
         }
+
 
     }
 
-    private void onAppsUpdateAvailiable(int countOfAppsHasUpdate) {
-        AppUpdateNotification playMarketUpdateNotification = new AppUpdateNotification(countOfAppsHasUpdate);
-        NotificationManager.getManager().registerNewNotification(playMarketUpdateNotification);
+    private void onAppsUpdateAvailable(int countOfAppsHasUpdate) {
+        if (Hawk.get(Constants.SETTINGS_SHOW_UPDATE_NOTIFICATION, true)) {
+            AppUpdateNotification playMarketUpdateNotification = new AppUpdateNotification(countOfAppsHasUpdate);
+            NotificationManager.getManager().registerNewNotification(playMarketUpdateNotification);
+        }
+
     }
 
 

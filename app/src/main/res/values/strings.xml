@@ -429,6 +429,8 @@
     <string name="proposal_execution_tx_failed">Proposal execution failed</string>
     <string name="not_locked_balance">Not locked balance:</string>
     <string name="no_tokens">You don`t have enough tokens</string>
+
+    <!--Settings -->
     <string name="settings_notifications">Notifications</string>
     <string name="settings_app_install">Application install settings</string>
     <string name="settings_language">Language</string>
@@ -436,7 +438,7 @@
     <string name="lang_rus">Russian</string>
     <string name="settings_app_update_notification">Show applications update notifications</string>
     <string name="settings_pm_update_notification">Show DAO PlayMarket 2.0 update notifications</string>
-    <string name="settings_download_over_wifi">Download over Wifi only</string>
+    <string name="settings_download_over_wifi">Download over Wi-Fi only</string>
     <string name="setting_check_for_updates_while_charging">Check for update only while device is charging</string>
 
     <string-array name="contract_functions">

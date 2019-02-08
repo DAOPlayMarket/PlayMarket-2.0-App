@@ -56,9 +56,9 @@ public class Application extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        setUpLocale();
         Fabric.with(this, new Crashlytics());
         instance = this;
+
         MultiDex.install(this);
         ToastUtil.setContext(this);
         AccountManager.setKeyManager(KeyManager.newKeyManager(getFilesDir().getAbsolutePath()));
@@ -73,21 +73,7 @@ public class Application extends MultiDexApplication {
         performMigrationIntoMultiAccounting();
         setUpFresco();
         setUpAWS();
-//        performChangeLocale();
-    }
-
-    private void performChangeLocale() {
-        Locale locale = new Locale("en");
-        Locale.setDefault(locale);
-
-        Configuration config = getResources().getConfiguration();
-        config.setLocale(locale);
-        createConfigurationContext(config);
-        if (Build.VERSION.SDK_INT >= 21) {
-            getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-        } else {
-
-        }
+        setUpLocale();
     }
 
     private void setUpLocale() {
@@ -111,7 +97,6 @@ public class Application extends MultiDexApplication {
         if (password != null && AccountManager.getAddress() != null) {
             FingerprintUtils.addEncryptedPassword(password);
         }
-//        Hawk.delete(ENCRYPTED_PASSWORD);
     }
 
 
