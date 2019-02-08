@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorPrimary"
+    android:orientation="vertical"
     tools:context="com.blockchain.store.playmarket.ui.settings_screen.SettingsActivity">
 
-    <include layout="@layout/detail_app_toolbar"/>
+    <include layout="@layout/detail_app_toolbar" />
+
+    <LinearLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="28dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_notifications"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="28dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_app_install"
+            android:textSize="18sp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/settings_autoinstall_holder"
@@ -16,21 +46,89 @@
         android:layout_height="@dimen/setting_item_height"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:paddingStart="28dp"
+        android:paddingRight="20dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/setting_autoinstall"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <CheckBox
-            android:checked="true"
-            android:buttonTint="@color/check_box_colors"
             android:id="@+id/setting_autoinstall_checkbox"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/check_box_colors"
+            android:checked="true" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="28dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_language"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/settings_lang_en_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="28dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/lang_eng"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/setting_lang_en"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/check_box_colors"
+            android:checked="false" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/settings_lang_rus_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="28dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/lang_rus"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/setting_lang_rus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/check_box_colors"
+            android:checked="false" />
 
     </LinearLayout>
 

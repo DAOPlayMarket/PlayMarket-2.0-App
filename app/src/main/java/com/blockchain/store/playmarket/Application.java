@@ -72,7 +72,7 @@ public class Application extends MultiDexApplication {
         initHawk();
         performMigrationIntoMultiAccounting();
         setUpFresco();
-//        setUpAWS();
+        setUpAWS();
 //        performChangeLocale();
     }
 

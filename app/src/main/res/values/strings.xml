@@ -429,6 +429,11 @@
     <string name="proposal_execution_tx_failed">Proposal execution failed</string>
     <string name="not_locked_balance">Not locked balance:</string>
     <string name="no_tokens">You don`t have enough tokens</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_app_install">Application install settings</string>
+    <string name="settings_language">Language</string>
+    <string name="lang_eng">English</string>
+    <string name="lang_rus">Russian</string>
 
     <string-array name="contract_functions">
         <item>Sent ethereum</item>

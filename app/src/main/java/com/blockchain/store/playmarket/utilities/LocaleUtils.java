@@ -2,15 +2,32 @@ package com.blockchain.store.playmarket.utilities;
 
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.support.v7.app.AppCompatActivity;
 import android.view.ContextThemeWrapper;
 
 import com.blockchain.store.playmarket.Application;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class LocaleUtils {
 
     private static Locale sLocale;
+    private static ArrayList<AppCompatActivity> activities = new ArrayList<>();
+
+    public static void addActivity(AppCompatActivity activity) {
+        activities.add(activity);
+    }
+
+    public static void removeActivity(AppCompatActivity activity) {
+        activities.remove(activity);
+    }
+
+    public static void refreshActivies() {
+        for (AppCompatActivity activity : activities) {
+            activity.recreate();
+        }
+    }
 
     public static void setLocale(Locale locale) {
         sLocale = locale;

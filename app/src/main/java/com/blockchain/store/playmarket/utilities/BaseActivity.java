@@ -11,10 +11,12 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        LocaleUtils.addActivity(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        LocaleUtils.removeActivity(this);
     }
 }

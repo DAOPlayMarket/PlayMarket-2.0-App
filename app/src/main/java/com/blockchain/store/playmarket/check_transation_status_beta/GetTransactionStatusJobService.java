@@ -42,7 +42,6 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
     }
 
     private void onTransactionReady(EthGetTransactionReceipt result, JobParameters params) {
-        Log.d(TAG, "onTransactionReady() called with: result = [" + result + "], params = [" + params + "]");
         if (result.hasError()) {
             return;
         }
