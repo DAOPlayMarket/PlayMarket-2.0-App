@@ -153,9 +153,7 @@ public class ChangeAccountAdapter extends RecyclerView.Adapter<ChangeAccountAdap
             } else {
                 progressBar.setVisibility(View.GONE);
                 balanceView.setVisibility(View.VISIBLE);
-
-                float balance = new EthereumPrice(account.second).inEther().floatValue();
-                balanceView.setText(String.format(context.getString(R.string.balance_field_with_eth), String.valueOf(balance)));
+                balanceView.setText(String.format(context.getString(R.string.balance_field_with_eth), new EthereumPrice(account.second).inEther().toString()));
             }
         }
     }
