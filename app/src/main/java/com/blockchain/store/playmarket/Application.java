@@ -91,8 +91,13 @@ public class Application extends MultiDexApplication {
     }
 
     private void setUpLocale() {
-//        LocaleUtils.setLocale(new Locale("en"));
-//        LocaleUtils.updateConfig(this, getBaseContext().getResources().getConfiguration());
+        if (Hawk.contains(Constants.SETTINGS_USER_LOCALE)) {
+            LocaleUtils.setLocale(new Locale(Hawk.get(Constants.SETTINGS_USER_LOCALE)));
+        } else {
+            LocaleUtils.setLocale(Locale.getDefault());
+        }
+        LocaleUtils.updateConfig(this, getBaseContext().getResources().getConfiguration());
+
     }
 
     @Override

@@ -10,7 +10,6 @@
     <include layout="@layout/detail_app_toolbar" />
 
     <LinearLayout
-
         android:layout_width="wrap_content"
         android:layout_height="42dp"
         android:gravity="center"
@@ -24,6 +23,91 @@
             android:textSize="18sp" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/settings_enable_update_notification"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_height"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="28dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/settings_app_update_notification"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/settings_enable_update_notification_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/check_box_colors"
+            android:checked="true"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/settings_enable_self_update_notification"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_height"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="28dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/settings_pm_update_notification"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/settings_enable_self_update_notification_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/check_box_colors"
+            android:checked="true"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/settings_enable_transaction_update_notification"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_height"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="28dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Show transaction status notification"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/settings_enable_transaction_update_notification_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/check_box_colors"
+            android:checked="true"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -61,7 +145,66 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:buttonTint="@color/check_box_colors"
-            android:checked="true" />
+            android:checked="true"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/setting_wifi_only"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_height"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="28dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/settings_download_over_wifi"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/setting_wifi_only_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/check_box_colors"
+            android:checked="true"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/setting_check_for_update_while_charing"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_height"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="28dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/setting_check_for_updates_while_charging"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/setting_check_for_update_while_charing_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/check_box_colors"
+            android:checked="true"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
 
     </LinearLayout>
 
@@ -85,7 +228,7 @@
     <LinearLayout
         android:id="@+id/settings_lang_en_holder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/setting_item_height"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingStart="28dp"
@@ -103,14 +246,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:buttonTint="@color/check_box_colors"
-            android:checked="false" />
+            android:checked="false"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/settings_lang_rus_holder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/setting_item_height"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingStart="28dp"
@@ -128,7 +274,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:buttonTint="@color/check_box_colors"
-            android:checked="false" />
+            android:checked="false"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
 
     </LinearLayout>
 

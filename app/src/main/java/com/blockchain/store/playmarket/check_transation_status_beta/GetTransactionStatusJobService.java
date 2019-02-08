@@ -27,7 +27,6 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        Log.d(TAG, "onStartJob() called with: params = [" + params + "]");
         NotificationManager.getManager().registerNewNotification(getNotification(params));
         PersistableBundle extras = params.getExtras();
         String transactionHash = extras.getString(Constants.JOB_HASH_EXTRA);

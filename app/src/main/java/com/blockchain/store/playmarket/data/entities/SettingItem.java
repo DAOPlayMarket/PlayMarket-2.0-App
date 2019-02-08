@@ -4,5 +4,6 @@ abstract class SettingItem {
 
     private String name;
     private boolean isTitle;
+    private String sharedPrefsKey;
 
 }

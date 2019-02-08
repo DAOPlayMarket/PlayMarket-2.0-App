@@ -151,10 +151,14 @@ public class Constants {
     public static final String BASE_URL = "base_url_extra";
     public static final String DOWNLOAD_NEW_VERSION_WITHOUT_PROMPT = "download_new_version_without_prompt";
 
+
+    public static final String SETTINGS_SHOW_UPDATE_NOTIFICATION = "SETTINGS_SHOW_UPDATE_NOTIFICATION";
+    public static final String SETTINGS_SHOW_PLAYMARKET_UPDATE_NOTIFICATION = "SETTINGS_SHOW_PLAYMARKET_UPDATE_NOTIFICATION";
+    public static final String SETTINGS_SHOW_TRANSACTION_UPDATE_NOTIFICATION = "SETTINGS_SHOW_TRANSACTION_UPDATE_NOTIFICATION";
     public static final String SETTINGS_DOWNLOAD_ONLY_ON_WIFI = "download_only_on_wifi";
     public static final String SETTINGS_SEARCH_FOR_UPDATE_ONLY_WHILE_CHARGING = "search_for_update_only_while_charging";
-    public static final String SETTINGS_ENABLE_UPDATE_NOTIFICATIONS = "enable_update_notifications";
-    public static final String SETTINGS_ENABLE_TRANSACTION_NOTIFICATION = "enbale_transaction_notification";
+
+    public static final String SETTINGS_USER_LOCALE = "settings_user_locale";
 
     /* Library prefs*/
     public static final String DOWNLOADED_APPS_LIST = "downloaded_apps_list";

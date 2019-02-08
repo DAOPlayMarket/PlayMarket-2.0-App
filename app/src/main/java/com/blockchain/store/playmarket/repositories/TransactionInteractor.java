@@ -10,7 +10,7 @@ import com.orhanobut.hawk.Hawk;
 public class TransactionInteractor {
 
     private static boolean isCanShowNotification() {
-        return Hawk.get(Constants.SETTINGS_ENABLE_TRANSACTION_NOTIFICATION, true);
+        return Hawk.get(Constants.SETTINGS_SHOW_TRANSACTION_UPDATE_NOTIFICATION, true);
     }
 
     public static String mapWithJobService(String hash, TransactionModel transactionModel) {
