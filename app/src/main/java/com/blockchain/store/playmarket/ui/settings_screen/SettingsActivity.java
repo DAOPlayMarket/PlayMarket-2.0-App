@@ -60,6 +60,7 @@ public class SettingsActivity extends BaseActivity {
         ButterKnife.bind(this);
         initViews();
         setViews();
+
     }
 
     private void setViews() {
@@ -93,6 +94,11 @@ public class SettingsActivity extends BaseActivity {
         transactionUpdateCheckBox.setChecked(Hawk.get(Constants.SETTINGS_SHOW_TRANSACTION_UPDATE_NOTIFICATION, true));
         wifiOnlyCheckBox.setChecked(Hawk.get(Constants.SETTINGS_DOWNLOAD_ONLY_ON_WIFI, true));
         updateWhileChargingCheckBox.setChecked(Hawk.get(Constants.SETTINGS_SEARCH_FOR_UPDATE_ONLY_WHILE_CHARGING, true));
+        if (Hawk.contains(Constants.SETTINGS_USER_LOCALE)) {
+
+        }
+        langEn.setChecked(Hawk.get(Constants.SETTINGS_USER_LOCALE, false));
+        langRus.setChecked(Hawk.get(Constants.SETTINGS_USER_LOCALE, false));
     }
 
 
@@ -104,7 +110,9 @@ public class SettingsActivity extends BaseActivity {
 
     @OnClick(R.id.settings_lang_en_holder)
     void onEngHolderClicked() {
-        this.finish();
+//        this.finish();
+
+        overridePendingTransition(0, 0);
         Hawk.put(Constants.SETTINGS_USER_LOCALE, "en");
         LocaleUtils.setLocale(new Locale("en"));
         LocaleUtils.updateConfig(Application.getInstance(), getBaseContext().getResources().getConfiguration());
@@ -114,7 +122,9 @@ public class SettingsActivity extends BaseActivity {
 
     @OnClick(R.id.settings_lang_rus_holder)
     void onRusHolderClicked() {
-        this.finish();
+//        this.finish();
+
+        overridePendingTransition(0, 0);
         Hawk.put(Constants.SETTINGS_USER_LOCALE, "ru");
         LocaleUtils.setLocale(new Locale("ru"));
         LocaleUtils.updateConfig(Application.getInstance(), getBaseContext().getResources().getConfiguration());

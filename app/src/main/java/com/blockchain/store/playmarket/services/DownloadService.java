@@ -50,6 +50,7 @@ public class DownloadService extends IntentService {
         SharedPrefsUtil.addDownloadedApp(app.packageName, appData);
 
         NotificationManager.getManager().registerNewNotification(app);
+
         Ion.with(getBaseContext())
                 .load(DOWNLOAD_APP_URL + app.appId)
                 .setHeader("hash", getHashedAndroidId(getBaseContext()))

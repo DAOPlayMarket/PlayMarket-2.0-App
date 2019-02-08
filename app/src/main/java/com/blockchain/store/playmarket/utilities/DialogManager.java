@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.blockchain.store.dao.interfaces.Callbacks;
+import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
@@ -425,5 +426,9 @@ public class DialogManager {
             if (FingerprintUtils.isFingerprintAvailibility(context)) fingerprintDisposable.dispose();
             alertDialog.dismiss();
         });
+    }
+
+    public void showFullScreenDialog(){
+        Context applicationContext = Application.getInstance().getApplicationContext();
     }
 }
