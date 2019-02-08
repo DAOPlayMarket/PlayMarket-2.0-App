@@ -123,7 +123,7 @@ public class TokenTransferFragment extends Fragment implements TokenTransferCont
         if (daoToken.isWithdrawBlocked) {
             lockedAmount.setText(R.string.all_token_are_locked);
         } else {
-            lockedAmount.setText(String.format(getString(R.string.token_are_locked), daoToken.getDaoBalance() - daoToken.getNotLockedBalance()));
+            lockedAmount.setText(String.format(getString(R.string.token_are_locked), String.valueOf(daoToken.getDaoBalance() - daoToken.getNotLockedBalance())));
         }
     }
 
@@ -327,86 +327,17 @@ public class TokenTransferFragment extends Fragment implements TokenTransferCont
             @Override
             public void onAccountUnlocked() {
                 presenter.sendTokenToRepository(daoToken.getApprovalWithoutDecimal(), amount);
-//                RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-//                        .flatMap(result -> {
-//                            try {
-//                                String rawTransaction;
-//                                Long approvalWithoutDecimal = daoToken.getApprovalWithoutDecimal();
-//
-//                                if (approvalWithoutDecimal >= amount && approvalWithoutDecimal != 0) {
-//                                    Transaction transaction = CryptoUtils.generateDepositOnlyTokenToRepositoryTx(result, amount);
-//                                    TransactionInteractor.addToJobSchedule(transaction.getHash().getHex(), Constants.TransactionTypes.SEND_INTO_REPOSITORY);
-//                                    rawTransaction = CryptoUtils.getRawTransaction(transaction);
-//                                } else {
-//                                    Pair<Transaction, Transaction> stringStringPair = CryptoUtils.generateDepositTokenToRepositoryTx(result, amount);
-//                                    rawTransaction = CryptoUtils.getRawTransaction(stringStringPair.first);
-//                                    String rawSecondTransaction = CryptoUtils.getRawTransaction(stringStringPair.second);
-//                                    TransactionInteractor.addToJobSchedule(stringStringPair.first.getHash().getHex(), stringStringPair.second.getHash().getHex(), rawSecondTransaction, Constants.TransactionTypes.SEND_INTO_REPOSITORY);
-//                                }
-//                                return RestApi.getServerApi().deployTransaction(rawTransaction);
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                                throw new RuntimeException("111");
-//                            }
-//                        })
-//                        .subscribeOn(Schedulers.newThread())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe(response -> transferSuccess(response), error -> transferFailed(error));
             }
-
         });
-
     }
-
 
     private void proceedWithWithdraw(Long amount) {/*WORKS need refactor*/
         presenter.withdraw(amount, isOpenAsCryptoDuelToken);
-//        new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
-//            @Override
-//            public void onAccountUnlocked() {
-//                RestApi.getServerApi().getAccountInfo(AccountManager.getAddress().getHex())
-//                        .flatMap(result -> {
-//                            try {
-//                                Transaction tx;
-//                                if (isOpenAsCryptoDuelToken) {
-//                                    tx = CryptoUtils.generateWithDrawCDLTTokens(result, amount);
-//                                } else {
-//                                    tx = CryptoUtils.generateWithDrawPmtTokens(result, amount);
-//                                }
-//
-//                                String rawTx = CryptoUtils.getRawTransaction(tx);
-//                                new TransactionInteractor().addToJobSchedule(tx.getHash().getHex(), Constants.TransactionTypes.WITHDRAW_TOKEN);
-//                                return RestApi.getServerApi().deployTransaction(rawTx);
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                                throw new RuntimeException("111");
-//                            }
-//                        })
-//                        .subscribeOn(Schedulers.newThread())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe(response -> transferSuccess(response), error -> transferFailed(error));
-//            }
-//
-//        });
-
     }
-
 
     @OnClick({R.id.close_button, R.id.cancel_button})
     void onCloseButtonPressed() {
         if (getActivity() != null) getActivity().onBackPressed();
-    }
-
-    //    @OnClick(R.id.continue_button)
-    void onContinueButtonPressed() {
-        String address;
-        if (tabPosition == 0) address = recipientEditText.getText().toString();
-        else address = repositoryTextView.getText().toString();
-        String amount = sendEditText.getText().toString();
-
-        new DialogManager().showPasswordDialogWithDetails(amount, address, getContext(), (isUnlock) -> {
-
-        });
     }
 
     @OnClick(R.id.continue_button)

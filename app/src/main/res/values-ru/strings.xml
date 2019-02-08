@@ -343,7 +343,7 @@
     <string name="wrong_send_token_number">"Вы можете отправить только %1$f токенов"</string>
     <string name="withdraw_is_blocked">"Вывод заблокирован"</string>
     <string name="all_token_are_locked">"Все токены заблокированы"</string>
-    <string name="token_are_locked">"%1$f токенов заблокировано"</string>
+    <string name="token_are_locked">"%1$s токенов заблокировано"</string>
     <string name="you_already_has_approval_tokens">"У вас уже есть токены в процессе отправки %1$f. Укажите  количество меньше или равное этому."</string>
     <string name="can_withdraw">"Вы можете вывести только %1$f токенов"</string>
     <string name="transaction_sent">"Транзакция успешно отправлена!"</string>

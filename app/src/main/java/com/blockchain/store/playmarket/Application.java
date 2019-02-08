@@ -2,7 +2,6 @@ package com.blockchain.store.playmarket;
 
 import android.arch.persistence.room.Room;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
@@ -80,7 +79,9 @@ public class Application extends MultiDexApplication {
         if (Hawk.contains(Constants.SETTINGS_USER_LOCALE)) {
             LocaleUtils.setLocale(new Locale(Hawk.get(Constants.SETTINGS_USER_LOCALE)));
         } else {
-            LocaleUtils.setLocale(Locale.getDefault());
+            Locale defaultLocale = Locale.getDefault();
+            LocaleUtils.setLocale(defaultLocale);
+            Hawk.put(Constants.SETTINGS_USER_LOCALE, defaultLocale.getLanguage());
         }
         LocaleUtils.updateConfig(this, getBaseContext().getResources().getConfiguration());
 

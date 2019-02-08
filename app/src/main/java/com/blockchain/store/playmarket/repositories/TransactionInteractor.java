@@ -9,14 +9,8 @@ import com.orhanobut.hawk.Hawk;
 
 public class TransactionInteractor {
 
-    private static boolean isCanShowNotification() {
-        return Hawk.get(Constants.SETTINGS_SHOW_TRANSACTION_UPDATE_NOTIFICATION, true);
-    }
-
     public static String mapWithJobService(String hash, TransactionModel transactionModel) {
-        if (!isCanShowNotification()) {
-            return "";
-        }
+
         transactionModel.transactionHash = hash;
         transactionModel.transactionLink = Constants.ETHER_SCAN_TX_URL + hash;
         addToJobSchedule(hash, transactionModel);
@@ -29,16 +23,12 @@ public class TransactionInteractor {
     }
 
     public static void addToJobSchedule(String hash, Constants.TransactionTypes transactionTypes) {
-        if (!isCanShowNotification()) {
-            return;
-        }
+
         JobUtils.scheduleCheckTransactionJob(Application.getInstance().getApplicationContext(), hash, transactionTypes);
     }
 
     private static void addToJobSchedule(String hash, TransactionModel transactionModel) {
-        if (!isCanShowNotification()) {
-            return;
-        }
+
         JobUtils.scheduleCheckTransactionJob(Application.getInstance().getApplicationContext(), hash, transactionModel.getTransactionType());
     }
 

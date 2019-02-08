@@ -15,15 +15,15 @@ repositories {
 }
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.blockchain.store.playmarket"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         multiDexEnabled true
-        versionCode 103
-        versionName '1.4.6'
+        versionCode 104
+        versionName '1.4.7'
     }
 
     buildTypes {

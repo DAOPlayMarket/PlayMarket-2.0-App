@@ -4,12 +4,11 @@ import android.app.job.JobParameters;
 import android.os.PersistableBundle;
 import android.util.Log;
 
-import com.blockchain.store.playmarket.data.entities.AppBuyTransactionModel;
-import com.blockchain.store.playmarket.data.entities.TransactionModel;
 import com.blockchain.store.playmarket.data.entities.TransactionNotification;
 import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.TransactionPrefsUtil;
+import com.orhanobut.hawk.Hawk;
 
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
@@ -27,7 +26,9 @@ public class GetTransactionStatusJobService extends android.app.job.JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        NotificationManager.getManager().registerNewNotification(getNotification(params));
+        if (Hawk.get(Constants.SETTINGS_SHOW_TRANSACTION_UPDATE_NOTIFICATION, true)) {
+            NotificationManager.getManager().registerNewNotification(getNotification(params));
+        }
         PersistableBundle extras = params.getExtras();
         String transactionHash = extras.getString(Constants.JOB_HASH_EXTRA);
         Web3j build = Web3jFactory.build(new HttpService(BASE_URL_INFURA));

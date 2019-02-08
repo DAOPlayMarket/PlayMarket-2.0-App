@@ -51,7 +51,7 @@ public class MainMenuPresenter implements Presenter {
 
     @Override
     public void requestUpdateListener(Context context) {
-        JobUtils.scheduleCheckUpdateJob(context);
+        JobUtils.scheduleCheckUpdateJob(context,false);
     }
 
     private void onSearchResultReady(SearchResponse searchResponse) {

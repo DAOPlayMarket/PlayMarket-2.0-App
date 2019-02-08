@@ -12,7 +12,6 @@ import android.graphics.Shader;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.Layout;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 /* https://stackoverflow.com/questions/49295526/how-to-fade-out-the-end-of-the-last-line-in-a-textview
  * */
@@ -91,8 +90,7 @@ public class FadingTextView extends AppCompatTextView {
 
         // Save the layer
         final int saveCount = canvas.saveLayer(b.left, b.top, b.right,
-                b.bottom, null,
-                Canvas.HAS_ALPHA_LAYER_SAVE_FLAG);
+                b.bottom, null);
 
         // Let TextView draw itself
         super.onDraw(canvas);

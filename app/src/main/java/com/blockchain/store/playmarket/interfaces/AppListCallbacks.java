@@ -11,8 +11,7 @@ import com.blockchain.store.playmarket.data.entities.App;
 public interface AppListCallbacks {
     void onAppClicked(App app);
 
-    default void onAppClickedWithTransition(App app, View view){
-
-    };
+    default void onAppClickedWithTransition(App app, View view) {
+    }
 
 }

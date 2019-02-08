@@ -116,7 +116,6 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
 
     @OnClick(R.id.open_test)
     void onOpenTestClicked() {
-//        performChangeLocale();
         startActivity(new Intent(this, DaoTokenTransfer.class));
     }
 

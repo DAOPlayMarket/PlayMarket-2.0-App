@@ -56,9 +56,9 @@ public class JobUtils {
     }
 
 
-    public static void scheduleCheckUpdateJob(Context context) {
+    public static void scheduleCheckUpdateJob(Context context, boolean needToBeRescheduled) {
         JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
-        if (checkIfJobAlreadyRunning(jobScheduler)) {
+        if (checkIfJobAlreadyRunning(jobScheduler) || !needToBeRescheduled) {
             return;
         }
         ComponentName jobService = new ComponentName(context, CheckUpdateJobService.class);
@@ -66,7 +66,7 @@ public class JobUtils {
                 .setRequiresCharging(Hawk.get(Constants.SETTINGS_SEARCH_FOR_UPDATE_ONLY_WHILE_CHARGING, true))
                 .setPeriodic(ONE_DAY_INTERVAL)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .setBackoffCriteria(TimeUnit.MINUTES.toMillis(10), JobInfo.BACKOFF_POLICY_LINEAR);
+                .setBackoffCriteria(TimeUnit.DAYS.toMillis(1), JobInfo.BACKOFF_POLICY_LINEAR);
         jobScheduler.schedule(exerciseJobBuilder.build());
     }
 

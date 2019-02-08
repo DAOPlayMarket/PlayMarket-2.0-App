@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.check_transation_status_beta.JobUtils;
 import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.LocaleUtils;
@@ -94,11 +95,15 @@ public class SettingsActivity extends BaseActivity {
         transactionUpdateCheckBox.setChecked(Hawk.get(Constants.SETTINGS_SHOW_TRANSACTION_UPDATE_NOTIFICATION, true));
         wifiOnlyCheckBox.setChecked(Hawk.get(Constants.SETTINGS_DOWNLOAD_ONLY_ON_WIFI, true));
         updateWhileChargingCheckBox.setChecked(Hawk.get(Constants.SETTINGS_SEARCH_FOR_UPDATE_ONLY_WHILE_CHARGING, true));
-        if (Hawk.contains(Constants.SETTINGS_USER_LOCALE)) {
+        String locale = Hawk.get(Constants.SETTINGS_USER_LOCALE);
+        if (locale.equalsIgnoreCase("ru")) {
+            langRus.setChecked(true);
+            langEn.setChecked(false);
+        } else {
+            langEn.setChecked(true);
+            langRus.setChecked(false);
 
         }
-        langEn.setChecked(Hawk.get(Constants.SETTINGS_USER_LOCALE, false));
-        langRus.setChecked(Hawk.get(Constants.SETTINGS_USER_LOCALE, false));
     }
 
 
@@ -136,5 +141,9 @@ public class SettingsActivity extends BaseActivity {
         this.finish();
     }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        JobUtils.scheduleCheckUpdateJob(this, false);
+    }
 }
