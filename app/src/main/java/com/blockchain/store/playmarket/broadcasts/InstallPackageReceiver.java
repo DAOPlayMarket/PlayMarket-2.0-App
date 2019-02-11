@@ -22,11 +22,15 @@ public class InstallPackageReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
+
             String packageName = intent.getData().toString().replace("package:", "");
-            InstalledAppData appData = SharedPrefsUtil.getDownloadAppIdByPackageName(packageName);
-            Log.d(TAG, "onReceive: appId: " + appData);
-            if (appData != null)
-                JobUtils.scheduleAppInstallJobs(context, appData.getAppId(),appData.getNode());
+            if (intent.getAction().equalsIgnoreCase(Intent.ACTION_PACKAGE_ADDED)) {
+                InstalledAppData appData = SharedPrefsUtil.getDownloadAppIdByPackageName(packageName);
+                Log.d(TAG, "onReceive: appId: " + appData);
+                if (appData != null)
+                    JobUtils.scheduleAppInstallJobs(context, appData.getAppId(), appData.getNode());
+
+            }
 
             File file = new MyPackageManager().findFileByPackageName(packageName, context);
             if (file != null && file.exists()) {

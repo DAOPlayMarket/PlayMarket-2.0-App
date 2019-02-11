@@ -120,6 +120,7 @@ public class NodeUtils {
                         if (!execute.body().currency.name.equalsIgnoreCase("PMC")) {
                             execute.body().currency.name = currencyCode;
                         }
+                        execute.body().currencyCode = currencyCode;
                         UserBalanceRepository.putUserCurrency(execute.body());
                     } catch (Exception e) {
                         e.printStackTrace();

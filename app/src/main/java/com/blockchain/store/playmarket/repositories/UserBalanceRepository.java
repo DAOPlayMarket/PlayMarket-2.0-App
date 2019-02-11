@@ -6,11 +6,12 @@ import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.CryptoPriceResponse;
 import com.blockchain.store.playmarket.data.entities.ExchangeRate;
 import com.blockchain.store.playmarket.data.entities.UserBalance;
-import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
+import java.util.Currency;
+import java.util.Locale;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -20,6 +21,36 @@ public class UserBalanceRepository {
 
     public Observable<UserBalance> getUserBalance(String accountAddress) {
         return RestApi.getServerApi().getBalance(accountAddress)
+                .flatMap(result -> {
+                    ExchangeRate userCurrency = getUserCurrency();
+                    String currencyCode;
+                    try {
+                        Locale locale = Locale.getDefault();
+                        currencyCode = Currency.getInstance(locale).getCurrencyCode();
+                    } catch (NullPointerException | IllegalArgumentException ex) {
+                        currencyCode = Currency.getInstance(new Locale("ru", "RU")).getCurrencyCode();
+                    }
+                    if (currencyCode.equalsIgnoreCase(userCurrency.currencyCode)) {
+                        return Observable.just(true);
+                    } else {
+                        return new RestApi().getServerApi().getExchangeRateAsObservable(currencyCode);
+                    }
+
+                }, Pair::new)
+                .map(result -> {
+                    String currencyCode;
+                    try {
+                        Locale locale = Locale.getDefault();
+                        currencyCode = Currency.getInstance(locale).getCurrencyCode();
+                    } catch (NullPointerException | IllegalArgumentException ex) {
+                        currencyCode = Currency.getInstance(new Locale("ru", "RU")).getCurrencyCode();
+                    }
+                    if (result.second instanceof ExchangeRate) {
+                        ((ExchangeRate) result.second).currency.name = currencyCode;
+                        UserBalanceRepository.putUserCurrency((ExchangeRate) result.second);
+                    }
+                    return result.first;
+                })
                 .flatMap(this::mapWith, Pair::new)
                 .map(this::onNext)
                 .subscribeOn(Schedulers.newThread())

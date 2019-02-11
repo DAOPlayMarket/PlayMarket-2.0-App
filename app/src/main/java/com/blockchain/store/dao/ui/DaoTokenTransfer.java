@@ -102,7 +102,7 @@ public class DaoTokenTransfer extends BaseActivity {
     }
 
     private void performChangeLocale() {
-        LocaleUtils.setLocale(new Locale("en"));
+        LocaleUtils.setLocale(new Locale("en","US"));
         LocaleUtils.updateConfig((Application) getApplication(), getBaseContext().getResources().getConfiguration());
         recreate();
     }

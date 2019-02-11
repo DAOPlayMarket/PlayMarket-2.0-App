@@ -2,23 +2,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/top_layout_holder"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:minHeight="48dp"
     tools:background="@color/colorPrimary"
     android:orientation="horizontal">
 
 
-    <com.blockchain.store.playmarket.views.FonAwesomeTextViewSolid
+    <ImageView
         android:id="@+id/top_layout_back_arrow"
         android:layout_width="70dp"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:paddingLeft="18dp"
-        android:paddingRight="18dp"
-        android:text="@string/fa_back_arrow"
-        android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:padding="20dp"
+        android:src="@drawable/ic_back" />
 
     <TextView
         android:id="@+id/top_layout_app_name"

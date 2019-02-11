@@ -93,7 +93,7 @@
     <string name="no_items">No items</string>
     <string name="recycler_empty_view">No items found!</string>
     <string name="successfully_paid">Successfully paid</string>
-    <string name="setting_autoinstall">Automatically install applications after downloading.</string>
+    <string name="setting_autoinstall">Automatically install/update applications after downloading.</string>
     <string name="settings_title">Settings</string>
     <string name="library_screen_title">My apps</string>
     <string name="double_tap_msg">Press back again to quit.</string>

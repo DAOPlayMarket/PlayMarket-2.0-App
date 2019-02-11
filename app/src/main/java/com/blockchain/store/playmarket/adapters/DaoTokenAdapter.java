@@ -1,8 +1,12 @@
 package com.blockchain.store.playmarket.adapters;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +67,7 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     try {
                         daoTokens.remove(position);
                         notifyItemRemoved(position);
+                        notifyItemChanged(getItemCount() - 1);
                     } catch (Exception e) {
 
                     }
@@ -144,15 +149,24 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @BindView(R.id.delete_holder) View deleteHolder;
         @BindView(R.id.dividends_amount_field) TextView dividendsAmountField;
         @BindView(R.id.dividends_amount) TextView dividendsAmount;
-
+        private Context context;
 
         public DaoWalletViewHolder(View itemView) {
             super(itemView);
+            this.context = itemView.getContext();
             ButterKnife.bind(this, itemView);
         }
 
 
         public void bind(DaoToken daoToken, int position) {
+
+            if (position == getItemCount() - 1) {
+                ViewGroup.MarginLayoutParams newLayoutParams = (ViewGroup.MarginLayoutParams) rootLayout.getLayoutParams();
+                Resources resources = context.getResources();
+                int dp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, resources.getDisplayMetrics());
+                newLayoutParams.bottomMargin = dp;
+                rootLayout.setLayoutParams(newLayoutParams);
+            }
             if (daoToken.address.equalsIgnoreCase(DaoConstants.CRYPTO_DUEL_CONTRACT)) {
                 dividendsAmountField.setVisibility(View.VISIBLE);
                 dividendsAmount.setVisibility(View.VISIBLE);

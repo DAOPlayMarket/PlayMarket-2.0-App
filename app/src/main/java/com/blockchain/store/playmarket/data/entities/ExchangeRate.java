@@ -6,6 +6,7 @@ import android.os.Parcelable;
 public class ExchangeRate implements Parcelable {
     public CurrencyRate currency = new CurrencyRate();
     public String rate = "100";
+    public String currencyCode;
 
     public double getRate(){
         try{
@@ -27,11 +28,13 @@ public class ExchangeRate implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(this.currency, flags);
         dest.writeString(this.rate);
+        dest.writeString(this.currencyCode);
     }
 
     protected ExchangeRate(Parcel in) {
         this.currency = in.readParcelable(CurrencyRate.class.getClassLoader());
         this.rate = in.readString();
+        this.currencyCode = in.readString();
     }
 
     public static final Creator<ExchangeRate> CREATOR = new Creator<ExchangeRate>() {

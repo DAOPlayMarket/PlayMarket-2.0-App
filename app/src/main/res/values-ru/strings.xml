@@ -75,7 +75,7 @@
     <string name="no_items">"Нет элементов"</string>
     <string name="recycler_empty_view">"Ничего не найдено!"</string>
     <string name="successfully_paid">"Успешно оплачено"</string>
-    <string name="setting_autoinstall">"Автоматически устанавливать приложения после загрузки."</string>
+    <string name="setting_autoinstall">"Автоматически устанавливать/обновлять приложения после загрузки."</string>
     <string name="settings_title">"Настройки"</string>
     <string name="library_screen_title">"Мои приложения"</string>
     <string name="double_tap_msg">"Нажмите \"назад\" еще раз чтобы выйти"</string>

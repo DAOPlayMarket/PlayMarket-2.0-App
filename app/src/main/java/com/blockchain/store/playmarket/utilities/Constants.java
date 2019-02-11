@@ -194,7 +194,7 @@ public class Constants {
     public static final String TOKEN_ARGS = "token_args";
 
     /* URLs*/
-    public static final String TOKEN_URL = "http://tokens.playmarket.io";
+    public static final String TOKEN_URL = "https://tokens.playmarket.io";
     public static final String PAX_URL_MAINNET = "https://dex.playmarket.io/";
     public static final String PAX_URL_TESTNET = "https://testdex.playmarket.io/";
     public static final String DOWNLOAD_APP_URL = SERVER_ENDPOINT_WITHOUT_POST + "/api/download-app?idApp=";

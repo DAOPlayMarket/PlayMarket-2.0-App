@@ -39,7 +39,6 @@ public class DownloadService extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         if (intent == null) return;
         App app = intent.getParcelableExtra(Constants.DOWNLOAD_SERVICE_APP_EXTRA);
-        boolean isNeedForceInstall = intent.getBooleanExtra(Constants.DOWNLOAD_SERVICE_FORCE_INSTALL, false);
         File file = new MyPackageManager().getFileFromApp(app);
         if (file.exists()) {
             file.delete();
@@ -47,10 +46,9 @@ public class DownloadService extends IntentService {
         InstalledAppData appData = new InstalledAppData();
         appData.setAppId(app.appId);
         appData.setNode(Hawk.get(BASE_URL));
+
         SharedPrefsUtil.addDownloadedApp(app.packageName, appData);
-
         NotificationManager.getManager().registerNewNotification(app);
-
         Ion.with(getBaseContext())
                 .load(DOWNLOAD_APP_URL + app.appId)
                 .setHeader("hash", getHashedAndroidId(getBaseContext()))
@@ -66,9 +64,7 @@ public class DownloadService extends IntentService {
                 }).write(file).setCallback((exception, result) -> {
             if (exception == null) {
                 NotificationManager.getManager().downloadCompleteWithoutError(app);
-                if (isNeedForceInstall) {
-                    installApk(result);
-                } else if (Hawk.contains(Constants.SETTINGS_AUTOINSTALL_FLAG) && (boolean) Hawk.get(Constants.SETTINGS_AUTOINSTALL_FLAG)) {
+                if (Hawk.contains(Constants.SETTINGS_AUTOINSTALL_FLAG) && (boolean) Hawk.get(Constants.SETTINGS_AUTOINSTALL_FLAG)) {
                     installApk(result);
                 }
             } else {

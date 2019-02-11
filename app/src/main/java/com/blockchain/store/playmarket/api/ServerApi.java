@@ -102,6 +102,10 @@ public interface ServerApi {
     Call<ExchangeRate> getExchangeRate(@Field("currency") String currency);
 
     @FormUrlEncoded()
+    @POST("get-currency")
+    Observable<ExchangeRate> getExchangeRateAsObservable(@Field("currency") String currency);
+
+    @FormUrlEncoded()
     @POST("get-crypto-price")
     Observable<CryptoPriceResponse> getCryptoPrice(@Field("amount") String countOfPmcTokensWithDecimals);
 

@@ -15,6 +15,11 @@ public class LocaleUtils {
     private static Locale sLocale;
     private static ArrayList<AppCompatActivity> activities = new ArrayList<>();
 
+
+    public static Locale getsLocale() {
+        return sLocale;
+    }
+
     public static void addActivity(AppCompatActivity activity) {
         activities.add(activity);
     }

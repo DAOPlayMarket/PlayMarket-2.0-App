@@ -59,8 +59,8 @@ public class SettingsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
-        initViews();
         setViews();
+        initViews();
 
     }
 
@@ -89,7 +89,7 @@ public class SettingsActivity extends BaseActivity {
 
     private void initViews() {
         toolbarTitle.setText(R.string.settings_title);
-        autoInstallCheckbox.setChecked(Hawk.get(Constants.SETTINGS_AUTOINSTALL_FLAG, true));
+        autoInstallCheckbox.setChecked(Hawk.get(Constants.SETTINGS_AUTOINSTALL_FLAG, false));
         appUpdateNotificationCheckBox.setChecked(Hawk.get(Constants.SETTINGS_SHOW_UPDATE_NOTIFICATION, true));
         playMarketUpdateNotificationCheckBox.setChecked(Hawk.get(Constants.SETTINGS_SHOW_PLAYMARKET_UPDATE_NOTIFICATION, true));
         transactionUpdateCheckBox.setChecked(Hawk.get(Constants.SETTINGS_SHOW_TRANSACTION_UPDATE_NOTIFICATION, true));
@@ -115,11 +115,11 @@ public class SettingsActivity extends BaseActivity {
 
     @OnClick(R.id.settings_lang_en_holder)
     void onEngHolderClicked() {
-//        this.finish();
-
+        langEn.setChecked(true);
+        langRus.setChecked(false);
         overridePendingTransition(0, 0);
-        Hawk.put(Constants.SETTINGS_USER_LOCALE, "en");
-        LocaleUtils.setLocale(new Locale("en"));
+        Hawk.put(Constants.SETTINGS_USER_LOCALE, "US");
+        LocaleUtils.setLocale(new Locale("en","US"));
         LocaleUtils.updateConfig(Application.getInstance(), getBaseContext().getResources().getConfiguration());
         LocaleUtils.refreshActivies();
 
@@ -127,11 +127,11 @@ public class SettingsActivity extends BaseActivity {
 
     @OnClick(R.id.settings_lang_rus_holder)
     void onRusHolderClicked() {
-//        this.finish();
-
+        langRus.setChecked(true);
+        langEn.setChecked(false);
         overridePendingTransition(0, 0);
-        Hawk.put(Constants.SETTINGS_USER_LOCALE, "ru");
-        LocaleUtils.setLocale(new Locale("ru"));
+        Hawk.put(Constants.SETTINGS_USER_LOCALE, "RU");
+        LocaleUtils.setLocale(new Locale("ru","RU"));
         LocaleUtils.updateConfig(Application.getInstance(), getBaseContext().getResources().getConfiguration());
         LocaleUtils.refreshActivies();
     }

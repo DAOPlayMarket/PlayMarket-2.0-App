@@ -104,7 +104,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
     @OnClick(R.id.settings_layout)
     void onSettingsClicked() {
-        closeDrawers();
+//        closeDrawers();
         startActivity(new Intent(getActivity(), SettingsActivity.class));
     }
 
