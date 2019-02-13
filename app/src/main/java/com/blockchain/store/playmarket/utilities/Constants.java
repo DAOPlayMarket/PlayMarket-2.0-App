@@ -160,6 +160,8 @@ public class Constants {
 
     public static final String SETTINGS_USER_LOCALE = "settings_user_locale";
 
+    public static final String SETTINGS_USER_CURRENCY = "settings_user_currency";
+
     /* Library prefs*/
     public static final String DOWNLOADED_APPS_LIST = "downloaded_apps_list";
 

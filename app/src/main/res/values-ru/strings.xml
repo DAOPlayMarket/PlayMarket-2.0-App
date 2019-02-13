@@ -440,4 +440,9 @@
     <string name="settings_download_over_wifi">Проверять обновления только через Wi-Fi</string>
     <string name="setting_check_for_updates_while_charging">Проверять обновления только во время зарядки.</string>
     <string name="settings_show_transaction_status">Показывать уведомления о состоянии транзакций</string>
+
+    <string name="settings_currency">Валюта</string>
+    <string name="currency_usd">Доллар США</string>
+    <string name="currency_ruble">Российский рубль</string>
+
 </resources>

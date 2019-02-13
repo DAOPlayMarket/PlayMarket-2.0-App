@@ -7,6 +7,7 @@ import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.ExchangeRate;
 import com.blockchain.store.playmarket.data.entities.Node;
+import com.blockchain.store.playmarket.repositories.CurrencyRepository;
 import com.blockchain.store.playmarket.repositories.UserBalanceRepository;
 
 import org.apache.http.HttpResponse;
@@ -105,12 +106,7 @@ public class NodeUtils {
     public Observable<Node> getNearestNode(Location location) {
         return Observable.create(subscriber -> {
             try {
-                String currencyCode;
-                try {
-                    currencyCode = Currency.getInstance(Locale.getDefault()).getCurrencyCode();
-                } catch (NullPointerException | IllegalArgumentException ex) {
-                    currencyCode = Currency.getInstance(new Locale("en", "US")).getCurrencyCode();
-                }
+                String currencyCode = CurrencyRepository.getUserCurrency();
                 ArrayList<Node> nodes = NodeUtils.getNodesList(NodeUtils.NODES_DNS_SERVER);
                 ArrayList<Node> nearestNodeIP = NodeUtils.sortNodesByNearest(nodes, location);
                 for (Node node : nearestNodeIP) {

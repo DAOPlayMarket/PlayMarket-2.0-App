@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.check_transation_status_beta.JobUtils;
+import com.blockchain.store.playmarket.repositories.CurrencyRepository;
 import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.LocaleUtils;
@@ -20,8 +21,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SettingsActivity extends BaseActivity {
-
-
     private static final String TAG = "SettingsActivity";
 
     @BindView(R.id.top_layout_app_name) TextView toolbarTitle;
@@ -54,6 +53,11 @@ public class SettingsActivity extends BaseActivity {
     @BindView(R.id.setting_check_for_update_while_charing)
     LinearLayout updateWhileChargingHolder;
 
+    @BindView(R.id.settings_currency_holder_usd) LinearLayout settings_currency_holder_usd;
+    @BindView(R.id.settings_currency_holder_rub) LinearLayout settings_currency_holder_rub;
+    @BindView(R.id.setting_currency_rub) CheckBox currencyRub;
+    @BindView(R.id.setting_currency_usd) CheckBox currencyUsd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +65,6 @@ public class SettingsActivity extends BaseActivity {
         ButterKnife.bind(this);
         setViews();
         initViews();
-
     }
 
     private void setViews() {
@@ -85,6 +88,29 @@ public class SettingsActivity extends BaseActivity {
             updateWhileChargingCheckBox.setChecked(!updateWhileChargingCheckBox.isChecked());
             Hawk.put(Constants.SETTINGS_SEARCH_FOR_UPDATE_ONLY_WHILE_CHARGING, updateWhileChargingCheckBox.isChecked());
         });
+
+        settings_currency_holder_usd.setOnClickListener(v -> {
+            currencyUsd.setChecked(!currencyUsd.isChecked());
+            if(currencyUsd.isChecked()){
+                Hawk.put(Constants.SETTINGS_USER_CURRENCY, "USD");
+            } else {
+                Hawk.put(Constants.SETTINGS_USER_CURRENCY, "RUB");
+            }
+            currencyRub.setChecked(!currencyUsd.isChecked());
+
+        });
+
+        settings_currency_holder_rub.setOnClickListener(v -> {
+            currencyRub.setChecked(!currencyRub.isChecked());
+            if(currencyRub.isChecked()){
+                Hawk.put(Constants.SETTINGS_USER_CURRENCY, "RUB");
+            } else {
+                Hawk.put(Constants.SETTINGS_USER_CURRENCY, "USD");
+            }
+            currencyUsd.setChecked(!currencyRub.isChecked());
+        });
+
+
     }
 
     private void initViews() {
@@ -102,7 +128,13 @@ public class SettingsActivity extends BaseActivity {
         } else {
             langEn.setChecked(true);
             langRus.setChecked(false);
-
+        }
+        if (CurrencyRepository.getUserCurrency().equalsIgnoreCase("RUB")) {
+            currencyRub.setChecked(true);
+            currencyUsd.setChecked(false);
+        } else {
+            currencyRub.setChecked(false);
+            currencyUsd.setChecked(true);
         }
     }
 
@@ -119,7 +151,7 @@ public class SettingsActivity extends BaseActivity {
         langRus.setChecked(false);
         overridePendingTransition(0, 0);
         Hawk.put(Constants.SETTINGS_USER_LOCALE, "US");
-        LocaleUtils.setLocale(new Locale("en","US"));
+        LocaleUtils.setLocale(new Locale("en", "US"));
         LocaleUtils.updateConfig(Application.getInstance(), getBaseContext().getResources().getConfiguration());
         LocaleUtils.refreshActivies();
 
@@ -131,7 +163,7 @@ public class SettingsActivity extends BaseActivity {
         langEn.setChecked(false);
         overridePendingTransition(0, 0);
         Hawk.put(Constants.SETTINGS_USER_LOCALE, "RU");
-        LocaleUtils.setLocale(new Locale("ru","RU"));
+        LocaleUtils.setLocale(new Locale("ru", "RU"));
         LocaleUtils.updateConfig(Application.getInstance(), getBaseContext().getResources().getConfiguration());
         LocaleUtils.refreshActivies();
     }
@@ -146,4 +178,5 @@ public class SettingsActivity extends BaseActivity {
         super.onStop();
         JobUtils.scheduleCheckUpdateJob(this, false);
     }
+
 }

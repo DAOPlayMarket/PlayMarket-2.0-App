@@ -10,8 +10,6 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
-import java.util.Currency;
-import java.util.Locale;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -23,13 +21,7 @@ public class UserBalanceRepository {
         return RestApi.getServerApi().getBalance(accountAddress)
                 .flatMap(result -> {
                     ExchangeRate userCurrency = getUserCurrency();
-                    String currencyCode;
-                    try {
-                        Locale locale = Locale.getDefault();
-                        currencyCode = Currency.getInstance(locale).getCurrencyCode();
-                    } catch (NullPointerException | IllegalArgumentException ex) {
-                        currencyCode = Currency.getInstance(new Locale("ru", "RU")).getCurrencyCode();
-                    }
+                    String currencyCode = CurrencyRepository.getUserCurrency();
                     if (currencyCode.equalsIgnoreCase(userCurrency.currencyCode)) {
                         return Observable.just(true);
                     } else {
@@ -38,13 +30,7 @@ public class UserBalanceRepository {
 
                 }, Pair::new)
                 .map(result -> {
-                    String currencyCode;
-                    try {
-                        Locale locale = Locale.getDefault();
-                        currencyCode = Currency.getInstance(locale).getCurrencyCode();
-                    } catch (NullPointerException | IllegalArgumentException ex) {
-                        currencyCode = Currency.getInstance(new Locale("ru", "RU")).getCurrencyCode();
-                    }
+                    String currencyCode = CurrencyRepository.getUserCurrency();
                     if (result.second instanceof ExchangeRate) {
                         ((ExchangeRate) result.second).currency.name = currencyCode;
                         UserBalanceRepository.putUserCurrency((ExchangeRate) result.second);
