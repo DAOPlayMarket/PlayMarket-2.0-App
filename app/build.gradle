@@ -22,8 +22,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         multiDexEnabled true
-        versionCode 109
-        versionName '1.4.11'
+        versionCode 110
+        versionName '1.4.12'
     }
 
     buildTypes {
@@ -90,6 +90,8 @@ android {
 }
 
 dependencies {
+    implementation "android.arch.work:work-runtime:1.0.0-beta05"
+
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
     implementation 'com.caverock:androidsvg:1.2.1'

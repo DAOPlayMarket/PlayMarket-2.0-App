@@ -5,13 +5,19 @@ import android.util.Log;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.check_transation_status_beta.CheckUpdateWorker;
 import com.blockchain.store.playmarket.check_transation_status_beta.JobUtils;
 import com.blockchain.store.playmarket.data.entities.ChangellyCurrenciesResponse;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.data.entities.SearchResponse;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
+import androidx.work.Data;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -51,7 +57,9 @@ public class MainMenuPresenter implements Presenter {
 
     @Override
     public void requestUpdateListener(Context context) {
-        JobUtils.scheduleCheckUpdateJob(context,false);
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(CheckUpdateWorker.class,15, TimeUnit.MINUTES).build();
+        WorkManager.getInstance().enqueueUniquePeriodicWork("playmarketupdate", ExistingPeriodicWorkPolicy.KEEP, workRequest);
+//        JobUtils.scheduleCheckUpdateJob(context,false);
     }
 
     private void onSearchResultReady(SearchResponse searchResponse) {
