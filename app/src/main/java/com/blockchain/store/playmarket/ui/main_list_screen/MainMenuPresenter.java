@@ -57,8 +57,8 @@ public class MainMenuPresenter implements Presenter {
 
     @Override
     public void requestUpdateListener(Context context) {
-        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(CheckUpdateWorker.class,15, TimeUnit.MINUTES).build();
-        WorkManager.getInstance().enqueueUniquePeriodicWork("playmarketupdate", ExistingPeriodicWorkPolicy.KEEP, workRequest);
+//        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(CheckUpdateWorker.class,15, TimeUnit.MINUTES).build();
+//        WorkManager.getInstance().enqueueUniquePeriodicWork("playmarketupdate", ExistingPeriodicWorkPolicy.KEEP, workRequest);
 //        JobUtils.scheduleCheckUpdateJob(context,false);
     }
 

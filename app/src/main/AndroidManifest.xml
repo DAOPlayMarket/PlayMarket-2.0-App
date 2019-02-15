@@ -76,8 +76,7 @@
             android:exported="true" />
         <service
             android:name=".services.DownloadService"
-            android:exported="true"
-            />
+            android:exported="true" />
 
         <activity
             android:name=".ui.app_detail_screen.AppDetailActivity"
@@ -85,7 +84,18 @@
             android:windowSoftInputMode="" />
 
         <receiver
-            android:name=".broadcasts.InstallPackageReceiver">
+            android:name=".check_transation_status_beta.AlarmReceiver"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="com.text.my.intent" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".broadcasts.InstallPackageReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_INSTALL" />
 
@@ -203,6 +213,11 @@
         <service
             android:name=".check_transation_status_beta.ReportAppInstallJob"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service
+            android:name=".check_transation_status_beta.CheckForUpdateJobIntent"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
         <service android:name=".services.NotificationService" />
         <service android:name="com.blockchain.store.dao.services.DaoContractService" />
 

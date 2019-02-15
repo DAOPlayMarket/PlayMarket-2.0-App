@@ -3,9 +3,7 @@ package com.blockchain.store.playmarket.ui.main_list_screen;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.net.ConnectivityManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
@@ -37,6 +35,7 @@ import com.blockchain.store.dao.ui.votes_screen.voting_screen.VotingFragment;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.broadcasts.InstallPackageReceiver;
+import com.blockchain.store.playmarket.check_transation_status_beta.AlarmReceiver;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
@@ -58,15 +57,12 @@ import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 import com.blockchain.store.playmarket.utilities.drawable.HamburgerDrawable;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import java.net.Proxy;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import jnr.unixsocket.UnixSocketAddress;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subjects.BehaviorSubject;
 
@@ -410,5 +406,13 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
         filter.addAction(Intent.ACTION_PACKAGE_REPLACED);
         filter.addDataScheme("package");
         this.registerReceiver(br, filter);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(AlarmReceiver.CUSTOM_INTENT);
+
+        BroadcastReceiver alarmReceiver = new AlarmReceiver();
+        this.registerReceiver(alarmReceiver, intentFilter);
+
+        AlarmReceiver.setAlarm(true);
+
     }
 }

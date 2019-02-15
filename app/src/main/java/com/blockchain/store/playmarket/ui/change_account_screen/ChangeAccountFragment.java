@@ -19,6 +19,7 @@ import com.blockchain.store.playmarket.adapters.ChangeAccountAdapter;
 import com.blockchain.store.playmarket.ui.file_manager_screen.FileManagerActivity;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
+import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.views.DeleteAccountDialog;
@@ -77,9 +78,10 @@ public class ChangeAccountFragment extends Fragment implements ChangeAccountCont
 
             @Override
             public void onDeleteAccountClicked(Account account) {
-                DeleteAccountDialog deleteAccountDialog = new DeleteAccountDialog(getActivity(), account);
-                deleteAccountDialog.setCallback(() -> updateAdapter());
-                deleteAccountDialog.show();
+                NewUserWelcomeActivity.start(getActivity(),true);
+//                DeleteAccountDialog deleteAccountDialog = new DeleteAccountDialog(getActivity(), account);
+//                deleteAccountDialog.setCallback(() -> updateAdapter());
+//                deleteAccountDialog.show();
             }
 
             @Override
