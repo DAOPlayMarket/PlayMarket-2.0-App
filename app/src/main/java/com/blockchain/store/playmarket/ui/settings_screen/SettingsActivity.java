@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.ui.settings_screen;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -9,6 +10,7 @@ import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.check_transation_status_beta.JobUtils;
 import com.blockchain.store.playmarket.repositories.CurrencyRepository;
+import com.blockchain.store.playmarket.ui.experimental_settings_screen.ExperimentalSettingsActivity;
 import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.LocaleUtils;
@@ -28,30 +30,20 @@ public class SettingsActivity extends BaseActivity {
     @BindView(R.id.setting_lang_en) CheckBox langEn;
     @BindView(R.id.setting_lang_rus) CheckBox langRus;
 
-    @BindView(R.id.settings_enable_update_notification_checkbox)
-    CheckBox appUpdateNotificationCheckBox;
-    @BindView(R.id.settings_enable_update_notification)
-    LinearLayout appUpdateNotificationHolder;
+    @BindView(R.id.settings_enable_update_notification_checkbox) CheckBox appUpdateNotificationCheckBox;
+    @BindView(R.id.settings_enable_update_notification) LinearLayout appUpdateNotificationHolder;
 
-    @BindView(R.id.settings_enable_self_update_notification_checkbox)
-    CheckBox playMarketUpdateNotificationCheckBox;
-    @BindView(R.id.settings_enable_self_update_notification)
-    LinearLayout playMarketUpdateNotificationHolder;
+    @BindView(R.id.settings_enable_self_update_notification_checkbox) CheckBox playMarketUpdateNotificationCheckBox;
+    @BindView(R.id.settings_enable_self_update_notification) LinearLayout playMarketUpdateNotificationHolder;
 
-    @BindView(R.id.settings_enable_transaction_update_notification_checkbox)
-    CheckBox transactionUpdateCheckBox;
-    @BindView(R.id.settings_enable_transaction_update_notification)
-    LinearLayout transactionUpdateHolder;
+    @BindView(R.id.settings_enable_transaction_update_notification_checkbox) CheckBox transactionUpdateCheckBox;
+    @BindView(R.id.settings_enable_transaction_update_notification) LinearLayout transactionUpdateHolder;
 
-    @BindView(R.id.setting_wifi_only_checkbox)
-    CheckBox wifiOnlyCheckBox;
-    @BindView(R.id.setting_wifi_only)
-    LinearLayout wifiOnlyHolder;
+    @BindView(R.id.setting_wifi_only_checkbox) CheckBox wifiOnlyCheckBox;
+    @BindView(R.id.setting_wifi_only) LinearLayout wifiOnlyHolder;
 
-    @BindView(R.id.setting_check_for_update_while_charing_checkbox)
-    CheckBox updateWhileChargingCheckBox;
-    @BindView(R.id.setting_check_for_update_while_charing)
-    LinearLayout updateWhileChargingHolder;
+    @BindView(R.id.setting_check_for_update_while_charing_checkbox) CheckBox updateWhileChargingCheckBox;
+    @BindView(R.id.setting_check_for_update_while_charing) LinearLayout updateWhileChargingHolder;
 
     @BindView(R.id.settings_currency_holder_usd) LinearLayout settings_currency_holder_usd;
     @BindView(R.id.settings_currency_holder_rub) LinearLayout settings_currency_holder_rub;
@@ -91,7 +83,7 @@ public class SettingsActivity extends BaseActivity {
 
         settings_currency_holder_usd.setOnClickListener(v -> {
             currencyUsd.setChecked(!currencyUsd.isChecked());
-            if(currencyUsd.isChecked()){
+            if (currencyUsd.isChecked()) {
                 Hawk.put(Constants.SETTINGS_USER_CURRENCY, "USD");
             } else {
                 Hawk.put(Constants.SETTINGS_USER_CURRENCY, "RUB");
@@ -102,7 +94,7 @@ public class SettingsActivity extends BaseActivity {
 
         settings_currency_holder_rub.setOnClickListener(v -> {
             currencyRub.setChecked(!currencyRub.isChecked());
-            if(currencyRub.isChecked()){
+            if (currencyRub.isChecked()) {
                 Hawk.put(Constants.SETTINGS_USER_CURRENCY, "RUB");
             } else {
                 Hawk.put(Constants.SETTINGS_USER_CURRENCY, "USD");
@@ -177,6 +169,11 @@ public class SettingsActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         JobUtils.scheduleCheckUpdateJob(this, false);
+    }
+
+    @OnClick(R.id.experimental_settings)
+    void onExpSettingsClicked() {
+        startActivity(new Intent(this, ExperimentalSettingsActivity.class));
     }
 
 }

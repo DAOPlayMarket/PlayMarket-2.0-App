@@ -444,6 +444,7 @@
     <string name="settings_currency">Currency</string>
     <string name="currency_usd">U.S. Dollar</string>
     <string name="currency_ruble">Russian Ruble</string>
+    <string name="open_experimental_settings">Open experimental settings</string>
 
     <string-array name="contract_functions">
         <item>Sent ethereum</item>

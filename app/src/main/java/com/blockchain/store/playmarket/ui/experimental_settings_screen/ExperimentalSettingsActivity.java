@@ -36,6 +36,7 @@ public class ExperimentalSettingsActivity extends AppCompatActivity {
 
     @OnClick(R.id.download_ipfs_btn)
     public void download_ipfs_btn() {
+        ipfsDaemon.downloadDaemon();
 
     }
 
