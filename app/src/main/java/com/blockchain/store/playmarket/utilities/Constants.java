@@ -145,23 +145,6 @@ public class Constants {
 
     public static final String LOCAL_TOKEN_KEYS_V2 = "local_token_keysv2";
 
-    /*Settings prefs*/
-    public static final String CURRENT_CURRENCY = "current_currency";
-    public static final String SETTINGS_AUTOINSTALL_FLAG = "settings_autoinstall_flag";
-    public static final String BASE_URL = "base_url_extra";
-    public static final String DOWNLOAD_NEW_VERSION_WITHOUT_PROMPT = "download_new_version_without_prompt";
-
-
-    public static final String SETTINGS_SHOW_UPDATE_NOTIFICATION = "SETTINGS_SHOW_UPDATE_NOTIFICATION";
-    public static final String SETTINGS_SHOW_PLAYMARKET_UPDATE_NOTIFICATION = "SETTINGS_SHOW_PLAYMARKET_UPDATE_NOTIFICATION";
-    public static final String SETTINGS_SHOW_TRANSACTION_UPDATE_NOTIFICATION = "SETTINGS_SHOW_TRANSACTION_UPDATE_NOTIFICATION";
-    public static final String SETTINGS_DOWNLOAD_ONLY_ON_WIFI = "download_only_on_wifi";
-    public static final String SETTINGS_SEARCH_FOR_UPDATE_ONLY_WHILE_CHARGING = "search_for_update_only_while_charging";
-
-    public static final String SETTINGS_USER_LOCALE = "settings_user_locale";
-
-    public static final String SETTINGS_USER_CURRENCY = "settings_user_currency";
-
     /* Library prefs*/
     public static final String DOWNLOADED_APPS_LIST = "downloaded_apps_list";
 
@@ -201,6 +184,26 @@ public class Constants {
     public static final String PAX_URL_TESTNET = "https://testdex.playmarket.io/";
     public static final String DOWNLOAD_APP_URL = SERVER_ENDPOINT_WITHOUT_POST + "/api/download-app?idApp=";
     public static final String PAX_URL = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? PAX_URL_MAINNET : PAX_URL_TESTNET);
+
+    /*Settings prefs*/
+    public static final String CURRENT_CURRENCY = "current_currency";
+    public static final String SETTINGS_AUTOINSTALL_FLAG = "settings_autoinstall_flag";
+    public static final String BASE_URL = "base_url_extra";
+    public static final String DOWNLOAD_NEW_VERSION_WITHOUT_PROMPT = "download_new_version_without_prompt";
+
+
+    public static final String SETTINGS_SHOW_UPDATE_NOTIFICATION = "SETTINGS_SHOW_UPDATE_NOTIFICATION";
+    public static final String SETTINGS_SHOW_PLAYMARKET_UPDATE_NOTIFICATION = "SETTINGS_SHOW_PLAYMARKET_UPDATE_NOTIFICATION";
+    public static final String SETTINGS_SHOW_TRANSACTION_UPDATE_NOTIFICATION = "SETTINGS_SHOW_TRANSACTION_UPDATE_NOTIFICATION";
+    public static final String SETTINGS_DOWNLOAD_ONLY_ON_WIFI = "download_only_on_wifi";
+    public static final String SETTINGS_SEARCH_FOR_UPDATE_ONLY_WHILE_CHARGING = "search_for_update_only_while_charging";
+
+    public static final String SETTINGS_USER_LOCALE = "settings_user_locale";
+    public static final String SETTINGS_USER_CURRENCY = "settings_user_currency";
+
+    /*Experimental prefs*/
+
+    public static final String IS_USE_IPFS_TO_DOWNLOAD = "is_use_ipfs_to_download";
 
 
 }

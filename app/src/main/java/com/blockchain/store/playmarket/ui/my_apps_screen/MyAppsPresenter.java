@@ -57,7 +57,6 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
 
             }
             appLibrary.isHasUpdate = MyPackageManager.isAppHasUpdate(appLibrary.app);
-//            appLibrary.isHasUpdate = true;
             appLibrary.versionName = MyPackageManager.getVersionNameByPackageName(appLibrary.applicationInfo.packageName);
 
             if (isHasLocalCopy && appLibrary.isHasUpdate) {

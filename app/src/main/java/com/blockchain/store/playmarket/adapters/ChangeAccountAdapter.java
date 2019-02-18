@@ -73,10 +73,10 @@ public class ChangeAccountAdapter extends RecyclerView.Adapter<ChangeAccountAdap
             notifyDataSetChanged();
         });
         changeAccountViewHolder.rootView.setOnLongClickListener(view1 -> {
-//            if (accountList.size() == 1) {
-//                Toast.makeText(changeAccountViewHolder.itemView.getContext(), R.string.cant_delete_last_Account, Toast.LENGTH_SHORT).show();
-//                return false;
-//            }
+            if (accountList.size() == 1) {
+                Toast.makeText(changeAccountViewHolder.itemView.getContext(), R.string.cant_delete_last_Account, Toast.LENGTH_SHORT).show();
+                return false;
+            }
             int adapterPosition = changeAccountViewHolder.getAdapterPosition();
             callback.onDeleteAccountClicked(accountList.get(adapterPosition));
             return false;
@@ -93,6 +93,7 @@ public class ChangeAccountAdapter extends RecyclerView.Adapter<ChangeAccountAdap
     public int getItemCount() {
         return accountList.size();
     }
+
 
     public void refreshAccounts() {
         try {
