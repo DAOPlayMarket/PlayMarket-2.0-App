@@ -13,4 +13,21 @@
         android:text="Download IPFS"
         android:textAllCaps="false" />
 
+    <Button
+        android:id="@+id/init_ipfs_btn"
+        style="@style/positiveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="init daemon"
+        android:textAllCaps="false" />
+    <Button
+        android:id="@+id/start_ipfs_btn"
+        style="@style/positiveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="start daemon"
+        android:textAllCaps="false" />
+
 </LinearLayout>

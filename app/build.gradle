@@ -90,7 +90,9 @@ android {
 }
 
 dependencies {
+    implementation 'com.squareup.okio:okio:2.2.2'
     implementation "android.arch.work:work-runtime:1.0.0-beta05"
+    implementation 'com.github.ghost1372:Mzip-Android:0.4.0'
 
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'

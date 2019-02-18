@@ -2,17 +2,22 @@ package com.blockchain.store.playmarket.utilities.ipfs;
 
 import android.content.Context;
 import android.os.Build;
-import android.os.Environment;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.utilities.Constants;
-import com.blockchain.store.playmarket.utilities.device.BuildUtils;
 import com.koushikdutta.ion.Ion;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.util.zip.ZipFile;
+import java.io.InputStreamReader;
+
+import ir.mahdi.mzip.zip.ZipArchive;
+import kotlin.text.Charsets;
+import okio.BufferedSink;
+import okio.BufferedSource;
+import okio.Okio;
 
 public class IPFSDaemon {
     private static final String TAG = "IPFSDaemon";
@@ -28,9 +33,9 @@ public class IPFSDaemon {
     }
 
     private void initFiles() {
-        getBinaryFile = new File(context.getFilesDir(), "ipfsbin");
-        getRepoPath = new File(context.getFilesDir(), ".ipfs_repo");
-        getVersionFile = new File(context.getFilesDir(), ".ipfs_version");
+        getBinaryFile = new File(getFilePath(), "ipfsbin");
+        getRepoPath = new File(getFilePath(), ".ipfs_repo");
+        getVersionFile = new File(getFilePath(), ".ipfs_version");
     }
 
     private String getBinaryFileByAbi() {
@@ -48,16 +53,15 @@ public class IPFSDaemon {
         }
     }
 
-    private File getFile() {
-        Context context = Application.getInstance().getApplicationContext();
+    private File getFile(boolean isNeedZipFile) {
         File file;
-        if (BuildUtils.shouldUseContentUri()) {
-            File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            file = new File(path, "ipfs");
-        } else {
-            file = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "ipfs");
-        }
+        String fileName = isNeedZipFile ? "ipfs.zip" : "ipfs";
+        file = new File(getFilePath(), fileName);
         return file;
+    }
+
+    private String getFilePath() {
+        return context.getFilesDir().getPath();
     }
 
     public Process run(String cmd) {
@@ -66,7 +70,27 @@ public class IPFSDaemon {
         };
         String command = getBinaryFile.getAbsolutePath() + " " + cmd;
         try {
-            return Runtime.getRuntime().exec(command, env);
+            Process exec = Runtime.getRuntime().exec(command, env);
+
+            InputStreamReader inputStreamReader = new InputStreamReader(exec.getInputStream(), Charsets.UTF_8);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                bufferedReader.lines().forEachOrdered(result -> Log.d(TAG, "run: " + result));
+            } else {
+                Log.d(TAG, "run: " + bufferedReader.readLine());
+            }
+
+
+            InputStreamReader inputStreamReader2 = new InputStreamReader(exec.getErrorStream(), Charsets.UTF_8);
+            BufferedReader bufferedReader2 = new BufferedReader(inputStreamReader2);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                bufferedReader2.lines().forEachOrdered(result -> Log.d(TAG, "error: " + result));
+            } else {
+                Log.d(TAG, "error: " + bufferedReader.readLine());
+            }
+
+
+            return exec;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,23 +107,34 @@ public class IPFSDaemon {
     }
 
     public void downloadDaemon() {
+//        new ZipUtils(getFile(true), getFile(true).getParent()).unzip();
+
 
         Ion.with(context)
                 .load(getDownloadLink())
                 .progress((downloaded, total) -> Log.d(TAG, "onProgress() called with: downloaded = [" + downloaded + "], total = [" + total + "]"))
-                .write(getFile()).setCallback((e, result) -> {
+                .write(getFile(false)).setCallback((e, result) -> {
+            ZipArchive.unzip(getFile(true).getAbsolutePath(), getFile(true).getParent(), "");
             Log.d(TAG, "onCompleted() called with: e = [" + e + "], result = [" + result + "]");
             try {
-                ZipFile zipFile = new ZipFile(result);
-                zipFile.entries().as
-            } catch (IOException e1) {
+
+                BufferedSource arm = Okio.buffer(Okio.source(new File(getFilePath(), "arm")));
+                BufferedSink buffer = Okio.buffer(Okio.sink(getBinaryFile));
+                while (!arm.exhausted()) {
+                    arm.read(buffer.buffer(), 1024);
+                }
+                arm.close();
+                buffer.close();
+            } catch (Exception e1) {
                 e1.printStackTrace();
             }
+            getBinaryFile.setExecutable(true);
+            initDaemon();
         });
     }
 
     public boolean isDaemonDownloaded() {
-        return false;
-
+        File file = getFile(false);
+        return file != null && file.isFile();
     }
 }
