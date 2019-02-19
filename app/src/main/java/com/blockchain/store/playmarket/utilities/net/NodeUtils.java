@@ -20,8 +20,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Currency;
-import java.util.Locale;
 import java.util.Set;
 
 import de.measite.minidns.hla.ResolverApi;
@@ -110,6 +108,7 @@ public class NodeUtils {
                 ArrayList<Node> nodes = NodeUtils.getNodesList(NodeUtils.NODES_DNS_SERVER);
                 ArrayList<Node> nearestNodeIP = NodeUtils.sortNodesByNearest(nodes, location);
                 for (Node node : nearestNodeIP) {
+                    if (!node.address.contains("4")) continue;
                     Response<ExchangeRate> execute = null;
                     try {
                         execute = new RestApi().getCustomUrlApi(RestApi.getCheckUrlEndpointByNode(node.address)).getExchangeRate(currencyCode).execute();

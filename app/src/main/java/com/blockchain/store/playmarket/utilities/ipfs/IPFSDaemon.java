@@ -23,9 +23,15 @@ public class IPFSDaemon {
     private static final String TAG = "IPFSDaemon";
 
     private Context context;
-    private File getBinaryFile;
-    private File getRepoPath;
-    private File getVersionFile;
+    private static File getBinaryFile;
+    private static File getRepoPath;
+    private static File getVersionFile;
+    private static IPFSDaemon instance;
+
+    public static IPFSDaemon getInstance() {
+        if (instance != null) return instance;
+        return new IPFSDaemon();
+    }
 
     public IPFSDaemon() {
         this.context = Application.getInstance().getApplicationContext();
@@ -64,7 +70,7 @@ public class IPFSDaemon {
         return context.getFilesDir().getPath();
     }
 
-    public Process run(String cmd) {
+    public static Process run(String cmd) {
         String[] env = new String[]{
                 "IPFS_PATH=" + getRepoPath.getAbsoluteFile()
         };
@@ -102,14 +108,8 @@ public class IPFSDaemon {
         this.run("init");
     }
 
-    public void runDaemon() {
-        this.run("run");
-    }
 
     public void downloadDaemon() {
-//        new ZipUtils(getFile(true), getFile(true).getParent()).unzip();
-
-
         Ion.with(context)
                 .load(getDownloadLink())
                 .progress((downloaded, total) -> Log.d(TAG, "onProgress() called with: downloaded = [" + downloaded + "], total = [" + total + "]"))

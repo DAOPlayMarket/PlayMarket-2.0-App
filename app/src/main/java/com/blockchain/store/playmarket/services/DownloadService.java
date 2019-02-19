@@ -27,7 +27,7 @@ import static com.blockchain.store.playmarket.utilities.Constants.DOWNLOAD_APP_U
  */
 
 public class DownloadService extends IntentService {
-    private static final int TIMEOUT_IN_MILLIS = 3000;
+    private static final int TIMEOUT_IN_MILLIS = 30000;
     private static final String TAG = "DownloadService";
     private int progress = 0;
 
@@ -46,12 +46,13 @@ public class DownloadService extends IntentService {
         InstalledAppData appData = new InstalledAppData();
         appData.setAppId(app.appId);
         appData.setNode(Hawk.get(BASE_URL));
-
+        String ipfsLoadUrl = "http://127.0.0.1:8080/ipfs/" + app.hash + "/" + app.files.apk;
         SharedPrefsUtil.addDownloadedApp(app.packageName, appData);
         NotificationManager.getManager().registerNewNotification(app);
         Ion.with(getBaseContext())
-                .load(DOWNLOAD_APP_URL + app.appId)
-                .setHeader("hash", getHashedAndroidId(getBaseContext()))
+                .load(ipfsLoadUrl)
+//                .load(DOWNLOAD_APP_URL + app.appId)
+//                .setHeader("hash", getHashedAndroidId(getBaseContext()))
                 .setTimeout(TIMEOUT_IN_MILLIS)
                 .progress((downloaded, total) -> {
                     int tempProgress = (int) ((double) downloaded / total * 100);
@@ -74,7 +75,6 @@ public class DownloadService extends IntentService {
         });
 
     }
-
 
     public static String getHashedAndroidId(Context context) {
         String androidId = Settings.Secure.getString(context.getContentResolver(),

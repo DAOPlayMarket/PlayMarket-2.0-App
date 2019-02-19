@@ -3,7 +3,7 @@ package com.blockchain.store.playmarket.data.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-class AppFiles implements Parcelable {
+public class AppFiles implements Parcelable {
     public String apk;
     public AppImages images;
 
