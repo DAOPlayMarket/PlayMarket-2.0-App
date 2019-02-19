@@ -13,6 +13,7 @@ import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.blockchain.store.playmarket.utilities.SharedPrefsUtil;
+import com.blockchain.store.playmarket.utilities.ipfs.IPFSDaemon;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.Builders;
 import com.orhanobut.hawk.Hawk;
@@ -48,22 +49,20 @@ public class DownloadService extends IntentService {
         appData.setAppId(app.appId);
         appData.setNode(Hawk.get(BASE_URL));
 
-        String ipfsLoadUrl = "http://127.0.0.1:8080/ipfs/" + app.hash + "/" + app.files.apk;
-
-
         SharedPrefsUtil.addDownloadedApp(app.packageName, appData);
         NotificationManager.getManager().registerNewNotification(app);
-        Builders.Any.B ionBuilder = Ion.with(getBaseContext())
-                .load(ipfsLoadUrl);
 
-        if (Hawk.get(Constants.IS_USE_IPFS_TO_DOWNLOAD,false)) {
-            ionBuilder.load(DOWNLOAD_APP_URL + app.appId)     ;
+        Builders.Any.B ionBuilder;
+        if (Hawk.get(Constants.IS_USE_IPFS_TO_DOWNLOAD, false) && IPFSDaemon.getIpfsProcess() != null) {
+            String ipfsLoadUrl = "http://127.0.0.1:8080/ipfs/" + app.hash + "/" + app.files.apk;
+            ionBuilder = Ion.with(getBaseContext())
+                    .load(ipfsLoadUrl);
         } else {
-            ionBuilder
+            ionBuilder = Ion.with(getBaseContext())
+                    .load(DOWNLOAD_APP_URL + app.appId)
+                    .setHeader("hash", getHashedAndroidId(getBaseContext()));
         }
-
-
-//                .setHeader("hash", getHashedAndroidId(getBaseContext()))
+        ionBuilder
                 .setTimeout(TIMEOUT_IN_MILLIS)
                 .progress((downloaded, total) -> {
                     int tempProgress = (int) ((double) downloaded / total * 100);

@@ -11,7 +11,9 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ipfs.IPFSDaemon;
+import com.orhanobut.hawk.Hawk;
 
 import androidx.annotation.Nullable;
 
@@ -82,7 +84,9 @@ public class IpfsDaemonService extends IntentService {
     @Override
     public void onDestroy() {
         Log.d(TAG, "onDestroy() called");
+        Hawk.put(Constants.IS_USE_IPFS_TO_DOWNLOAD, false);
         IPFSDaemon.getIpfsProcess().destroy();
+        IPFSDaemon.setIpfsProcess(null);
         NotificationManagerCompat.from(this).cancel(555);
         super.onDestroy();
     }

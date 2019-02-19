@@ -118,7 +118,7 @@ public class NotificationManager {
         notificationObjects.remove(notificationObject);
     }
 
-    public void updateProgress(App app, int progress) {
+    public void updateProgress(NotificationImpl app, int progress) {
         NotificationObject notificationObject = getNotificationObjectByItem(app);
         if (notificationObject == null) return;
         if (notificationObject.getProgress() == progress) return;

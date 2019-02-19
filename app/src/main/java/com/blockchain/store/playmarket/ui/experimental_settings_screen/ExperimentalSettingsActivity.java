@@ -31,7 +31,7 @@ public class ExperimentalSettingsActivity extends AppCompatActivity {
 
     private void setItems() {
         if (IPFSDaemon.getInstance().isDaemonDownloaded()) {
-            downloadIpfs.setVisibility(View.VISIBLE);
+            downloadIpfs.setVisibility(View.GONE);
         } else {
             downloadIpfs.setVisibility(View.VISIBLE);
         }
@@ -50,7 +50,6 @@ public class ExperimentalSettingsActivity extends AppCompatActivity {
     @OnClick(R.id.start_ipfs_btn)
     public void start_ipfs_btn() {
         Intent intent = new Intent(this, IpfsDaemonService.class);
-        intent.putExtra("a","b");
         startService(intent);
     }
 

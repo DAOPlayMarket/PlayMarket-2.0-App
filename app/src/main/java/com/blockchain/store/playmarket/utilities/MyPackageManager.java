@@ -14,6 +14,7 @@ import android.util.Log;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.App;
+import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.blockchain.store.playmarket.services.DownloadService;
 import com.blockchain.store.playmarket.utilities.device.BuildUtils;
 

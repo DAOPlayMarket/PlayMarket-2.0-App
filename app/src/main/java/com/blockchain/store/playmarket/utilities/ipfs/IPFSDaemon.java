@@ -5,6 +5,8 @@ import android.os.Build;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.Application;
+import com.blockchain.store.playmarket.data.entities.IpfsData;
+import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.koushikdutta.ion.Ion;
 
@@ -28,6 +30,9 @@ public class IPFSDaemon {
     private static File getVersionFile;
     private static IPFSDaemon instance;
     private static Process ipfsProcess;
+    private static boolean isRunning;
+    private int progress = 0;
+    private IpfsData ipfsData = new IpfsData(getDownloadLink());
 
     public static IPFSDaemon getInstance() {
         if (instance != null) return instance;
@@ -36,6 +41,10 @@ public class IPFSDaemon {
 
     public static Process getIpfsProcess() {
         return ipfsProcess;
+    }
+
+    public static void setIpfsProcess(Process ipfsProcess) {
+        IPFSDaemon.ipfsProcess = ipfsProcess;
     }
 
     public IPFSDaemon() {
@@ -111,15 +120,26 @@ public class IPFSDaemon {
 
     public void initDaemon() {
         ipfsProcess = this.run("init");
+        NotificationManager.getManager().downloadCompleteWithoutError(ipfsData);
     }
 
 
     public void downloadDaemon() {
+        NotificationManager.getManager().registerNewNotification(ipfsData);
         Ion.with(context)
                 .load(getDownloadLink())
-                .progress((downloaded, total) -> Log.d(TAG, "onProgress() called with: downloaded = [" + downloaded + "], total = [" + total + "]"))
+                .progress((downloaded, total) -> {
+                    int tempProgress = (int) ((double) downloaded / total * 100);
+                    if (tempProgress > progress) {
+                        progress = tempProgress;
+                        Log.d(TAG, "progress: downloaded: " + downloaded + ". Total: " + total + ". progress " + progress);
+                        NotificationManager.getManager().updateProgress(ipfsData, progress);
+                    }
+                })
                 .write(getFile(true)).setCallback((e, result) -> {
+
             ZipArchive.unzip(getFile(true).getAbsolutePath(), getFile(true).getParent(), "");
+
             try {
 
                 BufferedSource arm = Okio.buffer(Okio.source(new File(getFilePath(), "ipfs")));
@@ -130,6 +150,7 @@ public class IPFSDaemon {
                 arm.close();
                 buffer.close();
             } catch (Exception e1) {
+                NotificationManager.getManager().downloadCompleteWithError(ipfsData, e1);
                 e1.printStackTrace();
             }
             getBinaryFile.setExecutable(true);
