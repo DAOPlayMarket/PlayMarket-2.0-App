@@ -406,13 +406,5 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
         filter.addAction(Intent.ACTION_PACKAGE_REPLACED);
         filter.addDataScheme("package");
         this.registerReceiver(br, filter);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(AlarmReceiver.CUSTOM_INTENT);
-
-        BroadcastReceiver alarmReceiver = new AlarmReceiver();
-        this.registerReceiver(alarmReceiver, intentFilter);
-
-        AlarmReceiver.setAlarm(true);
-
     }
 }

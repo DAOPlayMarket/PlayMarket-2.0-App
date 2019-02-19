@@ -204,8 +204,8 @@ public class Constants {
     /*Experimental prefs*/
 
     public static final String IS_USE_IPFS_TO_DOWNLOAD = "is_use_ipfs_to_download";
-    public static final String IPFS_BINARIES_PATH_ARM = "https://ipfs.io/ipfs/Qmejzke9WyRjz1iZjFgdxouWpvfnaAaHq2L1vGUmq3P3Ux/arm.zip";
-    public static final String IPFS_BINARIES_PATH_X86 = "https://ipfs.io/ipfs/Qmejzke9WyRjz1iZjFgdxouWpvfnaAaHq2L1vGUmq3P3Ux/z86.zip";
+    public static final String IPFS_BINARIES_PATH_ARM = "https://ipfs.io/ipfs/QmRQYQgw3qtfhaXm9vSdvbXfUEBwyAifJ72hSaPcUH4fZX/arm.zip";
+    public static final String IPFS_BINARIES_PATH_X86 = "https://ipfs.io/ipfs/QmRQYQgw3qtfhaXm9vSdvbXfUEBwyAifJ72hSaPcUH4fZX/x86.zip";
 
 
 }

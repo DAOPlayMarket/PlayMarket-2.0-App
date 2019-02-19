@@ -3,7 +3,6 @@ package com.blockchain.store.playmarket.ui.experimental_settings_screen;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -50,7 +49,15 @@ public class ExperimentalSettingsActivity extends AppCompatActivity {
 
     @OnClick(R.id.start_ipfs_btn)
     public void start_ipfs_btn() {
-        startService(new Intent(this, IpfsDaemonService.class));
+        Intent intent = new Intent(this, IpfsDaemonService.class);
+        intent.putExtra("a","b");
+        startService(intent);
+    }
+
+    @OnClick(R.id.stop_ipfs_btn)
+    public void stop_ipfs_btn() {
+        stopService(new Intent(this, IpfsDaemonService.class));
+        IPFSDaemon.getIpfsProcess().destroy();
     }
 
 }

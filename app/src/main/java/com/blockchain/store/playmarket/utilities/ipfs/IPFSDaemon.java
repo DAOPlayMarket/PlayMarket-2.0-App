@@ -27,10 +27,15 @@ public class IPFSDaemon {
     private static File getRepoPath;
     private static File getVersionFile;
     private static IPFSDaemon instance;
+    private static Process ipfsProcess;
 
     public static IPFSDaemon getInstance() {
         if (instance != null) return instance;
         return new IPFSDaemon();
+    }
+
+    public static Process getIpfsProcess() {
+        return ipfsProcess;
     }
 
     public IPFSDaemon() {
@@ -76,9 +81,9 @@ public class IPFSDaemon {
         };
         String command = getBinaryFile.getAbsolutePath() + " " + cmd;
         try {
-            Process exec = Runtime.getRuntime().exec(command, env);
+            ipfsProcess = Runtime.getRuntime().exec(command, env);
 
-            InputStreamReader inputStreamReader = new InputStreamReader(exec.getInputStream(), Charsets.UTF_8);
+            InputStreamReader inputStreamReader = new InputStreamReader(ipfsProcess.getInputStream(), Charsets.UTF_8);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 bufferedReader.lines().forEachOrdered(result -> Log.d(TAG, "run: " + result));
@@ -87,7 +92,7 @@ public class IPFSDaemon {
             }
 
 
-            InputStreamReader inputStreamReader2 = new InputStreamReader(exec.getErrorStream(), Charsets.UTF_8);
+            InputStreamReader inputStreamReader2 = new InputStreamReader(ipfsProcess.getErrorStream(), Charsets.UTF_8);
             BufferedReader bufferedReader2 = new BufferedReader(inputStreamReader2);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 bufferedReader2.lines().forEachOrdered(result -> Log.d(TAG, "error: " + result));
@@ -96,7 +101,7 @@ public class IPFSDaemon {
             }
 
 
-            return exec;
+            return ipfsProcess;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,7 +110,7 @@ public class IPFSDaemon {
 
 
     public void initDaemon() {
-        this.run("init");
+        ipfsProcess = this.run("init");
     }
 
 
@@ -113,12 +118,11 @@ public class IPFSDaemon {
         Ion.with(context)
                 .load(getDownloadLink())
                 .progress((downloaded, total) -> Log.d(TAG, "onProgress() called with: downloaded = [" + downloaded + "], total = [" + total + "]"))
-                .write(getFile(false)).setCallback((e, result) -> {
+                .write(getFile(true)).setCallback((e, result) -> {
             ZipArchive.unzip(getFile(true).getAbsolutePath(), getFile(true).getParent(), "");
-            Log.d(TAG, "onCompleted() called with: e = [" + e + "], result = [" + result + "]");
             try {
 
-                BufferedSource arm = Okio.buffer(Okio.source(new File(getFilePath(), "arm")));
+                BufferedSource arm = Okio.buffer(Okio.source(new File(getFilePath(), "ipfs")));
                 BufferedSink buffer = Okio.buffer(Okio.sink(getBinaryFile));
                 while (!arm.exhausted()) {
                     arm.read(buffer.buffer(), 1024);

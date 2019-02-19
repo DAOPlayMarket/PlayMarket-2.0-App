@@ -30,4 +30,14 @@
         android:text="start daemon"
         android:textAllCaps="false" />
 
+    <Button
+        android:id="@+id/stop_ipfs_btn"
+        style="@style/positiveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="stop daemon"
+        android:textAllCaps="false" />
+
+
 </LinearLayout>
