@@ -15,6 +15,7 @@ import com.blockchain.store.playmarket.data.entities.IcoLocalData;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.SendReviewTransactionModel;
 import com.blockchain.store.playmarket.data.entities.UserReview;
+import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
 import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.repositories.TransactionInteractor;
@@ -201,23 +202,23 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
     @Override
-    public void onAppDownloadStarted(App app) {
+    public void onAppDownloadStarted(NotificationImpl app) {
         changeState(Constants.APP_STATE.STATE_DOWNLOAD_STARTED);
     }
 
     @Override
-    public void onAppDownloadProgressChanged(App app, int progress) {
+    public void onAppDownloadProgressChanged(NotificationImpl app, int progress) {
         changeState(Constants.APP_STATE.STATE_DOWNLOADING);
         view.setActionButtonText(String.valueOf(progress) + " %");
     }
 
     @Override
-    public void onAppDownloadSuccessful(App app) {
+    public void onAppDownloadSuccessful(NotificationImpl app) {
         changeState(Constants.APP_STATE.STATE_DOWNLOADED_NOT_INSTALLED);
     }
 
     @Override
-    public void onAppDownloadError(App app, String message) {
+    public void onAppDownloadError(NotificationImpl app, String message) {
         changeState(Constants.APP_STATE.STATE_DOWNLOAD_ERROR);
     }
 

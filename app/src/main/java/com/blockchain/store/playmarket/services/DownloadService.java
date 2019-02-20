@@ -3,9 +3,12 @@ package com.blockchain.store.playmarket.services;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.InstalledAppData;
@@ -53,11 +56,13 @@ public class DownloadService extends IntentService {
         NotificationManager.getManager().registerNewNotification(app);
 
         Builders.Any.B ionBuilder;
-        if (Hawk.get(Constants.IS_USE_IPFS_TO_DOWNLOAD, false) && IPFSDaemon.getIpfsProcess() != null) {
+        if (IPFSDaemon.getIpfsProcess() != null) {
+            showToast("download with IPFS");
             String ipfsLoadUrl = "http://127.0.0.1:8080/ipfs/" + app.hash + "/" + app.files.apk;
             ionBuilder = Ion.with(getBaseContext())
                     .load(ipfsLoadUrl);
         } else {
+            showToast("download as normal");
             ionBuilder = Ion.with(getBaseContext())
                     .load(DOWNLOAD_APP_URL + app.appId)
                     .setHeader("hash", getHashedAndroidId(getBaseContext()));
@@ -112,4 +117,8 @@ public class DownloadService extends IntentService {
     }
 
 
+    private void showToast(String text) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(() -> Toast.makeText(DownloadService.this, text, Toast.LENGTH_SHORT).show());
+    }
 }

@@ -18,6 +18,7 @@ public class Constants {
     public static String JOB_SECOND_HASH_EXTRA = "job_second_hash_extra";
     public static String JOB_SECOND_RAW_TX = "JOB_HASH_SECOND_IS_COMPLETED";
     public static String JOB_TRANSACTION_TYPE_ORDINAL = "transaction_type_ordinal";
+    public static int IPFS_NOTIFICATION_ID = 55555;
 
     public enum APP_STATE {
         STATE_DOWNLOAD_STARTED, STATE_DOWNLOADING, STATE_DOWNLOADED_NOT_INSTALLED,

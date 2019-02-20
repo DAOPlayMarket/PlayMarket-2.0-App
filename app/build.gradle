@@ -22,8 +22,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         multiDexEnabled true
-        versionCode 111
-        versionName '1.4.13'
+        versionCode 112
+        versionName '1.4.14'
     }
 
     buildTypes {
@@ -116,9 +116,9 @@ dependencies {
     implementation 'com.koushikdutta.ion:ion:2.2.1'
     implementation 'com.orhanobut:hawk:2.0.1'
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     implementation 'com.github.faruktoptas:RetrofitRssConverterFactory:0.0.2'
     implementation 'com.jakewharton:butterknife:8.8.1'

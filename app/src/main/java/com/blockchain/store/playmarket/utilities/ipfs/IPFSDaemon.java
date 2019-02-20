@@ -1,17 +1,24 @@
 package com.blockchain.store.playmarket.utilities.ipfs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.data.entities.IpfsData;
 import com.blockchain.store.playmarket.notification.NotificationManager;
+import com.blockchain.store.playmarket.services.IpfsDaemonService;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.koushikdutta.ion.Ion;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -28,6 +35,7 @@ public class IPFSDaemon {
     private static File getBinaryFile;
     private static File getRepoPath;
     private static File getVersionFile;
+    private static File configFile;
     private static IPFSDaemon instance;
     private static Process ipfsProcess;
     private static boolean isRunning;
@@ -56,6 +64,7 @@ public class IPFSDaemon {
         getBinaryFile = new File(getFilePath(), "ipfsbin");
         getRepoPath = new File(getFilePath(), ".ipfs_repo");
         getVersionFile = new File(getFilePath(), ".ipfs_version");
+        configFile = new File(getRepoPath, "config");
     }
 
     private String getBinaryFileByAbi() {
@@ -119,10 +128,39 @@ public class IPFSDaemon {
 
 
     public void initDaemon() {
-        ipfsProcess = this.run("init");
+        ipfsProcess = run("init");
+        replaceConfigFile("", "");
         NotificationManager.getManager().downloadCompleteWithoutError(ipfsData);
+        Intent intent = new Intent(context, IpfsDaemonService.class);
+        context.startService(intent);
     }
 
+    private void replaceConfigFile(String key, String value) {
+        try {
+            JsonObject asJsonObject = new JsonParser().parse(new FileReader(configFile)).getAsJsonObject();
+            JsonArray bootstrap = asJsonObject.getAsJsonArray("Bootstrap");
+            bootstrap = IpfsConfigData.addBootstrap(bootstrap);
+            JsonObject swarm = asJsonObject.getAsJsonObject("Swarm");
+            JsonObject connMgr = swarm.getAsJsonObject("ConnMgr");
+            connMgr.addProperty("LowWater", 50);
+            connMgr.addProperty("HighWater", 100);
+            connMgr.addProperty("GracePeriod", "60s");
+
+            asJsonObject.getAsJsonObject("Datastore").addProperty("StorageMax", "1GB");
+            JsonObject reprovider = asJsonObject.getAsJsonObject("Reprovider");
+            reprovider.addProperty("Interval", "0");
+            reprovider.addProperty("Strategy", "roots");
+
+            JsonObject mdns = asJsonObject.getAsJsonObject("Discovery").getAsJsonObject("MDNS");
+            mdns.addProperty("Enabled", false);
+
+            new FileOutputStream(configFile).write(asJsonObject.toString().getBytes());
+            Log.d(TAG, "replaceConfigFile: ");
+            run("config show");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void downloadDaemon() {
         NotificationManager.getManager().registerNewNotification(ipfsData);
@@ -137,7 +175,10 @@ public class IPFSDaemon {
                     }
                 })
                 .write(getFile(true)).setCallback((e, result) -> {
-
+            if (e != null) {
+                NotificationManager.getManager().downloadCompleteWithError(ipfsData, e);
+                return;
+            }
             ZipArchive.unzip(getFile(true).getAbsolutePath(), getFile(true).getParent(), "");
 
             try {

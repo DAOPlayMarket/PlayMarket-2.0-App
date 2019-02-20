@@ -233,8 +233,8 @@ public class NotificationManager {
 
     private void reportUpdateProgress(NotificationObject notificationObject) {
         for (Pair<Integer, NotificationManagerCallbacks> object : this.callbacks) {
-            if (object.first == notificationObject.getItem().getId() && notificationObject.getItem() instanceof App) {
-                object.second.onAppDownloadProgressChanged((App) notificationObject.getItem(), notificationObject.getProgress());
+            if (object.first == notificationObject.getItem().getId()){
+                object.second.onAppDownloadProgressChanged(notificationObject.getItem(), notificationObject.getProgress());
             }
         }
     }
@@ -242,7 +242,7 @@ public class NotificationManager {
     private void reportStartUpdate(NotificationObject notificationObject) {
         for (Pair<Integer, NotificationManagerCallbacks> object : this.callbacks) {
             if (object.first == notificationObject.getItem().getId()) {
-                object.second.onAppDownloadStarted((App) notificationObject.getItem());
+                object.second.onAppDownloadStarted(notificationObject.getItem());
             }
         }
     }
@@ -251,7 +251,7 @@ public class NotificationManager {
         for (Pair<Integer, NotificationManagerCallbacks> object : this.callbacks) {
             if (object.first == notificationObject.getItem().getId()) {
 
-                object.second.onAppDownloadSuccessful((App) notificationObject.getItem());
+                object.second.onAppDownloadSuccessful(notificationObject.getItem());
             }
         }
     }
@@ -259,7 +259,7 @@ public class NotificationManager {
     private void reportDownloadFailUpdate(NotificationObject notificationObject, String message) {
         for (Pair<Integer, NotificationManagerCallbacks> object : this.callbacks) {
             if (object.first == notificationObject.getItem().getId()) {
-                object.second.onAppDownloadError((App) notificationObject.getItem(), message);
+                object.second.onAppDownloadError(notificationObject.getItem(), message);
             }
         }
     }

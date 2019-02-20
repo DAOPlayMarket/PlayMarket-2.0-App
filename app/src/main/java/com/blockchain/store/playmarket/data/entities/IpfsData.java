@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.interfaces.NotificationImpl;
+import com.blockchain.store.playmarket.utilities.Constants;
 
 public class IpfsData implements NotificationImpl {
     private Context context;
@@ -16,7 +17,7 @@ public class IpfsData implements NotificationImpl {
 
     @Override
     public int getId() {
-        return 555;
+        return Constants.IPFS_NOTIFICATION_ID;
     }
 
     @Override

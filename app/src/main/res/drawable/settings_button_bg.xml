@@ -7,8 +7,7 @@
     </item>
 
     <item android:state_enabled="false">
-        <shape android:tint="@color/positive_btn_disable_bg">
-        <!--<shape android:tint="#0B3D61">-->
+        <shape android:tint="#0B3D61">
             <corners android:radius="3dp" />
         </shape>
     </item>

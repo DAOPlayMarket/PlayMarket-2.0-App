@@ -7,6 +7,7 @@ import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppLibrary;
+import com.blockchain.store.playmarket.interfaces.NotificationImpl;
 import com.blockchain.store.playmarket.interfaces.NotificationManagerCallbacks;
 import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.utilities.Constants;
@@ -114,24 +115,24 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
     }
 
     @Override
-    public void onAppDownloadStarted(App app) {
-        view.updateApp(app, 0, Constants.APP_STATE.STATE_DOWNLOAD_STARTED);
+    public void onAppDownloadStarted(NotificationImpl app) {
+        view.updateApp((App) app, 0, Constants.APP_STATE.STATE_DOWNLOAD_STARTED);
     }
 
     @Override
-    public void onAppDownloadProgressChanged(App app, int progress) {
-        view.updateApp(app, progress, Constants.APP_STATE.STATE_DOWNLOADING);
+    public void onAppDownloadProgressChanged(NotificationImpl app, int progress) {
+        view.updateApp((App) app, progress, Constants.APP_STATE.STATE_DOWNLOADING);
 
     }
 
     @Override
-    public void onAppDownloadSuccessful(App app) {
-        view.updateApp(app, 0, Constants.APP_STATE.STATE_UPDATE_DOWNLOADED_NOT_INSTALLED);
+    public void onAppDownloadSuccessful(NotificationImpl app) {
+        view.updateApp((App) app, 0, Constants.APP_STATE.STATE_UPDATE_DOWNLOADED_NOT_INSTALLED);
     }
 
     @Override
-    public void onAppDownloadError(App app, String message) {
-        view.updateApp(app, 0, Constants.APP_STATE.STATE_DOWNLOAD_ERROR);
+    public void onAppDownloadError(NotificationImpl app, String message) {
+        view.updateApp((App) app, 0, Constants.APP_STATE.STATE_DOWNLOAD_ERROR);
     }
 
     public void onDestroy(ArrayList<AppLibrary> allItems) {

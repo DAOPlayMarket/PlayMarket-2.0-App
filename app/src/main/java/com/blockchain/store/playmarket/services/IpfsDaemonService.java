@@ -39,7 +39,7 @@ public class IpfsDaemonService extends IntentService {
         } else {
             start();
             try {
-                IPFSDaemon.run("daemon").waitFor();
+                IPFSDaemon.run("daemon --enable-gc").waitFor();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -87,12 +87,12 @@ public class IpfsDaemonService extends IntentService {
         Hawk.put(Constants.IS_USE_IPFS_TO_DOWNLOAD, false);
         IPFSDaemon.getIpfsProcess().destroy();
         IPFSDaemon.setIpfsProcess(null);
-        NotificationManagerCompat.from(this).cancel(555);
+        NotificationManagerCompat.from(this).cancel(Constants.IPFS_NOTIFICATION_ID);
         super.onDestroy();
     }
 
     private void start() {
         NotificationCompat.Builder notification = getNotification();
-        startForeground(555, notification.build());
+        startForeground(Constants.IPFS_NOTIFICATION_ID, notification.build());
     }
 }

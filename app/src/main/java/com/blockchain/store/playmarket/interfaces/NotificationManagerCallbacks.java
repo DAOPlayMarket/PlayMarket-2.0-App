@@ -7,8 +7,8 @@ import com.blockchain.store.playmarket.data.entities.App;
  */
 
 public interface NotificationManagerCallbacks {
-    void onAppDownloadStarted(App app);
-    void onAppDownloadProgressChanged(App app, int progress);
-    void onAppDownloadSuccessful(App app);
-    void onAppDownloadError(App app, String message);
+    void onAppDownloadStarted(NotificationImpl app);
+    void onAppDownloadProgressChanged(NotificationImpl app, int progress);
+    void onAppDownloadSuccessful(NotificationImpl app);
+    void onAppDownloadError(NotificationImpl app, String message);
 }
