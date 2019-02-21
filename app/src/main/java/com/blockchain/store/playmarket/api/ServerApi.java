@@ -8,6 +8,10 @@ import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.data.entities.CryptoPriceResponse;
 import com.blockchain.store.playmarket.data.entities.ExchangeRate;
 import com.blockchain.store.playmarket.data.entities.IcoInfoResponse;
+import com.blockchain.store.playmarket.data.entities.IpfsConfigResponse;
+import com.blockchain.store.playmarket.data.entities.IpfsPeersResponse;
+import com.blockchain.store.playmarket.data.entities.IpfsPingResponse;
+import com.blockchain.store.playmarket.data.entities.IpfsVersionResponse;
 import com.blockchain.store.playmarket.data.entities.PexHistory;
 import com.blockchain.store.playmarket.data.entities.PlaymarketFeed;
 import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
@@ -130,6 +134,19 @@ public interface ServerApi {
     @FormUrlEncoded()
     @POST("https://m{node}.playmarket.io/api/app-install-event")
     Observable<ResponseBody> reportAppInstallEvent(@Path(value = "node") String node, @Field("idApp") String idApp, @Header("hash") String hash);
+
+    @GET("http://127.0.0.1:5001/api/v0/ping")
+    Observable<IpfsPingResponse> pingToIpfs(@Query("arg") String peerId);
+
+    @GET("http://127.0.0.1:5001/api/v0/swarm/peers")
+    Observable<IpfsPeersResponse> ipfsGetPeers();
+
+    @GET("http://127.0.0.1:5001/api/v0/version")
+    Observable<IpfsVersionResponse> ipfsGetVersion();
+
+    @GET("http://127.0.0.1:5001/api/v0/config/show")
+    Observable<IpfsConfigResponse> getPeersIdFromConfig();
+
 
 //    @GET("https://pex-balancer.playmarket.io/api/history?symbol=PMT&resolution=1D&from=1513577768&to=1544681828")
 //    Observable<ResponseBody> getPexHistory();

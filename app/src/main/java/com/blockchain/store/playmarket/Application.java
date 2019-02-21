@@ -23,6 +23,7 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.FingerprintUtils;
 import com.blockchain.store.playmarket.utilities.LocaleUtils;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
+import com.blockchain.store.playmarket.utilities.ipfs.IPFSDaemon;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
@@ -73,6 +74,7 @@ public class Application extends MultiDexApplication {
         setUpFresco();
         setUpAWS();
         setUpLocale();
+
     }
 
     private void setUpLocale() {

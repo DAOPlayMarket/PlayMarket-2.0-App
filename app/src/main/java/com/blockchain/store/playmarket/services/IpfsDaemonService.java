@@ -8,17 +8,19 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ipfs.IPFSDaemon;
-import com.orhanobut.hawk.Hawk;
 
 import androidx.annotation.Nullable;
 
 public class IpfsDaemonService extends IntentService {
     private static final String TAG = "IpfsDaemonService";
+    public static final String ACTION_START = "IPFS_DAEMON_ACTION";
+    public static final String ACTION_STOP = "IPFS_DAEMON_ACTION_STOP";
 
     public IpfsDaemonService() {
         super("IpfsDaemonService");
@@ -37,14 +39,29 @@ public class IpfsDaemonService extends IntentService {
         if (intent != null && intent.getAction() != null && intent.getAction().equalsIgnoreCase("STOP")) {
             stopSelf();
         } else {
+            sendStartIntent();
             start();
             try {
                 IPFSDaemon.run("daemon --enable-gc").waitFor();
+                Log.d(TAG, "onHandleIntent: daemon is started");
             } catch (Exception e) {
+                stopSelf();
                 e.printStackTrace();
             }
         }
 
+    }
+
+    private void sendStartIntent() {
+        Intent startIntent = new Intent();
+        startIntent.setAction(ACTION_START);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(startIntent);
+    }
+
+    private void sendStopIntent(){
+        Intent startIntent = new Intent();
+        startIntent.setAction(ACTION_STOP);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(startIntent);
     }
 
 
@@ -84,9 +101,13 @@ public class IpfsDaemonService extends IntentService {
     @Override
     public void onDestroy() {
         Log.d(TAG, "onDestroy() called");
-        Hawk.put(Constants.IS_USE_IPFS_TO_DOWNLOAD, false);
-        IPFSDaemon.getIpfsProcess().destroy();
-        IPFSDaemon.setIpfsProcess(null);
+        try {
+            IPFSDaemon.getIpfsProcess().destroy();
+            IPFSDaemon.setIpfsProcess(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        sendStopIntent();
         NotificationManagerCompat.from(this).cancel(Constants.IPFS_NOTIFICATION_ID);
         super.onDestroy();
     }

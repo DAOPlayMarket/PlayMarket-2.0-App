@@ -1,5 +1,7 @@
 package com.blockchain.store.playmarket.ui.experimental_settings_screen;
 
+import com.blockchain.store.playmarket.repositories.IpfsRepository;
+
 public class ExperimentalSettingsContract {
     public interface View {
 
@@ -8,6 +10,10 @@ public class ExperimentalSettingsContract {
         void reportDownloadEndWithSuccess();
 
         void reportDownloadError(String message);
+
+        void onIpfsError(Throwable throwable);
+
+        void onDataReady(IpfsRepository.IpfsRepositoryData ipfsRepositoryData);
     }
 
     public interface Presenter {

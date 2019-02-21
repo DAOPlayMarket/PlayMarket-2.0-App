@@ -52,10 +52,13 @@ import com.blockchain.store.playmarket.ui.token_transfer_screen.TokenTransferFra
 import com.blockchain.store.playmarket.ui.tokens_screen.TokenListFragment;
 import com.blockchain.store.playmarket.ui.wallet_screen.WalletFragment;
 import com.blockchain.store.playmarket.utilities.BaseActivity;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 import com.blockchain.store.playmarket.utilities.drawable.HamburgerDrawable;
+import com.blockchain.store.playmarket.utilities.ipfs.IPFSDaemon;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -406,5 +409,10 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
         filter.addAction(Intent.ACTION_PACKAGE_REPLACED);
         filter.addDataScheme("package");
         this.registerReceiver(br, filter);
+
+        if (Hawk.get(Constants.IPFS_AUTO_START, false)) {
+            IPFSDaemon.getInstance().initDaemon();
+        }
+
     }
 }

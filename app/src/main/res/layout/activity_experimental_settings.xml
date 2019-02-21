@@ -8,6 +8,14 @@
 
     <include layout="@layout/detail_app_toolbar" />
 
+    <ProgressBar
+        android:id="@id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:visibility="gone" />
+
     <Button
         android:id="@+id/download_ipfs_btn"
         style="@style/positiveButton"
@@ -17,13 +25,17 @@
         android:layout_marginTop="50dp"
         android:padding="10dp"
         android:text="@string/download_and_run_ipfs"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/layout_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
 
 
         <LinearLayout
@@ -70,6 +82,28 @@
                 android:text="@string/settings_online" />
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/setting_item_height"
+            android:gravity="left|center"
+            android:orientation="horizontal"
+            android:paddingStart="54dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="90dp"
+                android:text="@string/peer_id"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/ipfs_peer_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,7 +124,7 @@
                 android:id="@+id/ipfs_peers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="1234123" />
+                android:text="-" />
 
         </LinearLayout>
 
@@ -110,9 +144,10 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/ipfs_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="0.4-19-dev" />
+                android:text="-" />
 
         </LinearLayout>
 
@@ -143,14 +178,14 @@
             android:layout_height="@dimen/setting_item_height"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingStart="28dp"
+            android:paddingStart="54dp"
             android:paddingRight="20dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/settings_app_update_notification"
+                android:text="@string/use_ipfs_first_when_downloading"
                 android:textSize="14sp" />
 
             <CheckBox
@@ -170,14 +205,14 @@
             android:layout_height="@dimen/setting_item_height"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingStart="28dp"
+            android:paddingStart="54dp"
             android:paddingRight="20dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/settings_app_update_notification"
+                android:text="@string/auto_start_ipfs"
                 android:textSize="14sp" />
 
             <CheckBox
@@ -225,7 +260,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/settings_button_bg"
-                android:enabled="false"
+                android:enabled="true"
                 android:text="@string/shutdown"
                 android:textAllCaps="false" />
         </LinearLayout>

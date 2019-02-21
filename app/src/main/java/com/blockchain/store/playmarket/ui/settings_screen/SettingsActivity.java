@@ -109,10 +109,13 @@ public class SettingsActivity extends BaseActivity {
         toolbarTitle.setText(R.string.settings_title);
         autoInstallCheckbox.setChecked(Hawk.get(Constants.SETTINGS_AUTOINSTALL_FLAG, false));
         appUpdateNotificationCheckBox.setChecked(Hawk.get(Constants.SETTINGS_SHOW_UPDATE_NOTIFICATION, true));
+
         playMarketUpdateNotificationCheckBox.setChecked(Hawk.get(Constants.SETTINGS_SHOW_PLAYMARKET_UPDATE_NOTIFICATION, true));
         transactionUpdateCheckBox.setChecked(Hawk.get(Constants.SETTINGS_SHOW_TRANSACTION_UPDATE_NOTIFICATION, true));
+
         wifiOnlyCheckBox.setChecked(Hawk.get(Constants.SETTINGS_DOWNLOAD_ONLY_ON_WIFI, true));
         updateWhileChargingCheckBox.setChecked(Hawk.get(Constants.SETTINGS_SEARCH_FOR_UPDATE_ONLY_WHILE_CHARGING, true));
+
         String locale = Hawk.get(Constants.SETTINGS_USER_LOCALE);
         if (locale.equalsIgnoreCase("ru")) {
             langRus.setChecked(true);

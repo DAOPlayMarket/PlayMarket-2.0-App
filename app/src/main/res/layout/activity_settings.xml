@@ -419,14 +419,14 @@
             <TextView
                 android:id="@+id/experimental_settings"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:paddingStart="28dp"
                 android:paddingTop="20dp"
                 android:paddingRight="20dp"
                 android:paddingBottom="20dp"
                 android:text="@string/open_experimental_settings"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
         </LinearLayout>
 
 
