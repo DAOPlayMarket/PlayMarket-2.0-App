@@ -24,14 +24,15 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name_by_gradle"
-        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:testOnly="false"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label,allowBackup">
-        <activity android:name=".ui.experimental_settings_screen.ExperimentalSettingsActivity"></activity>
+        <activity android:name=".ui.experimental_settings_screen.IpfsConfigActivity"></activity>
+        <activity android:name=".ui.experimental_settings_screen.ExperimentalSettingsActivity" />
         <activity android:name=".ui.all_reviews_screen.AllReviewsActivity" />
         <activity android:name=".ui.qr_screen.QrActivity" />
         <activity android:name="com.blockchain.store.dao.ui.DaoTokenTransfer" />

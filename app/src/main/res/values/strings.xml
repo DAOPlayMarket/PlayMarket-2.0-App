@@ -462,6 +462,7 @@
     <string name="use_ipfs_first_when_downloading">Use IPFS first when downloading</string>
     <string name="auto_start_ipfs">Auto start IPFS</string>
     <string name="settings_offline">Offline</string>
+    <string name="show_config_file">Show IPFS config</string>
 
     <string-array name="contract_functions">
         <item>Sent ethereum</item>

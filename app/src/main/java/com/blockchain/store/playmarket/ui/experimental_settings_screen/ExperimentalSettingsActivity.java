@@ -133,6 +133,11 @@ public class ExperimentalSettingsActivity extends AppCompatActivity implements E
         IPFSDaemon.getInstance().initDaemon();
     }
 
+    @OnClick(R.id.open_config)
+    public void onOpenConfigClicked() {
+        startActivity(new Intent(this, IpfsConfigActivity.class));
+    }
+
     @OnClick(R.id.start_ipfs_btn)
     public void start_ipfs_btn() {
         Intent intent = new Intent(this, IpfsDaemonService.class);
@@ -171,7 +176,7 @@ public class ExperimentalSettingsActivity extends AppCompatActivity implements E
 
     @Override
     public void onIpfsError(Throwable throwable) {
-        rootHolder.setVisibility(View.VISIBLE);
+//        rootHolder.setVisibility(View.VISIBLE);
         stopIpfs.setEnabled(false);
         startIpfs.setEnabled(true);
         ipfsStatus.setText(getString(R.string.settings_offline));
