@@ -445,7 +445,7 @@
     <string name="currency_usd">U.S. Dollar</string>
     <string name="currency_ruble">Russian Ruble</string>
 
-    <string name="open_experimental_settings">Open experimental settings</string>
+    <string name="open_experimental_settings">IPFS Node (experimental)</string>
     <string name="ipfs_daemon_title">IPFS Daemon</string>
     <string name="ipfs_daemon_body">IPFS node is running in foreground</string>
     <string name="ipfs_daemon_stop_btn">Stop</string>
@@ -457,13 +457,13 @@
     <string name="settings_ipfs_version">IPFS version:</string>
     <string name="startup">STARTUP</string>
     <string name="shutdown">SHUTDOWN</string>
-    <string name="experimental_settings_title">Experimental settings</string>
+    <string name="experimental_settings_title">IPFS Node</string>
     <string name="peer_id">Peer ID:</string>
     <string name="use_ipfs_first_when_downloading">Use IPFS first when downloading</string>
     <string name="auto_start_ipfs">Auto start IPFS</string>
     <string name="settings_offline">Offline</string>
     <string name="show_config_file">Show IPFS config</string>
-    <string name="ipfs_safe_mode_title">Cancel IPFS when app is closed</string>
+    <string name="ipfs_safe_mode_title">Shutdown IPFS when app is closed</string>
 
     <string-array name="contract_functions">
         <item>Sent ethereum</item>

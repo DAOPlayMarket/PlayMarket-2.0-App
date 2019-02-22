@@ -28,6 +28,10 @@ public class LocaleUtils {
         activities.remove(activity);
     }
 
+    public static ArrayList<AppCompatActivity> getActivities() {
+        return activities;
+    }
+
     public static void refreshActivies() {
         for (AppCompatActivity activity : activities) {
             activity.recreate();

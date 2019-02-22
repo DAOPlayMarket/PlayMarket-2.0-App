@@ -415,18 +415,4 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
         }
 
     }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause: ");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (Hawk.get(Constants.IPFS_SAFE_MODE, false))
-            stopService(new Intent(this, IpfsDaemonService.class));
-    }
 }

@@ -445,8 +445,8 @@
     <string name="currency_usd">Доллар США</string>
     <string name="currency_ruble">Российский рубль</string>
 
-    <string name="open_experimental_settings">Открыть экспериментальные настройки</string>
-    <string name="experimental_settings_title">Экспериментальные настройки</string>
+    <string name="open_experimental_settings">Узел  IPFS (экспериментально)</string>
+    <string name="experimental_settings_title">Узел IPFS</string>
     <string name="auto_start_ipfs">Автоматический запуск IPFS</string>
     <string name="ipfs_daemon_title">IPFS Сервис</string>
     <string name="ipfs_daemon_body">IPFS узел запущен как фоновый процесс</string>
@@ -463,5 +463,6 @@
     <string name="settings_offline">Оффлайн</string>
     <string name="use_ipfs_first_when_downloading">Использовать сначала IPFS при загрузках</string>
     <string name="show_config_file">Посмотреть настройки IPFS</string>
+    <string name="ipfs_safe_mode_title">Остановить IPFS когда приложение закрывается</string>
 
 </resources>

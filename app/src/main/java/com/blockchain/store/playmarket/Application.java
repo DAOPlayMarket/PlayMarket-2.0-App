@@ -77,6 +77,7 @@ public class Application extends MultiDexApplication {
 
     }
 
+
     private void setUpLocale() {
         if (Hawk.contains(Constants.SETTINGS_USER_LOCALE)) {
             LocaleUtils.setLocale(new Locale(Hawk.get(Constants.SETTINGS_USER_LOCALE)));

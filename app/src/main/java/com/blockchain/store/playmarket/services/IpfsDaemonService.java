@@ -49,7 +49,7 @@ public class IpfsDaemonService extends IntentService {
                 IPFSDaemon.run("daemon --enable-gc").waitFor();
                 Log.d(TAG, "onHandleIntent: daemon is started");
             } catch (Exception e) {
-                stopSelf();
+                onDestroy();
                 e.printStackTrace();
             }
         }

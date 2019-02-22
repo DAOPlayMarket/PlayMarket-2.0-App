@@ -2,7 +2,6 @@ package com.blockchain.store.playmarket.ui.experimental_settings_screen;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.repositories.IpfsRepository;
 import com.blockchain.store.playmarket.services.IpfsDaemonService;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ipfs.IPFSDaemon;
@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ExperimentalSettingsActivity extends AppCompatActivity implements ExperimentalSettingsContract.View {
+public class ExperimentalSettingsActivity extends BaseActivity implements ExperimentalSettingsContract.View {
     private static final String TAG = "ExperimentalSettingsAct";
 
     @BindView(R.id.top_layout_app_name) TextView screenTitle;
@@ -55,6 +55,8 @@ public class ExperimentalSettingsActivity extends AppCompatActivity implements E
 
     private TimerTask myTimerTask;
     private Timer mTimer;
+    private boolean isDaemonStartClicked = false;
+    private IpfsRepository ipfsRepository = new IpfsRepository();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,18 +149,20 @@ public class ExperimentalSettingsActivity extends AppCompatActivity implements E
 
     @OnClick(R.id.start_ipfs_btn)
     public void start_ipfs_btn() {
+        isDaemonStartClicked = true;
         Intent intent = new Intent(this, IpfsDaemonService.class);
         startService(intent);
 
-        stopIpfs.setEnabled(true);
+        stopIpfs.setEnabled(false);
         startIpfs.setEnabled(false);
     }
 
     @OnClick(R.id.stop_ipfs_btn)
     public void stop_ipfs_btn() {
         stopService(new Intent(this, IpfsDaemonService.class));
+        this.ipfsRepository.shuwDownIpfs();
         stopIpfs.setEnabled(false);
-        startIpfs.setEnabled(true);
+        startIpfs.setEnabled(false);
 
     }
 
@@ -182,17 +186,22 @@ public class ExperimentalSettingsActivity extends AppCompatActivity implements E
     @Override
     public void onIpfsError(Throwable throwable) {
 //        rootHolder.setVisibility(View.VISIBLE);
-        stopIpfs.setEnabled(false);
-        startIpfs.setEnabled(true);
+
         ipfsStatus.setText(getString(R.string.settings_offline));
         ipfsPeers.setText(String.valueOf("-"));
         ipfs_peer_id.setText("-");
         ipfs_version.setText("-");
+        if (!isDaemonStartClicked) {
+            stopIpfs.setEnabled(false);
+            startIpfs.setEnabled(true);
+        }
+
 
     }
 
     @Override
     public void onDataReady(IpfsRepository.IpfsRepositoryData ipfsRepositoryData) {
+        isDaemonStartClicked = false;
         stopIpfs.setEnabled(true);
         startIpfs.setEnabled(false);
         setViews(ipfsRepositoryData);

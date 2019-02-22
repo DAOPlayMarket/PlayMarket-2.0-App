@@ -20,6 +20,7 @@
     <application
         android:name=".Application"
         android:allowBackup="false"
+
         android:fullBackupOnly="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -69,7 +70,6 @@
         <activity
             android:name=".ui.main_list_screen.MainMenuActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTop"
             android:label="@string/title_activity_main_menu"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
