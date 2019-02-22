@@ -35,11 +35,11 @@ import com.blockchain.store.dao.ui.votes_screen.voting_screen.VotingFragment;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.broadcasts.InstallPackageReceiver;
-import com.blockchain.store.playmarket.check_transation_status_beta.AlarmReceiver;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
+import com.blockchain.store.playmarket.services.IpfsDaemonService;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.change_account_screen.ChangeAccountFragment;
 import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
@@ -414,5 +414,19 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
             IPFSDaemon.getInstance().initDaemon();
         }
 
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (Hawk.get(Constants.IPFS_SAFE_MODE, false))
+            stopService(new Intent(this, IpfsDaemonService.class));
     }
 }

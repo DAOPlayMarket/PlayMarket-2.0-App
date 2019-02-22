@@ -29,250 +29,282 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <LinearLayout
-        android:id="@+id/layout_holder"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        tools:visibility="visible">
-
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/layout_holder"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingStart="28dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
-            <TextView
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="28dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/node_info"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/open_config"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="20dp"
+                    android:text="@string/show_config_file" />
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="28dp"
+                android:background="@drawable/settings_divider_gradient" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_item_height"
+                android:gravity="left|center"
+                android:orientation="horizontal"
+                android:paddingStart="54dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="90dp"
+                    android:text="@string/settings_status"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/ipfs_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_online" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_item_height"
+                android:gravity="left|center"
+                android:orientation="horizontal"
+                android:paddingStart="54dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="90dp"
+                    android:text="@string/peer_id"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/ipfs_peer_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_item_height"
+                android:gravity="left|center"
+                android:orientation="horizontal"
+                android:paddingStart="54dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="90dp"
+                    android:text="@string/settings_peers"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/ipfs_peers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_item_height"
+                android:gravity="left|center"
+                android:orientation="horizontal"
+                android:paddingStart="54dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="90dp"
+                    android:text="@string/settings_ipfs_version"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/ipfs_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="28dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="28dp"
+                android:background="@drawable/settings_divider_gradient" />
+
+            <LinearLayout
+                android:id="@+id/ipfs_download_holder"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_item_height"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="54dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/use_ipfs_first_when_downloading"
+                    android:textSize="14sp" />
+
+                <CheckBox
+                    android:id="@+id/ipfs_download_holder_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/check_box_colors"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ipfs_auto_start_holder"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_item_height"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="54dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/auto_start_ipfs"
+                    android:textSize="14sp" />
+
+                <CheckBox
+                    android:id="@+id/ipfs_auto_start_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/check_box_colors"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ipfs_safe_mode_holder"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_item_height"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="54dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/ipfs_safe_mode_title"
+                    android:textSize="14sp" />
+
+                <CheckBox
+                    android:id="@+id/ipfs_safe_mode_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/check_box_colors"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false" />
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/init_ipfs_btn"
+                style="@style/positiveButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/node_info"
-                android:textSize="18sp" />
+                android:padding="10dp"
+                android:text="init daemon"
+                android:textAllCaps="false"
+                android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/open_config"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:paddingRight="20dp"
-                android:text="@string/show_config_file" />
+                android:layout_margin="20dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/start_ipfs_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/settings_button_bg"
+                    android:text="@string/startup"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/stop_ipfs_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/settings_button_bg"
+                    android:enabled="true"
+                    android:text="@string/shutdown"
+                    android:textAllCaps="false" />
+            </LinearLayout>
 
         </LinearLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="28dp"
-            android:background="@drawable/settings_divider_gradient" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/setting_item_height"
-            android:gravity="left|center"
-            android:orientation="horizontal"
-            android:paddingStart="54dp"
-            android:paddingRight="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="90dp"
-                android:text="@string/settings_status"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/ipfs_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_online" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/setting_item_height"
-            android:gravity="left|center"
-            android:orientation="horizontal"
-            android:paddingStart="54dp"
-            android:paddingRight="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="90dp"
-                android:text="@string/peer_id"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/ipfs_peer_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/setting_item_height"
-            android:gravity="left|center"
-            android:orientation="horizontal"
-            android:paddingStart="54dp"
-            android:paddingRight="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="90dp"
-                android:text="@string/settings_peers"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/ipfs_peers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/setting_item_height"
-            android:gravity="left|center"
-            android:orientation="horizontal"
-            android:paddingStart="54dp"
-            android:paddingRight="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="90dp"
-                android:text="@string/settings_ipfs_version"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/ipfs_version"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="42dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingStart="28dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="28dp"
-            android:background="@drawable/settings_divider_gradient" />
-
-        <LinearLayout
-            android:id="@+id/ipfs_download_holder"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/setting_item_height"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingStart="54dp"
-            android:paddingRight="20dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/use_ipfs_first_when_downloading"
-                android:textSize="14sp" />
-
-            <CheckBox
-                android:id="@+id/ipfs_download_holder_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:buttonTint="@color/check_box_colors"
-                android:clickable="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ipfs_auto_start_holder"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/setting_item_height"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingStart="54dp"
-            android:paddingRight="20dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/auto_start_ipfs"
-                android:textSize="14sp" />
-
-            <CheckBox
-                android:id="@+id/ipfs_auto_start_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:buttonTint="@color/check_box_colors"
-                android:clickable="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false" />
-
-        </LinearLayout>
-
-
-        <Button
-            android:id="@+id/init_ipfs_btn"
-            style="@style/positiveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="init daemon"
-            android:textAllCaps="false"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/start_ipfs_btn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/settings_button_bg"
-                android:text="@string/startup"
-                android:textAllCaps="false" />
-
-            <Button
-                android:id="@+id/stop_ipfs_btn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/settings_button_bg"
-                android:enabled="true"
-                android:text="@string/shutdown"
-                android:textAllCaps="false" />
-        </LinearLayout>
-
-    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

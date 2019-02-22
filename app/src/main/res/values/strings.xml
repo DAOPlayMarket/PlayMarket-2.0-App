@@ -463,6 +463,7 @@
     <string name="auto_start_ipfs">Auto start IPFS</string>
     <string name="settings_offline">Offline</string>
     <string name="show_config_file">Show IPFS config</string>
+    <string name="ipfs_safe_mode_title">Cancel IPFS when app is closed</string>
 
     <string-array name="contract_functions">
         <item>Sent ethereum</item>

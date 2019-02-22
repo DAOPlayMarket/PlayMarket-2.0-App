@@ -12,10 +12,14 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ipfs.IPFSDaemon;
 
 import androidx.annotation.Nullable;
+import okhttp3.ResponseBody;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class IpfsDaemonService extends IntentService {
     private static final String TAG = "IpfsDaemonService";
@@ -58,7 +62,7 @@ public class IpfsDaemonService extends IntentService {
         LocalBroadcastManager.getInstance(this).sendBroadcast(startIntent);
     }
 
-    private void sendStopIntent(){
+    private void sendStopIntent() {
         Intent startIntent = new Intent();
         startIntent.setAction(ACTION_STOP);
         LocalBroadcastManager.getInstance(this).sendBroadcast(startIntent);
@@ -101,12 +105,22 @@ public class IpfsDaemonService extends IntentService {
     @Override
     public void onDestroy() {
         Log.d(TAG, "onDestroy() called");
-        try {
-            IPFSDaemon.getIpfsProcess().destroy();
-            IPFSDaemon.setIpfsProcess(null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        RestApi.getServerApi().shutdownIpfs()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(this::onShutdown, this::onShutDownError);
+
+    }
+
+    private void onShutdown(ResponseBody responseBody) {
+        IPFSDaemon.setIpfsProcess(null);
+        sendStopIntent();
+        NotificationManagerCompat.from(this).cancel(Constants.IPFS_NOTIFICATION_ID);
+        super.onDestroy();
+    }
+
+    private void onShutDownError(Throwable throwable) {
+        Log.d(TAG, "onShutDownError() called with: throwable = [" + throwable + "]");
         sendStopIntent();
         NotificationManagerCompat.from(this).cancel(Constants.IPFS_NOTIFICATION_ID);
         super.onDestroy();

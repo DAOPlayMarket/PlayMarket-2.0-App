@@ -150,6 +150,9 @@ public interface ServerApi {
     @GET("http://127.0.0.1:5001/api/v0/config/show")
     Observable<ResponseBody> getPlainConfig();
 
+    @GET("http://127.0.0.1:5001/api/v0/shutdown")
+    Observable<ResponseBody> shutdownIpfs();
+
 
 //    @GET("https://pex-balancer.playmarket.io/api/history?symbol=PMT&resolution=1D&from=1513577768&to=1544681828")
 //    Observable<ResponseBody> getPexHistory();

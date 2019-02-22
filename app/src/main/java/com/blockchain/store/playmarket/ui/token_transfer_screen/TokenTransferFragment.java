@@ -131,7 +131,7 @@ public class TokenTransferFragment extends Fragment implements TokenTransferCont
         tokenTitleTextView.setText(daoToken.name);
         balanceTextView.setText(String.valueOf(daoToken.getBalanceWithDecimals()));
         tokenTextView.setText(daoToken.symbol);
-        token2TextView.setText(getString(R.string.eth));
+        token2TextView.setText(daoToken.symbol);
 
         balanceRepositoryTitle.setText(getActivity().getString(R.string.dividends_balance));
         repositoryBalanceTextView.setText(daoToken.getOwnersBal() + getString(R.string.eth));

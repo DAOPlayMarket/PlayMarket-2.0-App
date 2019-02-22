@@ -1,12 +1,7 @@
 package com.blockchain.store.playmarket.ui.experimental_settings_screen;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +18,9 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ipfs.IPFSDaemon;
 import com.orhanobut.hawk.Hawk;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,19 +40,21 @@ public class ExperimentalSettingsActivity extends AppCompatActivity implements E
     @BindView(R.id.ipfs_auto_start_checkbox) CheckBox ipfs_auto_start_checkbox;
     @BindView(R.id.ipfs_auto_start_holder) LinearLayout ipfs_auto_start_holder;
 
+    @BindView(R.id.ipfs_safe_mode_checkbox) CheckBox ipfs_safe_mode_checkbox;
+    @BindView(R.id.ipfs_safe_mode_holder) LinearLayout ipfs_safe_mode_holder;
+
     @BindView(R.id.init_ipfs_btn) Button init_ipfs_btn;
     @BindView(R.id.start_ipfs_btn) Button startIpfs;
     @BindView(R.id.stop_ipfs_btn) Button stopIpfs;
     @BindView(R.id.layout_holder) LinearLayout rootHolder;
 
     @BindView(R.id.progress_bar) ProgressBar progressBar;
-
     @BindView(R.id.download_ipfs_btn) Button downloadIpfs;
 
     private ExperimentalSettingsPresenter presenter;
-    private BroadcastReceiver broadcastReceiver;
-    private Handler handler = new Handler();
-    private Runnable runnable;
+
+    private TimerTask myTimerTask;
+    private Timer mTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +82,7 @@ public class ExperimentalSettingsActivity extends AppCompatActivity implements E
 
         ipfs_download_holder_checkbox.setChecked(isUserIpfs);
         ipfs_auto_start_checkbox.setChecked(isUseAutoStart);
+        ipfs_safe_mode_checkbox.setChecked(Hawk.get(Constants.IPFS_SAFE_MODE, false));
 
         ipfs_download_holder.setOnClickListener(v -> {
             ipfs_download_holder_checkbox.setChecked(!ipfs_download_holder_checkbox.isChecked());
@@ -91,6 +92,12 @@ public class ExperimentalSettingsActivity extends AppCompatActivity implements E
         ipfs_auto_start_holder.setOnClickListener(v -> {
             ipfs_auto_start_checkbox.setChecked(!ipfs_auto_start_checkbox.isChecked());
             Hawk.put(Constants.IPFS_AUTO_START, ipfs_auto_start_checkbox.isChecked());
+        });
+
+
+        ipfs_safe_mode_holder.setOnClickListener(v -> {
+            ipfs_safe_mode_checkbox.setChecked(!ipfs_safe_mode_checkbox.isChecked());
+            Hawk.put(Constants.IPFS_SAFE_MODE, ipfs_safe_mode_checkbox.isChecked());
         });
     }
 
@@ -150,8 +157,6 @@ public class ExperimentalSettingsActivity extends AppCompatActivity implements E
     @OnClick(R.id.stop_ipfs_btn)
     public void stop_ipfs_btn() {
         stopService(new Intent(this, IpfsDaemonService.class));
-        IPFSDaemon.getIpfsProcess().destroy();
-
         stopIpfs.setEnabled(false);
         startIpfs.setEnabled(true);
 
@@ -202,27 +207,21 @@ public class ExperimentalSettingsActivity extends AppCompatActivity implements E
     }
 
     private void initBroadCast() {
-        runnable = () -> presenter.loadIpfsData();
-        broadcastReceiver = new BroadcastReceiver() {
+        mTimer = new Timer();
+        myTimerTask = new TimerTask() {
             @Override
-            public void onReceive(Context context, Intent intent) {
-                Log.d(TAG, "onReceive() called with: context = [" + context + "], intent = [" + intent + "]");
-                if (intent.getAction() != null && intent.getAction().equalsIgnoreCase(IpfsDaemonService.ACTION_START)) {
-                    handler.postDelayed(runnable, 5500);
-                } else {
-                    handler.postDelayed(runnable, 500);
-                }
+            public void run() {
+                presenter.loadIpfsData();
             }
+
         };
-        IntentFilter intentFilter = new IntentFilter(IpfsDaemonService.ACTION_START);
-        intentFilter.addAction(IpfsDaemonService.ACTION_STOP);
-        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver, intentFilter);
+        mTimer.scheduleAtFixedRate(myTimerTask, 1000, 1000);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
-        handler.removeCallbacks(runnable);
+        mTimer.cancel();
+        mTimer.purge();
     }
 }
