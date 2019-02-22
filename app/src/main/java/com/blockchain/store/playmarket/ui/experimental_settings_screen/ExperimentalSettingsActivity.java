@@ -84,7 +84,7 @@ public class ExperimentalSettingsActivity extends BaseActivity implements Experi
 
         ipfs_download_holder_checkbox.setChecked(isUserIpfs);
         ipfs_auto_start_checkbox.setChecked(isUseAutoStart);
-        ipfs_safe_mode_checkbox.setChecked(Hawk.get(Constants.IPFS_SAFE_MODE, false));
+        ipfs_safe_mode_checkbox.setChecked(Hawk.get(Constants.IPFS_SAFE_MODE, true));
 
         ipfs_download_holder.setOnClickListener(v -> {
             ipfs_download_holder_checkbox.setChecked(!ipfs_download_holder_checkbox.isChecked());

@@ -32,7 +32,7 @@ public class BaseActivity extends AppCompatActivity {
         LocaleUtils.removeActivity(this);
         if (LocaleUtils.getActivities().isEmpty()) {
             Log.d(TAG, "onStop: ");
-            if (Hawk.get(Constants.IPFS_SAFE_MODE, false))
+            if (Hawk.get(Constants.IPFS_SAFE_MODE, true))
                 stopService(new Intent(this, IpfsDaemonService.class));
         }
     }
