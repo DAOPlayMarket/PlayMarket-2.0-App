@@ -33,19 +33,20 @@ import com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragm
 import com.blockchain.store.dao.ui.votes_screen.proposal_creation_screen.ProposalCreationFragment;
 import com.blockchain.store.dao.ui.votes_screen.voting_screen.VotingFragment;
 import com.blockchain.store.playmarket.Application;
+import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.broadcasts.InstallPackageReceiver;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
-import com.blockchain.store.playmarket.services.IpfsDaemonService;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.change_account_screen.ChangeAccountFragment;
 import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
+import com.blockchain.store.playmarket.ui.pex_screen.DappActivity;
 import com.blockchain.store.playmarket.ui.pex_screen.PexActivity;
 import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
 import com.blockchain.store.playmarket.ui.token_transfer_screen.TokenTransferFragment;
@@ -259,7 +260,11 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
 
     @OnClick(R.id.exchange_tab)
     void onExchangeTabClicked() {
-        startActivity(new Intent(this, PexActivity.class));
+        if (BuildConfig.BUILD_TYPE.contentEquals("mainnet")) {
+            startActivity(new Intent(this, PexActivity.class));
+        } else {
+            startActivity(new Intent(this, DappActivity.class));
+        }
     }
 
     @OnClick(R.id.error_view_repeat_btn)

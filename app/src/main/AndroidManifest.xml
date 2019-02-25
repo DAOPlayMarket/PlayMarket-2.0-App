@@ -20,7 +20,6 @@
     <application
         android:name=".Application"
         android:allowBackup="false"
-
         android:fullBackupOnly="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -32,7 +31,8 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label,allowBackup">
-        <activity android:name=".ui.experimental_settings_screen.IpfsConfigActivity"></activity>
+        <activity android:name=".ui.pex_screen.DappActivity"></activity>
+        <activity android:name=".ui.experimental_settings_screen.IpfsConfigActivity" />
         <activity android:name=".ui.experimental_settings_screen.ExperimentalSettingsActivity" />
         <activity android:name=".ui.all_reviews_screen.AllReviewsActivity" />
         <activity android:name=".ui.qr_screen.QrActivity" />
