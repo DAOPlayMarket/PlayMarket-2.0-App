@@ -14,8 +14,11 @@ import java.util.ArrayList;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subjects.PublishSubject;
 
 public class UserBalanceRepository {
+    PublishSubject subject = PublishSubject.create();
+
 
     public Observable<UserBalance> getUserBalance(String accountAddress) {
         return RestApi.getServerApi().getBalance(accountAddress)

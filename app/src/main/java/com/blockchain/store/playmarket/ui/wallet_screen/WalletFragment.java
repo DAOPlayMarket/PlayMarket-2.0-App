@@ -45,7 +45,6 @@ import butterknife.OnClick;
 
 public class WalletFragment extends Fragment implements NavigationViewContract.View {
 
-
     private static final String TAG = "WalletFragment";
 
     @BindView(R.id.close_button) ImageView close_button;
