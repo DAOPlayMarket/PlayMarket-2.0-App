@@ -17,11 +17,12 @@ import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import wendu.dsbridge.DWebView;
 
 public class DappActivity extends AppCompatActivity {
     private static final String TAG = "DappActivity";
 
-    @BindView(R.id.web_view) WebView webView;
+    @BindView(R.id.web_view) DWebView webView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
 
     @Override
@@ -30,19 +31,19 @@ public class DappActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dapp);
         ButterKnife.bind(this);
         setWebView();
+        setWebViewHandlers();
 
     }
 
+    private void setWebViewHandlers() {
+
+//        webView.
+//        webView.callHandler(, );
+    }
+
     private void setWebView() {
-        webView.getSettings().setAppCachePath(getCacheDir().getAbsolutePath());
-        webView.getSettings().setAllowFileAccess(true);
-        webView.getSettings().setAppCacheEnabled(true);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setDomStorageEnabled(true);
-        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-        webView.getSettings().setAllowFileAccessFromFileURLs(true);
-        webView.getSettings().setAllowFileAccess(true);
-        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+
+        DWebView.setWebContentsDebuggingEnabled(true);
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onPermissionRequest(PermissionRequest request) {
