@@ -20,7 +20,9 @@ import com.blockchain.store.playmarket.data.entities.UserBalance;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
 import com.blockchain.store.playmarket.ui.about_screen.AboutAppActivity;
 import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
+import com.blockchain.store.playmarket.ui.pex_screen.DappActivity;
 import com.blockchain.store.playmarket.ui.settings_screen.SettingsActivity;
+import com.blockchain.store.playmarket.utilities.Constants;
 
 import java.util.List;
 
@@ -35,6 +37,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
     @BindView(R.id.library_layout) LinearLayout libraryLayout;
     @BindView(R.id.settings_layout) LinearLayout settingsLayout;
+    @BindView(R.id.dapps_layout) LinearLayout dappsLayout;
     @BindView(R.id.about_layout) LinearLayout aboutLayout;
     @BindView(R.id.ether_count) TextView balanceView;
     @BindView(R.id.error_view_repeat_btn) Button errorBtn;
@@ -64,6 +67,9 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     }
 
     private void setViews() {
+        if (Constants.IS_MAINNET_BUILD) {
+            dappsLayout.setVisibility(View.GONE);
+        }
         //userAddress.setText(AccountManager.getFormattedAddress());
         //avatarImage.setImageBitmap(QrUtils.getBitmapQrFromAddress(AccountManager.getAddress().getHex(), QrUtils.QR_SIZE.SMALL));
         //swipeRefreshLayout.setOnRefreshListener(this);
@@ -117,6 +123,12 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     void onAboutClicked() {
         closeDrawers();
         startActivity(new Intent(getActivity(), AboutAppActivity.class));
+    }
+
+    @OnClick(R.id.dapps_layout)
+    void onDAppsLayout() {
+        closeDrawers();
+        startActivity(new Intent(getActivity(), DappActivity.class));
     }
 
     @Override

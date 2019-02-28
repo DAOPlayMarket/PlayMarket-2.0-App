@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
@@ -154,6 +155,7 @@ public class MyPackageManager {
         } else {
             intent.setDataAndType(Uri.parse("file://" + file), "application/vnd.android.package-archive");
         }
+
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         Application.getInstance().getApplicationContext().startActivity(intent);

@@ -123,6 +123,7 @@ public class RestApi {
 
         SERVER_ENDPOINT = NODE_PREFIX + serverEndpoint + PLAYMARKET_BASE_URL;
         SERVER_ENDPOINT_WITHOUT_POST = NODE_PREFIX + serverEndpoint + PLAYMARKET_BASE_URL;
+        Hawk.put(Constants.LAST_KNOWN_NODE_ADDRESS,SERVER_ENDPOINT_WITHOUT_POST);
         BASE_URL = SERVER_ENDPOINT + "/api/";
         ICON_URL = SERVER_ENDPOINT + "/data/";
     }

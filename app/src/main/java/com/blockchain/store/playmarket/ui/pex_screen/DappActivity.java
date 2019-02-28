@@ -61,7 +61,7 @@ public class DappActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
             }
         });
-        webView.loadUrl("http://192.168.88.230:8080/");
+        webView.loadUrl("https://dapps.trustwallet.com//");
     }
 
     @Override

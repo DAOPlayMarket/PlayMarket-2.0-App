@@ -469,5 +469,7 @@
         <item>Sent ethereum</item>
         <item>Venus</item>
     </string-array>
+    <string name="title_dynamic_feature">Module Title</string>
+    <string name="dapps">DApps</string>
 
 </resources>

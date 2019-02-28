@@ -78,6 +78,24 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/dapps_layout"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/nav_drawer_menu_height"
+        android:layout_marginBottom="@dimen/navigation_view_indents"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/navViewImageItem"
+            android:src="@drawable/daopmlogo" />
+
+        <TextView
+            style="@style/navViewTextItem"
+            android:text="@string/dapps" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/settings_layout"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/nav_drawer_menu_height"

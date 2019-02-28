@@ -11,6 +11,8 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.ui.webview_screen.WebViewActivity;
 import com.blockchain.store.playmarket.utilities.BaseActivity;
+import com.blockchain.store.playmarket.utilities.Constants;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.Calendar;
 
@@ -45,9 +47,10 @@ public class AboutAppActivity extends BaseActivity {
     }
 
     private void setVersion() {
+        String serverEndpoint = Hawk.get(Constants.LAST_KNOWN_NODE_ADDRESS, "");
         StringBuilder versionText = new StringBuilder();
         versionText.append("ver. ").append(BuildConfig.VERSION_NAME).append("\n");
-        versionText.append("Node address: \n").append(RestApi.SERVER_ENDPOINT_WITHOUT_POST);
+        versionText.append("Node address: \n").append(serverEndpoint);
         version.setText(versionText);
     }
 

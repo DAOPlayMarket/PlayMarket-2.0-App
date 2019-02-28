@@ -10,6 +10,8 @@ import static com.blockchain.store.playmarket.api.RestApi.SERVER_ENDPOINT_WITHOU
 
 public class Constants {
 
+    public static boolean IS_MAINNET_BUILD = BuildConfig.BUILD_TYPE.contentEquals("mainnet");
+
     /* Job service extra*/
     public static String JOB_HASH_EXTRA = "job_hash_extra";
     public static String JOB_APP_ID = "job_app_id";
@@ -112,7 +114,7 @@ public class Constants {
     public static final int DOWNLOAD_APPS_PER_REQUEST = 40;
     public static final int GAS_LIMIT = 200_000;
 
-    public static final int USER_ETHERSCAN_ID = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? 1 : 4);
+    public static final int USER_ETHERSCAN_ID = (IS_MAINNET_BUILD ? 1 : 4);
 
 
     public static final String DOWNLOAD_SERVICE_APP_EXTRA = "download_service_app_extra";
@@ -127,11 +129,11 @@ public class Constants {
     /* Transaction prefs */
     public static final String PLAY_MARKET_ADDRESS_TESTNET = "0x5245b2014e888b93418688cb9c9477b1b65c4630";
     public static final String PLAY_MARKET_ADDRESS_MAINNET = "0x839ea7b29be3075a463cab3b065a828d8c37cfaf";
-    public static final String PLAY_MARKET_ADDRESS = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? PLAY_MARKET_ADDRESS_MAINNET : PLAY_MARKET_ADDRESS_TESTNET);
+    public static final String PLAY_MARKET_ADDRESS = (IS_MAINNET_BUILD ? PLAY_MARKET_ADDRESS_MAINNET : PLAY_MARKET_ADDRESS_TESTNET);
 
     public static final String ETHER_SCAN_TX_URL_TESTNET = "https://rinkeby.etherscan.io/tx/";
     public static final String ETHER_SCAN_TX_URL_MAINNET = "https://etherscan.io/tx";
-    public static final String ETHER_SCAN_TX_URL = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? ETHER_SCAN_TX_URL_MAINNET : ETHER_SCAN_TX_URL_TESTNET);
+    public static final String ETHER_SCAN_TX_URL = (IS_MAINNET_BUILD ? ETHER_SCAN_TX_URL_MAINNET : ETHER_SCAN_TX_URL_TESTNET);
 
     public static final String CRYPTO_DUEL_CONTRACT_CROWDSALE = "0x2ab54369795266fc84e12270A0219d2e7d21F70f";
     public static final String CRYPTO_DUEL_CONTRACT = "0x869eb8a1a479a80f9907673eae8336625dc3e526";
@@ -184,13 +186,14 @@ public class Constants {
     public static final String PAX_URL_MAINNET = "https://dex.playmarket.io/";
     public static final String PAX_URL_TESTNET = "https://testdex.playmarket.io/";
     public static final String DOWNLOAD_APP_URL = SERVER_ENDPOINT_WITHOUT_POST + "/api/download-app?idApp=";
-    public static final String PAX_URL = (BuildConfig.BUILD_TYPE.contentEquals("mainnet") ? PAX_URL_MAINNET : PAX_URL_TESTNET);
+    public static final String PAX_URL = (IS_MAINNET_BUILD ? PAX_URL_MAINNET : PAX_URL_TESTNET);
 
     /*Settings prefs*/
     public static final String CURRENT_CURRENCY = "current_currency";
     public static final String SETTINGS_AUTOINSTALL_FLAG = "settings_autoinstall_flag";
     public static final String BASE_URL = "base_url_extra";
     public static final String DOWNLOAD_NEW_VERSION_WITHOUT_PROMPT = "download_new_version_without_prompt";
+    public static final String LAST_KNOWN_NODE_ADDRESS = "last_known_node_address";
 
 
     public static final String SETTINGS_SHOW_UPDATE_NOTIFICATION = "SETTINGS_SHOW_UPDATE_NOTIFICATION";
