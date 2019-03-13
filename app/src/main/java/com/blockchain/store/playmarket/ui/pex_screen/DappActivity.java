@@ -4,38 +4,33 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
-import android.webkit.PermissionRequest;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.blockchain.store.dao.interfaces.Callbacks;
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.dapps.Web3View;
 import com.blockchain.store.playmarket.utilities.AccountManager;
-import com.blockchain.store.playmarket.utilities.DialogManager;
-import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
+import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
+import com.google.gson.JsonArray;
 
-import java.util.HashMap;
+import org.ethereum.geth.Transaction;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import wendu.dsbridge.CompletionHandler;
 import wendu.dsbridge.DWebView;
-import wendu.dsbridge.OnReturnValue;
 
 public class DappActivity extends AppCompatActivity {
     private static final String TAG = "DappActivity";
 
-    @BindView(R.id.web_view) DWebView webView;
+    @BindView(R.id.web_view) Web3View webView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
-    @BindView(R.id.button) Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,50 +38,15 @@ public class DappActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dapp);
         ButterKnife.bind(this);
         setWebView();
-        setWebViewHandlers();
-
-    }
-
-    private void setWebViewHandlers() {
     }
 
     private void setWebView() {
-
         DWebView.setWebContentsDebuggingEnabled(true);
         webView.addJavascriptObject(new JsApi(this), "");
-        webView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onPermissionRequest(PermissionRequest request) {
-                request.grant(PermissionUtils.getPermissionsLocation());
-            }
-
-            @Override
-            public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
-                callback.invoke(origin, true, false);
-            }
-        });
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                progressBar.setVisibility(View.GONE);
-            }
-        });
 //        webView.addJavascriptInterface();
         webView.loadUrl("http://192.168.88.230:8080");
+//        webView.loadUrl("https://playtowin.io/");
 //        webView.loadUrl("https://smartz.io/");
-    }
-
-    @OnClick(R.id.button)
-    void onButtonClicked() {
-        HashMap<String, String> stringStringHashMap = new HashMap<>();
-        stringStringHashMap.put("key", "value");
-        webView.callHandler("test", new Object[]{stringStringHashMap}, new OnReturnValue<Object>() {
-            @Override
-            public void onValue(Object retValue) {
-                Log.d(TAG, "onClick() called with: retValue = [" + retValue + "]");
-            }
-        });
     }
 
     @Override
@@ -106,12 +66,15 @@ public class DappActivity extends AppCompatActivity {
         }
 
         @JavascriptInterface
-        public void getAddress(Object abc, CompletionHandler handler) {
-            handler.complete(AccountManager.getAddress().getHex());
+        public void getAccounts(Object abc, CompletionHandler handler) {
+            Log.d(TAG, "getAccounts() called with: handler = [" + handler + "]" + abc);
+            handler.complete(AccountManager.getAccount().getAddress().getHex());
         }
+
 
         @JavascriptInterface
         public void signTx(Object tx, CompletionHandler handler) {
+            Log.d(TAG, "signTx() called with: tx = [" + tx + "], handler = [" + handler + "]");
             Toast.makeText(context, tx + " received", Toast.LENGTH_SHORT).show();
             /*
             1. show dialog;
@@ -127,6 +90,23 @@ public class DappActivity extends AppCompatActivity {
 //            });
 
             handler.complete(tx);
+        }
+
+
+        @JavascriptInterface
+        public void sendTransaction(Object tx, CompletionHandler handler) {
+            Log.d(TAG, "sendTransaction() called with: tx = [" + tx + "], handler = [" + handler + "]");
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(tx.toString());
+                Transaction transaction = new Transaction(jsonObject.toString());
+                Log.d(TAG, "sendTransaction: ");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            handler.complete("0x3e386e93cd9be7eda8e6780de46990b89a69f1157c45e7b4626cbc7e39e9037d");
+
         }
     }
 }

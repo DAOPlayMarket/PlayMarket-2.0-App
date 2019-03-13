@@ -58,7 +58,7 @@ public class DownloadService extends IntentService {
         Builders.Any.B ionBuilder;
         if (IPFSDaemon.getIpfsProcess() != null && Hawk.get(Constants.IS_USE_IPFS_TO_DOWNLOAD, true)) {
             showToast("download via IPFS");
-            String ipfsLoadUrl = "http://127.0.0.1:8080/ipfs/" + app.hash + "/" + app.files.apk;
+            String ipfsLoadUrl = "https://127.0.0.1:8080/ipfs/" + app.hash + "/" + app.files.apk;
             ionBuilder = Ion.with(getBaseContext())
                     .load(ipfsLoadUrl);
         } else {
