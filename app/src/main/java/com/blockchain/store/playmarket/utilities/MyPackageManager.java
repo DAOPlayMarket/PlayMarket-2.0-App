@@ -148,7 +148,7 @@ public class MyPackageManager {
 
     public void installApkByFile(File file) {
         Context applicationContext = Application.getInstance().getApplicationContext();
-        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Intent intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
         if (BuildUtils.shouldUseContentUri()) {
             intent.setDataAndType(FileProvider.getUriForFile(applicationContext,
                     applicationContext.getPackageName() + ".contentprovider", file), "application/vnd.android.package-archive");

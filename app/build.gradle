@@ -54,6 +54,18 @@ android {
             minifyEnabled false
         }
 
+        bundle {
+            language {
+                enableSplit = false
+            }
+            density {
+                enableSplit = true
+            }
+            abi {
+                enableSplit = true
+            }
+        }
+
         applicationVariants.all { variant ->
             variant.outputs.all { output ->
                 def buildType = variant.variantData.variantConfiguration.buildType.name

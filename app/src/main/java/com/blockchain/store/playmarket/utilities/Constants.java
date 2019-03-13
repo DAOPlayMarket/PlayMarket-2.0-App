@@ -211,8 +211,8 @@ public class Constants {
     public static final String IPFS_AUTO_START = "is_use_auto_start";
     public static final String IPFS_SAFE_MODE = "ipfs_safe_mode";
 
-    public static final String IPFS_BINARIES_PATH_ARM = "https://ipfs.io/ipfs/QmRQYQgw3qtfhaXm9vSdvbXfUEBwyAifJ72hSaPcUH4fZX/arm.zip";
-    public static final String IPFS_BINARIES_PATH_X86 = "https://ipfs.io/ipfs/QmRQYQgw3qtfhaXm9vSdvbXfUEBwyAifJ72hSaPcUH4fZX/x86.zip";
+    public static final String IPFS_BINARIES_PATH_ARM = "https://ipfs.io/ipfs/QmejXkNPNFqgX4i6R8cakgvRbpPTqdfJYVsScdF5zg7eTj/arm.zip";
+    public static final String IPFS_BINARIES_PATH_X86 = "https://ipfs.io/ipfs/QmejXkNPNFqgX4i6R8cakgvRbpPTqdfJYVsScdF5zg7eTj/x86.zip";
 
 
 }

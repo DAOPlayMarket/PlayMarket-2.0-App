@@ -260,11 +260,7 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
 
     @OnClick(R.id.exchange_tab)
     void onExchangeTabClicked() {
-        if (BuildConfig.BUILD_TYPE.contentEquals("mainnet")) {
-            startActivity(new Intent(this, PexActivity.class));
-        } else {
-            startActivity(new Intent(this, DappActivity.class));
-        }
+        startActivity(new Intent(this, PexActivity.class));
     }
 
     @OnClick(R.id.error_view_repeat_btn)
