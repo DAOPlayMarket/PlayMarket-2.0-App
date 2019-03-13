@@ -13,4 +13,6 @@ public class Web3View extends DWebView {
     public Web3View(Context context) {
         super(context);
     }
+
+
 }
