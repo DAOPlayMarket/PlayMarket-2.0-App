@@ -118,7 +118,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:visibility="visible"
-        android:weightSum="4">
+        android:weightSum="5">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
@@ -133,6 +133,36 @@
             app:tabTextColor="@color/tab_text_color" />
 
         <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/dapps_tab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/dapps"
+                android:tint="#707070" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="4dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/dapps"
+                android:textAppearance="@style/tabTextAppearance"
+                android:textColor="@color/tab_text_color"
+                android:visibility="visible" />
+
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/exchange_tab"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -143,9 +173,9 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="18dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_width="20dp"
+                android:layout_height="22dp"
+                android:layout_marginTop="8dp"
                 android:src="@drawable/icon_exchange"
                 android:tint="#707070" />
 

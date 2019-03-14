@@ -472,4 +472,7 @@
     <string name="title_dynamic_feature">Module Title</string>
     <string name="dapps">DApps</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

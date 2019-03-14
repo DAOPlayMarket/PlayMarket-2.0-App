@@ -11,15 +11,9 @@ import android.widget.Toast;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.dapps.Web3View;
 import com.blockchain.store.playmarket.utilities.AccountManager;
-import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
-import com.google.gson.JsonArray;
 
 import org.ethereum.geth.Transaction;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,11 +36,11 @@ public class DappActivity extends AppCompatActivity {
 
     private void setWebView() {
         DWebView.setWebContentsDebuggingEnabled(true);
+        webView.setChainId(4);
         webView.addJavascriptObject(new JsApi(this), "");
-//        webView.addJavascriptInterface();
-        webView.loadUrl("http://192.168.88.230:8080");
-//        webView.loadUrl("https://playtowin.io/");
-//        webView.loadUrl("https://smartz.io/");
+        webView.loadUrl("https://dapps.playmarket.io/");
+        //webView.loadUrl("https://testdex.playmarket.io/");
+//        webView.loadUrl("http://192.168.88.230:8080/");
     }
 
     @Override
@@ -67,7 +61,7 @@ public class DappActivity extends AppCompatActivity {
 
         @JavascriptInterface
         public void getAccounts(Object abc, CompletionHandler handler) {
-            Log.d(TAG, "getAccounts() called with: handler = [" + handler + "]" + abc);
+            Log.d(TAG, "getAccounts() called with: handler = [" + AccountManager.getAccount().getAddress().getHex() + "]" + abc);
             handler.complete(AccountManager.getAccount().getAddress().getHex());
         }
 

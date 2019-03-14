@@ -67,9 +67,9 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     }
 
     private void setViews() {
-        if (Constants.IS_MAINNET_BUILD) {
+//        if (Constants.IS_MAINNET_BUILD) {
             dappsLayout.setVisibility(View.GONE);
-        }
+//        }
         //userAddress.setText(AccountManager.getFormattedAddress());
         //avatarImage.setImageBitmap(QrUtils.getBitmapQrFromAddress(AccountManager.getAddress().getHex(), QrUtils.QR_SIZE.SMALL));
         //swipeRefreshLayout.setOnRefreshListener(this);

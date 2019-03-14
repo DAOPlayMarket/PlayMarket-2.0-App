@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.Constants;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -81,6 +82,12 @@ class JsInjectorClient {
 
     String assembleJs(Context context, String template) {
         if (TextUtils.isEmpty(jsLibrary)) {
+            if(Constants.IS_MAINNET_BUILD){
+
+            } else {
+
+            }
+//            jsLibrary = loadFile(context, R.raw.bundlerinkeby);
             jsLibrary = loadFile(context, R.raw.bundle);
         }
         String initJs = loadInitJs(context);

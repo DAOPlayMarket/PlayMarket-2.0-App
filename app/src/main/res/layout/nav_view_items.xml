@@ -87,8 +87,10 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:scaleX="1"
+            android:scaleY="1"
             style="@style/navViewImageItem"
-            android:src="@drawable/daopmlogo" />
+            android:src="@drawable/dapps" />
 
         <TextView
             style="@style/navViewTextItem"

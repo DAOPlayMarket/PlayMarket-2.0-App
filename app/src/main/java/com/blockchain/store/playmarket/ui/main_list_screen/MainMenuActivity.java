@@ -33,7 +33,6 @@ import com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragm
 import com.blockchain.store.dao.ui.votes_screen.proposal_creation_screen.ProposalCreationFragment;
 import com.blockchain.store.dao.ui.votes_screen.voting_screen.VotingFragment;
 import com.blockchain.store.playmarket.Application;
-import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.broadcasts.InstallPackageReceiver;
 import com.blockchain.store.playmarket.data.entities.App;
@@ -210,6 +209,7 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
             viewPagerAdapter.addFragment(MainMenuFragment.newInstance(category), capitalizeCategoryName);
         }
         viewPagerAdapter.addFragment(new IcoFragment(), getString(R.string.fragment_ico_title));
+        viewPagerAdapter.addFragment(new DappsFragment(), getString(R.string.dapps));
 
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOffscreenPageLimit(3);
@@ -217,6 +217,9 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
         tabLayout.getTabAt(0).setIcon(getResources().getDrawable(R.drawable.apps_icon)).setText(R.string.category_apps);
         tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.games_icon)).setText(R.string.category_games);
         tabLayout.getTabAt(2).setIcon(getResources().getDrawable(R.drawable.ico_icon)).setText(R.string.category_sto);
+        tabLayout.getTabAt(3).setIcon(getResources().getDrawable(R.drawable.dapps)).setText(R.string.dapps);
+
+
         removeIconMargin(tabLayout);
     }
 
@@ -261,6 +264,11 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
     @OnClick(R.id.exchange_tab)
     void onExchangeTabClicked() {
         startActivity(new Intent(this, PexActivity.class));
+    }
+
+    @OnClick(R.id.dapps_tab)
+    void onDappsTabClicked() {
+        startActivity(new Intent(this, DappActivity.class));
     }
 
     @OnClick(R.id.error_view_repeat_btn)
