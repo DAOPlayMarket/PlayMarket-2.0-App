@@ -46,6 +46,7 @@ import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
 import com.blockchain.store.playmarket.ui.pex_screen.DappActivity;
+import com.blockchain.store.playmarket.ui.pex_screen.DappsFragment;
 import com.blockchain.store.playmarket.ui.pex_screen.PexActivity;
 import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
 import com.blockchain.store.playmarket.ui.token_transfer_screen.TokenTransferFragment;
