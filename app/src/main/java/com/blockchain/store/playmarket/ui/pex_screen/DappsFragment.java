@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +71,22 @@ public class DappsFragment extends Fragment {
             topLayout.setVisibility(View.GONE);
         }
         setWebView();
+        initEdittext();
         return view;
+    }
+
+    private void initEdittext() {
+        urlField.setOnKeyListener((v, keyCode, event) -> {
+            if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                    (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                String url = urlField.getText().toString();
+                if (!url.trim().isEmpty()) {
+                    webView.loadUrl(urlField.getText().toString());
+                }
+                return true;
+            }
+            return false;
+        });
     }
 
     private void setWebView() {

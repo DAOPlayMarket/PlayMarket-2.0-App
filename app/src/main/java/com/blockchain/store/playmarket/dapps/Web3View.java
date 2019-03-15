@@ -84,7 +84,7 @@ public class Web3View extends DWebView {
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setDomStorageEnabled(true);
 
-        super.setWebViewClient(webViewClient);
+        setWebViewClient(webViewClient);
     }
 
     public void setChainId(int chainId) {
