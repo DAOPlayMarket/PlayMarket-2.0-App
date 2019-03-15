@@ -8,26 +8,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.blockchain.store.dao.interfaces.Callbacks;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.dapps.Web3View;
+import com.blockchain.store.playmarket.data.entities.DappTransaction;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
+import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
+import com.google.gson.Gson;
 
-import org.ethereum.geth.Address;
-import org.ethereum.geth.BigInt;
 import org.ethereum.geth.Transaction;
-import org.json.JSONObject;
-import org.web3j.tx.TransactionManager;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.Web3jFactory;
+import org.web3j.protocol.core.methods.response.EthSendTransaction;
+import org.web3j.protocol.http.HttpService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import wendu.dsbridge.CompletionHandler;
-import wendu.dsbridge.DWebView;
+
+import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA;
 
 
 public class DappsFragment extends Fragment {
@@ -36,8 +45,12 @@ public class DappsFragment extends Fragment {
 
     @BindView(R.id.web_view) Web3View webView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.browser_top_layout) LinearLayout topLayout;
+    @BindView(R.id.webview_url_field) EditText urlField;
+    @BindView(R.id.webview_home_field) TextView homeField;
 
     private boolean isOpenForDex = false;
+    private Web3j web3j = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
 
     public static DappsFragment newInstance() {
         Bundle args = new Bundle();
@@ -54,23 +67,42 @@ public class DappsFragment extends Fragment {
         ButterKnife.bind(this, view);
         if (getArguments() != null) {
             isOpenForDex = getArguments().getBoolean(IS_OPEN_FOR_DEX_KEY, false);
+            topLayout.setVisibility(View.GONE);
         }
         setWebView();
         return view;
     }
 
     private void setWebView() {
-        DWebView.setWebContentsDebuggingEnabled(true);
-        webView.setChainId(4);
         webView.addJavascriptObject(new JsApi(getActivity()), "");
-//        webView.loadUrl("https://dapps.playmarket.io/");
+        webView.setCallback(new Web3View.Web3ViewCallback() {
+            @Override
+            public void onPageStarted(String page) {
+                urlField.setText(page);
+            }
 
+            @Override
+            public void onPageFinished(String page) {
+
+            }
+        });
+        loadDefaultUrl();
+
+    }
+
+    private void loadDefaultUrl() {
         if (isOpenForDex) {
             webView.loadUrl(Constants.PAX_URL);
+
         } else {
-            webView.loadUrl("https://testdex.playmarket.io/");
+            webView.loadUrl("https://dapps.playmarket.io/");
         }
-//        webView.loadUrl("http://192.168.88.230:8080/");
+    }
+
+    @OnClick(R.id.webview_home_field)
+    void onHomeClicked() {
+        webView.clearHistory();
+        loadDefaultUrl();
     }
 
 //    @Override
@@ -99,43 +131,41 @@ public class DappsFragment extends Fragment {
         @JavascriptInterface
         public void signTx(Object tx, CompletionHandler handler) {
             Log.d(TAG, "signTx() called with: tx = [" + tx + "], handler = [" + handler + "]");
-            Toast.makeText(context, tx + " received", Toast.LENGTH_SHORT).show();
-            /*
-            1. show dialog;
-            2. sign tx
-            *
-            * */
-
-//
-
-            handler.complete("0x7efebda7e647161a908c48aaa06243dff64fb20cd6b7ad4d377abad6e63419d2");
+            handler.complete();
         }
 
 
         @JavascriptInterface
         public void sendTransaction(Object tx, CompletionHandler handler) {
-
             Log.d(TAG, "sendTransaction() called with: tx = [" + tx + "], handler = [" + handler + "]");
-            JSONObject jsonObject = null;
-            try {
-
-                Transaction transaction2 = new Transaction(jsonObject.toString());
-                Log.d(TAG, "sendTransaction: ");
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
             new DialogManager().showConfirmDialog(context, new Callbacks.PasswordCallback() {
                 @Override
                 public void onAccountUnlock(Boolean isUnlock) {
-
+                    DappTransaction dappTransaction = new Gson().fromJson(tx.toString(), DappTransaction.class);
+                    try {
+                        Transaction tx = dappTransaction.createTx();
+                        sendRawTransaction(tx, handler);
+                    } catch (Exception e) {
+                        handler.complete(e.getMessage());
+                        e.printStackTrace();
+                    }
                 }
             });
-
-            handler.complete("0x7efebda7e647161a908c48aaa06243dff64fb20cd6b7ad4d377abad6e63419d2");
-
         }
+    }
+
+    private void sendRawTransaction(Transaction tx, CompletionHandler handler) {
+        web3j.ethSendRawTransaction("0x" + CryptoUtils.getRawTransaction(tx)).observable()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> onTxSend(result, handler), error -> onTxFailed(error, handler));
+    }
+
+    private void onTxSend(EthSendTransaction ethSendTransaction, CompletionHandler handler) {
+        handler.complete(ethSendTransaction.getTransactionHash());
+    }
+
+    private void onTxFailed(Throwable throwable, CompletionHandler handler) {
+        handler.complete(throwable.getMessage());
     }
 }

@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.dapps;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +26,7 @@ import wendu.dsbridge.DWebView;
 public class Web3View extends DWebView {
     private JsInjectorClient jsInjectorClient;
     private Web3ViewClient webViewClient;
+    private Web3ViewCallback callback;
 
     public Web3View(@NonNull Context context) {
         this(context, null);
@@ -39,9 +41,15 @@ public class Web3View extends DWebView {
         init();
     }
 
+    public void setCallback(Web3ViewCallback callback) {
+        this.callback = callback;
+    }
+
+
     @Override
     public void setWebChromeClient(WebChromeClient client) {
         super.setWebChromeClient(client);
+
     }
 
     @androidx.annotation.Nullable
@@ -66,6 +74,7 @@ public class Web3View extends DWebView {
     private void init() {
         jsInjectorClient = new JsInjectorClient(getContext());
         webViewClient = new Web3ViewClient(jsInjectorClient, new UrlHandlerManager());
+        webViewClient.setCallback(callback);
         WebSettings webSettings = super.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
@@ -99,6 +108,22 @@ public class Web3View extends DWebView {
         private final Web3ViewClient internalClient;
         private final WebViewClient externalClient;
         private final JsInjectorClient jsInjectorClient;
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            if (callback != null) {
+                callback.onPageStarted(url);
+            }
+            super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            if (callback != null) {
+                callback.onPageFinished(url);
+            }
+        }
 
         public WrapWebViewClient(Web3ViewClient internalClient, WebViewClient externalClient, JsInjectorClient jsInjectorClient) {
             this.internalClient = internalClient;
@@ -141,5 +166,11 @@ public class Web3View extends DWebView {
             }
             return response;
         }
+    }
+
+    public interface Web3ViewCallback {
+        void onPageStarted(String page);
+
+        void onPageFinished(String page);
     }
 }

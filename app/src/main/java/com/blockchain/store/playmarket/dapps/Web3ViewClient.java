@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.dapps;
 
+import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -25,10 +26,31 @@ public class Web3ViewClient extends WebViewClient {
     private final UrlHandlerManager urlHandlerManager;
 
     private boolean isInjected;
+    private Web3View.Web3ViewCallback callback;
 
     public Web3ViewClient(JsInjectorClient jsInjectorClient, UrlHandlerManager urlHandlerManager) {
         this.jsInjectorClient = jsInjectorClient;
         this.urlHandlerManager = urlHandlerManager;
+    }
+
+    public void setCallback(Web3View.Web3ViewCallback callback) {
+        this.callback = callback;
+    }
+
+    @Override
+    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        if (callback != null) {
+            callback.onPageStarted(url);
+        }
+        super.onPageStarted(view, url, favicon);
+    }
+
+    @Override
+    public void onPageFinished(WebView view, String url) {
+        super.onPageFinished(view, url);
+        if (callback != null) {
+            callback.onPageFinished(url);
+        }
     }
 
     @Override

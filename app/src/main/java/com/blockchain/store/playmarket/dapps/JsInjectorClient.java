@@ -82,13 +82,11 @@ class JsInjectorClient {
 
     String assembleJs(Context context, String template) {
         if (TextUtils.isEmpty(jsLibrary)) {
-            if(Constants.IS_MAINNET_BUILD){
-
+            if (Constants.IS_MAINNET_BUILD) {
+                jsLibrary = loadFile(context, R.raw.bundle);
             } else {
-
+                jsLibrary = loadFile(context, R.raw.bundlerinkeby);
             }
-            jsLibrary = loadFile(context, R.raw.bundlerinkeby);
-//            jsLibrary = loadFile(context, R.raw.bundle);
         }
         String initJs = loadInitJs(context);
         return String.format(template, jsLibrary, initJs);

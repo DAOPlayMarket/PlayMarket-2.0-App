@@ -59,6 +59,7 @@ public class WebViewActivity extends BaseActivity {
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         webView.setWebChromeClient(new WebChromeClient() {
 
+
             @Override
             public void onPermissionRequest(PermissionRequest request) {
                 request.grant(PermissionUtils.getPermissionsLocation());
