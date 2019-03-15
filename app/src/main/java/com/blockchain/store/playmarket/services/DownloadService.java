@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.InstalledAppData;
+import com.blockchain.store.playmarket.installer.SAIPackageInstaller;
+import com.blockchain.store.playmarket.installer.rootless.RootlessSAIPackageInstaller;
 import com.blockchain.store.playmarket.notification.NotificationManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
@@ -23,6 +25,7 @@ import com.orhanobut.hawk.Hawk;
 
 import java.io.File;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 
 import static com.blockchain.store.playmarket.utilities.Constants.BASE_URL;
 import static com.blockchain.store.playmarket.utilities.Constants.DOWNLOAD_APP_URL;
@@ -31,10 +34,11 @@ import static com.blockchain.store.playmarket.utilities.Constants.DOWNLOAD_APP_U
  * Created by Crypton04 on 30.01.2018.
  */
 
-public class DownloadService extends IntentService {
+public class DownloadService extends IntentService implements SAIPackageInstaller.InstallationStatusListener {
     private static final int TIMEOUT_IN_MILLIS = 30000;
     private static final String TAG = "DownloadService";
     private int progress = 0;
+    private SAIPackageInstaller mInstaller;
 
     public DownloadService() {
         super("DownloadService");
@@ -113,12 +117,32 @@ public class DownloadService extends IntentService {
     }
 
     private void installApk(File file) {
-        new MyPackageManager().installApkByFile(file);
+        ArrayList<File> files = new ArrayList<File>();
+        files.add(file);
+        ensureInstallerActuality();
+        mInstaller.startInstallationSession(mInstaller.createInstallationSession(files));
+//        new MyPackageManager().installApkByFile(file);
     }
 
+    private void ensureInstallerActuality() {
+        SAIPackageInstaller actualInstaller = RootlessSAIPackageInstaller.getInstance(DownloadService.this);
+        if (actualInstaller != mInstaller) {
+            if (mInstaller != null)
+                mInstaller.removeStatusListener(this);
+
+            mInstaller = actualInstaller;
+            mInstaller.addStatusListener(this);
+//            mState.setValue(mInstaller.isInstallationInProgress() ? InstallerState.INSTALLING : InstallerState.IDLE);
+        }
+    }
 
     private void showToast(String text) {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(() -> Toast.makeText(DownloadService.this, text, Toast.LENGTH_SHORT).show());
+    }
+
+    @Override
+    public void onStatusChanged(long installationID, SAIPackageInstaller.InstallationStatus status, @androidx.annotation.Nullable String packageNameOrErrorDescription) {
+
     }
 }

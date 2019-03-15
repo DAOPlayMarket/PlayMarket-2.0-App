@@ -247,4 +247,14 @@ public class MyPackageManager {
             return false;
         }
     }
+
+    public static String getAppLabel(Context c, String packageName) {
+        try {
+            PackageManager pm = c.getPackageManager();
+            ApplicationInfo appInfo = pm.getApplicationInfo(packageName, 0);
+            return pm.getApplicationLabel(appInfo).toString();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

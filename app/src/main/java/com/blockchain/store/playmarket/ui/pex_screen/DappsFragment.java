@@ -11,13 +11,18 @@ import android.webkit.JavascriptInterface;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.blockchain.store.dao.interfaces.Callbacks;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.dapps.Web3View;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.blockchain.store.playmarket.utilities.DialogManager;
 
+import org.ethereum.geth.Address;
+import org.ethereum.geth.BigInt;
 import org.ethereum.geth.Transaction;
 import org.json.JSONObject;
+import org.web3j.tx.TransactionManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -101,30 +106,35 @@ public class DappsFragment extends Fragment {
             *
             * */
 
-//            new DialogManager().showConfirmDialog(context, new Callbacks.PasswordCallback() {
-//                @Override
-//                public void onAccountUnlock(Boolean isUnlock) {
 //
-//                }
-//            });
 
-            handler.complete(tx);
+            handler.complete("0x7efebda7e647161a908c48aaa06243dff64fb20cd6b7ad4d377abad6e63419d2");
         }
 
 
         @JavascriptInterface
         public void sendTransaction(Object tx, CompletionHandler handler) {
+
             Log.d(TAG, "sendTransaction() called with: tx = [" + tx + "], handler = [" + handler + "]");
             JSONObject jsonObject = null;
             try {
-                jsonObject = new JSONObject(tx.toString());
-                Transaction transaction = new Transaction(jsonObject.toString());
+
+                Transaction transaction2 = new Transaction(jsonObject.toString());
                 Log.d(TAG, "sendTransaction: ");
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            handler.complete("0x3e386e93cd9be7eda8e6780de46990b89a69f1157c45e7b4626cbc7e39e9037d");
+
+            new DialogManager().showConfirmDialog(context, new Callbacks.PasswordCallback() {
+                @Override
+                public void onAccountUnlock(Boolean isUnlock) {
+
+                }
+            });
+
+            handler.complete("0x7efebda7e647161a908c48aaa06243dff64fb20cd6b7ad4d377abad6e63419d2");
 
         }
     }

@@ -465,14 +465,31 @@
     <string name="show_config_file">Show IPFS config</string>
     <string name="ipfs_safe_mode_title">Shutdown IPFS when app is closed</string>
 
-    <string-array name="contract_functions">
-        <item>Sent ethereum</item>
-        <item>Venus</item>
-    </string-array>
-    <string name="title_dynamic_feature">Module Title</string>
-    <string name="dapps">DApps</string>
+    <!-- Installer strings-->
+    <string name="installer_installation_failed">App not installed</string>
+    <string name="installer_installation_in_progress">Installing…</string>
+    <string name="installer_install_apks">Install APKs</string>
+    <string name="installer_pick_apks">Select APKs to install</string>
+    <string name="installer_app_installed">App installed</string>
+    <string name="installer_open">Open</string>
+    <string name="installer_app_installed_full">%s has been installed</string>
+    <string name="installer_no_root">Unable to acquire root access, proceeding with rootless installer</string>
+    <string name="installer_error_generic">Installation failed</string>
+    <string name="installer_error_aborted">Installation was cancelled by user</string>
+    <string name="installer_error_blocked">Installation was blocked by %s</string>
+    <string name="installer_error_blocked_device">device</string>
+    <string name="installer_error_conflict">Unable to install the app because it conflicts with an already installed app with same package name</string>
+    <string name="installer_error_incompatible">Application is incompatible with this device</string>
+    <string name="installer_error_bad_apks">Invalid APK files selected</string>
+    <string name="installer_error_storage">Not enough storage space to install the app</string>
+    <string name="installer_error_lidl_rom">Your ROM is incompatible with rootless installer. Try enabling rooted installer in SAI settings if you have root</string>
+    <string name="installer_error_root">Rooted installer error:\n\n %s</string>
+    <string name="installer_error_root_no_root">Unable to acquire root access, please disable \"Use root\" preference</string>
+    <string name="installer_error_while_extracting">Error while extracting APK files from ZIP: %s</string>
+    <string name="installer_error_zip_contains_non_apks">ZIP contains non-apk files</string>
+    <string name="installer_error_mixed_extensions">You must select either a single ZIP or multiple APKs</string>
+    <!-- End of Installer strings-->
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dapps">DApps</string>
 
 </resources>
