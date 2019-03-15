@@ -87,8 +87,8 @@ class JsInjectorClient {
             } else {
 
             }
-//            jsLibrary = loadFile(context, R.raw.bundlerinkeby);
-            jsLibrary = loadFile(context, R.raw.bundle);
+            jsLibrary = loadFile(context, R.raw.bundlerinkeby);
+//            jsLibrary = loadFile(context, R.raw.bundle);
         }
         String initJs = loadInitJs(context);
         return String.format(template, jsLibrary, initJs);

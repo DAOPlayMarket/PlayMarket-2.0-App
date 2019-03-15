@@ -30,7 +30,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:background="@color/colorPrimary">
 
         <FrameLayout
@@ -118,7 +118,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:visibility="visible"
-        android:weightSum="5">
+        >
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
@@ -163,6 +163,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/exchange_tab"
             android:layout_width="0dp"
             android:layout_height="match_parent"

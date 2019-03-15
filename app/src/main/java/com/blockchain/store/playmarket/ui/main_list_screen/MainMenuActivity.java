@@ -97,6 +97,8 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
     private ArrayList<App> searchListResult = new ArrayList<>();
     private Presenter presenter;
     private long backPressedLastTime;
+    private int appBarHeight;
+    private ViewGroup.LayoutParams appBarLayoutParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +108,8 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
         }
         setContentView(R.layout.activity_main_menu);
         ButterKnife.bind(this);
+        appBarLayoutParams = appBarLayout.getLayoutParams();
+        appBarHeight = appBarLayoutParams.height;
         attachPresenter();
         initViews();
         replaceNavViewFragment(new NavigationViewFragment());
@@ -211,6 +215,7 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
         }
         viewPagerAdapter.addFragment(new IcoFragment(), getString(R.string.fragment_ico_title));
         viewPagerAdapter.addFragment(new DappsFragment(), getString(R.string.dapps));
+        viewPagerAdapter.addFragment(DappsFragment.newInstance(), getString(R.string.fragment_exchange_title));
 
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOffscreenPageLimit(3);
@@ -219,9 +224,38 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
         tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.games_icon)).setText(R.string.category_games);
         tabLayout.getTabAt(2).setIcon(getResources().getDrawable(R.drawable.ico_icon)).setText(R.string.category_sto);
         tabLayout.getTabAt(3).setIcon(getResources().getDrawable(R.drawable.dapps)).setText(R.string.dapps);
+        tabLayout.getTabAt(4).setIcon(getResources().getDrawable(R.drawable.icon_exchange)).setText(R.string.fragment_exchange_title);
 
 
         removeIconMargin(tabLayout);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+                if (i > 2) {
+                    appBarLayoutParams.height = 0;
+                    appBarLayout.setLayoutParams(appBarLayoutParams);
+                } else if (i > 1) {
+                    appBarLayoutParams.height = Math.round(appBarHeight - appBarHeight * v);
+                    appBarLayout.setLayoutParams(appBarLayoutParams);
+                } else {
+                    appBarLayoutParams.height = appBarHeight;
+                    appBarLayout.setLayoutParams(appBarLayoutParams);
+                }
+
+
+                Log.d(TAG, "onPageScrolled() called with: i = [" + i + "], v = [" + v + "], i1 = [" + i1 + "]");
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
 
     private void removeIconMargin(TabLayout tabLayout) {

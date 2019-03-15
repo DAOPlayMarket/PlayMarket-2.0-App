@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.dapps.Web3View;
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.Constants;
 
 import org.ethereum.geth.Transaction;
 import org.json.JSONObject;
@@ -26,24 +27,44 @@ import wendu.dsbridge.DWebView;
 
 public class DappsFragment extends Fragment {
     private static final String TAG = "DappsFragment";
+    private static final String IS_OPEN_FOR_DEX_KEY = "is_open_for_dex";
+
     @BindView(R.id.web_view) Web3View webView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
 
+    private boolean isOpenForDex = false;
+
+    public static DappsFragment newInstance() {
+        Bundle args = new Bundle();
+        DappsFragment fragment = new DappsFragment();
+        args.putBoolean(IS_OPEN_FOR_DEX_KEY, true);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dapps, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
+        if (getArguments() != null) {
+            isOpenForDex = getArguments().getBoolean(IS_OPEN_FOR_DEX_KEY, false);
+        }
         setWebView();
         return view;
     }
+
     private void setWebView() {
         DWebView.setWebContentsDebuggingEnabled(true);
         webView.setChainId(4);
         webView.addJavascriptObject(new JsApi(getActivity()), "");
-        webView.loadUrl("https://dapps.playmarket.io/");
-        //webView.loadUrl("https://testdex.playmarket.io/");
+//        webView.loadUrl("https://dapps.playmarket.io/");
+
+        if (isOpenForDex) {
+            webView.loadUrl(Constants.PAX_URL);
+        } else {
+            webView.loadUrl("https://testdex.playmarket.io/");
+        }
 //        webView.loadUrl("http://192.168.88.230:8080/");
     }
 
