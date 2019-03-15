@@ -241,9 +241,6 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
                     appBarLayoutParams.height = appBarHeight;
                     appBarLayout.setLayoutParams(appBarLayoutParams);
                 }
-
-
-                Log.d(TAG, "onPageScrolled() called with: i = [" + i + "], v = [" + v + "], i1 = [" + i1 + "]");
             }
 
             @Override
