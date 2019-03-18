@@ -73,6 +73,8 @@ public class App implements Parcelable, NotificationImpl, AppDetailsImpl {
     public String hashICO;
     public String hashTagICO;
     public String version;
+    public String versionName;
+    public String size;
     public String packageName;
     public IcoInfo infoICO = null;
     public Rating rating;

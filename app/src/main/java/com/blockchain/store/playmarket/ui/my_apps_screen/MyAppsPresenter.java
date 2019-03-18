@@ -59,12 +59,13 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
             }
             appLibrary.isHasUpdate = MyPackageManager.isAppHasUpdate(appLibrary.app);
             appLibrary.versionName = MyPackageManager.getVersionNameByPackageName(appLibrary.applicationInfo.packageName);
+            appLibrary.versionCode = MyPackageManager.getVersionCodeByPackageName(appLibrary.applicationInfo.packageName);
 
             if (isHasLocalCopy && appLibrary.isHasUpdate) {
                 MyPackageManager myPackageManager = new MyPackageManager();
                 File fileByPackageName = myPackageManager.findFileByPackageName(appLibrary.app.packageName, Application.getInstance().getBaseContext());
                 int versionFromFile = myPackageManager.getVersionFromFile(fileByPackageName);
-                if (versionFromFile > appLibrary.versionName) {
+                if (versionFromFile > appLibrary.versionCode) {
                     appLibrary.appState = Constants.APP_STATE.STATE_UPDATE_DOWNLOADED_NOT_INSTALLED;
                     appLibrary.isHasUpdate = false;
                 } else {
@@ -148,9 +149,9 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
             if (library.appState == Constants.APP_STATE.STATE_UPDATE_DOWNLOADED_NOT_INSTALLED) {
                 File fileByPackageName = myPackageManager.findFileByPackageName(library.app.packageName, Application.getInstance().getBaseContext());
                 int versionFromFile = myPackageManager.getVersionFromFile(fileByPackageName);
-                library.isHasUpdate = versionFromFile > library.versionName;
+                library.isHasUpdate = versionFromFile > library.versionCode;
 
-                if (versionFromFile <= library.versionName) {
+                if (versionFromFile <= library.versionCode) {
                     library.appState = Constants.APP_STATE.STATE_UNKNOWN;
                 }
             } else {

@@ -465,4 +465,8 @@
     <string name="show_config_file">Посмотреть настройки IPFS</string>
     <string name="ipfs_safe_mode_title">Остановить IPFS когда приложение закрывается</string>
 
+    <string name="current_version">Текущая версия:</string>
+    <string name="new_version">Новая версия:</string>
+    <string name="size">Размер:</string>
+
 </resources>

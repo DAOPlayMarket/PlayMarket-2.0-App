@@ -1,7 +1,6 @@
 package com.blockchain.store.playmarket.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.CardView;
@@ -147,7 +146,11 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
     public class MyAppsViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.my_apps_icon) ImageView icon;
         @BindView(R.id.my_apps_title) TextView title;
-        @BindView(R.id.my_apps_version) TextView version;
+        @BindView(R.id.my_apps_current_version) TextView currentVersion;
+        @BindView(R.id.my_apps_new_version) TextView newVersion;
+        @BindView(R.id.my_apps_new_version_title) TextView newVersionTitle;
+        @BindView(R.id.my_apps_size) TextView size;
+        @BindView(R.id.my_apps_size_title) TextView sizeTitle;
         @BindView(R.id.my_apps_status) AppCompatButton status;
         @BindView(R.id.my_apps_holder) CardView layoutHolder;
         @BindView(R.id.my_apps_action_btn_area) LinearLayout actionAreaHolder;
@@ -168,7 +171,26 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
                 layoutHolder.setBackgroundColor(context.getResources().getColor(R.color.my_apps_layout_color));
             }
             title.setText(appLibrary.title);
-            version.setText(appLibrary.getVersionsAsString());
+            currentVersion.setText(appLibrary.versionName);
+
+            newVersion.setText(appLibrary.getNewAppVersion());
+            if (newVersion.getText().toString().isEmpty()){
+                newVersion.setVisibility(View.GONE);
+                newVersionTitle.setVisibility(View.GONE);
+            } else {
+                newVersion.setVisibility(View.VISIBLE);
+                newVersionTitle.setVisibility(View.VISIBLE);
+            }
+
+            size.setText(appLibrary.getSizeAsMBString());
+            if (size.getText().toString().isEmpty()){
+                size.setVisibility(View.GONE);
+                sizeTitle.setVisibility(View.GONE);
+            } else {
+                size.setVisibility(View.VISIBLE);
+                sizeTitle.setVisibility(View.VISIBLE);
+            }
+
             Glide.with(context).load(appLibrary.icon).into(icon);
 
         }
