@@ -92,11 +92,11 @@ public class DappsFragment extends Fragment implements BackPressedCallback {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                     (keyCode == KeyEvent.KEYCODE_ENTER)) {
                 String url = urlField.getText().toString();
-                if (!url.startsWith("http")) {
-                    url += "http://";
+                if (!urlField.getText().toString().startsWith("http")) {
+                    url = "https://" + url;
                 }
                 if (!url.trim().isEmpty()) {
-                    webView.loadUrl(urlField.getText().toString());
+                    webView.loadUrl(url);
                 }
                 return true;
             }
