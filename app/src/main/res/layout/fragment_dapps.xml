@@ -1,36 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:id="@+id/browser_top_layout"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentTop="true"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/webview_home_field"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Home"
-            android:textColor="@color/black" />
-
-        <EditText
-            android:id="@+id/webview_url_field"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="0dp"
-            android:background="@null"
-            android:paddingLeft="20dp"
-            android:singleLine="true"
-            android:text="Your address here" />
+            android:layout_height="56dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
+            <TextView
+                android:id="@+id/webview_home_field"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Home"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/webview_url_field"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="0dp"
+                android:background="@null"
+                android:paddingLeft="20dp"
+                android:singleLine="true"
+                android:text="Your address here" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/top_view_divider"
+            android:layout_below="@+id/browser_top_layout" />
     </LinearLayout>
 
 

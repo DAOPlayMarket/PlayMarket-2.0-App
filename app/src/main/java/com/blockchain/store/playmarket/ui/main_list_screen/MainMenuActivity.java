@@ -38,6 +38,7 @@ import com.blockchain.store.playmarket.broadcasts.InstallPackageReceiver;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
+import com.blockchain.store.playmarket.interfaces.BackPressedCallback;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.change_account_screen.ChangeAccountFragment;
@@ -77,7 +78,6 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
     private static final String TAG = "MainMenuActivity";
     private static final int DEBOUNCE_INTERVAL_MILLIS = 1000;
     private static final int DOUBLE_TAP_INTERVAL_MILLIS = 2000;
-    private int tabPosition;
 
     public static final int CHANGE_ACCOUNT_REQUEST_CODE = 80;
     public static final int IMPORT_ACCOUNT_REQUEST_CODE = 2;
@@ -95,10 +95,12 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
 
     private BehaviorSubject<String> userInputSubject = BehaviorSubject.create();
     private ArrayList<App> searchListResult = new ArrayList<>();
+    private ViewGroup.LayoutParams appBarLayoutParams;
+    ViewPagerAdapter viewPagerAdapter;
     private Presenter presenter;
     private long backPressedLastTime;
+    private int tabPosition;
     private int appBarHeight;
-    private ViewGroup.LayoutParams appBarLayoutParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +172,9 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
             getSupportFragmentManager().popBackStack();
             return;
         }
+        if (isFragmentOverrideBackPressed()) {
+            return;
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -184,6 +189,15 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
             }
         }
 
+    }
+
+    private boolean isFragmentOverrideBackPressed() {
+        Fragment currentFragmnet = viewPagerAdapter.getItem(tabPosition);
+        if (currentFragmnet instanceof BackPressedCallback) {
+            ((BackPressedCallback) currentFragmnet).isUserCanHandleBackPressed();
+            return true;
+        }
+        return false;
     }
 
 
@@ -208,7 +222,7 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
     }
 
     private void initViewPager(ArrayList<Category> categories) {
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         for (Category category : categories) {
             String capitalizeCategoryName = category.name.substring(0, 1).toUpperCase() + category.name.substring(1);
             viewPagerAdapter.addFragment(MainMenuFragment.newInstance(category), capitalizeCategoryName);
@@ -218,7 +232,7 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
         viewPagerAdapter.addFragment(DappsFragment.newInstance(), getString(R.string.fragment_exchange_title));
 
         viewPager.setAdapter(viewPagerAdapter);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(getResources().getDrawable(R.drawable.apps_icon)).setText(R.string.category_apps);
         tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.games_icon)).setText(R.string.category_games);
@@ -245,12 +259,11 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
 
             @Override
             public void onPageSelected(int i) {
-
+                tabPosition = i;
             }
 
             @Override
             public void onPageScrollStateChanged(int i) {
-
             }
         });
     }

@@ -18,6 +18,7 @@ import com.blockchain.store.dao.interfaces.Callbacks;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.dapps.Web3View;
 import com.blockchain.store.playmarket.data.entities.DappTransaction;
+import com.blockchain.store.playmarket.interfaces.BackPressedCallback;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.DialogManager;
@@ -40,7 +41,7 @@ import wendu.dsbridge.CompletionHandler;
 import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA;
 
 
-public class DappsFragment extends Fragment {
+public class DappsFragment extends Fragment implements BackPressedCallback {
     private static final String TAG = "DappsFragment";
     private static final String IS_OPEN_FOR_DEX_KEY = "is_open_for_dex";
 
@@ -52,6 +53,8 @@ public class DappsFragment extends Fragment {
 
     private boolean isOpenForDex = false;
     private Web3j web3j = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
+    private boolean isUserSawThisPage = false;
+    private boolean isWebViewAlreadyInit = false;
 
     public static DappsFragment newInstance() {
         Bundle args = new Bundle();
@@ -70,9 +73,18 @@ public class DappsFragment extends Fragment {
             isOpenForDex = getArguments().getBoolean(IS_OPEN_FOR_DEX_KEY, false);
             topLayout.setVisibility(View.GONE);
         }
-        setWebView();
         initEdittext();
         return view;
+    }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && !isUserSawThisPage) {
+            this.isUserSawThisPage = true;
+            setWebView();
+        }
     }
 
     private void initEdittext() {
@@ -90,6 +102,7 @@ public class DappsFragment extends Fragment {
     }
 
     private void setWebView() {
+        isWebViewAlreadyInit = true;
         webView.addJavascriptObject(new JsApi(getActivity()), "");
         webView.setCallback(new Web3View.Web3ViewCallback() {
             @Override
@@ -99,7 +112,6 @@ public class DappsFragment extends Fragment {
 
             @Override
             public void onPageFinished(String page) {
-
             }
         });
         loadDefaultUrl();
@@ -121,14 +133,14 @@ public class DappsFragment extends Fragment {
         loadDefaultUrl();
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (webView.canGoBack()) {
-//            webView.goBack();
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
+    @Override
+    public boolean isUserCanHandleBackPressed() {
+        if (webView.canGoBack()) {
+            webView.goBack();
+        }
+
+        return false;
+    }
 
     public class JsApi {
         private Context context;
@@ -184,4 +196,5 @@ public class DappsFragment extends Fragment {
     private void onTxFailed(Throwable throwable, CompletionHandler handler) {
         handler.complete(throwable.getMessage());
     }
+
 }
