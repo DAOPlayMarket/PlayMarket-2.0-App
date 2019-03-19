@@ -6,8 +6,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 
-import com.aefyr.sai.installer.PackageInstallerProvider;
-import com.aefyr.sai.utils.Event;
 import com.blockchain.store.playmarket.installer.rootless.RootlessSAIPackageInstaller;
 
 import java.io.File;
@@ -15,9 +13,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 public class InstallerViewModel extends AndroidViewModel implements SAIPackageInstaller.InstallationStatusListener {
     public static final String EVENT_PACKAGE_INSTALLED = "package_installed";
@@ -43,6 +38,10 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
         return mState;
     }
 
+
+    public LiveData<Event<String[]>> getEvents() {
+        return mEvents;
+    }
 
 
     public void installPackages(List<File> apkFiles) {

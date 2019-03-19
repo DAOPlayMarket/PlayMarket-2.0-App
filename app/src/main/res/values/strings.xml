@@ -494,5 +494,6 @@
     <string name="current_version">Current version:</string>
     <string name="new_version">New version:</string>
     <string name="size">Size:</string>
+    <string name="installing">Installing...</string>
 
 </resources>

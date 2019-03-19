@@ -133,6 +133,8 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
         }
     }
 
+
+
     @Override
     public void loadButtonsState(App app, boolean isUserPurchasedApp) {
         MyPackageManager packageManager = new MyPackageManager();
