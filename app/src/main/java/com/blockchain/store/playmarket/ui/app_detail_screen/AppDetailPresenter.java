@@ -12,7 +12,6 @@ import com.blockchain.store.playmarket.data.entities.AccountInfoResponse;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.IcoLocalData;
-import com.blockchain.store.playmarket.data.entities.PurchaseAppResponse;
 import com.blockchain.store.playmarket.data.entities.SendReviewTransactionModel;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.interfaces.NotificationImpl;
@@ -110,7 +109,8 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 break;
             case STATE_DOWNLOADED_NOT_INSTALLED:
             case STATE_INSTALL_FAIL:
-                new MyPackageManager().installApkByApp(app);
+                //                new MyPackageManager().installApkByApp(app);
+                installApk();
                 changeState(Constants.APP_STATE.STATE_INSTALLING);
                 break;
             case STATE_INSTALLED:
@@ -127,13 +127,16 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 view.showPurchaseDialog();
                 break;
             case STATE_UPDATE_DOWNLOADED_NOT_INSTALLED:
-                new MyPackageManager().installApkByApp(app);
+//                new MyPackageManager().installApkByApp(app);
+                installApk();
                 break;
 
         }
     }
 
-
+    private void installApk() {
+        view.installApk(app);
+    }
 
     @Override
     public void loadButtonsState(App app, boolean isUserPurchasedApp) {
@@ -294,9 +297,8 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
     }
 
 
-
     private Observable<String> mapReviewCreationTransaction(Pair<AccountInfoResponse, String> accountInfo, String review, String vote, String txIndex) {
-        Transaction rawTransaction =  CryptoUtils.generateSendReviewTransaction(
+        Transaction rawTransaction = CryptoUtils.generateSendReviewTransaction(
                 accountInfo.first.count,
                 new BigInt(Long.parseLong(accountInfo.second)),
                 app, vote, review, txIndex);

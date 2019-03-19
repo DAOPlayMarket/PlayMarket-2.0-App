@@ -9,6 +9,7 @@ import android.content.Context;
 import com.blockchain.store.playmarket.installer.rootless.RootlessSAIPackageInstaller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,12 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
         return mEvents;
     }
 
+
+    public void installPackages(File apkFile) {
+        ArrayList<File> files = new ArrayList<File>();
+        files.add(apkFile);
+        installPackages(files);
+    }
 
     public void installPackages(List<File> apkFiles) {
         ensureInstallerActuality();

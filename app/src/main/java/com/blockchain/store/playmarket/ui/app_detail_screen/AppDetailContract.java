@@ -44,6 +44,8 @@ public class AppDetailContract {
         void onIcoDataReady(IcoLocalData icoLocalData);
 
         void onIcoDataError(Throwable throwable);
+
+        void installApk(App app);
     }
 
     public interface Presenter {

@@ -35,6 +35,7 @@ import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.FrescoUtils;
+import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.dialogs.DialogManager;
 
@@ -262,6 +263,11 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
         if (appDetailAdapter != null) {
             appDetailAdapter.onError(true, throwable);
         }
+    }
+
+    @Override
+    public void installApk(App app) {
+        installerViewModel.installPackages(new MyPackageManager().getFileFromApp(app));
     }
 
     @Override
