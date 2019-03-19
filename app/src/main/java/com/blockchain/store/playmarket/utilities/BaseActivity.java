@@ -24,16 +24,16 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        LocaleUtils.removeActivity(this);
+        if (LocaleUtils.getActivities().isEmpty()) {
+            Log.d(TAG, "onStop: ");
+
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        LocaleUtils.removeActivity(this);
-        if (LocaleUtils.getActivities().isEmpty()) {
-            Log.d(TAG, "onStop: ");
-            if (Hawk.get(Constants.IPFS_SAFE_MODE, true))
-                stopService(new Intent(this, IpfsDaemonService.class));
-        }
+
     }
 }

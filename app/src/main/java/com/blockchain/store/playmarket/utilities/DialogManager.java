@@ -350,8 +350,7 @@ public class DialogManager {
             fingerprintDisposable = RxFingerprint.decrypt(context, FingerprintUtils.getEncryptedPassword())
                     .subscribe(fingerprintDecryptionResult -> {
                         switch (fingerprintDecryptionResult.getResult()) {
-                            case FAILED:
-                                break;
+
                             case AUTHENTICATED:
                                 callback.onAccountUnlock(AccountManager.unlockKeystore(fingerprintDecryptionResult.getDecrypted()));
                                 alertDialog.dismiss();

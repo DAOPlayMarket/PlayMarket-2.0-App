@@ -40,6 +40,7 @@ import com.blockchain.store.playmarket.data.entities.Category;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.interfaces.BackPressedCallback;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
+import com.blockchain.store.playmarket.services.IpfsDaemonService;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.change_account_screen.ChangeAccountFragment;
 import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
@@ -379,6 +380,8 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (Hawk.get(Constants.IPFS_SAFE_MODE, true))
+            stopService(new Intent(this, IpfsDaemonService.class));
         Application.stopAnalytic();
     }
 

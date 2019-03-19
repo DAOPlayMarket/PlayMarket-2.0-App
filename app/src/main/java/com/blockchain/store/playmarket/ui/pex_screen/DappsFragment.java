@@ -74,6 +74,7 @@ public class DappsFragment extends Fragment implements BackPressedCallback {
             topLayout.setVisibility(View.GONE);
         }
         initEdittext();
+        setWebView();
         return view;
     }
 
@@ -83,7 +84,7 @@ public class DappsFragment extends Fragment implements BackPressedCallback {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && !isUserSawThisPage) {
             this.isUserSawThisPage = true;
-            setWebView();
+
         }
     }
 
