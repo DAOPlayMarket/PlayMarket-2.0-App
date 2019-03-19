@@ -213,7 +213,17 @@ public class MyPackageManager {
         return stringBuilder.toString();
     }
 
-    public static int getVersionNameByPackageName(String packageName) {
+    public static String getVersionNameByPackageName(String packageName) {
+        Context applicationContext = Application.getInstance().getApplicationContext();
+        try {
+            PackageInfo packageInfo = applicationContext.getPackageManager().getPackageInfo(packageName, 0);
+            return packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            return "";
+        }
+    }
+
+    public static int getVersionCodeByPackageName(String packageName) {
         Context applicationContext = Application.getInstance().getApplicationContext();
         try {
             PackageInfo packageInfo = applicationContext.getPackageManager().getPackageInfo(packageName, 0);
@@ -231,7 +241,7 @@ public class MyPackageManager {
 
     public static boolean isAppHasUpdate(App app) {
         try {
-            int appVersionLocal = MyPackageManager.getVersionNameByPackageName(app.packageName);
+            int appVersionLocal = MyPackageManager.getVersionCodeByPackageName(app.packageName);
             int appVersionWeb = Integer.parseInt(app.version);
             return appVersionWeb > appVersionLocal;
         } catch (Exception e) {

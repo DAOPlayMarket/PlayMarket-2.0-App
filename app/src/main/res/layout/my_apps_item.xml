@@ -36,22 +36,77 @@
             android:singleLine="true"
             android:text="@string/app_name"
             app:layout_constraintEnd_toStartOf="@+id/my_apps_action_btn_area"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/my_apps_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/my_apps_version"
+            android:id="@+id/my_apps_current_version_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@color/lightBlue70"
+            android:text="@string/current_version"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/my_apps_title"
+            app:layout_constraintTop_toBottomOf="@+id/my_apps_title" />
+
+        <TextView
+            android:id="@+id/my_apps_current_version"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:singleLine="true"
+            android:textSize="12sp"
             android:text="@string/app_name"
-            app:layout_constraintEnd_toStartOf="@+id/my_apps_action_btn_area"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/my_apps_icon"
-            app:layout_constraintTop_toBottomOf="@+id/my_apps_title" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/my_apps_current_version_title"
+            app:layout_constraintEnd_toEndOf="@+id/my_apps_title"
+            app:layout_constraintStart_toEndOf="@+id/my_apps_current_version_title" />
+
+        <TextView
+            android:id="@+id/my_apps_new_version_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textSize="12sp"
+            android:textColor="@color/lightBlue70"
+            android:text="@string/new_version"
+            app:layout_constraintStart_toStartOf="@+id/my_apps_current_version_title"
+            app:layout_constraintTop_toBottomOf="@+id/my_apps_current_version_title" />
+
+        <TextView
+            android:id="@+id/my_apps_new_version"
+            android:layout_width="0dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="8dp"
+            android:singleLine="true"
+            android:textSize="12sp"
+            android:text="@string/app_name"
+            app:layout_constraintBaseline_toBaselineOf="@+id/my_apps_new_version_title"
+            app:layout_constraintEnd_toEndOf="@+id/my_apps_current_version"
+            app:layout_constraintStart_toEndOf="@+id/my_apps_new_version_title" />
+
+        <TextView
+            android:id="@+id/my_apps_size_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textSize="12sp"
+            android:textColor="@color/lightBlue70"
+            android:text="@string/size"
+            app:layout_constraintStart_toStartOf="@+id/my_apps_current_version_title"
+            app:layout_constraintTop_toBottomOf="@+id/my_apps_new_version_title" />
+
+        <TextView
+            android:id="@+id/my_apps_size"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:singleLine="true"
+            android:textSize="12sp"
+            android:text="@string/app_name"
+            app:layout_constraintBaseline_toBaselineOf="@+id/my_apps_size_title"
+            app:layout_constraintEnd_toEndOf="@+id/my_apps_new_version"
+            app:layout_constraintStart_toEndOf="@+id/my_apps_size_title" />
 
         <LinearLayout
             android:id="@+id/my_apps_action_btn_area"
