@@ -19,10 +19,9 @@ import com.blockchain.store.playmarket.adapters.ChangeAccountAdapter;
 import com.blockchain.store.playmarket.ui.file_manager_screen.FileManagerActivity;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
-import com.blockchain.store.playmarket.ui.new_user_welcome_activity.NewUserWelcomeActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
-import com.blockchain.store.playmarket.utilities.DialogManager;
-import com.blockchain.store.playmarket.views.DeleteAccountDialog;
+import com.blockchain.store.playmarket.utilities.dialogs.DialogManager;
+import com.blockchain.store.playmarket.utilities.dialogs.DeleteAccountDialog;
 
 import org.ethereum.geth.Account;
 

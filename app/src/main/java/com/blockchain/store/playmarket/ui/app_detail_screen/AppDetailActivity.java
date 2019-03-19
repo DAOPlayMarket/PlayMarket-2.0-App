@@ -32,7 +32,7 @@ import com.blockchain.store.playmarket.ui.all_reviews_screen.AllReviewsActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
-import com.blockchain.store.playmarket.utilities.DialogManager;
+import com.blockchain.store.playmarket.utilities.dialogs.DialogManager;
 import com.blockchain.store.playmarket.utilities.FrescoUtils;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 

@@ -1,5 +1,8 @@
 package com.blockchain.store.playmarket.data.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
@@ -11,7 +14,7 @@ import org.spongycastle.util.encoders.Hex;
 
 import java.io.UnsupportedEncodingException;
 
-public class DappTransaction {
+public class DappTransaction implements Parcelable {
     private static final String TAG = "DappTransaction";
     public String nonce;
     public String gasPrice;
@@ -96,4 +99,49 @@ public class DappTransaction {
         return new String(bytes);
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.nonce);
+        dest.writeString(this.gasPrice);
+        dest.writeString(this.gasLimit);
+        dest.writeString(this.from);
+        dest.writeString(this.to);
+        dest.writeString(this.value);
+        dest.writeString(this.chainId);
+        dest.writeString(this.gas);
+        dest.writeString(this.data);
+    }
+
+    public DappTransaction() {
+    }
+
+    protected DappTransaction(Parcel in) {
+        this.nonce = in.readString();
+        this.gasPrice = in.readString();
+        this.gasLimit = in.readString();
+        this.from = in.readString();
+        this.to = in.readString();
+        this.value = in.readString();
+        this.chainId = in.readString();
+        this.gas = in.readString();
+        this.data = in.readString();
+    }
+
+    public static final Creator<DappTransaction> CREATOR = new Creator<DappTransaction>() {
+        @Override
+        public DappTransaction createFromParcel(Parcel source) {
+            return new DappTransaction(source);
+        }
+
+        @Override
+        public DappTransaction[] newArray(int size) {
+            return new DappTransaction[size];
+        }
+    };
 }

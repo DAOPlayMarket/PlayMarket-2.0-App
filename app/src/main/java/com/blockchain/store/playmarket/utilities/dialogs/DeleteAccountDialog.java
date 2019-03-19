@@ -1,4 +1,4 @@
-package com.blockchain.store.playmarket.views;
+package com.blockchain.store.playmarket.utilities.dialogs;
 
 import android.app.AlertDialog;
 import android.content.Context;

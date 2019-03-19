@@ -1,4 +1,4 @@
-package com.blockchain.store.playmarket.utilities;
+package com.blockchain.store.playmarket.utilities.dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -21,6 +21,8 @@ import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.UserReview;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
+import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.FingerprintUtils;
 import com.mtramin.rxfingerprint.RxFingerprint;
 
 import java.math.BigDecimal;

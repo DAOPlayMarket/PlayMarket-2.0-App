@@ -1,4 +1,4 @@
-package com.blockchain.store.playmarket.utilities.fragment_dialogs;
+package com.blockchain.store.playmarket.utilities.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;

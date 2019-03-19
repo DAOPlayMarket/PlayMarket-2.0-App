@@ -14,15 +14,14 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.blockchain.store.dao.interfaces.Callbacks;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.dapps.Web3View;
 import com.blockchain.store.playmarket.data.entities.DappTransaction;
 import com.blockchain.store.playmarket.interfaces.BackPressedCallback;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
-import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
+import com.blockchain.store.playmarket.utilities.dialogs.DappTxDialog;
 import com.google.gson.Gson;
 
 import org.ethereum.geth.Transaction;
@@ -41,7 +40,7 @@ import wendu.dsbridge.CompletionHandler;
 import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA;
 
 
-public class DappsFragment extends Fragment implements BackPressedCallback {
+public class DappsFragment extends Fragment implements BackPressedCallback, DappTxDialog.TxDialogCallback {
     private static final String TAG = "DappsFragment";
     private static final String IS_OPEN_FOR_DEX_KEY = "is_open_for_dex";
 
@@ -146,6 +145,17 @@ public class DappsFragment extends Fragment implements BackPressedCallback {
         return false;
     }
 
+
+    @Override
+    public void onAccountUnlocked(DappTransaction dappTransaction) {
+        try {
+            Transaction dapTx = dappTransaction.createTx();
+            sendRawTransaction(dapTx);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public class JsApi {
         private Context context;
 
@@ -170,35 +180,23 @@ public class DappsFragment extends Fragment implements BackPressedCallback {
         @JavascriptInterface
         public void sendTransaction(Object tx, CompletionHandler handler) {
             Log.d(TAG, "sendTransaction() called with: tx = [" + tx + "], handler = [" + handler + "]");
-            new DialogManager().showConfirmDialog(context, new Callbacks.PasswordCallback() {
-                @Override
-                public void onAccountUnlock(Boolean isUnlock) {
-                    DappTransaction dappTransaction = new Gson().fromJson(tx.toString(), DappTransaction.class);
-                    try {
-                        Transaction tx = dappTransaction.createTx();
-                        sendRawTransaction(tx, handler);
-                    } catch (Exception e) {
-                        handler.complete(e.getMessage());
-                        e.printStackTrace();
-                    }
-                }
-            });
+            DappTransaction dappTransaction = new Gson().fromJson(tx.toString(), DappTransaction.class);
+            DappTxDialog.newInstance(dappTransaction);
+
         }
     }
 
-    private void sendRawTransaction(Transaction tx, CompletionHandler handler) {
+    private void sendRawTransaction(Transaction tx) {
         web3j.ethSendRawTransaction("0x" + CryptoUtils.getRawTransaction(tx)).observable()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> onTxSend(result, handler), error -> onTxFailed(error, handler));
+                .subscribe(this::onTxSend, this::onTxFailed);
     }
 
-    private void onTxSend(EthSendTransaction ethSendTransaction, CompletionHandler handler) {
-        handler.complete(ethSendTransaction.getTransactionHash());
+    private void onTxSend(EthSendTransaction ethSendTransaction) {
     }
 
-    private void onTxFailed(Throwable throwable, CompletionHandler handler) {
-        handler.complete(throwable.getMessage());
+    private void onTxFailed(Throwable throwable ) {
     }
 
 }

@@ -25,7 +25,7 @@ import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
 import com.blockchain.store.playmarket.utilities.AccountManager;
-import com.blockchain.store.playmarket.utilities.DialogManager;
+import com.blockchain.store.playmarket.utilities.dialogs.DialogManager;
 import com.blockchain.store.playmarket.utilities.QRCodeScannerActivity;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 

@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.FileManagerRecyclerViewAdapter;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
-import com.blockchain.store.playmarket.utilities.DialogManager;
+import com.blockchain.store.playmarket.utilities.dialogs.DialogManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 
 import java.io.File;
