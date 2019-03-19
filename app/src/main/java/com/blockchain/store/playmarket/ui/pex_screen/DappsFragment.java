@@ -181,7 +181,7 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
         public void sendTransaction(Object tx, CompletionHandler handler) {
             Log.d(TAG, "sendTransaction() called with: tx = [" + tx + "], handler = [" + handler + "]");
             DappTransaction dappTransaction = new Gson().fromJson(tx.toString(), DappTransaction.class);
-            DappTxDialog.newInstance(dappTransaction);
+            DappTxDialog.newInstance(dappTransaction).show(getChildFragmentManager(), "");
 
         }
     }
@@ -196,7 +196,7 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
     private void onTxSend(EthSendTransaction ethSendTransaction) {
     }
 
-    private void onTxFailed(Throwable throwable ) {
+    private void onTxFailed(Throwable throwable) {
     }
 
 }

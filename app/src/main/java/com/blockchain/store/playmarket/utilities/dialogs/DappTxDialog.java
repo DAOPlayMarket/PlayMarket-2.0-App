@@ -5,17 +5,21 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.Group;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.DappTransaction;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
+import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.FingerprintUtils;
 import com.mtramin.rxfingerprint.RxFingerprint;
 
@@ -34,6 +38,9 @@ public class DappTxDialog extends DialogFragment {
     @BindView(R.id.usePassword_button) TextView usePassword_button;
     @BindView(R.id.fingerprintGroup) Group fingerprintGroup;
     @BindView(R.id.passwordGroup) Group passwordGroup;
+    @BindView(R.id.confirm_button) Button confirm_button;
+    @BindView(R.id.password_editText) TextInputEditText passwordEditText;
+    @BindView(R.id.password_inputLayout) TextInputLayout passwordLayout;
 
     private Disposable fingerprintDisposable = Disposables.empty();
     private TxDialogCallback callback;
@@ -72,10 +79,21 @@ public class DappTxDialog extends DialogFragment {
     private void setData() {
         EthereumPrice ethereumPrice = new EthereumPrice(tx.getValue());
         recipient_address.setText(tx.getTo());
-        send_amouut_field.setText(ethereumPrice.inEther().toPlainString());
+        send_amouut_field.setText(ethereumPrice.inEther().toPlainString() + " ETH");
     }
 
     private void initFingerprint() {
+
+        confirm_button.setOnClickListener(v -> {
+            boolean isUnlock = AccountManager.unlockKeystore(passwordEditText.getText().toString());
+            if (isUnlock) {
+                callback.onAccountUnlocked(tx);
+                this.dismiss();
+            } else {
+                passwordLayout.setError("Wrong password");
+            }
+        });
+
         if (FingerprintUtils.isFingerprintAvailibility(context)) {
             passwordGroup.setVisibility(View.GONE);
             fingerprintGroup.setVisibility(View.VISIBLE);

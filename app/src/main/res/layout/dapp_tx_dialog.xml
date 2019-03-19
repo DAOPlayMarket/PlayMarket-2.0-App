@@ -46,7 +46,7 @@
         android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2"
-        tools:text="@string/to" />
+        android:text="@string/recipient_address" />
 
     <TextView
         android:id="@+id/recipient_address"
@@ -58,7 +58,7 @@
         app:layout_constraintBaseline_toBaselineOf="@id/textView12"
         app:layout_constraintLeft_toRightOf="@id/textView12"
         app:layout_constraintRight_toRightOf="parent"
-        tools:text="0x798432987439870237k;lfsd;lkdf;lksdf;klsdf;kl9" />
+        android:text="0x798432987439870237k;lfsd;lkdf;lksdf;klsdf;kl9" />
 
     <TextView
         android:id="@+id/send_amouut_field"
@@ -80,7 +80,7 @@
         android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView12"
-        tools:text="@string/send_info" />
+        android:text="@string/send_info" />
 
 
     <android.support.design.widget.TextInputLayout

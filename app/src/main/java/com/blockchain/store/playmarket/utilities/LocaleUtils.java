@@ -14,6 +14,7 @@ public class LocaleUtils {
 
     private static Locale sLocale;
     private static ArrayList<AppCompatActivity> activities = new ArrayList<>();
+    private static ArrayList<AppCompatActivity> onfrontActivities = new ArrayList<>();
 
 
     public static Locale getsLocale() {
@@ -28,8 +29,20 @@ public class LocaleUtils {
         activities.remove(activity);
     }
 
+    public static void addOnfrontActivity(AppCompatActivity activity) {
+        onfrontActivities.add(activity);
+    }
+
+    public static void removeOnfrontActivity(AppCompatActivity activity) {
+        onfrontActivities.remove(activity);
+    }
+
     public static ArrayList<AppCompatActivity> getActivities() {
         return activities;
+    }
+
+    public static ArrayList<AppCompatActivity> getOnfrontActivities() {
+        return onfrontActivities;
     }
 
     public static void refreshActivies() {

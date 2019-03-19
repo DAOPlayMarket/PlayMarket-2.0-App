@@ -380,8 +380,6 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (Hawk.get(Constants.IPFS_SAFE_MODE, true))
-            stopService(new Intent(this, IpfsDaemonService.class));
         Application.stopAnalytic();
     }
 
