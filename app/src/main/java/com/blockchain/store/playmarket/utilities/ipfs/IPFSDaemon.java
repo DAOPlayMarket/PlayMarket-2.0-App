@@ -14,6 +14,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.koushikdutta.ion.Ion;
+import com.orhanobut.hawk.Hawk;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -163,6 +164,7 @@ public class IPFSDaemon {
     }
 
     public void downloadDaemon() {
+
         NotificationManager.getManager().registerNewNotification(ipfsData);
         Ion.with(context)
                 .load(getDownloadLink())
@@ -179,6 +181,9 @@ public class IPFSDaemon {
                 NotificationManager.getManager().downloadCompleteWithError(ipfsData, e);
                 return;
             }
+            if (getBinaryFile.isFile()) {
+                getBinaryFile.delete();
+            }
             ZipArchive.unzip(getFile(true).getAbsolutePath(), getFile(true).getParent(), "");
 
             try {
@@ -190,6 +195,7 @@ public class IPFSDaemon {
                 }
                 arm.close();
                 buffer.close();
+                Hawk.put(Constants.IPFS_LAST_KNOWN_HASH_KEY, Constants.LAST_KNOWN_IPFS_HASH);
             } catch (Exception e1) {
                 NotificationManager.getManager().downloadCompleteWithError(ipfsData, e1);
                 e1.printStackTrace();
@@ -202,5 +208,10 @@ public class IPFSDaemon {
     public boolean isDaemonDownloaded() {
         File file = getFile(false);
         return file != null && file.isFile();
+    }
+
+    public boolean isNewVersionAvailable() {
+//        return true;
+        return !Hawk.get(Constants.IPFS_LAST_KNOWN_HASH_KEY, "").equalsIgnoreCase(Constants.LAST_KNOWN_IPFS_HASH);
     }
 }

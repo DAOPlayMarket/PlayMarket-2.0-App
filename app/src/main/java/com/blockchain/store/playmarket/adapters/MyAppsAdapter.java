@@ -229,14 +229,9 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
                 case STATE_UNKNOWN:
                     status.setVisibility(appLibrary.isHasUpdate ? View.VISIBLE : View.GONE);
                     status.setText(context.getString(R.string.has_update));
-
                     if (appLibrary.isSelected) {
                         status.setText(R.string.chosed);
-//                        status.setTextColor(context.getResources().getColor(R.color.action_btn_bg));
-                    } else {
-//                        status.setTextColor(context.getResources().getColor(R.color.white));
                     }
-
                     break;
                 case STATE_DOWNLOADED_NOT_INSTALLED:
                     status.setVisibility(View.GONE);
