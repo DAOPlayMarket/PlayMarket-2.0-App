@@ -70,7 +70,6 @@ public class MyAppsActivity extends BaseActivity implements MyAppsContract.View,
         installerViewModel.getState().observe(this, state -> {
             switch (state) {
                 case IDLE:
-
                     break;
                 case INSTALLING:
 
@@ -82,13 +81,15 @@ public class MyAppsActivity extends BaseActivity implements MyAppsContract.View,
                 return;
             }
             String[] eventData = event.consume();
+
             switch (eventData[0]) {
                 case InstallerViewModel.EVENT_INSTALLATION_FAILED:
-                    ToastUtil.showToast(eventData[1]);
+                    adapter.handleInstallationFailure();
+//                    ToastUtil.showToast(eventData[1]);
                     break;
 
                 case InstallerViewModel.EVENT_PACKAGE_INSTALLED:
-                    onResume();
+                    adapter.handleInstallationSucceess(eventData[1]);
                     break;
 
             }

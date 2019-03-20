@@ -18,6 +18,8 @@ import androidx.annotation.Nullable;
 public class InstallerViewModel extends AndroidViewModel implements SAIPackageInstaller.InstallationStatusListener {
     public static final String EVENT_PACKAGE_INSTALLED = "package_installed";
     public static final String EVENT_INSTALLATION_FAILED = "installation_failed";
+    public static final String EVENT_INSTALLING = "installing_started";
+    public static final String EVENT_QUEUED = "install_queued";
 
     private SAIPackageInstaller mInstaller;
     private Context mContext;
@@ -83,8 +85,10 @@ public class InstallerViewModel extends AndroidViewModel implements SAIPackageIn
     public void onStatusChanged(long installationID, SAIPackageInstaller.InstallationStatus status, @Nullable String packageNameOrErrorDescription) {
         switch (status) {
             case QUEUED:
+                mEvents.setValue(new Event<>(new String[]{EVENT_QUEUED, packageNameOrErrorDescription}));
             case INSTALLING:
                 mState.setValue(InstallerState.INSTALLING);
+                mEvents.setValue(new Event<>(new String[]{EVENT_INSTALLING, packageNameOrErrorDescription}));
                 break;
             case INSTALLATION_SUCCEED:
                 mState.setValue(InstallerState.IDLE);
