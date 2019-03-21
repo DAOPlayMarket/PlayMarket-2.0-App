@@ -8,6 +8,7 @@ import android.support.constraint.Group;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.data.entities.DappTransaction;
 import com.blockchain.store.playmarket.data.types.EthereumPrice;
+import com.blockchain.store.playmarket.ui.pex_screen.DappsFragment;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.FingerprintUtils;
 import com.mtramin.rxfingerprint.RxFingerprint;
@@ -44,13 +46,15 @@ public class DappTxDialog extends DialogFragment {
 
     private Disposable fingerprintDisposable = Disposables.empty();
     private TxDialogCallback callback;
-    DappTransaction tx;
+    private DappTransaction tx;
+    private boolean isNeedToSendTx;
 
     private Context context;
 
-    public static DappTxDialog newInstance(DappTransaction tx) {
+    public static DappTxDialog newInstance(DappTransaction tx, boolean isNeedToSendTx) {
         Bundle args = new Bundle();
         args.putParcelable("key", tx);
+        args.putBoolean("send_tx", isNeedToSendTx);
         DappTxDialog fragment = new DappTxDialog();
         fragment.setArguments(args);
         return fragment;
@@ -61,6 +65,7 @@ public class DappTxDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             tx = getArguments().getParcelable("key");
+            isNeedToSendTx = getArguments().getBoolean("send_tx");
         }
     }
 
@@ -87,7 +92,7 @@ public class DappTxDialog extends DialogFragment {
         confirm_button.setOnClickListener(v -> {
             boolean isUnlock = AccountManager.unlockKeystore(passwordEditText.getText().toString());
             if (isUnlock) {
-                callback.onAccountUnlocked(tx);
+                callback.onAccountUnlocked(tx, isNeedToSendTx);
                 this.dismiss();
             } else {
                 passwordLayout.setError("Wrong password");
@@ -101,8 +106,12 @@ public class DappTxDialog extends DialogFragment {
                     .subscribe(fingerprintDecryptionResult -> {
                         switch (fingerprintDecryptionResult.getResult()) {
                             case AUTHENTICATED:
-                                callback.onAccountUnlocked(tx);
-                                this.dismiss();
+                                boolean isUnlock = AccountManager.unlockKeystore(fingerprintDecryptionResult.getDecrypted());
+                                if(isUnlock){
+                                    callback.onAccountUnlocked(tx, isNeedToSendTx);
+                                    this.dismiss();
+                                }
+
                                 fingerprintDisposable.dispose();
                         }
                     }, throwable -> Log.e("ERROR", "decrypt", throwable));
@@ -132,7 +141,20 @@ public class DappTxDialog extends DialogFragment {
         }
     }
 
-    public interface TxDialogCallback{
-        void onAccountUnlocked(DappTransaction tx);
+    @Override
+    public void onAttachFragment(Fragment childFragment) {
+        super.onAttachFragment(childFragment);
+        if (context instanceof TxDialogCallback) {
+            this.callback = (TxDialogCallback) context;
+        }
+    }
+
+    public void setCallback(TxDialogCallback callback) {
+        this.callback = callback;
+    }
+
+
+    public interface TxDialogCallback {
+        void onAccountUnlocked(DappTransaction tx, boolean isNeedToSendTx);
     }
 }

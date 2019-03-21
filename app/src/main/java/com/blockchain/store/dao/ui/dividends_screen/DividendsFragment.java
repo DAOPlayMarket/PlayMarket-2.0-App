@@ -53,7 +53,6 @@ public class DividendsFragment extends Fragment implements DaoAdapterCallback{
     @BindView(R.id.background) View background;
     @BindView(R.id.back_arrow) ImageView backArrow;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
-    @BindView(R.id.progress_bar) ProgressBar progressBar;
 
     DaoTokenAdapter adapter;
 
@@ -104,28 +103,20 @@ public class DividendsFragment extends Fragment implements DaoAdapterCallback{
 
         ContractReader.getDividendsTokens(publishSubject);
         //DaoTransactionRepository.getTokens().subscribe(this::onTokensReady, this::onTokensError);
-        progressBar.setVisibility(View.VISIBLE);
+//        progressBar.setVisibility(View.VISIBLE);
     }
 
     private void onTokensComplete() {
-
+        adapter.setLoading(false);
     }
 
     private void onNextValue(DaoToken token) {
         errorHolder.setVisibility(View.GONE);
-        progressBar.setVisibility(View.GONE);
         adapter.setToken(token);
     }
 
     private void onTokensError(Throwable throwable) {
         errorHolder.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
-    }
-
-    private void onTokensReady(List<DaoToken> daoTokens) {
-        errorHolder.setVisibility(View.GONE);
-        progressBar.setVisibility(View.GONE);
-        //initAdapter(daoTokens);
     }
 
     private void transferFailed(Throwable throwable) {

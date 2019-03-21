@@ -28,6 +28,7 @@
                 android:textColor="@color/black" />
 
             <EditText
+                android:inputType="textNoSuggestions"
                 android:id="@+id/webview_url_field"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

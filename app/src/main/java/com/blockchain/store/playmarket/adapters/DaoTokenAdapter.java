@@ -5,12 +5,12 @@ import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
@@ -22,7 +22,6 @@ import com.blockchain.store.playmarket.repositories.TokenRepository;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,10 +32,12 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private DaoAdapterCallback callback;
     private boolean isOpenAsWallet = false;
     private int selectPosition = 0;
+    private boolean isLoading = false;
 
     public DaoTokenAdapter(ArrayList<DaoToken> daoTokens, DaoAdapterCallback callback) {
         this.daoTokens = daoTokens;
         this.callback = callback;
+        this.isLoading = true;
     }
 
     public DaoTokenAdapter(ArrayList<DaoToken> daoTokens, DaoAdapterCallback callback, boolean openAsDaoWallet) {
@@ -55,8 +56,16 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         notifyDataSetChanged();
     }
 
+    public void setLoading(boolean isLoading) {
+        this.isLoading = isLoading;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemViewType(int position) {
+        if (isLoading && position == getItemCount() - 1) {
+            return 2;
+        }
         if (position == 0) return 0;
         return 1;
     }
@@ -68,7 +77,8 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dao_pm_token_list_item, parent, false);
             return new DaoPlayMarketTokenViewHolder(view);
-        } else {
+        }
+        if (viewType == 1) {
             if (isOpenAsWallet) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dao_wallet_token_list_item, parent, false);
                 DaoWalletViewHolder daoWalletViewHolder = new DaoWalletViewHolder(view);
@@ -91,6 +101,11 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
 
         }
+        if (viewType == 2) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dao_token_loading_view, parent, false);
+            return new LoadingViewHolder(view);
+        }
+        return null;
     }
 
     @Override
@@ -104,11 +119,19 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof DaoWalletViewHolder) {
             ((DaoWalletViewHolder) holder).bind(daoTokens.get(position), position);
         }
+        if (holder instanceof LoadingViewHolder) {
+            ((LoadingViewHolder) holder).bind(isLoading);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return daoTokens.size();
+        if (isLoading) {
+            return daoTokens.size() + 1;
+        } else {
+            return daoTokens.size();
+        }
+
     }
 
     class DaoPlayMarketTokenViewHolder extends RecyclerView.ViewHolder {
@@ -181,7 +204,8 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (daoToken.address.equalsIgnoreCase(DaoConstants.CRYPTO_DUEL_CONTRACT)) {
                 dividendsAmountField.setVisibility(View.VISIBLE);
                 dividendsAmount.setVisibility(View.VISIBLE);
-                if (!daoToken.ownersBal.equals("")) dividendsAmount.setText(daoToken.getOwnersBal());
+                if (!daoToken.ownersBal.equals(""))
+                    dividendsAmount.setText(daoToken.getOwnersBal());
             } else {
                 dividendsAmountField.setVisibility(View.GONE);
                 dividendsAmount.setVisibility(View.GONE);
@@ -246,6 +270,19 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @OnClick({R.id.receive_text, R.id.imageView2})
         void onTransferClicked() {
 
+        }
+    }
+
+    class LoadingViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.progress_bar) ProgressBar progressBar;
+
+        public LoadingViewHolder(@NonNull View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        public void bind(boolean isLoading) {
+            progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
         }
     }
 }

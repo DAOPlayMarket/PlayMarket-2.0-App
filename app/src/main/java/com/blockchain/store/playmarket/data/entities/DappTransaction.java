@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.blockchain.store.playmarket.utilities.AccountManager;
+import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
 import org.ethereum.geth.Account;
@@ -22,7 +23,6 @@ public class DappTransaction implements Parcelable {
     public String from;
     public String to;
     public String value = "0";
-    public String chainId;
     public String gas;
     public String data = "";
 
@@ -44,10 +44,6 @@ public class DappTransaction implements Parcelable {
 
     }
 
-    public String getChainId() {
-        return String.valueOf(Long.parseLong(chainId.replace("0x", ""), 16));
-    }
-
     public String getGas() {
         return String.valueOf(Long.parseLong(gas.replace("0x", ""), 16));
     }
@@ -62,18 +58,14 @@ public class DappTransaction implements Parcelable {
 
     public Transaction createTx() throws Exception {
         byte[] decode = Hex.decode(data.replaceFirst("0x", ""));
-        String s2 = hexToString(data.replaceFirst("0x", ""));
-        String s3 = fromHex(data.replaceFirst("0x", ""));
-        String test = new String(data.getBytes());
         String nonce = getNonce();
         String gasPrice = getGasPrice();
         String gasLimit = getGasLimit();
         String value = getValue();
-        String chainId = getChainId();
         String gas = getGas();
         Transaction tx = new Transaction(Long.valueOf(nonce), new Address(to), new BigInt(Long.valueOf(value)), Long.valueOf(gasLimit), new BigInt(Long.valueOf(gasPrice)), decode);
         Account account = AccountManager.getAccount();
-        return CryptoUtils.keyManager.getKeystore().signTx(account, tx, new BigInt(Long.valueOf(chainId)));
+        return CryptoUtils.keyManager.getKeystore().signTx(account, tx, new BigInt(Constants.USER_ETHERSCAN_ID));
 //        CryptoUtils.getRawTransaction(signedTx);
 
     }
@@ -113,7 +105,6 @@ public class DappTransaction implements Parcelable {
         dest.writeString(this.from);
         dest.writeString(this.to);
         dest.writeString(this.value);
-        dest.writeString(this.chainId);
         dest.writeString(this.gas);
         dest.writeString(this.data);
     }
@@ -128,7 +119,6 @@ public class DappTransaction implements Parcelable {
         this.from = in.readString();
         this.to = in.readString();
         this.value = in.readString();
-        this.chainId = in.readString();
         this.gas = in.readString();
         this.data = in.readString();
     }

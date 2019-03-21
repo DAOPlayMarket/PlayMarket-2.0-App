@@ -80,9 +80,9 @@
         android:id="@+id/dividends_amount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:singleLine="true"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="14dp"
+        android:singleLine="true"
         android:visibility="gone"
         app:layout_constraintBaseline_toBaselineOf="@+id/dividends_amount_field"
         app:layout_constraintEnd_toStartOf="@+id/touch_helper"
@@ -123,15 +123,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dividends_amount_field"
         tools:el_expanded="true">
-
-        <View
-            android:id="@+id/token_divider"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:alpha="0.1"
-            android:background="@color/white"
-            android:visibility="invisible"
-            app:layout_constraintTop_toBottomOf="@+id/token_balance_field" />
 
         <LinearLayout
             android:id="@+id/delete_holder"

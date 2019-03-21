@@ -20,6 +20,7 @@ import com.blockchain.store.playmarket.data.entities.DappTransaction;
 import com.blockchain.store.playmarket.interfaces.BackPressedCallback;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.dialogs.DappTxDialog;
 import com.google.gson.Gson;
@@ -54,6 +55,7 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
     private Web3j web3j = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
     private boolean isUserSawThisPage = false;
     private boolean isWebViewAlreadyInit = false;
+    private CompletionHandler lastKnownHandler;
 
     public static DappsFragment newInstance() {
         Bundle args = new Bundle();
@@ -138,7 +140,7 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
 
     @Override
     public boolean isUserCanHandleBackPressed() {
-        if (webView.canGoBack()) {
+        if (webView != null && webView.canGoBack()) {
             webView.goBack();
         }
 
@@ -147,12 +149,18 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
 
 
     @Override
-    public void onAccountUnlocked(DappTransaction dappTransaction) {
+    public void onAccountUnlocked(DappTransaction dappTransaction, boolean isNeedToSendTx) {
         try {
             Transaction dapTx = dappTransaction.createTx();
-            sendRawTransaction(dapTx);
+            if (this.lastKnownHandler != null) {
+                lastKnownHandler.complete(dapTx.getHash().getHex());
+            }
+            if (isNeedToSendTx) {
+                sendRawTransaction(dapTx);
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            ToastUtil.showToast(e.getMessage());
         }
     }
 
@@ -173,16 +181,32 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
         @JavascriptInterface
         public void signTx(Object tx, CompletionHandler handler) {
             Log.d(TAG, "signTx() called with: tx = [" + tx + "], handler = [" + handler + "]");
-            handler.complete();
+            createTx(tx, handler);
         }
 
+        @JavascriptInterface
+        public void sign(Object tx, CompletionHandler handler) {
+            createTx(tx, handler);
+            Log.d(TAG, "sign() called with: tx = [" + tx + "], handler = [" + handler + "]");
+        }
+
+        private void createTx(Object tx, CompletionHandler handler) {
+            lastKnownHandler = handler;
+            DappTransaction dappTransaction = new Gson().fromJson(tx.toString(), DappTransaction.class);
+            showFragmentDialog(dappTransaction, false);
+        }
 
         @JavascriptInterface
         public void sendTransaction(Object tx, CompletionHandler handler) {
-            Log.d(TAG, "sendTransaction() called with: tx = [" + tx + "], handler = [" + handler + "]");
+            lastKnownHandler = handler;
             DappTransaction dappTransaction = new Gson().fromJson(tx.toString(), DappTransaction.class);
-            DappTxDialog.newInstance(dappTransaction).show(getChildFragmentManager(), "");
+            showFragmentDialog(dappTransaction, true);
+        }
 
+        private void showFragmentDialog(DappTransaction dappTransaction, boolean isNeedToSendTx) {
+            DappTxDialog.newInstance(dappTransaction, isNeedToSendTx).show(getChildFragmentManager(), "fragment-tag");
+            DappTxDialog fragmentDialog = (DappTxDialog) getChildFragmentManager().findFragmentByTag("fragment-tag");
+            fragmentDialog.setCallback(DappsFragment.this);
         }
     }
 
