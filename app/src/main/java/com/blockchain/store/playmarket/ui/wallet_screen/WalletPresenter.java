@@ -42,6 +42,7 @@ public class WalletPresenter implements WalletContract.Presenter {
 
         ArrayList<DaoToken> tokens = TokenRepository.getUserSavedTokens();
         tokens.add(0, new DaoToken().generatePmToken());
+        view.onLocalTokensAdded(tokens);
 
         PublishSubject<DaoToken> publishSubject = PublishSubject.create();
         publishSubject.observeOn(AndroidSchedulers.mainThread()).
@@ -49,7 +50,6 @@ public class WalletPresenter implements WalletContract.Presenter {
                 subscribe(view::onTokenNext, view::onTokenError, view::onTokensComplete);
         ContractReader.getWalletTokens(publishSubject, tokens);
 
-        view.onLocalTokensAdded(tokens);
     }
 
 }
