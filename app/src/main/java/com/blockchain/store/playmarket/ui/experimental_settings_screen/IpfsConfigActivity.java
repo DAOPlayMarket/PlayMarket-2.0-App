@@ -1,12 +1,12 @@
 package com.blockchain.store.playmarket.ui.experimental_settings_screen;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.api.RestApi;
+import com.blockchain.store.playmarket.utilities.BaseActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +19,7 @@ import okhttp3.ResponseBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class IpfsConfigActivity extends AppCompatActivity {
+public class IpfsConfigActivity extends BaseActivity {
     private static final String TAG = "IpfsConfigActivity";
 
     @BindView(R.id.config) TextView config;
