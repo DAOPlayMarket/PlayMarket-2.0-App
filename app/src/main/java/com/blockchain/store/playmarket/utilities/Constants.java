@@ -141,6 +141,8 @@ public class Constants {
 
     public static final String EMPTY_ADDRESS = "0x0000000000000000000000000000000000000000";
 
+    public static final String PM_TOKEN_ADDRESS = "0xcf42d66172f8fdec2b42515f0f0289049e4011c2";
+
 
     public static final String TRANSACTION_MODEL_KEY = "transaction_model_key";
 

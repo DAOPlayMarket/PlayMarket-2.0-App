@@ -447,12 +447,9 @@ public class DaoTransactionRepository {
         inputParameters.add(new Uint256(position));
 
         ArrayList<TypeReference<?>> outputParameters = new ArrayList<>();
-        outputParameters.add(new TypeReference<Address>() {
-        });
-        outputParameters.add(new TypeReference<Uint256>() {
-        });
-        outputParameters.add(new TypeReference<Uint256>() {
-        });
+        outputParameters.add(new TypeReference<Address>() { });
+        outputParameters.add(new TypeReference<Uint256>() { });
+        outputParameters.add(new TypeReference<Uint256>() { });
 
         return new Function("Tokens", inputParameters, outputParameters);
 
@@ -473,42 +470,29 @@ public class DaoTransactionRepository {
         inputParameters.add(new Uint256(position));
 
         ArrayList<TypeReference<?>> outputParameters = new ArrayList<>();
-        outputParameters.add(new TypeReference<Uint256>() {
-        });
-        outputParameters.add(new TypeReference<Bool>() {
-        });
-        outputParameters.add(new TypeReference<Bool>() {
-        });
-        outputParameters.add(new TypeReference<Uint256>() {
-        });
-        outputParameters.add(new TypeReference<Uint256>() {
-        });
-        outputParameters.add(new TypeReference<Uint256>() {
-        });
-        outputParameters.add(new TypeReference<Address>() {
-        });
-        outputParameters.add(new TypeReference<Uint256>() {
-        });
-        outputParameters.add(new TypeReference<Bytes32>() {
-        });
-        outputParameters.add(new TypeReference<Utf8String>() {
-        });
-        outputParameters.add(new TypeReference<Utf8String>() {
-        });
+        outputParameters.add(new TypeReference<Uint256>() {});
+        outputParameters.add(new TypeReference<Bool>() {});
+        outputParameters.add(new TypeReference<Bool>() {});
+        outputParameters.add(new TypeReference<Uint256>() {});
+        outputParameters.add(new TypeReference<Uint256>() {});
+        outputParameters.add(new TypeReference<Uint256>() {});
+        outputParameters.add(new TypeReference<Address>() {});
+        outputParameters.add(new TypeReference<Uint256>() {});
+        outputParameters.add(new TypeReference<Bytes32>() {});
+        outputParameters.add(new TypeReference<Utf8String>() {});
+        outputParameters.add(new TypeReference<Utf8String>() {});
         return new Function("Proposals", inputParameters, outputParameters);
     }
 
     private static Function minQuorumFunction() {
         ArrayList<TypeReference<?>> outputParameters = new ArrayList<>();
-        outputParameters.add(new TypeReference<Uint256>() {
-        });
+        outputParameters.add(new TypeReference<Uint256>() {});
         return new Function("minimumQuorum", new ArrayList<>(), outputParameters);
     }
 
     private static Function debatingPeriodFunction() {
         ArrayList<TypeReference<?>> outputParameters = new ArrayList<>();
-        outputParameters.add(new TypeReference<Uint256>() {
-        });
+        outputParameters.add(new TypeReference<Uint256>() {});
         return new Function("debatingPeriodDuration", new ArrayList<>(), outputParameters);
     }
 
@@ -614,8 +598,7 @@ public class DaoTransactionRepository {
     }
 
     private static Function getTokenBalanceOfFunction() {
-        return new Function("balanceOf", Collections.singletonList(new Address(userAddress)), Collections.singletonList(new TypeReference<Uint>() {
-        }));
+        return new Function("balanceOf", Collections.singletonList(new Address(userAddress)), Collections.singletonList(new TypeReference<Uint>() {}));
     }
 
     /*CryptoDuel*/
