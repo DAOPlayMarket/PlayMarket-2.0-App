@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,7 +23,7 @@
 
     <View
         android:id="@+id/touch_helper"
-        android:layout_width="107dp"
+        android:layout_width="90dp"
         android:layout_height="0dp"
         android:background="@drawable/dao_token_touch_bg"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -44,10 +44,8 @@
         android:id="@+id/receive_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:text="@string/receive"
         android:textColor="#059FFA"
-        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/touch_helper"
@@ -89,8 +87,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:paddingBottom="17dp"
+        android:layout_marginBottom="10dp"
         android:text="@string/dividends_amount"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/token_balance_field"
         app:layout_constraintTop_toBottomOf="@+id/token_balance_field" />
 
@@ -103,7 +102,6 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/token_dividends_amount_field"
         app:layout_constraintStart_toEndOf="@+id/token_dividends_amount_field"
         tools:text="500.000" />
-
 
     <ImageView
         android:id="@+id/imageView2"

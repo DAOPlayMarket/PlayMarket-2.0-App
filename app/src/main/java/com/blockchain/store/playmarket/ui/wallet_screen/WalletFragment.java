@@ -67,7 +67,6 @@ public class WalletFragment extends Fragment implements WalletContract.View, Dao
     @BindView(R.id.view) View view;
     @BindView(R.id.button) Button button;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
-    @BindView(R.id.token_progress_Bar) ProgressBar tokenProgressBar;
     @BindView(R.id.error_view_repeat_btn) Button error_view_repeat_btn;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
 
@@ -124,32 +123,27 @@ public class WalletFragment extends Fragment implements WalletContract.View, Dao
 
     private void getWalletTokens() {
         presenter.getWalletTokens();
-        tokenProgressBar.setVisibility(View.VISIBLE);
         errorHolder.setVisibility(View.GONE);
     }
 
     @Override
     public void onTokenNext(DaoToken daoToken) {
-        tokenProgressBar.setVisibility(View.GONE);
         errorHolder.setVisibility(View.GONE);
-        adapter.setToken(daoToken);
+        adapter.updateToken(daoToken);
     }
 
     @Override
     public void onTokensComplete() {
-
     }
 
     @Override
     public void onTokenError(Throwable throwable) {
-        tokenProgressBar.setVisibility(View.GONE);
         errorHolder.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onLocalTokensAdded(ArrayList<DaoToken> tokens) {
         adapter.setTokens(tokens);
-        tokenProgressBar.setVisibility(View.GONE);
     }
 
     private void loadUserBalance() {

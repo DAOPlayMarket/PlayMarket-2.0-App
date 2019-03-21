@@ -3,9 +3,6 @@ package com.blockchain.store.dao.repository
 import com.blockchain.store.dao.data.entities.DaoToken
 import com.blockchain.store.dao.ui.DaoConstants
 import com.blockchain.store.playmarket.api.RestApi
-import com.blockchain.store.playmarket.data.entities.TokenResponse
-import com.blockchain.store.playmarket.data.types.EthereumPrice
-import com.blockchain.store.playmarket.repositories.TokenRepository
 import com.blockchain.store.playmarket.utilities.AccountManager
 import com.blockchain.store.playmarket.utilities.Constants
 import kotlinx.coroutines.*
@@ -18,14 +15,11 @@ import org.web3j.abi.datatypes.generated.Uint256
 import org.web3j.protocol.Web3j
 import org.web3j.protocol.Web3jFactory
 import org.web3j.protocol.core.DefaultBlockParameterName
-import org.web3j.protocol.core.methods.request.EthFilter
 import org.web3j.protocol.core.methods.request.Transaction
 import org.web3j.protocol.core.methods.response.EthCall
 import org.web3j.protocol.core.methods.response.EthGetBalance
 import org.web3j.protocol.http.HttpService
 import rx.subjects.PublishSubject
-import java.util.*
-import kotlin.collections.ArrayList
 
 class ContractReader {
 
@@ -36,8 +30,6 @@ class ContractReader {
 
         private var web3j: Web3j? = null
         private var userAddress: String? = null
-
-        //var publishSubject : PublishSubject<DaoToken> = PublishSubject.create()
 
         private fun init() {
             web3j = Web3jFactory.build(HttpService(RestApi.BASE_URL_INFURA))
@@ -62,7 +54,7 @@ class ContractReader {
                 }
 
                 if (token.address.equals(DaoConstants.CRYPTO_DUEL_CONTRACT, true)) {
-                    function = Function("ownersbal", listOf<Type<*>>(Address(userAddress)), listOf<TypeReference<*>>(object : TypeReference<Uint>() {}) )
+                    function = Function("ownersbal", listOf<Type<*>>(Address(userAddress)), listOf<TypeReference<*>>(object : TypeReference<Uint>() {}))
                     result = getEthCallResult(function, DaoConstants.CRYPTO_DUEL_CONTRACT)
                     token.ownersBal = decodeFunction(result, function).toString()
                 }

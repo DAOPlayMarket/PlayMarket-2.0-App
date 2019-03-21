@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,27 +33,12 @@
 
     <View
         android:id="@+id/touch_helper"
-        android:layout_width="107dp"
+        android:layout_width="90dp"
         android:layout_height="0dp"
         android:background="@drawable/dao_token_touch_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/button"
-        style="@style/secondaryButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_marginBottom="8dp"
-        android:text="@string/transfer"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/touch_helper"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <TextView
         android:id="@+id/textView6"
@@ -68,7 +53,7 @@
         android:id="@+id/token_balance_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:text="@string/balance"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/textView6"
@@ -89,8 +74,9 @@
         android:id="@+id/token_repository_amount_field"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingBottom="17dp"
+        android:layout_marginBottom="10dp"
         android:text="@string/repository_balance"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/token_balance_field"
         app:layout_constraintTop_toBottomOf="@+id/token_balance_field" />
 
@@ -99,8 +85,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:singleLine="true"
         android:layout_marginEnd="8dp"
+        android:singleLine="true"
         android:textColor="@color/secondary_btn_text_color"
         app:layout_constraintBaseline_toBaselineOf="@+id/token_repository_amount_field"
         app:layout_constraintEnd_toStartOf="@+id/touch_helper"
@@ -113,13 +99,40 @@
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:paddingStart="20dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="20dp"
         android:src="@drawable/ic_token_list_transfer"
         app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="@+id/button"
-        app:layout_constraintStart_toStartOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="@+id/touch_helper"
+        app:layout_constraintStart_toStartOf="@+id/touch_helper"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.52"
         app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/button"
+        style="@style/secondaryButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:textStyle="bold"
+        android:paddingTop="2dp"
+        android:text="@string/transfer"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/touch_helper"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.56" />
 
 </android.support.constraint.ConstraintLayout>
