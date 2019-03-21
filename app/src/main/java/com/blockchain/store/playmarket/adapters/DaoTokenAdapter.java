@@ -21,9 +21,6 @@ import com.blockchain.store.playmarket.repositories.TokenRepository;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -86,6 +83,11 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
         if (position == 0) return 0;
         return 1;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return daoTokens.get(position).hashCode();
     }
 
     @NonNull

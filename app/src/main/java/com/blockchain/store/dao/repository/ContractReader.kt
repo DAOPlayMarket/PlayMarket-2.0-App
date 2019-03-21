@@ -5,6 +5,7 @@ import com.blockchain.store.dao.ui.DaoConstants
 import com.blockchain.store.playmarket.api.RestApi
 import com.blockchain.store.playmarket.utilities.AccountManager
 import com.blockchain.store.playmarket.utilities.Constants
+import com.google.android.youtube.player.internal.t
 import kotlinx.coroutines.*
 import org.web3j.abi.FunctionEncoder
 import org.web3j.abi.FunctionReturnDecoder
@@ -47,10 +48,13 @@ class ContractReader {
 
                 var function = Function("balanceOf", listOf<Type<*>>(Address(userAddress)), listOf<TypeReference<*>>(object : TypeReference<Uint>() {}))
                 var result = getEthCallResult(function, token.address)
-                token.balance = decodeFunction(result, function).toString()
+
 
                 if (token.address.equals(Constants.PM_TOKEN_ADDRESS, true)) {
                     token = obtainTokenData(token)
+                    token.balance = decodeFunction(getEthCallResult(function, DaoConstants.PlayMarket_token_contract), function).toString()
+                } else {
+                    token.balance = decodeFunction(result, function).toString()
                 }
 
                 if (token.address.equals(DaoConstants.CRYPTO_DUEL_CONTRACT, true)) {

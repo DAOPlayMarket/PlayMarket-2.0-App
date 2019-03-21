@@ -8,6 +8,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Locale;
 
+import static com.blockchain.store.dao.ui.DaoConstants.PlayMarket_token_contract;
+
 public class DaoToken implements Parcelable {
     @SerializedName("contract")
     public String address;
