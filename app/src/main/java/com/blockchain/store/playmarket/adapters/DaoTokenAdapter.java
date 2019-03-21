@@ -22,17 +22,14 @@ import com.blockchain.store.playmarket.repositories.TokenRepository;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String TAG = "DaoTokenAdapter";
 
     private ArrayList<DaoToken> daoTokens;
     private DaoAdapterCallback callback;
@@ -67,7 +64,9 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void setTokens(ArrayList<DaoToken> tokens) {
         daoTokens = tokens;
         isUpdatedList = new ArrayList<>(tokens.size());
-        for (DaoToken token : tokens) { isUpdatedList.add(false); }
+        for (DaoToken token : tokens) {
+            isUpdatedList.add(false);
+        }
         notifyDataSetChanged();
     }
 
@@ -92,12 +91,14 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public long getItemId(int position) {
+        if (position + 1 == getItemCount()) return 1;
         return daoTokens.get(position).hashCode();
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder() called with: parent = [" + parent + "], viewType = [" + viewType + "]");
         if (viewType == 0) {
 
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dao_pm_token_list_item, parent, false);
@@ -192,7 +193,6 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             symbol.setText(daoToken.symbol);
             balance.setText(String.valueOf(daoToken.getBalanceWithDecimals()));
             repositoryBalance.setText(String.valueOf(daoToken.getDaoBalanceWithDecimals()));
-//            setClickEnabled(daoToken.getBalanceWithDecimals() != 0 || daoToken.getDaoBalance() != 0);
 
             transferIcon.setOnClickListener(v -> callback.onPmTokenClicked(daoToken));
             button.setOnClickListener(v -> callback.onPmTokenClicked(daoToken));
@@ -230,7 +230,9 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         public void bind(DaoToken daoToken, int position) {
 
-            if (isUpdatedList == null ||isUpdatedList.get(position)) {
+            expandableLayout.setExpanded(selectPosition == position);
+
+            if (isUpdatedList == null || isUpdatedList.get(position)) {
                 progressBar.setVisibility(View.GONE);
                 imageView2.setVisibility(View.VISIBLE);
                 button.setVisibility(View.VISIBLE);
@@ -245,6 +247,10 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 Resources resources = context.getResources();
                 int dp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, resources.getDisplayMetrics());
                 newLayoutParams.bottomMargin = dp;
+                rootLayout.setLayoutParams(newLayoutParams);
+            } else {
+                ViewGroup.MarginLayoutParams newLayoutParams = (ViewGroup.MarginLayoutParams) rootLayout.getLayoutParams();
+                newLayoutParams.bottomMargin = 0;
                 rootLayout.setLayoutParams(newLayoutParams);
             }
             if (daoToken.address.equalsIgnoreCase(DaoConstants.CRYPTO_DUEL_CONTRACT)) {
@@ -269,9 +275,12 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             rootLayout.setOnClickListener(v -> {
                 if (expandableLayout.isExpanded()) {
+                    selectPosition = -1;
                     expandableLayout.collapse();
                 } else {
+                    selectPosition = position;
                     expandableLayout.expand();
+                    notifyDataSetChanged();
                 }
             });
 
