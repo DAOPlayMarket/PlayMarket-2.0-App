@@ -37,7 +37,6 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
     @BindView(R.id.library_layout) LinearLayout libraryLayout;
     @BindView(R.id.settings_layout) LinearLayout settingsLayout;
-    @BindView(R.id.dapps_layout) LinearLayout dappsLayout;
     @BindView(R.id.about_layout) LinearLayout aboutLayout;
     @BindView(R.id.ether_count) TextView balanceView;
     @BindView(R.id.error_view_repeat_btn) Button errorBtn;
@@ -46,7 +45,6 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     NavigationViewPresenter presenter;
 
     public NavigationViewFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -62,17 +60,7 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
         ButterKnife.bind(this, view);
         setRetainInstance(true);
         attachPresenter();
-        setViews();
         return view;
-    }
-
-    private void setViews() {
-//        if (Constants.IS_MAINNET_BUILD) {
-            dappsLayout.setVisibility(View.GONE);
-//        }
-        //userAddress.setText(AccountManager.getFormattedAddress());
-        //avatarImage.setImageBitmap(QrUtils.getBitmapQrFromAddress(AccountManager.getAddress().getHex(), QrUtils.QR_SIZE.SMALL));
-        //swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     private void attachPresenter() {
@@ -123,12 +111,6 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     void onAboutClicked() {
         closeDrawers();
         startActivity(new Intent(getActivity(), AboutAppActivity.class));
-    }
-
-    @OnClick(R.id.dapps_layout)
-    void onDAppsLayout() {
-        closeDrawers();
-        startActivity(new Intent(getActivity(), DappActivity.class));
     }
 
     @Override

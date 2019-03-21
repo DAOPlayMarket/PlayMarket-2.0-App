@@ -12,13 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import com.blockchain.store.dao.data.TokenBalance;
 import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.utilities.Constants;
-import com.blockchain.store.playmarket.utilities.DialogManager;
+import com.blockchain.store.playmarket.utilities.dialogs.DialogManager;
 import com.blockchain.store.playmarket.utilities.QRCodeScannerActivity;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 

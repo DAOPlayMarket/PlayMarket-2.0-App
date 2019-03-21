@@ -64,6 +64,24 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
         return selectedItems;
     }
 
+    public void handleInstallationFailure() {
+        for (AppLibrary appLibrary : this.appLibraries) {
+            if (appLibrary.app != null && appLibrary.appState == Constants.APP_STATE.STATE_UPDATING) {
+                appLibrary.appState = Constants.APP_STATE.STATE_UNKNOWN;
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void handleInstallationSucceess(String packageName) {
+        for (AppLibrary appLibrary : this.appLibraries) {
+            if (appLibrary.app != null && appLibrary.app.packageName.contains("packageName")) {
+                appLibrary.isHasUpdate = false;
+            }
+        }
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull MyAppsViewHolder holder, int position) {
         holder.bind(appLibraries.get(position));
@@ -93,6 +111,7 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
 
 
     private AppLibrary getItemByApp(App app) {
+        if (app == null) return null;
         for (int i = 0; i < appLibraries.size(); i++) {
             if (appLibraries.get(i).app != null && appLibraries.get(i).app.appId.equals(app.appId)) {
                 return appLibraries.get(i);
@@ -174,7 +193,7 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
             currentVersion.setText(appLibrary.versionName);
 
             newVersion.setText(appLibrary.getNewAppVersion());
-            if (newVersion.getText().toString().isEmpty()){
+            if (newVersion.getText().toString().isEmpty()) {
                 newVersion.setVisibility(View.GONE);
                 newVersionTitle.setVisibility(View.GONE);
             } else {
@@ -183,7 +202,7 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
             }
 
             size.setText(appLibrary.getSizeAsMBString());
-            if (size.getText().toString().isEmpty()){
+            if (size.getText().toString().isEmpty()) {
                 size.setVisibility(View.GONE);
                 sizeTitle.setVisibility(View.GONE);
             } else {
@@ -210,14 +229,9 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
                 case STATE_UNKNOWN:
                     status.setVisibility(appLibrary.isHasUpdate ? View.VISIBLE : View.GONE);
                     status.setText(context.getString(R.string.has_update));
-
                     if (appLibrary.isSelected) {
                         status.setText(R.string.chosed);
-//                        status.setTextColor(context.getResources().getColor(R.color.action_btn_bg));
-                    } else {
-//                        status.setTextColor(context.getResources().getColor(R.color.white));
                     }
-
                     break;
                 case STATE_DOWNLOADED_NOT_INSTALLED:
                     status.setVisibility(View.GONE);
@@ -226,6 +240,9 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
                     status.setVisibility(View.VISIBLE);
                     status.setText(R.string.install_update);
                     break;
+                case STATE_UPDATING:
+                    status.setText(R.string.updating);
+                    layoutHolder.setClickable(false);
 
             }
         }

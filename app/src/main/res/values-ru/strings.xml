@@ -469,4 +469,6 @@
     <string name="new_version">Новая версия:</string>
     <string name="size">Размер:</string>
 
+    <string name="installing">Устанавливается...</string>
+    <string name="updating">Обновляется...</string>
 </resources>

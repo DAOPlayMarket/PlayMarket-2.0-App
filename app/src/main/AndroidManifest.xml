@@ -237,6 +237,8 @@
         <activity
             android:name=".ui.local_ico_screen.IcoLocalActivity"
             android:screenOrientation="portrait" />
+
+        <service android:name=".installer.rootless.RootlessSAIPIService"/>
     </application>
 
 </manifest>

@@ -1,8 +1,8 @@
 package com.blockchain.store.playmarket.ui.my_apps_screen;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,9 +17,12 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.MyAppsAdapter;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.AppLibrary;
+import com.blockchain.store.playmarket.installer.InstallerViewModel;
 import com.blockchain.store.playmarket.interfaces.AppsAdapterCallback;
 import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.blockchain.store.playmarket.utilities.MyPackageManager;
+import com.blockchain.store.playmarket.utilities.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -42,6 +45,7 @@ public class MyAppsActivity extends BaseActivity implements MyAppsContract.View,
     private boolean isGlobalLayoutListenerTriggered;
     private Snackbar snackbar;
     private Integer howManyAppsNeedUpdate;
+    private InstallerViewModel installerViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,7 @@ public class MyAppsActivity extends BaseActivity implements MyAppsContract.View,
         setContentView(R.layout.activity_my_apps);
         ButterKnife.bind(this);
         attachPresenter();
+        installerViewModel = ViewModelProviders.of(this).get(InstallerViewModel.class);
         ViewTreeObserver viewTreeObserver = layoutHolder.getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(() -> {
             if (!isGlobalLayoutListenerTriggered) {
@@ -58,6 +63,37 @@ public class MyAppsActivity extends BaseActivity implements MyAppsContract.View,
         });
         setTitle();
         initSnackBar();
+        initViewModel();
+    }
+
+    private void initViewModel() {
+        installerViewModel.getState().observe(this, state -> {
+            switch (state) {
+                case IDLE:
+                    break;
+                case INSTALLING:
+
+                    break;
+            }
+        });
+        installerViewModel.getEvents().observe(this, (event) -> {
+            if (event.isConsumed()) {
+                return;
+            }
+            String[] eventData = event.consume();
+
+            switch (eventData[0]) {
+                case InstallerViewModel.EVENT_INSTALLATION_FAILED:
+                    adapter.handleInstallationFailure();
+//                    ToastUtil.showToast(eventData[1]);
+                    break;
+
+                case InstallerViewModel.EVENT_PACKAGE_INSTALLED:
+                    adapter.handleInstallationSucceess(eventData[1]);
+                    break;
+
+            }
+        });
     }
 
     @Override
@@ -116,6 +152,11 @@ public class MyAppsActivity extends BaseActivity implements MyAppsContract.View,
         if (adapter != null) {
             adapter.refreshItemStatus(allItemsWithUpdate);
         }
+    }
+
+    @Override
+    public void installApp(App app) {
+        installerViewModel.installPackages(new MyPackageManager().getFileFromApp(app));
     }
 
     @OnClick(R.id.error_view_repeat_btn)

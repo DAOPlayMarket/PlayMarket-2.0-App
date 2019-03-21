@@ -2,6 +2,7 @@ package com.blockchain.store.playmarket.ui.app_detail_screen;
 
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -27,14 +28,16 @@ import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.data.entities.AppReviewsData;
 import com.blockchain.store.playmarket.data.entities.IcoLocalData;
 import com.blockchain.store.playmarket.data.entities.UserReview;
+import com.blockchain.store.playmarket.installer.InstallerViewModel;
 import com.blockchain.store.playmarket.interfaces.AppDetailsImpl;
 import com.blockchain.store.playmarket.ui.all_reviews_screen.AllReviewsActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
-import com.blockchain.store.playmarket.utilities.DialogManager;
 import com.blockchain.store.playmarket.utilities.FrescoUtils;
+import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
+import com.blockchain.store.playmarket.utilities.dialogs.DialogManager;
 
 import java.util.ArrayList;
 
@@ -90,6 +93,7 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
     private IcoLocalData icoLocalData;
 
     private AppDetailAdapter appDetailAdapter;
+    private InstallerViewModel installerViewModel;
 
     public static void start(Context context, App app) {
         Intent starter = new Intent(context, AppDetailActivity.class);
@@ -155,6 +159,34 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
         } else {
             marksCountTextView.setText(app.rating.ratingCount + getString(R.string.marks));
         }
+        installerViewModel = ViewModelProviders.of(this).get(InstallerViewModel.class);
+        installerViewModel.getEvents().observe(this, (event) -> {
+            if (event.isConsumed()) {
+                return;
+            }
+            String[] eventData = event.consume();
+            switch (eventData[0]) {
+                case InstallerViewModel.EVENT_INSTALLATION_FAILED:
+                    ToastUtil.showToast(eventData[1]);
+                    break;
+
+                case InstallerViewModel.EVENT_PACKAGE_INSTALLED:
+                    presenter.loadButtonsState(app, isUserPurchasedApp);
+                    break;
+
+            }
+        });
+        installerViewModel.getState().observe(this, state -> {
+            switch (state) {
+                case IDLE:
+                    actionBtn.setEnabled(true);
+                    break;
+                case INSTALLING:
+                    actionBtn.setText(R.string.installing);
+                    actionBtn.setEnabled(false);
+                    break;
+            }
+        });
     }
 
     @SuppressLint("CheckResult")
@@ -231,6 +263,11 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
         if (appDetailAdapter != null) {
             appDetailAdapter.onError(true, throwable);
         }
+    }
+
+    @Override
+    public void installApk(App app) {
+        installerViewModel.installPackages(new MyPackageManager().getFileFromApp(app));
     }
 
     @Override

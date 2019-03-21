@@ -117,6 +117,7 @@ public class DownloadService extends IntentService implements SAIPackageInstalle
     }
 
     private void installApk(File file) {
+        Log.d(TAG, "installApk() called with: file = [" + file + "]");
         ArrayList<File> files = new ArrayList<File>();
         files.add(file);
         ensureInstallerActuality();
@@ -143,6 +144,6 @@ public class DownloadService extends IntentService implements SAIPackageInstalle
 
     @Override
     public void onStatusChanged(long installationID, SAIPackageInstaller.InstallationStatus status, @androidx.annotation.Nullable String packageNameOrErrorDescription) {
-
+        Log.d(TAG, "onStatusChanged() called with: installationID = [" + installationID + "], status = [" + status + "], packageNameOrErrorDescription = [" + packageNameOrErrorDescription + "]");
     }
 }

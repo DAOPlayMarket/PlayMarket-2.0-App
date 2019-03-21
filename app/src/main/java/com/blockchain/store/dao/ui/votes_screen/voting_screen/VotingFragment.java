@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.Group;
 import android.support.v4.app.Fragment;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,7 @@ import com.blockchain.store.dao.database.model.Rules;
 import com.blockchain.store.dao.ui.DaoConstants;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
-import com.blockchain.store.playmarket.utilities.DialogManager;
+import com.blockchain.store.playmarket.utilities.dialogs.DialogManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.google.android.gms.common.util.ArrayUtils;
 

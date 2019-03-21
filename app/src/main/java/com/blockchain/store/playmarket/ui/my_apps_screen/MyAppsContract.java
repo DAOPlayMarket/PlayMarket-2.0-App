@@ -19,6 +19,8 @@ public class MyAppsContract {
         void updateApp(App app, int progress, Constants.APP_STATE stateDownloading);
 
         void onCheckForUpdatesReady(ArrayList<AppLibrary> allItemsWithUpdate);
+
+        void installApp(App app);
     }
 
     public interface Presenter {

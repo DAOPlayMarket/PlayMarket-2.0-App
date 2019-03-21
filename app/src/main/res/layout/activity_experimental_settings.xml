@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="38dp"
         android:padding="10dp"
         android:text="@string/download_and_run_ipfs"
         android:textAllCaps="false"
@@ -46,6 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:gravity="center"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal"
                 android:paddingStart="28dp">
 
@@ -278,6 +279,7 @@
                 android:visibility="gone" />
 
             <LinearLayout
+                android:id="@+id/bottom_buttons_holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"

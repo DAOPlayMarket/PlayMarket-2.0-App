@@ -50,6 +50,7 @@ public class ExperimentalSettingsActivity extends BaseActivity implements Experi
 
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.download_ipfs_btn) Button downloadIpfs;
+    @BindView(R.id.bottom_buttons_holder) View buttonsHolder;
 
     private ExperimentalSettingsPresenter presenter;
 
@@ -57,6 +58,7 @@ public class ExperimentalSettingsActivity extends BaseActivity implements Experi
     private Timer mTimer;
     private boolean isDaemonStartClicked = false;
     private IpfsRepository ipfsRepository = new IpfsRepository();
+    private boolean isDownloadStarted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,12 +129,18 @@ public class ExperimentalSettingsActivity extends BaseActivity implements Experi
             downloadIpfs.setVisibility(View.VISIBLE);
             rootHolder.setVisibility(View.GONE);
         }
+        if (IPFSDaemon.getInstance().isNewVersionAvailable()) {
+            downloadIpfs.setText(getString(R.string.update) + " IPFS");
+            downloadIpfs.setVisibility(View.VISIBLE);
+            rootHolder.setVisibility(View.VISIBLE);
+        }
 
 
     }
 
     @OnClick(R.id.download_ipfs_btn)
     public void download_ipfs_btn() {
+        onStopIpfsClicked();
         IPFSDaemon.getInstance().downloadDaemon();
         presenter.loadState();
     }
@@ -158,7 +166,7 @@ public class ExperimentalSettingsActivity extends BaseActivity implements Experi
     }
 
     @OnClick(R.id.stop_ipfs_btn)
-    public void stop_ipfs_btn() {
+    public void onStopIpfsClicked() {
         stopService(new Intent(this, IpfsDaemonService.class));
         this.ipfsRepository.shuwDownIpfs();
         stopIpfs.setEnabled(false);
@@ -168,7 +176,12 @@ public class ExperimentalSettingsActivity extends BaseActivity implements Experi
 
     @Override
     public void reportDownloadUpdate(int i) {
-        runOnUiThread(() -> downloadIpfs.setText(String.valueOf(i)));
+        runOnUiThread(
+                () -> {
+                    downloadIpfs.setText(String.valueOf(i) + " %");
+                    buttonsHolder.setVisibility(View.GONE);
+                }
+        );
     }
 
     @Override
@@ -201,6 +214,7 @@ public class ExperimentalSettingsActivity extends BaseActivity implements Experi
 
     @Override
     public void onDataReady(IpfsRepository.IpfsRepositoryData ipfsRepositoryData) {
+
         isDaemonStartClicked = false;
         stopIpfs.setEnabled(true);
         startIpfs.setEnabled(false);
@@ -208,6 +222,7 @@ public class ExperimentalSettingsActivity extends BaseActivity implements Experi
     }
 
     private void setViews(IpfsRepository.IpfsRepositoryData ipfsRepositoryData) {
+        buttonsHolder.setVisibility(View.VISIBLE);
         ipfsStatus.setText(getString(R.string.settings_online));
         ipfsPeers.setText(String.valueOf(ipfsRepositoryData.peers.peers.size()));
         ipfs_peer_id.setText(ipfsRepositoryData.config.identity.peerId);

@@ -3,7 +3,6 @@ package com.blockchain.store.playmarket.ui.exchange_screen.exchange_info_fragmen
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.drawable.PictureDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -21,12 +20,11 @@ import com.blockchain.store.playmarket.data.entities.ChangellyCurrency;
 import com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivityViewModel;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
-import com.blockchain.store.playmarket.utilities.fragment_dialogs.ChooseCurrencyDialog;
+import com.blockchain.store.playmarket.utilities.dialogs.ChooseCurrencyDialog;
 import com.blockchain.store.playmarket.utilities.glide_svg.SvgSoftwareLayerSetter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.concurrent.TimeUnit;
 
