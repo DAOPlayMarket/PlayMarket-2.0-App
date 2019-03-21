@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.ActionBarOverlayLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +27,6 @@ import com.blockchain.store.playmarket.interfaces.DaoAdapterCallback;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
 import com.blockchain.store.playmarket.ui.exchange_screen.ExchangeActivity;
 import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
-import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewContract;
-import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewPresenter;
 import com.blockchain.store.playmarket.ui.qr_screen.QrActivity;
 import com.blockchain.store.playmarket.ui.transaction_history_screen.TransactionHistoryActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
@@ -39,7 +35,6 @@ import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;

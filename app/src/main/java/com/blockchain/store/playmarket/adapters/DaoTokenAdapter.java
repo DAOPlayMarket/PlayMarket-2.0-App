@@ -49,7 +49,7 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 int index = daoTokens.indexOf(adapterToken);
                 daoTokens.set(index, token);
                 isUpdatedList.set(index, true);
-                notifyDataSetChanged();
+                notifyItemChanged(index);
             }
         }
     }
