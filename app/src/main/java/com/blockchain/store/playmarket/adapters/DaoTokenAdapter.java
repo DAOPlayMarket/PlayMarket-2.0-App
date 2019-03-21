@@ -21,6 +21,7 @@ import com.blockchain.store.playmarket.repositories.TokenRepository;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,20 +29,30 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<DaoToken> daoTokens;
-    DaoAdapterCallback callback;
+    private ArrayList<DaoToken> daoTokens;
+    private DaoAdapterCallback callback;
     private boolean isOpenAsWallet = false;
     private int selectPosition = 0;
 
-    public DaoTokenAdapter(List<DaoToken> daoTokens, DaoAdapterCallback callback) {
+    public DaoTokenAdapter(ArrayList<DaoToken> daoTokens, DaoAdapterCallback callback) {
         this.daoTokens = daoTokens;
         this.callback = callback;
     }
 
-    public DaoTokenAdapter(List<DaoToken> daoTokens, DaoAdapterCallback callback, boolean openAsDaoWallet) {
+    public DaoTokenAdapter(ArrayList<DaoToken> daoTokens, DaoAdapterCallback callback, boolean openAsDaoWallet) {
         this.isOpenAsWallet = openAsDaoWallet;
         this.daoTokens = daoTokens;
         this.callback = callback;
+    }
+
+    public void setToken(DaoToken tokens) {
+        this.daoTokens.add(tokens);
+        notifyDataSetChanged();
+    }
+
+    public void setTokens(ArrayList<DaoToken> tokens) {
+        this.daoTokens = tokens;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -170,7 +181,7 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (daoToken.address.equalsIgnoreCase(DaoConstants.CRYPTO_DUEL_CONTRACT)) {
                 dividendsAmountField.setVisibility(View.VISIBLE);
                 dividendsAmount.setVisibility(View.VISIBLE);
-                dividendsAmount.setText(daoToken.getOwnersBal());
+                if (!daoToken.ownersBal.equals("")) dividendsAmount.setText(daoToken.getOwnersBal());
             } else {
                 dividendsAmountField.setVisibility(View.GONE);
                 dividendsAmount.setVisibility(View.GONE);

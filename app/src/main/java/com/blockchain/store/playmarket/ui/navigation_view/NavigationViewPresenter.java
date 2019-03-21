@@ -3,7 +3,7 @@ package com.blockchain.store.playmarket.ui.navigation_view;
 import android.util.Log;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
-import com.blockchain.store.dao.repository.DaoTransactionRepository;
+import com.blockchain.store.dao.repository.ContractReader;
 import com.blockchain.store.playmarket.data.entities.UserBalance;
 import com.blockchain.store.playmarket.repositories.UserBalanceRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
@@ -12,6 +12,7 @@ import java.util.List;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subjects.PublishSubject;
 
 /**
  * Created by Crypton04 on 09.02.2018.
@@ -49,9 +50,25 @@ public class NavigationViewPresenter implements NavigationViewContract.Presenter
     }
 
     public void loadPmtToken() {
-        DaoTransactionRepository.getOnlyPmtToken()
-                .subscribe(this::onPmtTokenReady, this::onPmtTokenError);
+        PublishSubject<DaoToken> publishSubject = PublishSubject.create();
+        publishSubject.observeOn(AndroidSchedulers.mainThread()).
+                subscribeOn(Schedulers.io()).
+                subscribe(this::onNextValue, this::onTokensError, this::onTokensComplete);
+        //ContractReader.getWalletTokens(publishSubject);
     }
+
+    private void onNextValue(DaoToken daoToken) {
+
+    }
+
+    private void onTokensComplete() {
+
+    }
+
+    private void onTokensError(Throwable throwable) {
+
+    }
+
 
     private void onPmtTokenReady(List<DaoToken> daoTokens) {
         Log.d(TAG, "onPmtTokenReady: ");

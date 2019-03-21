@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 
 import com.blockchain.TransactionSender;
 import com.blockchain.store.dao.data.entities.DaoToken;
-import com.blockchain.store.dao.repository.DaoTransactionRepository;
+import com.blockchain.store.dao.repository.ContractReader;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.adapters.DaoTokenAdapter;
 import com.blockchain.store.playmarket.api.RestApi;
@@ -33,20 +33,23 @@ import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 
 import org.ethereum.geth.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subjects.PublishSubject;
 
-public class DividendsFragment extends Fragment {
+public class DividendsFragment extends Fragment implements DaoAdapterCallback{
+
+    private static final String TAG = "DividendsFragment";
 
     @BindView(R.id.error_view_repeat_btn) Button error_view_repeat_btn;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
-    private static final String TAG = "DividendsFragment";
-
     @BindView(R.id.background) View background;
     @BindView(R.id.back_arrow) ImageView backArrow;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
@@ -58,16 +61,23 @@ public class DividendsFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dividends, container, false);
         ButterKnife.bind(this, view);
+        initAdapter();
         setErrorHolderBg();
         getTokens();
         return view;
     }
+
+    private void initAdapter() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new DaoTokenAdapter(new ArrayList<>(), this);
+        recyclerView.setAdapter(adapter);
+    }
+
 
     private void setErrorHolderBg() {
         errorHolder.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -86,8 +96,25 @@ public class DividendsFragment extends Fragment {
 
     private void getTokens() {
         errorHolder.setVisibility(View.GONE);
-        DaoTransactionRepository.getTokens().subscribe(this::onTokensReady, this::onTokensError);
+        PublishSubject<DaoToken> publishSubject = PublishSubject.create();
+
+        publishSubject.observeOn(AndroidSchedulers.mainThread()).
+                subscribeOn(Schedulers.io()).
+                subscribe(this::onNextValue, this::onTokensError, this::onTokensComplete);
+
+        ContractReader.getDividendsTokens(publishSubject);
+        //DaoTransactionRepository.getTokens().subscribe(this::onTokensReady, this::onTokensError);
         progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void onTokensComplete() {
+
+    }
+
+    private void onNextValue(DaoToken token) {
+        errorHolder.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
+        adapter.setToken(token);
     }
 
     private void onTokensError(Throwable throwable) {
@@ -98,37 +125,35 @@ public class DividendsFragment extends Fragment {
     private void onTokensReady(List<DaoToken> daoTokens) {
         errorHolder.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
-        initAdapter(daoTokens);
+        //initAdapter(daoTokens);
     }
 
-    private void initAdapter(List<DaoToken> daoTokens) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new DaoTokenAdapter(daoTokens, new DaoAdapterCallback() {
-            @Override
-            public void onPmTokenClicked(DaoToken daoToken) {
-                ((MainMenuActivity) getActivity()).onTokenTransferClicked(daoToken);
-            }
+    private void transferFailed(Throwable throwable) {
+        Log.d(TAG, "transferFailed() called with: throwable = [" + throwable + "]");
+    }
 
+    @Override
+    public void onPmTokenClicked(DaoToken daoToken) {
+        ((MainMenuActivity) Objects.requireNonNull(getActivity())).onTokenTransferClicked(daoToken);
+    }
+
+    @Override
+    public void onDaoTokenClicked(DaoToken daoToken) {
+        if (!AccountManager.getUserBalance().equalsIgnoreCase("-1") && Long.valueOf(AccountManager.getUserBalance()) == 0) {
+            ToastUtil.showToast("Not enough balance to send transaction");
+            return;
+        }
+        new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
             @Override
-            public void onDaoTokenClicked(DaoToken daoToken) {
-                if (!AccountManager.getUserBalance().equalsIgnoreCase("-1") && Long.valueOf(AccountManager.getUserBalance()) == 0) {
-                    ToastUtil.showToast("Not enough balance to send transaction");
-                    return;
+            public void onAccountUnlocked() {
+                TokenRepository.addToken(daoToken);
+                if (daoToken.isNeedSecondTx()) {
+                    runDoubleTx(daoToken);
+                } else {
+                    runSingleTx(daoToken);
                 }
-                new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
-                    @Override
-                    public void onAccountUnlocked() {
-                        TokenRepository.addToken(daoToken);
-                        if (daoToken.isNeedSecondTx()) {
-                            runDoubleTx(daoToken);
-                        } else {
-                            runSingleTx(daoToken);
-                        }
-                    }
-                });
             }
         });
-        recyclerView.setAdapter(adapter);
     }
 
     private void runSingleTx(DaoToken daoToken) {
@@ -173,9 +198,4 @@ public class DividendsFragment extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::receive, this::transferFailed);
     }
-
-    private void transferFailed(Throwable throwable) {
-        Log.d(TAG, "transferFailed() called with: throwable = [" + throwable + "]");
-    }
-
 }

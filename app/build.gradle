@@ -7,8 +7,10 @@ buildscript {
         classpath 'io.fabric.tools:gradle:1.+'
     }
 }
+
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'kotlin-android'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -99,7 +101,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
 }
 
 dependencies {
@@ -108,7 +109,6 @@ dependencies {
     implementation 'com.squareup.okio:okio:2.2.2'
     implementation "android.arch.work:work-runtime:1.0.0-beta05"
     implementation 'com.github.ghost1372:Mzip-Android:0.4.0'
-
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
     implementation 'com.caverock:androidsvg:1.2.1'
@@ -154,9 +154,12 @@ dependencies {
     implementation 'de.measite.minidns:minidns-hla:0.2.4'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'android.arch.persistence.room:runtime:1.1.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.0@aar') {
         transitive = true
     }
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'org.jetbrains.kotlin:kotlin-script-runtime:1.3.0'
 }

@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.ActionBarOverlayLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,13 +38,15 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.data.ClipboardUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class WalletFragment extends Fragment implements NavigationViewContract.View {
+public class WalletFragment extends Fragment implements WalletContract.View, DaoAdapterCallback {
 
     private static final String TAG = "WalletFragment";
 
@@ -69,7 +72,8 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
     @BindView(R.id.error_holder) LinearLayout errorHolder;
 
     private NavigationCallback navigationCallback;
-    private NavigationViewPresenter presenter;
+    private WalletPresenter presenter;
+    private DaoTokenAdapter adapter;
 
     @Override
     public void onAttach(Context context) {
@@ -86,37 +90,72 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        initAdapter();
         attachPresenter();
-        userAddress.setText(AccountManager.getAddress().getHex());
+        userAddress.setText(Objects.requireNonNull(AccountManager.getAddress()).getHex());
+    }
+
+    private void initAdapter() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new DaoTokenAdapter(new ArrayList<>(), this, true);
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onPmTokenClicked(DaoToken daoToken) {
+        ((MainMenuActivity) Objects.requireNonNull(getActivity())).onTokenTransferClicked(daoToken);
+    }
+
+    @Override
+    public void onDaoTokenClicked(DaoToken daoToken) {
+        if (daoToken.address.equalsIgnoreCase(DaoConstants.CRYPTO_DUEL_CONTRACT)) {
+            ((MainMenuActivity) Objects.requireNonNull(getActivity())).onTokenTransferClicked(daoToken);
+        } else {
+            TransferActivity.startAsTokenTransfer(Objects.requireNonNull(getActivity()), daoToken);
+        }
     }
 
     private void attachPresenter() {
-        presenter = new NavigationViewPresenter();
+        presenter = new WalletPresenter();
         presenter.init(this);
         loadUserBalance();
-        loadPmtToken();
+        getWalletTokens();
     }
 
-    private void loadPmtToken() {
-        presenter.loadPmtToken();
+    private void getWalletTokens() {
+        presenter.getWalletTokens();
         tokenProgressBar.setVisibility(View.VISIBLE);
         errorHolder.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onTokenNext(DaoToken daoToken) {
+        tokenProgressBar.setVisibility(View.GONE);
+        errorHolder.setVisibility(View.GONE);
+        adapter.setToken(daoToken);
+    }
+
+    @Override
+    public void onTokensComplete() {
+
+    }
+
+    @Override
+    public void onTokenError(Throwable throwable) {
+        tokenProgressBar.setVisibility(View.GONE);
+        errorHolder.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onLocalTokensAdded(ArrayList<DaoToken> tokens) {
+        adapter.setTokens(tokens);
+        tokenProgressBar.setVisibility(View.GONE);
     }
 
     private void loadUserBalance() {
         presenter.loadUserBalance();
         progressBar.setVisibility(View.VISIBLE);
         refreshBalance.setVisibility(View.GONE);
-    }
-
-    @OnClick(R.id.close_button)
-    void onCloseButtonClicked() {
-        if (getActivity() != null) getActivity().onBackPressed();
-    }
-
-    @OnClick(R.id.button)
-    void onItemClick() {
-        navigationCallback.onTokenTransferClicked(new DaoToken());
     }
 
     @Override
@@ -137,40 +176,17 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
 
     @Override
     public void showUserBalanceProgress(boolean isShow) {
-
+        progressBar.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 
-    @Override
-    public void onLocalTokensReady(List<DaoToken> daoTokens) {
-        tokenProgressBar.setVisibility(View.GONE);
-        errorHolder.setVisibility(View.GONE);
-        initAdapter(daoTokens);
+    @OnClick(R.id.close_button)
+    void onCloseButtonClicked() {
+        if (getActivity() != null) getActivity().onBackPressed();
     }
 
-    @Override
-    public void onLocalTokensError(Throwable throwable) {
-        tokenProgressBar.setVisibility(View.GONE);
-        errorHolder.setVisibility(View.VISIBLE);
-    }
-
-    private void initAdapter(List<DaoToken> daoTokens) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        DaoTokenAdapter daoTokenAdapter = new DaoTokenAdapter(daoTokens, new DaoAdapterCallback() {
-            @Override
-            public void onPmTokenClicked(DaoToken daoToken) {
-                ((MainMenuActivity) getActivity()).onTokenTransferClicked(daoToken);
-            }
-
-            @Override
-            public void onDaoTokenClicked(DaoToken daoToken) {
-                if (daoToken.address.equalsIgnoreCase(DaoConstants.CRYPTO_DUEL_CONTRACT)) {
-                    ((MainMenuActivity) getActivity()).onTokenTransferClicked(daoToken);
-                } else {
-                    TransferActivity.startAsTokenTransfer(getActivity(), daoToken);
-                }
-            }
-        }, true);
-        recyclerView.setAdapter(daoTokenAdapter);
+    @OnClick(R.id.button)
+    void onItemClick() {
+        navigationCallback.onTokenTransferClicked(new DaoToken());
     }
 
     @OnClick(R.id.qr_button)
@@ -180,7 +196,7 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
 
     @OnClick(R.id.copy_button)
     void onCopyButtonClicked() {
-        ClipboardUtils.copyToClipboard(getActivity(), userAddress.getText().toString().replaceAll(" ", ""));
+        ClipboardUtils.copyToClipboard(Objects.requireNonNull(getActivity()), userAddress.getText().toString().replaceAll(" ", ""));
         ToastUtil.showToast(R.string.address_copied);
     }
 
@@ -201,7 +217,7 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
 
     @OnClick(R.id.error_view_repeat_btn)
     void onErrorHolderClicked() {
-        loadPmtToken();
+        getWalletTokens();
     }
 
     @OnClick(R.id.refreshBalance_button)
@@ -214,9 +230,9 @@ public class WalletFragment extends Fragment implements NavigationViewContract.V
         navigationCallback.onChangeAccountClicked();
     }
 
-
     @OnClick(R.id.fab)
     void onFabClicked() {
         navigationCallback.onAddTokenClicked();
     }
+
 }
