@@ -5,7 +5,6 @@ import com.blockchain.store.dao.ui.DaoConstants
 import com.blockchain.store.playmarket.api.RestApi
 import com.blockchain.store.playmarket.utilities.AccountManager
 import com.blockchain.store.playmarket.utilities.Constants
-import com.google.android.youtube.player.internal.t
 import kotlinx.coroutines.*
 import org.web3j.abi.FunctionEncoder
 import org.web3j.abi.FunctionReturnDecoder
@@ -68,6 +67,16 @@ class ContractReader {
 
             publishSubject.onCompleted()
         }
+
+
+//        fun init(functionName: String, typeInput: Type<*>, vararg typeOutput: Type<*>): Function {
+//            val outputTypeList: ArrayList<TypeReference<*>> = ArrayList()
+//            TypeReference.create(typeInput.javaClass)
+//            for (any in typeOutput) {
+//                outputTypeList.add(TypeReference.create(any))
+//            }
+//            return Function(functionName, listOf(typeInput), outputTypeList)
+//        }
 
         @JvmStatic
         fun getDividendsTokens(publishSubject: PublishSubject<DaoToken>) = scope.launch {

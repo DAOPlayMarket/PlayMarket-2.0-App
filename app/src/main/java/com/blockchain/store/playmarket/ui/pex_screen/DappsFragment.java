@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
+import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -118,7 +120,9 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
             @Override
             public void onPageFinished(String page) {
             }
+
         });
+
         loadDefaultUrl();
 
     }
