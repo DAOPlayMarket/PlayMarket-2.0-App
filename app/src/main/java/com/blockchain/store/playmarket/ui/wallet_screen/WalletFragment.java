@@ -44,6 +44,9 @@ import butterknife.OnClick;
 public class WalletFragment extends Fragment implements WalletContract.View, DaoAdapterCallback {
 
     private static final String TAG = "WalletFragment";
+    private NavigationCallback navigationCallback;
+    private WalletPresenter presenter;
+    private DaoTokenAdapter adapter;
 
     @BindView(R.id.close_button) ImageView close_button;
     @BindView(R.id.textView1) TextView textView1;
@@ -64,10 +67,6 @@ public class WalletFragment extends Fragment implements WalletContract.View, Dao
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
     @BindView(R.id.error_view_repeat_btn) Button error_view_repeat_btn;
     @BindView(R.id.error_holder) LinearLayout errorHolder;
-
-    private NavigationCallback navigationCallback;
-    private WalletPresenter presenter;
-    private DaoTokenAdapter adapter;
 
     @Override
     public void onAttach(Context context) {
@@ -151,7 +150,7 @@ public class WalletFragment extends Fragment implements WalletContract.View, Dao
     @Override
     public void onBalanceReady(UserBalance balance) {
         AccountManager.setUserBalance(balance.balanceInWei);
-        ethBalance.setText(new EthereumPrice(balance.balanceInWei).inEther().toString());
+        ethBalance.setText(new EthereumPrice(balance.balanceInWei).inEther().toString() + " ETH");
         balanceInLocal.setText(String.format(getString(R.string.local_currency), balance.symbol, balance.getFormattedLocalCurrency()));
         progressBar.setVisibility(View.GONE);
         refreshBalance.setVisibility(View.VISIBLE);
