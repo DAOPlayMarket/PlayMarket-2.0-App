@@ -237,6 +237,15 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 progressBar.setVisibility(View.GONE);
                 imageView2.setVisibility(View.VISIBLE);
                 button.setVisibility(View.VISIBLE);
+
+                rootLayout.setOnClickListener(v -> {
+                    if (expandableLayout.isExpanded()) {
+                        expandableLayout.collapse();
+                    } else {
+                        expandableLayout.expand();
+                    }
+                });
+
             } else {
                 progressBar.setVisibility(View.VISIBLE);
                 imageView2.setVisibility(View.GONE);
@@ -273,17 +282,6 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             imageView2.setOnClickListener(v -> callback.onDaoTokenClicked(daoToken));
             button.setOnClickListener(v -> callback.onDaoTokenClicked(daoToken));
             //touch_helper.setOnClickListener(v -> callback.onDaoTokenClicked(daoToken));
-
-            rootLayout.setOnClickListener(v -> {
-                if (expandableLayout.isExpanded()) {
-                    selectPosition = -1;
-                    expandableLayout.collapse();
-                } else {
-                    selectPosition = position;
-                    expandableLayout.expand();
-                    notifyDataSetChanged();
-                }
-            });
 
         }
     }

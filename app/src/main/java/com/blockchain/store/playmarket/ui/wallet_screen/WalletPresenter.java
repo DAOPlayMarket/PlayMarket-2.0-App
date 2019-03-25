@@ -4,13 +4,11 @@ import android.util.Log;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.repository.ContractReader;
-import com.blockchain.store.dao.repository.DaoTransactionRepository;
 import com.blockchain.store.playmarket.repositories.TokenRepository;
 import com.blockchain.store.playmarket.repositories.UserBalanceRepository;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -41,7 +39,6 @@ public class WalletPresenter implements WalletContract.Presenter {
 
     @Override
     public void getWalletTokens() {
-
         ArrayList<DaoToken> tokens = TokenRepository.getUserSavedTokens();
         tokens.add(0, new DaoToken().generatePmToken());
         view.onLocalTokensAdded(tokens);
@@ -51,22 +48,6 @@ public class WalletPresenter implements WalletContract.Presenter {
                 subscribeOn(Schedulers.io()).
                 subscribe(view::onTokenNext, view::onTokenError, view::onTokensComplete);
         ContractReader.getWalletTokens(publishSubject, tokens);
-
-
-        DaoTransactionRepository.getOnlyPmtToken()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onOk,this::onFailed);
-
-
-    }
-
-    private void onOk(List<DaoToken> daoTokens) {
-        Log.d(TAG, "onOk: ");
-    }
-
-    private void onFailed(Throwable throwable) {
-        Log.d(TAG, "onFailed: ");
     }
 
 }
