@@ -106,9 +106,9 @@ public class MyAppsPresenter implements MyAppsContract.Presenter, NotificationMa
 
     public void onActionItemClicked(AppLibrary appLibrary) {
         if (appLibrary.appState == Constants.APP_STATE.STATE_UPDATE_DOWNLOADED_NOT_INSTALLED) {
-            installApk(appLibrary.app);
-            view.updateApp(appLibrary.app,0, Constants.APP_STATE.STATE_UPDATING);
-//            new MyPackageManager().installApkByApp(appLibrary.app);
+//            installApk(appLibrary.app);
+//            view.updateApp(appLibrary.app,0, Constants.APP_STATE.STATE_UPDATING);
+            new MyPackageManager().installApkByApp(appLibrary.app);
         } else if (appLibrary.appState == Constants.APP_STATE.STATE_UNKNOWN) {
             NotificationManager.getManager().registerCallback(appLibrary.app, this);
             new MyPackageManager().startDownloadApkService(appLibrary.app);

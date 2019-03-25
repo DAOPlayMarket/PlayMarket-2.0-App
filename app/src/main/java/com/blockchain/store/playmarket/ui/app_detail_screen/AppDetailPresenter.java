@@ -42,7 +42,8 @@ import static com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailCont
  * Created by Crypton04 on 30.01.2018.
  */
 
-public class AppDetailPresenter implements Presenter, NotificationManagerCallbacks {
+public class
+AppDetailPresenter implements Presenter, NotificationManagerCallbacks {
     private static final String TAG = "AppDetailPresenter";
     private Constants.APP_STATE appState = Constants.APP_STATE.STATE_UNKNOWN;
     private View view;
@@ -109,9 +110,9 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 break;
             case STATE_DOWNLOADED_NOT_INSTALLED:
             case STATE_INSTALL_FAIL:
-                //                new MyPackageManager().installApkByApp(app);
-                installApk();
-                changeState(Constants.APP_STATE.STATE_INSTALLING);
+                                new MyPackageManager().installApkByApp(app);
+//                installApk();
+//                changeState(Constants.APP_STATE.STATE_INSTALLING);
                 break;
             case STATE_INSTALLED:
                 new MyPackageManager().openAppByPackage(app.packageName);
@@ -127,8 +128,8 @@ public class AppDetailPresenter implements Presenter, NotificationManagerCallbac
                 view.showPurchaseDialog();
                 break;
             case STATE_UPDATE_DOWNLOADED_NOT_INSTALLED:
-//                new MyPackageManager().installApkByApp(app);
-                installApk();
+                new MyPackageManager().installApkByApp(app);
+//                installApk();
                 break;
 
         }
