@@ -132,7 +132,7 @@
     <net.cachapa.expandablelayout.ExpandableLayout
         android:id="@+id/expandable_layout"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:el_expanded="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -68,6 +68,16 @@ class ContractReader {
             publishSubject.onCompleted()
         }
 
+
+//        fun init(functionName: String, typeInput: Type<*>, vararg typeOutput: Type<*>): Function {
+//            val outputTypeList: ArrayList<TypeReference<*>> = ArrayList()
+//            TypeReference.create(typeInput.javaClass)
+//            for (any in typeOutput) {
+//                outputTypeList.add(TypeReference.create(any))
+//            }
+//            return Function(functionName, listOf(typeInput), outputTypeList)
+//        }
+
         @JvmStatic
         fun getDividendsTokens(publishSubject: PublishSubject<DaoToken>) = scope.launch {
 

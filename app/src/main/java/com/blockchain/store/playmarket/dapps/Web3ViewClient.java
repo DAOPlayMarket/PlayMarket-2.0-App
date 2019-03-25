@@ -55,6 +55,9 @@ public class Web3ViewClient extends WebViewClient {
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        if (url.startsWith("chrome-extension")) {
+            return false;
+        }
         return shouldOverrideUrlLoading(view, url, false, false);
     }
 
@@ -70,6 +73,9 @@ public class Web3ViewClient extends WebViewClient {
     }
 
     private boolean shouldOverrideUrlLoading(WebView webView, String url, boolean isMainFrame, boolean isRedirect) {
+        if (url.startsWith("chrome-extension")) {
+            return false;
+        }
         boolean result = false;
         synchronized (lock) {
             isInjected = false;
@@ -95,10 +101,10 @@ public class Web3ViewClient extends WebViewClient {
             return null;
         }
         if (!request.getMethod().equalsIgnoreCase("GET") || !request.isForMainFrame()) {
-             if (request.getMethod().equalsIgnoreCase("GET")
-                     && (request.getUrl().toString().contains(".js")
-                        || request.getUrl().toString().contains("json")
-                        || request.getUrl().toString().contains("css"))) {
+            if (request.getMethod().equalsIgnoreCase("GET")
+                    && (request.getUrl().toString().contains(".js")
+                    || request.getUrl().toString().contains("json")
+                    || request.getUrl().toString().contains("css"))) {
                 synchronized (lock) {
                     if (!isInjected) {
                         injectScriptFile(view);

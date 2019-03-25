@@ -89,7 +89,9 @@ public class WalletFragment extends Fragment implements WalletContract.View, Dao
     }
 
     private void initAdapter() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setMeasurementCacheEnabled(false);
+        recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new DaoTokenAdapter(new ArrayList<>(), this, true);
         adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
