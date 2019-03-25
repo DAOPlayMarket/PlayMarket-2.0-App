@@ -73,9 +73,9 @@ public class MyAppsAdapter extends RecyclerView.Adapter<MyAppsAdapter.MyAppsView
         notifyDataSetChanged();
     }
 
-    public void handleInstallationSucceess(String packageName) {
+    public void handleInstallationSuccess(String packageName) {
         for (AppLibrary appLibrary : this.appLibraries) {
-            if (appLibrary.app != null && appLibrary.app.packageName.contains("packageName")) {
+            if (appLibrary.app != null && appLibrary.app.packageName.contains(packageName)) {
                 appLibrary.isHasUpdate = false;
             }
         }

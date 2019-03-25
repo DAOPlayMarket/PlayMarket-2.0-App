@@ -1,5 +1,6 @@
 package com.blockchain.store.playmarket.ui.pex_screen;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,7 +9,10 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,6 +43,7 @@ import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import wendu.dsbridge.CompletionHandler;
+import wendu.dsbridge.DWebView;
 
 import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA;
 
@@ -53,6 +58,7 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
     @BindView(R.id.webview_url_field) EditText urlField;
     @BindView(R.id.webview_home_field) ImageView homeField;
     @BindView(R.id.hamburger_icon) ImageView hamburgerIcon;
+    @BindView(R.id.https_indicator) ImageView httpsIndicator;
 
     private boolean isOpenForDex = false;
     private Web3j web3j = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
@@ -96,6 +102,7 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
     }
 
     private void initEdittext() {
+
         urlField.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                     (keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -106,29 +113,50 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
                 if (!url.trim().isEmpty()) {
                     webView.loadUrl(url);
                 }
+                hideKeyboardFrom(v);
                 return true;
             }
             return false;
         });
     }
 
+    public void hideKeyboardFrom(View view) {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
     private void setWebView() {
         hamburgerIcon.setImageDrawable(new HamburgerDrawable(getActivity()));
-        isWebViewAlreadyInit = true;
         webView.addJavascriptObject(new JsApi(getActivity()), "");
         webView.setCallback(new Web3View.Web3ViewCallback() {
             @Override
             public void onPageStarted(String page) {
+
+                httpsIndicator.setVisibility(View.GONE);
                 urlField.setText(page);
             }
 
             @Override
             public void onPageFinished(String page) {
+                if (page.startsWith("http://")) {
+                    page = page.replaceFirst("http://", "");
+                }
+                if (page.startsWith("https://")) {
+                    page = page.replaceFirst("https://", "");
+                    httpsIndicator.setVisibility(View.VISIBLE);
+                }
+                urlField.setText(page);
             }
 
 
-
         });
+
+//        webView.setWebChromeClient(new WebChromeClient(){
+//            @Override
+//            public void onProgressChanged(WebView view, int newProgress) {
+//                super.onProgressChanged(view, newProgress);
+//            }
+//        });
 
         loadDefaultUrl();
 

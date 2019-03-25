@@ -22,7 +22,6 @@ import com.blockchain.store.playmarket.interfaces.AppsAdapterCallback;
 import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.MyPackageManager;
-import com.blockchain.store.playmarket.utilities.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -89,7 +88,7 @@ public class MyAppsActivity extends BaseActivity implements MyAppsContract.View,
                     break;
 
                 case InstallerViewModel.EVENT_PACKAGE_INSTALLED:
-                    adapter.handleInstallationSucceess(eventData[1]);
+                    adapter.handleInstallationSuccess(eventData[1]);
                     break;
 
             }

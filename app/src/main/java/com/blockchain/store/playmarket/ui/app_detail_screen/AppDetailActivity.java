@@ -167,7 +167,7 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
             String[] eventData = event.consume();
             switch (eventData[0]) {
                 case InstallerViewModel.EVENT_INSTALLATION_FAILED:
-                    ToastUtil.showToast(eventData[1]);
+//                    ToastUtil.showToast(eventData[1]);
                     break;
 
                 case InstallerViewModel.EVENT_PACKAGE_INSTALLED:
