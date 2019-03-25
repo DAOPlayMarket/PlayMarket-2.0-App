@@ -109,6 +109,7 @@ public class DaoTokenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dao_wallet_token_list_item, parent, false);
                 DaoWalletViewHolder daoWalletViewHolder = new DaoWalletViewHolder(view);
                 daoWalletViewHolder.deleteHolder.setOnClickListener(v -> {
+                    selectPosition = -1;
                     int position = daoWalletViewHolder.getAdapterPosition();
                     TokenRepository.deleteToken(daoTokens.get(position));
                     try {
