@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -19,24 +20,36 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
 
-            <TextView
-                android:id="@+id/webview_home_field"
+            <ImageView
+                android:id="@+id/hamburger_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Home"
-                android:textColor="@color/black" />
+                android:layout_gravity="center"
+                android:layout_marginRight="14dp" />
+
+            <ImageView
+                android:id="@+id/webview_home_field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="14dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/daopmlogo" />
+
 
             <EditText
-                android:inputType="textNoSuggestions"
                 android:id="@+id/webview_url_field"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="0dp"
-                android:background="@null"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/rounded_bg"
+                android:backgroundTint="@color/gray_bg"
+                android:inputType="textNoSuggestions"
+                android:layout_marginBottom="6dp"
                 android:paddingLeft="20dp"
                 android:singleLine="true"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:hint="kgfddkpogdfpokdfgko" />
 
         </LinearLayout>
 

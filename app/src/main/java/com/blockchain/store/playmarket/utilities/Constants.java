@@ -189,6 +189,8 @@ public class Constants {
     public static final String PAX_URL_TESTNET = "https://testdex.playmarket.io/";
     public static final String DOWNLOAD_APP_URL = SERVER_ENDPOINT_WITHOUT_POST + "/api/download-app?idApp=";
     public static final String PAX_URL = (IS_MAINNET_BUILD ? PAX_URL_MAINNET : PAX_URL_TESTNET);
+    public static final String DAPPS_URL = "https://dapps.playmarket.io/";
+    public static final String GOOGLE_SEARCH_URL = "https://www.google.com/search?q=";
 
     /*Settings prefs*/
     public static final String CURRENT_CURRENCY = "current_currency";
@@ -214,7 +216,7 @@ public class Constants {
     public static final String IPFS_SAFE_MODE = "ipfs_safe_mode";
     public static final String IPFS_LAST_KNOWN_HASH_KEY = "last_known_hash";
 
-//    public static final String LAST_KNOWN_IPFS_HASH = "QmRQYQgw3qtfhaXm9vSdvbXfUEBwyAifJ72hSaPcUH4fZX";
+    //    public static final String LAST_KNOWN_IPFS_HASH = "QmRQYQgw3qtfhaXm9vSdvbXfUEBwyAifJ72hSaPcUH4fZX";
     public static final String LAST_KNOWN_IPFS_HASH = "QmejXkNPNFqgX4i6R8cakgvRbpPTqdfJYVsScdF5zg7eTj";
     public static final String IPFS_BINARIES_PATH_ARM = "https://ipfs.io/ipfs/" + LAST_KNOWN_IPFS_HASH + "/arm.zip";
     public static final String IPFS_BINARIES_PATH_X86 = "https://ipfs.io/ipfs/" + LAST_KNOWN_IPFS_HASH + "/x86.zip";

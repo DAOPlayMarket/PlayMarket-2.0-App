@@ -10,11 +10,14 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.blockchain.store.playmarket.utilities.Constants;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -115,6 +118,18 @@ public class Web3View extends DWebView {
                 callback.onPageStarted(url);
             }
             super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+
+            view.loadUrl(Constants.GOOGLE_SEARCH_URL + request.getUrl());
+        }
+
+
+        @Override
+        public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+            super.onReceivedHttpError(view, request, errorResponse);
         }
 
         @Override

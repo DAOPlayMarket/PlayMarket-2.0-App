@@ -9,22 +9,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
-import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.dapps.Web3View;
 import com.blockchain.store.playmarket.data.entities.DappTransaction;
 import com.blockchain.store.playmarket.interfaces.BackPressedCallback;
+import com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.dialogs.DappTxDialog;
+import com.blockchain.store.playmarket.utilities.drawable.HamburgerDrawable;
 import com.google.gson.Gson;
 
 import org.ethereum.geth.Transaction;
@@ -51,12 +51,12 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.browser_top_layout) LinearLayout topLayout;
     @BindView(R.id.webview_url_field) EditText urlField;
-    @BindView(R.id.webview_home_field) TextView homeField;
+    @BindView(R.id.webview_home_field) ImageView homeField;
+    @BindView(R.id.hamburger_icon) ImageView hamburgerIcon;
 
     private boolean isOpenForDex = false;
     private Web3j web3j = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
     private boolean isUserSawThisPage = false;
-    private boolean isWebViewAlreadyInit = false;
     private CompletionHandler lastKnownHandler;
 
     public static DappsFragment newInstance() {
@@ -81,6 +81,10 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
         return view;
     }
 
+    @OnClick(R.id.hamburger_icon)
+    void onHamburgerIcon() {
+        ((MainMenuActivity) getActivity()).openDrawer();
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -109,6 +113,7 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
     }
 
     private void setWebView() {
+        hamburgerIcon.setImageDrawable(new HamburgerDrawable(getActivity()));
         isWebViewAlreadyInit = true;
         webView.addJavascriptObject(new JsApi(getActivity()), "");
         webView.setCallback(new Web3View.Web3ViewCallback() {
@@ -121,6 +126,8 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
             public void onPageFinished(String page) {
             }
 
+
+
         });
 
         loadDefaultUrl();
@@ -132,7 +139,7 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
             webView.loadUrl(Constants.PAX_URL);
 
         } else {
-            webView.loadUrl("https://dapps.playmarket.io/");
+            webView.loadUrl(Constants.DAPPS_URL);
         }
     }
 
