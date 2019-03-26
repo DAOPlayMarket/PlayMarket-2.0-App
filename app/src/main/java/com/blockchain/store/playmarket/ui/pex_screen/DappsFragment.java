@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.blockchain.store.dao.interfaces.Callbacks;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.dapps.Web3View;
 import com.blockchain.store.playmarket.data.entities.DappTransaction;
@@ -28,22 +29,40 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.dialogs.DappTxDialog;
+import com.blockchain.store.playmarket.utilities.dialogs.DialogManager;
 import com.blockchain.store.playmarket.utilities.drawable.HamburgerDrawable;
 import com.google.gson.Gson;
 
+import org.ethereum.geth.Account;
+import org.ethereum.geth.Accounts;
+import org.ethereum.geth.KeyStore;
 import org.ethereum.geth.Transaction;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.spongycastle.util.encoders.Hex;
+import org.web3j.crypto.Credentials;
+import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.Keys;
+import org.web3j.crypto.Sign;
+import org.web3j.crypto.Wallet;
+import org.web3j.crypto.WalletFile;
+import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
+import org.web3j.protocol.Web3jService;
+import org.web3j.protocol.admin.Admin;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.http.HttpService;
+
+import java.math.BigInteger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.ethmobile.ethdroid.sha3.Sha3;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import wendu.dsbridge.CompletionHandler;
-import wendu.dsbridge.DWebView;
 
 import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA;
 
@@ -52,13 +71,22 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
     private static final String TAG = "DappsFragment";
     private static final String IS_OPEN_FOR_DEX_KEY = "is_open_for_dex";
 
-    @BindView(R.id.web_view) Web3View webView;
-    @BindView(R.id.progress_bar) ProgressBar progressBar;
-    @BindView(R.id.browser_top_layout) LinearLayout topLayout;
-    @BindView(R.id.webview_url_field) EditText urlField;
-    @BindView(R.id.webview_home_field) ImageView homeField;
-    @BindView(R.id.hamburger_icon) ImageView hamburgerIcon;
-    @BindView(R.id.https_indicator) ImageView httpsIndicator;
+    @BindView(R.id.web_view)
+    Web3View webView;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    @BindView(R.id.browser_top_layout)
+    LinearLayout topLayout;
+    @BindView(R.id.webview_url_field)
+    EditText urlField;
+    @BindView(R.id.webview_home_field)
+    ImageView homeField;
+    @BindView(R.id.hamburger_icon)
+    ImageView hamburgerIcon;
+    @BindView(R.id.https_indicator)
+    ImageView httpsIndicator;
+    @BindView(R.id.horizontal_progress_bar)
+    ProgressBar horizontalProgressBar;
 
     private boolean isOpenForDex = false;
     private Web3j web3j = Web3jFactory.build(new HttpService(BASE_URL_INFURA));
@@ -131,13 +159,14 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
         webView.setCallback(new Web3View.Web3ViewCallback() {
             @Override
             public void onPageStarted(String page) {
-
+                horizontalProgressBar.setVisibility(View.VISIBLE);
                 httpsIndicator.setVisibility(View.GONE);
                 urlField.setText(page);
             }
 
             @Override
             public void onPageFinished(String page) {
+                horizontalProgressBar.setVisibility(View.GONE);
                 if (page.startsWith("http://")) {
                     page = page.replaceFirst("http://", "");
                 }
@@ -150,13 +179,13 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
 
 
         });
-
-//        webView.setWebChromeClient(new WebChromeClient(){
-//            @Override
-//            public void onProgressChanged(WebView view, int newProgress) {
-//                super.onProgressChanged(view, newProgress);
-//            }
-//        });
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                horizontalProgressBar.setProgress(newProgress);
+            }
+        });
 
         loadDefaultUrl();
 
@@ -219,6 +248,24 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
         public void getAccounts(Object abc, CompletionHandler handler) {
             Log.d(TAG, "getAccounts() called with: handler = [" + AccountManager.getAccount().getAddress().getHex() + "]" + abc);
             handler.complete(AccountManager.getAccount().getAddress().getHex());
+        }
+
+        @JavascriptInterface
+        public void signMessage(Object abc, CompletionHandler handler) {
+//            Log.d(TAG, "signMessage() called with: abc = [" + abc + "]");
+//            try {
+//                JSONObject object = new JSONObject(abc.toString());
+//                new DialogManager().showConfirmDialog(getActivity(), new Callbacks.PasswordCallback() {
+//                    @Override
+//                    public void onAccountUnlock(Boolean isUnlock) {
+//                    }
+//                });
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            {"from":"0x0bd38b56f5e54f9a27594676fd269701b3dbd9f4","data":"0x6c6f67696e2f313535333539343932382f307830624433386235364635653534463961323735393436373666443236393730316233446264394634"}
+
+//            handler.complete();
         }
 
 

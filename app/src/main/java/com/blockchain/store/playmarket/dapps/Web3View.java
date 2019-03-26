@@ -10,7 +10,6 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
@@ -121,15 +120,12 @@ public class Web3View extends DWebView {
         }
 
         @Override
-        public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            super.onReceivedError(view, errorCode, description, failingUrl);
+            if (errorCode == -2) {
+                view.loadUrl(Constants.GOOGLE_SEARCH_URL + failingUrl);
+            }
 
-            view.loadUrl(Constants.GOOGLE_SEARCH_URL + request.getUrl());
-        }
-
-
-        @Override
-        public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
-            super.onReceivedHttpError(view, request, errorResponse);
         }
 
         @Override

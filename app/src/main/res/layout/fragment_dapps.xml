@@ -69,6 +69,7 @@
                     tools:hint="kgfddkpogdfpokdfgko" />
 
             </LinearLayout>
+
         </LinearLayout>
 
         <View
@@ -77,6 +78,14 @@
             android:layout_height="1dp"
             android:layout_below="@+id/browser_top_layout"
             android:background="@color/top_view_divider" />
+
+        <ProgressBar
+            android:visibility="gone"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:id="@+id/horizontal_progress_bar"
+            android:layout_width="match_parent"
+            android:progress="30"
+            android:layout_height="2dp" />
     </LinearLayout>
 
 
