@@ -252,20 +252,7 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
 
         @JavascriptInterface
         public void signMessage(Object abc, CompletionHandler handler) {
-//            Log.d(TAG, "signMessage() called with: abc = [" + abc + "]");
-//            try {
-//                JSONObject object = new JSONObject(abc.toString());
-//                new DialogManager().showConfirmDialog(getActivity(), new Callbacks.PasswordCallback() {
-//                    @Override
-//                    public void onAccountUnlock(Boolean isUnlock) {
-//                    }
-//                });
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            {"from":"0x0bd38b56f5e54f9a27594676fd269701b3dbd9f4","data":"0x6c6f67696e2f313535333539343932382f307830624433386235364635653534463961323735393436373666443236393730316233446264394634"}
 
-//            handler.complete();
         }
 
 

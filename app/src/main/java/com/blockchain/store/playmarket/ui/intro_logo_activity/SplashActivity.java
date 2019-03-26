@@ -3,7 +3,6 @@ package com.blockchain.store.playmarket.ui.intro_logo_activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -22,20 +21,9 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
-import org.web3j.crypto.ECKeyPair;
-import org.web3j.crypto.Keys;
-import org.web3j.crypto.Wallet;
-import org.web3j.crypto.WalletFile;
-import org.web3j.crypto.WalletUtils;
-
-import java.io.File;
-import java.math.BigInteger;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.os.Environment.DIRECTORY_DOWNLOADS;
 
 public class SplashActivity extends BaseActivity implements SplashContracts.View {
     private static final String TAG = "SplashActivity";
