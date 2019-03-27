@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.blockchain.store.dao.interfaces.Callbacks;
 import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.dapps.Web3View;
 import com.blockchain.store.playmarket.data.entities.DappTransaction;
@@ -29,37 +28,21 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.dialogs.DappTxDialog;
-import com.blockchain.store.playmarket.utilities.dialogs.DialogManager;
 import com.blockchain.store.playmarket.utilities.drawable.HamburgerDrawable;
 import com.google.gson.Gson;
 
 import org.ethereum.geth.Account;
-import org.ethereum.geth.Accounts;
-import org.ethereum.geth.KeyStore;
 import org.ethereum.geth.Transaction;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.spongycastle.util.encoders.Hex;
-import org.web3j.crypto.Credentials;
-import org.web3j.crypto.ECKeyPair;
-import org.web3j.crypto.Keys;
-import org.web3j.crypto.Sign;
-import org.web3j.crypto.Wallet;
-import org.web3j.crypto.WalletFile;
-import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
-import org.web3j.protocol.Web3jService;
-import org.web3j.protocol.admin.Admin;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.http.HttpService;
-
-import java.math.BigInteger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.ethmobile.ethdroid.sha3.Sha3;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import wendu.dsbridge.CompletionHandler;
@@ -251,8 +234,15 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
         }
 
         @JavascriptInterface
-        public void signMessage(Object abc, CompletionHandler handler) {
-
+        public void signMessage(Object serverResult, CompletionHandler handler) {
+            Account account = AccountManager.getAccount();
+            try {
+                JSONObject jsonObject = new JSONObject(serverResult.toString());
+                String data = jsonObject.getString("data");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+//           byte[] bytes = AccountManager.getKeyManager(serverResult).signString();
         }
 
 
