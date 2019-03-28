@@ -471,4 +471,7 @@
 
     <string name="installing">Устанавливается...</string>
     <string name="updating">Обновляется...</string>
+
+    <string name="sign_message">Запрашивается ваша подпись</string>
+    <string name="message">Сообщение:</string>
 </resources>

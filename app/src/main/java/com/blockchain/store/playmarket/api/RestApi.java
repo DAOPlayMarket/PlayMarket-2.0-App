@@ -19,8 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RestApi {
-    public static final String BASE_URL_INFURA_RINKEBY = "https://rinkeby.infura.io/iYGysj5Sns7HV42MdiXi/";
-    public static final String BASE_URL_INFURA_MAINNET_ = "https://mainnet.infura.io/iYGysj5Sns7HV42MdiXi/";
+    public static final String BASE_URL_INFURA_RINKEBY = "https://rinkeby.infura.io/v3/6915dde45dbd4d1b9daea9df961c30ef";
+    public static final String BASE_URL_INFURA_MAINNET_ = "https://mainnet.infura.io/v3/6915dde45dbd4d1b9daea9df961c30ef";
 
     public static final String INFURA_IPFS_URL = "https://ipfs.infura.io:5001/";
 

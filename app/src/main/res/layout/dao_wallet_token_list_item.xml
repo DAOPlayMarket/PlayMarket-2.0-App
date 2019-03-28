@@ -91,7 +91,7 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
         android:paddingStart="15dp"
@@ -112,6 +112,7 @@
         android:paddingTop="3dp"
         android:gravity="center"
         android:textStyle="bold"
+        app:autoSizeTextType="uniform"
         android:text="@string/transfer"
         app:layout_constraintBottom_toBottomOf="@+id/touch_helper"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"

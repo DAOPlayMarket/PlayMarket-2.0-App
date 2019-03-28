@@ -496,5 +496,8 @@
     <string name="size">Size:</string>
     <string name="installing">Installing...</string>
     <string name="updating">Updating...</string>
+    <string name="test">\x19Ethereum Signed Message:\n</string>
+    <string name="sign_message">Sign Message</string>
+    <string name="message">Message:</string>
 
 </resources>

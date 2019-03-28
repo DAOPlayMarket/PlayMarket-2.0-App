@@ -28,6 +28,7 @@ import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
 import com.blockchain.store.playmarket.utilities.dialogs.DappTxDialog;
+import com.blockchain.store.playmarket.utilities.dialogs.SignMessageDialog;
 import com.blockchain.store.playmarket.utilities.drawable.HamburgerDrawable;
 import com.google.gson.Gson;
 
@@ -35,6 +36,7 @@ import org.ethereum.geth.Account;
 import org.ethereum.geth.Transaction;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.spongycastle.util.encoders.Hex;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
@@ -254,8 +256,28 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
 
         @JavascriptInterface
         public void sign(Object tx, CompletionHandler handler) {
-            createTx(tx, handler);
             Log.d(TAG, "sign() called with: tx = [" + tx + "], handler = [" + handler + "]");
+            try {
+                JSONObject jsonObject = new JSONObject(tx.toString());
+                String data = jsonObject.getString("data");
+                data = new String(Hex.decode(data.replaceFirst("0x", "")));
+                String finalData = data;
+                new SignMessageDialog(getActivity(), data, () -> {
+                    try {
+                        Account account = AccountManager.getAccount();
+                        String msg = "\u0019Ethereum Signed Message:\n" + finalData.length() + finalData;
+                        byte[] secondSignMsgBytes = AccountManager.getKeyManager().signString(account, msg);
+                        String secondSignMsg = Hex.toHexString(secondSignMsgBytes);
+                        Log.d(TAG, "signHash: 0x" + secondSignMsg);
+                        handler.complete("0x" + secondSignMsg);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         private void createTx(Object tx, CompletionHandler handler) {

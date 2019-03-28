@@ -49,7 +49,6 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,7 +80,6 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
         progressBar = view.findViewById(R.id.progress_bar);
         emptyView = view.findViewById(R.id.empty_view);
         icoRefreshLayout = view.findViewById(R.id.ico_refresh_layout);
-
         errorRepeatButton.setOnClickListener(v -> presenter.getIcoApps());
     }
 
@@ -119,7 +117,6 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
 
     private void setupRecyclerView(ArrayList<AppInfo> apps) {
         adapter = new IcoListAdapter(apps, this, true);
-//        adapter.setHasStableIds(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView.setAdapter(adapter);
     }
@@ -136,7 +133,6 @@ public class IcoFragment extends Fragment implements IcoFragmentContracts.View, 
 
     @Override
     public void onAppInfoClicked(AppInfo appinfo) {
-//        InvestActivity.startFromIco(getActivity(), appinfo);
         AppDetailActivity.start(getActivity(), appinfo);
     }
 
