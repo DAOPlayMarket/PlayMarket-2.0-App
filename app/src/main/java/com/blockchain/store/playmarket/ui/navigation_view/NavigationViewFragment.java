@@ -10,9 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.playmarket.R;
@@ -20,9 +18,7 @@ import com.blockchain.store.playmarket.data.entities.UserBalance;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
 import com.blockchain.store.playmarket.ui.about_screen.AboutAppActivity;
 import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
-import com.blockchain.store.playmarket.ui.pex_screen.DappActivity;
 import com.blockchain.store.playmarket.ui.settings_screen.SettingsActivity;
-import com.blockchain.store.playmarket.utilities.Constants;
 
 import java.util.List;
 
@@ -38,9 +34,6 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
     @BindView(R.id.library_layout) LinearLayout libraryLayout;
     @BindView(R.id.settings_layout) LinearLayout settingsLayout;
     @BindView(R.id.about_layout) LinearLayout aboutLayout;
-    @BindView(R.id.ether_count) TextView balanceView;
-    @BindView(R.id.error_view_repeat_btn) Button errorBtn;
-    @BindView(R.id.balance_in_local) TextView balanceInLocal;
 
     NavigationViewPresenter presenter;
 
@@ -123,7 +116,6 @@ public class NavigationViewFragment extends Fragment implements NavigationViewCo
 
     @Override
     public void showUserBalanceProgress(boolean isShow) {
-        //progressBar.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 
     @Override

@@ -129,12 +129,6 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
         initAppInstallReceiver();
     }
 
-
-    @OnClick(R.id.open_test)
-    void onOpenTestClicked() {
-        startActivity(new Intent(this, DaoTokenTransfer.class));
-    }
-
     private void attachPresenter() {
         presenter = new MainMenuPresenter();
         presenter.init(this);

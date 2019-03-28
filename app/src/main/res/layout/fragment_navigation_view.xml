@@ -44,87 +44,6 @@
         tools:layout_height="40dp"
         tools:layout_width="140dp" />
 
-
-    <ProgressBar
-        android:id="@+id/user_balance_progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo_image" />
-
-    <TextView
-        android:id="@+id/ether_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLength="12"
-        android:textSize="26sp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/balance_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/balance_icon"
-        app:layout_constraintTop_toTopOf="@+id/balance_icon"
-        tools:text="14.914159" />
-
-    <ImageView
-        android:id="@+id/balance_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo_image"
-        app:srcCompat="@drawable/ic_eth_pub_icon" />
-
-
-    <TextView
-        android:id="@+id/error_view_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center"
-        android:text="@string/error_view_msg"
-        android:textSize="16sp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@+id/error_view_repeat_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo_image" />
-
-    <Button
-        android:id="@+id/error_view_repeat_btn"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="@string/error_btn_msg"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/error_view_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/error_view_title" />
-
-    <View
-        android:id="@+id/view_divider"
-        android:layout_width="0dp"
-        android:layout_height="3dp"
-        android:layout_marginTop="14dp"
-        android:background="@drawable/divider_gradient_color"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/ether_count"
-        app:layout_constraintTop_toBottomOf="@+id/balance_in_local" />
-
-
     <include
         android:id="@+id/include2"
         layout="@layout/nav_view_items"
@@ -134,16 +53,6 @@
         app:layout_constraintStart_toStartOf="@+id/logo_image"
         app:layout_constraintTop_toBottomOf="@+id/logo_text_imageView" />
 
-    <TextView
-        android:id="@+id/balance_in_local"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:tint="@color/nav_text_color"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@+id/ether_count"
-        app:layout_constraintTop_toBottomOf="@+id/ether_count"
-        tools:text="PMC: 1000.12312 " />
 
 
 </android.support.constraint.ConstraintLayout>

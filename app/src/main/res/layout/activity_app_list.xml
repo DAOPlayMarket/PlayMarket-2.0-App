@@ -9,15 +9,6 @@
     tools:context="com.blockchain.store.playmarket.ui.main_list_screen.MainMenuActivity">
 
 
-    <Button
-        android:id="@+id/open_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="open_test"
-        android:visibility="gone" />
-
-
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
