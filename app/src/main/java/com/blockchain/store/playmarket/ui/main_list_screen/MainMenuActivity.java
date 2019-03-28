@@ -82,16 +82,26 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
     public static final int CHANGE_ACCOUNT_REQUEST_CODE = 80;
     public static final int IMPORT_ACCOUNT_REQUEST_CODE = 2;
 
-    @BindView(R.id.tab_layout) TabLayout tabLayout;
-    @BindView(R.id.app_bar_layout) AppBarLayout appBarLayout;
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
-    @BindView(R.id.view_pager) ViewPager viewPager;
-    @BindView(R.id.progress_bar) ProgressBar progressBar;
-    @BindView(R.id.error_holder) View errorHolder;
-    @BindView(R.id.nav_view) NavigationView navigationView;
-    @BindView(R.id.search_view) MaterialSearchView searchView;
-    @BindView(R.id.bottom_layout) LinearLayout bottomLayout;
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout appBarLayout;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    @BindView(R.id.error_holder)
+    View errorHolder;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+    @BindView(R.id.search_view)
+    MaterialSearchView searchView;
+    @BindView(R.id.bottom_layout)
+    LinearLayout bottomLayout;
 
     private BehaviorSubject<String> userInputSubject = BehaviorSubject.create();
     private ArrayList<App> searchListResult = new ArrayList<>();

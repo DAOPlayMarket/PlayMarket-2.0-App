@@ -62,12 +62,6 @@ public class SplashActivity extends BaseActivity implements SplashContracts.View
         checkLocationPermission();
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Log.d(TAG, "onNewIntent: ");
-    }
-
     private void checkLocationPermission() {
         if (PermissionUtils.isLocationPermissionGranted(this)) {
             presenter.requestUserLocation(this);
@@ -160,7 +154,6 @@ public class SplashActivity extends BaseActivity implements SplashContracts.View
     public void error_view_repeat_btn() {
         errorHolder.setVisibility(View.GONE);
         presenter.requestUserLocation(this);
-
     }
 
 }

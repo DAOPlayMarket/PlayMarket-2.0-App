@@ -158,7 +158,6 @@ public class WalletFragment extends Fragment implements WalletContract.View, Dao
         refreshBalance.setVisibility(View.VISIBLE);
     }
 
-
     @Override
     public void onBalanceFail(Throwable throwable) {
         progressBar.setVisibility(View.GONE);

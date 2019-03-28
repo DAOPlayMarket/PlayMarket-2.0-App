@@ -48,7 +48,6 @@ class ContractReader {
                 var function = Function("balanceOf", listOf<Type<*>>(Address(userAddress)), listOf<TypeReference<*>>(object : TypeReference<Uint>() {}))
                 var result = getEthCallResult(function, token.address)
 
-
                 if (token.address.equals(Constants.PM_TOKEN_ADDRESS, true)) {
                     token = obtainTokenData(token)
                     token.balance = decodeFunction(getEthCallResult(function, DaoConstants.PlayMarket_token_contract), function).toString()
@@ -67,16 +66,6 @@ class ContractReader {
 
             publishSubject.onCompleted()
         }
-
-
-//        fun init(functionName: String, typeInput: Type<*>, vararg typeOutput: Type<*>): Function {
-//            val outputTypeList: ArrayList<TypeReference<*>> = ArrayList()
-//            TypeReference.create(typeInput.javaClass)
-//            for (any in typeOutput) {
-//                outputTypeList.add(TypeReference.create(any))
-//            }
-//            return Function(functionName, listOf(typeInput), outputTypeList)
-//        }
 
         @JvmStatic
         fun getDividendsTokens(publishSubject: PublishSubject<DaoToken>) = scope.launch {

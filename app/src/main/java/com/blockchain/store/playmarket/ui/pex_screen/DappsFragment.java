@@ -237,14 +237,7 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
 
         @JavascriptInterface
         public void signMessage(Object serverResult, CompletionHandler handler) {
-            Account account = AccountManager.getAccount();
-            try {
-                JSONObject jsonObject = new JSONObject(serverResult.toString());
-                String data = jsonObject.getString("data");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-//           byte[] bytes = AccountManager.getKeyManager(serverResult).signString();
+           sign(serverResult,handler);
         }
 
 
@@ -268,7 +261,6 @@ public class DappsFragment extends Fragment implements BackPressedCallback, Dapp
                         String msg = "\u0019Ethereum Signed Message:\n" + finalData.length() + finalData;
                         byte[] secondSignMsgBytes = AccountManager.getKeyManager().signString(account, msg);
                         String secondSignMsg = Hex.toHexString(secondSignMsgBytes);
-                        Log.d(TAG, "signHash: 0x" + secondSignMsg);
                         handler.complete("0x" + secondSignMsg);
                     } catch (Exception e) {
                         e.printStackTrace();

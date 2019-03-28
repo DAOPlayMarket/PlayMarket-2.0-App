@@ -85,7 +85,6 @@ public class SignMessageDialog extends AlertDialog {
                                     callback.onAccountUnlocked();
                                     this.dismiss();
                                 }
-
                                 fingerprintDisposable.dispose();
                         }
                     }, throwable -> Log.e("ERROR", "decrypt", throwable));

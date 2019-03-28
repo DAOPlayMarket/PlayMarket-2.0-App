@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +19,6 @@ import com.blockchain.store.playmarket.adapters.IcoListAdapter;
 import com.blockchain.store.playmarket.data.entities.AppInfo;
 import com.blockchain.store.playmarket.interfaces.AppInfoCallback;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
-import com.blockchain.store.playmarket.ui.invest_screen.InvestActivity;
-import com.blockchain.store.playmarket.ui.local_ico_screen.IcoLocalActivity;
 import com.blockchain.store.playmarket.ui.transfer_screen.TransferActivity;
 
 import java.util.ArrayList;

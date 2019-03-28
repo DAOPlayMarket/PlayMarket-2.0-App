@@ -77,7 +77,6 @@ public class ChangeAccountFragment extends Fragment implements ChangeAccountCont
 
             @Override
             public void onDeleteAccountClicked(Account account) {
-//                NewUserWelcomeActivity.start(getActivity(),true);
                 DeleteAccountDialog deleteAccountDialog = new DeleteAccountDialog(getActivity(), account);
                 deleteAccountDialog.setCallback(() -> updateAdapter());
                 deleteAccountDialog.show();
