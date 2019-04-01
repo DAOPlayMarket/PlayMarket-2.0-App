@@ -331,8 +331,13 @@ public class TokenTransferFragment extends Fragment implements TokenTransferCont
         });
     }
 
-    private void proceedWithWithdraw(Long amount) {/*WORKS need refactor*/
-        presenter.withdraw(amount, isOpenAsCryptoDuelToken);
+    private void proceedWithWithdraw(Long amount) {
+        new DialogManager().showDividendsDialog(getActivity(), new DialogManager.DividendCallback() {
+            @Override
+            public void onAccountUnlocked() {
+                presenter.withdraw(amount, isOpenAsCryptoDuelToken);
+            }
+        });
     }
 
     @OnClick({R.id.close_button, R.id.cancel_button})
