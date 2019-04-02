@@ -13,7 +13,7 @@ public class AccountInfoResponse {
     public int count;
     public String gasPrice;
     public String adrNode;
-    public String currencyStock; //todo
+    public String currencyStock;
 
 
     public String getGasPrice() {
