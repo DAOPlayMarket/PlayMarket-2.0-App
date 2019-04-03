@@ -38,7 +38,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import io.ethmobile.ethdroid.EthDroid;
 import io.ethmobile.ethdroid.KeyManager;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -412,8 +411,6 @@ public class CryptoUtils {
     }
 
     public static Transaction generateDaoSendTokenToUser(AccountInfoResponse accountInfo, String userAddress, String amount) {
-        KeyStore keystore = AccountManager.getKeyManager().getKeystore();
-        Account account = AccountManager.getAccount();
         BigInt price = new BigInt(0);
         BigInt gasPrice = new BigInt(Long.parseLong(accountInfo.getGasPrice()));
 
@@ -424,8 +421,6 @@ public class CryptoUtils {
     }
 
     public static Transaction generateCDLTSendTokenToUser(AccountInfoResponse accountInfo, String userAddress, String amount) {
-        KeyStore keystore = AccountManager.getKeyManager().getKeystore();
-        Account account = AccountManager.getAccount();
         BigInt price = new BigInt(0);
         BigInt gasPrice = new BigInt(Long.parseLong(accountInfo.getGasPrice()));
 

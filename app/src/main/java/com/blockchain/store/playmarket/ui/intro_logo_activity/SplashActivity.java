@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -21,22 +20,9 @@ import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.device.PermissionUtils;
 
-import org.ethereum.geth.Account;
-import org.spongycastle.util.encoders.Hex;
-import org.web3j.crypto.ECKeyPair;
-import org.web3j.crypto.Hash;
-import org.web3j.protocol.core.methods.response.EthSign;
-import org.web3j.rlp.RlpEncoder;
-import org.web3j.rlp.RlpString;
-import org.web3j.rlp.RlpType;
-
-import java.math.BigInteger;
-import java.util.Arrays;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.ethmobile.ethdroid.KeyManager;
 
 public class SplashActivity extends BaseActivity implements SplashContracts.View {
     private static final String TAG = "SplashActivity";

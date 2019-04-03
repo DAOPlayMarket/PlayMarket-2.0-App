@@ -26,7 +26,6 @@ import android.widget.ProgressBar;
 import com.blockchain.store.dao.data.entities.DaoToken;
 import com.blockchain.store.dao.database.model.Proposal;
 import com.blockchain.store.dao.ui.DaoConstants;
-import com.blockchain.store.dao.ui.DaoTokenTransfer;
 import com.blockchain.store.dao.ui.dividends_screen.DividendsFragment;
 import com.blockchain.store.dao.ui.votes_screen.ProposalDetailsFragment;
 import com.blockchain.store.dao.ui.votes_screen.main_votes_screen.MainVotesFragment;
@@ -367,8 +366,7 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if (newText.isEmpty() /*|| searchText.equals(newText)*/) return false;
-//        searchText = newText;
+        if (newText.isEmpty()) return false;
         userInputSubject.onNext(newText);
         return false;
     }

@@ -94,12 +94,4 @@ public class TransactionSender {
         }
     }
 
-    public Transaction mapWithSigningTransaction(Transaction notSignedTransaction) {
-        Account account = AccountManager.getAccount();
-        try {
-            return AccountManager.getKeyStore().signTx(account, notSignedTransaction, new BigInt(USER_ETHERSCAN_ID));
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
 }
