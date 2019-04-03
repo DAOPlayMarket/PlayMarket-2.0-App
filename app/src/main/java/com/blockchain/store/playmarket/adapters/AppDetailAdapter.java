@@ -116,18 +116,11 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyDataSetChanged();
     }
 
-    public void setLoading() {
-
-    }
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         switch (viewType) {
-            case 0:
-                view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.app_details_main_item, parent, false);
             case 1:
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.app_details_screenshots_item, parent, false);
@@ -251,14 +244,6 @@ public class AppDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             LinearLayoutManager layout = new LinearLayoutManager(activity);
             reviewsRecyclerView.setLayoutManager(layout);
             reviewsRecyclerView.setAdapter(userReviewAdapter);
-        }
-    }
-
-
-    public class IcoSplashViewHolder extends RecyclerView.ViewHolder {
-
-        public IcoSplashViewHolder(View itemView) {
-            super(itemView);
         }
     }
 

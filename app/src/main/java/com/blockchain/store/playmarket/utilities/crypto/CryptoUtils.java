@@ -63,14 +63,13 @@ public class CryptoUtils {
         Pattern pattern = Pattern.compile("Hex:.*");
         Matcher matcher = pattern.matcher(transactionInfo);
         if (matcher.find()) {
-            String s = matcher.group(0).replaceAll("Hex:\\s*", "");
-            return s;
+            return matcher.group(0).replaceAll("Hex:\\s*", "");
         } else {
             return "";
         }
     }
 
-    public static byte[] getDataForReviewAnApp(String appId, String address, String vote, String description, String txIndex) {
+    private static byte[] getDataForReviewAnApp(String appId, String address, String vote, String description, String txIndex) {
         ArrayList<Type> arrayList = new ArrayList<>();
         arrayList.add(new Uint(new BigInteger(appId)));
         arrayList.add(new Uint(new BigInteger(vote)));
