@@ -71,7 +71,7 @@ public class TransactionSender {
             amountUsed = amountUsed.add(new BigInteger(String.valueOf(Constants.GAS_LIMIT_ADDITION)));
             return amountUsed;
         } else {
-            throw new RuntimeException(result.getError().toString());
+            throw new RuntimeException(result.getError().getMessage());
         }
     }
 
