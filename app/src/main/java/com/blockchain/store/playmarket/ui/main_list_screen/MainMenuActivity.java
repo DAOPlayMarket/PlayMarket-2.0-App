@@ -377,6 +377,7 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
         if (intent.hasExtra(OPEN_MY_APPS_EXTRA)) {
             startActivity(new Intent(this, MyAppsActivity.class));
         }
+
         Log.d(TAG, "onNewIntent() called with: intent = [" + intent + "]");
     }
 

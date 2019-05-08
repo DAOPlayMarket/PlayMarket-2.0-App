@@ -59,6 +59,8 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
+
             </intent-filter>
         </activity>
         <activity
@@ -70,10 +72,22 @@
         <activity
             android:name=".ui.main_list_screen.MainMenuActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_main_menu"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="awesomejobs.com"
+                    android:scheme="pm" />
+                <!--tg://addstickers?set=femalememespack-->
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.permissions_prompt_activity.PermissionsPromptActivity"
             android:screenOrientation="portrait" />
@@ -238,7 +252,7 @@
             android:name=".ui.local_ico_screen.IcoLocalActivity"
             android:screenOrientation="portrait" />
 
-        <service android:name=".installer.rootless.RootlessSAIPIService"/>
+        <service android:name=".installer.rootless.RootlessSAIPIService" />
     </application>
 
 </manifest>
