@@ -83,7 +83,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data
-                    android:host="awesomejobs.com"
+                    android:host="referral.com"
                     android:scheme="pm" />
                 <!--tg://addstickers?set=femalememespack-->
             </intent-filter>
