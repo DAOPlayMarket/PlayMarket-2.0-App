@@ -36,6 +36,7 @@ import com.blockchain.store.playmarket.R;
 import com.blockchain.store.playmarket.broadcasts.InstallPackageReceiver;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
+import com.blockchain.store.playmarket.data.entities.InstalledAppData;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.interfaces.BackPressedCallback;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
@@ -54,6 +55,7 @@ import com.blockchain.store.playmarket.ui.tokens_screen.TokenListFragment;
 import com.blockchain.store.playmarket.ui.wallet_screen.WalletFragment;
 import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
+import com.blockchain.store.playmarket.utilities.MyPackageManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 import com.blockchain.store.playmarket.utilities.drawable.HamburgerDrawable;
@@ -377,8 +379,12 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
         if (intent.hasExtra(OPEN_MY_APPS_EXTRA)) {
             startActivity(new Intent(this, MyAppsActivity.class));
         }
-
-        Log.d(TAG, "onNewIntent() called with: intent = [" + intent + "]");
+        String referralLink = intent.getDataString();
+        if (referralLink != null && referralLink.contains("referral")) {
+            String packageName = referralLink.substring(referralLink.indexOf("=")+1, referralLink.indexOf("&"));
+            String payload = referralLink.substring(referralLink.lastIndexOf("=")+1);
+//            new MyPackageManager().openReferral(referralLink.substring(referralLink.indexOf("=")+1, referralLink.indexOf("&")),referralLink.substring(referralLink.indexOf("=")+1, referralLink.indexOf("&")));
+        }
     }
 
     @Override

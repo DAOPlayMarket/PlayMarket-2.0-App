@@ -83,9 +83,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data
-                    android:host="referral.com"
-                    android:scheme="pm" />
-                <!--tg://addstickers?set=femalememespack-->
+                    android:host="pm2.referral"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity

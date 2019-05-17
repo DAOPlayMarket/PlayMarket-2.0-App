@@ -182,6 +182,23 @@ public class MyPackageManager {
         }
     }
 
+    public void openReferral(String packageName, String payload){
+        Log.d(TAG, "openReferral() called with: packageName = [" + packageName + "], payload = [" + payload + "]");
+        Context applicationContext = Application.getInstance().getApplicationContext();
+
+        if (isApplicationInstalled(packageName)) {
+            Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(payload));
+            intent.setPackage(packageName);
+//            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (intent != null) {
+                applicationContext.startActivity(intent);
+            } else {
+                // todo say error
+            }
+        }
+    }
+
     public static List<ApplicationInfo> getAllInstalledApps() {
         Context applicationContext = Application.getInstance().getApplicationContext();
         PackageManager pm = applicationContext.getPackageManager();
