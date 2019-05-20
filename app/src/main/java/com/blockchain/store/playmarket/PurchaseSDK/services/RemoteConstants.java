@@ -7,6 +7,7 @@ public class RemoteConstants {
     public static final String REMOTE_INTENT_NAME = "PlayMarketSDK";
     public static final String USER_NOT_PROVIDED_ERROR = "user_not_provided_error";
     public static final String UNKNOWN_HOST_EXCEPTION = "unknown_host_exception";
+    public static final String REMOTE_INTENT_NAME_REFERRAL = "PlayMarketReferral";
 
     public static final String TRANSACTION_RESULT_URL = "transaction_result_url";
     public static final String TRANSACTION_RESULT_TXHASH = "transaction_result_txhash";

@@ -53,6 +53,7 @@ public class PlayMarketSDK extends JobIntentService {
     private static final String TAG = "PlayMarketSDK";
 
     public PlayMarketSDK() {
+        Log.d(TAG, "PlayMarketSDK: ");
     }
 
     @Override

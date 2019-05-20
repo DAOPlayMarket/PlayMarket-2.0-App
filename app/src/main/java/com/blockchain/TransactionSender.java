@@ -1,5 +1,9 @@
 package com.blockchain;
 
+import android.content.Context;
+import android.os.Build;
+
+import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.crypto.CryptoUtils;
@@ -25,6 +29,7 @@ import static com.blockchain.store.playmarket.utilities.Constants.USER_ETHERSCAN
 import static org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction;
 
 public class TransactionSender {
+
     private static final String TAG = "TransactionSender";
     private Web3j web3j;
 

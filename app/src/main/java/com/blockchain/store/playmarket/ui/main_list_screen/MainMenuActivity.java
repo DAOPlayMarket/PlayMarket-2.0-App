@@ -1,6 +1,7 @@
 package com.blockchain.store.playmarket.ui.main_list_screen;
 
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -9,6 +10,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -33,10 +35,11 @@ import com.blockchain.store.dao.ui.votes_screen.proposal_creation_screen.Proposa
 import com.blockchain.store.dao.ui.votes_screen.voting_screen.VotingFragment;
 import com.blockchain.store.playmarket.Application;
 import com.blockchain.store.playmarket.R;
+import com.blockchain.store.playmarket.api.RestApi;
 import com.blockchain.store.playmarket.broadcasts.InstallPackageReceiver;
 import com.blockchain.store.playmarket.data.entities.App;
 import com.blockchain.store.playmarket.data.entities.Category;
-import com.blockchain.store.playmarket.data.entities.InstalledAppData;
+import com.blockchain.store.playmarket.data.entities.ReferralData;
 import com.blockchain.store.playmarket.interfaces.AppListCallbacks;
 import com.blockchain.store.playmarket.interfaces.BackPressedCallback;
 import com.blockchain.store.playmarket.interfaces.NavigationCallback;
@@ -55,7 +58,7 @@ import com.blockchain.store.playmarket.ui.tokens_screen.TokenListFragment;
 import com.blockchain.store.playmarket.ui.wallet_screen.WalletFragment;
 import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
-import com.blockchain.store.playmarket.utilities.MyPackageManager;
+import com.blockchain.store.playmarket.utilities.ReferralManager;
 import com.blockchain.store.playmarket.utilities.ToastUtil;
 import com.blockchain.store.playmarket.utilities.ViewPagerAdapter;
 import com.blockchain.store.playmarket.utilities.drawable.HamburgerDrawable;
@@ -70,6 +73,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subjects.BehaviorSubject;
 
 import static com.blockchain.store.playmarket.ui.main_list_screen.MainMenuContract.Presenter;
@@ -381,10 +385,24 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
         }
         String referralLink = intent.getDataString();
         if (referralLink != null && referralLink.contains("referral")) {
-            String packageName = referralLink.substring(referralLink.indexOf("=")+1, referralLink.indexOf("&"));
-            String payload = referralLink.substring(referralLink.lastIndexOf("=")+1);
-//            new MyPackageManager().openReferral(referralLink.substring(referralLink.indexOf("=")+1, referralLink.indexOf("&")),referralLink.substring(referralLink.indexOf("=")+1, referralLink.indexOf("&")));
+            String packageName = referralLink.substring(referralLink.indexOf("=") + 1, referralLink.indexOf("&"));
+            String payload = referralLink.substring(referralLink.lastIndexOf("=") + 1);
+            new ReferralManager().addReferralData(new ReferralData(packageName,payload));
+            RestApi.getServerApi().getAppsByPackage(packageName)
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .observeOn(Schedulers.io())
+                    .subscribe(this::onRefferalAppListen, this::onReferralNotFound);
         }
+    }
+
+    private void onRefferalAppListen(ArrayList<App> apps) {
+        if (apps.get(0) != null) {
+            AppDetailActivity.start(this, apps.get(0));
+        }
+    }
+
+    private void onReferralNotFound(Throwable throwable) {
+
     }
 
     @Override
@@ -447,6 +465,7 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CHANGE_ACCOUNT_REQUEST_CODE) {
+
             updateChangeAccountFragment();
         }
         if (requestCode == IMPORT_ACCOUNT_REQUEST_CODE) {

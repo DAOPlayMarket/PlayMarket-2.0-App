@@ -200,8 +200,11 @@
         <service
             android:name=".PurchaseSDK.services.PlayMarketSDK"
             android:exported="true"
-            android:isolatedProcess="true"
             android:process=":ServiceProcess" />
+        <service
+            android:name=".referral.ReferralManager"
+            android:exported="true"
+            android:process=":ReferralProcess" />
 
         <activity
             android:name=".ui.fingerprint_screen.FingerprintConfiguringActivity"
