@@ -2,6 +2,7 @@ package com.blockchain;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import com.blockchain.store.playmarket.BuildConfig;
 import com.blockchain.store.playmarket.utilities.AccountManager;
@@ -56,14 +57,14 @@ public class TransactionSender {
         try {
             numericData = Numeric.toHexString(notSignedTransaction.getData());
         } catch (Exception e) {
-
+            Log.d(TAG, "mapWithEstimateGas: ");
         }
 
         org.web3j.protocol.core.methods.request.Transaction tx = createFunctionCallTransaction(
                 AccountManager.getAddress().getHex(),
                 new BigInteger(String.valueOf(notSignedTransaction.getNonce())),
                 null,
-                null,
+                new BigInteger("500000"),
                 notSignedTransaction.getTo().getHex(),
                 numericData);
         return build.ethEstimateGas(tx).observable();

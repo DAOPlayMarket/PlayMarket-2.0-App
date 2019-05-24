@@ -28,7 +28,7 @@ public class ReferralManager {
                 return data;
             }
         }
-        return null;
+        return new ReferralData("","");
     }
 
 }
