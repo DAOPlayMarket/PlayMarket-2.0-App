@@ -191,10 +191,8 @@ public class TransferInfoFragment extends Fragment implements TransferInfoContra
         customTokenTextView.setBackgroundResource(R.drawable.round_black_corner);
         customTokenTextView.setTextColor(getResources().getColor(R.color.white));
 
-
         ethTextView.setVisibility(View.GONE);
         weiTextView.setVisibility(View.GONE);
-
     }
 
     private void ethSelect() {

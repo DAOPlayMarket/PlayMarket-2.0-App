@@ -1,7 +1,6 @@
 package com.blockchain.store.playmarket.ui.main_list_screen;
 
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -10,7 +9,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -18,7 +16,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -387,11 +384,12 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
         if (referralLink != null && referralLink.contains("referral")) {
             String packageName = referralLink.substring(referralLink.indexOf("=") + 1, referralLink.indexOf("&"));
             String payload = referralLink.substring(referralLink.lastIndexOf("=") + 1);
-            new ReferralManager().addReferralData(new ReferralData(packageName,payload));
+            new ReferralManager().addReferralData(new ReferralData(packageName, payload));
             RestApi.getServerApi().getAppsByPackage(packageName)
                     .subscribeOn(AndroidSchedulers.mainThread())
                     .observeOn(Schedulers.io())
                     .subscribe(this::onRefferalAppListen, this::onReferralNotFound);
+            ToastUtil.showToast("Referral data received " + payload);
         }
     }
 
