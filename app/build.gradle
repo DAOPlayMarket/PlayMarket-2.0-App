@@ -24,8 +24,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         multiDexEnabled true
-        versionCode 128
-        versionName '1.4.25'
+        versionCode 129
+        versionName '1.4.26'
     }
 
     buildTypes {
