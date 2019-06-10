@@ -43,6 +43,7 @@ import com.blockchain.store.playmarket.interfaces.NavigationCallback;
 import com.blockchain.store.playmarket.ui.app_detail_screen.AppDetailActivity;
 import com.blockchain.store.playmarket.ui.change_account_screen.ChangeAccountFragment;
 import com.blockchain.store.playmarket.ui.ico_screen.IcoFragment;
+import com.blockchain.store.playmarket.ui.intro_logo_activity.SplashActivity;
 import com.blockchain.store.playmarket.ui.login_screen.LoginPromptActivity;
 import com.blockchain.store.playmarket.ui.my_apps_screen.MyAppsActivity;
 import com.blockchain.store.playmarket.ui.navigation_view.NavigationViewFragment;
@@ -53,6 +54,7 @@ import com.blockchain.store.playmarket.ui.search_screen.SearchActivity;
 import com.blockchain.store.playmarket.ui.token_transfer_screen.TokenTransferFragment;
 import com.blockchain.store.playmarket.ui.tokens_screen.TokenListFragment;
 import com.blockchain.store.playmarket.ui.wallet_screen.WalletFragment;
+import com.blockchain.store.playmarket.utilities.AccountManager;
 import com.blockchain.store.playmarket.utilities.BaseActivity;
 import com.blockchain.store.playmarket.utilities.Constants;
 import com.blockchain.store.playmarket.utilities.ReferralManager;
@@ -117,8 +119,8 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getIntent() != null) {
-            onNewIntent(getIntent());
+        if (!canProceedNewIntent(getIntent())) {
+            return;
         }
         setContentView(R.layout.activity_main_menu);
         ButterKnife.bind(this);
@@ -377,6 +379,13 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        canProceedNewIntent(intent);
+    }
+
+    boolean canProceedNewIntent(Intent intent) {
+        if (intent == null) {
+            return true;
+        }
         if (intent.hasExtra(OPEN_MY_APPS_EXTRA)) {
             startActivity(new Intent(this, MyAppsActivity.class));
         }
@@ -385,17 +394,30 @@ public class MainMenuActivity extends BaseActivity implements AppListCallbacks, 
             String packageName = referralLink.substring(referralLink.indexOf("=") + 1, referralLink.indexOf("&"));
             String payload = referralLink.substring(referralLink.lastIndexOf("=") + 1);
             new ReferralManager().addReferralData(new ReferralData(packageName, payload));
+            if (AccountManager.getAddress() == null) {
+                openSplashScreen();
+                return false;
+            }
             RestApi.getServerApi().getAppsByPackage(packageName)
-                    .subscribeOn(AndroidSchedulers.mainThread())
-                    .observeOn(Schedulers.io())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(this::onRefferalAppListen, this::onReferralNotFound);
-            ToastUtil.showToast("Referral data received " + payload);
         }
+        return true;
+    }
+
+    private void openSplashScreen() {
+        startActivity(new Intent(this, SplashActivity.class));
+        this.finish();
     }
 
     private void onRefferalAppListen(ArrayList<App> apps) {
-        if (apps.get(0) != null) {
-            AppDetailActivity.start(this, apps.get(0));
+        try {
+            if (apps.get(0) != null) {
+                AppDetailActivity.start(this, apps.get(0));
+            }
+        } catch (Exception e) {
+
         }
     }
 

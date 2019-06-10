@@ -27,6 +27,7 @@ import rx.schedulers.Schedulers;
 
 import static com.blockchain.store.playmarket.api.RestApi.BASE_URL_INFURA;
 import static com.blockchain.store.playmarket.utilities.Constants.USER_ETHERSCAN_ID;
+import static org.web3j.protocol.core.methods.request.Transaction.createEthCallTransaction;
 import static org.web3j.protocol.core.methods.request.Transaction.createFunctionCallTransaction;
 
 public class TransactionSender {
@@ -60,11 +61,13 @@ public class TransactionSender {
             Log.d(TAG, "mapWithEstimateGas: ");
         }
 
-        org.web3j.protocol.core.methods.request.Transaction tx = createFunctionCallTransaction(
+        createEthCallTransaction(
                 AccountManager.getAddress().getHex(),
-                new BigInteger(String.valueOf(notSignedTransaction.getNonce())),
-                null,
-                new BigInteger("500000"),
+                notSignedTransaction.getTo().getHex(),
+        numericData);
+
+        org.web3j.protocol.core.methods.request.Transaction tx =  createEthCallTransaction(
+                "0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8",
                 notSignedTransaction.getTo().getHex(),
                 numericData);
         return build.ethEstimateGas(tx).observable();

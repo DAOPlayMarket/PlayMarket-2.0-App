@@ -351,7 +351,6 @@ public class AppDetailActivity extends BaseActivity implements AppDetailContract
         } else {
 //            InvestActivity.start(this, appInfo);
         }
-
     }
 
 

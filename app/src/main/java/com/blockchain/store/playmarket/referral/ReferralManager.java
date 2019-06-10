@@ -70,7 +70,6 @@ public class ReferralManager extends JobIntentService {
         } else {
             stopForeground(true);
         }
-
     }
 
     private Intent getIntent(ReferralData referralData) {
